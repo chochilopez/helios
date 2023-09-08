@@ -1,0 +1,8 @@
+export const ttlEnum = {
+  TTL_0: 0,
+  TTL_1_MINUTO: 60000,
+  TTL_1_HORA: 3600000,
+  TTL_1_DIA: 86400000,
+  TTL_1_SEMANA: 604800000,
+  TTL_1_MES: 31540800000
+}
