@@ -1,8 +1,8 @@
 {
-  "name": "neso",
+  "name": "helios",
   "version": "1.0.1",
-  "description": "NESO | Apliacion web para empresas de transporte",
-  "productName": "Neso  Ixionida",
+  "description": "HELIOS | Apliacion web para empresas de transporte",
+  "productName": "Helios Hiperionida",
   "author": "Gastón López <lopezwgaston@gmail.com>",
   "private": true,
   "scripts": {

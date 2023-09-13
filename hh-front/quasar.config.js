@@ -53,16 +53,16 @@ module.exports = configure(function (ctx) {
 
       vueRouterMode: 'history', // available values: 'hash', 'history'
       env: {
-        API_URL: ctx.dev ? 'http://localhost:9088/api/' : 'https://neso.com.ar:9088/api/',
-        APP_URL: ctx.dev ? 'http://localhost:8080' : 'https://neso.com.ar',
-        APP_MULTIMEDIA_URL: ctx.dev ? 'http://localhost:8080/media/' : 'https://neso.com.ar/media/',
-        APP_USERNAME_ADMIN: ctx.dev ? 'admin@neso.com.ar' : '',
+        API_URL: ctx.dev ? 'http://localhost:9088/api/' : 'https://helios.com.ar:9088/api/',
+        APP_URL: ctx.dev ? 'http://localhost:8080' : 'https://helios.com.ar',
+        APP_MULTIMEDIA_URL: ctx.dev ? 'http://localhost:8080/media/' : 'https://helios.com.ar/media/',
+        APP_USERNAME_ADMIN: ctx.dev ? 'admin@helios.com.ar' : '',
         APP_PASSWORD_ADMIN: ctx.dev ? 'contraseña' : '',
-        APP_USERNAME_USUARIO: ctx.dev ? 'usuario@neso.com.ar' : '',
+        APP_USERNAME_USUARIO: ctx.dev ? 'usuario@helios.com.ar' : '',
         APP_PASSWORD_USUARIO: ctx.dev ? 'contraseña' : '',
-        APP_USERNAME_CARGA: ctx.dev ? 'carga@neso.com.ar' : '',
+        APP_USERNAME_CARGA: ctx.dev ? 'carga@helios.com.ar' : '',
         APP_PASSWORD_CARGA: ctx.dev ? 'contraseña' : '',
-        JSREPORT_URL: ctx.dev ? 'https://localhost:9094' : 'https://neso.com.ar:9094'
+        JSREPORT_URL: ctx.dev ? 'https://localhost:9094' : 'https://helios.com.ar:9094'
       }
     },
 
@@ -138,9 +138,9 @@ module.exports = configure(function (ctx) {
       // extendPWACustomSWConf (esbuildConf) {}
     },
     manifest: {
-      name: 'NESO IXIONIDA',
-      short_name: 'NESO',
-      description: 'NESO | Apliacion web para empresas de transporte',
+      name: 'HELIOS HIPERIONIDA',
+      short_name: 'Helios',
+      description: 'HELIOS | Apliacion web para empresas de transporte',
       display: 'standalone',
       orientation: 'portrait',
       background_color: '#ffffff',

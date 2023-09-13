@@ -12,7 +12,7 @@ RUN npm install -g @quasar/cli && \
 RUN yarn install
 RUN quasar build
 
-COPY ./dist /home/neso/public_html
+COPY ./dist /home/helios/public_html
 
 CMD /bin/sh
 
