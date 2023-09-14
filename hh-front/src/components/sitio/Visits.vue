@@ -295,7 +295,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { notifyService } from 'src/helpers/notify_service'
+import { notifyService } from 'src/helpers/notificar_service'
 import { VisitModel } from 'src/models/visit_model'
 import { visitService } from 'src/services/visit_service'
 

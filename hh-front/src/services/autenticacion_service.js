@@ -1,4 +1,4 @@
-import { llavero } from 'src/helpers/llavero'
+import { llaveroService } from 'src/helpers/llavero_service'
 import { ttlEnum } from 'src/models/enums/ttl_enum'
 import axios from 'axios'
 const API_URL = process.env.API_URL
@@ -11,7 +11,7 @@ l -> local
 */
 
 function fEstaLogueado () {
-  if (llavero.getFromLocalStorage('lToken') === null) {
+  if (llaveroService.getFromLocalStorage('hhToken') === null) {
     return false
   } else {
     return true
@@ -19,25 +19,25 @@ function fEstaLogueado () {
 }
 
 function obtenerAutoridades () {
-  return llavero.getFromLocalStorage('lAutoridades').value
+  if (llaveroService.getFromLocalStorage('hhAutoridades')) { return llaveroService.getFromLocalStorage('hhAutoridades').value } else { return null }
 }
 
 function obtenerToken () {
-  return llavero.getFromLocalStorage('lToken').value
+  if (llaveroService.getFromLocalStorage('hhToken')) { return llaveroService.getFromLocalStorage('hhToken').value } else { return null }
 }
 
 function obtenerNombreUsuario () {
-  return llavero.getFromLocalStorage('lNombreUsuario').value
+  if (llaveroService.getFromLocalStorage('hhNombreUsuario')) { return llaveroService.getFromLocalStorage('hhNombreUsuario').value } else { return null }
 }
 
-function spfLoguearse (user) {
+function spfIngresar (user) {
   return new Promise((resolve, reject) => {
     axios.post(API_URL + 'autenticacion/ingresar', user)
       .then((response) => {
         if (response.status === 200) {
-          llavero.setToLocalStorage('lToken', response.data.token, ttlEnum.TTL_1_DAY)
-          llavero.setToLocalStorage('lAutoridades', response.data.authorities, ttlEnum.TTL_1_DAY)
-          llavero.setToLocalStorage('lNombreUsuario', response.data.username, ttlEnum.TTL_1_DAY)
+          llaveroService.setToLocalStorage('hhToken', response.data.token, ttlEnum.TTL_1_DIA)
+          llaveroService.setToLocalStorage('hhAutoridades', response.data.authorities, ttlEnum.TTL_1_DIA)
+          llaveroService.setToLocalStorage('hhNombreUsuario', response.data.username, ttlEnum.TTL_1_DIA)
         }
         resolve(response)
       })
@@ -52,9 +52,9 @@ function spfSalir (user) {
     axios.post(API_URL + 'autenticacion/salir', user)
       .then((response) => {
         if (response.status === 200) {
-          llavero.deleteFromLocalStorage('lToken')
-          llavero.deleteFromLocalStorage('lAutoridades')
-          llavero.deleteFromLocalStorage('lNombreUsuario')
+          llaveroService.deleteFromLocalStorage('hhToken')
+          llaveroService.deleteFromLocalStorage('hhAutoridades')
+          llaveroService.deleteFromLocalStorage('hhNombreUsuario')
           localStorage.clear()
         }
         resolve(response)
@@ -70,6 +70,6 @@ export const autenticacionService = {
   obtenerAutoridades,
   obtenerToken,
   obtenerNombreUsuario,
-  spfLoguearse,
+  spfIngresar,
   spfSalir
 }

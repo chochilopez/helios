@@ -378,7 +378,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { notifyService } from 'src/helpers/notify_service'
+import { notifyService } from 'src/helpers/notificar_service'
 import { ReceptionModel } from 'src/models/reception_model'
 import { receptionService } from 'src/services/reception_service'
 

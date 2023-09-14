@@ -380,7 +380,7 @@
 <script>
 import { useRouter } from 'vue-router'
 import { ref, reactive } from 'vue'
-import { notifyService } from 'src/helpers/notify_service'
+import { notifyService } from 'src/helpers/notificar_service'
 import { helper } from 'app/src/helpers/helper'
 import { PostModel } from 'src/models/post_model'
 import { LocalFileModel } from 'src/models/local_file_model'

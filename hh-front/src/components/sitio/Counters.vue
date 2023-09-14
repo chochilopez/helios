@@ -68,7 +68,7 @@ import { visitService } from 'src/services/visit_service'
 import { queryService } from 'src/services/query_service'
 import { receptionService } from 'src/services/reception_service'
 import { patientService } from 'src/services/patient_service'
-import { notifyService } from 'src/helpers/notify_service'
+import { notifyService } from 'src/helpers/notificar_service'
 
 export default {
   setup () {

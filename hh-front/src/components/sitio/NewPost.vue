@@ -554,7 +554,7 @@
 <script>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { notifyService } from 'src/helpers/notify_service'
+import { notifyService } from 'src/helpers/notificar_service'
 import { helper } from 'src/helpers/helper'
 import { postService } from 'src/services/post_service'
 import { localFileService } from 'src/services/local_file_service'

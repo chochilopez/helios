@@ -155,7 +155,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { notifyService } from 'src/helpers/notify_service'
+import { notifyService } from 'src/helpers/notificar_service'
 import { CarouselModel } from 'src/models/carousel_model'
 import { helper } from 'src/helpers/helper'
 import { carouselService } from 'src/services/carousel_service'

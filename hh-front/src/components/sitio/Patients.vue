@@ -80,7 +80,7 @@
 <script>
 import { useRouter } from 'vue-router'
 import { ref, reactive } from 'vue'
-import { notifyService } from 'src/helpers/notify_service'
+import { notifyService } from 'src/helpers/notificar_service'
 import { patientService } from 'src/services/patient_service'
 
 const paginacion = {

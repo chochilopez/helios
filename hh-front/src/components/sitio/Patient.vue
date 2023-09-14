@@ -50,7 +50,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { notifyService } from 'src/helpers/notify_service'
+import { notifyService } from 'src/helpers/notificar_service'
 import { helper } from 'app/src/helpers/helper'
 import PatientPatientData from './PatientPatientData.vue'
 import { useRouter } from 'vue-router'

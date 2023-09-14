@@ -114,7 +114,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { notifyService } from 'src/helpers/notify_service'
+import { notifyService } from 'src/helpers/notificar_service'
 import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
 import { receptionService } from 'src/services/reception_service'

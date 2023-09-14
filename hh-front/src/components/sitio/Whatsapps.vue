@@ -388,7 +388,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { notifyService } from 'src/helpers/notify_service'
+import { notifyService } from 'src/helpers/notificar_service'
 import { WhatsappModel } from 'src/models/whatsapp_model'
 import { whatsappService } from 'src/services/whatsapp_service'
 
