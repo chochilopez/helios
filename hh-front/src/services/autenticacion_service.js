@@ -11,7 +11,7 @@ l -> local
 */
 
 function fEstaLogueado () {
-  if (llaveroService.getFromLocalStorage('hhToken') === null) {
+  if (llaveroService.obtenerDeLocal('hhToken') === null) {
     return false
   } else {
     return true
@@ -19,15 +19,15 @@ function fEstaLogueado () {
 }
 
 function obtenerAutoridades () {
-  if (llaveroService.getFromLocalStorage('hhAutoridades')) { return llaveroService.getFromLocalStorage('hhAutoridades').value } else { return null }
+  if (llaveroService.obtenerDeLocal('hhAutoridades')) { return llaveroService.obtenerDeLocal('hhAutoridades').value } else { return null }
 }
 
 function obtenerToken () {
-  if (llaveroService.getFromLocalStorage('hhToken')) { return llaveroService.getFromLocalStorage('hhToken').value } else { return null }
+  if (llaveroService.obtenerDeLocal('hhToken')) { return llaveroService.obtenerDeLocal('hhToken').value } else { return null }
 }
 
 function obtenerNombreUsuario () {
-  if (llaveroService.getFromLocalStorage('hhNombreUsuario')) { return llaveroService.getFromLocalStorage('hhNombreUsuario').value } else { return null }
+  if (llaveroService.obtenerDeLocal('hhNombreUsuario')) { return llaveroService.obtenerDeLocal('hhNombreUsuario').value } else { return null }
 }
 
 function spfIngresar (user) {
@@ -35,9 +35,9 @@ function spfIngresar (user) {
     axios.post(API_URL + 'autenticacion/ingresar', user)
       .then((response) => {
         if (response.status === 200) {
-          llaveroService.setToLocalStorage('hhToken', response.data.token, ttlEnum.TTL_1_DIA)
-          llaveroService.setToLocalStorage('hhAutoridades', response.data.authorities, ttlEnum.TTL_1_DIA)
-          llaveroService.setToLocalStorage('hhNombreUsuario', response.data.username, ttlEnum.TTL_1_DIA)
+          llaveroService.guardarEnLocal('hhToken', response.data.token, ttlEnum.TTL_1_DIA)
+          llaveroService.guardarEnLocal('hhAutoridades', response.data.roles, ttlEnum.TTL_1_DIA)
+          llaveroService.guardarEnLocal('hhNombreUsuario', response.data.usuario, ttlEnum.TTL_1_DIA)
         }
         resolve(response)
       })
@@ -47,16 +47,18 @@ function spfIngresar (user) {
   })
 }
 
-function spfSalir (user) {
+function spfSalir () {
   return new Promise((resolve, reject) => {
-    axios.post(API_URL + 'autenticacion/salir', user)
+    llaveroService.borrarDeLocal('hhToken')
+    llaveroService.borrarDeLocal('hhAutoridades')
+    llaveroService.borrarDeLocal('hhNombreUsuario')
+    localStorage.clear()
+    axios.get(API_URL + 'autenticacion/salir', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
       .then((response) => {
-        if (response.status === 200) {
-          llaveroService.deleteFromLocalStorage('hhToken')
-          llaveroService.deleteFromLocalStorage('hhAutoridades')
-          llaveroService.deleteFromLocalStorage('hhNombreUsuario')
-          localStorage.clear()
-        }
         resolve(response)
       })
       .catch((error) => {

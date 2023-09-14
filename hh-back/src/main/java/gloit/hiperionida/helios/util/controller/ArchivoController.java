@@ -34,7 +34,7 @@ public class ArchivoController extends AbsBaseController {
         HttpStatus status = HttpStatus.BAD_REQUEST; // 400
         String mensaje = "Ocurrio un error al guardar el archivo. " + e.getMessage();
 
-        return new ResponseEntity<>(new ErrorDTO(status, mensaje), status);
+        return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
     }
 
     @PutMapping(value = "/guardar",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

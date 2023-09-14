@@ -35,7 +35,7 @@ public class AutenticacionController extends AbsBaseController {
 		HttpStatus status = HttpStatus.CONFLICT; // 409
 		String mensaje = "Error al comparar los tokens. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, mensaje), status);
+		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
 	@ExceptionHandler(CustomUserAlreadyCreatedException.class)
@@ -43,7 +43,7 @@ public class AutenticacionController extends AbsBaseController {
 		HttpStatus status = HttpStatus.CONFLICT; // 409
 		String mensaje = "El usuario ingresado ya existe. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, mensaje), status);
+		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
 	@PostMapping("/ingresar")

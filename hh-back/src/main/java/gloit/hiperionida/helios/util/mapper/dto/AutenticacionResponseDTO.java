@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class AutenticacionResponseDTO {
-    private String tokenAcceso;
+    private String token;
     private List<String> roles;
+    private String usuario;
 }

@@ -1,5 +1,6 @@
 package gloit.hiperionida.helios.util.controller;
 
+import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
 import gloit.hiperionida.helios.util.exception.CustomErrorException;
 import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
@@ -20,7 +21,7 @@ public abstract class AbsBaseController {
 		HttpStatus status = HttpStatus.BAD_REQUEST; // 400
 		String mensaje = "No se cumplieron los requisitos del objeto. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, mensaje), status);
+		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -37,7 +38,7 @@ public abstract class AbsBaseController {
 			else
 				mensaje = mensaje + " --- " + clave + ": " + valor;
 		}
-		return new ResponseEntity<>(new ErrorDTO(status, mensaje), status);
+		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
 	@ExceptionHandler(CustomParameterConstraintException.class)
@@ -45,7 +46,7 @@ public abstract class AbsBaseController {
 		HttpStatus status = HttpStatus.BAD_REQUEST; // 400
 		String mensaje = "Los datos ingresados no poseen el formato correcto. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, mensaje),status);
+		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
 	@ExceptionHandler(CustomDataNotFoundException.class)
@@ -53,7 +54,7 @@ public abstract class AbsBaseController {
 		HttpStatus status = HttpStatus.NOT_FOUND; // 404
 		String mensaje = "No se encontro el recurso buscado. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, mensaje), status);
+		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
 	@ExceptionHandler(CustomObjectNotDeletedException.class)
@@ -61,7 +62,7 @@ public abstract class AbsBaseController {
 		HttpStatus status = HttpStatus.CONFLICT; // 409
 		String mensaje = "El objeto no se encuentra eliminado. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, mensaje), status);
+		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
@@ -69,7 +70,7 @@ public abstract class AbsBaseController {
 		HttpStatus status = HttpStatus.CONFLICT; // 409
 		String mensaje = "Error en la conversion de parametros ingresados. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, mensaje), status);
+		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
 	@ExceptionHandler(CustomErrorException.class)
@@ -78,8 +79,9 @@ public abstract class AbsBaseController {
 		CustomErrorException customErrorException = (CustomErrorException) e;
 
 		HttpStatus status = customErrorException.getStatus();
+		String mensaje = "Ocurrio un error. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, customErrorException.getMessage()), status);
+		return new ResponseEntity<>(new ErrorDTO(status, customErrorException.getMessage()), Helper.httpHeaders(mensaje), status);
 	}
 
 	// fallback method
@@ -90,6 +92,6 @@ public abstract class AbsBaseController {
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; // 500
 		String mensaje = "Ocurrio un error al intentar consumir el recurso. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, e.getMessage()), status);
+		return new ResponseEntity<>(new ErrorDTO(status, e.getMessage()), Helper.httpHeaders(mensaje), status);
 	}
 }

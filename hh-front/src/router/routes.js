@@ -9,8 +9,9 @@ const routes = [
     },
     children: [
       {
-        path: '',
-        component: () => import('pages/IndexPage.vue'),
+        path: 'tablero',
+        name: 'Tablero',
+        component: () => import('pages/sitio/Tablero.vue'),
         meta: {
           rol: rolEnum.CARGA
         }
@@ -28,7 +29,15 @@ const routes = [
   {
     path: '/401',
     name: 'Error401',
-    component: () => import('pages/Error401.vue'),
+    component: () => import('src/pages/error/Error401.vue'),
+    meta: {
+      rol: null
+    }
+  },
+  {
+    path: '/404',
+    name: 'Error404',
+    component: () => import('src/pages/error/Error404.vue'),
     meta: {
       rol: null
     }
@@ -36,7 +45,7 @@ const routes = [
 
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    component: () => import('src/pages/error/ErrorNotFound.vue'),
     meta: {
       rol: null
     }

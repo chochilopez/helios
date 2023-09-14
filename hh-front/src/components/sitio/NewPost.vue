@@ -625,7 +625,7 @@ export default {
     const videos = ref([])
     const videosPrevia = ref([])
 
-    if (keyRing.getFromLocalStorage('lebeEditPost') !== null) {
+    if (keyRing.obtenerDeLocal('lebeEditPost') !== null) {
       console.log('Editar articulo ' + postService.sfGetEditPost())
       afGetArticleById()
     }

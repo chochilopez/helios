@@ -12,38 +12,38 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.getFromLocalStorage('lArchivoTodas')
+  return llavero.obtenerDeLocal('hhArchivoTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.getFromLocalStorage('lArchivoTodasConEliminadas')
+  return llavero.obtenerDeLocal('hhArchivoTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.getFromLocalStorage('lArchivoPorId/' + id + '/')
+  return llavero.obtenerDeLocal('hhArchivoPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.getFromLocalStorage('lArchivoPorIdConEliminadas/' + id + '/')
+  return llavero.obtenerDeLocal('hhArchivoPorIdConEliminadas/' + id + '/')
 }
 
 function obtenerCuenta () {
-  return llavero.getFromLocalStorage('lArchivoCuenta')
+  return llavero.obtenerDeLocal('hhArchivoCuenta')
 }
 
 function obtenerCuentaConEliminadas () {
-  return llavero.getFromLocalStorage('lArchivoCuentaConEliminadas')
+  return llavero.obtenerDeLocal('hhArchivoCuentaConEliminadas')
 }
 
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'archivo/buscar-todas', {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lArchivoTodas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhArchivoTodas', result, ttlEnum.TTL_1_HOUR)
         resolve(result)
       })
       .catch((error) => {
@@ -56,11 +56,11 @@ function spfBuscarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'archivo/buscar-todas-con-eliminadas', {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lArchivoTodasConEliminadas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhArchivoTodasConEliminadas', result, ttlEnum.TTL_1_HOUR)
         resolve(result)
       })
       .catch((error) => {
@@ -73,11 +73,11 @@ function spfBuscarPorId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'archivo/buscar-por-id/' + id, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lArchivoPorId/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhArchivoPorId/' + id + '/', result, ttlEnum.TTL_1_HOUR)
         resolve(result)
       })
       .catch((error) => {
@@ -90,11 +90,11 @@ function spfBuscarPorIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'archivo/buscar-por-id-con-eliminadas/' + id, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lArchivoPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhArchivoPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HOUR)
         resolve(result)
       })
       .catch((error) => {
@@ -107,11 +107,11 @@ function spfFetchContarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'archivo/contar-todas', {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lArchivoContar', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('hhArchivoContar', result, ttlEnum.TTL_1_DAY)
         resolve(result)
       })
       .catch((error) => {
@@ -124,11 +124,11 @@ function spfFetchContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'archivo/contar-todas-con-eliminadas', {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lArchivoContarConEliminadas', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('hhArchivoContarConEliminadas', result, ttlEnum.TTL_1_DAY)
         resolve(result)
       })
       .catch((error) => {
@@ -141,7 +141,7 @@ function spfGuardarArchivo (anObj) {
   return new Promise((resolve, reject) => {
     axios.put(API_URL + 'archivo/guardar', anObj.file, anObj.tipo, anObj.tamanio, anObj.descripcion, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
@@ -157,7 +157,7 @@ function spfGuardar (anObj) {
   return new Promise((resolve, reject) => {
     axios.put(API_URL + 'archivo', anObj, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
@@ -173,7 +173,7 @@ function spfBorrar (id) {
   return new Promise((resolve, reject) => {
     axios.delete(API_URL + 'archivo/' + id, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
@@ -189,7 +189,7 @@ function spfReciclar (id) {
   return new Promise((resolve, reject) => {
     axios.post(API_URL + 'archivo/reciclar/' + id, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
@@ -205,7 +205,7 @@ function spfDestruir (id) {
   return new Promise((resolve, reject) => {
     axios.delete(API_URL + 'archivo/destruir/' + id, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {

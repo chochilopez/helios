@@ -50,7 +50,11 @@ public class AutenticacionServiceImpl implements AutenticacionService {
 
     @Override
     public AutenticacionResponseDTO ingresar(AutenticacionRequestDTO autenticacionRequestDTO) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(autenticacionRequestDTO.getUsername(), autenticacionRequestDTO.getPassword()));
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(autenticacionRequestDTO.getUsername(), autenticacionRequestDTO.getPassword()));
+        } catch (Exception e) {
+            throw new CustomDataNotFoundException("El usuario: " + autenticacionRequestDTO.getUsername() + " no existe");
+        }
         UsuarioModel usuario = usuarioService.buscarPorNombreDeUsuario(autenticacionRequestDTO.getUsername());
         if (!usuario.getHabilitada())
             throw new CustomDataNotFoundException("El usuario: " + autenticacionRequestDTO.getUsername() + " no se encuentra habilitado, debe confirmar su email");
@@ -62,7 +66,7 @@ public class AutenticacionServiceImpl implements AutenticacionService {
         for (RolModel rol:usuario.getRoles()) {
             listado.add(rol.getRol().toString());
         }
-        return new AutenticacionResponseDTO(token, listado);
+        return new AutenticacionResponseDTO(token, listado, usuario.getUsername());
     }
 
     @Override

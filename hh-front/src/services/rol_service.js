@@ -12,38 +12,38 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.getFromLocalStorage('lRolTodas')
+  return llavero.obtenerDeLocal('hhRolTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.getFromLocalStorage('lRolTodasConEliminadas')
+  return llavero.obtenerDeLocal('hhRolTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.getFromLocalStorage('lRolPorId/' + id + '/')
+  return llavero.obtenerDeLocal('hhRolPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.getFromLocalStorage('lRolPorIdConEliminadas/' + id + '/')
+  return llavero.obtenerDeLocal('hhRolPorIdConEliminadas/' + id + '/')
 }
 
 function obtenerCuenta () {
-  return llavero.getFromLocalStorage('lRolCuenta')
+  return llavero.obtenerDeLocal('hhRolCuenta')
 }
 
 function obtenerCuentaConEliminadas () {
-  return llavero.getFromLocalStorage('lRolCuentaConEliminadas')
+  return llavero.obtenerDeLocal('hhRolCuentaConEliminadas')
 }
 
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'rol/buscar-todas', {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lRolTodas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhRolTodas', result, ttlEnum.TTL_1_HOUR)
         resolve(result)
       })
       .catch((error) => {
@@ -56,11 +56,11 @@ function spfBuscarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'rol/buscar-todas-con-eliminadas', {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lRolTodasConEliminadas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhRolTodasConEliminadas', result, ttlEnum.TTL_1_HOUR)
         resolve(result)
       })
       .catch((error) => {
@@ -73,11 +73,11 @@ function spfBuscarPorId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'rol/buscar-por-id/' + id, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lRolPorId/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhRolPorId/' + id + '/', result, ttlEnum.TTL_1_HOUR)
         resolve(result)
       })
       .catch((error) => {
@@ -90,11 +90,11 @@ function spfBuscarPorIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'rol/buscar-por-id-con-eliminadas/' + id, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lRolPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhRolPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HOUR)
         resolve(result)
       })
       .catch((error) => {
@@ -107,11 +107,11 @@ function spfFetchContarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'rol/contar-todas', {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lRolContar', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('hhRolContar', result, ttlEnum.TTL_1_DAY)
         resolve(result)
       })
       .catch((error) => {
@@ -124,11 +124,11 @@ function spfFetchContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'rol/contar-todas-con-eliminadas', {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.setToLocalStorage('lRolContarConEliminadas', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('hhRolContarConEliminadas', result, ttlEnum.TTL_1_DAY)
         resolve(result)
       })
       .catch((error) => {
@@ -141,7 +141,7 @@ function spfGuardar (anObj) {
   return new Promise((resolve, reject) => {
     axios.put(API_URL + 'rol', anObj, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
@@ -157,7 +157,7 @@ function spfBorrar (id) {
   return new Promise((resolve, reject) => {
     axios.delete(API_URL + 'rol/' + id, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
@@ -173,7 +173,7 @@ function spfReciclar (id) {
   return new Promise((resolve, reject) => {
     axios.post(API_URL + 'rol/reciclar/' + id, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
@@ -189,7 +189,7 @@ function spfDestruir (id) {
   return new Promise((resolve, reject) => {
     axios.delete(API_URL + 'rol/destruir/' + id, {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.getToken()
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {

@@ -30,7 +30,6 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach(async (to, from, next) => {
-    console.log('Ruta ' + to.name)
     if (to.name !== 'Ingreso' && !autenticacionService.fEstaLogueado()) {
       next({ name: 'Ingreso' })
     } else {

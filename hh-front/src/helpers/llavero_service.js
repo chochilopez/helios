@@ -5,42 +5,36 @@ f -> funcion
 l -> local
 */
 
-function deleteFromLocalStorage (key) {
-  localStorage.removeItem(key)
+function borrarDeLocal (nombre) {
+  localStorage.removeItem(nombre)
 }
 
-function getFromLocalStorage (key) {
-  const itemStr = localStorage.getItem(key)
-  // if the item doesn't exist, return null
+function obtenerDeLocal (nombre) {
+  const itemStr = localStorage.getItem(nombre)
   if (!itemStr) {
     return null
   }
   const item = JSON.parse(itemStr)
   const now = new Date()
-  // compare the expiry time of the item with the current time
   if (now.getTime() > item.expire) {
-    // If the item is expired, delete the item from storage
-    // and return null
-    localStorage.removeItem(key)
+    localStorage.removeItem(nombre)
     return null
   }
   return item
 }
 
-function setToLocalStorage (key, val, ttl) {
-  localStorage.removeItem(key)
+function guardarEnLocal (nombre, valor, ttl) {
+  localStorage.removeItem(nombre)
   const now = new Date()
-  // `item` is an object which contains the original value
-  // as well as the time when it's supposed to expire
   const item = {
-    value: val,
+    value: valor,
     expire: now.getTime() + ttl
   }
-  localStorage.setItem(key, JSON.stringify(item))
+  localStorage.setItem(nombre, JSON.stringify(item))
 }
 
 export const llaveroService = {
-  deleteFromLocalStorage,
-  getFromLocalStorage,
-  setToLocalStorage
+  borrarDeLocal,
+  obtenerDeLocal,
+  guardarEnLocal
 }

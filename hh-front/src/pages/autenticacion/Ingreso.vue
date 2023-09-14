@@ -1,22 +1,18 @@
 <template>
-  <div class="bg-c-10 fuente1" style="min-height: 100vh" >
+  <div class="paleta1-fondo3 fuente1" style="min-height: 100vh" >
     <div class="row">
       <div class="col-md-4 offset-md-4 col-12">
         <q-card class="q-mt-xl">
-          <q-card-section>
-            <q-icon name="input" class="text-c-1" size="md"></q-icon>
-            <span class="q-ml-xs text-h5 text-c-1 text-weight-regular">Ingresar</span>
+          <q-card-section class="paleta1-color5">
+            <q-icon name="input"  size="md" ></q-icon>
+            <span class="q-pa-md text-h5 text-weight-regular">Ingresar</span>
           </q-card-section>
           <q-card-section>
             <q-form v-on:submit.prevent="afLoguearUsuario">
               <q-input v-model="username" outlined label="Nombre de usuario" :reglas="[reglas.requerido, reglas.min8, reglas.email]" :disable="cargando" />
               <q-input type="password" outlined label="Contraseña" v-model="password" :disable="cargando" />
               <div class="row q-mt-xl justify-around">
-                <q-btn :to="{ name: 'Home' }" class="bg-c-1 text-white" style="width: 150px">
-                  <q-icon name="mdi-arrow-left-circle" class="q-mr-sm"/>
-                  Volver
-                </q-btn>
-                <q-btn :loading="cargando" class="bg-c-8 text-white" type="submit" style="width: 150px">
+                <q-btn :loading="cargando" class="paleta1-fondo4 text-white" type="submit" style="width: 150px">
                   <q-icon name="input" class="q-mr-sm"/>
                   Ingresar
                   <template v-slot:loading>
@@ -26,11 +22,6 @@
                 </q-btn>
               </div>
             </q-form>
-          </q-card-section>
-        </q-card>
-        <q-card class="q-mt-xl">
-          <q-card-section class="text-center">
-            <!-- <q-img src="~/assets/images/lebe1.png" fit="contain" class="rounded-borders" /> -->
           </q-card-section>
         </q-card>
       </div>
@@ -67,19 +58,16 @@ export default {
         console.log('Mensaje: ' + result.headers.mensaje)
         if (result.status === 200) {
           console.info(result.headers.mensaje)
-          notificarService.notifySuccess(result.headers.mensaje)
           router.push('/tablero')
-        } else if (result.status === 202) {
-          console.warn(result.headers.mensaje)
-          notificarService.notifyWarning(result.headers.mensaje)
-        } else if (result.status === 204) {
-          notificarService.notifyError(result.headers.mensaje)
-          console.error(result.headers.mensaje)
         }
-        console.error(result.headers.mensaje)
       } catch (err) {
-        notificarService.notifyError('Ha ocurrido un error al intentar ingresar. ' + err)
-        console.error('Error: ' + err)
+        console.clear()
+        if (err.response.headers.mensaje) {
+          console.error('Error: ' + err.response.headers.mensaje)
+        } else {
+          console.error('Hubo un error al intentar ingresar.')
+        }
+        notificarService.notificarError('Hubo un error al comprobar las credenciales.')
       }
       cargando.value = false
     }
