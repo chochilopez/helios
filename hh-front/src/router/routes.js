@@ -51,7 +51,15 @@ const routes = [
       {
         path: 'cliente',
         name: 'Cliente',
-        component: () => import('pages/sitio/Cliente.vue'),
+        component: () => import('src/pages/sitio/Cliente-Cliente.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: 'clientes',
+        name: 'Clientes',
+        component: () => import('src/pages/sitio/Cliente-Clientes.vue'),
         meta: {
           rol: rolEnum.CARGA
         }

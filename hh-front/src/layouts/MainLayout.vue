@@ -35,7 +35,7 @@
         <q-expansion-item icon="account_balance" label="Banco">
           <q-item clickable v-ripple :active="link === banco" @click="link = banco" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="currency_bitcoin" />
+              <q-icon name="fa-solid fa-building-columns" />
             </q-item-section>
             <q-item-section class="white-text">Banco</q-item-section>
           </q-item>
@@ -50,7 +50,7 @@
         <q-expansion-item icon="paid" label="Caja">
           <q-item clickable v-ripple :active="link === adelantosCaja" @click="link = adelantosCaja" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="payments" />
+              <q-icon name="fa-solid fa-comments-dollar" />
             </q-item-section>
             <q-item-section class="white-text">Adelantos</q-item-section>
           </q-item>
@@ -83,7 +83,7 @@
         <q-expansion-item icon="calendar_month" label="Calendario">
           <q-item clickable v-ripple :active="link === calendario" @click="link = calendario" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="calendar_month" />
+              <q-icon name="fa-solid fa-calendar-days" />
             </q-item-section>
             <q-item-section class="white-text">Calendario</q-item-section>
           </q-item>
@@ -104,7 +104,7 @@
         <q-expansion-item icon="airline_seat_recline_extra" label="Choferes">
           <q-item clickable v-ripple :active="link === adelantos" @click="link = adelantos" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="payments" />
+              <q-icon name="fa-solid fa-money-check-dollar" />
             </q-item-section>
             <q-item-section class="white-text">Adelantos</q-item-section>
           </q-item>
@@ -137,19 +137,19 @@
           </q-item>
           <q-item clickable v-ripple :active="link === detallesCtaCte" @click="link = detallesCtaCte" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="groups" />
+              <q-icon name="folder_shared" />
             </q-item-section>
             <q-item-section class="white-text">Detalles cuentas corrientes</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === moviemientoCtaCte" @click="link = moviemientoCtaCte" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="groups" />
+              <q-icon name="social_distance" />
             </q-item-section>
             <q-item-section class="white-text">Movimientos cuentas corrientes</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === saldos" @click="link = saldos" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="groups" />
+              <q-icon name="fa-solid fa-money-bill-trend-up" />
             </q-item-section>
             <q-item-section class="white-text">Saldos cuentas corrientes</q-item-section>
           </q-item>
@@ -158,64 +158,64 @@
         <q-expansion-item icon="shopping_cart" label="Compras">
           <q-item clickable v-ripple :active="link === compras" @click="link = compras" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="shopping_cart" />
             </q-item-section>
             <q-item-section class="white-text">Compras</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === conceptosCompras" @click="link = conceptosCompras" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="local_mall" />
             </q-item-section>
             <q-item-section class="white-text">Concepto compras</q-item-section>
           </q-item>
         </q-expansion-item>
 
-        <q-expansion-item icon="calendar_month" label="Facturacion">
+        <q-expansion-item icon="receipt_long" label="Facturacion">
           <q-item clickable v-ripple :active="link === facturar" @click="link = facturar" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="fa-solid fa-file-invoice-dollar" />
             </q-item-section>
             <q-item-section class="white-text">Facturar</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === facturacion" @click="link = facturacion" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="receipt_long" />
             </q-item-section>
             <q-item-section class="white-text">Facturacion</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === recibos" @click="link = recibos" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="receipt" />
             </q-item-section>
             <q-item-section class="white-text">Recibos</q-item-section>
           </q-item>
         </q-expansion-item>
 
-        <q-expansion-item icon="local_shipping" label="Localidades">
+        <q-expansion-item icon="public" label="Localidades">
           <q-item clickable v-ripple :active="link === localidades" @click="link = localidades" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="public" />
             </q-item-section>
             <q-item-section class="white-text">Localidades</q-item-section>
           </q-item>
         </q-expansion-item>
 
-        <q-expansion-item icon="local_shipping" label="Neumaticos">
+        <q-expansion-item icon="fa-solid fa-ring" label="Neumaticos">
           <q-item clickable v-ripple :active="link === marcas" @click="link = marcas" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="fa-solid fa-copyright" />
             </q-item-section>
             <q-item-section class="white-text">Marcas</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === neumaticos" @click="link = neumaticos" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="fa-solid fa-ring" />
             </q-item-section>
             <q-item-section class="white-text">Neumaticos</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === neumaticosColocados" @click="link = neumaticosColocados" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="tire_repair" />
             </q-item-section>
             <q-item-section class="white-text">Neumaticos Colocados</q-item-section>
           </q-item>
@@ -224,13 +224,13 @@
         <q-expansion-item icon="storefront" label="Proveedores">
           <q-item clickable v-ripple :active="link === movimientosCtaCtePro" @click="link = movimientosCtaCtePro" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="fa-solid fa-money-bill-transfer" />
             </q-item-section>
             <q-item-section class="white-text">Movimientos cuentas corrientes proveedores</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === proveedores" @click="link = proveedores" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="storefront" />
             </q-item-section>
             <q-item-section class="white-text">Proveedores</q-item-section>
           </q-item>
@@ -239,40 +239,40 @@
         <q-expansion-item icon="local_shipping" label="Vehiculo">
           <q-item clickable v-ripple :active="link === camiones" @click="link = camiones" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="fa-solid fa-trailer" />
             </q-item-section>
             <q-item-section class="white-text">Acoplados</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === acoplados" @click="link = acoplados" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="fa-solid fa-truck-fast" />
             </q-item-section>
             <q-item-section class="white-text">Camiones</q-item-section>
           </q-item>
         </q-expansion-item>
 
-        <q-expansion-item icon="directions" label="Viajes">
+        <q-expansion-item icon="fa-solid fa-route" label="Viajes">
           <q-item clickable v-ripple :active="link === presupuestar" @click="link = presupuestar" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="fa-solid fa-road" />
             </q-item-section>
             <q-item-section class="white-text">Presupuestar viaje</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === presupuestos" @click="link = presupuestos" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="fa-solid fa-road-circle-exclamation" />
             </q-item-section>
             <q-item-section class="white-text">Presupuestos</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === programarViaje" @click="link = programarViaje" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="fa-solid fa-road-circle-check" />
             </q-item-section>
             <q-item-section class="white-text">Programar viaje</q-item-section>
           </q-item>
           <q-item clickable v-ripple :active="link === viajes" @click="link = viajes" active-class="seleccion-activa" exact :to="{ name: Tablero }" class="q-ml-md paleta1-fondo5">
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="fa-solid fa-route" />
             </q-item-section>
             <q-item-section class="white-text">Viajes</q-item-section>
           </q-item>
@@ -291,7 +291,6 @@ import { ref } from 'vue'
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { useRouter } from 'vue-router'
 import { notificarService } from 'src/helpers/notificar_service'
-import menu from 'src/json/menu.json'
 
 export default {
   setup () {
@@ -300,7 +299,6 @@ export default {
     const link = ref('dashboard')
     const username = ref(autenticacionService.obtenerNombreUsuario())
     const router = useRouter()
-    const menues = menu
 
     const cerrarSesion = () => {
       autenticacionService.spfSalir()
@@ -311,7 +309,6 @@ export default {
     return {
       link,
       leftDrawerOpen,
-      menues,
       username,
       cerrarSesion,
       layout,
