@@ -50,21 +50,21 @@ public class ArchivoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('CONTRIBUYENTE')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArchivoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         ArchivoModel objeto = archivoService.buscarPorId(id);
         return new ResponseEntity<>(archivoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
-    @PreAuthorize("hasAuthority('CAPATAZ')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<ArchivoDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         ArchivoModel objeto = archivoService.buscarPorIdConEliminadas(id);
         return new ResponseEntity<>(archivoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")
-    @PreAuthorize("hasAuthority('EMPLEADO')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<ArchivoDTO>> buscarTodas() {
         List<ArchivoModel> listado = archivoService.buscarTodas();
         ArrayList<ArchivoDTO> archivos = new ArrayList<>();
@@ -75,7 +75,7 @@ public class ArchivoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('CAPATAZ')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<ArchivoDTO>> buscarTodasConEliminadas() {
         List<ArchivoModel> listado = archivoService.buscarTodas();
         ArrayList<ArchivoDTO> archivos = new ArrayList<>();
@@ -86,42 +86,42 @@ public class ArchivoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('CONTRIBUYENTE')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= archivoService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
     }
 
     @GetMapping(value = "/contar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('CAPATAZ')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Long> contarTodasConEliminadas() {
         Long cantidad= archivoService.contarTodasConEliminadas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('CAPATAZ')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<ArchivoDTO> guardar(@Valid @RequestBody ArchivoCreation archivoCreation) {
         ArchivoModel objeto = archivoService.guardar(archivoCreation);
         return new ResponseEntity<>(archivoMapper.toDto(objeto), Helper.httpHeaders("Se persistio correctamente la entidad."), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('CAPATAZ')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<ArchivoDTO> borrar(@PathVariable(name = "id") Long id) {
         ArchivoModel objeto = archivoService.eliminar(id);
         return new ResponseEntity<>(archivoMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
     @PostMapping(value = "/reciclar/{id}")
-    @PreAuthorize("hasAuthority('CAPATAZ')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<ArchivoDTO> reciclar(@PathVariable(name = "id") Long id) {
         ArchivoModel objeto = archivoService.reciclar(id);
         return new ResponseEntity<>(archivoMapper.toDto(objeto), Helper.httpHeaders("Se reciclo correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/destruir/{id}")
-    @PreAuthorize("hasAuthority('JEFE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> destruir(@PathVariable(name = "id") Long id) throws IOException {
         archivoService.destruir(id);
         String mensaje = "Se destruyo correctamente la entidad con id: " + id + ".";

@@ -10,6 +10,9 @@ import gloit.hiperionida.helios.util.repository.EmailDAO;
 import gloit.hiperionida.helios.util.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -71,6 +74,24 @@ public class EmailServiceImpl implements EmailService {
         if (listado.isEmpty())
             throw new CustomDataNotFoundException("No se encontraron entidades Email, incluidas las eliminadas.");
         return listado;
+    }
+
+    @Override
+    public Slice<EmailModel> buscarTodasPorOrdenPorPagina(String direccion, String campo, int pagina, int elementos) {
+        log.info("Buscando todas las entidades Email, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
+        Slice<EmailModel> slice = emailDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        if (slice.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Email.");
+        return slice;
+    }
+
+    @Override
+    public Slice<EmailModel> buscarTodasPorOrdenPorPaginaConEliminadas(String direccion, String campo, int pagina, int elementos) {
+        log.info("Buscando todas las entidades Email, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
+        Slice<EmailModel> slice = emailDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        if (slice.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Email, incluidas las eliminadas.");
+        return slice;
     }
 
     @Override

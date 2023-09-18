@@ -25,6 +25,7 @@ public class CompraModel extends AbsAuditoriaModel {
     private Double iva;
     private String numeroComprobante;
     private Double subTotal;
+    @Enumerated(EnumType.STRING)
     private TipoComprobanteEnum tipoComprobante;
     @Column(columnDefinition = "TEXT")
     private String notas;

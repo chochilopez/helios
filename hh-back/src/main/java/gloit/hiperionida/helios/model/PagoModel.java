@@ -23,19 +23,10 @@ public class PagoModel extends AbsAuditoriaModel {
     private Double monto;
     @Column(columnDefinition = "TEXT")
     private String notas;
+    @Enumerated(EnumType.STRING)
     private TipoPagoEnum tipoPago;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "pago_id")
-    private Set<ArchivoModel> comprobante;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "pago_id")
-    private Set<ChequeModel> valores;
 
     @OneToOne
     private ReciboModel recibo;
-
-
 }
 

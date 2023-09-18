@@ -12,6 +12,9 @@ import gloit.hiperionida.helios.util.service.ArchivoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -118,6 +121,24 @@ public class ArchivoServiceImpl implements ArchivoService {
         if (listado.isEmpty())
             throw new CustomDataNotFoundException("No se encontraron entidades Archivo, incluidas las eliminadas.");
         return listado;
+    }
+
+    @Override
+    public Slice<ArchivoModel> buscarTodasPorOrdenPorPagina(String direccion, String campo, int pagina, int elementos) {
+        log.info("Buscando todas las entidades Archivo, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
+        Slice<ArchivoModel> slice = archivoDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        if (slice.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Archivo.");
+        return slice;
+    }
+
+    @Override
+    public Slice<ArchivoModel> buscarTodasPorOrdenPorPaginaConEliminadas(String direccion, String campo, int pagina, int elementos) {
+        log.info("Buscando todas las entidades Archivo, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
+        Slice<ArchivoModel> slice = archivoDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        if (slice.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Archivo, incluidas las eliminadas.");
+        return slice;
     }
 
     @Override

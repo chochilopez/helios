@@ -12,27 +12,27 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.obtenerDeLocal('hhRolTodas')
+  return llavero.obtenerDeLocal('lRolTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.obtenerDeLocal('hhRolTodasConEliminadas')
+  return llavero.obtenerDeLocal('lRolTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.obtenerDeLocal('hhRolPorId/' + id + '/')
+  return llavero.obtenerDeLocal('lRolPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.obtenerDeLocal('hhRolPorIdConEliminadas/' + id + '/')
+  return llavero.obtenerDeLocal('lRolPorIdConEliminadas/' + id + '/')
 }
 
 function obtenerCuenta () {
-  return llavero.obtenerDeLocal('hhRolCuenta')
+  return llavero.obtenerDeLocal('lRolCuenta')
 }
 
 function obtenerCuentaConEliminadas () {
-  return llavero.obtenerDeLocal('hhRolCuentaConEliminadas')
+  return llavero.obtenerDeLocal('lRolCuentaConEliminadas')
 }
 
 function spfBuscarTodas () {
@@ -43,7 +43,7 @@ function spfBuscarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhRolTodas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lRolTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -60,7 +60,41 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhRolTodasConEliminadas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lRolTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'rol/buscar-todas-paginadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        llavero.guardarEnLocal('lRolTodas', result, ttlEnum.TTL_1_HORA)
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'rol/buscar-todas-paginadas-con-eliminadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        llavero.guardarEnLocal('lRolTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -77,7 +111,7 @@ function spfBuscarPorId (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhRolPorId/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lRolPorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -94,7 +128,7 @@ function spfBuscarPorIdConEliminadas (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhRolPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lRolPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -103,7 +137,7 @@ function spfBuscarPorIdConEliminadas (id) {
   })
 }
 
-function spfFetchContarTodas () {
+function spfContarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'rol/contar-todas', {
       headers: {
@@ -111,7 +145,7 @@ function spfFetchContarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhRolContar', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('lRolContar', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -120,7 +154,7 @@ function spfFetchContarTodas () {
   })
 }
 
-function spfFetchContarTodasConEliminadas () {
+function spfContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'rol/contar-todas-con-eliminadas', {
       headers: {
@@ -128,7 +162,7 @@ function spfFetchContarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhRolContarConEliminadas', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('lRolContarConEliminadas', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -202,12 +236,21 @@ function spfDestruir (id) {
 }
 
 export const rolService = {
+  obtenerTodas,
+  obtenerTodasConEliminadas,
+  obtenerPorId,
+  obtenerPorIdConEliminadas,
+  obtenerCuenta,
+  obtenerCuentaConEliminadas,
+
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
+  spfBuscarTodasPaginadas,
+  spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,
-  spfFetchContarTodas,
-  spfFetchContarTodasConEliminadas,
+  spfContarTodas,
+  spfContarTodasConEliminadas,
 
   spfGuardar,
   spfBorrar,

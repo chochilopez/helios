@@ -12,27 +12,27 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.obtenerDeLocal('hhArchivoTodas')
+  return llavero.obtenerDeLocal('lArchivoTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.obtenerDeLocal('hhArchivoTodasConEliminadas')
+  return llavero.obtenerDeLocal('lArchivoTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.obtenerDeLocal('hhArchivoPorId/' + id + '/')
+  return llavero.obtenerDeLocal('lArchivoPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.obtenerDeLocal('hhArchivoPorIdConEliminadas/' + id + '/')
+  return llavero.obtenerDeLocal('lArchivoPorIdConEliminadas/' + id + '/')
 }
 
 function obtenerCuenta () {
-  return llavero.obtenerDeLocal('hhArchivoCuenta')
+  return llavero.obtenerDeLocal('lArchivoCuenta')
 }
 
 function obtenerCuentaConEliminadas () {
-  return llavero.obtenerDeLocal('hhArchivoCuentaConEliminadas')
+  return llavero.obtenerDeLocal('lArchivoCuentaConEliminadas')
 }
 
 function spfBuscarTodas () {
@@ -43,7 +43,7 @@ function spfBuscarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhArchivoTodas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lArchivoTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -60,7 +60,41 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhArchivoTodasConEliminadas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lArchivoTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'archivo/buscar-todas-paginadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        llavero.guardarEnLocal('lArchivoTodas', result, ttlEnum.TTL_1_HORA)
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'archivo/buscar-todas-paginadas-con-eliminadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        llavero.guardarEnLocal('lArchivoTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -77,7 +111,7 @@ function spfBuscarPorId (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhArchivoPorId/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lArchivoPorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -94,7 +128,7 @@ function spfBuscarPorIdConEliminadas (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhArchivoPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lArchivoPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -103,7 +137,7 @@ function spfBuscarPorIdConEliminadas (id) {
   })
 }
 
-function spfFetchContarTodas () {
+function spfContarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'archivo/contar-todas', {
       headers: {
@@ -111,7 +145,7 @@ function spfFetchContarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhArchivoContar', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('lArchivoContar', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -120,7 +154,7 @@ function spfFetchContarTodas () {
   })
 }
 
-function spfFetchContarTodasConEliminadas () {
+function spfContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'archivo/contar-todas-con-eliminadas', {
       headers: {
@@ -128,23 +162,7 @@ function spfFetchContarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhArchivoContarConEliminadas', result, ttlEnum.TTL_1_DAY)
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfGuardarArchivo (anObj) {
-  return new Promise((resolve, reject) => {
-    axios.put(API_URL + 'archivo/guardar', anObj.file, anObj.tipo, anObj.tamanio, anObj.descripcion, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
+        llavero.guardarEnLocal('lArchivoContarConEliminadas', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -218,14 +236,22 @@ function spfDestruir (id) {
 }
 
 export const archivoService = {
+  obtenerTodas,
+  obtenerTodasConEliminadas,
+  obtenerPorId,
+  obtenerPorIdConEliminadas,
+  obtenerCuenta,
+  obtenerCuentaConEliminadas,
+
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
+  spfBuscarTodasPaginadas,
+  spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,
-  spfFetchContarTodas,
-  spfFetchContarTodasConEliminadas,
+  spfContarTodas,
+  spfContarTodasConEliminadas,
 
-  spfGuardarArchivo,
   spfGuardar,
   spfBorrar,
   spfReciclar,

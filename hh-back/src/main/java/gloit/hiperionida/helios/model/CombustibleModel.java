@@ -19,7 +19,7 @@ public class CombustibleModel extends AbsAuditoriaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime fecha;
-    private Long kilometros;
+    private Double kilometros;
     private Double litros;
     private Double precio;
     private String notas;

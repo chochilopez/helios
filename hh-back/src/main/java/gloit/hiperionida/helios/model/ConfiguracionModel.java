@@ -19,6 +19,7 @@ public class ConfiguracionModel extends AbsAuditoriaModel {
     private Long id;
     private String nombre;
     private String razonSocial;
+    @Enumerated(EnumType.STRING)
     private CondicionIvaEnum condicionIva;
     private String cuit;
     private String ingresosBrutos;

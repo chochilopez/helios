@@ -11,6 +11,9 @@ import gloit.hiperionida.helios.util.repository.UsuarioDAO;
 import gloit.hiperionida.helios.util.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -117,6 +120,24 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (listado.isEmpty())
             throw new CustomDataNotFoundException("No se encontraron entidades Usuario, incluidas las eliminadas.");
         return listado;
+    }
+
+    @Override
+    public Slice<UsuarioModel> buscarTodasPorOrdenPorPagina(String direccion, String campo, int pagina, int elementos) {
+        log.info("Buscando todas las entidades Usuario, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
+        Slice<UsuarioModel> slice = usuarioDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        if (slice.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Usuario.");
+        return slice;
+    }
+
+    @Override
+    public Slice<UsuarioModel> buscarTodasPorOrdenPorPaginaConEliminadas(String direccion, String campo, int pagina, int elementos) {
+        log.info("Buscando todas las entidades Usuario, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
+        Slice<UsuarioModel> slice = usuarioDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        if (slice.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Usuario, incluidas las eliminadas.");
+        return slice;
     }
 
     @Override

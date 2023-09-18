@@ -17,6 +17,7 @@ public class RemitoModel extends AbsAuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
     private LocalDateTime fecha;
     private String numero;

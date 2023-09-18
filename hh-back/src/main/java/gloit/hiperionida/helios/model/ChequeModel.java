@@ -20,6 +20,7 @@ public class ChequeModel extends AbsAuditoriaModel {
     private String cuitEmisor;
     private String destinatario;
     private String emisor;
+    @Enumerated(EnumType.STRING)
     private EstadoChequeEnum estado;
     private LocalDateTime fechaCobro;
     private LocalDateTime fechaEmision;

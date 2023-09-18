@@ -4,6 +4,8 @@ package gloit.hiperionida.helios.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
@@ -15,5 +17,5 @@ public class PresupuestoModel extends AbsViajeModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer validez;
+    private LocalDateTime validez;
 }

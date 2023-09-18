@@ -2,14 +2,14 @@ import { rolEnum } from 'src/models/enums/rol_enum'
 
 const routes = [
   {
-    path: '/',
+    path: '',
     component: () => import('layouts/MainLayout.vue'),
     meta: {
       rol: rolEnum.CARGA
     },
     children: [
       {
-        path: 'tablero',
+        path: '',
         name: 'Tablero',
         component: () => import('pages/sitio/Tablero.vue'),
         meta: {
@@ -17,7 +17,23 @@ const routes = [
         }
       },
       {
-        path: 'banco',
+        path: '/acoplado',
+        name: 'Acoplado',
+        component: () => import('pages/sitio/Acoplado.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/adelanto',
+        name: 'Adelanto',
+        component: () => import('pages/sitio/Adelanto.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/banco',
         name: 'Banco',
         component: () => import('pages/sitio/Banco.vue'),
         meta: {
@@ -25,7 +41,7 @@ const routes = [
         }
       },
       {
-        path: 'caja',
+        path: '/caja',
         name: 'Caja',
         component: () => import('pages/sitio/Caja.vue'),
         meta: {
@@ -33,7 +49,7 @@ const routes = [
         }
       },
       {
-        path: 'calendario',
+        path: '/calendario',
         name: 'Calendario',
         component: () => import('pages/sitio/Calendario.vue'),
         meta: {
@@ -41,7 +57,15 @@ const routes = [
         }
       },
       {
-        path: 'chofer',
+        path: '/camion',
+        name: 'Camion',
+        component: () => import('pages/sitio/Camion.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/chofer',
         name: 'Chofer',
         component: () => import('pages/sitio/Chofer.vue'),
         meta: {
@@ -49,23 +73,23 @@ const routes = [
         }
       },
       {
-        path: 'cliente',
+        path: '/cliente',
         name: 'Cliente',
-        component: () => import('src/pages/sitio/Cliente-Cliente.vue'),
+        component: () => import('src/pages/sitio/Cliente.vue'),
         meta: {
           rol: rolEnum.CARGA
         }
       },
       {
-        path: 'clientes',
-        name: 'Clientes',
-        component: () => import('src/pages/sitio/Cliente-Clientes.vue'),
+        path: '/combustible',
+        name: 'Combustible',
+        component: () => import('src/pages/sitio/Combustible.vue'),
         meta: {
           rol: rolEnum.CARGA
         }
       },
       {
-        path: 'compra',
+        path: '/compra',
         name: 'Compra',
         component: () => import('pages/sitio/Compra.vue'),
         meta: {
@@ -73,24 +97,184 @@ const routes = [
         }
       },
       {
-        path: 'proveedor',
-        name: 'Proveedor',
-        component: () => import('pages/sitio/Proveedor.vue'),
+        path: '/concepto-adelanto',
+        name: 'ConceptoAdelanto',
+        component: () => import('pages/sitio/ConceptoAdelanto.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/concepto-compra',
+        name: 'ConceptoCompra',
+        component: () => import('pages/sitio/ConceptoCompra.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/conciliacion',
+        name: 'Conciliacion',
+        component: () => import('pages/sitio/Conciliacion.vue'),
         meta: {
           rol: rolEnum.CARGA
         }
       },
 
       {
-        path: 'tablero',
-        name: 'Tablero',
-        component: () => import('pages/sitio/Tablero.vue'),
+        path: '/detalle-cuenta-corriente',
+        name: 'DetalleCtaCte',
+        component: () => import('pages/sitio/DetalleCtaCte.vue'),
         meta: {
           rol: rolEnum.CARGA
         }
       },
       {
-        path: 'vehiculo',
+        path: '/facturacion',
+        name: 'Facturacion',
+        component: () => import('pages/sitio/Facturacion.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/facturar',
+        name: 'Facturar',
+        component: () => import('pages/sitio/Facturar.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/marca',
+        name: 'Marca',
+        component: () => import('pages/sitio/Marca.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/movimiento-cuenta-corriente-proveedor',
+        name: 'MovCtaCteProveedor',
+        component: () => import('pages/sitio/MovCtaCteProveedor.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/movimiento-caja',
+        name: 'MovimientoCaja',
+        component: () => import('pages/sitio/MovimientoCaja.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/movimiento-cuenta-corriente',
+        name: 'MovimientoCtaCte',
+        component: () => import('pages/sitio/MovimientoCtaCte.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/neumatico',
+        name: 'Neumatico',
+        component: () => import('pages/sitio/Neumatico.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/colocado',
+        name: 'Colocado',
+        component: () => import('pages/sitio/Colocado.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/plan-cuenta',
+        name: 'PlanCuenta',
+        component: () => import('pages/sitio/PlanCuenta.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/presupuestar',
+        name: 'Presupuestar',
+        component: () => import('pages/sitio/Presupuestar.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/presupuesto',
+        name: 'Presupuesto',
+        component: () => import('pages/sitio/Presupuesto.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/programar-viaje',
+        name: 'ProgramarViaje',
+        component: () => import('pages/sitio/ProgramarViaje.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/proveedor',
+        name: 'Proveedor',
+        component: () => import('pages/sitio/Proveedor.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/recibo',
+        name: 'Recibo',
+        component: () => import('pages/sitio/Recibo.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/resumen-chofer',
+        name: 'ResumenChofer',
+        component: () => import('pages/sitio/ResumenChofer.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/saldo-cuenta-corriente',
+        name: 'SaldoCtaCte',
+        component: () => import('pages/sitio/SaldoCtaCte.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/tarea',
+        name: 'Tarea',
+        component: () => import('pages/sitio/Tarea.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/ubicacion',
+        name: 'Ubicacion',
+        component: () => import('pages/sitio/Ubicacion.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/vehiculo',
         name: 'Vehiculo',
         component: () => import('pages/sitio/Vehiculo.vue'),
         meta: {
@@ -98,7 +282,15 @@ const routes = [
         }
       },
       {
-        path: 'viaje',
+        path: '/vencimiento',
+        name: 'Vencimiento',
+        component: () => import('pages/sitio/Vencimiento.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/viaje',
         name: 'Viaje',
         component: () => import('pages/sitio/Viaje.vue'),
         meta: {

@@ -28,35 +28,35 @@ public class UsuarioController extends AbsBaseController {
     private final UsuarioMapper usuarioMapper;
 
     @GetMapping(value = "/buscar-por-nombre-usuario/{nombreUsuario}")
-    @PreAuthorize("hasAuthority('CAPATAZ')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<UsuarioDTO> buscarPorNombreDeUsuario(@PathVariable(name = "nombreUsuario")  String nombreUsuario) {
         UsuarioModel objeto = usuarioService.buscarPorNombreDeUsuario(nombreUsuario);
         return new ResponseEntity<>(usuarioMapper.toDto(objeto), Helper.httpHeaders("Se encontro un usuario con nombre de usuario: " + nombreUsuario + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-nombre-usuario-con-eliminadas/{nombreUsuario}")
-    @PreAuthorize("hasAuthority('JEFE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioDTO> buscarPorNombreDeUsuarioConEliminadas(@PathVariable(name = "nombreUsuario")  String nombreUsuario) {
         UsuarioModel objeto = usuarioService.buscarPorNombreDeUsuarioConEliminadas(nombreUsuario);
         return new ResponseEntity<>(usuarioMapper.toDto(objeto), Helper.httpHeaders("Se encontro un usuario con nombre de usuario: " + nombreUsuario + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('CAPATAZ')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         UsuarioModel objeto = usuarioService.buscarPorId(id);
         return new ResponseEntity<>(usuarioMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
-    @PreAuthorize("hasAuthority('JEFE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         UsuarioModel objeto = usuarioService.buscarPorIdConEliminadas(id);
         return new ResponseEntity<>(usuarioMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")
-    @PreAuthorize("hasAuthority('CAPATAZ')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<UsuarioDTO>> buscarTodas() {
         List<UsuarioModel> listado = usuarioService.buscarTodas();
         ArrayList<UsuarioDTO> usuarios = new ArrayList<>();
@@ -67,7 +67,7 @@ public class UsuarioController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('JEFE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<UsuarioDTO>> buscarTodasConEliminadas() {
         List<UsuarioModel> listado = usuarioService.buscarTodasConEliminadas();
         ArrayList<UsuarioDTO> usuarios = new ArrayList<>();
@@ -78,42 +78,42 @@ public class UsuarioController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('CAPATAZ')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad = usuarioService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
     }
 
     @GetMapping(value = "/contar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('JEFE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Long> contarTodasConEliminadas() {
         Long cantidad = usuarioService.contarTodasConEliminadas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('JEFE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioDTO> guardar(@Valid @RequestBody UsuarioCreation usuarioCreation) {
         UsuarioModel objeto = usuarioService.guardar(usuarioCreation);
         return new ResponseEntity<>(usuarioMapper.toDto(objeto), Helper.httpHeaders("Se persistio correctamente la entidad."), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('JEFE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioDTO> borrar(@PathVariable(name = "id") Long id) {
         UsuarioModel objeto = usuarioService.eliminar(id);
         return new ResponseEntity<>(usuarioMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
     @PostMapping(value = "/reciclar/{id}")
-    @PreAuthorize("hasAuthority('JEFE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioDTO> reciclar(@PathVariable(name = "id") Long id) {
         UsuarioModel objeto = usuarioService.reciclar(id);
         return new ResponseEntity<>(usuarioMapper.toDto(objeto), Helper.httpHeaders("Se reciclo correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/destruir/{id}")
-    @PreAuthorize("hasAuthority('JEFE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> destruir(@PathVariable(name = "id") Long id) throws IOException {
         usuarioService.destruir(id);
         String mensaje = "Se destruyo correctamente la entidad con id: " + id + ".";

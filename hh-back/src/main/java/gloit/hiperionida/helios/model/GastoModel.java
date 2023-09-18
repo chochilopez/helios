@@ -22,10 +22,5 @@ public class GastoModel extends AbsAuditoriaModel {
 
     @ManyToOne()
     private CategoriaGastoModel categoriaGasto;
-    // TODO Caja?
-
-    @ManyToOne()
-    @JoinColumn(name = "gastos_id")
-    private ViajeModel viaje;
 }
 

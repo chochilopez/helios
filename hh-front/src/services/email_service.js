@@ -12,27 +12,27 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.obtenerDeLocal('hhEmailTodas')
+  return llavero.obtenerDeLocal('lEmailTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.obtenerDeLocal('hhEmailTodasConEliminadas')
+  return llavero.obtenerDeLocal('lEmailTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.obtenerDeLocal('hhEmailPorId/' + id + '/')
+  return llavero.obtenerDeLocal('lEmailPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.obtenerDeLocal('hhEmailPorIdConEliminadas/' + id + '/')
+  return llavero.obtenerDeLocal('lEmailPorIdConEliminadas/' + id + '/')
 }
 
 function obtenerCuenta () {
-  return llavero.obtenerDeLocal('hhEmailCuenta')
+  return llavero.obtenerDeLocal('lEmailCuenta')
 }
 
 function obtenerCuentaConEliminadas () {
-  return llavero.obtenerDeLocal('hhEmailCuentaConEliminadas')
+  return llavero.obtenerDeLocal('lEmailCuentaConEliminadas')
 }
 
 function pfEnviarEmailSimple (emailSimple) {
@@ -59,7 +59,7 @@ function spfBuscarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhEmailTodas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lEmailTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -76,7 +76,41 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhEmailTodasConEliminadas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lEmailTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'email/buscar-todas-paginadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        llavero.guardarEnLocal('lEmailTodas', result, ttlEnum.TTL_1_HORA)
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'email/buscar-todas-paginadas-con-eliminadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        llavero.guardarEnLocal('lEmailTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -93,7 +127,7 @@ function spfBuscarPorId (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhEmailPorId/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lEmailPorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -110,7 +144,7 @@ function spfBuscarPorIdConEliminadas (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhEmailPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lEmailPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -127,7 +161,7 @@ function spfContarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhEmailContar', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('lEmailContar', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -144,7 +178,7 @@ function spfContarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhEmailContarConEliminadas', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('lEmailContarConEliminadas', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -218,14 +252,22 @@ function spfDestruir (id) {
 }
 
 export const emailService = {
+  obtenerTodas,
+  obtenerTodasConEliminadas,
+  obtenerPorId,
+  obtenerPorIdConEliminadas,
+  obtenerCuenta,
+  obtenerCuentaConEliminadas,
+
+  pfEnviarEmailSimple,
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
+  spfBuscarTodasPaginadas,
+  spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,
   spfContarTodas,
   spfContarTodasConEliminadas,
-
-  pfEnviarEmailSimple,
 
   spfGuardar,
   spfBorrar,

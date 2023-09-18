@@ -20,14 +20,16 @@ public class NeumaticoModel extends AbsAuditoriaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime fechaCompra;
-    private Double kilometros;
-    private Double kilometrosActuales;
-    private Double kilometrosRecapado;
+    private Double kmVida;
+    private Double kmActuales;
+    private Double kmRecapado;
     private String numeroRemito;
     private String marca ;
     private Double precioCompra;
     private Integer recapadosMaximos;
+    @Enumerated(EnumType.STRING)
     private UbicacionNeumaticoEnum ubicacion;
+    @Enumerated(EnumType.STRING)
     private EstadoNeumaticoEnum estado;
     private Boolean baja;
 

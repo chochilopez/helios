@@ -9,33 +9,36 @@ import lombok.Setter;
 @MappedSuperclass
 @Setter
 public abstract class AbsViajeModel extends AbsAuditoriaModel {
-    private double cantidad;
-    private double importe;
-    private double kgNeto;
-    private double kmCargado;
-    private double kmVacio;
+    private Double cantidadTransportada;
+    private Double valorKm;
+    private Double kgNeto;
+    private Double kmCargado;
+    private Double kmVacio;
     @Column(columnDefinition = "TEXT")
     private String notas;
-
-    @ManyToOne()
-    private DireccionModel carga;
 
     @ManyToOne()
     private CategoriaViajeModel categoriaViaje;
 
     @ManyToOne()
-    private ClienteModel comprador;
+    private DireccionModel origen;
+
+    @ManyToOne()
+    private DireccionModel carga;
 
     @ManyToOne()
     private DireccionModel destino;
 
-    @OneToOne
-    private EventoModel fecha;
-
-    @ManyToOne()
-    private DireccionModel origen;
-
     @ManyToOne()
     private ClienteModel vendedor;
+
+    @ManyToOne()
+    private ClienteModel intermediario;
+
+    @ManyToOne()
+    private ClienteModel comprador;
+
+    @OneToOne
+    private EventoModel fecha;
 }
 

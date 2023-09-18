@@ -1,6 +1,7 @@
 package gloit.hiperionida.helios.model;
 
 
+import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @Table(name = "servicio")
-public class ServicioModel extends AbsVehiculoModel {
+public class ServicioModel extends AbsAuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

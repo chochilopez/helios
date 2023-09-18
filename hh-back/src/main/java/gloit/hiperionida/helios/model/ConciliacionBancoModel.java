@@ -19,11 +19,12 @@ public class ConciliacionBancoModel extends AbsAuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(columnDefinition = "TEXT")
+    @Enumerated(EnumType.STRING)
     private MovimientoEnum movimiento;
     private LocalDateTime fecha;
     @Column(columnDefinition = "TEXT")
     private String concepto;
+    private Double monto;
 
     @ManyToOne()
     private BancoModel banco;

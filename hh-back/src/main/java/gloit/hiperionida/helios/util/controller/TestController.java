@@ -11,19 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @GetMapping(value = "/contribuyente")
-    @PreAuthorize("hasAuthority('CONTRIBUYENTE')")
-    public String contribuyente() { return "Autoridad contribuyente."; }
+    @GetMapping(value = "/carga")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public String carga() { return "Autoridad carga."; }
 
-    @GetMapping(value = "/empleado")
-    @PreAuthorize("hasAuthority('EMPLEADO')")
-    public String empleado() { return "Autoridad empleado."; }
+    @GetMapping(value = "/usuario")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public String usuario() { return "Autoridad usuario."; }
 
-    @GetMapping(value = "/capataz")
-    @PreAuthorize("hasAuthority('CAPATAZ')")
-    public String capataz() { return "Autoridad capataz."; }
-
-    @GetMapping(value = "/jefe")
-    @PreAuthorize("hasAuthority('JEFE')")
-    public String jefe() { return "Autoridad jefe."; }
+    @GetMapping(value = "/admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String admin() { return "Autoridad admin."; }
 }

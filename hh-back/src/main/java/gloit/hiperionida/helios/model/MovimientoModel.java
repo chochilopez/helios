@@ -17,6 +17,6 @@ public class MovimientoModel extends AbsAuditoriaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//TODO movimiento de cuenta puede ser pagado o no
+// TODO movimiento de cuenta puede ser pagado o no
 }
 

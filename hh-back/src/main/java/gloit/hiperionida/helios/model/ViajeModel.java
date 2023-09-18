@@ -17,16 +17,6 @@ public class ViajeModel extends AbsViajeModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Boolean cancelada;
-    private String guia;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "viaje_id")
-    private Set<GastoModel> gastos;
-
-    @ManyToOne()
-    private ClienteModel intermediario;
-
 
     @ManyToOne()
     private ConductorModel conductor;
@@ -36,5 +26,11 @@ public class ViajeModel extends AbsViajeModel {
 
     @ManyToOne()
     private AcopladoModel acoplado;
+
+    private String guia;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "viaje_id")
+    private Set<GastoModel> gastos;
 }
 

@@ -48,14 +48,11 @@ function spfIngresar (user) {
 }
 
 function spfSalir () {
+  console.log(this.obtenerToken())
   return new Promise((resolve, reject) => {
-    llaveroService.borrarDeLocal('hhToken')
-    llaveroService.borrarDeLocal('hhAutoridades')
-    llaveroService.borrarDeLocal('hhNombreUsuario')
-    localStorage.clear()
     axios.get(API_URL + 'autenticacion/salir', {
       headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+        Authorization: 'Bearer ' + this.obtenerToken()
       }
     })
       .then((response) => {
@@ -64,6 +61,10 @@ function spfSalir () {
       .catch((error) => {
         reject(error)
       })
+    llaveroService.borrarDeLocal('hhToken')
+    llaveroService.borrarDeLocal('hhAutoridades')
+    llaveroService.borrarDeLocal('hhNombreUsuario')
+    localStorage.clear()
   })
 }
 

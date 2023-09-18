@@ -51,7 +51,7 @@ function spfBuscarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioTodas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhUsuarioTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -68,7 +68,7 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioTodasConEliminadas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhUsuarioTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -85,7 +85,7 @@ function spfBuscarPorId (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioPorId/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhUsuarioPorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -102,7 +102,7 @@ function spfBuscarPorIdConEliminadas (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhUsuarioPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -119,7 +119,7 @@ function spfBuscarPorNombreUsuario (username) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioPorNombreUsuario/' + username + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhUsuarioPorNombreUsuario/' + username + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -136,7 +136,7 @@ function spfBuscarPorNombreUsuarioConEliminadas (username) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioPorNombreUsuarioConEliminadas/' + username + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('hhUsuarioPorNombreUsuarioConEliminadas/' + username + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -145,7 +145,7 @@ function spfBuscarPorNombreUsuarioConEliminadas (username) {
   })
 }
 
-function spfFetchContarTodas () {
+function spfContarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'usuario/contar-todas', {
       headers: {
@@ -153,7 +153,7 @@ function spfFetchContarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioContar', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('hhUsuarioContar', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -162,7 +162,7 @@ function spfFetchContarTodas () {
   })
 }
 
-function spfFetchContarTodasConEliminadas () {
+function spfContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'usuario/contar-todas-con-eliminadas', {
       headers: {
@@ -170,7 +170,7 @@ function spfFetchContarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioContarConEliminadas', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('hhUsuarioContarConEliminadas', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -248,8 +248,8 @@ export const usuarioService = {
   spfBuscarTodasConEliminadas,
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,
-  spfFetchContarTodas,
-  spfFetchContarTodasConEliminadas,
+  spfContarTodas,
+  spfContarTodasConEliminadas,
 
   spfBuscarPorNombreUsuario,
   spfBuscarPorNombreUsuarioConEliminadas,

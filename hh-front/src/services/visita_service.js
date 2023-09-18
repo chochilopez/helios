@@ -12,78 +12,27 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.obtenerDeLocal('hhVisitaTodas')
+  return llavero.obtenerDeLocal('lVisitaTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.obtenerDeLocal('hhVisitaTodasConEliminadas')
-}
-
-function obtenerTodasPorIp (ip) {
-  return llavero.obtenerDeLocal('hhVisitAllByIp/' + ip + '/')
-}
-
-function obtenerTodasPorIpConEliminadas (ip) {
-  return llavero.obtenerDeLocal('hhVisitAllByIpConEliminadas/' + ip + '/')
+  return llavero.obtenerDeLocal('lVisitaTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.obtenerDeLocal('hhVisitaPorId/' + id + '/')
+  return llavero.obtenerDeLocal('lVisitaPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.obtenerDeLocal('hhVisitaPorIdConEliminadas/' + id + '/')
-}
-
-function obtenerTop100 () {
-  return llavero.obtenerDeLocal('lTop100Visitas')
-}
-
-function obtenerTop100ConEliminadas () {
-  return llavero.obtenerDeLocal('lTop100VisitasConEliminadas')
-}
-
-function obtenerVisitante () {
-  return llavero.obtenerDeLocal('hhVisitante')
+  return llavero.obtenerDeLocal('lVisitaPorIdConEliminadas/' + id + '/')
 }
 
 function obtenerCuenta () {
-  return llavero.obtenerDeLocal('hhVisitaCuenta')
+  return llavero.obtenerDeLocal('lVisitaCuenta')
 }
 
 function obtenerCuentaConEliminadas () {
-  return llavero.obtenerDeLocal('hhVisitaCuentaConEliminadas')
-}
-
-async function spfBuscarVisitante () {
-  if (llavero.obtenerDeLocal('hhVisitante')) {
-    console.info('Data reloaded: ' + llavero.obtenerDeLocal('hhVisitante').value.headers.message)
-  } else {
-    try {
-      const result = await axios.get('https://api.ipgeolocation.io/ipgeo?apiKey=d66d5dac832c4f2f839fb72f7fc308db&lang=es')
-      if (result.status === 200) {
-        const resultVisitor = await axios.put(API_URL + 'visit', result.data, {
-          headers: {
-            Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-          }
-        })
-        if (resultVisitor.status === 201) {
-          console.log(resultVisitor.headers.message)
-          llavero.guardarEnLocal('lVisitVisitor', resultVisitor, ttlEnum.TTL_1_DAY)
-          return resultVisitor.data
-        } else if (resultVisitor.status === 202) {
-          console.warn(resultVisitor.headers.message)
-        } else if (resultVisitor.status === 204) {
-          console.error(resultVisitor.headers.message)
-        }
-        return null
-      }
-      return null
-    } catch (err) {
-      console.error('Fatal error: ' + err.message)
-      return null
-    }
-  }
+  return llavero.obtenerDeLocal('lVisitaCuentaConEliminadas')
 }
 
 function spfBuscarTodas () {
@@ -94,7 +43,7 @@ function spfBuscarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhVisitaTodas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lVisitaTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -111,7 +60,41 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhVisitaTodasConEliminadas', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lVisitaTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'visita/buscar-todas-paginadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        llavero.guardarEnLocal('lVisitaTodas', result, ttlEnum.TTL_1_HORA)
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'visita/buscar-todas-paginadas-con-eliminadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        llavero.guardarEnLocal('lVisitaTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -128,7 +111,7 @@ function spfBuscarPorId (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhVisitaPorId/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lVisitaPorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -145,7 +128,7 @@ function spfBuscarPorIdConEliminadas (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhVisitaPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HOUR)
+        llavero.guardarEnLocal('lVisitaPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -154,7 +137,7 @@ function spfBuscarPorIdConEliminadas (id) {
   })
 }
 
-function spfFetchContarTodas () {
+function spfContarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'visita/contar-todas', {
       headers: {
@@ -162,7 +145,7 @@ function spfFetchContarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhVisitaContar', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('lVisitaContar', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -171,7 +154,7 @@ function spfFetchContarTodas () {
   })
 }
 
-function spfFetchContarTodasConEliminadas () {
+function spfContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'visita/contar-todas-con-eliminadas', {
       headers: {
@@ -179,7 +162,7 @@ function spfFetchContarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhVisitaContarConEliminadas', result, ttlEnum.TTL_1_DAY)
+        llavero.guardarEnLocal('lVisitaContarConEliminadas', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -253,15 +236,21 @@ function spfDestruir (id) {
 }
 
 export const visitaService = {
-
-  spfBuscarVisitante,
+  obtenerTodas,
+  obtenerTodasConEliminadas,
+  obtenerPorId,
+  obtenerPorIdConEliminadas,
+  obtenerCuenta,
+  obtenerCuentaConEliminadas,
 
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
+  spfBuscarTodasPaginadas,
+  spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,
-  spfFetchContarTodas,
-  spfFetchContarTodasConEliminadas,
+  spfContarTodas,
+  spfContarTodasConEliminadas,
 
   spfGuardar,
   spfBorrar,

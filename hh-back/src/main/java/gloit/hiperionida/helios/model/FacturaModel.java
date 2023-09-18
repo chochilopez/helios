@@ -26,29 +26,12 @@ public class FacturaModel extends AbsAuditoriaModel {
     private String numeroComprobante;
     private Double recarga;
     private Double subTotal;
+    @Enumerated(EnumType.STRING)
     private TipoComprobanteEnum tipoComprobante;
     private Boolean pagada;
 
-    @ManyToOne
-    private AcopladoModel acoplado;
-
-    @ManyToOne
-    private CamionModel camion;
-
-    @ManyToOne
-    private ClienteModel cliente;
-
-    @ManyToOne
-    private ConductorModel conductor;
-
-    @ManyToOne
-    private DireccionModel destino;
-
     @OneToOne
     private MovimientoModel movimiento;
-
-    @ManyToOne
-    private DireccionModel origen;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "factura_id")

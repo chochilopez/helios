@@ -97,7 +97,7 @@ public class AutenticacionServiceImpl implements AutenticacionService {
 //                usuarioCreation.getUsername(),
 //                body
 //        ));
-        return usuarioService.darRol(usuario, "CONTRIBUYENTE");
+        return usuarioService.darRol(usuario, "CARGA");
     }
 
     @Override

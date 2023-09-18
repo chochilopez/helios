@@ -19,6 +19,16 @@ export default boot(({ app }) => {
   app.config.globalProperties.$api = api
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
+
+  // Add a request interceptor
+  // axios.interceptors.request.use(function (config) {
+  //   console.log('Salio')
+  //   console.log(config)
+  //   return config
+  // }, function (error) {
+  // // Do something with request error
+  //   return Promise.reject(error)
+  // })
 })
 
 export { api }

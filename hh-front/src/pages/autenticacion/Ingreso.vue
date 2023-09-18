@@ -58,7 +58,7 @@ export default {
         console.log('Mensaje: ' + result.headers.mensaje)
         if (result.status === 200) {
           console.info(result.headers.mensaje)
-          router.push('/tablero')
+          router.push({ name: 'Tablero' })
         }
       } catch (err) {
         console.clear()

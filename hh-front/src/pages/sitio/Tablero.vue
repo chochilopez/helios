@@ -1,12 +1,16 @@
+import TableroGrafico from 'src/components/sitio/TableroGrafico.vue';
 <template>
-  <h1>Tablero</h1>
+  <TableroContador />
+  <TableroGrafico />
 </template>
 
 <script>
+import TableroContador from 'src/components/sitio/TableroContador.vue'
+import TableroGrafico from 'src/components/sitio/TableroGrafico.vue'
 
 export default {
   setup () {
-    return {}
-  }
+  },
+  components: { TableroContador, TableroGrafico }
 }
 </script>
