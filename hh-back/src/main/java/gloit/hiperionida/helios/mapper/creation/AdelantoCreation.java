@@ -13,5 +13,4 @@ public class AdelantoCreation extends AbsAuditoriaCreation {
     private String recibo;
     private String rendido;
     private String caja_id;
-    private String conductor_id;
 }

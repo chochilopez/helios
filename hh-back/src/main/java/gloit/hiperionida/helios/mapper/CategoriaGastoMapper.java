@@ -24,6 +24,9 @@ public class CategoriaGastoMapper {
         try {
             CategoriaGastoModel categoriaGastoModel = new CategoriaGastoModel();
 
+            private String id;
+            private String categoria;
+
             if (Helper.getLong(categoriaGastoCreation.getId()) != null)
                 categoriaGastoModel.setId(Helper.getLong(categoriaGastoCreation.getId()));
 
@@ -59,6 +62,9 @@ public class CategoriaGastoMapper {
     public CategoriaGastoDTO toDto(CategoriaGastoModel categoriaGastoModel) {
         try {
             CategoriaGastoDTO dto = new CategoriaGastoDTO();
+            private String id;
+            private String categoria;
+
 
             dto.setId(categoriaGastoModel.getId().toString());
 

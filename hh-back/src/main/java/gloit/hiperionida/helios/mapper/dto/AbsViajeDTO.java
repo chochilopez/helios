@@ -9,18 +9,19 @@ import lombok.Setter;
 @MappedSuperclass
 @Setter
 public abstract class AbsViajeDTO extends AbsAuditoriaDTO {
-    private String cantidad;
-    private String importe;
+    private String cantidadTransportada;
+    private String valorKm;
     private String kgNeto;
     private String kmCargado;
     private String kmVacio;
     private String notas;
-    private DireccionDTO carga;
     private CategoriaViajeDTO categoriaViaje;
-    private ClienteDTO comprador;
-    private DireccionDTO destino;
-    private EventoDTO fecha;
     private DireccionDTO origen;
+    private DireccionDTO carga;
+    private DireccionDTO destino;
     private ClienteDTO vendedor;
+    private ClienteDTO intermediario;
+    private ClienteDTO comprador;
+    private EventoDTO fecha;
 }
 

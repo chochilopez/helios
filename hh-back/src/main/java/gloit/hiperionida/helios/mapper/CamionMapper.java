@@ -2,6 +2,9 @@ package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.CamionCreation;
 import gloit.hiperionida.helios.mapper.dto.CamionDTO;
+import gloit.hiperionida.helios.mapper.dto.NeumaticoDTO;
+import gloit.hiperionida.helios.mapper.dto.SeguroDTO;
+import gloit.hiperionida.helios.mapper.dto.ServicioDTO;
 import gloit.hiperionida.helios.model.CamionModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -11,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -23,6 +27,14 @@ public class CamionMapper {
     public CamionModel toEntity(CamionCreation camionCreation) {
         try {
             CamionModel camionModel = new CamionModel();
+
+            private String id;
+            private String numeroChasis;
+            private String numeroMotor;
+            private String pesoArrastre;
+            private String seguro_id;
+            private List<String> servicios_id;
+            private List<String> neumaticos_id;
 
             if (Helper.getLong(camionCreation.getId()) != null)
                 camionModel.setId(Helper.getLong(camionCreation.getId()));
@@ -59,6 +71,15 @@ public class CamionMapper {
     public CamionDTO toDto(CamionModel camionModel) {
         try {
             CamionDTO dto = new CamionDTO();
+
+            private String id;
+            private String numeroChasis;
+            private String numeroMotor;
+            private String pesoArrastre;
+            private SeguroDTO seguro;
+            private List<ServicioDTO> servicios;
+            private List<NeumaticoDTO> neumaticos;
+
 
             dto.setId(camionModel.getId().toString());
 

@@ -1,7 +1,6 @@
 package gloit.hiperionida.helios.mapper.dto;
 
 import lombok.Setter;
-
 import java.io.Serializable;
 import java.util.List;
 

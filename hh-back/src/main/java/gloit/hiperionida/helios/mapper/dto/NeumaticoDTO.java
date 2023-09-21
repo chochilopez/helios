@@ -8,9 +8,9 @@ import java.io.Serializable;
 public class NeumaticoDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String fechaCompra;
-    private String kilometros;
-    private String kilometrosActuales;
-    private String kilometrosRecapado;
+    private String kmVida;
+    private String kmActuales;
+    private String kmRecapado;
     private String numeroRemito;
     private String marca ;
     private String precioCompra;
@@ -19,6 +19,4 @@ public class NeumaticoDTO extends AbsAuditoriaDTO implements Serializable {
     private String estado;
     private String baja;
     private ProveedorDTO proveedor;
-    private CamionDTO camion;
-    private AcopladoDTO acoplado;
 }

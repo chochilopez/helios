@@ -2,6 +2,7 @@ package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.DireccionCreation;
 import gloit.hiperionida.helios.mapper.dto.DireccionDTO;
+import gloit.hiperionida.helios.mapper.dto.UbicacionDTO;
 import gloit.hiperionida.helios.model.DireccionModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -23,6 +24,11 @@ public class DireccionMapper {
     public DireccionModel toEntity(DireccionCreation direccionCreation) {
         try {
             DireccionModel direccionModel = new DireccionModel();
+
+            private String id;
+            private String direccion;
+            private String nombre;
+            private String ubicacion_id;
 
             if (Helper.getLong(direccionCreation.getId()) != null)
                 direccionModel.setId(Helper.getLong(direccionCreation.getId()));
@@ -59,6 +65,11 @@ public class DireccionMapper {
     public DireccionDTO toDto(DireccionModel direccionModel) {
         try {
             DireccionDTO dto = new DireccionDTO();
+
+            private String id;
+            private String direccion;
+            private String nombre;
+            private UbicacionDTO ubicacion;
 
             dto.setId(direccionModel.getId().toString());
 

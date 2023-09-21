@@ -1,7 +1,10 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.ChequeCreation;
+import gloit.hiperionida.helios.mapper.dto.BancoDTO;
 import gloit.hiperionida.helios.mapper.dto.ChequeDTO;
+import gloit.hiperionida.helios.mapper.dto.ClienteDTO;
+import gloit.hiperionida.helios.mapper.dto.ProveedorDTO;
 import gloit.hiperionida.helios.model.ChequeModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -23,6 +26,19 @@ public class ChequeMapper {
     public ChequeModel toEntity(ChequeCreation chequeCreation) {
         try {
             ChequeModel chequeModel = new ChequeModel();
+
+            private String id;
+            private String cuitEmisor;
+            private String destinatario;
+            private String emisor;
+            private String estado;
+            private String fechaCobro;
+            private String fechaEmision;
+            private String monto;
+            private String numeroCheque;
+            private String banco_id;
+            private String entregadoA_id;
+            private String recibidoDe_id;
 
             if (Helper.getLong(chequeCreation.getId()) != null)
                 chequeModel.setId(Helper.getLong(chequeCreation.getId()));
@@ -59,6 +75,19 @@ public class ChequeMapper {
     public ChequeDTO toDto(ChequeModel chequeModel) {
         try {
             ChequeDTO dto = new ChequeDTO();
+
+            private String id;
+            private String cuitEmisor;
+            private String destinatario;
+            private String emisor;
+            private String estado;
+            private String fechaCobro;
+            private String fechaEmision;
+            private String monto;
+            private String numeroCheque;
+            private BancoDTO banco;
+            private ProveedorDTO entregadoA;
+            private ClienteDTO recibidoDe;
 
             dto.setId(chequeModel.getId().toString());
 

@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "evento")
 public class EventoModel extends AbsAuditoriaModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

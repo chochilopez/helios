@@ -9,7 +9,7 @@ public class CamionCreation extends AbsVehiculoCreation {
     private String numeroChasis;
     private String numeroMotor;
     private String pesoArrastre;
-    private List<String> neumaticos_id;
     private String seguro_id;
     private List<String> servicios_id;
+    private List<String> neumaticos_id;
 }

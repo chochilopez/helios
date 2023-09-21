@@ -7,9 +7,9 @@ import lombok.Getter;
 public class NeumaticoCreation extends AbsAuditoriaCreation {
     private String id;
     private String fechaCompra;
-    private String kilometros;
-    private String kilometrosActuales;
-    private String kilometrosRecapado;
+    private String kmVida;
+    private String kmActuales;
+    private String kmRecapado;
     private String numeroRemito;
     private String marca ;
     private String precioCompra;
@@ -18,6 +18,4 @@ public class NeumaticoCreation extends AbsAuditoriaCreation {
     private String estado;
     private String baja;
     private String proveedor_id;
-    private String camion_id;
-    private String acoplado_id;
 }

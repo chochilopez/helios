@@ -14,5 +14,4 @@ public class AdelantoDTO extends AbsAuditoriaDTO implements Serializable {
     private String recibo;
     private String rendido;
     private CajaDTO caja;
-    private ConductorDTO conductor;
 }

@@ -15,13 +15,7 @@ public class FacturaCreation extends AbsAuditoriaCreation {
     private String subTotal;
     private String tipoComprobante;
     private String pagada;
-    private String acoplado_id;
-    private String camion_id;
-    private String cliente_id;
-    private String conductor_id;
-    private String destino_id;
     private String movimiento_id;
-    private String origen_id;
     private List<String> pagos_id;
     private String remito_id;
     private String viaje_id;

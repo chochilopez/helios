@@ -2,7 +2,6 @@ package gloit.hiperionida.helios.mapper.dto;
 
 import gloit.hiperionida.helios.util.mapper.dto.AbsAuditoriaDTO;
 import lombok.Setter;
-
 import java.io.Serializable;
 
 @Setter

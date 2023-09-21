@@ -10,5 +10,6 @@ public class ConciliacionBancoDTO extends AbsAuditoriaDTO implements Serializabl
     private String movimiento;
     private String fecha;
     private String concepto;
+    private String monto;
     private BancoDTO banco;
 }

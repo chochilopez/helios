@@ -24,6 +24,13 @@ public class ClienteMapper {
         try {
             ClienteModel clienteModel = new ClienteModel();
 
+            private String direccion;
+            private String email;
+            private String identificacion;
+            private String nombre;
+            private String notas;
+            private String telefono;
+
             if (Helper.getLong(clienteCreation.getId()) != null)
                 clienteModel.setId(Helper.getLong(clienteCreation.getId()));
 
@@ -59,6 +66,13 @@ public class ClienteMapper {
     public ClienteDTO toDto(ClienteModel clienteModel) {
         try {
             ClienteDTO dto = new ClienteDTO();
+
+            private String direccion;
+            private String email;
+            private String identificacion;
+            private String nombre;
+            private String notas;
+            private String telefono;
 
             dto.setId(clienteModel.getId().toString());
 

@@ -24,6 +24,9 @@ public class CategoriaViajeMapper {
         try {
             CategoriaViajeModel categoriaViajeModel = new CategoriaViajeModel();
 
+            private String id;
+            private String categoria;
+
             if (Helper.getLong(categoriaViajeCreation.getId()) != null)
                 categoriaViajeModel.setId(Helper.getLong(categoriaViajeCreation.getId()));
 
@@ -59,6 +62,9 @@ public class CategoriaViajeMapper {
     public CategoriaViajeDTO toDto(CategoriaViajeModel categoriaViajeModel) {
         try {
             CategoriaViajeDTO dto = new CategoriaViajeDTO();
+
+            private String id;
+            private String categoria;
 
             dto.setId(categoriaViajeModel.getId().toString());
 

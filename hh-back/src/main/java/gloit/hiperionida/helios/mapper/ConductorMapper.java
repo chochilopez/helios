@@ -1,7 +1,10 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.ConductorCreation;
+import gloit.hiperionida.helios.mapper.dto.AdelantoDTO;
+import gloit.hiperionida.helios.mapper.dto.CamionDTO;
 import gloit.hiperionida.helios.mapper.dto.ConductorDTO;
+import gloit.hiperionida.helios.mapper.dto.LicenciaDTO;
 import gloit.hiperionida.helios.model.ConductorModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -11,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -23,6 +27,17 @@ public class ConductorMapper {
     public ConductorModel toEntity(ConductorCreation conductorCreation) {
         try {
             ConductorModel conductorModel = new ConductorModel();
+
+            private String id;
+            private List<String> adelantos_id;
+            private String camion_id;
+            private String licencia_id;
+            private String direccion;
+            private String email;
+            private String identificacion;
+            private String nombre;
+            private String notas;
+            private String telefono;
 
             if (Helper.getLong(conductorCreation.getId()) != null)
                 conductorModel.setId(Helper.getLong(conductorCreation.getId()));
@@ -61,6 +76,17 @@ public class ConductorMapper {
             ConductorDTO dto = new ConductorDTO();
 
             dto.setId(conductorModel.getId().toString());
+
+            private String id;
+            private List<AdelantoDTO> adelantos;
+            private CamionDTO camion;
+            private LicenciaDTO licencia;
+            private String direccion;
+            private String email;
+            private String identificacion;
+            private String nombre;
+            private String notas;
+            private String telefono;
 
 
             if (conductorModel.getCreador() != null)

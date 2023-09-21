@@ -9,5 +9,6 @@ public class ConciliacionBancoCreation extends AbsAuditoriaCreation {
     private String movimiento;
     private String fecha;
     private String concepto;
+    private String monto;
     private String banco_id;
 }

@@ -1,6 +1,7 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.ConciliacionBancoCreation;
+import gloit.hiperionida.helios.mapper.dto.BancoDTO;
 import gloit.hiperionida.helios.mapper.dto.ConciliacionBancoDTO;
 import gloit.hiperionida.helios.model.ConciliacionBancoModel;
 import gloit.hiperionida.helios.util.Helper;
@@ -23,6 +24,14 @@ public class ConciliacionBancoMapper {
     public ConciliacionBancoModel toEntity(ConciliacionBancoCreation conciliacionBancoCreation) {
         try {
             ConciliacionBancoModel conciliacionBancoModel = new ConciliacionBancoModel();
+
+
+            private String id;
+            private String movimiento;
+            private String fecha;
+            private String concepto;
+            private String monto;
+            private String banco_id;
 
             if (Helper.getLong(conciliacionBancoCreation.getId()) != null)
                 conciliacionBancoModel.setId(Helper.getLong(conciliacionBancoCreation.getId()));
@@ -59,6 +68,13 @@ public class ConciliacionBancoMapper {
     public ConciliacionBancoDTO toDto(ConciliacionBancoModel conciliacionBancoModel) {
         try {
             ConciliacionBancoDTO dto = new ConciliacionBancoDTO();
+
+            private String id;
+            private String movimiento;
+            private String fecha;
+            private String concepto;
+            private String monto;
+            private BancoDTO banco;
 
             dto.setId(conciliacionBancoModel.getId().toString());
 

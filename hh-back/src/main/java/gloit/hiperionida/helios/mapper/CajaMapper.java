@@ -24,6 +24,9 @@ public class CajaMapper {
         try {
             CajaModel cajaModel = new CajaModel();
 
+            private String id;
+            private String nombre;
+
             if (Helper.getLong(cajaCreation.getId()) != null)
                 cajaModel.setId(Helper.getLong(cajaCreation.getId()));
 
@@ -59,6 +62,9 @@ public class CajaMapper {
     public CajaDTO toDto(CajaModel cajaModel) {
         try {
             CajaDTO dto = new CajaDTO();
+
+            private String id;
+            private String nombre;
 
             dto.setId(cajaModel.getId().toString());
 

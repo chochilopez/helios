@@ -1,0 +1,11 @@
+INSERT INTO `acoplado` (`id`, `creada`, `eliminada`, `modificada`, `cantidad_neumaticos`, `identificacion`, `modelo`, `patente`, `peso`, `creador_id`, `eliminador_id`, `modificador_id`, `seguro_id`, `anio`, `marca`) VALUES
+(1,	NULL,	NULL,	NULL,	8,	NULL,	'1500',	'MTH',	5710.37,	NULL,	NULL,	NULL,	NULL,	'1997',	'GMC'),
+(2,	NULL,	NULL,	NULL,	6,	NULL,	'Lynx',	'MDSO',	7886.33,	NULL,	NULL,	NULL,	NULL,	'1984',	'Mercury'),
+(3,	NULL,	NULL,	NULL,	6,	NULL,	'Venza',	'SCHW',	6759.44,	NULL,	NULL,	NULL,	NULL,	'2009',	'Toyota'),
+(4,	NULL,	NULL,	NULL,	8,	NULL,	'Legend',	'FAB',	8888.01,	NULL,	NULL,	NULL,	NULL,	'1992',	'Acura'),
+(5,	NULL,	NULL,	NULL,	6,	NULL,	'Allante',	'WEC',	5131.1,	NULL,	NULL,	NULL,	NULL,	'1993',	'Cadillac'),
+(6,	NULL,	NULL,	NULL,	8,	NULL,	'545',	'GRPN',	5497.3,	NULL,	NULL,	NULL,	NULL,	'2005',	'BMW'),
+(7,	NULL,	NULL,	NULL,	6,	NULL,	'4Runner',	'BBOX',	6880.19,	NULL,	NULL,	NULL,	NULL,	'2000',	'Toyota'),
+(8,	NULL,	NULL,	NULL,	8,	NULL,	'Golf',	'MTGE',	7641.27,	NULL,	NULL,	NULL,	NULL,	'2000',	'Volkswagen'),
+(9,	NULL,	NULL,	NULL,	10,	NULL,	'F150',	'TGA',	5399.86,	NULL,	NULL,	NULL,	NULL,	'2011',	'Ford'),
+(10,	NULL,	NULL,	NULL,	9,	NULL,	'Impala',	'WFC^Q',	7570.02,	NULL,	NULL,	NULL,	NULL,	'2003',	'Chevrolet');

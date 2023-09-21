@@ -2,15 +2,20 @@ package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.CompraCreation;
 import gloit.hiperionida.helios.mapper.dto.CompraDTO;
+import gloit.hiperionida.helios.mapper.dto.PagoDTO;
+import gloit.hiperionida.helios.mapper.dto.ProveedorDTO;
+import gloit.hiperionida.helios.mapper.dto.RemitoDTO;
 import gloit.hiperionida.helios.model.CompraModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
+import gloit.hiperionida.helios.util.mapper.dto.ArchivoDTO;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -23,6 +28,18 @@ public class CompraMapper {
     public CompraModel toEntity(CompraCreation compraCreation) {
         try {
             CompraModel compraModel = new CompraModel();
+
+            private String id;
+            private String fecha;
+            private String iva;
+            private String numeroComprobante;
+            private String subTotal;
+            private String tipoComprobante;
+            private String notas;
+            private String comprobante_id;
+            private List<String> pagos_id;
+            private String proveedor_id;
+            private String remito_id;
 
             if (Helper.getLong(compraCreation.getId()) != null)
                 compraModel.setId(Helper.getLong(compraCreation.getId()));
@@ -59,6 +76,18 @@ public class CompraMapper {
     public CompraDTO toDto(CompraModel compraModel) {
         try {
             CompraDTO dto = new CompraDTO();
+
+            private String id;
+            private String fecha;
+            private String iva;
+            private String numeroComprobante;
+            private String subTotal;
+            private String tipoComprobante;
+            private String notas;
+            private ArchivoDTO comprobante;
+            private List<PagoDTO> pagos;
+            private ProveedorDTO proveedor;
+            private RemitoDTO remito;
 
             dto.setId(compraModel.getId().toString());
 

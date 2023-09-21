@@ -24,6 +24,10 @@ public class BancoMapper {
         try {
             BancoModel bancoModel = new BancoModel();
 
+            private String id;
+            private String banco;
+            private String notas;
+
             if (Helper.getLong(bancoCreation.getId()) != null)
                 bancoModel.setId(Helper.getLong(bancoCreation.getId()));
 
@@ -59,6 +63,10 @@ public class BancoMapper {
     public BancoDTO toDto(BancoModel bancoModel) {
         try {
             BancoDTO dto = new BancoDTO();
+
+            private String id;
+            private String banco;
+            private String notas;
 
             dto.setId(bancoModel.getId().toString());
 

@@ -16,13 +16,7 @@ public class FacturaDTO extends AbsAuditoriaDTO implements Serializable {
     private String subTotal;
     private String tipoComprobante;
     private String pagada;
-    private AcopladoDTO acoplado;
-    private CamionDTO camion;
-    private ClienteDTO cliente;
-    private ConductorDTO conductor;
-    private DireccionDTO destino;
     private MovimientoDTO movimiento;
-    private DireccionDTO origen;
     private List<PagoDTO> pagos;
     private RemitoDTO remito;
     private ViajeDTO viaje;

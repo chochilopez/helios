@@ -2,6 +2,7 @@ package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.AdelantoCreation;
 import gloit.hiperionida.helios.mapper.dto.AdelantoDTO;
+import gloit.hiperionida.helios.mapper.dto.CajaDTO;
 import gloit.hiperionida.helios.model.AdelantoModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -23,6 +24,15 @@ public class AdelantoMapper {
     public AdelantoModel toEntity(AdelantoCreation adelantoCreation) {
         try {
             AdelantoModel adelantoModel = new AdelantoModel();
+
+            private String id;
+            private String descripcion;
+            private String fecha;
+            private String monto;
+            private String notas;
+            private String recibo;
+            private String rendido;
+            private String caja_id;
 
             if (Helper.getLong(adelantoCreation.getId()) != null)
                 adelantoModel.setId(Helper.getLong(adelantoCreation.getId()));
@@ -59,6 +69,15 @@ public class AdelantoMapper {
     public AdelantoDTO toDto(AdelantoModel adelantoModel) {
         try {
             AdelantoDTO dto = new AdelantoDTO();
+
+            private String id;
+            private String descripcion;
+            private String fecha;
+            private String monto;
+            private String notas;
+            private String recibo;
+            private String rendido;
+            private CajaDTO caja;
 
             dto.setId(adelantoModel.getId().toString());
 

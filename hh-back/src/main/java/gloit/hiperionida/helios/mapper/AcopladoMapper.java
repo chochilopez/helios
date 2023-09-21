@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.AcopladoCreation;
 import gloit.hiperionida.helios.mapper.dto.AcopladoDTO;
+import gloit.hiperionida.helios.mapper.dto.NeumaticoDTO;
+import gloit.hiperionida.helios.mapper.dto.SeguroDTO;
 import gloit.hiperionida.helios.model.AcopladoModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -23,6 +26,18 @@ public class AcopladoMapper {
     public AcopladoModel toEntity(AcopladoCreation acopladoCreation) {
         try {
             AcopladoModel acopladoModel = new AcopladoModel();
+
+
+
+            private String id;
+            private List<String> neumaticos_id;
+            private String seguro_id;
+            private	String cantidadNeumaticos;
+            private	String marca;
+            private String modelo;
+            private String anio;
+            private String patente;
+            private String peso;
 
             if (Helper.getLong(acopladoCreation.getId()) != null)
                 acopladoModel.setId(Helper.getLong(acopladoCreation.getId()));
@@ -59,6 +74,16 @@ public class AcopladoMapper {
     public AcopladoDTO toDto(AcopladoModel acopladoModel) {
         try {
             AcopladoDTO dto = new AcopladoDTO();
+
+            private Long id;
+            private List<NeumaticoDTO> neumaticos;
+            private SeguroDTO seguro;
+            private	String cantidadNeumaticos;
+            private	String marca;
+            private String modelo;
+            private String anio;
+            private String patente;
+            private String peso;
 
             dto.setId(acopladoModel.getId().toString());
 

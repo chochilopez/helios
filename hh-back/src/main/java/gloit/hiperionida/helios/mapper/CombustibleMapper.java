@@ -1,7 +1,10 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
+import gloit.hiperionida.helios.mapper.dto.CamionDTO;
 import gloit.hiperionida.helios.mapper.dto.CombustibleDTO;
+import gloit.hiperionida.helios.mapper.dto.ConductorDTO;
+import gloit.hiperionida.helios.mapper.dto.ProveedorDTO;
 import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -23,6 +26,16 @@ public class CombustibleMapper {
     public CombustibleModel toEntity(CombustibleCreation combustibleCreation) {
         try {
             CombustibleModel combustibleModel = new CombustibleModel();
+
+            private String id;
+            private String fecha;
+            private String kilometros;
+            private String litros;
+            private String precio;
+            private String notas;
+            private String camion_id;
+            private String conductor_id;
+            private String proveedor_id;
 
             if (Helper.getLong(combustibleCreation.getId()) != null)
                 combustibleModel.setId(Helper.getLong(combustibleCreation.getId()));
@@ -59,6 +72,16 @@ public class CombustibleMapper {
     public CombustibleDTO toDto(CombustibleModel combustibleModel) {
         try {
             CombustibleDTO dto = new CombustibleDTO();
+
+            private String id;
+            private String fecha;
+            private String kilometros;
+            private String litros;
+            private String precio;
+            private String notas;
+            private CamionDTO camion;
+            private ConductorDTO conductor;
+            private ProveedorDTO proveedor;
 
             dto.setId(combustibleModel.getId().toString());
 

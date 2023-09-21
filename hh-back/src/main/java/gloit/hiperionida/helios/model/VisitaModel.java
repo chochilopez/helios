@@ -16,7 +16,6 @@ import org.hibernate.annotations.Cascade;
 @Setter
 @Table(name = "visita")
 public class VisitaModel extends AbsAuditoriaModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

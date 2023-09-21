@@ -10,7 +10,7 @@ public class CamionDTO extends AbsVehiculoDTO implements Serializable {
     private String numeroChasis;
     private String numeroMotor;
     private String pesoArrastre;
-    private List<NeumaticoDTO> neumaticos;
     private SeguroDTO seguro;
     private List<ServicioDTO> servicios;
+    private List<NeumaticoDTO> neumaticos;
 }

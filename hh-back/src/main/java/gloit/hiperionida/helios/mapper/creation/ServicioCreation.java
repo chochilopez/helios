@@ -9,5 +9,4 @@ public class ServicioCreation extends AbsVehiculoCreation {
     private String kmActual;
     private String kmProximo;
     private String tipo;
-    private String camion_id;
 }
