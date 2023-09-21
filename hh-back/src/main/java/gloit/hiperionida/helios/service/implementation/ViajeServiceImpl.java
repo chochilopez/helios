@@ -27,6 +27,114 @@ public class ViajeServiceImpl implements ViajeService {
     private final UsuarioServiceImpl usuarioService;
 
     @Override
+    public List<ViajeModel> buscarTodasPorCamionId(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Camion: {}.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByCamionIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Camion: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorCamionIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Camion: {}, con eliminadas.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByCamionId(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Camion: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorChoferId(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Chofer: {}.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByConductorIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Chofer: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorChoferIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Chofer: {}, con eliminadas.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByConductorId(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Chofer: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorCompradorNombre(String nombre) {
+        log.info("Buscando todas las entidades Viaje con nombre de Comprador: {}.", nombre);
+        List<ViajeModel> listado = viajeDAO.findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con nombre de Comprador: " + nombre + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorCompradorNombreConEliminadas(String nombre) {
+        log.info("Buscando todas las entidades Viaje con nombre de Comprador: {}, con eliminadas.", nombre);
+        List<ViajeModel> listado = viajeDAO.findAllByCompradorNombreContainingIgnoreCase(nombre);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con nombre de Comprador: " + nombre + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorVendedorNombre(String nombre) {
+        log.info("Buscando todas las entidades Viaje con nombre de Vendedor: {}.", nombre);
+        List<ViajeModel> listado = viajeDAO.findAllByVendedorNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con nombre de Vendedor: " + nombre + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorVendedorNombreConEliminadas(String nombre) {
+        log.info("Buscando todas las entidades Viaje con nombre de Vendedor: {}, con eliminadas.", nombre);
+        List<ViajeModel> listado = viajeDAO.findAllByVendedorNombreContainingIgnoreCase(nombre);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con nombre de Vendedor: " + nombre + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorOrigenDireccion(String direccion) {
+        log.info("Buscando todas las entidades Viaje con Origen: {}.", direccion);
+        List<ViajeModel> listado = viajeDAO.findAllByOrigenDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con Origen: " + direccion + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorOrigenDireccionConEliminadas(String direccion) {
+        log.info("Buscando todas las entidades Viaje con Origen: {}, con eliminadas.", direccion);
+        List<ViajeModel> listado = viajeDAO.findAllByOrigenDireccionContainingIgnoreCase(direccion);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con Origen: " + direccion + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorDestinoDireccion(String direccion) {
+        log.info("Buscando todas las entidades Viaje con Destino: {}.", direccion);
+        List<ViajeModel> listado = viajeDAO.findAllByDestinoDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con Destino: " + direccion + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorDestinoDireccionConEliminadas(String direccion) {
+        log.info("Buscando todas las entidades Viaje con Destino: {}, con eliminadas.", direccion);
+        List<ViajeModel> listado = viajeDAO.findAllByDestinoDireccionContainingIgnoreCase(direccion);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con Destino: " + direccion + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
     public ViajeModel buscarPorId(Long id) {
         log.info("Buscando la entidad Viaje con id: {}.", id);
         ViajeModel viajeModel = viajeDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Viaje con id: " + id + "."));

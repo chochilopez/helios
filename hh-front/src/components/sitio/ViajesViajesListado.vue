@@ -1,58 +1,74 @@
 <template>
-  <q-card class="q-ma-md font-5">
-    <div class="row justify-around q-pa-sm">
-      <div class="col-4">
-        <q-card class="cp12-c5">
-          <q-card-actions align="center" class="cp12-c5 cp12-bc1">
-            <span class="text-h6">Viajes</span>
-          </q-card-actions>
-
-          <q-card-actions align="center" class="cp12-c1 cp12-bc4">
-            <q-icon name="waving_hand" size="md" />
-            <span class="text-h4 q-ml-md">{{ viajesCuenta }}</span>
-          </q-card-actions>
-        </q-card>
+  <q-card class="q-ma-md font-5 no-shadow no-border">
+    <div class="row justify-around q-pb-md">
+      <div class="col-md-4 col-sm-12">
+        <q-input outlined v-on:keypress.enter="afBuscarPorCamion" v-model="camion" label="Buscar por camion" counter maxlength="24" dense class="q-pa-md">
+          <template v-slot:before>
+            <q-icon name="fa-solid fa-truck-moving" class="q-mx-xs" />
+          </template>
+          <template v-slot:append>
+            <q-icon name="search" class="cursor-mano" @click="afBuscarPorCamion" />
+          </template>
+        </q-input>
+      </div>
+      <div class="col-md-4 col-sm-12">
+        <q-input outlined v-on:keypress.enter="afBuscarPorChofer" v-model="chofer" label="Buscar por chofer" counter maxlength="24" dense class="q-pa-md">
+          <template v-slot:before>
+            <q-icon name="airline_seat_recline_extra" class="q-mx-xs" />
+          </template>
+          <template v-slot:append>
+            <q-icon name="search" class="cursor-mano" @click="afBuscarPorChofer" />
+          </template>
+        </q-input>
+      </div>
+      <div class="col-md-4 col-sm-12">
+        <q-input outlined v-on:keypress.enter="afBuscarPorVendedor" v-model="vendedor" label="Buscar por vendedor" counter maxlength="24" dense class="q-pa-md">
+          <template v-slot:before>
+            <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
+          </template>
+          <template v-slot:append>
+            <q-icon name="search" class="cursor-mano" @click="afBuscarPorVendedor" />
+          </template>
+        </q-input>
       </div>
     </div>
-    <div class="row justify-around q-pb-xl">
-      <div class="col-12">
-        <q-input outlined v-on:keypress.enter="afBuscarPorDestino" v-model="viajeDestino" label="Buscar por destino" counter maxlength="24" dense class="q-pa-md">
+    <div class="row justify-around q-pb-md">
+      <div class="col-md-4 col-sm-12">
+        <q-input outlined v-on:keypress.enter="afBuscarPorOrigen" v-model="origen" label="Buscar por origen" counter maxlength="24" dense class="q-pa-md">
           <template v-slot:before>
-            <q-icon name="sms" />
+            <q-icon name="fa-solid fa-map-location-dot" class="q-mx-xs" />
           </template>
           <template v-slot:append>
-            <q-icon name="search" class="hand" @click="afBuscarPorDestino" />
+            <q-icon name="search" class="cursor-mano" @click="afBuscarPorOrigen" />
           </template>
         </q-input>
       </div>
-      <div class="col-12">
-        <q-input outlined v-on:keypress.enter="afBuscarPorChofer" v-model="viajeChofer" label="Buscar por chofer" counter maxlength="24" dense class="q-pa-md">
+      <div class="col-md-4 col-sm-12">
+        <q-input outlined v-on:keypress.enter="afBuscarPorDestino" v-model="destino" label="Buscar por destino" counter maxlength="24" dense class="q-pa-md">
           <template v-slot:before>
-            <q-icon name="qr_code" />
+            <q-icon name="fa-solid fa-map-location" class="q-mx-xs" />
           </template>
           <template v-slot:append>
-            <q-icon name="search" class="hand" @click="afBuscarPorChofer" />
+            <q-icon name="search" class="cursor-mano" @click="afBuscarPorDestino" />
           </template>
         </q-input>
       </div>
-      <div class="col-12">
-        <q-input outlined v-on:keypress.enter="afBuscarPorCamion" v-model="viajeCamion" label="Buscar por camion" counter maxlength="24" dense class="q-pa-md">
+      <div class="col-md-4 col-sm-12">
+        <q-input outlined v-on:keypress.enter="afBuscarPorComprador" v-model="comprador" label="Buscar por comprador" counter maxlength="24" dense class="q-pa-md">
           <template v-slot:before>
-            <q-icon name="smartphone" />
+            <q-icon name="monetization_on" class="q-mx-xs" />
           </template>
           <template v-slot:append>
-            <q-icon name="search" class="hand" @click="afBuscarPorCamion" />
+            <q-icon name="search" class="cursor-mano" @click="afBuscarPorComprador" />
           </template>
         </q-input>
       </div>
-
     </div>
   </q-card>
   <div class="row q-pa-md">
     <div class="col">
       <q-table
         :showing="!cargando"
-        bordered
         title="viajes"
         :columns="columns"
         rows-per-page-label="Registros por pagina"
@@ -197,24 +213,26 @@ const columns = [
 
 export default {
   setup () {
+    const camion = ref()
+    const chofer = ref()
+    const vendedor = ref()
+    const origen = ref()
+    const destino = ref()
+    const comprador = ref()
+
     const cargando = ref(false)
     const seeDialog = ref(false)
     const viaje = reactive(new ViajeModel())
     const viajes = ref([])
-    const viajesCuenta = ref()
-    const viajeDestino = ref()
-    const viajeChofer = ref()
-    const viajeCamion = ref()
 
     afObtener100()
-    afObtenerCuenta()
 
     function fShowSeeDialog (props) {
       Object.assign(viaje, props.row)
       seeDialog.value = true
     }
 
-    async function afBuscarPorDestino () {
+    async function afBuscarPorCamion () {
     //   cargando.value = true
     //   try {
     //     const result = await viajeService.spfFetchAllByBody(viajeDestino.value)
@@ -256,7 +274,7 @@ export default {
     //   cargando.value = false
     }
 
-    async function afBuscarPorCamion () {
+    async function afBuscarPorVendedor () {
       // cargando.value = true
       // try {
       //   const result = await viajeService.spfFetchAllByTo(viajeCamion.value)
@@ -277,9 +295,67 @@ export default {
       // cargando.value = false
     }
 
-    async function afObtenerCuenta () {
-      const result = await viajeService.spfContarTodas()
-      viajesCuenta.value = result.data
+    async function afBuscarPorOrigen () {
+    //   cargando.value = true
+    //   try {
+    //     const result = await viajeService.spfFetchAllByBody(viajeDestino.value)
+    //     if (result.status === 200) {
+    //       viajes.value = [...result.data]
+    //       console.info(result.headers.message)
+    //       notificarService.notifySuccess(result.headers.message)
+    //     } else if (result.status === 202) {
+    //       console.warn(result.headers.message)
+    //       notificarService.notifyWarning(result.headers.message)
+    //     } else if (result.status === 204) {
+    //       console.error(result.headers.message)
+    //       notificarService.notifyError(result.headers.message)
+    //     }
+    //   } catch (err) {
+    //     notificarService.infoError('Ocurrio un error al intentar obtener viajes por mensaje. ' + err)
+    //   }
+    //   cargando.value = false
+    }
+
+    async function afBuscarPorDestino () {
+    //   cargando.value = true
+    //   try {
+    //     const result = await viajeService.spfFetchAllBySid(viajeChofer.value)
+    //     if (result.status === 200) {
+    //       viajes.value = [...result.data]
+    //       console.info(result.headers.message)
+    //       notificarService.notifySuccess(result.headers.message)
+    //     } else if (result.status === 202) {
+    //       console.warn(result.headers.message)
+    //       notificarService.notifyWarning(result.headers.message)
+    //     } else if (result.status === 204) {
+    //       console.error(result.headers.message)
+    //       notificarService.notifyError(result.headers.message)
+    //     }
+    //   } catch (err) {
+    //     notificarService.infoError('Ocurrio un error al intentar obtener viajes por SID. ' + err)
+    //   }
+    //   cargando.value = false
+    }
+
+    async function afBuscarPorComprador () {
+      // cargando.value = true
+      // try {
+      //   const result = await viajeService.spfFetchAllByTo(viajeCamion.value)
+      //   if (result.status === 200) {
+      //     viajes.value = [...result.data]
+      //     console.info(result.headers.message)
+      //     notificarService.notifySuccess(result.headers.message)
+      //   } else if (result.status === 202) {
+      //     console.warn(result.headers.message)
+      //     notificarService.notifyWarning(result.headers.message)
+      //   } else if (result.status === 204) {
+      //     console.error(result.headers.message)
+      //     notificarService.notifyError(result.headers.message)
+      //   }
+      // } catch (err) {
+      //   notificarService.infoError('Ocurrio un error al intentar obtener viajes por celular receptor. ' + err)
+      // }
+      // cargando.value = false
     }
 
     async function afObtener100 () {
@@ -308,9 +384,20 @@ export default {
     }
 
     return {
-      afBuscarPorDestino,
-      afBuscarPorChofer,
       afBuscarPorCamion,
+      afBuscarPorChofer,
+      afBuscarPorVendedor,
+      afBuscarPorOrigen,
+      afBuscarPorDestino,
+      afBuscarPorComprador,
+
+      camion,
+      chofer,
+      vendedor,
+      origen,
+      destino,
+      comprador,
+
       fShowSeeDialog,
 
       cargando,
@@ -319,10 +406,6 @@ export default {
       pagination,
       viaje,
       viajes,
-      viajeDestino,
-      viajeChofer,
-      viajeCamion,
-      viajesCuenta,
 
       filter: ref(''),
       exportTable () {
