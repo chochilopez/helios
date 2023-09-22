@@ -41,6 +41,12 @@ public class VisitaMapper {
 
             if (Helper.getLong(visitaCreation.getId()) != null)
                 visitaModel.setId(Helper.getLong(visitaCreation.getId()));
+            visitaModel.setIp(visitaCreation.getIp());
+            visitaModel.setHostname(visitaCreation.getHostname());
+            visitaModel.setCountry_name(visitaCreation.getCountry_name());
+            visitaModel.setState_prov(visitaCreation.getState_prov());
+            visitaModel.setDistrict(visitaCreation.getDistrict());
+
 
             if (Helper.getLong(visitaCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(visitaCreation.getCreador_id()));

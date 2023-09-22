@@ -31,22 +31,19 @@ public class BancoMapper {
 
             if (Helper.getLong(bancoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(bancoCreation.getCreador_id()));
-                if (user.isPresent())
-                    bancoModel.setCreador(user.get());
+                user.ifPresent(bancoModel::setCreador);
             }
             if (!Helper.isEmptyString(bancoCreation.getCreada()))
                 bancoModel.setCreada(Helper.stringToLocalDateTime(bancoCreation.getCreada(), ""));
             if (Helper.getLong(bancoCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(bancoCreation.getModificador_id()));
-                if (user.isPresent())
-                    bancoModel.setModificador(user.get());
+                user.ifPresent(bancoModel::setModificador);
             }
             if (!Helper.isEmptyString(bancoCreation.getModificada()))
                 bancoModel.setModificada(Helper.stringToLocalDateTime(bancoCreation.getModificada(), ""));
             if (Helper.getLong(bancoCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(bancoCreation.getEliminador_id()));
-                if (user.isPresent())
-                    bancoModel.setEliminador(user.get());
+                user.ifPresent(bancoModel::setEliminador);
             }
             if (!Helper.isEmptyString(bancoCreation.getEliminada()))
                 bancoModel.setEliminada(Helper.stringToLocalDateTime(bancoCreation.getEliminada(), ""));

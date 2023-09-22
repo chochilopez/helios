@@ -24,13 +24,12 @@ public class RemitoMapper {
         try {
             RemitoModel remitoModel = new RemitoModel();
 
-            private String id;
-            private String descripcion;
-            private String fecha;
-            private String numero;
-
             if (Helper.getLong(remitoCreation.getId()) != null)
                 remitoModel.setId(Helper.getLong(remitoCreation.getId()));
+            remitoModel.setDescripcion(remitoCreation.getDescripcion());
+            if (remitoCreation.getFecha() != null && Helper.stringToLocalDateTime(remitoCreation.getFecha(), "") != null)
+                remitoModel.setFecha(Helper.stringToLocalDateTime(remitoCreation.getFecha(), ""));
+            remitoModel.setNumero(remitoCreation.getNumero());
 
             if (Helper.getLong(remitoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(remitoCreation.getCreador_id()));
@@ -65,12 +64,10 @@ public class RemitoMapper {
         try {
             RemitoDTO dto = new RemitoDTO();
 
-            private String id;
-            private String descripcion;
-            private String fecha;
-            private String numero;
-
             dto.setId(remitoModel.getId().toString());
+            dto.setDescripcion(remitoModel.getDescripcion());
+            dto.setFecha(remitoModel.getFecha().toString());
+            dto.setNumero(remitoModel.getNumero());
 
             if (remitoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(remitoModel.getCreador()));

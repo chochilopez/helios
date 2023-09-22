@@ -24,31 +24,28 @@ public class ReciboMapper {
         try {
             ReciboModel reciboModel = new ReciboModel();
 
-            private String id;
-            private String monto;
-            private String fecha;
-
             if (Helper.getLong(reciboCreation.getId()) != null)
                 reciboModel.setId(Helper.getLong(reciboCreation.getId()));
+            if (reciboCreation.getFecha() != null && Helper.stringToLocalDateTime(reciboCreation.getFecha(), "") != null)
+                reciboModel.setFecha(Helper.stringToLocalDateTime(reciboCreation.getFecha(), ""));
+            if (Helper.getDecimal(reciboCreation.getMonto()) != null)
+                reciboModel.setMonto(Helper.getDecimal(reciboCreation.getMonto()));
 
             if (Helper.getLong(reciboCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(reciboCreation.getCreador_id()));
-                if (user.isPresent())
-                    reciboModel.setCreador(user.get());
+                user.ifPresent(reciboModel::setCreador);
             }
             if (!Helper.isEmptyString(reciboCreation.getCreada()))
                 reciboModel.setCreada(Helper.stringToLocalDateTime(reciboCreation.getCreada(), ""));
             if (Helper.getLong(reciboCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(reciboCreation.getModificador_id()));
-                if (user.isPresent())
-                    reciboModel.setModificador(user.get());
+                user.ifPresent(reciboModel::setModificador);
             }
             if (!Helper.isEmptyString(reciboCreation.getModificada()))
                 reciboModel.setModificada(Helper.stringToLocalDateTime(reciboCreation.getModificada(), ""));
             if (Helper.getLong(reciboCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(reciboCreation.getEliminador_id()));
-                if (user.isPresent())
-                    reciboModel.setEliminador(user.get());
+                user.ifPresent(reciboModel::setEliminador);
             }
             if (!Helper.isEmptyString(reciboCreation.getEliminada()))
                 reciboModel.setEliminada(Helper.stringToLocalDateTime(reciboCreation.getEliminada(), ""));
@@ -65,11 +62,8 @@ public class ReciboMapper {
             ReciboDTO dto = new ReciboDTO();
 
             dto.setId(reciboModel.getId().toString());
-
-            private String id;
-            private String monto;
-            private String fecha;
-
+            dto.setFecha(reciboModel.getFecha().toString());
+            dto.setMonto(reciboModel.getMonto().toString());
 
             if (reciboModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(reciboModel.getCreador()));

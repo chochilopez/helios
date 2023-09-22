@@ -1,9 +1,11 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.ConciliacionBancoCreation;
-import gloit.hiperionida.helios.mapper.dto.BancoDTO;
 import gloit.hiperionida.helios.mapper.dto.ConciliacionBancoDTO;
+import gloit.hiperionida.helios.model.BancoModel;
 import gloit.hiperionida.helios.model.ConciliacionBancoModel;
+import gloit.hiperionida.helios.model.enums.MovimientoEnum;
+import gloit.hiperionida.helios.repository.BancoDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -20,40 +22,42 @@ import java.util.Optional;
 public class ConciliacionBancoMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    private final BancoDAO bancoDAO;
+    private final BancoMapper bancoMapper;
 
     public ConciliacionBancoModel toEntity(ConciliacionBancoCreation conciliacionBancoCreation) {
         try {
             ConciliacionBancoModel conciliacionBancoModel = new ConciliacionBancoModel();
 
-
-            private String id;
-            private String movimiento;
-            private String fecha;
-            private String concepto;
-            private String monto;
-            private String banco_id;
-
             if (Helper.getLong(conciliacionBancoCreation.getId()) != null)
                 conciliacionBancoModel.setId(Helper.getLong(conciliacionBancoCreation.getId()));
+            if (conciliacionBancoCreation.getMovimiento() != null)
+                conciliacionBancoModel.setMovimiento(MovimientoEnum.valueOf(conciliacionBancoCreation.getMovimiento()));
+            if (conciliacionBancoCreation.getFecha() != null && Helper.stringToLocalDateTime(conciliacionBancoCreation.getFecha(), "") != null)
+                conciliacionBancoModel.setFecha(Helper.stringToLocalDateTime(conciliacionBancoCreation.getFecha(), ""));
+            conciliacionBancoModel.setConcepto(conciliacionBancoCreation.getConcepto());
+            if (Helper.getDecimal(conciliacionBancoCreation.getMonto()) != null)
+                conciliacionBancoModel.setMonto(Helper.getDecimal(conciliacionBancoCreation.getMonto()));
+            if (Helper.getLong(conciliacionBancoCreation.getBanco_id()) != null) {
+                Optional<BancoModel> banco = bancoDAO.findById(Helper.getLong(conciliacionBancoCreation.getBanco_id()));
+                banco.ifPresent(conciliacionBancoModel::setBanco);
+            }
 
             if (Helper.getLong(conciliacionBancoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conciliacionBancoCreation.getCreador_id()));
-                if (user.isPresent())
-                    conciliacionBancoModel.setCreador(user.get());
+                user.ifPresent(conciliacionBancoModel::setCreador);
             }
             if (!Helper.isEmptyString(conciliacionBancoCreation.getCreada()))
                 conciliacionBancoModel.setCreada(Helper.stringToLocalDateTime(conciliacionBancoCreation.getCreada(), ""));
             if (Helper.getLong(conciliacionBancoCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conciliacionBancoCreation.getModificador_id()));
-                if (user.isPresent())
-                    conciliacionBancoModel.setModificador(user.get());
+                user.ifPresent(conciliacionBancoModel::setModificador);
             }
             if (!Helper.isEmptyString(conciliacionBancoCreation.getModificada()))
                 conciliacionBancoModel.setModificada(Helper.stringToLocalDateTime(conciliacionBancoCreation.getModificada(), ""));
             if (Helper.getLong(conciliacionBancoCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conciliacionBancoCreation.getEliminador_id()));
-                if (user.isPresent())
-                    conciliacionBancoModel.setEliminador(user.get());
+                user.ifPresent(conciliacionBancoModel::setEliminador);
             }
             if (!Helper.isEmptyString(conciliacionBancoCreation.getEliminada()))
                 conciliacionBancoModel.setEliminada(Helper.stringToLocalDateTime(conciliacionBancoCreation.getEliminada(), ""));
@@ -69,15 +73,13 @@ public class ConciliacionBancoMapper {
         try {
             ConciliacionBancoDTO dto = new ConciliacionBancoDTO();
 
-            private String id;
-            private String movimiento;
-            private String fecha;
-            private String concepto;
-            private String monto;
-            private BancoDTO banco;
-
             dto.setId(conciliacionBancoModel.getId().toString());
-
+            dto.setMovimiento(conciliacionBancoModel.getMovimiento().name());
+            dto.setFecha(conciliacionBancoModel.getFecha().toString());
+            dto.setConcepto(conciliacionBancoModel.getConcepto());
+            dto.setMonto(conciliacionBancoModel.getMonto().toString());
+            if (conciliacionBancoModel.getBanco() != null)
+                dto.setBanco(bancoMapper.toDto(conciliacionBancoModel.getBanco()));
 
             if (conciliacionBancoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(conciliacionBancoModel.getCreador()));

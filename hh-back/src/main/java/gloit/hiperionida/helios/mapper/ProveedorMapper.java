@@ -26,33 +26,28 @@ public class ProveedorMapper {
 
             if (Helper.getLong(proveedorCreation.getId()) != null)
                 proveedorModel.setId(Helper.getLong(proveedorCreation.getId()));
-
-            private String direccion;
-            private String email;
-            private String identificacion;
-            private String nombre;
-            private String notas;
-            private String telefono;
-
+            proveedorModel.setDireccion(proveedorCreation.getDireccion());
+            proveedorModel.setEmail(proveedorCreation.getEmail());
+            proveedorModel.setIdentificacion(proveedorCreation.getIdentificacion());
+            proveedorModel.setNombre(proveedorCreation.getNombre());
+            proveedorModel.setNotas(proveedorCreation.getNotas());
+            proveedorModel.setTelefono(proveedorCreation.getTelefono());
 
             if (Helper.getLong(proveedorCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(proveedorCreation.getCreador_id()));
-                if (user.isPresent())
-                    proveedorModel.setCreador(user.get());
+                user.ifPresent(proveedorModel::setCreador);
             }
             if (!Helper.isEmptyString(proveedorCreation.getCreada()))
                 proveedorModel.setCreada(Helper.stringToLocalDateTime(proveedorCreation.getCreada(), ""));
             if (Helper.getLong(proveedorCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(proveedorCreation.getModificador_id()));
-                if (user.isPresent())
-                    proveedorModel.setModificador(user.get());
+                user.ifPresent(proveedorModel::setModificador);
             }
             if (!Helper.isEmptyString(proveedorCreation.getModificada()))
                 proveedorModel.setModificada(Helper.stringToLocalDateTime(proveedorCreation.getModificada(), ""));
             if (Helper.getLong(proveedorCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(proveedorCreation.getEliminador_id()));
-                if (user.isPresent())
-                    proveedorModel.setEliminador(user.get());
+                user.ifPresent(proveedorModel::setEliminador);
             }
             if (!Helper.isEmptyString(proveedorCreation.getEliminada()))
                 proveedorModel.setEliminada(Helper.stringToLocalDateTime(proveedorCreation.getEliminada(), ""));
@@ -70,13 +65,12 @@ public class ProveedorMapper {
 
             dto.setId(proveedorModel.getId().toString());
 
-            private String direccion;
-            private String email;
-            private String identificacion;
-            private String nombre;
-            private String notas;
-            private String telefono;
-
+            dto.setDireccion(proveedorModel.getDireccion());
+            dto.setEmail(proveedorModel.getEmail());
+            dto.setIdentificacion(proveedorModel.getIdentificacion());
+            dto.setNombre(proveedorModel.getNombre());
+            dto.setNotas(proveedorModel.getNotas());
+            dto.setTelefono(proveedorModel.getTelefono());
 
             if (proveedorModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(proveedorModel.getCreador()));

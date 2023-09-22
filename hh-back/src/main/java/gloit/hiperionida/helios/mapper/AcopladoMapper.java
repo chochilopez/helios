@@ -43,37 +43,32 @@ public class AcopladoMapper {
             acopladoModel.setPeso(acopladoCreation.getPeso());
             if (Helper.getLong(acopladoCreation.getSeguro_id()) != null) {
                 Optional<SeguroModel> seguro = seguroDAO.findById(Helper.getLong(acopladoCreation.getSeguro_id()));
-                if (seguro.isPresent())
-                    acopladoModel.setSeguro(seguro.get());
+                seguro.ifPresent(acopladoModel::setSeguro);
             }
             Set<NeumaticoModel> neumaticos = new HashSet<>();
             for (String neumatico_id: acopladoCreation.getNeumaticos_id()) {
                 if (Helper.getLong(neumatico_id) != null) {
-                    Optional<NeumaticoModel> neumatico = neumaticoDAO.findById(Helper.getLong(acopladoCreation.getSeguro_id()));
-                    if (neumatico.isPresent())
-                        neumaticos.add(neumatico.get());
+                    Optional<NeumaticoModel> neumatico = neumaticoDAO.findById(Helper.getLong(neumatico_id));
+                    neumatico.ifPresent(neumaticos::add);
                 }
             }
             acopladoModel.setNeumaticos(neumaticos);
 
             if (Helper.getLong(acopladoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(acopladoCreation.getCreador_id()));
-                if (user.isPresent())
-                    acopladoModel.setCreador(user.get());
+                user.ifPresent(acopladoModel::setCreador);
             }
             if (!Helper.isEmptyString(acopladoCreation.getCreada()))
                 acopladoModel.setCreada(Helper.stringToLocalDateTime(acopladoCreation.getCreada(), ""));
             if (Helper.getLong(acopladoCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(acopladoCreation.getModificador_id()));
-                if (user.isPresent())
-                    acopladoModel.setModificador(user.get());
+                user.ifPresent(acopladoModel::setModificador);
             }
             if (!Helper.isEmptyString(acopladoCreation.getModificada()))
                 acopladoModel.setModificada(Helper.stringToLocalDateTime(acopladoCreation.getModificada(), ""));
             if (Helper.getLong(acopladoCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(acopladoCreation.getEliminador_id()));
-                if (user.isPresent())
-                    acopladoModel.setEliminador(user.get());
+                user.ifPresent(acopladoModel::setEliminador);
             }
             if (!Helper.isEmptyString(acopladoCreation.getEliminada()))
                 acopladoModel.setEliminada(Helper.stringToLocalDateTime(acopladoCreation.getEliminada(), ""));
@@ -101,6 +96,7 @@ public class AcopladoMapper {
                 for (NeumaticoModel neumatico:acopladoModel.getNeumaticos()) {
                     neumaticoDTOS.add(neumaticoMapper.toDto(neumatico));
                 }
+                dto.setNeumaticos(neumaticoDTOS);
             }
             if (acopladoModel.getSeguro() != null)
                 dto.setSeguro(seguroMapper.toDto(acopladoModel.getSeguro()));

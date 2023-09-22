@@ -29,22 +29,19 @@ public class MovimientoMapper {
 
             if (Helper.getLong(movimientoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(movimientoCreation.getCreador_id()));
-                if (user.isPresent())
-                    movimientoModel.setCreador(user.get());
+                user.ifPresent(movimientoModel::setCreador);
             }
             if (!Helper.isEmptyString(movimientoCreation.getCreada()))
                 movimientoModel.setCreada(Helper.stringToLocalDateTime(movimientoCreation.getCreada(), ""));
             if (Helper.getLong(movimientoCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(movimientoCreation.getModificador_id()));
-                if (user.isPresent())
-                    movimientoModel.setModificador(user.get());
+                user.ifPresent(movimientoModel::setModificador);
             }
             if (!Helper.isEmptyString(movimientoCreation.getModificada()))
                 movimientoModel.setModificada(Helper.stringToLocalDateTime(movimientoCreation.getModificada(), ""));
             if (Helper.getLong(movimientoCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(movimientoCreation.getEliminador_id()));
-                if (user.isPresent())
-                    movimientoModel.setEliminador(user.get());
+                user.ifPresent(movimientoModel::setEliminador);
             }
             if (!Helper.isEmptyString(movimientoCreation.getEliminada()))
                 movimientoModel.setEliminada(Helper.stringToLocalDateTime(movimientoCreation.getEliminada(), ""));
@@ -61,7 +58,6 @@ public class MovimientoMapper {
             MovimientoDTO dto = new MovimientoDTO();
 
             dto.setId(movimientoModel.getId().toString());
-
 
             if (movimientoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(movimientoModel.getCreador()));

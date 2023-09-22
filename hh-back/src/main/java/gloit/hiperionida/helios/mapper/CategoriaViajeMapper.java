@@ -30,22 +30,19 @@ public class CategoriaViajeMapper {
 
             if (Helper.getLong(categoriaViajeCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(categoriaViajeCreation.getCreador_id()));
-                if (user.isPresent())
-                    categoriaViajeModel.setCreador(user.get());
+                user.ifPresent(categoriaViajeModel::setCreador);
             }
             if (!Helper.isEmptyString(categoriaViajeCreation.getCreada()))
                 categoriaViajeModel.setCreada(Helper.stringToLocalDateTime(categoriaViajeCreation.getCreada(), ""));
             if (Helper.getLong(categoriaViajeCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(categoriaViajeCreation.getModificador_id()));
-                if (user.isPresent())
-                    categoriaViajeModel.setModificador(user.get());
+                user.ifPresent(categoriaViajeModel::setModificador);
             }
             if (!Helper.isEmptyString(categoriaViajeCreation.getModificada()))
                 categoriaViajeModel.setModificada(Helper.stringToLocalDateTime(categoriaViajeCreation.getModificada(), ""));
             if (Helper.getLong(categoriaViajeCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(categoriaViajeCreation.getEliminador_id()));
-                if (user.isPresent())
-                    categoriaViajeModel.setEliminador(user.get());
+                user.ifPresent(categoriaViajeModel::setEliminador);
             }
             if (!Helper.isEmptyString(categoriaViajeCreation.getEliminada()))
                 categoriaViajeModel.setEliminada(Helper.stringToLocalDateTime(categoriaViajeCreation.getEliminada(), ""));

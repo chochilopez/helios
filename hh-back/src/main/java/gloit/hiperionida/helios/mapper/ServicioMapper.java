@@ -24,39 +24,31 @@ public class ServicioMapper {
         try {
             ServicioModel servicioModel = new ServicioModel();
 
-            private String id;
-            private String kmServicio;
-            private String kmActual;
-            private String kmProximo;
-            private String tipo;
-            private	String cantidadNeumaticos;
-            private	String marca;
-            private String modelo;
-            private String anio;
-            private String patente;
-            private String peso;
-
             if (Helper.getLong(servicioCreation.getId()) != null)
                 servicioModel.setId(Helper.getLong(servicioCreation.getId()));
+            if (Helper.getDecimal(servicioCreation.getKmServicio()) != null)
+                servicioModel.setKmServicio(Helper.getDecimal(servicioCreation.getKmServicio()));
+            if (Helper.getDecimal(servicioCreation.getKmActual()) != null)
+                servicioModel.setKmActual(Helper.getDecimal(servicioCreation.getKmActual()));
+            if (Helper.getDecimal(servicioCreation.getKmProximo()) != null)
+                servicioModel.setKmProximo(Helper.getDecimal(servicioCreation.getKmProximo()));
+            servicioModel.setTipo(servicioCreation.getTipo());
 
             if (Helper.getLong(servicioCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(servicioCreation.getCreador_id()));
-                if (user.isPresent())
-                    servicioModel.setCreador(user.get());
+                user.ifPresent(servicioModel::setCreador);
             }
             if (!Helper.isEmptyString(servicioCreation.getCreada()))
                 servicioModel.setCreada(Helper.stringToLocalDateTime(servicioCreation.getCreada(), ""));
             if (Helper.getLong(servicioCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(servicioCreation.getModificador_id()));
-                if (user.isPresent())
-                    servicioModel.setModificador(user.get());
+                user.ifPresent(servicioModel::setModificador);
             }
             if (!Helper.isEmptyString(servicioCreation.getModificada()))
                 servicioModel.setModificada(Helper.stringToLocalDateTime(servicioCreation.getModificada(), ""));
             if (Helper.getLong(servicioCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(servicioCreation.getEliminador_id()));
-                if (user.isPresent())
-                    servicioModel.setEliminador(user.get());
+                user.ifPresent(servicioModel::setEliminador);
             }
             if (!Helper.isEmptyString(servicioCreation.getEliminada()))
                 servicioModel.setEliminada(Helper.stringToLocalDateTime(servicioCreation.getEliminada(), ""));
@@ -72,19 +64,11 @@ public class ServicioMapper {
         try {
             ServicioDTO dto = new ServicioDTO();
 
-            private String id;
-            private String kmServicio;
-            private String kmActual;
-            private String kmProximo;
-            private String tipo;    private	String cantidadNeumaticos;
-            private	String marca;
-            private String modelo;
-            private String anio;
-            private String patente;
-            private String peso;
-
             dto.setId(servicioModel.getId().toString());
-
+            dto.setKmServicio(servicioModel.getKmServicio().toString());
+            dto.setKmActual(servicioModel.getKmActual().toString());
+            dto.setKmProximo(servicioModel.getKmProximo().toString());
+            dto.setTipo(servicioModel.getTipo());
 
             if (servicioModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(servicioModel.getCreador()));

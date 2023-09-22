@@ -1,11 +1,11 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.ConductorCreation;
-import gloit.hiperionida.helios.mapper.dto.AdelantoDTO;
-import gloit.hiperionida.helios.mapper.dto.CamionDTO;
-import gloit.hiperionida.helios.mapper.dto.ConductorDTO;
-import gloit.hiperionida.helios.mapper.dto.LicenciaDTO;
-import gloit.hiperionida.helios.model.ConductorModel;
+import gloit.hiperionida.helios.mapper.dto.*;
+import gloit.hiperionida.helios.model.*;
+import gloit.hiperionida.helios.repository.AdelantoDAO;
+import gloit.hiperionida.helios.repository.CamionDAO;
+import gloit.hiperionida.helios.repository.LicenciaDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -14,8 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -23,43 +22,57 @@ import java.util.Optional;
 public class ConductorMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    private final AdelantoDAO adelantoDAO;
+    private final AdelantoMapper adelantoMapper;
+    private final CamionDAO camionDAO;
+    private final CamionMapper camionMapper;
+    private final LicenciaDAO licenciaDAO;
+    private final LicenciaMapper licenciaMapper;
 
     public ConductorModel toEntity(ConductorCreation conductorCreation) {
         try {
             ConductorModel conductorModel = new ConductorModel();
 
-            private String id;
-            private List<String> adelantos_id;
-            private String camion_id;
-            private String licencia_id;
-            private String direccion;
-            private String email;
-            private String identificacion;
-            private String nombre;
-            private String notas;
-            private String telefono;
-
             if (Helper.getLong(conductorCreation.getId()) != null)
                 conductorModel.setId(Helper.getLong(conductorCreation.getId()));
+            conductorModel.setDireccion(conductorCreation.getDireccion());
+            conductorModel.setEmail(conductorCreation.getEmail());
+            conductorModel.setIdentificacion(conductorCreation.getIdentificacion());
+            conductorModel.setNombre(conductorCreation.getNombre());
+            conductorModel.setNotas(conductorCreation.getNotas());
+            conductorModel.setTelefono(conductorCreation.getTelefono());
+            Set<AdelantoModel> adelantos = new HashSet<>();
+            for (String adelanto_id:conductorCreation.getAdelantos_id()) {
+                if (Helper.getLong(adelanto_id) != null) {
+                    Optional<AdelantoModel> adelanto = adelantoDAO.findById(Helper.getLong(adelanto_id));
+                    adelanto.ifPresent(adelantos::add);
+                }
+            }
+            conductorModel.setAdelantos(adelantos);
+            if (Helper.getLong(conductorCreation.getCamion_id()) != null) {
+                Optional<CamionModel> camion = camionDAO.findById(Helper.getLong(conductorCreation.getCamion_id()));
+                camion.ifPresent(conductorModel::setCamion);
+            }
+            if (Helper.getLong(conductorCreation.getLicencia_id()) != null) {
+                Optional<LicenciaModel> licencia = licenciaDAO.findById(Helper.getLong(conductorCreation.getLicencia_id()));
+                licencia.ifPresent(conductorModel::setLicencia);
+            }
 
             if (Helper.getLong(conductorCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conductorCreation.getCreador_id()));
-                if (user.isPresent())
-                    conductorModel.setCreador(user.get());
+                user.ifPresent(conductorModel::setCreador);
             }
             if (!Helper.isEmptyString(conductorCreation.getCreada()))
                 conductorModel.setCreada(Helper.stringToLocalDateTime(conductorCreation.getCreada(), ""));
             if (Helper.getLong(conductorCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conductorCreation.getModificador_id()));
-                if (user.isPresent())
-                    conductorModel.setModificador(user.get());
+                user.ifPresent(conductorModel::setModificador);
             }
             if (!Helper.isEmptyString(conductorCreation.getModificada()))
                 conductorModel.setModificada(Helper.stringToLocalDateTime(conductorCreation.getModificada(), ""));
             if (Helper.getLong(conductorCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conductorCreation.getEliminador_id()));
-                if (user.isPresent())
-                    conductorModel.setEliminador(user.get());
+                user.ifPresent(conductorModel::setEliminador);
             }
             if (!Helper.isEmptyString(conductorCreation.getEliminada()))
                 conductorModel.setEliminada(Helper.stringToLocalDateTime(conductorCreation.getEliminada(), ""));
@@ -76,18 +89,23 @@ public class ConductorMapper {
             ConductorDTO dto = new ConductorDTO();
 
             dto.setId(conductorModel.getId().toString());
-
-            private String id;
-            private List<AdelantoDTO> adelantos;
-            private CamionDTO camion;
-            private LicenciaDTO licencia;
-            private String direccion;
-            private String email;
-            private String identificacion;
-            private String nombre;
-            private String notas;
-            private String telefono;
-
+            dto.setDireccion(conductorModel.getDireccion());
+            dto.setEmail(conductorModel.getEmail());
+            dto.setIdentificacion(conductorModel.getIdentificacion());
+            dto.setNombre(conductorModel.getNombre());
+            dto.setNotas(conductorModel.getNotas());
+            dto.setTelefono(conductorModel.getTelefono());
+            if (!conductorModel.getAdelantos().isEmpty()) {
+                List<AdelantoDTO> adelantoDTOS = new ArrayList<>();
+                for (AdelantoModel adelanto:conductorModel.getAdelantos()) {
+                    adelantoDTOS.add(adelantoMapper.toDto(adelanto));
+                }
+                dto.setAdelantos(adelantoDTOS);
+            }
+            if (conductorModel.getCamion() != null)
+                dto.setCamion(camionMapper.toDto(conductorModel.getCamion()));
+            if (conductorModel.getLicencia() != null)
+                dto.setLicencia(licenciaMapper.toDto(conductorModel.getLicencia()));
 
             if (conductorModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(conductorModel.getCreador()));

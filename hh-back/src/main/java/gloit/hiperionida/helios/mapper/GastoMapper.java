@@ -3,7 +3,9 @@ package gloit.hiperionida.helios.mapper;
 import gloit.hiperionida.helios.mapper.creation.GastoCreation;
 import gloit.hiperionida.helios.mapper.dto.CategoriaGastoDTO;
 import gloit.hiperionida.helios.mapper.dto.GastoDTO;
+import gloit.hiperionida.helios.model.CategoriaGastoModel;
 import gloit.hiperionida.helios.model.GastoModel;
+import gloit.hiperionida.helios.repository.CategoriaGastoDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -20,37 +22,38 @@ import java.util.Optional;
 public class GastoMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    private final CategoriaGastoDAO categoriaGastoDAO;
+    private final CategoriaGastoMapper categoriaGastoMapper;
 
     public GastoModel toEntity(GastoCreation gastoCreation) {
         try {
             GastoModel gastoModel = new GastoModel();
 
-            private String id;
-            private String monto;
-            private String notas;
-            private String categoriaGasto_id;
-
             if (Helper.getLong(gastoCreation.getId()) != null)
                 gastoModel.setId(Helper.getLong(gastoCreation.getId()));
+            if (Helper.getDecimal(gastoCreation.getMonto()) != null)
+                gastoModel.setMonto(Helper.getDecimal(gastoCreation.getMonto()));
+            gastoModel.setNotas(gastoCreation.getNotas());
+            if (Helper.getLong(gastoCreation.getCategoriaGasto_id()) != null) {
+                Optional<CategoriaGastoModel> categoriaGasto = categoriaGastoDAO.findById(Helper.getLong(gastoCreation.getCategoriaGasto_id()));
+                categoriaGasto.ifPresent(gastoModel::setCategoriaGasto);
+            }
 
             if (Helper.getLong(gastoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(gastoCreation.getCreador_id()));
-                if (user.isPresent())
-                    gastoModel.setCreador(user.get());
+                user.ifPresent(gastoModel::setCreador);
             }
             if (!Helper.isEmptyString(gastoCreation.getCreada()))
                 gastoModel.setCreada(Helper.stringToLocalDateTime(gastoCreation.getCreada(), ""));
             if (Helper.getLong(gastoCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(gastoCreation.getModificador_id()));
-                if (user.isPresent())
-                    gastoModel.setModificador(user.get());
+                user.ifPresent(gastoModel::setModificador);
             }
             if (!Helper.isEmptyString(gastoCreation.getModificada()))
                 gastoModel.setModificada(Helper.stringToLocalDateTime(gastoCreation.getModificada(), ""));
             if (Helper.getLong(gastoCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(gastoCreation.getEliminador_id()));
-                if (user.isPresent())
-                    gastoModel.setEliminador(user.get());
+                user.ifPresent(gastoModel::setEliminador);
             }
             if (!Helper.isEmptyString(gastoCreation.getEliminada()))
                 gastoModel.setEliminada(Helper.stringToLocalDateTime(gastoCreation.getEliminada(), ""));
@@ -66,13 +69,11 @@ public class GastoMapper {
         try {
             GastoDTO dto = new GastoDTO();
 
-            private String id;
-            private String monto;
-            private String notas;
-            private CategoriaGastoDTO categoriaGasto;
-
             dto.setId(gastoModel.getId().toString());
-
+            dto.setMonto(gastoModel.getMonto().toString());
+            dto.setNotas(gastoModel.getNotas());
+            if (gastoModel.getCategoriaGasto() != null)
+                dto.setCategoriaGasto(categoriaGastoMapper.toDto(gastoModel.getCategoriaGasto()));
 
             if (gastoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(gastoModel.getCreador()));

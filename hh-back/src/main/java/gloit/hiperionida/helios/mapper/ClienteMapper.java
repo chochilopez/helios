@@ -35,22 +35,19 @@ public class ClienteMapper {
 
             if (Helper.getLong(clienteCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(clienteCreation.getCreador_id()));
-                if (user.isPresent())
-                    clienteModel.setCreador(user.get());
+                user.ifPresent(clienteModel::setCreador);
             }
             if (!Helper.isEmptyString(clienteCreation.getCreada()))
                 clienteModel.setCreada(Helper.stringToLocalDateTime(clienteCreation.getCreada(), ""));
             if (Helper.getLong(clienteCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(clienteCreation.getModificador_id()));
-                if (user.isPresent())
-                    clienteModel.setModificador(user.get());
+                user.ifPresent(clienteModel::setModificador);
             }
             if (!Helper.isEmptyString(clienteCreation.getModificada()))
                 clienteModel.setModificada(Helper.stringToLocalDateTime(clienteCreation.getModificada(), ""));
             if (Helper.getLong(clienteCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(clienteCreation.getEliminador_id()));
-                if (user.isPresent())
-                    clienteModel.setEliminador(user.get());
+                user.ifPresent(clienteModel::setEliminador);
             }
             if (!Helper.isEmptyString(clienteCreation.getEliminada()))
                 clienteModel.setEliminada(Helper.stringToLocalDateTime(clienteCreation.getEliminada(), ""));

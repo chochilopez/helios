@@ -30,22 +30,19 @@ public class CategoriaGastoMapper {
 
             if (Helper.getLong(categoriaGastoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(categoriaGastoCreation.getCreador_id()));
-                if (user.isPresent())
-                    categoriaGastoModel.setCreador(user.get());
+                user.ifPresent(categoriaGastoModel::setCreador);
             }
             if (!Helper.isEmptyString(categoriaGastoCreation.getCreada()))
                 categoriaGastoModel.setCreada(Helper.stringToLocalDateTime(categoriaGastoCreation.getCreada(), ""));
             if (Helper.getLong(categoriaGastoCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(categoriaGastoCreation.getModificador_id()));
-                if (user.isPresent())
-                    categoriaGastoModel.setModificador(user.get());
+                user.ifPresent(categoriaGastoModel::setModificador);
             }
             if (!Helper.isEmptyString(categoriaGastoCreation.getModificada()))
                 categoriaGastoModel.setModificada(Helper.stringToLocalDateTime(categoriaGastoCreation.getModificada(), ""));
             if (Helper.getLong(categoriaGastoCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(categoriaGastoCreation.getEliminador_id()));
-                if (user.isPresent())
-                    categoriaGastoModel.setEliminador(user.get());
+                user.ifPresent(categoriaGastoModel::setEliminador);
             }
             if (!Helper.isEmptyString(categoriaGastoCreation.getEliminada()))
                 categoriaGastoModel.setEliminada(Helper.stringToLocalDateTime(categoriaGastoCreation.getEliminada(), ""));

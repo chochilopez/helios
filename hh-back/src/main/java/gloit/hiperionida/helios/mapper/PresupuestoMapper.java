@@ -2,7 +2,11 @@ package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.PresupuestoCreation;
 import gloit.hiperionida.helios.mapper.dto.*;
-import gloit.hiperionida.helios.model.PresupuestoModel;
+import gloit.hiperionida.helios.model.*;
+import gloit.hiperionida.helios.repository.CategoriaViajeDAO;
+import gloit.hiperionida.helios.repository.ClienteDAO;
+import gloit.hiperionida.helios.repository.DireccionDAO;
+import gloit.hiperionida.helios.repository.EventoDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -19,49 +23,83 @@ import java.util.Optional;
 public class PresupuestoMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    private final CategoriaViajeDAO categoriaViajeDAO;
+    private final EventoDAO eventoDAO;
+    private final DireccionDAO direccionDAO;
+    private final DireccionMapper direccionMapper;
+    private final ClienteDAO clienteDAO;
+    private final CategoriaViajeMapper categoriaViajeMapper;
+    private final EventoMapper eventoMapper;
+    private final ClienteMapper clienteMapper;
 
     public PresupuestoModel toEntity(PresupuestoCreation presupuestoCreation) {
         try {
             PresupuestoModel presupuestoModel = new PresupuestoModel();
 
-            private String id;
-            private String validez;
-            private String cantidadTransportada;
-            private String valorKm;
-            private String kgNeto;
-            private String kmCargado;
-            private String kmVacio;
-            private String notas;
-            private String categoriaViaje_id;
-            private String origen_id;
-            private String carga_id;
-            private String destino_id;
-            private String vendedor_id;
-            private String intermediario_id;
-            private String comprador_id;
-            private String fecha_id;
-
             if (Helper.getLong(presupuestoCreation.getId()) != null)
                 presupuestoModel.setId(Helper.getLong(presupuestoCreation.getId()));
+            if (presupuestoCreation.getValidez() != null && Helper.stringToLocalDateTime(presupuestoCreation.getValidez(), "") != null)
+                presupuestoModel.setValidez(Helper.stringToLocalDateTime(presupuestoCreation.getValidez(), ""));
+
+            if (Helper.getDecimal(presupuestoCreation.getCantidadTransportada()) != null)
+                presupuestoModel.setCantidadTransportada(Helper.getDecimal(presupuestoCreation.getCantidadTransportada()));
+            if (Helper.getDecimal(presupuestoCreation.getValorKm()) != null)
+                presupuestoModel.setValorKm(Helper.getDecimal(presupuestoCreation.getValorKm()));
+            if (Helper.getDecimal(presupuestoCreation.getKgNeto()) != null)
+                presupuestoModel.setKgNeto(Helper.getDecimal(presupuestoCreation.getKgNeto()));
+            if (Helper.getDecimal(presupuestoCreation.getKmCargado()) != null)
+                presupuestoModel.setKmCargado(Helper.getDecimal(presupuestoCreation.getKmCargado()));
+            if (Helper.getDecimal(presupuestoCreation.getKmVacio()) != null)
+                presupuestoModel.setKmVacio(Helper.getDecimal(presupuestoCreation.getKmVacio()));
+            presupuestoModel.setNotas(presupuestoCreation.getNotas());
+            if (Helper.getLong(presupuestoCreation.getCategoriaViaje_id()) != null) {
+                Optional<CategoriaViajeModel> categoriaViaje = categoriaViajeDAO.findById(Helper.getLong(presupuestoCreation.getCategoriaViaje_id()));
+                categoriaViaje.ifPresent(presupuestoModel::setCategoriaViaje);
+            }
+            if (Helper.getLong(presupuestoCreation.getOrigen_id()) != null) {
+                Optional<DireccionModel> direccion = direccionDAO.findById(Helper.getLong(presupuestoCreation.getOrigen_id()));
+                direccion.ifPresent(presupuestoModel::setOrigen);
+            }
+            if (Helper.getLong(presupuestoCreation.getCarga_id()) != null) {
+                Optional<DireccionModel> direccion = direccionDAO.findById(Helper.getLong(presupuestoCreation.getCarga_id()));
+                direccion.ifPresent(presupuestoModel::setCarga);
+            }
+            if (Helper.getLong(presupuestoCreation.getDestino_id()) != null) {
+                Optional<DireccionModel> direccion = direccionDAO.findById(Helper.getLong(presupuestoCreation.getDestino_id()));
+                direccion.ifPresent(presupuestoModel::setDestino);
+            }
+            if (Helper.getLong(presupuestoCreation.getVendedor_id()) != null) {
+                Optional<ClienteModel> cliente = clienteDAO.findById(Helper.getLong(presupuestoCreation.getVendedor_id()));
+                cliente.ifPresent(presupuestoModel::setVendedor);
+            }
+            if (Helper.getLong(presupuestoCreation.getIntermediario_id()) != null) {
+                Optional<ClienteModel> cliente = clienteDAO.findById(Helper.getLong(presupuestoCreation.getIntermediario_id()));
+                cliente.ifPresent(presupuestoModel::setIntermediario);
+            }
+            if (Helper.getLong(presupuestoCreation.getComprador_id()) != null) {
+                Optional<ClienteModel> cliente = clienteDAO.findById(Helper.getLong(presupuestoCreation.getComprador_id()));
+                cliente.ifPresent(presupuestoModel::setComprador);
+            }
+            if (Helper.getLong(presupuestoCreation.getFecha_id()) != null) {
+                Optional<EventoModel> evento = eventoDAO.findById(Helper.getLong(presupuestoCreation.getFecha_id()));
+                evento.ifPresent(presupuestoModel::setFecha);
+            }
 
             if (Helper.getLong(presupuestoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(presupuestoCreation.getCreador_id()));
-                if (user.isPresent())
-                    presupuestoModel.setCreador(user.get());
+                user.ifPresent(presupuestoModel::setCreador);
             }
             if (!Helper.isEmptyString(presupuestoCreation.getCreada()))
                 presupuestoModel.setCreada(Helper.stringToLocalDateTime(presupuestoCreation.getCreada(), ""));
             if (Helper.getLong(presupuestoCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(presupuestoCreation.getModificador_id()));
-                if (user.isPresent())
-                    presupuestoModel.setModificador(user.get());
+                user.ifPresent(presupuestoModel::setModificador);
             }
             if (!Helper.isEmptyString(presupuestoCreation.getModificada()))
                 presupuestoModel.setModificada(Helper.stringToLocalDateTime(presupuestoCreation.getModificada(), ""));
             if (Helper.getLong(presupuestoCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(presupuestoCreation.getEliminador_id()));
-                if (user.isPresent())
-                    presupuestoModel.setEliminador(user.get());
+                user.ifPresent(presupuestoModel::setEliminador);
             }
             if (!Helper.isEmptyString(presupuestoCreation.getEliminada()))
                 presupuestoModel.setEliminada(Helper.stringToLocalDateTime(presupuestoCreation.getEliminada(), ""));
@@ -77,25 +115,30 @@ public class PresupuestoMapper {
         try {
             PresupuestoDTO dto = new PresupuestoDTO();
 
-            private String id;
-            private String validez;
-            private String cantidadTransportada;
-            private String valorKm;
-            private String kgNeto;
-            private String kmCargado;
-            private String kmVacio;
-            private String notas;
-            private CategoriaViajeDTO categoriaViaje;
-            private DireccionDTO origen;
-            private DireccionDTO carga;
-            private DireccionDTO destino;
-            private ClienteDTO vendedor;
-            private ClienteDTO intermediario;
-            private ClienteDTO comprador;
-            private EventoDTO fecha;
-
             dto.setId(presupuestoModel.getId().toString());
-
+            dto.setValidez(presupuestoModel.getValidez().toString());
+            dto.setCantidadTransportada(presupuestoModel.getCantidadTransportada().toString());
+            dto.setValorKm(presupuestoModel.getValorKm().toString());
+            dto.setKgNeto(presupuestoModel.getKgNeto().toString());
+            dto.setKmCargado(presupuestoModel.getKmCargado().toString());
+            dto.setKmVacio(presupuestoModel.getKmVacio().toString());
+            dto.setNotas(presupuestoModel.getNotas());
+            if (presupuestoModel.getCategoriaViaje() != null)
+                dto.setCategoriaViaje(categoriaViajeMapper.toDto(presupuestoModel.getCategoriaViaje()));
+            if (presupuestoModel.getOrigen() != null)
+                dto.setOrigen(direccionMapper.toDto(presupuestoModel.getOrigen()));
+            if (presupuestoModel.getCarga() != null)
+                dto.setCarga(direccionMapper.toDto(presupuestoModel.getCarga()));
+            if (presupuestoModel.getDestino() != null)
+                dto.setDestino(direccionMapper.toDto(presupuestoModel.getDestino()));
+            if (presupuestoModel.getVendedor() != null)
+                dto.setVendedor(clienteMapper.toDto(presupuestoModel.getVendedor()));
+            if (presupuestoModel.getIntermediario() != null)
+                dto.setIntermediario(clienteMapper.toDto(presupuestoModel.getIntermediario()));
+            if (presupuestoModel.getComprador() != null)
+                dto.setComprador(clienteMapper.toDto(presupuestoModel.getComprador()));
+            if (presupuestoModel.getFecha() != null)
+                dto.setFecha(eventoMapper.toDto(presupuestoModel.getFecha()));
 
             if (presupuestoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(presupuestoModel.getCreador()));

@@ -24,32 +24,27 @@ public class UbicacionMapper {
         try {
             UbicacionModel ubicacionModel = new UbicacionModel();
 
-            private String id;
-            private String ciudad;
-            private String departamento;
-            private String pais;
-
             if (Helper.getLong(ubicacionCreation.getId()) != null)
                 ubicacionModel.setId(Helper.getLong(ubicacionCreation.getId()));
+            ubicacionModel.setCiudad(ubicacionCreation.getCiudad());
+            ubicacionModel.setDepartamento(ubicacionCreation.getDepartamento());
+            ubicacionModel.setPais(ubicacionCreation.getPais());
 
             if (Helper.getLong(ubicacionCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(ubicacionCreation.getCreador_id()));
-                if (user.isPresent())
-                    ubicacionModel.setCreador(user.get());
+                user.ifPresent(ubicacionModel::setCreador);
             }
             if (!Helper.isEmptyString(ubicacionCreation.getCreada()))
                 ubicacionModel.setCreada(Helper.stringToLocalDateTime(ubicacionCreation.getCreada(), ""));
             if (Helper.getLong(ubicacionCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(ubicacionCreation.getModificador_id()));
-                if (user.isPresent())
-                    ubicacionModel.setModificador(user.get());
+                user.ifPresent(ubicacionModel::setModificador);
             }
             if (!Helper.isEmptyString(ubicacionCreation.getModificada()))
                 ubicacionModel.setModificada(Helper.stringToLocalDateTime(ubicacionCreation.getModificada(), ""));
             if (Helper.getLong(ubicacionCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(ubicacionCreation.getEliminador_id()));
-                if (user.isPresent())
-                    ubicacionModel.setEliminador(user.get());
+                user.ifPresent(ubicacionModel::setEliminador);
             }
             if (!Helper.isEmptyString(ubicacionCreation.getEliminada()))
                 ubicacionModel.setEliminada(Helper.stringToLocalDateTime(ubicacionCreation.getEliminada(), ""));
@@ -65,12 +60,10 @@ public class UbicacionMapper {
         try {
             UbicacionDTO dto = new UbicacionDTO();
 
-            private String id;
-            private String ciudad;
-            private String departamento;
-            private String pais;
-
             dto.setId(ubicacionModel.getId().toString());
+            dto.setCiudad(ubicacionModel.getCiudad());
+            dto.setDepartamento(ubicacionModel.getDepartamento());
+            dto.setPais(ubicacionModel.getPais());
 
             if (ubicacionModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(ubicacionModel.getCreador()));

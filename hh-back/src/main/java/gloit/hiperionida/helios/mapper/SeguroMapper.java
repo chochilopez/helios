@@ -4,7 +4,11 @@ import gloit.hiperionida.helios.mapper.creation.SeguroCreation;
 import gloit.hiperionida.helios.mapper.dto.EventoDTO;
 import gloit.hiperionida.helios.mapper.dto.ProveedorDTO;
 import gloit.hiperionida.helios.mapper.dto.SeguroDTO;
+import gloit.hiperionida.helios.model.EventoModel;
+import gloit.hiperionida.helios.model.ProveedorModel;
 import gloit.hiperionida.helios.model.SeguroModel;
+import gloit.hiperionida.helios.repository.EventoDAO;
+import gloit.hiperionida.helios.repository.ProveedorDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -21,17 +25,27 @@ import java.util.Optional;
 public class SeguroMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    private final ProveedorMapper proveedorMapper;
+    private final EventoMapper eventoMapper;
+    private final ProveedorDAO proveedorDAO;
+    private final EventoDAO eventoDAO;
 
     public SeguroModel toEntity(SeguroCreation seguroCreation) {
         try {
             SeguroModel seguroModel = new SeguroModel();
 
-            private String id;
-            private String aseguradora_id;
-            private String vencimiento_id;
-
             if (Helper.getLong(seguroCreation.getId()) != null)
                 seguroModel.setId(Helper.getLong(seguroCreation.getId()));
+            if (Helper.getLong(seguroCreation.getAseguradora_id()) != null) {
+                Optional<ProveedorModel> aseguradora = proveedorDAO.findById(Helper.getLong(seguroCreation.getAseguradora_id()));
+                if (aseguradora.isPresent())
+                    seguroModel.setAseguradora(aseguradora.get());
+            }
+            if (Helper.getLong(seguroCreation.getVencimiento_id()) != null) {
+                Optional<EventoModel> vencimiento = eventoDAO.findById(Helper.getLong(seguroCreation.getVencimiento_id()));
+                if (vencimiento.isPresent())
+                    seguroModel.setVencimiento(vencimiento.get());
+            }
 
             if (Helper.getLong(seguroCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(seguroCreation.getCreador_id()));
@@ -66,11 +80,11 @@ public class SeguroMapper {
         try {
             SeguroDTO dto = new SeguroDTO();
 
-            private String id;
-            private ProveedorDTO aseguradora;
-            private EventoDTO vencimiento;
-
             dto.setId(seguroModel.getId().toString());
+            if (seguroModel.getAseguradora() != null)
+                dto.setAseguradora(proveedorMapper.toDto(seguroModel.getAseguradora()));
+            if (seguroModel.getVencimiento() != null)
+                dto.setVencimiento(eventoMapper.toDto(seguroModel.getVencimiento()));
 
             if (seguroModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(seguroModel.getCreador()));

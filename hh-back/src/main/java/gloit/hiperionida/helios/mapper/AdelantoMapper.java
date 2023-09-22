@@ -42,28 +42,24 @@ public class AdelantoMapper {
                 adelantoModel.setMonto(Helper.getDecimal(adelantoCreation.getMonto()));
             if (Helper.getLong(adelantoCreation.getCaja_id()) != null) {
                 Optional<CajaModel> caja = cajaDAO.findById(Helper.getLong(adelantoCreation.getCaja_id()));
-                if (caja.isPresent())
-                    adelantoModel.setCaja(caja.get());
+                caja.ifPresent(adelantoModel::setCaja);
             }
 
             if (Helper.getLong(adelantoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(adelantoCreation.getCreador_id()));
-                if (user.isPresent())
-                    adelantoModel.setCreador(user.get());
+                user.ifPresent(adelantoModel::setCreador);
             }
             if (!Helper.isEmptyString(adelantoCreation.getCreada()))
                 adelantoModel.setCreada(Helper.stringToLocalDateTime(adelantoCreation.getCreada(), ""));
             if (Helper.getLong(adelantoCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(adelantoCreation.getModificador_id()));
-                if (user.isPresent())
-                    adelantoModel.setModificador(user.get());
+                user.ifPresent(adelantoModel::setModificador);
             }
             if (!Helper.isEmptyString(adelantoCreation.getModificada()))
                 adelantoModel.setModificada(Helper.stringToLocalDateTime(adelantoCreation.getModificada(), ""));
             if (Helper.getLong(adelantoCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(adelantoCreation.getEliminador_id()));
-                if (user.isPresent())
-                    adelantoModel.setEliminador(user.get());
+                user.ifPresent(adelantoModel::setEliminador);
             }
             if (!Helper.isEmptyString(adelantoCreation.getEliminada()))
                 adelantoModel.setEliminada(Helper.stringToLocalDateTime(adelantoCreation.getEliminada(), ""));

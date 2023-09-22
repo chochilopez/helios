@@ -30,22 +30,19 @@ public class CajaMapper {
 
             if (Helper.getLong(cajaCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(cajaCreation.getCreador_id()));
-                if (user.isPresent())
-                    cajaModel.setCreador(user.get());
+                user.ifPresent(cajaModel::setCreador);
             }
             if (!Helper.isEmptyString(cajaCreation.getCreada()))
                 cajaModel.setCreada(Helper.stringToLocalDateTime(cajaCreation.getCreada(), ""));
             if (Helper.getLong(cajaCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(cajaCreation.getModificador_id()));
-                if (user.isPresent())
-                    cajaModel.setModificador(user.get());
+                user.ifPresent(cajaModel::setModificador);
             }
             if (!Helper.isEmptyString(cajaCreation.getModificada()))
                 cajaModel.setModificada(Helper.stringToLocalDateTime(cajaCreation.getModificada(), ""));
             if (Helper.getLong(cajaCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(cajaCreation.getEliminador_id()));
-                if (user.isPresent())
-                    cajaModel.setEliminador(user.get());
+                user.ifPresent(cajaModel::setEliminador);
             }
             if (!Helper.isEmptyString(cajaCreation.getEliminada()))
                 cajaModel.setEliminada(Helper.stringToLocalDateTime(cajaCreation.getEliminada(), ""));

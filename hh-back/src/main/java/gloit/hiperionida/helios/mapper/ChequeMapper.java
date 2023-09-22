@@ -45,22 +45,19 @@ public class ChequeMapper {
 
             if (Helper.getLong(chequeCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(chequeCreation.getCreador_id()));
-                if (user.isPresent())
-                    chequeModel.setCreador(user.get());
+                user.ifPresent(chequeModel::setCreador);
             }
             if (!Helper.isEmptyString(chequeCreation.getCreada()))
                 chequeModel.setCreada(Helper.stringToLocalDateTime(chequeCreation.getCreada(), ""));
             if (Helper.getLong(chequeCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(chequeCreation.getModificador_id()));
-                if (user.isPresent())
-                    chequeModel.setModificador(user.get());
+                user.ifPresent(chequeModel::setModificador);
             }
             if (!Helper.isEmptyString(chequeCreation.getModificada()))
                 chequeModel.setModificada(Helper.stringToLocalDateTime(chequeCreation.getModificada(), ""));
             if (Helper.getLong(chequeCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(chequeCreation.getEliminador_id()));
-                if (user.isPresent())
-                    chequeModel.setEliminador(user.get());
+                user.ifPresent(chequeModel::setEliminador);
             }
             if (!Helper.isEmptyString(chequeCreation.getEliminada()))
                 chequeModel.setEliminada(Helper.stringToLocalDateTime(chequeCreation.getEliminada(), ""));

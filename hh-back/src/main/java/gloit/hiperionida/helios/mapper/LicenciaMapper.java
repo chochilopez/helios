@@ -3,7 +3,9 @@ package gloit.hiperionida.helios.mapper;
 import gloit.hiperionida.helios.mapper.creation.LicenciaCreation;
 import gloit.hiperionida.helios.mapper.dto.EventoDTO;
 import gloit.hiperionida.helios.mapper.dto.LicenciaDTO;
+import gloit.hiperionida.helios.model.EventoModel;
 import gloit.hiperionida.helios.model.LicenciaModel;
+import gloit.hiperionida.helios.repository.EventoDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -20,39 +22,37 @@ import java.util.Optional;
 public class LicenciaMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    private final EventoDAO eventoDAO;
+    private final EventoMapper eventoMapper;
 
     public LicenciaModel toEntity(LicenciaCreation licenciaCreation) {
         try {
             LicenciaModel licenciaModel = new LicenciaModel();
 
-
-            private String id;
-            private String numero;
-            private String categoria;
-            private String vencimiento_id;
-
-
             if (Helper.getLong(licenciaCreation.getId()) != null)
                 licenciaModel.setId(Helper.getLong(licenciaCreation.getId()));
+            licenciaModel.setNumero(licenciaCreation.getNumero());
+            licenciaModel.setCategoria(licenciaCreation.getCategoria());
+            if (Helper.getLong(licenciaCreation.getVencimiento_id()) != null) {
+                Optional<EventoModel> vencimiento = eventoDAO.findById(Helper.getLong(licenciaCreation.getVencimiento_id()));
+                vencimiento.ifPresent(licenciaModel::setVencimiento);
+            }
 
             if (Helper.getLong(licenciaCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(licenciaCreation.getCreador_id()));
-                if (user.isPresent())
-                    licenciaModel.setCreador(user.get());
+                user.ifPresent(licenciaModel::setCreador);
             }
             if (!Helper.isEmptyString(licenciaCreation.getCreada()))
                 licenciaModel.setCreada(Helper.stringToLocalDateTime(licenciaCreation.getCreada(), ""));
             if (Helper.getLong(licenciaCreation.getModificador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(licenciaCreation.getModificador_id()));
-                if (user.isPresent())
-                    licenciaModel.setModificador(user.get());
+                user.ifPresent(licenciaModel::setModificador);
             }
             if (!Helper.isEmptyString(licenciaCreation.getModificada()))
                 licenciaModel.setModificada(Helper.stringToLocalDateTime(licenciaCreation.getModificada(), ""));
             if (Helper.getLong(licenciaCreation.getEliminador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(licenciaCreation.getEliminador_id()));
-                if (user.isPresent())
-                    licenciaModel.setEliminador(user.get());
+                user.ifPresent(licenciaModel::setEliminador);
             }
             if (!Helper.isEmptyString(licenciaCreation.getEliminada()))
                 licenciaModel.setEliminada(Helper.stringToLocalDateTime(licenciaCreation.getEliminada(), ""));
@@ -68,13 +68,11 @@ public class LicenciaMapper {
         try {
             LicenciaDTO dto = new LicenciaDTO();
 
-            private String id;
-            private String numero;
-            private String categoria;
-            private EventoDTO vencimiento;
-
             dto.setId(licenciaModel.getId().toString());
-
+            dto.setNumero(licenciaModel.getNumero());
+            dto.setCategoria(licenciaModel.getCategoria());
+            if (licenciaModel.getVencimiento() != null)
+                dto.setVencimiento(eventoMapper.toDto(licenciaModel.getVencimiento()));
 
             if (licenciaModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(licenciaModel.getCreador()));
