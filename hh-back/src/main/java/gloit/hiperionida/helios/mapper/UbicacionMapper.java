@@ -24,6 +24,11 @@ public class UbicacionMapper {
         try {
             UbicacionModel ubicacionModel = new UbicacionModel();
 
+            private String id;
+            private String ciudad;
+            private String departamento;
+            private String pais;
+
             if (Helper.getLong(ubicacionCreation.getId()) != null)
                 ubicacionModel.setId(Helper.getLong(ubicacionCreation.getId()));
 
@@ -59,6 +64,11 @@ public class UbicacionMapper {
     public UbicacionDTO toDto(UbicacionModel ubicacionModel) {
         try {
             UbicacionDTO dto = new UbicacionDTO();
+
+            private String id;
+            private String ciudad;
+            private String departamento;
+            private String pais;
 
             dto.setId(ubicacionModel.getId().toString());
 

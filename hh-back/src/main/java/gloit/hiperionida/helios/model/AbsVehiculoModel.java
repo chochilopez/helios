@@ -11,10 +11,10 @@ import jakarta.persistence.*;
 @MappedSuperclass
 @Setter
 public abstract class AbsVehiculoModel extends AbsAuditoriaModel {
-    private	Integer cantidadNeumaticos;
+    private	String cantidadNeumaticos;
     private	String marca;
     private String modelo;
     private String anio;
     private String patente;
-    private Double peso;
+    private String peso;
 }

@@ -24,12 +24,10 @@ public class BancoMapper {
         try {
             BancoModel bancoModel = new BancoModel();
 
-            private String id;
-            private String banco;
-            private String notas;
-
             if (Helper.getLong(bancoCreation.getId()) != null)
                 bancoModel.setId(Helper.getLong(bancoCreation.getId()));
+            bancoModel.setBanco(bancoCreation.getBanco());
+            bancoModel.setNotas(bancoCreation.getNotas());
 
             if (Helper.getLong(bancoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(bancoCreation.getCreador_id()));
@@ -64,13 +62,10 @@ public class BancoMapper {
         try {
             BancoDTO dto = new BancoDTO();
 
-            private String id;
-            private String banco;
-            private String notas;
-
             dto.setId(bancoModel.getId().toString());
+            dto.setBanco(bancoModel.getBanco());
+            dto.setNotas(bancoModel.getNotas());
 
-            
             if (bancoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(bancoModel.getCreador()));
             if (bancoModel.getCreada() != null)

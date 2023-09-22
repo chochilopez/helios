@@ -15,7 +15,7 @@ public class ChequeDTO extends AbsAuditoriaDTO implements Serializable {
     private String fechaEmision;
     private String monto;
     private String numeroCheque;
-    private BancoDTO banco;
-    private ProveedorDTO entregadoA;
-    private ClienteDTO recibidoDe;
+    private String banco;
+    private String entregadoA;
+    private String recibidoDe;
 }

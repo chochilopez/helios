@@ -27,6 +27,13 @@ public class ProveedorMapper {
             if (Helper.getLong(proveedorCreation.getId()) != null)
                 proveedorModel.setId(Helper.getLong(proveedorCreation.getId()));
 
+            private String direccion;
+            private String email;
+            private String identificacion;
+            private String nombre;
+            private String notas;
+            private String telefono;
+
 
             if (Helper.getLong(proveedorCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(proveedorCreation.getCreador_id()));
@@ -62,6 +69,13 @@ public class ProveedorMapper {
             ProveedorDTO dto = new ProveedorDTO();
 
             dto.setId(proveedorModel.getId().toString());
+
+            private String direccion;
+            private String email;
+            private String identificacion;
+            private String nombre;
+            private String notas;
+            private String telefono;
 
 
             if (proveedorModel.getCreador() != null)

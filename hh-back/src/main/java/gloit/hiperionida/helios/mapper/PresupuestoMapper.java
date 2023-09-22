@@ -1,7 +1,7 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.PresupuestoCreation;
-import gloit.hiperionida.helios.mapper.dto.PresupuestoDTO;
+import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -23,6 +23,23 @@ public class PresupuestoMapper {
     public PresupuestoModel toEntity(PresupuestoCreation presupuestoCreation) {
         try {
             PresupuestoModel presupuestoModel = new PresupuestoModel();
+
+            private String id;
+            private String validez;
+            private String cantidadTransportada;
+            private String valorKm;
+            private String kgNeto;
+            private String kmCargado;
+            private String kmVacio;
+            private String notas;
+            private String categoriaViaje_id;
+            private String origen_id;
+            private String carga_id;
+            private String destino_id;
+            private String vendedor_id;
+            private String intermediario_id;
+            private String comprador_id;
+            private String fecha_id;
 
             if (Helper.getLong(presupuestoCreation.getId()) != null)
                 presupuestoModel.setId(Helper.getLong(presupuestoCreation.getId()));
@@ -59,6 +76,23 @@ public class PresupuestoMapper {
     public PresupuestoDTO toDto(PresupuestoModel presupuestoModel) {
         try {
             PresupuestoDTO dto = new PresupuestoDTO();
+
+            private String id;
+            private String validez;
+            private String cantidadTransportada;
+            private String valorKm;
+            private String kgNeto;
+            private String kmCargado;
+            private String kmVacio;
+            private String notas;
+            private CategoriaViajeDTO categoriaViaje;
+            private DireccionDTO origen;
+            private DireccionDTO carga;
+            private DireccionDTO destino;
+            private ClienteDTO vendedor;
+            private ClienteDTO intermediario;
+            private ClienteDTO comprador;
+            private EventoDTO fecha;
 
             dto.setId(presupuestoModel.getId().toString());
 

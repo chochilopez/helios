@@ -1,6 +1,8 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.SeguroCreation;
+import gloit.hiperionida.helios.mapper.dto.EventoDTO;
+import gloit.hiperionida.helios.mapper.dto.ProveedorDTO;
 import gloit.hiperionida.helios.mapper.dto.SeguroDTO;
 import gloit.hiperionida.helios.model.SeguroModel;
 import gloit.hiperionida.helios.util.Helper;
@@ -23,6 +25,10 @@ public class SeguroMapper {
     public SeguroModel toEntity(SeguroCreation seguroCreation) {
         try {
             SeguroModel seguroModel = new SeguroModel();
+
+            private String id;
+            private String aseguradora_id;
+            private String vencimiento_id;
 
             if (Helper.getLong(seguroCreation.getId()) != null)
                 seguroModel.setId(Helper.getLong(seguroCreation.getId()));
@@ -59,6 +65,10 @@ public class SeguroMapper {
     public SeguroDTO toDto(SeguroModel seguroModel) {
         try {
             SeguroDTO dto = new SeguroDTO();
+
+            private String id;
+            private ProveedorDTO aseguradora;
+            private EventoDTO vencimiento;
 
             dto.setId(seguroModel.getId().toString());
 

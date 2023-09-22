@@ -24,11 +24,9 @@ public class CategoriaViajeMapper {
         try {
             CategoriaViajeModel categoriaViajeModel = new CategoriaViajeModel();
 
-            private String id;
-            private String categoria;
-
             if (Helper.getLong(categoriaViajeCreation.getId()) != null)
                 categoriaViajeModel.setId(Helper.getLong(categoriaViajeCreation.getId()));
+            categoriaViajeModel.setCategoria(categoriaViajeCreation.getCategoria());
 
             if (Helper.getLong(categoriaViajeCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(categoriaViajeCreation.getCreador_id()));
@@ -63,11 +61,8 @@ public class CategoriaViajeMapper {
         try {
             CategoriaViajeDTO dto = new CategoriaViajeDTO();
 
-            private String id;
-            private String categoria;
-
             dto.setId(categoriaViajeModel.getId().toString());
-
+            dto.setCategoria(categoriaViajeModel.getCategoria());
 
             if (categoriaViajeModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(categoriaViajeModel.getCreador()));

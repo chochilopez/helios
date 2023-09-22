@@ -24,6 +24,9 @@ public class PlanCuentaMapper {
         try {
             PlanCuentaModel planCuentaModel = new PlanCuentaModel();
 
+            private String id;
+            private String nombre;
+
             if (Helper.getLong(planCuentaCreation.getId()) != null)
                 planCuentaModel.setId(Helper.getLong(planCuentaCreation.getId()));
 
@@ -59,6 +62,9 @@ public class PlanCuentaMapper {
     public PlanCuentaDTO toDto(PlanCuentaModel planCuentaModel) {
         try {
             PlanCuentaDTO dto = new PlanCuentaDTO();
+
+            private String id;
+            private String nombre;
 
             dto.setId(planCuentaModel.getId().toString());
 

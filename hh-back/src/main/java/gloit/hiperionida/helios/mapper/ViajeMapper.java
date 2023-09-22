@@ -1,7 +1,7 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.ViajeCreation;
-import gloit.hiperionida.helios.mapper.dto.ViajeDTO;
+import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -23,6 +24,27 @@ public class ViajeMapper {
     public ViajeModel toEntity(ViajeCreation viajeCreation) {
         try {
             ViajeModel viajeModel = new ViajeModel();
+
+            private String id;
+            private String guia;
+            private String conductor_id;
+            private String camion_id;
+            private String acoplado_id;
+            private List<String> gastos_id;
+            private String cantidadTransportada;
+            private String valorKm;
+            private String kgNeto;
+            private String kmCargado;
+            private String kmVacio;
+            private String notas;
+            private String categoriaViaje_id;
+            private String origen_id;
+            private String carga_id;
+            private String destino_id;
+            private String vendedor_id;
+            private String intermediario_id;
+            private String comprador_id;
+            private String fecha_id;
 
             if (Helper.getLong(viajeCreation.getId()) != null)
                 viajeModel.setId(Helper.getLong(viajeCreation.getId()));
@@ -59,6 +81,27 @@ public class ViajeMapper {
     public ViajeDTO toDto(ViajeModel viajeModel) {
         try {
             ViajeDTO dto = new ViajeDTO();
+
+            private String id;
+            private String guia;
+            private ConductorDTO conductor;
+            private CamionDTO camion;
+            private AcopladoDTO acoplado;
+            private List<GastoDTO> gastos;
+            private String cantidadTransportada;
+            private String valorKm;
+            private String kgNeto;
+            private String kmCargado;
+            private String kmVacio;
+            private String notas;
+            private CategoriaViajeDTO categoriaViaje;
+            private DireccionDTO origen;
+            private DireccionDTO carga;
+            private DireccionDTO destino;
+            private ClienteDTO vendedor;
+            private ClienteDTO intermediario;
+            private ClienteDTO comprador;
+            private EventoDTO fecha;
 
             dto.setId(viajeModel.getId().toString());
 

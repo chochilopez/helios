@@ -4,6 +4,8 @@ import gloit.hiperionida.helios.mapper.creation.AdelantoCreation;
 import gloit.hiperionida.helios.mapper.dto.AdelantoDTO;
 import gloit.hiperionida.helios.mapper.dto.CajaDTO;
 import gloit.hiperionida.helios.model.AdelantoModel;
+import gloit.hiperionida.helios.model.CajaModel;
+import gloit.hiperionida.helios.repository.CajaDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -20,22 +22,29 @@ import java.util.Optional;
 public class AdelantoMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    private final CajaDAO cajaDAO;
+    private final CajaMapper cajaMapper;
 
     public AdelantoModel toEntity(AdelantoCreation adelantoCreation) {
         try {
             AdelantoModel adelantoModel = new AdelantoModel();
 
-            private String id;
-            private String descripcion;
-            private String fecha;
-            private String monto;
-            private String notas;
-            private String recibo;
-            private String rendido;
-            private String caja_id;
-
             if (Helper.getLong(adelantoCreation.getId()) != null)
                 adelantoModel.setId(Helper.getLong(adelantoCreation.getId()));
+            adelantoModel.setDescripcion(adelantoCreation.getDescripcion());
+            adelantoModel.setNotas(adelantoCreation.getNotas());
+            adelantoModel.setRecibo(adelantoCreation.getRecibo());
+            if (Helper.getBoolean(adelantoCreation.getRendido()) != null)
+                adelantoModel.setRendido(Helper.getBoolean(adelantoCreation.getRendido()));
+            if (adelantoCreation.getFecha() != null && Helper.stringToLocalDateTime(adelantoCreation.getFecha(), "") != null)
+                adelantoModel.setFecha(Helper.stringToLocalDateTime(adelantoCreation.getFecha(), ""));
+            if (Helper.getDecimal(adelantoCreation.getMonto()) != null)
+                adelantoModel.setMonto(Helper.getDecimal(adelantoCreation.getMonto()));
+            if (Helper.getLong(adelantoCreation.getCaja_id()) != null) {
+                Optional<CajaModel> caja = cajaDAO.findById(Helper.getLong(adelantoCreation.getCaja_id()));
+                if (caja.isPresent())
+                    adelantoModel.setCaja(caja.get());
+            }
 
             if (Helper.getLong(adelantoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(adelantoCreation.getCreador_id()));
@@ -70,17 +79,15 @@ public class AdelantoMapper {
         try {
             AdelantoDTO dto = new AdelantoDTO();
 
-            private String id;
-            private String descripcion;
-            private String fecha;
-            private String monto;
-            private String notas;
-            private String recibo;
-            private String rendido;
-            private CajaDTO caja;
-
             dto.setId(adelantoModel.getId().toString());
-
+            dto.setDescripcion(adelantoModel.getDescripcion());
+            dto.setFecha(adelantoModel.getFecha().toString());
+            dto.setMonto(adelantoModel.getMonto().toString());
+            dto.setNotas(adelantoModel.getNotas());
+            dto.setRecibo(adelantoModel.getRecibo());
+            dto.setRendido(adelantoModel.getRendido().toString());
+            if (adelantoModel.getCaja() != null)
+                dto.setCaja(cajaMapper.toDto(adelantoModel.getCaja()));
 
             if (adelantoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(adelantoModel.getCreador()));

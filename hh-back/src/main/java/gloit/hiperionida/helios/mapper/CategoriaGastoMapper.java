@@ -24,11 +24,9 @@ public class CategoriaGastoMapper {
         try {
             CategoriaGastoModel categoriaGastoModel = new CategoriaGastoModel();
 
-            private String id;
-            private String categoria;
-
             if (Helper.getLong(categoriaGastoCreation.getId()) != null)
                 categoriaGastoModel.setId(Helper.getLong(categoriaGastoCreation.getId()));
+            categoriaGastoModel.setCategoria(categoriaGastoCreation.getCategoria());
 
             if (Helper.getLong(categoriaGastoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(categoriaGastoCreation.getCreador_id()));
@@ -62,12 +60,9 @@ public class CategoriaGastoMapper {
     public CategoriaGastoDTO toDto(CategoriaGastoModel categoriaGastoModel) {
         try {
             CategoriaGastoDTO dto = new CategoriaGastoDTO();
-            private String id;
-            private String categoria;
-
 
             dto.setId(categoriaGastoModel.getId().toString());
-
+            dto.setCategoria(categoriaGastoModel.getCategoria());
 
             if (categoriaGastoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(categoriaGastoModel.getCreador()));

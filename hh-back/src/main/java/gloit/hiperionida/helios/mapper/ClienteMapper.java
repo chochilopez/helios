@@ -24,15 +24,14 @@ public class ClienteMapper {
         try {
             ClienteModel clienteModel = new ClienteModel();
 
-            private String direccion;
-            private String email;
-            private String identificacion;
-            private String nombre;
-            private String notas;
-            private String telefono;
-
             if (Helper.getLong(clienteCreation.getId()) != null)
                 clienteModel.setId(Helper.getLong(clienteCreation.getId()));
+            clienteModel.setDireccion(clienteCreation.getDireccion());
+            clienteModel.setEmail(clienteCreation.getEmail());
+            clienteModel.setIdentificacion(clienteCreation.getIdentificacion());
+            clienteModel.setNombre(clienteCreation.getNombre());
+            clienteModel.setNotas(clienteCreation.getNotas());
+            clienteModel.setTelefono(clienteCreation.getTelefono());
 
             if (Helper.getLong(clienteCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(clienteCreation.getCreador_id()));
@@ -67,15 +66,13 @@ public class ClienteMapper {
         try {
             ClienteDTO dto = new ClienteDTO();
 
-            private String direccion;
-            private String email;
-            private String identificacion;
-            private String nombre;
-            private String notas;
-            private String telefono;
-
             dto.setId(clienteModel.getId().toString());
-
+            dto.setDireccion(clienteModel.getDireccion());
+            dto.setEmail(clienteModel.getEmail());
+            dto.setIdentificacion(clienteModel.getIdentificacion());
+            dto.setNombre(clienteModel.getNombre());
+            dto.setNotas(clienteModel.getNotas());
+            dto.setTelefono(clienteModel.getTelefono());
 
             if (clienteModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(clienteModel.getCreador()));

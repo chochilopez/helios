@@ -24,11 +24,9 @@ public class CajaMapper {
         try {
             CajaModel cajaModel = new CajaModel();
 
-            private String id;
-            private String nombre;
-
             if (Helper.getLong(cajaCreation.getId()) != null)
                 cajaModel.setId(Helper.getLong(cajaCreation.getId()));
+            cajaModel.setNombre(cajaCreation.getNombre());
 
             if (Helper.getLong(cajaCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(cajaCreation.getCreador_id()));
@@ -63,10 +61,8 @@ public class CajaMapper {
         try {
             CajaDTO dto = new CajaDTO();
 
-            private String id;
-            private String nombre;
-
             dto.setId(cajaModel.getId().toString());
+            dto.setNombre(cajaModel.getNombre());
 
 
             if (cajaModel.getCreador() != null)

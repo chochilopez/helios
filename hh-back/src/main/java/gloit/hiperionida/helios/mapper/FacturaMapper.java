@@ -1,7 +1,7 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.FacturaCreation;
-import gloit.hiperionida.helios.mapper.dto.FacturaDTO;
+import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.FacturaModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -23,6 +24,20 @@ public class FacturaMapper {
     public FacturaModel toEntity(FacturaCreation facturaCreation) {
         try {
             FacturaModel facturaModel = new FacturaModel();
+
+            private String id;
+            private String descuento;
+            private String fecha;
+            private String iva;
+            private String numeroComprobante;
+            private String recarga;
+            private String subTotal;
+            private String tipoComprobante;
+            private String pagada;
+            private String movimiento_id;
+            private List<String> pagos_id;
+            private String remito_id;
+            private String viaje_id;
 
             if (Helper.getLong(facturaCreation.getId()) != null)
                 facturaModel.setId(Helper.getLong(facturaCreation.getId()));
@@ -59,6 +74,20 @@ public class FacturaMapper {
     public FacturaDTO toDto(FacturaModel facturaModel) {
         try {
             FacturaDTO dto = new FacturaDTO();
+
+            private String id;
+            private String descuento;
+            private String fecha;
+            private String iva;
+            private String numeroComprobante;
+            private String recarga;
+            private String subTotal;
+            private String tipoComprobante;
+            private String pagada;
+            private MovimientoDTO movimiento;
+            private List<PagoDTO> pagos;
+            private RemitoDTO remito;
+            private ViajeDTO viaje;
 
             dto.setId(facturaModel.getId().toString());
 

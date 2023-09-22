@@ -14,7 +14,7 @@ public class ChequeCreation extends AbsAuditoriaCreation {
     private String fechaEmision;
     private String monto;
     private String numeroCheque;
-    private String banco_id;
-    private String entregadoA_id;
-    private String recibidoDe_id;
+    private String banco;
+    private String entregadoA;
+    private String recibidoDe;
 }

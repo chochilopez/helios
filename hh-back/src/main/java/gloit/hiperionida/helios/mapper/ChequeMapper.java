@@ -1,11 +1,9 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.ChequeCreation;
-import gloit.hiperionida.helios.mapper.dto.BancoDTO;
 import gloit.hiperionida.helios.mapper.dto.ChequeDTO;
-import gloit.hiperionida.helios.mapper.dto.ClienteDTO;
-import gloit.hiperionida.helios.mapper.dto.ProveedorDTO;
 import gloit.hiperionida.helios.model.ChequeModel;
+import gloit.hiperionida.helios.model.enums.EstadoChequeEnum;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -27,21 +25,23 @@ public class ChequeMapper {
         try {
             ChequeModel chequeModel = new ChequeModel();
 
-            private String id;
-            private String cuitEmisor;
-            private String destinatario;
-            private String emisor;
-            private String estado;
-            private String fechaCobro;
-            private String fechaEmision;
-            private String monto;
-            private String numeroCheque;
-            private String banco_id;
-            private String entregadoA_id;
-            private String recibidoDe_id;
-
             if (Helper.getLong(chequeCreation.getId()) != null)
                 chequeModel.setId(Helper.getLong(chequeCreation.getId()));
+            chequeModel.setCuitEmisor(chequeCreation.getCuitEmisor());
+            chequeModel.setDestinatario(chequeCreation.getDestinatario());
+            chequeModel.setEmisor(chequeCreation.getEmisor());
+            chequeModel.setEntregadoA(chequeCreation.getEntregadoA());
+            chequeModel.setRecibidoDe(chequeCreation.getRecibidoDe());
+            chequeModel.setBanco(chequeCreation.getBanco());
+            if (chequeCreation.getEstado() != null)
+                chequeModel.setEstado(EstadoChequeEnum.valueOf(chequeCreation.getEstado()));
+            if (chequeCreation.getFechaCobro() != null && Helper.stringToLocalDateTime(chequeCreation.getFechaCobro(), "") != null)
+                chequeModel.setFechaCobro(Helper.stringToLocalDateTime(chequeCreation.getFechaCobro(), ""));
+            if (chequeCreation.getFechaEmision() != null && Helper.stringToLocalDateTime(chequeCreation.getFechaEmision(), "") != null)
+                chequeModel.setFechaEmision(Helper.stringToLocalDateTime(chequeCreation.getFechaEmision(), ""));
+            if (Helper.getDecimal(chequeCreation.getMonto()) != null)
+                chequeModel.setMonto(Helper.getDecimal(chequeCreation.getMonto()));
+            chequeModel.setNumeroCheque(chequeCreation.getNumeroCheque());
 
             if (Helper.getLong(chequeCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(chequeCreation.getCreador_id()));
@@ -76,21 +76,19 @@ public class ChequeMapper {
         try {
             ChequeDTO dto = new ChequeDTO();
 
-            private String id;
-            private String cuitEmisor;
-            private String destinatario;
-            private String emisor;
-            private String estado;
-            private String fechaCobro;
-            private String fechaEmision;
-            private String monto;
-            private String numeroCheque;
-            private BancoDTO banco;
-            private ProveedorDTO entregadoA;
-            private ClienteDTO recibidoDe;
-
             dto.setId(chequeModel.getId().toString());
-
+            dto.setCuitEmisor(chequeModel.getCuitEmisor());
+            dto.setDestinatario(chequeModel.getDestinatario());
+            dto.setEmisor(chequeModel.getEmisor());
+            dto.setEstado(chequeModel.getEstado().toString());
+            dto.setFechaCobro(chequeModel.getFechaCobro().toString());
+            dto.setFechaEmision(chequeModel.getFechaEmision().toString());
+            dto.setMonto(chequeModel.getMonto().toString());
+            dto.setNumeroCheque(chequeModel.getNumeroCheque());
+            dto.setCuitEmisor(chequeModel.getCuitEmisor());
+            dto.setBanco(chequeModel.getBanco());
+            dto.setEntregadoA(chequeModel.getEntregadoA());
+            dto.setRecibidoDe(chequeModel.getRecibidoDe());
 
             if (chequeModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(chequeModel.getCreador()));

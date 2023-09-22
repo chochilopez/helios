@@ -24,6 +24,11 @@ public class RemitoMapper {
         try {
             RemitoModel remitoModel = new RemitoModel();
 
+            private String id;
+            private String descripcion;
+            private String fecha;
+            private String numero;
+
             if (Helper.getLong(remitoCreation.getId()) != null)
                 remitoModel.setId(Helper.getLong(remitoCreation.getId()));
 
@@ -59,6 +64,11 @@ public class RemitoMapper {
     public RemitoDTO toDto(RemitoModel remitoModel) {
         try {
             RemitoDTO dto = new RemitoDTO();
+
+            private String id;
+            private String descripcion;
+            private String fecha;
+            private String numero;
 
             dto.setId(remitoModel.getId().toString());
 

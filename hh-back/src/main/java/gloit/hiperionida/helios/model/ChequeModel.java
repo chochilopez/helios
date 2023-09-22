@@ -26,14 +26,8 @@ public class ChequeModel extends AbsAuditoriaModel {
     private LocalDateTime fechaEmision;
     private Double monto;
     private String numeroCheque;
-
-    @ManyToOne()
-    private BancoModel banco;
-
-    @ManyToOne()
-    private ProveedorModel entregadoA;
-
-    @ManyToOne()
-    private ClienteModel recibidoDe;
+    private String banco;
+    private String entregadoA;
+    private String recibidoDe;
 
 }

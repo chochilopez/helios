@@ -5,6 +5,7 @@ import gloit.hiperionida.helios.mapper.dto.VisitaDTO;
 import gloit.hiperionida.helios.model.VisitaModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
+import gloit.hiperionida.helios.util.mapper.dto.UsuarioDTO;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,20 @@ public class VisitaMapper {
     public VisitaModel toEntity(VisitaCreation visitaCreation) {
         try {
             VisitaModel visitaModel = new VisitaModel();
+
+            private String id;
+            private String ip;
+            private String hostname;
+            private String country_name;
+            private String state_prov;
+            private String district;
+            private String city;
+            private String zipcode;
+            private String country_flag;
+            private String isp;
+            private String organization;
+            private String asn;
+            private String visitante_id;
 
             if (Helper.getLong(visitaCreation.getId()) != null)
                 visitaModel.setId(Helper.getLong(visitaCreation.getId()));
@@ -59,6 +74,20 @@ public class VisitaMapper {
     public VisitaDTO toDto(VisitaModel visitaModel) {
         try {
             VisitaDTO dto = new VisitaDTO();
+
+            private String id;
+            private String ip;
+            private String hostname;
+            private String country_name;
+            private String state_prov;
+            private String district;
+            private String city;
+            private String zipcode;
+            private String country_flag;
+            private String isp;
+            private String organization;
+            private String asn; //
+            private UsuarioDTO visitante;
 
             dto.setId(visitaModel.getId().toString());
 

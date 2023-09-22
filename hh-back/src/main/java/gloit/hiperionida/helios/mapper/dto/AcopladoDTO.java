@@ -6,7 +6,7 @@ import java.util.List;
 
 @Setter
 public class AcopladoDTO extends AbsVehiculoDTO implements Serializable {
-    private Long id;
+    private String id;
     private List<NeumaticoDTO> neumaticos;
     private SeguroDTO seguro;
 }

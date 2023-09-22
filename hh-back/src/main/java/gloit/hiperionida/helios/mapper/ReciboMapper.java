@@ -24,6 +24,10 @@ public class ReciboMapper {
         try {
             ReciboModel reciboModel = new ReciboModel();
 
+            private String id;
+            private String monto;
+            private String fecha;
+
             if (Helper.getLong(reciboCreation.getId()) != null)
                 reciboModel.setId(Helper.getLong(reciboCreation.getId()));
 
@@ -61,6 +65,10 @@ public class ReciboMapper {
             ReciboDTO dto = new ReciboDTO();
 
             dto.setId(reciboModel.getId().toString());
+
+            private String id;
+            private String monto;
+            private String fecha;
 
 
             if (reciboModel.getCreador() != null)

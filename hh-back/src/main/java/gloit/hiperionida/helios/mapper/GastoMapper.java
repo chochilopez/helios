@@ -1,6 +1,7 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.GastoCreation;
+import gloit.hiperionida.helios.mapper.dto.CategoriaGastoDTO;
 import gloit.hiperionida.helios.mapper.dto.GastoDTO;
 import gloit.hiperionida.helios.model.GastoModel;
 import gloit.hiperionida.helios.util.Helper;
@@ -23,6 +24,11 @@ public class GastoMapper {
     public GastoModel toEntity(GastoCreation gastoCreation) {
         try {
             GastoModel gastoModel = new GastoModel();
+
+            private String id;
+            private String monto;
+            private String notas;
+            private String categoriaGasto_id;
 
             if (Helper.getLong(gastoCreation.getId()) != null)
                 gastoModel.setId(Helper.getLong(gastoCreation.getId()));
@@ -59,6 +65,11 @@ public class GastoMapper {
     public GastoDTO toDto(GastoModel gastoModel) {
         try {
             GastoDTO dto = new GastoDTO();
+
+            private String id;
+            private String monto;
+            private String notas;
+            private CategoriaGastoDTO categoriaGasto;
 
             dto.setId(gastoModel.getId().toString());
 

@@ -2,6 +2,7 @@ package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.NeumaticoCreation;
 import gloit.hiperionida.helios.mapper.dto.NeumaticoDTO;
+import gloit.hiperionida.helios.mapper.dto.ProveedorDTO;
 import gloit.hiperionida.helios.model.NeumaticoModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -23,6 +24,20 @@ public class NeumaticoMapper {
     public NeumaticoModel toEntity(NeumaticoCreation neumaticoCreation) {
         try {
             NeumaticoModel neumaticoModel = new NeumaticoModel();
+
+            private String id;
+            private String fechaCompra;
+            private String kmVida;
+            private String kmActuales;
+            private String kmRecapado;
+            private String numeroRemito;
+            private String marca ;
+            private String precioCompra;
+            private String recapadosMaximos;
+            private String ubicacion;
+            private String estado;
+            private String baja;
+            private String proveedor_id;
 
             if (Helper.getLong(neumaticoCreation.getId()) != null)
                 neumaticoModel.setId(Helper.getLong(neumaticoCreation.getId()));
@@ -59,6 +74,20 @@ public class NeumaticoMapper {
     public NeumaticoDTO toDto(NeumaticoModel neumaticoModel) {
         try {
             NeumaticoDTO dto = new NeumaticoDTO();
+
+            private String id;
+            private String fechaCompra;
+            private String kmVida;
+            private String kmActuales;
+            private String kmRecapado;
+            private String numeroRemito;
+            private String marca ;
+            private String precioCompra;
+            private String recapadosMaximos;
+            private String ubicacion;
+            private String estado;
+            private String baja;
+            private ProveedorDTO proveedor;
 
             dto.setId(neumaticoModel.getId().toString());
 

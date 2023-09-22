@@ -24,6 +24,18 @@ public class ServicioMapper {
         try {
             ServicioModel servicioModel = new ServicioModel();
 
+            private String id;
+            private String kmServicio;
+            private String kmActual;
+            private String kmProximo;
+            private String tipo;
+            private	String cantidadNeumaticos;
+            private	String marca;
+            private String modelo;
+            private String anio;
+            private String patente;
+            private String peso;
+
             if (Helper.getLong(servicioCreation.getId()) != null)
                 servicioModel.setId(Helper.getLong(servicioCreation.getId()));
 
@@ -59,6 +71,17 @@ public class ServicioMapper {
     public ServicioDTO toDto(ServicioModel servicioModel) {
         try {
             ServicioDTO dto = new ServicioDTO();
+
+            private String id;
+            private String kmServicio;
+            private String kmActual;
+            private String kmProximo;
+            private String tipo;    private	String cantidadNeumaticos;
+            private	String marca;
+            private String modelo;
+            private String anio;
+            private String patente;
+            private String peso;
 
             dto.setId(servicioModel.getId().toString());
 

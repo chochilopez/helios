@@ -42,11 +42,15 @@ public class Helper {
     }
 
     public static LocalDateTime stringToLocalDateTime(String date, String format) {
-        if (format.isEmpty())
-            format = "HH:mm:ss dd-MM-yyyy";
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+        try {
+            if (format.isEmpty())
+                format = "HH:mm:ss dd-MM-yyyy";
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
 
-        return LocalDateTime.parse(date, dateTimeFormatter);
+            return LocalDateTime.parse(date, dateTimeFormatter);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static LocalDateTime getNow(String zone){

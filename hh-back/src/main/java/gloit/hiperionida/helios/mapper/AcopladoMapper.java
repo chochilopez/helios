@@ -3,8 +3,11 @@ package gloit.hiperionida.helios.mapper;
 import gloit.hiperionida.helios.mapper.creation.AcopladoCreation;
 import gloit.hiperionida.helios.mapper.dto.AcopladoDTO;
 import gloit.hiperionida.helios.mapper.dto.NeumaticoDTO;
-import gloit.hiperionida.helios.mapper.dto.SeguroDTO;
 import gloit.hiperionida.helios.model.AcopladoModel;
+import gloit.hiperionida.helios.model.NeumaticoModel;
+import gloit.hiperionida.helios.model.SeguroModel;
+import gloit.hiperionida.helios.repository.NeumaticoDAO;
+import gloit.hiperionida.helios.repository.SeguroDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -13,8 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -22,25 +24,37 @@ import java.util.Optional;
 public class AcopladoMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    private final SeguroDAO seguroDAO;
+    private final NeumaticoDAO neumaticoDAO;
+    private final SeguroMapper seguroMapper;
+    private final NeumaticoMapper neumaticoMapper;
 
     public AcopladoModel toEntity(AcopladoCreation acopladoCreation) {
         try {
             AcopladoModel acopladoModel = new AcopladoModel();
 
-
-
-            private String id;
-            private List<String> neumaticos_id;
-            private String seguro_id;
-            private	String cantidadNeumaticos;
-            private	String marca;
-            private String modelo;
-            private String anio;
-            private String patente;
-            private String peso;
-
             if (Helper.getLong(acopladoCreation.getId()) != null)
                 acopladoModel.setId(Helper.getLong(acopladoCreation.getId()));
+            acopladoModel.setCantidadNeumaticos(acopladoCreation.getCantidadNeumaticos());
+            acopladoModel.setMarca(acopladoCreation.getMarca());
+            acopladoModel.setModelo(acopladoCreation.getModelo());
+            acopladoModel.setAnio(acopladoCreation.getAnio());
+            acopladoModel.setPatente(acopladoCreation.getPatente());
+            acopladoModel.setPeso(acopladoCreation.getPeso());
+            if (Helper.getLong(acopladoCreation.getSeguro_id()) != null) {
+                Optional<SeguroModel> seguro = seguroDAO.findById(Helper.getLong(acopladoCreation.getSeguro_id()));
+                if (seguro.isPresent())
+                    acopladoModel.setSeguro(seguro.get());
+            }
+            Set<NeumaticoModel> neumaticos = new HashSet<>();
+            for (String neumatico_id: acopladoCreation.getNeumaticos_id()) {
+                if (Helper.getLong(neumatico_id) != null) {
+                    Optional<NeumaticoModel> neumatico = neumaticoDAO.findById(Helper.getLong(acopladoCreation.getSeguro_id()));
+                    if (neumatico.isPresent())
+                        neumaticos.add(neumatico.get());
+                }
+            }
+            acopladoModel.setNeumaticos(neumaticos);
 
             if (Helper.getLong(acopladoCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(acopladoCreation.getCreador_id()));
@@ -75,18 +89,21 @@ public class AcopladoMapper {
         try {
             AcopladoDTO dto = new AcopladoDTO();
 
-            private Long id;
-            private List<NeumaticoDTO> neumaticos;
-            private SeguroDTO seguro;
-            private	String cantidadNeumaticos;
-            private	String marca;
-            private String modelo;
-            private String anio;
-            private String patente;
-            private String peso;
-
             dto.setId(acopladoModel.getId().toString());
-
+            dto.setCantidadNeumaticos(acopladoModel.getCantidadNeumaticos());
+            dto.setMarca(acopladoModel.getMarca());
+            dto.setModelo(acopladoModel.getModelo());
+            dto.setAnio(acopladoModel.getAnio());
+            dto.setPatente(acopladoModel.getPatente());
+            dto.setPeso(acopladoModel.getPeso());
+            if (!acopladoModel.getNeumaticos().isEmpty()) {
+                List<NeumaticoDTO> neumaticoDTOS = new ArrayList<>();
+                for (NeumaticoModel neumatico:acopladoModel.getNeumaticos()) {
+                    neumaticoDTOS.add(neumaticoMapper.toDto(neumatico));
+                }
+            }
+            if (acopladoModel.getSeguro() != null)
+                dto.setSeguro(seguroMapper.toDto(acopladoModel.getSeguro()));
 
             if (acopladoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(acopladoModel.getCreador()));

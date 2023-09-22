@@ -1,6 +1,7 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.LicenciaCreation;
+import gloit.hiperionida.helios.mapper.dto.EventoDTO;
 import gloit.hiperionida.helios.mapper.dto.LicenciaDTO;
 import gloit.hiperionida.helios.model.LicenciaModel;
 import gloit.hiperionida.helios.util.Helper;
@@ -23,6 +24,13 @@ public class LicenciaMapper {
     public LicenciaModel toEntity(LicenciaCreation licenciaCreation) {
         try {
             LicenciaModel licenciaModel = new LicenciaModel();
+
+
+            private String id;
+            private String numero;
+            private String categoria;
+            private String vencimiento_id;
+
 
             if (Helper.getLong(licenciaCreation.getId()) != null)
                 licenciaModel.setId(Helper.getLong(licenciaCreation.getId()));
@@ -59,6 +67,11 @@ public class LicenciaMapper {
     public LicenciaDTO toDto(LicenciaModel licenciaModel) {
         try {
             LicenciaDTO dto = new LicenciaDTO();
+
+            private String id;
+            private String numero;
+            private String categoria;
+            private EventoDTO vencimiento;
 
             dto.setId(licenciaModel.getId().toString());
 

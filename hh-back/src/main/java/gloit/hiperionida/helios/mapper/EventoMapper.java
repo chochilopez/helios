@@ -24,6 +24,13 @@ public class EventoMapper {
         try {
             EventoModel eventoModel = new EventoModel();
 
+            private String id;
+            private String fecha;
+            private String descripcion;
+            private String habilitada;
+            private String recordatorio;
+            private String nombre;
+
             if (Helper.getLong(eventoCreation.getId()) != null)
                 eventoModel.setId(Helper.getLong(eventoCreation.getId()));
 
@@ -59,6 +66,13 @@ public class EventoMapper {
     public EventoDTO toDto(EventoModel eventoModel) {
         try {
             EventoDTO dto = new EventoDTO();
+
+            private String id;
+            private String fecha;
+            private String descripcion;
+            private String habilitada;
+            private String recordatorio;
+            private String nombre;
 
             dto.setId(eventoModel.getId().toString());
 

@@ -2,6 +2,7 @@ package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.PagoCreation;
 import gloit.hiperionida.helios.mapper.dto.PagoDTO;
+import gloit.hiperionida.helios.mapper.dto.ReciboDTO;
 import gloit.hiperionida.helios.model.PagoModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -23,6 +24,12 @@ public class PagoMapper {
     public PagoModel toEntity(PagoCreation pagoCreation) {
         try {
             PagoModel pagoModel = new PagoModel();
+
+            private String id;
+            private String monto;
+            private String notas;
+            private String tipoPago;
+            private String recibo_id;
 
             if (Helper.getLong(pagoCreation.getId()) != null)
                 pagoModel.setId(Helper.getLong(pagoCreation.getId()));
@@ -59,6 +66,12 @@ public class PagoMapper {
     public PagoDTO toDto(PagoModel pagoModel) {
         try {
             PagoDTO dto = new PagoDTO();
+
+            private String id;
+            private String monto;
+            private String notas;
+            private String tipoPago;
+            private ReciboDTO recibo;
 
             dto.setId(pagoModel.getId().toString());
 
