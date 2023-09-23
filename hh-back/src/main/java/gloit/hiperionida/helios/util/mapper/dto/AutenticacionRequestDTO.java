@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@Builder
 @Data
 @NoArgsConstructor
 public class AutenticacionRequestDTO {

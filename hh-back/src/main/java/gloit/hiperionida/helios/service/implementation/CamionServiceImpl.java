@@ -49,6 +49,7 @@ public class CamionServiceImpl implements CamionService {
         List<CamionModel> listado = camionDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
             throw new CustomDataNotFoundException("No se encontraron entidades Camion.");
+        log.info("Se encontraron {} entidades Camion.", listado.size());
         return listado;
     }
 
@@ -58,6 +59,7 @@ public class CamionServiceImpl implements CamionService {
         List<CamionModel> listado = camionDAO.findAll();
         if (listado.isEmpty())
             throw new CustomDataNotFoundException("No se encontraron entidades Camion, incluidas las eliminadas.");
+        log.info("Se encontraron {} entidades Camion, incluidas las eliminadas.", listado.size());
         return listado;
     }
 

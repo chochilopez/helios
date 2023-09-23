@@ -1,10 +1,13 @@
 package gloit.hiperionida.helios.mapper.dto;
 
-import lombok.Setter;
+import lombok.*;
+
 import java.io.Serializable;
 import java.util.List;
 
-@Setter
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class CamionDTO extends AbsVehiculoDTO implements Serializable {
     private String id;
     private String numeroChasis;

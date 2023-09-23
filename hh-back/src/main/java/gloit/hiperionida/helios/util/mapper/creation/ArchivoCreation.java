@@ -1,10 +1,10 @@
 package gloit.hiperionida.helios.util.mapper.creation;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class ArchivoCreation extends AbsAuditoriaCreation {
     private String id;
     private String path;

@@ -1,14 +1,14 @@
 package gloit.hiperionida.helios.util.mapper.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class UsuarioDTO implements Serializable {
     private String id;
     private String nombre;

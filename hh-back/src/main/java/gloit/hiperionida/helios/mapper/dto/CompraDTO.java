@@ -2,11 +2,14 @@ package gloit.hiperionida.helios.mapper.dto;
 
 import gloit.hiperionida.helios.util.mapper.dto.AbsAuditoriaDTO;
 import gloit.hiperionida.helios.util.mapper.dto.ArchivoDTO;
-import lombok.Setter;
+import lombok.*;
+
 import java.io.Serializable;
 import java.util.List;
 
-@Setter
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class CompraDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String fecha;

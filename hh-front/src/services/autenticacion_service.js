@@ -35,9 +35,9 @@ function spfIngresar (user) {
     axios.post(API_URL + 'autenticacion/ingresar', user)
       .then((response) => {
         if (response.status === 200) {
-          llaveroService.guardarEnLocal('hhToken', response.data.token, ttlEnum.TTL_1_DIA)
-          llaveroService.guardarEnLocal('hhAutoridades', response.data.roles, ttlEnum.TTL_1_DIA)
-          llaveroService.guardarEnLocal('hhNombreUsuario', response.data.usuario, ttlEnum.TTL_1_DIA)
+          llaveroService.guardarEnLocal('hhToken', response.data.token, ttlEnum.TTL_1_SEMANA)
+          llaveroService.guardarEnLocal('hhAutoridades', response.data.roles, ttlEnum.TTL_1_SEMANA)
+          llaveroService.guardarEnLocal('hhNombreUsuario', response.data.usuario, ttlEnum.TTL_1_SEMANA)
         }
         resolve(response)
       })
@@ -48,7 +48,6 @@ function spfIngresar (user) {
 }
 
 function spfSalir () {
-  console.log(this.obtenerToken())
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'autenticacion/salir', {
       headers: {

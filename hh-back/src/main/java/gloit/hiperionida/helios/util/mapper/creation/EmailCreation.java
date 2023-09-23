@@ -1,8 +1,13 @@
 package gloit.hiperionida.helios.util.mapper.creation;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class EmailCreation extends AbsAuditoriaCreation {
     private String id;
     private String subject;

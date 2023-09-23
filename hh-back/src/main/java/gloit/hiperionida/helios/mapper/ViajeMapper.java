@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Component
@@ -153,7 +154,8 @@ public class ViajeMapper {
                 }
                 dto.setGastos(gastoDTOS);
             }
-            dto.setCantidadTransportada(viajeModel.getCantidadTransportada().toString());
+            DecimalFormat format = new DecimalFormat("0.#");
+            dto.setCantidadTransportada(format.format(viajeModel.getCantidadTransportada()).toString());
             dto.setValorKm(viajeModel.getValorKm().toString());
             dto.setKgNeto(viajeModel.getKgNeto().toString());
             dto.setKmCargado(viajeModel.getKmCargado().toString());

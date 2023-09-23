@@ -5,12 +5,14 @@ import gloit.hiperionida.helios.util.mapper.dto.UsuarioDTO;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import java.io.Serializable;
 
-@Setter
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class VisitaDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String ip;

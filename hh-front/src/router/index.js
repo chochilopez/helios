@@ -2,15 +2,7 @@ import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 import { autenticacionService } from 'src/services/autenticacion_service'
-
-/*
- * If not building with SSR mode, you can
- * directly export the Router instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Router instance.
- */
+import { notificarService } from 'src/helpers/notificar_service'
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
@@ -30,18 +22,18 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach(async (to, from, next) => {
-    if (to.name !== 'Ingreso' && !autenticacionService.fEstaLogueado()) {
+    const autenticado = autenticacionService.fEstaLogueado()
+    if (!autenticado && to.name !== 'Ingreso') {
       next({ name: 'Ingreso' })
-    } else {
-      next()
+    } else if (autenticado) {
+      const rolNecesario = to.meta.rol
+      const roles = autenticacionService.obtenerAutoridades()
+      if (!roles.includes(rolNecesario)) {
+        notificarService.infoError('No posee autoridades para ingresar al recurso.')
+        return false
+      }
     }
-    // const authorize = to.meta.authority
-    // const authority = autenticacionService.obtenerAutoridades()
-    // if (!authority.includes(authorize)) {
-    //   next({ name: 'Login' })
-    // } else {
-    //   next()
-    // }
+    next()
   })
 
   return Router

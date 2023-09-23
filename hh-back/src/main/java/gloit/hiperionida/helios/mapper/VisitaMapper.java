@@ -5,7 +5,6 @@ import gloit.hiperionida.helios.mapper.dto.VisitaDTO;
 import gloit.hiperionida.helios.model.VisitaModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
-import gloit.hiperionida.helios.util.mapper.dto.UsuarioDTO;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
 import lombok.RequiredArgsConstructor;
@@ -25,20 +24,6 @@ public class VisitaMapper {
         try {
             VisitaModel visitaModel = new VisitaModel();
 
-            private String id;
-            private String ip;
-            private String hostname;
-            private String country_name;
-            private String state_prov;
-            private String district;
-            private String city;
-            private String zipcode;
-            private String country_flag;
-            private String isp;
-            private String organization;
-            private String asn;
-            private String visitante_id;
-
             if (Helper.getLong(visitaCreation.getId()) != null)
                 visitaModel.setId(Helper.getLong(visitaCreation.getId()));
             visitaModel.setIp(visitaCreation.getIp());
@@ -46,7 +31,17 @@ public class VisitaMapper {
             visitaModel.setCountry_name(visitaCreation.getCountry_name());
             visitaModel.setState_prov(visitaCreation.getState_prov());
             visitaModel.setDistrict(visitaCreation.getDistrict());
-
+            visitaModel.setCity(visitaCreation.getCity());
+            visitaModel.setZipcode(visitaCreation.getZipcode());
+            visitaModel.setCountry_flag(visitaCreation.getCountry_flag());
+            visitaModel.setIsp(visitaCreation.getIsp());
+            visitaModel.setOrganization(visitaCreation.getOrganization());
+            visitaModel.setAsn(visitaCreation.getAsn());
+            if (Helper.getLong(visitaCreation.getVisitante_id()) != null) {
+                Optional<UsuarioModel> visitante = usuarioDAO.findById(Helper.getLong(visitaCreation.getVisitante_id()));
+                if (visitante.isPresent())
+                    visitaModel.setVisitante(visitante.get());
+            }
 
             if (Helper.getLong(visitaCreation.getCreador_id()) != null) {
                 Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(visitaCreation.getCreador_id()));
@@ -81,21 +76,20 @@ public class VisitaMapper {
         try {
             VisitaDTO dto = new VisitaDTO();
 
-            private String id;
-            private String ip;
-            private String hostname;
-            private String country_name;
-            private String state_prov;
-            private String district;
-            private String city;
-            private String zipcode;
-            private String country_flag;
-            private String isp;
-            private String organization;
-            private String asn; //
-            private UsuarioDTO visitante;
-
             dto.setId(visitaModel.getId().toString());
+            dto.setIp(visitaModel.getIp());
+            dto.setHostname(visitaModel.getHostname());
+            dto.setCountry_name(visitaModel.getCountry_name());
+            dto.setState_prov(visitaModel.getState_prov());
+            dto.setDistrict(visitaModel.getDistrict());
+            dto.setCity(visitaModel.getCity());
+            dto.setZipcode(visitaModel.getZipcode());
+            dto.setCountry_flag(visitaModel.getCountry_flag());
+            dto.setIsp(visitaModel.getIsp());
+            dto.setOrganization(visitaModel.getOrganization());
+            dto.setAsn(visitaModel.getAsn());
+            if (visitaModel.getVisitante() != null)
+                dto.setVisitante(usuarioMapper.toDto(visitaModel.getVisitante()));
 
             if (visitaModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(visitaModel.getCreador()));

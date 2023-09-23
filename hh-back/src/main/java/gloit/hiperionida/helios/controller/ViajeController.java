@@ -28,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-public class ViajeController extends AbsBaseController {
+public class    ViajeController extends AbsBaseController {
     private final ViajeServiceImpl viajeService;
     private final ViajeMapper viajeMapper;
 
@@ -225,8 +225,8 @@ public class ViajeController extends AbsBaseController {
         return new ResponseEntity<>(slice, Helper.httpHeaders("Se encontraron " + slice.getSize() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-con-eliminadas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Slice<ViajeDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<ViajeModel> listado = viajeService.buscarTodasPorOrdenPorPaginaConEliminadas(
                 paginadoDTO.getDireccion(),

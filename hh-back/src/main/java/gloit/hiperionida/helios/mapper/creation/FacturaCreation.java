@@ -1,10 +1,16 @@
 package gloit.hiperionida.helios.mapper.creation;
 
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
-@Getter
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class FacturaCreation extends AbsAuditoriaCreation {
     private String id;
     private String descuento;

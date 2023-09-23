@@ -1,10 +1,7 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
-import gloit.hiperionida.helios.mapper.dto.CamionDTO;
-import gloit.hiperionida.helios.mapper.dto.CombustibleDTO;
-import gloit.hiperionida.helios.mapper.dto.ConductorDTO;
-import gloit.hiperionida.helios.mapper.dto.ProveedorDTO;
+import gloit.hiperionida.helios.mapper.dto.CamionDTO;import gloit.hiperionida.helios.mapper.dto.CombustibleDTO;
 import gloit.hiperionida.helios.model.CamionModel;
 import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.model.ConductorModel;

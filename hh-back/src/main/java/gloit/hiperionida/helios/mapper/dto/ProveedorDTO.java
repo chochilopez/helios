@@ -1,10 +1,12 @@
 package gloit.hiperionida.helios.mapper.dto;
 
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Setter
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class ProveedorDTO extends AbsPersonaDTO implements Serializable {
     private String id;
 }
