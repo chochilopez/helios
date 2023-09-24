@@ -1,8 +1,7 @@
 import axios from 'axios'
 const API_URL = process.env.API_URL
 import { autenticacionService } from 'src/services/autenticacion_service'
-import { llavero } from 'src/helpers/llavero'
-import { ttlEnum } from 'src/models/enums/ttl_enum'
+import { llaveroService } from 'src/helpers/llavero_service'
 
 /*
 s -> servicio
@@ -12,35 +11,27 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.obtenerDeLocal('hhUsuarioTodas')
+  return llaveroService.obtenerDeLocal('lUsuarioTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.obtenerDeLocal('hhUsuarioTodasConEliminadas')
+  return llaveroService.obtenerDeLocal('lUsuarioTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.obtenerDeLocal('hhUsuarioPorId/' + id + '/')
+  return llaveroService.obtenerDeLocal('lUsuarioPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.obtenerDeLocal('hhUsuarioPorIdConEliminadas/' + id + '/')
-}
-
-function obtenerPorUsername (username) {
-  return llavero.obtenerDeLocal('hhUsuarioPorNombreUsuario/' + username + '/')
-}
-
-function obtenerPorUsernameConBorradas (username) {
-  return llavero.obtenerDeLocal('hhUsuarioPorNombreUsuarioConEliminadas/' + username + '/')
+  return llaveroService.obtenerDeLocal('lUsuarioPorIdConEliminadas/' + id + '/')
 }
 
 function obtenerCuenta () {
-  return llavero.obtenerDeLocal('hhUsuarioCuenta')
+  return llaveroService.obtenerDeLocal('lUsuarioCuenta')
 }
 
 function obtenerCuentaConEliminadas () {
-  return llavero.obtenerDeLocal('hhUsuarioCuentaConEliminadas')
+  return llaveroService.obtenerDeLocal('lUsuarioCuentaConEliminadas')
 }
 
 function spfBuscarTodas () {
@@ -51,7 +42,6 @@ function spfBuscarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -68,7 +58,38 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.post(API_URL + 'usuario/buscar-todas-paginadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.post(API_URL + 'usuario/buscar-todas-con-eliminadas-paginadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
         resolve(result)
       })
       .catch((error) => {
@@ -85,7 +106,6 @@ function spfBuscarPorId (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioPorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -102,41 +122,6 @@ function spfBuscarPorIdConEliminadas (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarPorNombreUsuario (username) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'usuario/buscar-por-nombre-usuario/' + username, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioPorNombreUsuario/' + username + '/', result, ttlEnum.TTL_1_HORA)
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarPorNombreUsuarioConEliminadas (username) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'usuario/buscar-por-nombre-usuario-con-eliminadas/' + username, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioPorNombreUsuarioConEliminadas/' + username + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -153,7 +138,6 @@ function spfContarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioContar', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -170,7 +154,6 @@ function spfContarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('hhUsuarioContarConEliminadas', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -244,15 +227,21 @@ function spfDestruir (id) {
 }
 
 export const usuarioService = {
+  obtenerTodas,
+  obtenerTodasConEliminadas,
+  obtenerPorId,
+  obtenerPorIdConEliminadas,
+  obtenerCuenta,
+  obtenerCuentaConEliminadas,
+
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
+  spfBuscarTodasPaginadas,
+  spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,
   spfContarTodas,
   spfContarTodasConEliminadas,
-
-  spfBuscarPorNombreUsuario,
-  spfBuscarPorNombreUsuarioConEliminadas,
 
   spfGuardar,
   spfBorrar,

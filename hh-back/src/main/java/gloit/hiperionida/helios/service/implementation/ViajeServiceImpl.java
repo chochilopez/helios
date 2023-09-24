@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -25,6 +26,40 @@ public class ViajeServiceImpl implements ViajeService {
     private final ViajeDAO viajeDAO;
     private final ViajeMapper viajeMapper;
     private final UsuarioServiceImpl usuarioService;
+
+    @Override
+    public Double sumarTodasCantidadTrasnportada() {
+        log.info("Sumando todas las cantidades transportadas.");
+        Double cantidad = viajeDAO.sumarCantidadTrasnportada();
+        log.info("Suma de todas las cantidades transportadas: {}.", cantidad);
+
+        return cantidad;
+    }
+
+    @Override
+    public Double sumarTodasKmCargado() {
+        log.info("Sumando todos las kilometros viajados cargado.");
+        Double cantidad = viajeDAO.sumarKmCargado();
+        log.info("Suma de todos los kilometros viajados cargado: {}.", cantidad);
+
+        return cantidad;
+    }
+
+    @Override
+    public Double sumarTodasKmVacio() {
+        log.info("Sumando todos las kilometros viajados vacio.");
+        Double cantidad = viajeDAO.sumarKmVacio();
+        log.info("Suma de todos los kilometros viajados vacio: {}.", cantidad);
+
+        return cantidad;
+    }
+
+    @Override
+    public ViajeModel buscarUltimoViaje() {
+        log.info("Buscando la ultima entidad Viaje con.");
+
+        return viajeDAO.findFirstByOrderByIdDesc();
+    }
 
     @Override
     public List<ViajeModel> buscarTodasPorCamionId(Long id) {

@@ -1,8 +1,7 @@
 import axios from 'axios'
 const API_URL = process.env.API_URL
 import { autenticacionService } from 'src/services/autenticacion_service'
-import { llavero } from 'src/helpers/llavero'
-import { ttlEnum } from 'src/models/enums/ttl_enum'
+import { llaveroService } from 'src/helpers/llavero_service'
 
 /*
 s -> servicio
@@ -12,27 +11,27 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.obtenerDeLocal('lClienteTodas')
+  return llaveroService.obtenerDeLocal('lClienteTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.obtenerDeLocal('lClienteTodasConEliminadas')
+  return llaveroService.obtenerDeLocal('lClienteTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.obtenerDeLocal('lClientePorId/' + id + '/')
+  return llaveroService.obtenerDeLocal('lClientePorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.obtenerDeLocal('lClientePorIdConEliminadas/' + id + '/')
+  return llaveroService.obtenerDeLocal('lClientePorIdConEliminadas/' + id + '/')
 }
 
 function obtenerCuenta () {
-  return llavero.obtenerDeLocal('lClienteCuenta')
+  return llaveroService.obtenerDeLocal('lClienteCuenta')
 }
 
 function obtenerCuentaConEliminadas () {
-  return llavero.obtenerDeLocal('lClienteCuentaConEliminadas')
+  return llaveroService.obtenerDeLocal('lClienteCuentaConEliminadas')
 }
 
 function spfBuscarTodas () {
@@ -43,7 +42,6 @@ function spfBuscarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lClienteTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -60,7 +58,6 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lClienteTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -71,13 +68,12 @@ function spfBuscarTodasConEliminadas () {
 
 function spfBuscarTodasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cliente/buscar-todas-paginadas', paginadoDTO, {
+    axios.post(API_URL + 'cliente/buscar-todas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lClienteTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -88,13 +84,12 @@ function spfBuscarTodasPaginadas (paginadoDTO) {
 
 function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cliente/buscar-todas-paginadas-con-eliminadas', paginadoDTO, {
+    axios.post(API_URL + 'cliente/buscar-todas-con-eliminadas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lClienteTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -111,7 +106,6 @@ function spfBuscarPorId (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lClientePorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -128,7 +122,6 @@ function spfBuscarPorIdConEliminadas (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lClientePorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -145,7 +138,6 @@ function spfContarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lClienteContar', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -162,7 +154,6 @@ function spfContarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lClienteContarConEliminadas', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {

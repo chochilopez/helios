@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.text.DecimalFormat;
 import java.util.Optional;
 
 @Component
@@ -45,8 +46,10 @@ public class PresupuestoMapper {
                 presupuestoModel.setCantidadTransportada(Helper.getDecimal(presupuestoCreation.getCantidadTransportada()));
             if (Helper.getDecimal(presupuestoCreation.getValorKm()) != null)
                 presupuestoModel.setValorKm(Helper.getDecimal(presupuestoCreation.getValorKm()));
-            if (Helper.getDecimal(presupuestoCreation.getKgNeto()) != null)
-                presupuestoModel.setKgNeto(Helper.getDecimal(presupuestoCreation.getKgNeto()));
+            if (Helper.getDecimal(presupuestoCreation.getNeto()) != null)
+                presupuestoModel.setNeto(Helper.getDecimal(presupuestoCreation.getNeto()));
+            if (Helper.getDecimal(presupuestoCreation.getTara()) != null)
+                presupuestoModel.setTara(Helper.getDecimal(presupuestoCreation.getTara()));
             if (Helper.getDecimal(presupuestoCreation.getKmCargado()) != null)
                 presupuestoModel.setKmCargado(Helper.getDecimal(presupuestoCreation.getKmCargado()));
             if (Helper.getDecimal(presupuestoCreation.getKmVacio()) != null)
@@ -113,15 +116,23 @@ public class PresupuestoMapper {
 
     public PresupuestoDTO toDto(PresupuestoModel presupuestoModel) {
         try {
+            DecimalFormat format = new DecimalFormat("0.#");
             PresupuestoDTO dto = new PresupuestoDTO();
 
             dto.setId(presupuestoModel.getId().toString());
             dto.setValidez(presupuestoModel.getValidez().toString());
-            dto.setCantidadTransportada(presupuestoModel.getCantidadTransportada().toString());
-            dto.setValorKm(presupuestoModel.getValorKm().toString());
-            dto.setKgNeto(presupuestoModel.getKgNeto().toString());
-            dto.setKmCargado(presupuestoModel.getKmCargado().toString());
-            dto.setKmVacio(presupuestoModel.getKmVacio().toString());
+            if (presupuestoModel.getCantidadTransportada() != null)
+                dto.setCantidadTransportada(format.format(presupuestoModel.getCantidadTransportada()).toString());
+            if (presupuestoModel.getValorKm() != null)
+                dto.setValorKm(format.format(presupuestoModel.getValorKm()).toString());
+            if (presupuestoModel.getNeto() != null)
+                dto.setNeto(format.format(presupuestoModel.getNeto()).toString());
+            if (presupuestoModel.getTara() != null)
+                dto.setTara(format.format(presupuestoModel.getTara()).toString());
+            if (presupuestoModel.getKmCargado() != null)
+                dto.setKmCargado(format.format(presupuestoModel.getKmCargado()).toString());
+            if (presupuestoModel.getKmVacio() != null)
+                dto.setKmVacio(format.format(presupuestoModel.getKmVacio()).toString());
             dto.setNotas(presupuestoModel.getNotas());
             if (presupuestoModel.getCategoriaViaje() != null)
                 dto.setCategoriaViaje(categoriaViajeMapper.toDto(presupuestoModel.getCategoriaViaje()));

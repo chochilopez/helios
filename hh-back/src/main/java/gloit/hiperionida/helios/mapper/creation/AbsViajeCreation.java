@@ -11,7 +11,8 @@ import lombok.Setter;
 public abstract class AbsViajeCreation extends AbsAuditoriaCreation {
     private String cantidadTransportada;
     private String valorKm;
-    private String kgNeto;
+    private String neto;
+    private String tara;
     private String kmCargado;
     private String kmVacio;
     private String notas;

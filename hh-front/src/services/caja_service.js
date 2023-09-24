@@ -1,8 +1,7 @@
 import axios from 'axios'
 const API_URL = process.env.API_URL
 import { autenticacionService } from 'src/services/autenticacion_service'
-import { llavero } from 'src/helpers/llavero'
-import { ttlEnum } from 'src/models/enums/ttl_enum'
+import { llaveroService } from 'src/helpers/llavero_service'
 
 /*
 s -> servicio
@@ -12,27 +11,27 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.obtenerDeLocal('lCajaTodas')
+  return llaveroService.obtenerDeLocal('lCajaTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.obtenerDeLocal('lCajaTodasConEliminadas')
+  return llaveroService.obtenerDeLocal('lCajaTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.obtenerDeLocal('lCajaPorId/' + id + '/')
+  return llaveroService.obtenerDeLocal('lCajaPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.obtenerDeLocal('lCajaPorIdConEliminadas/' + id + '/')
+  return llaveroService.obtenerDeLocal('lCajaPorIdConEliminadas/' + id + '/')
 }
 
 function obtenerCuenta () {
-  return llavero.obtenerDeLocal('lCajaCuenta')
+  return llaveroService.obtenerDeLocal('lCajaCuenta')
 }
 
 function obtenerCuentaConEliminadas () {
-  return llavero.obtenerDeLocal('lCajaCuentaConEliminadas')
+  return llaveroService.obtenerDeLocal('lCajaCuentaConEliminadas')
 }
 
 function spfBuscarTodas () {
@@ -43,7 +42,6 @@ function spfBuscarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lCajaTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -60,7 +58,6 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lCajaTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -71,13 +68,12 @@ function spfBuscarTodasConEliminadas () {
 
 function spfBuscarTodasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'caja/buscar-todas-paginadas', paginadoDTO, {
+    axios.post(API_URL + 'caja/buscar-todas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lCajaTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -88,13 +84,12 @@ function spfBuscarTodasPaginadas (paginadoDTO) {
 
 function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'caja/buscar-todas-paginadas-con-eliminadas', paginadoDTO, {
+    axios.post(API_URL + 'caja/buscar-todas-con-eliminadas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lCajaTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -111,7 +106,6 @@ function spfBuscarPorId (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lCajaPorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -128,7 +122,6 @@ function spfBuscarPorIdConEliminadas (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lCajaPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -145,7 +138,6 @@ function spfContarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lCajaContar', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -162,7 +154,6 @@ function spfContarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lCajaContarConEliminadas', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {

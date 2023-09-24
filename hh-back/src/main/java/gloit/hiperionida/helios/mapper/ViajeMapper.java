@@ -69,8 +69,10 @@ public class ViajeMapper {
                 viajeModel.setCantidadTransportada(Helper.getDecimal(viajeCreation.getCantidadTransportada()));
             if (Helper.getDecimal(viajeCreation.getValorKm()) != null)
                 viajeModel.setValorKm(Helper.getDecimal(viajeCreation.getValorKm()));
-            if (Helper.getDecimal(viajeCreation.getKgNeto()) != null)
-                viajeModel.setKgNeto(Helper.getDecimal(viajeCreation.getKgNeto()));
+            if (Helper.getDecimal(viajeCreation.getNeto()) != null)
+                viajeModel.setNeto(Helper.getDecimal(viajeCreation.getNeto()));
+            if (Helper.getDecimal(viajeCreation.getTara()) != null)
+                viajeModel.setTara(Helper.getDecimal(viajeCreation.getTara()));
             if (Helper.getDecimal(viajeCreation.getKmCargado()) != null)
                 viajeModel.setKmCargado(Helper.getDecimal(viajeCreation.getKmCargado()));
             if (Helper.getDecimal(viajeCreation.getKmVacio()) != null)
@@ -137,6 +139,7 @@ public class ViajeMapper {
 
     public ViajeDTO toDto(ViajeModel viajeModel) {
         try {
+            DecimalFormat format = new DecimalFormat("0.#");
             ViajeDTO dto = new ViajeDTO();
 
             dto.setId(viajeModel.getId().toString());
@@ -154,12 +157,18 @@ public class ViajeMapper {
                 }
                 dto.setGastos(gastoDTOS);
             }
-            DecimalFormat format = new DecimalFormat("0.#");
-            dto.setCantidadTransportada(format.format(viajeModel.getCantidadTransportada()).toString());
-            dto.setValorKm(viajeModel.getValorKm().toString());
-            dto.setKgNeto(viajeModel.getKgNeto().toString());
-            dto.setKmCargado(viajeModel.getKmCargado().toString());
-            dto.setKmVacio(viajeModel.getKmVacio().toString());
+            if (viajeModel.getCantidadTransportada() != null)
+                dto.setCantidadTransportada(format.format(viajeModel.getCantidadTransportada()).toString());
+            if (viajeModel.getValorKm() != null)
+                dto.setValorKm(format.format(viajeModel.getValorKm()).toString());
+            if (viajeModel.getNeto() != null)
+                dto.setNeto(format.format(viajeModel.getNeto()).toString());
+            if (viajeModel.getTara() != null)
+                dto.setTara(format.format(viajeModel.getTara()).toString());
+            if (viajeModel.getKmCargado() != null)
+                dto.setKmCargado(format.format(viajeModel.getKmCargado()).toString());
+            if (viajeModel.getKmVacio() != null)
+                dto.setKmVacio(format.format(viajeModel.getKmVacio()).toString());
             dto.setNotas(viajeModel.getNotas());
             if (viajeModel.getCategoriaViaje() != null)
                 dto.setCategoriaViaje(categoriaViajeMapper.toDto(viajeModel.getCategoriaViaje()));

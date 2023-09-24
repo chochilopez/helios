@@ -52,9 +52,8 @@ public abstract class AbsBaseController {
 	@ExceptionHandler(CustomDataNotFoundException.class)
 	public ResponseEntity<ErrorDTO> handleCustomDataNotFoundExceptions(Exception e) {
 		HttpStatus status = HttpStatus.NOT_FOUND; // 404
-		String mensaje = "No se encontro el recurso buscado. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+		return new ResponseEntity<>(new ErrorDTO(status, e.getMessage()), Helper.httpHeaders(e.getMessage()), status);
 	}
 
 	@ExceptionHandler(CustomObjectNotDeletedException.class)

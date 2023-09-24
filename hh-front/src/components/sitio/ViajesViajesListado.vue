@@ -1,7 +1,7 @@
 <template>
   <q-card class="q-ma-md font-5 no-shadow no-border">
     <div class="row justify-around q-pb-md">
-      <div class="col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <q-select
           outlined
           v-model="camion"
@@ -11,6 +11,7 @@
           label="Buscar por camion"
           dense
           emit-value
+          map-options
           class="q-pa-md"
           @update:model-value="afBuscarPorCamion()"
         >
@@ -19,7 +20,7 @@
           </template>
         </q-select>
       </div>
-      <div class="col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <q-select
           outlined
           v-model="chofer"
@@ -29,6 +30,7 @@
           label="Buscar por chofer"
           dense
           emit-value
+          map-options
           class="q-pa-md"
           @update:model-value="afBuscarPorChofer()"
         >
@@ -37,7 +39,7 @@
           </template>
         </q-select>
       </div>
-      <div class="col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <q-input outlined v-on:keypress.enter="afBuscarPorVendedor" v-model="vendedor" label="Buscar por vendedor" counter maxlength="24" dense class="q-pa-md">
           <template v-slot:before>
             <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
@@ -47,9 +49,7 @@
           </template>
         </q-input>
       </div>
-    </div>
-    <div class="row justify-around q-pb-md">
-      <div class="col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <q-input outlined v-on:keypress.enter="afBuscarPorOrigen" v-model="origen" label="Buscar por origen" counter maxlength="24" dense class="q-pa-md">
           <template v-slot:before>
             <q-icon name="fa-solid fa-map-location-dot" class="q-mx-xs" />
@@ -59,7 +59,7 @@
           </template>
         </q-input>
       </div>
-      <div class="col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <q-input outlined v-on:keypress.enter="afBuscarPorDestino" v-model="destino" label="Buscar por destino" counter maxlength="24" dense class="q-pa-md">
           <template v-slot:before>
             <q-icon name="fa-solid fa-map-location" class="q-mx-xs" />
@@ -69,7 +69,7 @@
           </template>
         </q-input>
       </div>
-      <div class="col-md-4 col-sm-12">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <q-input outlined v-on:keypress.enter="afBuscarPorComprador" v-model="comprador" label="Buscar por comprador" counter maxlength="24" dense class="q-pa-md">
           <template v-slot:before>
             <q-icon name="monetization_on" class="q-mx-xs" />
@@ -96,12 +96,7 @@
       >
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
-            <q-btn @click="fShowError(props)" dense round flat color="red" icon="sms_failed" v-if="props.row.errorCode">
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[3, 3]">
-                Ver Error
-              </q-tooltip>
-            </q-btn>
-            <q-btn @click="fShowSeeDialog(props)" dense round flat class="cp1-c4" icon="visibility">
+            <q-btn @click="fMostrarDialogo(props)" dense round flat class="paleta19-color4" icon="visibility">
               <q-tooltip anchor="top middle" self="bottom middle" :offset="[3, 3]">
                 Información
               </q-tooltip>
@@ -135,22 +130,147 @@
         </template>
       </q-table>
       <q-inner-loading :showing="cargando">
-        <q-spinner-puff class="cp12-c3 text-center" size="12em" />
+        <q-spinner-puff class="paleta19-color4 text-center" size="12em" />
       </q-inner-loading>
     </div>
   </div>
 
   <q-dialog v-model="seeDialog" transition-show="scale" transition-hide="scale">
-    <q-card class="cp12-c5">
-      <q-bar class="cp12-bc3">
-        <div>Ver viaje</div>
+    <q-card class="bg-white">
+      <q-bar class="paleta19-fondo4 text-white">
+        <div>Ver viaje {{ viaje.id }}</div>
         <q-space />
         <q-btn dense flat icon="close" v-close-popup>
-          <q-tooltip class="cp12-bc2 cp12-c5">Cerrar</q-tooltip>
+          <q-tooltip class="paleta19-fondo4 text-white">Cerrar</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section>
+        <div class="q-pa-md" style="max-width: 350px">
+          <q-list bordered separator>
 
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.id }}</q-item-label>
+                <q-item-label caption>Id</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.cantidadTransportada }}</q-item-label>
+                <q-item-label caption>Cantidad</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.categoriaViaje.categoria }}</q-item-label>
+                <q-item-label caption>Transportado</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.valorKm}}</q-item-label>
+                <q-item-label caption>Valor km</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.neto}}</q-item-label>
+                <q-item-label caption>Peso neto</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.tara}}</q-item-label>
+                <q-item-label caption>Peso tara</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.kmCargado}}</q-item-label>
+                <q-item-label caption>Km cargado</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.kmVacio}}</q-item-label>
+                <q-item-label caption>Km vacio</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.notas}}</q-item-label>
+                <q-item-label caption>Notas</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.guia}}</q-item-label>
+                <q-item-label caption>Guia</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.origen.direccion + ", " + viaje.origen.ubicacion.ciudad + ", " + viaje.origen.ubicacion.pais}}</q-item-label>
+                <q-item-label caption>Direccion origen</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.carga.direccion + ", " + viaje.carga.ubicacion.ciudad + ", " + viaje.carga.ubicacion.pais}}</q-item-label>
+                <q-item-label caption>Direccion carga</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.destino.direccion + ", " + viaje.destino.ubicacion.ciudad + ", " + viaje.destino.ubicacion.pais}}</q-item-label>
+                <q-item-label caption>Direccion destino</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.vendedor.nombre}}</q-item-label>
+                <q-item-label caption>Vendedor</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.intermediario.nombre}}</q-item-label>
+                <q-item-label caption>Intermediario</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.comprador.nombre}}</q-item-label>
+                <q-item-label caption>Comprador</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{fFormatoFecha(viaje.fecha.fecha)}}</q-item-label>
+                <q-item-label caption>Fecha</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.conductor.nombre}}</q-item-label>
+                <q-item-label caption>Conductor</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.camion.marca + " - " + viaje.camion.modelo }}</q-item-label>
+                <q-item-label caption>Camion</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>
+                <q-item-label>{{ viaje.acoplado.marca + " - " + viaje.acoplado.modelo }}</q-item-label>
+                <q-item-label caption>Acoplado</q-item-label>
+              </q-item-section>
+            </q-item>
+
+          </q-list>
+        </div>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -160,11 +280,12 @@
 import { ref, reactive } from 'vue'
 import { notificarService } from 'src/helpers/notificar_service'
 import { ViajeModel } from 'src/models/viaje_model'
-import { viajeService } from 'src/services/viaje_service'
 import { conductorService } from 'src/services/conductor_service'
 import { camionService } from 'src/services/camion_service'
+import { viajeService } from 'src/services/viaje_service'
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { rolEnum } from 'src/models/enums/rol_enum'
+import { helper } from 'app/src/helpers/ayuda'
 
 const pagination = {
   rowsPerPage: 50,
@@ -250,12 +371,12 @@ const columns = [
 
 export default {
   setup () {
-    const camion = ref()
-    const chofer = ref()
-    const vendedor = ref()
-    const origen = ref()
-    const destino = ref()
-    const comprador = ref()
+    const camion = ref(null)
+    const chofer = ref(null)
+    const vendedor = ref(null)
+    const origen = ref(null)
+    const destino = ref(null)
+    const comprador = ref(null)
 
     const cargando = ref(false)
     const seeDialog = ref(false)
@@ -268,11 +389,6 @@ export default {
     afBuscarCamiones()
     afBuscarChoferes()
 
-    function fShowSeeDialog (props) {
-      Object.assign(viaje, props.row)
-      seeDialog.value = true
-    }
-
     async function afBuscarPorCamion () {
       cargando.value = true
       try {
@@ -284,16 +400,20 @@ export default {
         }
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data.content
+          viajes.value = resultado.data
         }
+        fLimpiarInputs('camion')
       } catch (err) {
         console.clear()
         if (err.response.headers.mensaje) {
-          console.error('Error: ' + err.response.headers.mensaje)
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
-          console.error('Hubo un error al intentar obtener el listado.')
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
         }
-        notificarService.notificarError('Hubo un error al realizar la busqueda.')
+        cargando.value = false
       }
       cargando.value = false
     }
@@ -303,122 +423,142 @@ export default {
       try {
         let resultado = null
         if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorChoferIdConEliminadas()
+          resultado = await viajeService.spfBuscarTodasPorChoferIdConEliminadas(chofer.value)
         } else {
-          resultado = await viajeService.spfBuscarTodasPorChoferId()
+          resultado = await viajeService.spfBuscarTodasPorChoferId(chofer.value)
         }
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data.content
+          viajes.value = resultado.data
         }
+        fLimpiarInputs('chofer')
       } catch (err) {
         console.clear()
         if (err.response.headers.mensaje) {
-          console.error('Error: ' + err.response.headers.mensaje)
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
-          console.error('Hubo un error al intentar obtener el listado.')
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
         }
-        notificarService.notificarError('Hubo un error al realizar la busqueda.')
+        cargando.value = false
       }
       cargando.value = false
     }
 
-    async function afBuscarPorComprador (comprador) {
+    async function afBuscarPorComprador () {
       cargando.value = true
       try {
         let resultado = null
         if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorCompradorNombreConEliminadas(comprador)
+          resultado = await viajeService.spfBuscarTodasPorCompradorNombreConEliminadas(comprador.value)
         } else {
-          resultado = await viajeService.spfBuscarTodasPorCompradorNombre(comprador)
+          resultado = await viajeService.spfBuscarTodasPorCompradorNombre(comprador.value)
         }
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data.content
+          viajes.value = resultado.data
         }
+        fLimpiarInputs('comprador')
       } catch (err) {
         console.clear()
         if (err.response.headers.mensaje) {
-          console.error('Error: ' + err.response.headers.mensaje)
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
-          console.error('Hubo un error al intentar obtener el listado.')
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
         }
-        notificarService.notificarError('Hubo un error al realizar la busqueda.')
+        cargando.value = false
       }
       cargando.value = false
     }
 
-    async function afBuscarPorVendedor (vendedor) {
+    async function afBuscarPorVendedor () {
       cargando.value = true
       try {
         let resultado = null
         if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorVendedorNombreConEliminadas(vendedor)
+          resultado = await viajeService.spfBuscarTodasPorVendedorNombreConEliminadas(vendedor.value)
         } else {
-          resultado = await viajeService.spfBuscarTodasPorVendedorNombre(vendedor)
+          resultado = await viajeService.spfBuscarTodasPorVendedorNombre(vendedor.value)
         }
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data.content
+          viajes.value = resultado.data
         }
+        fLimpiarInputs('vendedor')
       } catch (err) {
         console.clear()
         if (err.response.headers.mensaje) {
-          console.error('Error: ' + err.response.headers.mensaje)
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
-          console.error('Hubo un error al intentar obtener el listado.')
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
         }
-        notificarService.notificarError('Hubo un error al realizar la busqueda.')
+        cargando.value = false
       }
       cargando.value = false
     }
 
-    async function afBuscarPorOrigen (origen) {
+    async function afBuscarPorOrigen () {
       cargando.value = true
       try {
         let resultado = null
         if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorOrigenDireccionConEliminadas(origen)
+          resultado = await viajeService.spfBuscarTodasPorOrigenDireccionConEliminadas(origen.value)
         } else {
-          resultado = await viajeService.spfBuscarTodasPorOrigenDireccion(origen)
+          resultado = await viajeService.spfBuscarTodasPorOrigenDireccion(origen.value)
         }
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data.content
+          viajes.value = resultado.data
         }
+        fLimpiarInputs('origen')
       } catch (err) {
         console.clear()
         if (err.response.headers.mensaje) {
-          console.error('Error: ' + err.response.headers.mensaje)
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
-          console.error('Hubo un error al intentar obtener el listado.')
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
         }
-        notificarService.notificarError('Hubo un error al realizar la busqueda.')
+        cargando.value = false
       }
       cargando.value = false
     }
 
-    async function afBuscarPorDestino (destino) {
+    async function afBuscarPorDestino () {
       cargando.value = true
       try {
         let resultado = null
         if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorOrigenDireccionConEliminadas(destino)
+          resultado = await viajeService.spfBuscarTodasPorDestinoDireccionConEliminadas(destino.value)
         } else {
-          resultado = await viajeService.spfBuscarTodasPorOrigenDireccion(destino)
+          resultado = await viajeService.spfBuscarTodasPorDestinoDireccion(destino.value)
         }
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data.content
+          viajes.value = resultado.data
         }
+        fLimpiarInputs('destino')
       } catch (err) {
         console.clear()
         if (err.response.headers.mensaje) {
-          console.error('Error: ' + err.response.headers.mensaje)
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
-          console.error('Hubo un error al intentar obtener el listado.')
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
         }
-        notificarService.notificarError('Hubo un error al realizar la busqueda.')
+        cargando.value = false
       }
       cargando.value = false
     }
@@ -444,11 +584,14 @@ export default {
       } catch (err) {
         console.clear()
         if (err.response.headers.mensaje) {
-          console.error('Error: ' + err.response.headers.mensaje)
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
-          console.error('Hubo un error al intentar obtener el listado.')
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
         }
-        notificarService.notificarError('Hubo un error al realizar la busqueda.')
+        cargando.value = false
       }
       cargando.value = false
     }
@@ -467,11 +610,14 @@ export default {
       } catch (err) {
         console.clear()
         if (err.response.headers.mensaje) {
-          console.error('Error: ' + err.response.headers.mensaje)
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
-          console.error('Hubo un error al intentar ingresar.')
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
         }
-        notificarService.notificarError('Hubo un error al comprobar las credenciales.')
+        cargando.value = false
       }
       cargando.value = false
     }
@@ -490,12 +636,79 @@ export default {
       } catch (err) {
         console.clear()
         if (err.response.headers.mensaje) {
-          console.error('Error: ' + err.response.headers.mensaje)
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
-          console.error('Hubo un error al intentar ingresar.')
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
         }
-        notificarService.notificarError('Hubo un error al comprobar las credenciales.')
+        cargando.value = false
       }
+    }
+
+    function fLimpiarInputs (actual) {
+      switch (actual) {
+        case 'camion':
+          chofer.value = null
+          comprador.value = null
+          vendedor.value = null
+          origen.value = null
+          destino.value = null
+          break
+        case 'chofer':
+          camion.value = null
+          comprador.value = null
+          vendedor.value = null
+          origen.value = null
+          destino.value = null
+          break
+        case 'comprador':
+          camion.value = null
+          chofer.value = null
+          vendedor.value = null
+          origen.value = null
+          destino.value = null
+          break
+        case 'vendedor':
+          camion.value = null
+          chofer.value = null
+          comprador.value = null
+          origen.value = null
+          destino.value = null
+          break
+        case 'origen':
+          camion.value = null
+          chofer.value = null
+          comprador.value = null
+          vendedor.value = null
+          destino.value = null
+          break
+        case 'destino':
+          camion.value = null
+          chofer.value = null
+          comprador.value = null
+          vendedor.value = null
+          origen.value = null
+          break
+        default:
+          camion.value = null
+          chofer.value = null
+          comprador.value = null
+          vendedor.value = null
+          origen.value = null
+          destino.value = null
+          break
+      }
+    }
+
+    function fFormatoFecha (fecha) {
+      return helper.getDateWithFormat(fecha)
+    }
+
+    function fMostrarDialogo (props) {
+      Object.assign(viaje, props.row)
+      seeDialog.value = true
     }
 
     return {
@@ -515,7 +728,8 @@ export default {
       destino,
       comprador,
 
-      fShowSeeDialog,
+      fMostrarDialogo,
+      fFormatoFecha,
 
       cargando,
       columns,

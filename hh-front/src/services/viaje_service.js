@@ -322,6 +322,22 @@ function spfBuscarPorIdConEliminadas (id) {
   })
 }
 
+function spfBuscarUltimoViaje () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/buscar-ultimo', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfContarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/contar-todas', {
@@ -341,6 +357,54 @@ function spfContarTodas () {
 function spfContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/contar-todas-con-eliminadas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfSumarCantidadTransportada () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/sumar-cantidad-transportada', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfSumarKmCargado () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/sumar-km-cargado', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfSumarKmVacio () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/sumar-km-vacio', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -444,8 +508,12 @@ export const viajeService = {
   spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,
+  spfBuscarUltimoViaje,
   spfContarTodas,
   spfContarTodasConEliminadas,
+  spfSumarCantidadTransportada,
+  spfSumarKmCargado,
+  spfSumarKmVacio,
 
   spfGuardar,
   spfBorrar,

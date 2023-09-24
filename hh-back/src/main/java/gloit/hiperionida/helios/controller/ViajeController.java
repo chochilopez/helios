@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RequestMapping(value = "/api/viaje")
@@ -38,6 +39,36 @@ public class    ViajeController extends AbsBaseController {
         String mensaje = "Ocurrio un error al guardar el viaje. " + e.getMessage();
 
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+    }
+
+    @GetMapping(value = "/buscar-ultimo")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ViajeDTO> buscarUltimoViaje() {
+        return new ResponseEntity<>(viajeMapper.toDto(viajeService.buscarUltimoViaje()), Helper.httpHeaders("Se devolvio el ultimo viaje."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/sumar-cantidad-transportada")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<String> sumarCantidadTransportada() {
+        Double cantidadTrasnportada = viajeService.sumarTodasCantidadTrasnportada();
+
+        return new ResponseEntity<>(cantidadTrasnportada.toString(), Helper.httpHeaders("La sumatoria de cantidad transportada es + " + cantidadTrasnportada + "."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/sumar-km-vacio")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<String> sumarKmVacio() {
+        Double kmVacio = viajeService.sumarTodasKmVacio();
+
+        return new ResponseEntity<>(kmVacio.toString(), Helper.httpHeaders("La sumatoria de km vacio es + " + kmVacio + "."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/sumar-km-cargado")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<String> sumarKmCargado() {
+        Double kmCargado = viajeService.sumarTodasKmCargado();
+
+        return new ResponseEntity<>(kmCargado.toString(), Helper.httpHeaders("La sumatoria de km cargado es + " + kmCargado + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-camion-id/{id}")
@@ -130,7 +161,7 @@ public class    ViajeController extends AbsBaseController {
 
     @GetMapping(value = "/buscar-todas-por-origen-direccion/{direccion}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorOrigenDireccion(@PathVariable(name = "nombre") String direccion) {
+    public ResponseEntity<List<ViajeDTO>> buscarTodasPorOrigenDireccion(@PathVariable(name = "direccion") String direccion) {
         List<ViajeModel> listado = viajeService.buscarTodasPorOrigenDireccion(direccion);
         ArrayList<ViajeDTO> viajes = new ArrayList<>();
         for (ViajeModel viaje:listado) {
@@ -141,7 +172,7 @@ public class    ViajeController extends AbsBaseController {
 
     @GetMapping(value = "/buscar-todas-por-origen-direccion-con-eliminadas/{direccion}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorOrigenDireccionConEliminadas(@PathVariable(name = "nombre") String direccion) {
+    public ResponseEntity<List<ViajeDTO>> buscarTodasPorOrigenDireccionConEliminadas(@PathVariable(name = "direccion") String direccion) {
         List<ViajeModel> listado = viajeService.buscarTodasPorOrigenDireccionConEliminadas(direccion);
         ArrayList<ViajeDTO> viajes = new ArrayList<>();
         for (ViajeModel viaje:listado) {
@@ -152,7 +183,7 @@ public class    ViajeController extends AbsBaseController {
 
     @GetMapping(value = "/buscar-todas-por-destino-direccion/{direccion}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorDestinoDireccion(@PathVariable(name = "nombre") String direccion) {
+    public ResponseEntity<List<ViajeDTO>> buscarTodasPorDestinoDireccion(@PathVariable(name = "direccion") String direccion) {
         List<ViajeModel> listado = viajeService.buscarTodasPorDestinoDireccion(direccion);
         ArrayList<ViajeDTO> viajes = new ArrayList<>();
         for (ViajeModel viaje:listado) {
@@ -163,7 +194,7 @@ public class    ViajeController extends AbsBaseController {
 
     @GetMapping(value = "/buscar-todas-por-destino-direccion-con-eliminadas/{direccion}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorDestinoDireccionConEliminadas(@PathVariable(name = "nombre") String direccion) {
+    public ResponseEntity<List<ViajeDTO>> buscarTodasPorDestinoDireccionConEliminadas(@PathVariable(name = "direccion") String direccion) {
         List<ViajeModel> listado = viajeService.buscarTodasPorDestinoDireccionConEliminadas(direccion);
         ArrayList<ViajeDTO> viajes = new ArrayList<>();
         for (ViajeModel viaje:listado) {

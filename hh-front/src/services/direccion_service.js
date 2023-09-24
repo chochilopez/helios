@@ -1,8 +1,7 @@
 import axios from 'axios'
 const API_URL = process.env.API_URL
 import { autenticacionService } from 'src/services/autenticacion_service'
-import { llavero } from 'src/helpers/llavero'
-import { ttlEnum } from 'src/models/enums/ttl_enum'
+import { llaveroService } from 'src/helpers/llavero_service'
 
 /*
 s -> servicio
@@ -12,38 +11,37 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.obtenerDeLocal('lDirecccionTodas')
+  return llaveroService.obtenerDeLocal('lDireccionTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.obtenerDeLocal('lDirecccionTodasConEliminadas')
+  return llaveroService.obtenerDeLocal('lDireccionTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.obtenerDeLocal('lDirecccionPorId/' + id + '/')
+  return llaveroService.obtenerDeLocal('lDireccionPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.obtenerDeLocal('lDirecccionPorIdConEliminadas/' + id + '/')
+  return llaveroService.obtenerDeLocal('lDireccionPorIdConEliminadas/' + id + '/')
 }
 
 function obtenerCuenta () {
-  return llavero.obtenerDeLocal('lDirecccionCuenta')
+  return llaveroService.obtenerDeLocal('lDireccionCuenta')
 }
 
 function obtenerCuentaConEliminadas () {
-  return llavero.obtenerDeLocal('lDirecccionCuentaConEliminadas')
+  return llaveroService.obtenerDeLocal('lDireccionCuentaConEliminadas')
 }
 
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'direcccion/buscar-todas', {
+    axios.get(API_URL + 'direccion/buscar-todas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lDirecccionTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -54,13 +52,12 @@ function spfBuscarTodas () {
 
 function spfBuscarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'direcccion/buscar-todas-con-eliminadas', {
+    axios.get(API_URL + 'direccion/buscar-todas-con-eliminadas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lDirecccionTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -71,13 +68,12 @@ function spfBuscarTodasConEliminadas () {
 
 function spfBuscarTodasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'direcccion/buscar-todas-paginadas', paginadoDTO, {
+    axios.post(API_URL + 'direccion/buscar-todas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lDirecccionTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -88,13 +84,12 @@ function spfBuscarTodasPaginadas (paginadoDTO) {
 
 function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'direcccion/buscar-todas-paginadas-con-eliminadas', paginadoDTO, {
+    axios.post(API_URL + 'direccion/buscar-todas-con-eliminadas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lDirecccionTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -105,13 +100,12 @@ function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
 
 function spfBuscarPorId (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'direcccion/buscar-por-id/' + id, {
+    axios.get(API_URL + 'direccion/buscar-por-id/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lDirecccionPorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -122,13 +116,12 @@ function spfBuscarPorId (id) {
 
 function spfBuscarPorIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'direcccion/buscar-por-id-con-eliminadas/' + id, {
+    axios.get(API_URL + 'direccion/buscar-por-id-con-eliminadas/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lDirecccionPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -139,13 +132,12 @@ function spfBuscarPorIdConEliminadas (id) {
 
 function spfContarTodas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'direcccion/contar-todas', {
+    axios.get(API_URL + 'direccion/contar-todas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lDirecccionContar', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -156,13 +148,12 @@ function spfContarTodas () {
 
 function spfContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'direcccion/contar-todas-con-eliminadas', {
+    axios.get(API_URL + 'direccion/contar-todas-con-eliminadas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lDirecccionContarConEliminadas', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -173,7 +164,7 @@ function spfContarTodasConEliminadas () {
 
 function spfGuardar (anObj) {
   return new Promise((resolve, reject) => {
-    axios.put(API_URL + 'direcccion', anObj, {
+    axios.put(API_URL + 'direccion', anObj, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -189,7 +180,7 @@ function spfGuardar (anObj) {
 
 function spfBorrar (id) {
   return new Promise((resolve, reject) => {
-    axios.delete(API_URL + 'direcccion/' + id, {
+    axios.delete(API_URL + 'direccion/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -205,7 +196,7 @@ function spfBorrar (id) {
 
 function spfReciclar (id) {
   return new Promise((resolve, reject) => {
-    axios.post(API_URL + 'direcccion/reciclar/' + id, {
+    axios.post(API_URL + 'direccion/reciclar/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -221,7 +212,7 @@ function spfReciclar (id) {
 
 function spfDestruir (id) {
   return new Promise((resolve, reject) => {
-    axios.delete(API_URL + 'direcccion/destruir/' + id, {
+    axios.delete(API_URL + 'direccion/destruir/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -235,7 +226,7 @@ function spfDestruir (id) {
   })
 }
 
-export const direcccionService = {
+export const direccionService = {
   obtenerTodas,
   obtenerTodasConEliminadas,
   obtenerPorId,

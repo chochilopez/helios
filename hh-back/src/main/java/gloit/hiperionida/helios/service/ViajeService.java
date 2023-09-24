@@ -19,5 +19,10 @@ public interface ViajeService extends GenericService<ViajeModel, ViajeCreation> 
     List<ViajeModel> buscarTodasPorOrigenDireccionConEliminadas(String direccion);
     List<ViajeModel> buscarTodasPorDestinoDireccion(String direccion);
     List<ViajeModel> buscarTodasPorDestinoDireccionConEliminadas(String direccion);
+
+    Double sumarTodasCantidadTrasnportada();
+    Double sumarTodasKmCargado();
+    Double sumarTodasKmVacio();
+    ViajeModel buscarUltimoViaje();
 }
 

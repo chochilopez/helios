@@ -11,7 +11,8 @@ import lombok.Setter;
 public abstract class AbsViajeModel extends AbsAuditoriaModel {
     private Double cantidadTransportada;
     private Double valorKm;
-    private Double kgNeto;
+    private Double neto;
+    private Double tara;
     private Double kmCargado;
     private Double kmVacio;
     @Column(columnDefinition = "TEXT")
