@@ -50,6 +50,134 @@ function spfBuscarTodas () {
   })
 }
 
+function spfBuscarTodasPorCompradorNombre (nombre) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'prespuesto/buscar-todas-por-comprador-nombre/' + nombre, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorCompradorNombreConEliminadas (nombre) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'prespuesto/buscar-todas-por-comprador-nombre-con-eliminadas/' + nombre, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorOrigenDireccion (direccion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'presupuesto/buscar-todas-por-origen-direccion/' + direccion, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorOrigenDireccionConEliminadas (direccion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'presupuesto/buscar-todas-por-origen-direccion-con-eliminadas/' + direccion, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorDestinoDireccion (direccion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'presupuesto/buscar-todas-por-destino-direccion/' + direccion, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorDestinoDireccionConEliminadas (direccion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'presupuesto/buscar-todas-por-destino-direccion-con-eliminadas/' + direccion, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorFecha (fecha) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'presupuesto/buscar-todas-por-fecha/' + fecha, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorFechaConEliminadas (fecha) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'presupuesto/buscar-todas-por-fecha-con-eliminadas/' + fecha, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'presupuesto/buscar-todas-con-eliminadas', {
@@ -117,6 +245,22 @@ function spfBuscarPorId (id) {
 function spfBuscarPorIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'presupuesto/buscar-por-id-con-eliminadas/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarUltimoPresupuesto () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'presupuesto/buscar-ultimo', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -234,12 +378,21 @@ export const presupuestoService = {
   obtenerCuenta,
   obtenerCuentaConEliminadas,
 
+  spfBuscarTodasPorCompradorNombre,
+  spfBuscarTodasPorCompradorNombreConEliminadas,
+  spfBuscarTodasPorDestinoDireccion,
+  spfBuscarTodasPorDestinoDireccionConEliminadas,
+  spfBuscarTodasPorFecha,
+  spfBuscarTodasPorFechaConEliminadas,
+  spfBuscarTodasPorOrigenDireccion,
+  spfBuscarTodasPorOrigenDireccionConEliminadas,
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
   spfBuscarTodasPaginadas,
   spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,
+  spfBuscarUltimoPresupuesto,
   spfContarTodas,
   spfContarTodasConEliminadas,
 

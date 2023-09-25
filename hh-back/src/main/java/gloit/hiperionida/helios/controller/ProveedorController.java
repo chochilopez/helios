@@ -76,7 +76,7 @@ public class ProveedorController extends AbsBaseController {
         return new ResponseEntity<>(proveedors, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-paginadas")
+    @PostMapping(value = "/buscar-todas-paginadas")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Slice<ProveedorDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<ProveedorModel> listado = proveedorService.buscarTodasPorOrdenPorPagina(
@@ -93,7 +93,7 @@ public class ProveedorController extends AbsBaseController {
         return new ResponseEntity<>(slice, Helper.httpHeaders("Se encontraron " + slice.getSize() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-con-eliminadas-paginadas")
+    @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Slice<ProveedorDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<ProveedorModel> listado = proveedorService.buscarTodasPorOrdenPorPaginaConEliminadas(

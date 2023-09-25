@@ -1,10 +1,14 @@
 <template>
-  <h1>Presupuesto</h1>
+  <ViajesPresupuestosListado />
 </template>
 
 <script>
+import ViajesPresupuestosListado from 'src/components/sitio/ViajesPresupuestosListado.vue'
 
 export default {
+  components: {
+    ViajesPresupuestosListado
+  },
   setup () {
     return {}
   }

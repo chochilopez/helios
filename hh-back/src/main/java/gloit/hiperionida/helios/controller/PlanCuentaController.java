@@ -76,7 +76,7 @@ public class PlanCuentaController extends AbsBaseController {
         return new ResponseEntity<>(planCuentas, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-paginadas")
+    @PostMapping(value = "/buscar-todas-paginadas")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Slice<PlanCuentaDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<PlanCuentaModel> listado = planCuentaService.buscarTodasPorOrdenPorPagina(
@@ -93,7 +93,7 @@ public class PlanCuentaController extends AbsBaseController {
         return new ResponseEntity<>(slice, Helper.httpHeaders("Se encontraron " + slice.getSize() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-con-eliminadas-paginadas")
+    @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Slice<PlanCuentaDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<PlanCuentaModel> listado = planCuentaService.buscarTodasPorOrdenPorPaginaConEliminadas(

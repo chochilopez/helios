@@ -76,7 +76,7 @@ public class BancoController extends AbsBaseController {
         return new ResponseEntity<>(bancos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-paginadas")
+    @PostMapping(value = "/buscar-todas-paginadas")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Slice<BancoDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<BancoModel> listado = bancoService.buscarTodasPorOrdenPorPagina(
@@ -93,7 +93,7 @@ public class BancoController extends AbsBaseController {
         return new ResponseEntity<>(slice, Helper.httpHeaders("Se encontraron " + slice.getSize() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-con-eliminadas-paginadas")
+    @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Slice<BancoDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<BancoModel> listado = bancoService.buscarTodasPorOrdenPorPaginaConEliminadas(

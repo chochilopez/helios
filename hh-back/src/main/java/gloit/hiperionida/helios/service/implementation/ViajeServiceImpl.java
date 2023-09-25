@@ -56,7 +56,7 @@ public class ViajeServiceImpl implements ViajeService {
 
     @Override
     public ViajeModel buscarUltimoViaje() {
-        log.info("Buscando la ultima entidad Viaje con.");
+        log.info("Buscando la ultima entidad Viaje.");
 
         return viajeDAO.findFirstByOrderByIdDesc();
     }

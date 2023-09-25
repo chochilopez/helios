@@ -4,6 +4,18 @@ import gloit.hiperionida.helios.mapper.creation.PresupuestoCreation;
 import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.util.service.GenericService;
 
+import java.util.List;
+
 public interface PresupuestoService extends GenericService<PresupuestoModel, PresupuestoCreation> {
+    List<PresupuestoModel> buscarTodasPorCompradorNombre(String nombre);
+    List<PresupuestoModel> buscarTodasPorCompradorNombreConEliminadas(String nombre);
+    List<PresupuestoModel> buscarTodasPorOrigenDireccion(String direccion);
+    List<PresupuestoModel> buscarTodasPorOrigenDireccionConEliminadas(String direccion);
+    List<PresupuestoModel> buscarTodasPorDestinoDireccion(String direccion);
+    List<PresupuestoModel> buscarTodasPorDestinoDireccionConEliminadas(String direccion);
+    List<PresupuestoModel> buscarTodasPorFechaFecha(String fecha);
+    List<PresupuestoModel> buscarTodasPorFechaFechaConEliminadas(String fecha);
+
+    PresupuestoModel buscarUltimoPresupuesto();
 }
 

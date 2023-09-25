@@ -8,6 +8,7 @@ import gloit.hiperionida.helios.service.PresupuestoService;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
 import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.CustomParameterConstraintException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,95 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     private final PresupuestoDAO presupuestoDAO;
     private final PresupuestoMapper presupuestoMapper;
     private final UsuarioServiceImpl usuarioService;
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorFechaFecha(String fecha) {
+        log.info("Buscando todas las entidades Presupuesto con fecha: {}.", fecha);
+        if (Helper.stringToLocalDateTime(fecha, "") != null) {
+            List<PresupuestoModel> listado = presupuestoDAO.findAllByFechaFechaAndEliminadaIsNull(Helper.stringToLocalDateTime(fecha, ""));
+            if (listado.isEmpty())
+                throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con fecha: " + fecha + ".");
+            else
+                return listado;
+        } else {
+            throw new CustomParameterConstraintException("La fecha no tiene formato valido.");
+        }
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorFechaFechaConEliminadas(String fecha) {
+        log.info("Buscando todas las entidades Presupuesto con fecha: {}, incluidas las eliminadas.", fecha);
+        if (Helper.stringToLocalDateTime(fecha, "") != null) {
+            List<PresupuestoModel> listado = presupuestoDAO.findAllByFechaFecha(Helper.stringToLocalDateTime(fecha, ""));
+            if (listado.isEmpty())
+                throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con fecha: " + fecha + ", incluidas las eliminadas.");
+            else
+                return listado;
+        } else {
+            throw new CustomParameterConstraintException("La fecha no tiene formato valido, incluidas las eliminadas..");
+        }
+    }
+
+    @Override
+    public PresupuestoModel buscarUltimoPresupuesto() {
+        log.info("Buscando la ultima entidad Presupuesto.");
+
+        return presupuestoDAO.findFirstByOrderByIdDesc();
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorCompradorNombre(String nombre) {
+        log.info("Buscando todas las entidades Presupuesto con nombre de Comprador: {}.", nombre);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con nombre de Comprador: " + nombre + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorCompradorNombreConEliminadas(String nombre) {
+        log.info("Buscando todas las entidades Presupuesto con nombre de Comprador: {}, con eliminadas.", nombre);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByCompradorNombreContainingIgnoreCase(nombre);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con nombre de Comprador: " + nombre + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorOrigenDireccion(String direccion) {
+        log.info("Buscando todas las entidades Presupuesto con Origen: {}.", direccion);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByOrigenDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con Origen: " + direccion + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorOrigenDireccionConEliminadas(String direccion) {
+        log.info("Buscando todas las entidades Presupuesto con Origen: {}, con eliminadas.", direccion);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByOrigenDireccionContainingIgnoreCase(direccion);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con Origen: " + direccion + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorDestinoDireccion(String direccion) {
+        log.info("Buscando todas las entidades Presupuesto con Destino: {}.", direccion);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByDestinoDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con Destino: " + direccion + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorDestinoDireccionConEliminadas(String direccion) {
+        log.info("Buscando todas las entidades Presupuesto con Destino: {}, con eliminadas.", direccion);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByDestinoDireccionContainingIgnoreCase(direccion);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con Destino: " + direccion + ", con eliminadas.");
+        return listado;
+    }
 
     @Override
     public PresupuestoModel buscarPorId(Long id) {

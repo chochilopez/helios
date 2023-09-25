@@ -76,7 +76,7 @@ public class ConciliacionBancoController extends AbsBaseController {
         return new ResponseEntity<>(conciliacionBancos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-paginadas")
+    @PostMapping(value = "/buscar-todas-paginadas")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Slice<ConciliacionBancoDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<ConciliacionBancoModel> listado = conciliacionBancoService.buscarTodasPorOrdenPorPagina(
@@ -93,7 +93,7 @@ public class ConciliacionBancoController extends AbsBaseController {
         return new ResponseEntity<>(slice, Helper.httpHeaders("Se encontraron " + slice.getSize() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-con-eliminadas-paginadas")
+    @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Slice<ConciliacionBancoDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<ConciliacionBancoModel> listado = conciliacionBancoService.buscarTodasPorOrdenPorPaginaConEliminadas(
