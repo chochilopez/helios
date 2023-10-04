@@ -71,21 +71,21 @@ public class UsuarioMapper {
         }
 
         if (Helper.getLong(usuarioCreation.getCreador_id()) != null) {
-            Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(usuarioCreation.getCreador_id()));
+            Optional<UsuarioModel> user = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(usuarioCreation.getCreador_id()));
             if (user.isPresent())
                 usuarioModel.setCreador(user.get());
         }
         if (!Helper.isEmptyString(usuarioCreation.getCreada()))
             usuarioModel.setCreada(Helper.stringToLocalDateTime(usuarioCreation.getCreada(), ""));
         if (Helper.getLong(usuarioCreation.getModificador_id()) != null) {
-            Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(usuarioCreation.getModificador_id()));
+            Optional<UsuarioModel> user = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(usuarioCreation.getModificador_id()));
             if (user.isPresent())
                 usuarioModel.setModificador(user.get());
         }
         if (!Helper.isEmptyString(usuarioCreation.getModificada()))
             usuarioModel.setModificada(Helper.stringToLocalDateTime(usuarioCreation.getModificada(), ""));
         if (Helper.getLong(usuarioCreation.getEliminador_id()) != null) {
-            Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(usuarioCreation.getEliminador_id()));
+            Optional<UsuarioModel> user = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(usuarioCreation.getEliminador_id()));
             if (user.isPresent())
                 usuarioModel.setEliminador(user.get());
         }

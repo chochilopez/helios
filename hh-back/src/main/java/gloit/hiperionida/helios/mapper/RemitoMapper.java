@@ -32,25 +32,22 @@ public class RemitoMapper {
             remitoModel.setNumero(remitoCreation.getNumero());
 
             if (Helper.getLong(remitoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(remitoCreation.getCreador_id()));
-                if (user.isPresent())
-                    remitoModel.setCreador(user.get());
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(remitoCreation.getCreador_id()));
+                usuario.ifPresent(remitoModel::setCreador);
             }
-            if (!Helper.isEmptyString(remitoCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(remitoCreation.getCreada(), "") != null)
                 remitoModel.setCreada(Helper.stringToLocalDateTime(remitoCreation.getCreada(), ""));
             if (Helper.getLong(remitoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(remitoCreation.getModificador_id()));
-                if (user.isPresent())
-                    remitoModel.setModificador(user.get());
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(remitoCreation.getModificador_id()));
+                usuario.ifPresent(remitoModel::setModificador);
             }
-            if (!Helper.isEmptyString(remitoCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(remitoCreation.getModificada(), "") != null)
                 remitoModel.setModificada(Helper.stringToLocalDateTime(remitoCreation.getModificada(), ""));
             if (Helper.getLong(remitoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(remitoCreation.getEliminador_id()));
-                if (user.isPresent())
-                    remitoModel.setEliminador(user.get());
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(remitoCreation.getEliminador_id()));
+                usuario.ifPresent(remitoModel::setEliminador);
             }
-            if (!Helper.isEmptyString(remitoCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(remitoCreation.getEliminada(), "") != null)
                 remitoModel.setEliminada(Helper.stringToLocalDateTime(remitoCreation.getEliminada(), ""));
 
             return remitoModel;
@@ -71,15 +68,15 @@ public class RemitoMapper {
 
             if (remitoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(remitoModel.getCreador()));
-            if (remitoModel.getCreada() != null)
+            if (Helper.localDateTimeToString(remitoModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(remitoModel.getCreada(), ""));
             if (remitoModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(remitoModel.getModificador()));
-            if (remitoModel.getModificada() != null)
+            if (Helper.localDateTimeToString(remitoModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(remitoModel.getModificada(), ""));
             if (remitoModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(remitoModel.getEliminador()));
-            if (remitoModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(remitoModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(remitoModel.getEliminada(), ""));
 
             return dto;

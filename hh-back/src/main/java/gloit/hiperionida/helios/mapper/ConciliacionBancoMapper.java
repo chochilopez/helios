@@ -39,27 +39,27 @@ public class ConciliacionBancoMapper {
             if (Helper.getDecimal(conciliacionBancoCreation.getMonto()) != null)
                 conciliacionBancoModel.setMonto(Helper.getDecimal(conciliacionBancoCreation.getMonto()));
             if (Helper.getLong(conciliacionBancoCreation.getBanco_id()) != null) {
-                Optional<BancoModel> banco = bancoDAO.findById(Helper.getLong(conciliacionBancoCreation.getBanco_id()));
+                Optional<BancoModel> banco = bancoDAO.findByIdAndEliminadaIsNull(Helper.getLong(conciliacionBancoCreation.getBanco_id()));
                 banco.ifPresent(conciliacionBancoModel::setBanco);
             }
 
             if (Helper.getLong(conciliacionBancoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conciliacionBancoCreation.getCreador_id()));
-                user.ifPresent(conciliacionBancoModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(conciliacionBancoCreation.getCreador_id()));
+                usuario.ifPresent(conciliacionBancoModel::setCreador);
             }
-            if (!Helper.isEmptyString(conciliacionBancoCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(conciliacionBancoCreation.getCreada(), "") != null)
                 conciliacionBancoModel.setCreada(Helper.stringToLocalDateTime(conciliacionBancoCreation.getCreada(), ""));
             if (Helper.getLong(conciliacionBancoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conciliacionBancoCreation.getModificador_id()));
-                user.ifPresent(conciliacionBancoModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(conciliacionBancoCreation.getModificador_id()));
+                usuario.ifPresent(conciliacionBancoModel::setModificador);
             }
-            if (!Helper.isEmptyString(conciliacionBancoCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(conciliacionBancoCreation.getModificada(), "") != null)
                 conciliacionBancoModel.setModificada(Helper.stringToLocalDateTime(conciliacionBancoCreation.getModificada(), ""));
             if (Helper.getLong(conciliacionBancoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conciliacionBancoCreation.getEliminador_id()));
-                user.ifPresent(conciliacionBancoModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(conciliacionBancoCreation.getEliminador_id()));
+                usuario.ifPresent(conciliacionBancoModel::setEliminador);
             }
-            if (!Helper.isEmptyString(conciliacionBancoCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(conciliacionBancoCreation.getEliminada(), "") != null)
                 conciliacionBancoModel.setEliminada(Helper.stringToLocalDateTime(conciliacionBancoCreation.getEliminada(), ""));
 
             return conciliacionBancoModel;
@@ -83,15 +83,15 @@ public class ConciliacionBancoMapper {
 
             if (conciliacionBancoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(conciliacionBancoModel.getCreador()));
-            if (conciliacionBancoModel.getCreada() != null)
+            if (Helper.localDateTimeToString(conciliacionBancoModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(conciliacionBancoModel.getCreada(), ""));
             if (conciliacionBancoModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(conciliacionBancoModel.getModificador()));
-            if (conciliacionBancoModel.getModificada() != null)
+            if (Helper.localDateTimeToString(conciliacionBancoModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(conciliacionBancoModel.getModificada(), ""));
             if (conciliacionBancoModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(conciliacionBancoModel.getEliminador()));
-            if (conciliacionBancoModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(conciliacionBancoModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(conciliacionBancoModel.getEliminada(), ""));
 
             return dto;

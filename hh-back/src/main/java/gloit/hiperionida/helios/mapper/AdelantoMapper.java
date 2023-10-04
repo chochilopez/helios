@@ -46,22 +46,22 @@ public class AdelantoMapper {
             }
 
             if (Helper.getLong(adelantoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(adelantoCreation.getCreador_id()));
-                user.ifPresent(adelantoModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(adelantoCreation.getCreador_id()));
+                usuario.ifPresent(adelantoModel::setCreador);
             }
-            if (!Helper.isEmptyString(adelantoCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(adelantoCreation.getCreada(), "") != null)
                 adelantoModel.setCreada(Helper.stringToLocalDateTime(adelantoCreation.getCreada(), ""));
             if (Helper.getLong(adelantoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(adelantoCreation.getModificador_id()));
-                user.ifPresent(adelantoModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(adelantoCreation.getModificador_id()));
+                usuario.ifPresent(adelantoModel::setModificador);
             }
-            if (!Helper.isEmptyString(adelantoCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(adelantoCreation.getModificada(), "") != null)
                 adelantoModel.setModificada(Helper.stringToLocalDateTime(adelantoCreation.getModificada(), ""));
             if (Helper.getLong(adelantoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(adelantoCreation.getEliminador_id()));
-                user.ifPresent(adelantoModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(adelantoCreation.getEliminador_id()));
+                usuario.ifPresent(adelantoModel::setEliminador);
             }
-            if (!Helper.isEmptyString(adelantoCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(adelantoCreation.getEliminada(), "") != null)
                 adelantoModel.setEliminada(Helper.stringToLocalDateTime(adelantoCreation.getEliminada(), ""));
 
             return adelantoModel;
@@ -87,15 +87,15 @@ public class AdelantoMapper {
 
             if (adelantoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(adelantoModel.getCreador()));
-            if (adelantoModel.getCreada() != null)
+            if (Helper.localDateTimeToString(adelantoModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(adelantoModel.getCreada(), ""));
             if (adelantoModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(adelantoModel.getModificador()));
-            if (adelantoModel.getModificada() != null)
+            if (Helper.localDateTimeToString(adelantoModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(adelantoModel.getModificada(), ""));
             if (adelantoModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(adelantoModel.getEliminador()));
-            if (adelantoModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(adelantoModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(adelantoModel.getEliminada(), ""));
 
             return dto;

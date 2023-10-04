@@ -47,27 +47,27 @@ public class NeumaticoMapper {
             if (Helper.getBoolean(neumaticoCreation.getBaja()) != null)
                 neumaticoModel.setBaja(Helper.getBoolean(neumaticoCreation.getBaja()));
             if (Helper.getLong(neumaticoCreation.getProveedor_id()) != null) {
-                Optional<ProveedorModel> proveedor = proveedorDAO.findById(Helper.getLong(neumaticoCreation.getProveedor_id()));
+                Optional<ProveedorModel> proveedor = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumaticoCreation.getProveedor_id()));
                 proveedor.ifPresent(neumaticoModel::setProveedor);
             }
 
             if (Helper.getLong(neumaticoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(neumaticoCreation.getCreador_id()));
-                user.ifPresent(neumaticoModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumaticoCreation.getCreador_id()));
+                usuario.ifPresent(neumaticoModel::setCreador);
             }
-            if (!Helper.isEmptyString(neumaticoCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(neumaticoCreation.getCreada(), "") != null)
                 neumaticoModel.setCreada(Helper.stringToLocalDateTime(neumaticoCreation.getCreada(), ""));
             if (Helper.getLong(neumaticoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(neumaticoCreation.getModificador_id()));
-                user.ifPresent(neumaticoModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumaticoCreation.getModificador_id()));
+                usuario.ifPresent(neumaticoModel::setModificador);
             }
-            if (!Helper.isEmptyString(neumaticoCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(neumaticoCreation.getModificada(), "") != null)
                 neumaticoModel.setModificada(Helper.stringToLocalDateTime(neumaticoCreation.getModificada(), ""));
             if (Helper.getLong(neumaticoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(neumaticoCreation.getEliminador_id()));
-                user.ifPresent(neumaticoModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumaticoCreation.getEliminador_id()));
+                usuario.ifPresent(neumaticoModel::setEliminador);
             }
-            if (!Helper.isEmptyString(neumaticoCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(neumaticoCreation.getEliminada(), "") != null)
                 neumaticoModel.setEliminada(Helper.stringToLocalDateTime(neumaticoCreation.getEliminada(), ""));
 
             return neumaticoModel;
@@ -98,15 +98,15 @@ public class NeumaticoMapper {
 
             if (neumaticoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(neumaticoModel.getCreador()));
-            if (neumaticoModel.getCreada() != null)
+            if (Helper.localDateTimeToString(neumaticoModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(neumaticoModel.getCreada(), ""));
             if (neumaticoModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(neumaticoModel.getModificador()));
-            if (neumaticoModel.getModificada() != null)
+            if (Helper.localDateTimeToString(neumaticoModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(neumaticoModel.getModificada(), ""));
             if (neumaticoModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(neumaticoModel.getEliminador()));
-            if (neumaticoModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(neumaticoModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(neumaticoModel.getEliminada(), ""));
 
             return dto;

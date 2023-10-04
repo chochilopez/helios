@@ -42,39 +42,41 @@ public class ConductorMapper {
             conductorModel.setNotas(conductorCreation.getNotas());
             conductorModel.setTelefono(conductorCreation.getTelefono());
             Set<AdelantoModel> adelantos = new HashSet<>();
-            for (String adelanto_id:conductorCreation.getAdelantos_id()) {
-                if (Helper.getLong(adelanto_id) != null) {
-                    Optional<AdelantoModel> adelanto = adelantoDAO.findById(Helper.getLong(adelanto_id));
-                    adelanto.ifPresent(adelantos::add);
+            if (conductorCreation.getAdelantos_id() != null) {
+                for (String adelanto_id : conductorCreation.getAdelantos_id()) {
+                    if (Helper.getLong(adelanto_id) != null) {
+                        Optional<AdelantoModel> adelanto = adelantoDAO.findByIdAndEliminadaIsNull(Helper.getLong(adelanto_id));
+                        adelanto.ifPresent(adelantos::add);
+                    }
                 }
             }
             conductorModel.setAdelantos(adelantos);
             if (Helper.getLong(conductorCreation.getCamion_id()) != null) {
-                Optional<CamionModel> camion = camionDAO.findById(Helper.getLong(conductorCreation.getCamion_id()));
+                Optional<CamionModel> camion = camionDAO.findByIdAndEliminadaIsNull(Helper.getLong(conductorCreation.getCamion_id()));
                 camion.ifPresent(conductorModel::setCamion);
             }
             if (Helper.getLong(conductorCreation.getLicencia_id()) != null) {
-                Optional<LicenciaModel> licencia = licenciaDAO.findById(Helper.getLong(conductorCreation.getLicencia_id()));
+                Optional<LicenciaModel> licencia = licenciaDAO.findByIdAndEliminadaIsNull(Helper.getLong(conductorCreation.getLicencia_id()));
                 licencia.ifPresent(conductorModel::setLicencia);
             }
 
             if (Helper.getLong(conductorCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conductorCreation.getCreador_id()));
-                user.ifPresent(conductorModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(conductorCreation.getCreador_id()));
+                usuario.ifPresent(conductorModel::setCreador);
             }
-            if (!Helper.isEmptyString(conductorCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(conductorCreation.getCreada(), "") != null)
                 conductorModel.setCreada(Helper.stringToLocalDateTime(conductorCreation.getCreada(), ""));
             if (Helper.getLong(conductorCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conductorCreation.getModificador_id()));
-                user.ifPresent(conductorModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(conductorCreation.getModificador_id()));
+                usuario.ifPresent(conductorModel::setModificador);
             }
-            if (!Helper.isEmptyString(conductorCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(conductorCreation.getModificada(), "") != null)
                 conductorModel.setModificada(Helper.stringToLocalDateTime(conductorCreation.getModificada(), ""));
             if (Helper.getLong(conductorCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(conductorCreation.getEliminador_id()));
-                user.ifPresent(conductorModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(conductorCreation.getEliminador_id()));
+                usuario.ifPresent(conductorModel::setEliminador);
             }
-            if (!Helper.isEmptyString(conductorCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(conductorCreation.getEliminada(), "") != null)
                 conductorModel.setEliminada(Helper.stringToLocalDateTime(conductorCreation.getEliminada(), ""));
 
             return conductorModel;
@@ -109,15 +111,15 @@ public class ConductorMapper {
 
             if (conductorModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(conductorModel.getCreador()));
-            if (conductorModel.getCreada() != null)
+            if (Helper.localDateTimeToString(conductorModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(conductorModel.getCreada(), ""));
             if (conductorModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(conductorModel.getModificador()));
-            if (conductorModel.getModificada() != null)
+            if (Helper.localDateTimeToString(conductorModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(conductorModel.getModificada(), ""));
             if (conductorModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(conductorModel.getEliminador()));
-            if (conductorModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(conductorModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(conductorModel.getEliminada(), ""));
 
             return dto;

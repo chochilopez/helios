@@ -44,22 +44,22 @@ public class ChequeMapper {
             chequeModel.setNumeroCheque(chequeCreation.getNumeroCheque());
 
             if (Helper.getLong(chequeCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(chequeCreation.getCreador_id()));
-                user.ifPresent(chequeModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(chequeCreation.getCreador_id()));
+                usuario.ifPresent(chequeModel::setCreador);
             }
-            if (!Helper.isEmptyString(chequeCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(chequeCreation.getCreada(), "") != null)
                 chequeModel.setCreada(Helper.stringToLocalDateTime(chequeCreation.getCreada(), ""));
             if (Helper.getLong(chequeCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(chequeCreation.getModificador_id()));
-                user.ifPresent(chequeModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(chequeCreation.getModificador_id()));
+                usuario.ifPresent(chequeModel::setModificador);
             }
-            if (!Helper.isEmptyString(chequeCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(chequeCreation.getModificada(), "") != null)
                 chequeModel.setModificada(Helper.stringToLocalDateTime(chequeCreation.getModificada(), ""));
             if (Helper.getLong(chequeCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(chequeCreation.getEliminador_id()));
-                user.ifPresent(chequeModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(chequeCreation.getEliminador_id()));
+                usuario.ifPresent(chequeModel::setEliminador);
             }
-            if (!Helper.isEmptyString(chequeCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(chequeCreation.getEliminada(), "") != null)
                 chequeModel.setEliminada(Helper.stringToLocalDateTime(chequeCreation.getEliminada(), ""));
 
             return chequeModel;
@@ -89,15 +89,15 @@ public class ChequeMapper {
 
             if (chequeModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(chequeModel.getCreador()));
-            if (chequeModel.getCreada() != null)
+            if (Helper.localDateTimeToString(chequeModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(chequeModel.getCreada(), ""));
             if (chequeModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(chequeModel.getModificador()));
-            if (chequeModel.getModificada() != null)
+            if (Helper.localDateTimeToString(chequeModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(chequeModel.getModificada(), ""));
             if (chequeModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(chequeModel.getEliminador()));
-            if (chequeModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(chequeModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(chequeModel.getEliminada(), ""));
 
             return dto;

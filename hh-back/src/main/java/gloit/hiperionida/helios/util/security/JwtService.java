@@ -18,9 +18,9 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-	@Value("${neso.app.jwtSecret}")
+	@Value("${helios.app.jwtSecret}")
 	private String secretKey;
-	@Value("${neso.app.jwtExpiration}")
+	@Value("${helios.app.jwtExpiration}")
 	private long jwtExpiration;
 
     public String extraerUsuario(String token) {

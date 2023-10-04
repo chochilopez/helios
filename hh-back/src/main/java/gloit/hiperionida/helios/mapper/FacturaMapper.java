@@ -55,43 +55,45 @@ public class FacturaMapper {
             if (Helper.getBoolean(facturaCreation.getPagada()) != null)
                 facturaModel.setPagada(Helper.getBoolean(facturaCreation.getPagada()));
             Set<PagoModel> pagos = new HashSet<>();
-            for (String pago_id: facturaCreation.getPagos_id()) {
-                if (Helper.getLong(pago_id) != null) {
-                    Optional<PagoModel> pago = pagoDAO.findById(Helper.getLong(pago_id));
-                    pago.ifPresent(pagos::add);
+            if (facturaCreation.getPagos_id() != null) {
+                for (String pago_id : facturaCreation.getPagos_id()) {
+                    if (Helper.getLong(pago_id) != null) {
+                        Optional<PagoModel> pago = pagoDAO.findByIdAndEliminadaIsNull(Helper.getLong(pago_id));
+                        pago.ifPresent(pagos::add);
+                    }
                 }
             }
             facturaModel.setPagos(pagos);
             if (Helper.getLong(facturaCreation.getRemito_id()) != null) {
-                Optional<RemitoModel> remito = remitoDAO.findById(Helper.getLong(facturaCreation.getRemito_id()));
+                Optional<RemitoModel> remito = remitoDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getRemito_id()));
                 remito.ifPresent(facturaModel::setRemito);
             }
             if (Helper.getLong(facturaCreation.getViaje_id()) != null) {
-                Optional<ViajeModel> viaje = viajeDAO.findById(Helper.getLong(facturaCreation.getViaje_id()));
+                Optional<ViajeModel> viaje = viajeDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getViaje_id()));
                 viaje.ifPresent(facturaModel::setViaje);
             }
             if (Helper.getLong(facturaCreation.getMovimiento_id()) != null) {
-                Optional<MovimientoModel> movimiento = movimientoDAO.findById(Helper.getLong(facturaCreation.getMovimiento_id()));
+                Optional<MovimientoModel> movimiento = movimientoDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getMovimiento_id()));
                 movimiento.ifPresent(facturaModel::setMovimiento);
             }
 
             if (Helper.getLong(facturaCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(facturaCreation.getCreador_id()));
-                user.ifPresent(facturaModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getCreador_id()));
+                usuario.ifPresent(facturaModel::setCreador);
             }
-            if (!Helper.isEmptyString(facturaCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(facturaCreation.getCreada(), "") != null)
                 facturaModel.setCreada(Helper.stringToLocalDateTime(facturaCreation.getCreada(), ""));
             if (Helper.getLong(facturaCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(facturaCreation.getModificador_id()));
-                user.ifPresent(facturaModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getModificador_id()));
+                usuario.ifPresent(facturaModel::setModificador);
             }
-            if (!Helper.isEmptyString(facturaCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(facturaCreation.getModificada(), "") != null)
                 facturaModel.setModificada(Helper.stringToLocalDateTime(facturaCreation.getModificada(), ""));
             if (Helper.getLong(facturaCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(facturaCreation.getEliminador_id()));
-                user.ifPresent(facturaModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getEliminador_id()));
+                usuario.ifPresent(facturaModel::setEliminador);
             }
-            if (!Helper.isEmptyString(facturaCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(facturaCreation.getEliminada(), "") != null)
                 facturaModel.setEliminada(Helper.stringToLocalDateTime(facturaCreation.getEliminada(), ""));
 
             return facturaModel;
@@ -130,15 +132,15 @@ public class FacturaMapper {
 
             if (facturaModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(facturaModel.getCreador()));
-            if (facturaModel.getCreada() != null)
+            if (Helper.localDateTimeToString(facturaModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(facturaModel.getCreada(), ""));
             if (facturaModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(facturaModel.getModificador()));
-            if (facturaModel.getModificada() != null)
+            if (Helper.localDateTimeToString(facturaModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(facturaModel.getModificada(), ""));
             if (facturaModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(facturaModel.getEliminador()));
-            if (facturaModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(facturaModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(facturaModel.getEliminada(), ""));
 
             return dto;

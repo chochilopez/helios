@@ -19,5 +19,6 @@ public class ArchivoModel extends AbsAuditoriaModel {
     private String nombre;
     private String path;
     private String tamanio;
+    @Enumerated(EnumType.STRING)
     private TipoArchivoEnum tipo;
 }

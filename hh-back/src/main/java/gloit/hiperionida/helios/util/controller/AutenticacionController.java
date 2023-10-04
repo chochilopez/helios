@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class AutenticacionController extends AbsBaseController {
 	private final AutenticacionServiceImpl autenticacionService;
 	private final UsuarioMapper usuarioMapper;
-	@Value("${neso.app.mail.path}")
+	@Value("${helios.app.mail.path}")
 	private String path;
 
 	@ExceptionHandler(CustomTokenMismatchException.class)

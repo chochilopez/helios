@@ -39,27 +39,27 @@ public class PagoMapper {
             if (pagoCreation.getTipoPago() != null)
                 pagoModel.setTipoPago(TipoPagoEnum.valueOf(pagoCreation.getTipoPago()));
             if (Helper.getLong(pagoCreation.getRecibo_id()) != null) {
-                Optional<ReciboModel> recibo = reciboDAO.findById(Helper.getLong(pagoCreation.getRecibo_id()));
+                Optional<ReciboModel> recibo = reciboDAO.findByIdAndEliminadaIsNull(Helper.getLong(pagoCreation.getRecibo_id()));
                 recibo.ifPresent(pagoModel::setRecibo);
             }
 
             if (Helper.getLong(pagoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(pagoCreation.getCreador_id()));
-                user.ifPresent(pagoModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(pagoCreation.getCreador_id()));
+                usuario.ifPresent(pagoModel::setCreador);
             }
-            if (!Helper.isEmptyString(pagoCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(pagoCreation.getCreada(), "") != null)
                 pagoModel.setCreada(Helper.stringToLocalDateTime(pagoCreation.getCreada(), ""));
             if (Helper.getLong(pagoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(pagoCreation.getModificador_id()));
-                user.ifPresent(pagoModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(pagoCreation.getModificador_id()));
+                usuario.ifPresent(pagoModel::setModificador);
             }
-            if (!Helper.isEmptyString(pagoCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(pagoCreation.getModificada(), "") != null)
                 pagoModel.setModificada(Helper.stringToLocalDateTime(pagoCreation.getModificada(), ""));
             if (Helper.getLong(pagoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(pagoCreation.getEliminador_id()));
-                user.ifPresent(pagoModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(pagoCreation.getEliminador_id()));
+                usuario.ifPresent(pagoModel::setEliminador);
             }
-            if (!Helper.isEmptyString(pagoCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(pagoCreation.getEliminada(), "") != null)
                 pagoModel.setEliminada(Helper.stringToLocalDateTime(pagoCreation.getEliminada(), ""));
 
             return pagoModel;
@@ -82,15 +82,15 @@ public class PagoMapper {
 
             if (pagoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(pagoModel.getCreador()));
-            if (pagoModel.getCreada() != null)
+            if (Helper.localDateTimeToString(pagoModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(pagoModel.getCreada(), ""));
             if (pagoModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(pagoModel.getModificador()));
-            if (pagoModel.getModificada() != null)
+            if (Helper.localDateTimeToString(pagoModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(pagoModel.getModificada(), ""));
             if (pagoModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(pagoModel.getEliminador()));
-            if (pagoModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(pagoModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(pagoModel.getEliminada(), ""));
 
             return dto;

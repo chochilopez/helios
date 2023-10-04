@@ -44,7 +44,7 @@ public class AutenticacionServiceImpl implements AutenticacionService {
     private final UsuarioDAO usuarioDAO;
     private final TokenServiceImpl tokenService;
 
-    @Value("${neso.app.mail.path}")
+    @Value("${helios.app.mail.path}")
     private String path;
     private static final BytesKeyGenerator DEFAULT_TOKEN_GENERATOR = KeyGenerators.secureRandom(15);
 

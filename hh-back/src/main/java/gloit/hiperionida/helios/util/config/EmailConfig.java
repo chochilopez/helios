@@ -10,13 +10,13 @@ import java.util.Properties;
 
 @Configuration
 public class EmailConfig {
-    @Value("${neso.app.mail.host}")
+    @Value("${helios.app.mail.host}")
     private String host;
-    @Value("${neso.app.mail.port}")
+    @Value("${helios.app.mail.port}")
     private Integer port;
-    @Value("${neso.app.mail.username}")
+    @Value("${helios.app.mail.username}")
     private String username;
-    @Value("${neso.app.mail.password}")
+    @Value("${helios.app.mail.password}")
     private String password;
 
     @Bean

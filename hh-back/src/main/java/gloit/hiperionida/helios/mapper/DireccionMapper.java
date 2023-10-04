@@ -34,27 +34,27 @@ public class DireccionMapper {
             direccionModel.setDireccion(direccionCreation.getDireccion());
             direccionModel.setNombre(direccionCreation.getNombre());
             if (Helper.getLong(direccionCreation.getUbicacion_id()) != null) {
-                Optional<UbicacionModel> ubicacion = ubicacionDAO.findById(Helper.getLong(direccionCreation.getUbicacion_id()));
+                Optional<UbicacionModel> ubicacion = ubicacionDAO.findByIdAndEliminadaIsNull(Helper.getLong(direccionCreation.getUbicacion_id()));
                 ubicacion.ifPresent(direccionModel::setUbicacion);
             }
 
             if (Helper.getLong(direccionCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(direccionCreation.getCreador_id()));
-                user.ifPresent(direccionModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(direccionCreation.getCreador_id()));
+                usuario.ifPresent(direccionModel::setCreador);
             }
-            if (!Helper.isEmptyString(direccionCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(direccionCreation.getCreada(), "") != null)
                 direccionModel.setCreada(Helper.stringToLocalDateTime(direccionCreation.getCreada(), ""));
             if (Helper.getLong(direccionCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(direccionCreation.getModificador_id()));
-                user.ifPresent(direccionModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(direccionCreation.getModificador_id()));
+                usuario.ifPresent(direccionModel::setModificador);
             }
-            if (!Helper.isEmptyString(direccionCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(direccionCreation.getModificada(), "") != null)
                 direccionModel.setModificada(Helper.stringToLocalDateTime(direccionCreation.getModificada(), ""));
             if (Helper.getLong(direccionCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(direccionCreation.getEliminador_id()));
-                user.ifPresent(direccionModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(direccionCreation.getEliminador_id()));
+                usuario.ifPresent(direccionModel::setEliminador);
             }
-            if (!Helper.isEmptyString(direccionCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(direccionCreation.getEliminada(), "") != null)
                 direccionModel.setEliminada(Helper.stringToLocalDateTime(direccionCreation.getEliminada(), ""));
 
             return direccionModel;
@@ -76,15 +76,15 @@ public class DireccionMapper {
 
             if (direccionModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(direccionModel.getCreador()));
-            if (direccionModel.getCreada() != null)
+            if (Helper.localDateTimeToString(direccionModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(direccionModel.getCreada(), ""));
             if (direccionModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(direccionModel.getModificador()));
-            if (direccionModel.getModificada() != null)
+            if (Helper.localDateTimeToString(direccionModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(direccionModel.getModificada(), ""));
             if (direccionModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(direccionModel.getEliminador()));
-            if (direccionModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(direccionModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(direccionModel.getEliminada(), ""));
 
             return dto;
