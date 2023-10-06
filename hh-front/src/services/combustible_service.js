@@ -11,27 +11,19 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('lCombustibleTodas')
+  return llaveroService.obtenerDeLocal('hhCombustibleTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('lCombustibleTodasConEliminadas')
+  return llaveroService.obtenerDeLocal('hhCombustibleTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('lCombustiblePorId/' + id + '/')
+  return llaveroService.obtenerDeLocal('hhCombustiblePorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('lCombustiblePorIdConEliminadas/' + id + '/')
-}
-
-function obtenerCuenta () {
-  return llaveroService.obtenerDeLocal('lCombustibleCuenta')
-}
-
-function obtenerCuentaConEliminadas () {
-  return llaveroService.obtenerDeLocal('lCombustibleCuentaConEliminadas')
+  return llaveroService.obtenerDeLocal('hhCombustiblePorIdConEliminadas/' + id + '/')
 }
 
 function spfBuscarTodas () {
@@ -231,8 +223,6 @@ export const combustibleService = {
   obtenerTodasConEliminadas,
   obtenerPorId,
   obtenerPorIdConEliminadas,
-  obtenerCuenta,
-  obtenerCuentaConEliminadas,
 
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,

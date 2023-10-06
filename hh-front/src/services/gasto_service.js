@@ -11,27 +11,19 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('lGastoTodas')
+  return llaveroService.obtenerDeLocal('hhGastoTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('lGastoTodasConEliminadas')
+  return llaveroService.obtenerDeLocal('hhGastoTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('lGastoPorId/' + id + '/')
+  return llaveroService.obtenerDeLocal('hhGastoPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('lGastoPorIdConEliminadas/' + id + '/')
-}
-
-function obtenerCuenta () {
-  return llaveroService.obtenerDeLocal('lGastoCuenta')
-}
-
-function obtenerCuentaConEliminadas () {
-  return llaveroService.obtenerDeLocal('lGastoCuentaConEliminadas')
+  return llaveroService.obtenerDeLocal('hhGastoPorIdConEliminadas/' + id + '/')
 }
 
 function spfBuscarTodas () {
@@ -231,8 +223,6 @@ export const gastoService = {
   obtenerTodasConEliminadas,
   obtenerPorId,
   obtenerPorIdConEliminadas,
-  obtenerCuenta,
-  obtenerCuentaConEliminadas,
 
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,

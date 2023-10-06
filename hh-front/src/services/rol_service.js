@@ -12,27 +12,19 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llavero.obtenerDeLocal('lRolTodas')
+  return llavero.obtenerDeLocal('hhRolTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llavero.obtenerDeLocal('lRolTodasConEliminadas')
+  return llavero.obtenerDeLocal('hhRolTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llavero.obtenerDeLocal('lRolPorId/' + id + '/')
+  return llavero.obtenerDeLocal('hhRolPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llavero.obtenerDeLocal('lRolPorIdConEliminadas/' + id + '/')
-}
-
-function obtenerCuenta () {
-  return llavero.obtenerDeLocal('lRolCuenta')
-}
-
-function obtenerCuentaConEliminadas () {
-  return llavero.obtenerDeLocal('lRolCuentaConEliminadas')
+  return llavero.obtenerDeLocal('hhRolPorIdConEliminadas/' + id + '/')
 }
 
 function spfBuscarTodas () {
@@ -43,7 +35,7 @@ function spfBuscarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lRolTodas', result, ttlEnum.TTL_1_HORA)
+        llavero.guardarEnLocal('hhRolTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -60,7 +52,7 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lRolTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
+        llavero.guardarEnLocal('hhRolTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -77,7 +69,7 @@ function spfBuscarTodasPaginadas (paginadoDTO) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lRolTodas', result, ttlEnum.TTL_1_HORA)
+        llavero.guardarEnLocal('hhRolTodas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -94,7 +86,7 @@ function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lRolTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
+        llavero.guardarEnLocal('hhRolTodasConEliminadas', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -111,7 +103,7 @@ function spfBuscarPorId (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lRolPorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
+        llavero.guardarEnLocal('hhRolPorId/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -128,7 +120,7 @@ function spfBuscarPorIdConEliminadas (id) {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lRolPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
+        llavero.guardarEnLocal('hhRolPorIdConEliminadas/' + id + '/', result, ttlEnum.TTL_1_HORA)
         resolve(result)
       })
       .catch((error) => {
@@ -145,7 +137,7 @@ function spfContarTodas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lRolContar', result, ttlEnum.TTL_1_DIA)
+        llavero.guardarEnLocal('hhRolContar', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -162,7 +154,7 @@ function spfContarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        llavero.guardarEnLocal('lRolContarConEliminadas', result, ttlEnum.TTL_1_DIA)
+        llavero.guardarEnLocal('hhRolContarConEliminadas', result, ttlEnum.TTL_1_DIA)
         resolve(result)
       })
       .catch((error) => {
@@ -240,8 +232,6 @@ export const rolService = {
   obtenerTodasConEliminadas,
   obtenerPorId,
   obtenerPorIdConEliminadas,
-  obtenerCuenta,
-  obtenerCuentaConEliminadas,
 
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,

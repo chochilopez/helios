@@ -11,27 +11,19 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('lEmailTodas')
+  return llaveroService.obtenerDeLocal('hhEmailTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('lEmailTodasConEliminadas')
+  return llaveroService.obtenerDeLocal('hhEmailTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('lEmailPorId/' + id + '/')
+  return llaveroService.obtenerDeLocal('hhEmailPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('lEmailPorIdConEliminadas/' + id + '/')
-}
-
-function obtenerCuenta () {
-  return llaveroService.obtenerDeLocal('lEmailCuenta')
-}
-
-function obtenerCuentaConEliminadas () {
-  return llaveroService.obtenerDeLocal('lEmailCuentaConEliminadas')
+  return llaveroService.obtenerDeLocal('hhEmailPorIdConEliminadas/' + id + '/')
 }
 
 function pfEnviarEmailSimple (emailSimple) {
@@ -247,8 +239,6 @@ export const emailService = {
   obtenerTodasConEliminadas,
   obtenerPorId,
   obtenerPorIdConEliminadas,
-  obtenerCuenta,
-  obtenerCuentaConEliminadas,
 
   pfEnviarEmailSimple,
 
