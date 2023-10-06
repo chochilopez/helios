@@ -34,27 +34,27 @@ public class LicenciaMapper {
             licenciaModel.setNumero(licenciaCreation.getNumero());
             licenciaModel.setCategoria(licenciaCreation.getCategoria());
             if (Helper.getLong(licenciaCreation.getVencimiento_id()) != null) {
-                Optional<EventoModel> vencimiento = eventoDAO.findById(Helper.getLong(licenciaCreation.getVencimiento_id()));
+                Optional<EventoModel> vencimiento = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(licenciaCreation.getVencimiento_id()));
                 vencimiento.ifPresent(licenciaModel::setVencimiento);
             }
 
             if (Helper.getLong(licenciaCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(licenciaCreation.getCreador_id()));
-                user.ifPresent(licenciaModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(licenciaCreation.getCreador_id()));
+                usuario.ifPresent(licenciaModel::setCreador);
             }
-            if (!Helper.isEmptyString(licenciaCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(licenciaCreation.getCreada(), "") != null)
                 licenciaModel.setCreada(Helper.stringToLocalDateTime(licenciaCreation.getCreada(), ""));
             if (Helper.getLong(licenciaCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(licenciaCreation.getModificador_id()));
-                user.ifPresent(licenciaModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(licenciaCreation.getModificador_id()));
+                usuario.ifPresent(licenciaModel::setModificador);
             }
-            if (!Helper.isEmptyString(licenciaCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(licenciaCreation.getModificada(), "") != null)
                 licenciaModel.setModificada(Helper.stringToLocalDateTime(licenciaCreation.getModificada(), ""));
             if (Helper.getLong(licenciaCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(licenciaCreation.getEliminador_id()));
-                user.ifPresent(licenciaModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(licenciaCreation.getEliminador_id()));
+                usuario.ifPresent(licenciaModel::setEliminador);
             }
-            if (!Helper.isEmptyString(licenciaCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(licenciaCreation.getEliminada(), "") != null)
                 licenciaModel.setEliminada(Helper.stringToLocalDateTime(licenciaCreation.getEliminada(), ""));
 
             return licenciaModel;
@@ -76,15 +76,15 @@ public class LicenciaMapper {
 
             if (licenciaModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(licenciaModel.getCreador()));
-            if (licenciaModel.getCreada() != null)
+            if (Helper.localDateTimeToString(licenciaModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(licenciaModel.getCreada(), ""));
             if (licenciaModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(licenciaModel.getModificador()));
-            if (licenciaModel.getModificada() != null)
+            if (Helper.localDateTimeToString(licenciaModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(licenciaModel.getModificada(), ""));
             if (licenciaModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(licenciaModel.getEliminador()));
-            if (licenciaModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(licenciaModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(licenciaModel.getEliminada(), ""));
 
             return dto;

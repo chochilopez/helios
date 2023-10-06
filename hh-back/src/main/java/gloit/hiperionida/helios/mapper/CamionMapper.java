@@ -50,43 +50,48 @@ public class CamionMapper {
             camionModel.setPatente(camionCreation.getPatente());
             camionModel.setPeso(camionCreation.getPeso());
             if (Helper.getLong(camionCreation.getSeguro_id()) != null) {
-                Optional<SeguroModel> seguro = seguroDAO.findById(Helper.getLong(camionCreation.getSeguro_id()));
+                Optional<SeguroModel> seguro = seguroDAO.findByIdAndEliminadaIsNull(Helper.getLong(camionCreation.getSeguro_id()));
                 seguro.ifPresent(camionModel::setSeguro);
             }
+
             Set<NeumaticoModel> neumaticos = new HashSet<>();
-            for (String neumatico_id: camionCreation.getNeumaticos_id()) {
-                if (Helper.getLong(neumatico_id) != null) {
-                    Optional<NeumaticoModel> neumatico = neumaticoDAO.findById(Helper.getLong(neumatico_id));
-                    neumatico.ifPresent(neumaticos::add);
+            if (camionCreation.getNeumaticos_id() != null) {
+                for (String neumatico_id : camionCreation.getNeumaticos_id()) {
+                    if (Helper.getLong(neumatico_id) != null) {
+                        Optional<NeumaticoModel> neumatico = neumaticoDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumatico_id));
+                        neumatico.ifPresent(neumaticos::add);
+                    }
                 }
             }
             camionModel.setNeumaticos(neumaticos);
             Set<ServicioModel> servicios = new HashSet<>();
-            for (String servicio_id: camionCreation.getServicios_id()) {
-                if (Helper.getLong(servicio_id) != null) {
-                    Optional<ServicioModel> servicio = servicioDAO.findById(Helper.getLong(servicio_id));
-                    servicio.ifPresent(servicios::add);
+            if (camionCreation.getServicios_id() != null) {
+                for (String servicio_id : camionCreation.getServicios_id()) {
+                    if (Helper.getLong(servicio_id) != null) {
+                        Optional<ServicioModel> servicio = servicioDAO.findByIdAndEliminadaIsNull(Helper.getLong(servicio_id));
+                        servicio.ifPresent(servicios::add);
+                    }
                 }
             }
             camionModel.setServicios(servicios);
 
             if (Helper.getLong(camionCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(camionCreation.getCreador_id()));
-                user.ifPresent(camionModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(camionCreation.getCreador_id()));
+                usuario.ifPresent(camionModel::setCreador);
             }
-            if (!Helper.isEmptyString(camionCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(camionCreation.getCreada(), "") != null)
                 camionModel.setCreada(Helper.stringToLocalDateTime(camionCreation.getCreada(), ""));
             if (Helper.getLong(camionCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(camionCreation.getModificador_id()));
-                user.ifPresent(camionModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(camionCreation.getModificador_id()));
+                usuario.ifPresent(camionModel::setModificador);
             }
-            if (!Helper.isEmptyString(camionCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(camionCreation.getModificada(), "") != null)
                 camionModel.setModificada(Helper.stringToLocalDateTime(camionCreation.getModificada(), ""));
             if (Helper.getLong(camionCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(camionCreation.getEliminador_id()));
-                user.ifPresent(camionModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(camionCreation.getEliminador_id()));
+                usuario.ifPresent(camionModel::setEliminador);
             }
-            if (!Helper.isEmptyString(camionCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(camionCreation.getEliminada(), "") != null)
                 camionModel.setEliminada(Helper.stringToLocalDateTime(camionCreation.getEliminada(), ""));
 
             return camionModel;
@@ -129,15 +134,15 @@ public class CamionMapper {
 
             if (camionModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(camionModel.getCreador()));
-            if (camionModel.getCreada() != null)
+            if (Helper.localDateTimeToString(camionModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(camionModel.getCreada(), ""));
             if (camionModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(camionModel.getModificador()));
-            if (camionModel.getModificada() != null)
+            if (Helper.localDateTimeToString(camionModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(camionModel.getModificada(), ""));
             if (camionModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(camionModel.getEliminador()));
-            if (camionModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(camionModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(camionModel.getEliminada(), ""));
 
             return dto;

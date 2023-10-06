@@ -53,43 +53,45 @@ public class CompraMapper {
             compraModel.setNotas(compraCreation.getNotas());
 
             if (Helper.getLong(compraCreation.getComprobante_id()) != null) {
-                Optional<ArchivoModel> archivo = archivoDAO.findById(Helper.getLong(compraCreation.getComprobante_id()));
+                Optional<ArchivoModel> archivo = archivoDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getComprobante_id()));
                 archivo.ifPresent(compraModel::setComprobante);
             }
             if (Helper.getLong(compraCreation.getProveedor_id()) != null) {
-                Optional<ProveedorModel> proveedor = proveedorDAO.findById(Helper.getLong(compraCreation.getProveedor_id()));
+                Optional<ProveedorModel> proveedor = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getProveedor_id()));
                 proveedor.ifPresent(compraModel::setProveedor);
             }
             if (Helper.getLong(compraCreation.getRemito_id()) != null) {
-                Optional<RemitoModel> remito = remitoDAO.findById(Helper.getLong(compraCreation.getRemito_id()));
+                Optional<RemitoModel> remito = remitoDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getRemito_id()));
                 remito.ifPresent(compraModel::setRemito);
             }
             Set<PagoModel> pagos = new HashSet<>();
-            for (String pago_id: compraCreation.getPagos_id()) {
-                if (Helper.getLong(pago_id) != null) {
-                    Optional<PagoModel> pago = pagoDAO.findById(Helper.getLong(pago_id));
-                    pago.ifPresent(pagos::add);
+            if (compraCreation.getPagos_id() != null) {
+                for (String pago_id : compraCreation.getPagos_id()) {
+                    if (Helper.getLong(pago_id) != null) {
+                        Optional<PagoModel> pago = pagoDAO.findByIdAndEliminadaIsNull(Helper.getLong(pago_id));
+                        pago.ifPresent(pagos::add);
+                    }
                 }
             }
             compraModel.setPagos(pagos);
 
             if (Helper.getLong(compraCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(compraCreation.getCreador_id()));
-                user.ifPresent(compraModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getCreador_id()));
+                usuario.ifPresent(compraModel::setCreador);
             }
-            if (!Helper.isEmptyString(compraCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(compraCreation.getCreada(), "") != null)
                 compraModel.setCreada(Helper.stringToLocalDateTime(compraCreation.getCreada(), ""));
             if (Helper.getLong(compraCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(compraCreation.getModificador_id()));
-                user.ifPresent(compraModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getModificador_id()));
+                usuario.ifPresent(compraModel::setModificador);
             }
-            if (!Helper.isEmptyString(compraCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(compraCreation.getModificada(), "") != null)
                 compraModel.setModificada(Helper.stringToLocalDateTime(compraCreation.getModificada(), ""));
             if (Helper.getLong(compraCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(compraCreation.getEliminador_id()));
-                user.ifPresent(compraModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getEliminador_id()));
+                usuario.ifPresent(compraModel::setEliminador);
             }
-            if (!Helper.isEmptyString(compraCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(compraCreation.getEliminada(), "") != null)
                 compraModel.setEliminada(Helper.stringToLocalDateTime(compraCreation.getEliminada(), ""));
 
             return compraModel;
@@ -126,15 +128,15 @@ public class CompraMapper {
 
             if (compraModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(compraModel.getCreador()));
-            if (compraModel.getCreada() != null)
+            if (Helper.localDateTimeToString(compraModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(compraModel.getCreada(), ""));
             if (compraModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(compraModel.getModificador()));
-            if (compraModel.getModificada() != null)
+            if (Helper.localDateTimeToString(compraModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(compraModel.getModificada(), ""));
             if (compraModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(compraModel.getEliminador()));
-            if (compraModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(compraModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(compraModel.getEliminada(), ""));
 
             return dto;

@@ -30,8 +30,7 @@ public class VisitaModel extends AbsAuditoriaModel {
     private String isp; // "CABLE VISIÃN CRESPO SRL",
     private String organization; // "Gigared S.A.",
     private String asn; // "AS20207",
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @ManyToOne(targetEntity = UsuarioModel.class, fetch = FetchType.EAGER)
+    @ManyToOne()
     private UsuarioModel visitante;
 }
 

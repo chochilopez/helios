@@ -38,31 +38,28 @@ public class VisitaMapper {
             visitaModel.setOrganization(visitaCreation.getOrganization());
             visitaModel.setAsn(visitaCreation.getAsn());
             if (Helper.getLong(visitaCreation.getVisitante_id()) != null) {
-                Optional<UsuarioModel> visitante = usuarioDAO.findById(Helper.getLong(visitaCreation.getVisitante_id()));
+                Optional<UsuarioModel> visitante = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(visitaCreation.getVisitante_id()));
                 if (visitante.isPresent())
                     visitaModel.setVisitante(visitante.get());
             }
 
             if (Helper.getLong(visitaCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(visitaCreation.getCreador_id()));
-                if (user.isPresent())
-                    visitaModel.setCreador(user.get());
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(visitaCreation.getCreador_id()));
+                usuario.ifPresent(visitaModel::setCreador);
             }
-            if (!Helper.isEmptyString(visitaCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(visitaCreation.getCreada(), "") != null)
                 visitaModel.setCreada(Helper.stringToLocalDateTime(visitaCreation.getCreada(), ""));
             if (Helper.getLong(visitaCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(visitaCreation.getModificador_id()));
-                if (user.isPresent())
-                    visitaModel.setModificador(user.get());
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(visitaCreation.getModificador_id()));
+                usuario.ifPresent(visitaModel::setModificador);
             }
-            if (!Helper.isEmptyString(visitaCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(visitaCreation.getModificada(), "") != null)
                 visitaModel.setModificada(Helper.stringToLocalDateTime(visitaCreation.getModificada(), ""));
             if (Helper.getLong(visitaCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(visitaCreation.getEliminador_id()));
-                if (user.isPresent())
-                    visitaModel.setEliminador(user.get());
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(visitaCreation.getEliminador_id()));
+                usuario.ifPresent(visitaModel::setEliminador);
             }
-            if (!Helper.isEmptyString(visitaCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(visitaCreation.getEliminada(), "") != null)
                 visitaModel.setEliminada(Helper.stringToLocalDateTime(visitaCreation.getEliminada(), ""));
 
             return visitaModel;
@@ -93,15 +90,15 @@ public class VisitaMapper {
 
             if (visitaModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(visitaModel.getCreador()));
-            if (visitaModel.getCreada() != null)
+            if (Helper.localDateTimeToString(visitaModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(visitaModel.getCreada(), ""));
             if (visitaModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(visitaModel.getModificador()));
-            if (visitaModel.getModificada() != null)
+            if (Helper.localDateTimeToString(visitaModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(visitaModel.getModificada(), ""));
             if (visitaModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(visitaModel.getEliminador()));
-            if (visitaModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(visitaModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(visitaModel.getEliminada(), ""));
 
             return dto;

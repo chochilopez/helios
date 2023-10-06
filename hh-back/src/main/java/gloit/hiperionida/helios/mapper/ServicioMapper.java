@@ -35,22 +35,22 @@ public class ServicioMapper {
             servicioModel.setTipo(servicioCreation.getTipo());
 
             if (Helper.getLong(servicioCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(servicioCreation.getCreador_id()));
-                user.ifPresent(servicioModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(servicioCreation.getCreador_id()));
+                usuario.ifPresent(servicioModel::setCreador);
             }
-            if (!Helper.isEmptyString(servicioCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(servicioCreation.getCreada(), "") != null)
                 servicioModel.setCreada(Helper.stringToLocalDateTime(servicioCreation.getCreada(), ""));
             if (Helper.getLong(servicioCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(servicioCreation.getModificador_id()));
-                user.ifPresent(servicioModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(servicioCreation.getModificador_id()));
+                usuario.ifPresent(servicioModel::setModificador);
             }
-            if (!Helper.isEmptyString(servicioCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(servicioCreation.getModificada(), "") != null)
                 servicioModel.setModificada(Helper.stringToLocalDateTime(servicioCreation.getModificada(), ""));
             if (Helper.getLong(servicioCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(servicioCreation.getEliminador_id()));
-                user.ifPresent(servicioModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(servicioCreation.getEliminador_id()));
+                usuario.ifPresent(servicioModel::setEliminador);
             }
-            if (!Helper.isEmptyString(servicioCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(servicioCreation.getEliminada(), "") != null)
                 servicioModel.setEliminada(Helper.stringToLocalDateTime(servicioCreation.getEliminada(), ""));
 
             return servicioModel;
@@ -72,15 +72,15 @@ public class ServicioMapper {
 
             if (servicioModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(servicioModel.getCreador()));
-            if (servicioModel.getCreada() != null)
+            if (Helper.localDateTimeToString(servicioModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(servicioModel.getCreada(), ""));
             if (servicioModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(servicioModel.getModificador()));
-            if (servicioModel.getModificada() != null)
+            if (Helper.localDateTimeToString(servicioModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(servicioModel.getModificada(), ""));
             if (servicioModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(servicioModel.getEliminador()));
-            if (servicioModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(servicioModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(servicioModel.getEliminada(), ""));
 
             return dto;

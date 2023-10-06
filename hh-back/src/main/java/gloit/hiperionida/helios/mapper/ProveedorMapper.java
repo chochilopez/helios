@@ -34,22 +34,22 @@ public class ProveedorMapper {
             proveedorModel.setTelefono(proveedorCreation.getTelefono());
 
             if (Helper.getLong(proveedorCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(proveedorCreation.getCreador_id()));
-                user.ifPresent(proveedorModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(proveedorCreation.getCreador_id()));
+                usuario.ifPresent(proveedorModel::setCreador);
             }
-            if (!Helper.isEmptyString(proveedorCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(proveedorCreation.getCreada(), "") != null)
                 proveedorModel.setCreada(Helper.stringToLocalDateTime(proveedorCreation.getCreada(), ""));
             if (Helper.getLong(proveedorCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(proveedorCreation.getModificador_id()));
-                user.ifPresent(proveedorModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(proveedorCreation.getModificador_id()));
+                usuario.ifPresent(proveedorModel::setModificador);
             }
-            if (!Helper.isEmptyString(proveedorCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(proveedorCreation.getModificada(), "") != null)
                 proveedorModel.setModificada(Helper.stringToLocalDateTime(proveedorCreation.getModificada(), ""));
             if (Helper.getLong(proveedorCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(proveedorCreation.getEliminador_id()));
-                user.ifPresent(proveedorModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(proveedorCreation.getEliminador_id()));
+                usuario.ifPresent(proveedorModel::setEliminador);
             }
-            if (!Helper.isEmptyString(proveedorCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(proveedorCreation.getEliminada(), "") != null)
                 proveedorModel.setEliminada(Helper.stringToLocalDateTime(proveedorCreation.getEliminada(), ""));
 
             return proveedorModel;
@@ -74,15 +74,15 @@ public class ProveedorMapper {
 
             if (proveedorModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(proveedorModel.getCreador()));
-            if (proveedorModel.getCreada() != null)
+            if (Helper.localDateTimeToString(proveedorModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(proveedorModel.getCreada(), ""));
             if (proveedorModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(proveedorModel.getModificador()));
-            if (proveedorModel.getModificada() != null)
+            if (Helper.localDateTimeToString(proveedorModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(proveedorModel.getModificada(), ""));
             if (proveedorModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(proveedorModel.getEliminador()));
-            if (proveedorModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(proveedorModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(proveedorModel.getEliminada(), ""));
 
             return dto;

@@ -32,21 +32,21 @@ public class ArchivoMapper {
             archivoModel.setNombre(archivoCreation.getNombre());
 
             if (Helper.getLong(archivoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(archivoCreation.getCreador_id()));
+                Optional<UsuarioModel> user = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(archivoCreation.getCreador_id()));
                 if (user.isPresent())
                     archivoModel.setCreador(user.get());
             }
             if (!Helper.isEmptyString(archivoCreation.getCreada()))
                 archivoModel.setCreada(Helper.stringToLocalDateTime(archivoCreation.getCreada(), ""));
             if (Helper.getLong(archivoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(archivoCreation.getModificador_id()));
+                Optional<UsuarioModel> user = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(archivoCreation.getModificador_id()));
                 if (user.isPresent())
                     archivoModel.setModificador(user.get());
             }
             if (!Helper.isEmptyString(archivoCreation.getModificada()))
                 archivoModel.setModificada(Helper.stringToLocalDateTime(archivoCreation.getModificada(), ""));
             if (Helper.getLong(archivoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(archivoCreation.getEliminador_id()));
+                Optional<UsuarioModel> user = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(archivoCreation.getEliminador_id()));
                 if (user.isPresent())
                     archivoModel.setEliminador(user.get());
             }

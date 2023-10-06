@@ -32,22 +32,22 @@ public class ReciboMapper {
                 reciboModel.setMonto(Helper.getDecimal(reciboCreation.getMonto()));
 
             if (Helper.getLong(reciboCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(reciboCreation.getCreador_id()));
-                user.ifPresent(reciboModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(reciboCreation.getCreador_id()));
+                usuario.ifPresent(reciboModel::setCreador);
             }
-            if (!Helper.isEmptyString(reciboCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(reciboCreation.getCreada(), "") != null)
                 reciboModel.setCreada(Helper.stringToLocalDateTime(reciboCreation.getCreada(), ""));
             if (Helper.getLong(reciboCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(reciboCreation.getModificador_id()));
-                user.ifPresent(reciboModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(reciboCreation.getModificador_id()));
+                usuario.ifPresent(reciboModel::setModificador);
             }
-            if (!Helper.isEmptyString(reciboCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(reciboCreation.getModificada(), "") != null)
                 reciboModel.setModificada(Helper.stringToLocalDateTime(reciboCreation.getModificada(), ""));
             if (Helper.getLong(reciboCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(reciboCreation.getEliminador_id()));
-                user.ifPresent(reciboModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(reciboCreation.getEliminador_id()));
+                usuario.ifPresent(reciboModel::setEliminador);
             }
-            if (!Helper.isEmptyString(reciboCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(reciboCreation.getEliminada(), "") != null)
                 reciboModel.setEliminada(Helper.stringToLocalDateTime(reciboCreation.getEliminada(), ""));
 
             return reciboModel;
@@ -67,15 +67,15 @@ public class ReciboMapper {
 
             if (reciboModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(reciboModel.getCreador()));
-            if (reciboModel.getCreada() != null)
+            if (Helper.localDateTimeToString(reciboModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(reciboModel.getCreada(), ""));
             if (reciboModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(reciboModel.getModificador()));
-            if (reciboModel.getModificada() != null)
+            if (Helper.localDateTimeToString(reciboModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(reciboModel.getModificada(), ""));
             if (reciboModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(reciboModel.getEliminador()));
-            if (reciboModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(reciboModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(reciboModel.getEliminada(), ""));
 
             return dto;

@@ -36,22 +36,22 @@ public class EventoMapper {
             eventoModel.setNombre(eventoCreation.getNombre());
 
             if (Helper.getLong(eventoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(eventoCreation.getCreador_id()));
-                user.ifPresent(eventoModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(eventoCreation.getCreador_id()));
+                usuario.ifPresent(eventoModel::setCreador);
             }
-            if (!Helper.isEmptyString(eventoCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(eventoCreation.getCreada(), "") != null)
                 eventoModel.setCreada(Helper.stringToLocalDateTime(eventoCreation.getCreada(), ""));
             if (Helper.getLong(eventoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(eventoCreation.getModificador_id()));
-                user.ifPresent(eventoModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(eventoCreation.getModificador_id()));
+                usuario.ifPresent(eventoModel::setModificador);
             }
-            if (!Helper.isEmptyString(eventoCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(eventoCreation.getModificada(), "") != null)
                 eventoModel.setModificada(Helper.stringToLocalDateTime(eventoCreation.getModificada(), ""));
             if (Helper.getLong(eventoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(eventoCreation.getEliminador_id()));
-                user.ifPresent(eventoModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(eventoCreation.getEliminador_id()));
+                usuario.ifPresent(eventoModel::setEliminador);
             }
-            if (!Helper.isEmptyString(eventoCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(eventoCreation.getEliminada(), "") != null)
                 eventoModel.setEliminada(Helper.stringToLocalDateTime(eventoCreation.getEliminada(), ""));
 
             return eventoModel;
@@ -74,15 +74,15 @@ public class EventoMapper {
 
             if (eventoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(eventoModel.getCreador()));
-            if (eventoModel.getCreada() != null)
+            if (Helper.localDateTimeToString(eventoModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(eventoModel.getCreada(), ""));
             if (eventoModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(eventoModel.getModificador()));
-            if (eventoModel.getModificada() != null)
+            if (Helper.localDateTimeToString(eventoModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(eventoModel.getModificada(), ""));
             if (eventoModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(eventoModel.getEliminador()));
-            if (eventoModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(eventoModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(eventoModel.getEliminada(), ""));
 
             return dto;

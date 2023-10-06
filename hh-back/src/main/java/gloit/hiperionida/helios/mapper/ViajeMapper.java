@@ -46,21 +46,21 @@ public class ViajeMapper {
                 viajeModel.setId(Helper.getLong(viajeCreation.getId()));
             viajeModel.setGuia(viajeCreation.getGuia());
             if (Helper.getLong(viajeCreation.getConductor_id()) != null) {
-                Optional<ConductorModel> conductor = conductorDAO.findById(Helper.getLong(viajeCreation.getConductor_id()));
+                Optional<ConductorModel> conductor = conductorDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getConductor_id()));
                 conductor.ifPresent(viajeModel::setConductor);
             }
             if (Helper.getLong(viajeCreation.getCamion_id()) != null) {
-                Optional<CamionModel> camion = camionDAO.findById(Helper.getLong(viajeCreation.getCamion_id()));
+                Optional<CamionModel> camion = camionDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getCamion_id()));
                 camion.ifPresent(viajeModel::setCamion);
             }
             if (Helper.getLong(viajeCreation.getAcoplado_id()) != null) {
-                Optional<AcopladoModel> acoplado = acopladoDAO.findById(Helper.getLong(viajeCreation.getAcoplado_id()));
+                Optional<AcopladoModel> acoplado = acopladoDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getAcoplado_id()));
                 acoplado.ifPresent(viajeModel::setAcoplado);
             }
             Set<GastoModel> gastos = new HashSet<>();
             for (String gasto_id: viajeCreation.getGastos_id()) {
                 if (Helper.getLong(gasto_id) != null) {
-                    Optional<GastoModel> gasto = gastoDAO.findById(Helper.getLong(gasto_id));
+                    Optional<GastoModel> gasto = gastoDAO.findByIdAndEliminadaIsNull(Helper.getLong(gasto_id));
                     gasto.ifPresent(gastos::add);
                 }
             }
@@ -79,55 +79,55 @@ public class ViajeMapper {
                 viajeModel.setKmVacio(Helper.getDecimal(viajeCreation.getKmVacio()));
             viajeModel.setNotas(viajeCreation.getNotas());
             if (Helper.getLong(viajeCreation.getCategoriaViaje_id()) != null) {
-                Optional<CategoriaViajeModel> categoriaViaje = categoriaViajeDAO.findById(Helper.getLong(viajeCreation.getCategoriaViaje_id()));
+                Optional<CategoriaViajeModel> categoriaViaje = categoriaViajeDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getCategoriaViaje_id()));
                 categoriaViaje.ifPresent(viajeModel::setCategoriaViaje);
             }
             if (Helper.getLong(viajeCreation.getOrigen_id()) != null) {
-                Optional<DireccionModel> direccion = direccionDAO.findById(Helper.getLong(viajeCreation.getOrigen_id()));
+                Optional<DireccionModel> direccion = direccionDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getOrigen_id()));
                 direccion.ifPresent(viajeModel::setOrigen);
             }
             if (Helper.getLong(viajeCreation.getCarga_id()) != null) {
-                Optional<DireccionModel> direccion = direccionDAO.findById(Helper.getLong(viajeCreation.getCarga_id()));
+                Optional<DireccionModel> direccion = direccionDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getCarga_id()));
                 direccion.ifPresent(viajeModel::setCarga);
             }
             if (Helper.getLong(viajeCreation.getDestino_id()) != null) {
-                Optional<DireccionModel> direccion = direccionDAO.findById(Helper.getLong(viajeCreation.getDestino_id()));
+                Optional<DireccionModel> direccion = direccionDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getDestino_id()));
                 direccion.ifPresent(viajeModel::setDestino);
             }
             if (Helper.getLong(viajeCreation.getVendedor_id()) != null) {
-                Optional<ClienteModel> cliente = clienteDAO.findById(Helper.getLong(viajeCreation.getVendedor_id()));
+                Optional<ClienteModel> cliente = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getVendedor_id()));
                 cliente.ifPresent(viajeModel::setVendedor);
             }
             if (Helper.getLong(viajeCreation.getIntermediario_id()) != null) {
-                Optional<ClienteModel> cliente = clienteDAO.findById(Helper.getLong(viajeCreation.getIntermediario_id()));
+                Optional<ClienteModel> cliente = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getIntermediario_id()));
                 cliente.ifPresent(viajeModel::setIntermediario);
             }
             if (Helper.getLong(viajeCreation.getComprador_id()) != null) {
-                Optional<ClienteModel> cliente = clienteDAO.findById(Helper.getLong(viajeCreation.getComprador_id()));
+                Optional<ClienteModel> cliente = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getComprador_id()));
                 cliente.ifPresent(viajeModel::setComprador);
             }
             if (Helper.getLong(viajeCreation.getFecha_id()) != null) {
-                Optional<EventoModel> evento = eventoDAO.findById(Helper.getLong(viajeCreation.getFecha_id()));
+                Optional<EventoModel> evento = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getFecha_id()));
                 evento.ifPresent(viajeModel::setFecha);
             }
 
             if (Helper.getLong(viajeCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(viajeCreation.getCreador_id()));
-                user.ifPresent(viajeModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getCreador_id()));
+                usuario.ifPresent(viajeModel::setCreador);
             }
-            if (!Helper.isEmptyString(viajeCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(viajeCreation.getCreada(), "") != null)
                 viajeModel.setCreada(Helper.stringToLocalDateTime(viajeCreation.getCreada(), ""));
             if (Helper.getLong(viajeCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(viajeCreation.getModificador_id()));
-                user.ifPresent(viajeModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getModificador_id()));
+                usuario.ifPresent(viajeModel::setModificador);
             }
-            if (!Helper.isEmptyString(viajeCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(viajeCreation.getModificada(), "") != null)
                 viajeModel.setModificada(Helper.stringToLocalDateTime(viajeCreation.getModificada(), ""));
             if (Helper.getLong(viajeCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(viajeCreation.getEliminador_id()));
-                user.ifPresent(viajeModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(viajeCreation.getEliminador_id()));
+                usuario.ifPresent(viajeModel::setEliminador);
             }
-            if (!Helper.isEmptyString(viajeCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(viajeCreation.getEliminada(), "") != null)
                 viajeModel.setEliminada(Helper.stringToLocalDateTime(viajeCreation.getEliminada(), ""));
 
             return viajeModel;
@@ -189,15 +189,15 @@ public class ViajeMapper {
 
             if (viajeModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(viajeModel.getCreador()));
-            if (viajeModel.getCreada() != null)
+            if (Helper.localDateTimeToString(viajeModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(viajeModel.getCreada(), ""));
             if (viajeModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(viajeModel.getModificador()));
-            if (viajeModel.getModificada() != null)
+            if (Helper.localDateTimeToString(viajeModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(viajeModel.getModificada(), ""));
             if (viajeModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(viajeModel.getEliminador()));
-            if (viajeModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(viajeModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(viajeModel.getEliminada(), ""));
 
             return dto;

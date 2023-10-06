@@ -28,22 +28,22 @@ public class MovimientoMapper {
                 movimientoModel.setId(Helper.getLong(movimientoCreation.getId()));
 
             if (Helper.getLong(movimientoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(movimientoCreation.getCreador_id()));
-                user.ifPresent(movimientoModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(movimientoCreation.getCreador_id()));
+                usuario.ifPresent(movimientoModel::setCreador);
             }
-            if (!Helper.isEmptyString(movimientoCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(movimientoCreation.getCreada(), "") != null)
                 movimientoModel.setCreada(Helper.stringToLocalDateTime(movimientoCreation.getCreada(), ""));
             if (Helper.getLong(movimientoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(movimientoCreation.getModificador_id()));
-                user.ifPresent(movimientoModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(movimientoCreation.getModificador_id()));
+                usuario.ifPresent(movimientoModel::setModificador);
             }
-            if (!Helper.isEmptyString(movimientoCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(movimientoCreation.getModificada(), "") != null)
                 movimientoModel.setModificada(Helper.stringToLocalDateTime(movimientoCreation.getModificada(), ""));
             if (Helper.getLong(movimientoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(movimientoCreation.getEliminador_id()));
-                user.ifPresent(movimientoModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(movimientoCreation.getEliminador_id()));
+                usuario.ifPresent(movimientoModel::setEliminador);
             }
-            if (!Helper.isEmptyString(movimientoCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(movimientoCreation.getEliminada(), "") != null)
                 movimientoModel.setEliminada(Helper.stringToLocalDateTime(movimientoCreation.getEliminada(), ""));
 
             return movimientoModel;
@@ -61,15 +61,15 @@ public class MovimientoMapper {
 
             if (movimientoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(movimientoModel.getCreador()));
-            if (movimientoModel.getCreada() != null)
+            if (Helper.localDateTimeToString(movimientoModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(movimientoModel.getCreada(), ""));
             if (movimientoModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(movimientoModel.getModificador()));
-            if (movimientoModel.getModificada() != null)
+            if (Helper.localDateTimeToString(movimientoModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(movimientoModel.getModificada(), ""));
             if (movimientoModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(movimientoModel.getEliminador()));
-            if (movimientoModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(movimientoModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(movimientoModel.getEliminada(), ""));
 
             return dto;

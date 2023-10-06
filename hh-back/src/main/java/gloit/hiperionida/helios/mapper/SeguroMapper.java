@@ -37,36 +37,33 @@ public class SeguroMapper {
             if (Helper.getLong(seguroCreation.getId()) != null)
                 seguroModel.setId(Helper.getLong(seguroCreation.getId()));
             if (Helper.getLong(seguroCreation.getAseguradora_id()) != null) {
-                Optional<ProveedorModel> aseguradora = proveedorDAO.findById(Helper.getLong(seguroCreation.getAseguradora_id()));
+                Optional<ProveedorModel> aseguradora = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(seguroCreation.getAseguradora_id()));
                 if (aseguradora.isPresent())
                     seguroModel.setAseguradora(aseguradora.get());
             }
             if (Helper.getLong(seguroCreation.getVencimiento_id()) != null) {
-                Optional<EventoModel> vencimiento = eventoDAO.findById(Helper.getLong(seguroCreation.getVencimiento_id()));
+                Optional<EventoModel> vencimiento = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(seguroCreation.getVencimiento_id()));
                 if (vencimiento.isPresent())
                     seguroModel.setVencimiento(vencimiento.get());
             }
 
             if (Helper.getLong(seguroCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(seguroCreation.getCreador_id()));
-                if (user.isPresent())
-                    seguroModel.setCreador(user.get());
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(seguroCreation.getCreador_id()));
+                usuario.ifPresent(seguroModel::setCreador);
             }
-            if (!Helper.isEmptyString(seguroCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(seguroCreation.getCreada(), "") != null)
                 seguroModel.setCreada(Helper.stringToLocalDateTime(seguroCreation.getCreada(), ""));
             if (Helper.getLong(seguroCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(seguroCreation.getModificador_id()));
-                if (user.isPresent())
-                    seguroModel.setModificador(user.get());
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(seguroCreation.getModificador_id()));
+                usuario.ifPresent(seguroModel::setModificador);
             }
-            if (!Helper.isEmptyString(seguroCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(seguroCreation.getModificada(), "") != null)
                 seguroModel.setModificada(Helper.stringToLocalDateTime(seguroCreation.getModificada(), ""));
             if (Helper.getLong(seguroCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(seguroCreation.getEliminador_id()));
-                if (user.isPresent())
-                    seguroModel.setEliminador(user.get());
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(seguroCreation.getEliminador_id()));
+                usuario.ifPresent(seguroModel::setEliminador);
             }
-            if (!Helper.isEmptyString(seguroCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(seguroCreation.getEliminada(), "") != null)
                 seguroModel.setEliminada(Helper.stringToLocalDateTime(seguroCreation.getEliminada(), ""));
 
             return seguroModel;
@@ -88,15 +85,15 @@ public class SeguroMapper {
 
             if (seguroModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(seguroModel.getCreador()));
-            if (seguroModel.getCreada() != null)
+            if (Helper.localDateTimeToString(seguroModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(seguroModel.getCreada(), ""));
             if (seguroModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(seguroModel.getModificador()));
-            if (seguroModel.getModificada() != null)
+            if (Helper.localDateTimeToString(seguroModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(seguroModel.getModificada(), ""));
             if (seguroModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(seguroModel.getEliminador()));
-            if (seguroModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(seguroModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(seguroModel.getEliminada(), ""));
 
             return dto;

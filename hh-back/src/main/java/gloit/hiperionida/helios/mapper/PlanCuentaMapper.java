@@ -29,22 +29,22 @@ public class PlanCuentaMapper {
             planCuentaModel.setNombre(planCuentaCreation.getNombre());
 
             if (Helper.getLong(planCuentaCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(planCuentaCreation.getCreador_id()));
-                user.ifPresent(planCuentaModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(planCuentaCreation.getCreador_id()));
+                usuario.ifPresent(planCuentaModel::setCreador);
             }
-            if (!Helper.isEmptyString(planCuentaCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(planCuentaCreation.getCreada(), "") != null)
                 planCuentaModel.setCreada(Helper.stringToLocalDateTime(planCuentaCreation.getCreada(), ""));
             if (Helper.getLong(planCuentaCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(planCuentaCreation.getModificador_id()));
-                user.ifPresent(planCuentaModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(planCuentaCreation.getModificador_id()));
+                usuario.ifPresent(planCuentaModel::setModificador);
             }
-            if (!Helper.isEmptyString(planCuentaCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(planCuentaCreation.getModificada(), "") != null)
                 planCuentaModel.setModificada(Helper.stringToLocalDateTime(planCuentaCreation.getModificada(), ""));
             if (Helper.getLong(planCuentaCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(planCuentaCreation.getEliminador_id()));
-                user.ifPresent(planCuentaModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(planCuentaCreation.getEliminador_id()));
+                usuario.ifPresent(planCuentaModel::setEliminador);
             }
-            if (!Helper.isEmptyString(planCuentaCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(planCuentaCreation.getEliminada(), "") != null)
                 planCuentaModel.setEliminada(Helper.stringToLocalDateTime(planCuentaCreation.getEliminada(), ""));
 
             return planCuentaModel;
@@ -63,15 +63,15 @@ public class PlanCuentaMapper {
 
             if (planCuentaModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(planCuentaModel.getCreador()));
-            if (planCuentaModel.getCreada() != null)
+            if (Helper.localDateTimeToString(planCuentaModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(planCuentaModel.getCreada(), ""));
             if (planCuentaModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(planCuentaModel.getModificador()));
-            if (planCuentaModel.getModificada() != null)
+            if (Helper.localDateTimeToString(planCuentaModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(planCuentaModel.getModificada(), ""));
             if (planCuentaModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(planCuentaModel.getEliminador()));
-            if (planCuentaModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(planCuentaModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(planCuentaModel.getEliminada(), ""));
 
             return dto;

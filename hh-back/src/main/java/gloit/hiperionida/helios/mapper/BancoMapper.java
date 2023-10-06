@@ -30,22 +30,22 @@ public class BancoMapper {
             bancoModel.setNotas(bancoCreation.getNotas());
 
             if (Helper.getLong(bancoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(bancoCreation.getCreador_id()));
-                user.ifPresent(bancoModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(bancoCreation.getCreador_id()));
+                usuario.ifPresent(bancoModel::setCreador);
             }
-            if (!Helper.isEmptyString(bancoCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(bancoCreation.getCreada(), "") != null)
                 bancoModel.setCreada(Helper.stringToLocalDateTime(bancoCreation.getCreada(), ""));
             if (Helper.getLong(bancoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(bancoCreation.getModificador_id()));
-                user.ifPresent(bancoModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(bancoCreation.getModificador_id()));
+                usuario.ifPresent(bancoModel::setModificador);
             }
-            if (!Helper.isEmptyString(bancoCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(bancoCreation.getModificada(), "") != null)
                 bancoModel.setModificada(Helper.stringToLocalDateTime(bancoCreation.getModificada(), ""));
             if (Helper.getLong(bancoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(bancoCreation.getEliminador_id()));
-                user.ifPresent(bancoModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(bancoCreation.getEliminador_id()));
+                usuario.ifPresent(bancoModel::setEliminador);
             }
-            if (!Helper.isEmptyString(bancoCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(bancoCreation.getEliminada(), "") != null)
                 bancoModel.setEliminada(Helper.stringToLocalDateTime(bancoCreation.getEliminada(), ""));
 
             return bancoModel;
@@ -65,15 +65,15 @@ public class BancoMapper {
 
             if (bancoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(bancoModel.getCreador()));
-            if (bancoModel.getCreada() != null)
+            if (Helper.localDateTimeToString(bancoModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(bancoModel.getCreada(), ""));
             if (bancoModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(bancoModel.getModificador()));
-            if (bancoModel.getModificada() != null)
+            if (Helper.localDateTimeToString(bancoModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(bancoModel.getModificada(), ""));
             if (bancoModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(bancoModel.getEliminador()));
-            if (bancoModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(bancoModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(bancoModel.getEliminada(), ""));
 
             return dto;

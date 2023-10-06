@@ -42,35 +42,37 @@ public class AcopladoMapper {
             acopladoModel.setPatente(acopladoCreation.getPatente());
             acopladoModel.setPeso(acopladoCreation.getPeso());
             if (Helper.getLong(acopladoCreation.getSeguro_id()) != null) {
-                Optional<SeguroModel> seguro = seguroDAO.findById(Helper.getLong(acopladoCreation.getSeguro_id()));
+                Optional<SeguroModel> seguro = seguroDAO.findByIdAndEliminadaIsNull(Helper.getLong(acopladoCreation.getSeguro_id()));
                 seguro.ifPresent(acopladoModel::setSeguro);
             }
             Set<NeumaticoModel> neumaticos = new HashSet<>();
-            for (String neumatico_id: acopladoCreation.getNeumaticos_id()) {
-                if (Helper.getLong(neumatico_id) != null) {
-                    Optional<NeumaticoModel> neumatico = neumaticoDAO.findById(Helper.getLong(neumatico_id));
-                    neumatico.ifPresent(neumaticos::add);
+            if (acopladoCreation.getNeumaticos_id() != null) {
+                for (String neumatico_id : acopladoCreation.getNeumaticos_id()) {
+                    if (Helper.getLong(neumatico_id) != null) {
+                        Optional<NeumaticoModel> neumatico = neumaticoDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumatico_id));
+                        neumatico.ifPresent(neumaticos::add);
+                    }
                 }
             }
             acopladoModel.setNeumaticos(neumaticos);
 
             if (Helper.getLong(acopladoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(acopladoCreation.getCreador_id()));
-                user.ifPresent(acopladoModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(acopladoCreation.getCreador_id()));
+                usuario.ifPresent(acopladoModel::setCreador);
             }
-            if (!Helper.isEmptyString(acopladoCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(acopladoCreation.getCreada(), "") != null)
                 acopladoModel.setCreada(Helper.stringToLocalDateTime(acopladoCreation.getCreada(), ""));
             if (Helper.getLong(acopladoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(acopladoCreation.getModificador_id()));
-                user.ifPresent(acopladoModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(acopladoCreation.getModificador_id()));
+                usuario.ifPresent(acopladoModel::setModificador);
             }
-            if (!Helper.isEmptyString(acopladoCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(acopladoCreation.getModificada(), "") != null)
                 acopladoModel.setModificada(Helper.stringToLocalDateTime(acopladoCreation.getModificada(), ""));
             if (Helper.getLong(acopladoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(acopladoCreation.getEliminador_id()));
-                user.ifPresent(acopladoModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(acopladoCreation.getEliminador_id()));
+                usuario.ifPresent(acopladoModel::setEliminador);
             }
-            if (!Helper.isEmptyString(acopladoCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(acopladoCreation.getEliminada(), "") != null)
                 acopladoModel.setEliminada(Helper.stringToLocalDateTime(acopladoCreation.getEliminada(), ""));
 
             return acopladoModel;
@@ -103,15 +105,15 @@ public class AcopladoMapper {
 
             if (acopladoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(acopladoModel.getCreador()));
-            if (acopladoModel.getCreada() != null)
+            if (Helper.localDateTimeToString(acopladoModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(acopladoModel.getCreada(), ""));
             if (acopladoModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(acopladoModel.getModificador()));
-            if (acopladoModel.getModificada() != null)
+            if (Helper.localDateTimeToString(acopladoModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(acopladoModel.getModificada(), ""));
             if (acopladoModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(acopladoModel.getEliminador()));
-            if (acopladoModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(acopladoModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(acopladoModel.getEliminada(), ""));
 
             return dto;

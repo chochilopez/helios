@@ -31,7 +31,7 @@ public class ArchivoServiceImpl implements ArchivoService {
     private final ArchivoDAO archivoDAO;
     private final ArchivoMapper archivoMapper;
     private final UsuarioServiceImpl usuarioService;
-    @Value("${neso.app.resourcePath}")
+    @Value("${helios.app.resourcePath}")
     private String resourcePath;
 
     @Override

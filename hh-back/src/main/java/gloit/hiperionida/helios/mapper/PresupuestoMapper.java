@@ -56,55 +56,55 @@ public class PresupuestoMapper {
                 presupuestoModel.setKmVacio(Helper.getDecimal(presupuestoCreation.getKmVacio()));
             presupuestoModel.setNotas(presupuestoCreation.getNotas());
             if (Helper.getLong(presupuestoCreation.getCategoriaViaje_id()) != null) {
-                Optional<CategoriaViajeModel> categoriaViaje = categoriaViajeDAO.findById(Helper.getLong(presupuestoCreation.getCategoriaViaje_id()));
+                Optional<CategoriaViajeModel> categoriaViaje = categoriaViajeDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getCategoriaViaje_id()));
                 categoriaViaje.ifPresent(presupuestoModel::setCategoriaViaje);
             }
             if (Helper.getLong(presupuestoCreation.getOrigen_id()) != null) {
-                Optional<DireccionModel> direccion = direccionDAO.findById(Helper.getLong(presupuestoCreation.getOrigen_id()));
+                Optional<DireccionModel> direccion = direccionDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getOrigen_id()));
                 direccion.ifPresent(presupuestoModel::setOrigen);
             }
             if (Helper.getLong(presupuestoCreation.getCarga_id()) != null) {
-                Optional<DireccionModel> direccion = direccionDAO.findById(Helper.getLong(presupuestoCreation.getCarga_id()));
+                Optional<DireccionModel> direccion = direccionDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getCarga_id()));
                 direccion.ifPresent(presupuestoModel::setCarga);
             }
             if (Helper.getLong(presupuestoCreation.getDestino_id()) != null) {
-                Optional<DireccionModel> direccion = direccionDAO.findById(Helper.getLong(presupuestoCreation.getDestino_id()));
+                Optional<DireccionModel> direccion = direccionDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getDestino_id()));
                 direccion.ifPresent(presupuestoModel::setDestino);
             }
             if (Helper.getLong(presupuestoCreation.getVendedor_id()) != null) {
-                Optional<ClienteModel> cliente = clienteDAO.findById(Helper.getLong(presupuestoCreation.getVendedor_id()));
+                Optional<ClienteModel> cliente = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getVendedor_id()));
                 cliente.ifPresent(presupuestoModel::setVendedor);
             }
             if (Helper.getLong(presupuestoCreation.getIntermediario_id()) != null) {
-                Optional<ClienteModel> cliente = clienteDAO.findById(Helper.getLong(presupuestoCreation.getIntermediario_id()));
+                Optional<ClienteModel> cliente = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getIntermediario_id()));
                 cliente.ifPresent(presupuestoModel::setIntermediario);
             }
             if (Helper.getLong(presupuestoCreation.getComprador_id()) != null) {
-                Optional<ClienteModel> cliente = clienteDAO.findById(Helper.getLong(presupuestoCreation.getComprador_id()));
+                Optional<ClienteModel> cliente = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getComprador_id()));
                 cliente.ifPresent(presupuestoModel::setComprador);
             }
             if (Helper.getLong(presupuestoCreation.getFecha_id()) != null) {
-                Optional<EventoModel> evento = eventoDAO.findById(Helper.getLong(presupuestoCreation.getFecha_id()));
+                Optional<EventoModel> evento = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getFecha_id()));
                 evento.ifPresent(presupuestoModel::setFecha);
             }
 
             if (Helper.getLong(presupuestoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(presupuestoCreation.getCreador_id()));
-                user.ifPresent(presupuestoModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getCreador_id()));
+                usuario.ifPresent(presupuestoModel::setCreador);
             }
-            if (!Helper.isEmptyString(presupuestoCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(presupuestoCreation.getCreada(), "") != null)
                 presupuestoModel.setCreada(Helper.stringToLocalDateTime(presupuestoCreation.getCreada(), ""));
             if (Helper.getLong(presupuestoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(presupuestoCreation.getModificador_id()));
-                user.ifPresent(presupuestoModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getModificador_id()));
+                usuario.ifPresent(presupuestoModel::setModificador);
             }
-            if (!Helper.isEmptyString(presupuestoCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(presupuestoCreation.getModificada(), "") != null)
                 presupuestoModel.setModificada(Helper.stringToLocalDateTime(presupuestoCreation.getModificada(), ""));
             if (Helper.getLong(presupuestoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(presupuestoCreation.getEliminador_id()));
-                user.ifPresent(presupuestoModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(presupuestoCreation.getEliminador_id()));
+                usuario.ifPresent(presupuestoModel::setEliminador);
             }
-            if (!Helper.isEmptyString(presupuestoCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(presupuestoCreation.getEliminada(), "") != null)
                 presupuestoModel.setEliminada(Helper.stringToLocalDateTime(presupuestoCreation.getEliminada(), ""));
 
             return presupuestoModel;
@@ -153,15 +153,15 @@ public class PresupuestoMapper {
 
             if (presupuestoModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(presupuestoModel.getCreador()));
-            if (presupuestoModel.getCreada() != null)
+            if (Helper.localDateTimeToString(presupuestoModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(presupuestoModel.getCreada(), ""));
             if (presupuestoModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(presupuestoModel.getModificador()));
-            if (presupuestoModel.getModificada() != null)
+            if (Helper.localDateTimeToString(presupuestoModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(presupuestoModel.getModificada(), ""));
             if (presupuestoModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(presupuestoModel.getEliminador()));
-            if (presupuestoModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(presupuestoModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(presupuestoModel.getEliminada(), ""));
 
             return dto;

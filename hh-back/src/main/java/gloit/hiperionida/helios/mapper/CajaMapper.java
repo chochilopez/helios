@@ -29,22 +29,22 @@ public class CajaMapper {
             cajaModel.setNombre(cajaCreation.getNombre());
 
             if (Helper.getLong(cajaCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(cajaCreation.getCreador_id()));
-                user.ifPresent(cajaModel::setCreador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(cajaCreation.getCreador_id()));
+                usuario.ifPresent(cajaModel::setCreador);
             }
-            if (!Helper.isEmptyString(cajaCreation.getCreada()))
+            if (Helper.stringToLocalDateTime(cajaCreation.getCreada(), "") != null)
                 cajaModel.setCreada(Helper.stringToLocalDateTime(cajaCreation.getCreada(), ""));
             if (Helper.getLong(cajaCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(cajaCreation.getModificador_id()));
-                user.ifPresent(cajaModel::setModificador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(cajaCreation.getModificador_id()));
+                usuario.ifPresent(cajaModel::setModificador);
             }
-            if (!Helper.isEmptyString(cajaCreation.getModificada()))
+            if (Helper.stringToLocalDateTime(cajaCreation.getModificada(), "") != null)
                 cajaModel.setModificada(Helper.stringToLocalDateTime(cajaCreation.getModificada(), ""));
             if (Helper.getLong(cajaCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> user = usuarioDAO.findById(Helper.getLong(cajaCreation.getEliminador_id()));
-                user.ifPresent(cajaModel::setEliminador);
+                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(cajaCreation.getEliminador_id()));
+                usuario.ifPresent(cajaModel::setEliminador);
             }
-            if (!Helper.isEmptyString(cajaCreation.getEliminada()))
+            if (Helper.stringToLocalDateTime(cajaCreation.getEliminada(), "") != null)
                 cajaModel.setEliminada(Helper.stringToLocalDateTime(cajaCreation.getEliminada(), ""));
 
             return cajaModel;
@@ -61,18 +61,17 @@ public class CajaMapper {
             dto.setId(cajaModel.getId().toString());
             dto.setNombre(cajaModel.getNombre());
 
-
             if (cajaModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(cajaModel.getCreador()));
-            if (cajaModel.getCreada() != null)
+            if (Helper.localDateTimeToString(cajaModel.getCreada(), "") != null)
                 dto.setCreada(Helper.localDateTimeToString(cajaModel.getCreada(), ""));
             if (cajaModel.getModificador() != null)
                 dto.setModificador(usuarioMapper.toDto(cajaModel.getModificador()));
-            if (cajaModel.getModificada() != null)
+            if (Helper.localDateTimeToString(cajaModel.getModificada(), "") != null)
                 dto.setModificada(Helper.localDateTimeToString(cajaModel.getModificada(), ""));
             if (cajaModel.getEliminador() != null)
                 dto.setEliminador(usuarioMapper.toDto(cajaModel.getEliminador()));
-            if (cajaModel.getEliminada() != null)
+            if (Helper.localDateTimeToString(cajaModel.getEliminada(), "") != null)
                 dto.setEliminada(Helper.localDateTimeToString(cajaModel.getEliminada(), ""));
 
             return dto;
