@@ -84,7 +84,6 @@
   <div class="row q-pa-md">
     <div class="col">
       <q-table
-        :showing="!cargando"
         title="Viajes"
         :columns="columns"
         rows-per-page-label="Registros por pagina"
@@ -94,186 +93,156 @@
         :rows="viajes"
         row-key="id"
       >
-        <template v-slot:body-cell-actions="props">
-          <q-td :props="props">
-            <q-btn @click="fMostrarDialogo(props)" dense round flat class="paleta19-color4" icon="visibility">
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[3, 3]">
-                Información
-              </q-tooltip>
-            </q-btn>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-conductor="props">
-          <q-td :props="props">
-            {{ props.row.conductor.nombre }}
-          </q-td>
-        </template>
-        <template v-slot:body-cell-camion="props">
-          <q-td :props="props">
-            {{ props.row.camion.modelo }}
-          </q-td>
-        </template>
-        <template v-slot:body-cell-vendedor="props">
-          <q-td :props="props">
-            {{ props.row.vendedor.nombre }}
-          </q-td>
-        </template>
-        <template v-slot:body-cell-comprador="props">
-          <q-td :props="props">
-            {{ props.row.comprador.nombre }}
-          </q-td>
-        </template>
-        <template v-slot:body-cell-categoria="props">
-          <q-td :props="props">
-            {{ props.row.categoriaViaje.categoria }}
-          </q-td>
+        <template v-slot:body="props">
+          <q-tr :props="props">
+            <q-td auto-width class="text-center">
+              <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
+            </q-td>
+            <q-td class="text-center">
+              {{ props.row.id }}
+            </q-td>
+            <q-td>
+              {{ props.row.conductor.nombre }}
+            </q-td>
+            <q-td>
+              {{ props.row.camion.marca + " " + props.row.camion.modelo }}
+            </q-td>
+            <q-td>
+              {{ props.row.vendedor.nombre }}
+            </q-td>
+            <q-td>
+              {{ props.row.comprador.nombre }}
+            </q-td>
+            <q-td>
+              {{ props.row.categoriaViaje.categoria }}
+            </q-td>
+            <q-td class="text-center">
+              {{ props.row.cantidadTransportada }}
+            </q-td>
+            <q-td class="text-center">
+              {{ props.row.kmVacio }}
+            </q-td>
+            <q-td class="text-center">
+              {{ props.row.kmCargado }}
+            </q-td>
+            <q-td class="text-center">
+              {{ props.row.valorKm }}
+            </q-td>
+          </q-tr>
+          <q-tr v-show="props.expand" :props="props" class="paleta1-fondo4">
+            <q-td colspan="100%">
+              <div class="row">
+                <div v-if="props.row.id != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.id}}</div>
+                  <div class="row paleta1-color2">Id</div>
+                </div>
+                <div v-if="props.row.cantidadTransportada != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.cantidadTransportada}}</div>
+                  <div class="row paleta1-color2">Cantidad transportada</div>
+                </div>
+                <div v-if="props.row.valorKm != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.valorKm}}</div>
+                  <div class="row paleta1-color2">Valor del kilometro</div>
+                </div>
+                <div v-if="props.row.neto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.neto}}</div>
+                  <div class="row paleta1-color2">Peso neto</div>
+                </div>
+                <div v-if="props.row.tara != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.tara}}</div>
+                  <div class="row paleta1-color2">Tara</div>
+                </div>
+                <div v-if="props.row.kmCargado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.kmCargado}}</div>
+                  <div class="row paleta1-color2">Kilometros cargado</div>
+                </div>
+                <div v-if="props.row.kmVacio != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.kmVacio}}</div>
+                  <div class="row paleta1-color2">Kilometros vacio</div>
+                </div>
+                <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.notas}}</div>
+                  <div class="row paleta1-color2">Notas</div>
+                </div>
+                <div v-if="props.row.guia != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.guia}}</div>
+                  <div class="row paleta1-color2">N° guia</div>
+                </div>
+                <div v-if="props.row.categoriaViaje != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.categoriaViaje.categoria}}</div>
+                  <div class="row paleta1-color2">Categoria viaje</div>
+                </div>
+                <div v-if="props.row.origen != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.origen.ubicacion.ciudad + "-" + props.row.origen.direccion}}</div>
+                  <div class="row paleta1-color2">Origen viaje</div>
+                </div>
+                <div v-if="props.row.carga != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.carga.ubicacion.ciudad + "-" + props.row.carga.direccion}}</div>
+                  <div class="row paleta1-color2">Direccion de carga</div>
+                </div>
+                <div v-if="props.row.destino != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.destino.ubicacion.ciudad + "-" + props.row.destino.direccion}}</div>
+                  <div class="row paleta1-color2">Direccion de destino</div>
+                </div>
+                <div v-if="props.row.vendedor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.vendedor.nombre}}</div>
+                  <div class="row paleta1-color2">Nombre vendedor</div>
+                </div>
+                <div v-if="props.row.intermediario != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.intermediario.nombre}}</div>
+                  <div class="row paleta1-color2">Nombre intermediario</div>
+                </div>
+                <div v-if="props.row.comprador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.comprador.nombre}}</div>
+                  <div class="row paleta1-color2">Nombre comprador</div>
+                </div>
+                <div v-if="props.row.fecha != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.fecha.fecha}}</div>
+                  <div class="row paleta1-color2">Fecha del viaje</div>
+                </div>
+                <div v-if="props.row.conductor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.conductor.nombre}}</div>
+                  <div class="row paleta1-color2">Nombre conductor</div>
+                </div>
+                <div v-if="props.row.camion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.camion.marca}}</div>
+                  <div class="row paleta1-color2">Camion</div>
+                </div>
+                <div v-if="props.row.acoplado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.acoplado.marca}}</div>
+                  <div class="row paleta1-color2">Acoplado</div>
+                </div>
+                <div v-if="props.row.creador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.creador.username}}</div>
+                  <div class="row paleta1-color2">Creador</div>
+                </div>
+                <div v-if="props.row.creado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.creado}}</div>
+                  <div class="row paleta1-color2">Creado</div>
+                </div>
+                <div v-if="props.row.modificador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.modificador.username}}</div>
+                  <div class="row paleta1-color2">Modificador</div>
+                </div>
+                <div v-if="props.row.modificado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.modificado}}</div>
+                  <div class="row paleta1-color2">Modificado</div>
+                </div>
+                <div v-if="props.row.eliminador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.eliminador.username}}</div>
+                  <div class="row paleta1-color2">Eliminador</div>
+                </div>
+                <div v-if="props.row.eliminado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{props.row.elimiando}}</div>
+                  <div class="row paleta1-color2">Elimiando</div>
+                </div>
+              </div>
+            </q-td>
+          </q-tr>
         </template>
       </q-table>
-      <q-inner-loading :showing="cargando">
-        <q-spinner-puff class="paleta19-color4 text-center" size="12em" />
-      </q-inner-loading>
     </div>
   </div>
-
-  <q-dialog v-model="seeDialog" transition-show="scale" transition-hide="scale">
-    <q-card class="bg-white">
-      <q-bar class="paleta19-fondo4 text-white">
-        <div>Ver viaje {{ viaje.id }}</div>
-        <q-space />
-        <q-btn dense flat icon="close" v-close-popup>
-          <q-tooltip class="paleta19-fondo4 text-white">Cerrar</q-tooltip>
-        </q-btn>
-      </q-bar>
-      <q-card-section>
-        <div class="q-pa-md" style="max-width: 350px">
-          <q-list bordered separator>
-
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.id }}</q-item-label>
-                <q-item-label caption>Id</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.cantidadTransportada }}</q-item-label>
-                <q-item-label caption>Cantidad</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.categoriaViaje.categoria }}</q-item-label>
-                <q-item-label caption>Transportado</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.valorKm}}</q-item-label>
-                <q-item-label caption>Valor km</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.neto}}</q-item-label>
-                <q-item-label caption>Peso neto</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.tara}}</q-item-label>
-                <q-item-label caption>Peso tara</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.kmCargado}}</q-item-label>
-                <q-item-label caption>Km cargado</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.kmVacio}}</q-item-label>
-                <q-item-label caption>Km vacio</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.notas}}</q-item-label>
-                <q-item-label caption>Notas</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.guia}}</q-item-label>
-                <q-item-label caption>Guia</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.origen.direccion + ", " + viaje.origen.ubicacion.ciudad + ", " + viaje.origen.ubicacion.pais}}</q-item-label>
-                <q-item-label caption>Direccion origen</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.carga.direccion + ", " + viaje.carga.ubicacion.ciudad + ", " + viaje.carga.ubicacion.pais}}</q-item-label>
-                <q-item-label caption>Direccion carga</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.destino.direccion + ", " + viaje.destino.ubicacion.ciudad + ", " + viaje.destino.ubicacion.pais}}</q-item-label>
-                <q-item-label caption>Direccion destino</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.vendedor.nombre}}</q-item-label>
-                <q-item-label caption>Vendedor</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.intermediario.nombre}}</q-item-label>
-                <q-item-label caption>Intermediario</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.comprador.nombre}}</q-item-label>
-                <q-item-label caption>Comprador</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{fFormatoFecha(viaje.fecha.fecha)}}</q-item-label>
-                <q-item-label caption>Fecha</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.conductor.nombre}}</q-item-label>
-                <q-item-label caption>Conductor</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.camion.marca + " - " + viaje.camion.modelo }}</q-item-label>
-                <q-item-label caption>Camion</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-              <q-item-section>
-                <q-item-label>{{ viaje.acoplado.marca + " - " + viaje.acoplado.modelo }}</q-item-label>
-                <q-item-label caption>Acoplado</q-item-label>
-              </q-item-section>
-            </q-item>
-
-          </q-list>
-        </div>
-      </q-card-section>
-    </q-card>
-  </q-dialog>
 </template>
 
 <script>
@@ -286,6 +255,7 @@ import { viajeService } from 'src/services/viaje_service'
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { helper } from 'app/src/helpers/ayuda'
+import { useQuasar } from 'quasar'
 
 const pagination = {
   rowsPerPage: 50,
@@ -294,6 +264,10 @@ const pagination = {
 }
 
 const columns = [
+  {
+    label: 'Expandir',
+    align: 'center'
+  },
   {
     name: 'id',
     label: 'Id',
@@ -360,17 +334,13 @@ const columns = [
     label: 'Valor Km',
     align: 'center',
     field: 'valorKm'
-  },
-  {
-    name: 'actions',
-    label: 'Acciones',
-    field: '',
-    align: 'center'
   }
 ]
 
 export default {
   setup () {
+    const $q = useQuasar()
+
     const camion = ref(null)
     const chofer = ref(null)
     const vendedor = ref(null)
@@ -378,12 +348,13 @@ export default {
     const destino = ref(null)
     const comprador = ref(null)
 
-    const cargando = ref(false)
     const seeDialog = ref(false)
     const viaje = reactive(new ViajeModel())
     const viajes = ref([])
     const choferes = ref([])
     const camiones = ref([])
+
+    const autoridad = ref([autenticacionService.obtenerAutoridades()])
 
     afBuscarCamiones()
     afBuscarChoferes()
@@ -392,13 +363,14 @@ export default {
     async function afBuscarCamiones () {
       try {
         let resultado = null
-        if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
           resultado = await camionService.spfBuscarTodasConEliminadas()
         } else {
           resultado = await camionService.spfBuscarTodas()
         }
         if (resultado.status === 200) {
           camiones.value = resultado.data
+          $q.loading.hide()
         }
       } catch (err) {
         console.clear()
@@ -410,20 +382,22 @@ export default {
           notificarService.notificarError(mensaje)
           console.error(mensaje)
         }
-        cargando.value = false
+        $q.loading.hide()
       }
     }
 
     async function afBuscarChoferes () {
+      $q.loading.show()
       try {
         let resultado = null
-        if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
           resultado = await conductorService.spfBuscarTodasConEliminadas()
         } else {
           resultado = await conductorService.spfBuscarTodas()
         }
         if (resultado.status === 200) {
           choferes.value = resultado.data
+          $q.loading.hide()
         }
       } catch (err) {
         console.clear()
@@ -435,13 +409,12 @@ export default {
           notificarService.notificarError(mensaje)
           console.error(mensaje)
         }
-        cargando.value = false
+        $q.loading.hide()
       }
-      cargando.value = false
     }
 
     async function afBuscarPaginadas () {
-      cargando.value = true
+      $q.loading.show()
       try {
         const paginadoDTO = {
           direccion: 'DESC',
@@ -450,13 +423,14 @@ export default {
           elementos: '50'
         }
         let resultado = null
-        if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
           resultado = await viajeService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
           resultado = await viajeService.spfBuscarTodasPaginadas(paginadoDTO)
         }
         if (resultado.status === 200) {
           viajes.value = resultado.data.content
+          $q.loading.hide()
         }
       } catch (err) {
         console.clear()
@@ -468,16 +442,15 @@ export default {
           notificarService.notificarError(mensaje)
           console.error(mensaje)
         }
-        cargando.value = false
+        $q.loading.hide()
       }
-      cargando.value = false
     }
 
     async function afBuscarPorCamion () {
-      cargando.value = true
+      $q.loading.show()
       try {
         let resultado = null
-        if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
           resultado = await viajeService.spfBuscarTodasPorCamionIdConEliminadas(camion.value)
         } else {
           resultado = await viajeService.spfBuscarTodasPorCamionId(camion.value)
@@ -485,6 +458,7 @@ export default {
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
           viajes.value = resultado.data
+          $q.loading.hide()
         }
         fLimpiarInputs('camion')
       } catch (err) {
@@ -497,16 +471,15 @@ export default {
           notificarService.notificarError(mensaje)
           console.error(mensaje)
         }
-        cargando.value = false
+        $q.loading.hide()
       }
-      cargando.value = false
     }
 
     async function afBuscarPorChofer () {
-      cargando.value = true
+      $q.loading.show()
       try {
         let resultado = null
-        if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
           resultado = await viajeService.spfBuscarTodasPorChoferIdConEliminadas(chofer.value)
         } else {
           resultado = await viajeService.spfBuscarTodasPorChoferId(chofer.value)
@@ -514,6 +487,7 @@ export default {
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
           viajes.value = resultado.data
+          $q.loading.hide()
         }
         fLimpiarInputs('chofer')
       } catch (err) {
@@ -526,16 +500,15 @@ export default {
           notificarService.notificarError(mensaje)
           console.error(mensaje)
         }
-        cargando.value = false
+        $q.loading.hide()
       }
-      cargando.value = false
     }
 
     async function afBuscarPorComprador () {
-      cargando.value = true
+      $q.loading.show()
       try {
         let resultado = null
-        if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
           resultado = await viajeService.spfBuscarTodasPorCompradorNombreConEliminadas(comprador.value)
         } else {
           resultado = await viajeService.spfBuscarTodasPorCompradorNombre(comprador.value)
@@ -543,6 +516,7 @@ export default {
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
           viajes.value = resultado.data
+          $q.loading.hide()
         }
         fLimpiarInputs('comprador')
       } catch (err) {
@@ -555,16 +529,15 @@ export default {
           notificarService.notificarError(mensaje)
           console.error(mensaje)
         }
-        cargando.value = false
+        $q.loading.hide()
       }
-      cargando.value = false
     }
 
     async function afBuscarPorDestino () {
-      cargando.value = true
+      $q.loading.show()
       try {
         let resultado = null
-        if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
           resultado = await viajeService.spfBuscarTodasPorDestinoDireccionConEliminadas(destino.value)
         } else {
           resultado = await viajeService.spfBuscarTodasPorDestinoDireccion(destino.value)
@@ -572,6 +545,7 @@ export default {
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
           viajes.value = resultado.data
+          $q.loading.hide()
         }
         fLimpiarInputs('destino')
       } catch (err) {
@@ -584,16 +558,15 @@ export default {
           notificarService.notificarError(mensaje)
           console.error(mensaje)
         }
-        cargando.value = false
+        $q.loading.hide()
       }
-      cargando.value = false
     }
 
     async function afBuscarPorOrigen () {
-      cargando.value = true
+      $q.loading.show()
       try {
         let resultado = null
-        if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
           resultado = await viajeService.spfBuscarTodasPorOrigenDireccionConEliminadas(origen.value)
         } else {
           resultado = await viajeService.spfBuscarTodasPorOrigenDireccion(origen.value)
@@ -601,6 +574,7 @@ export default {
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
           viajes.value = resultado.data
+          $q.loading.hide()
         }
         fLimpiarInputs('origen')
       } catch (err) {
@@ -613,16 +587,15 @@ export default {
           notificarService.notificarError(mensaje)
           console.error(mensaje)
         }
-        cargando.value = false
+        $q.loading.hide()
       }
-      cargando.value = false
     }
 
     async function afBuscarPorVendedor () {
-      cargando.value = true
+      $q.loading.show()
       try {
         let resultado = null
-        if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
           resultado = await viajeService.spfBuscarTodasPorVendedorNombreConEliminadas(vendedor.value)
         } else {
           resultado = await viajeService.spfBuscarTodasPorVendedorNombre(vendedor.value)
@@ -630,6 +603,7 @@ export default {
         if (resultado.status === 200) {
           console.info(resultado.headers.mensaje)
           viajes.value = resultado.data
+          $q.loading.hide()
         }
         fLimpiarInputs('vendedor')
       } catch (err) {
@@ -642,9 +616,8 @@ export default {
           notificarService.notificarError(mensaje)
           console.error(mensaje)
         }
-        cargando.value = false
+        $q.loading.hide()
       }
-      cargando.value = false
     }
 
     function fLimpiarInputs (actual) {
@@ -719,6 +692,7 @@ export default {
       afBuscarPorOrigen,
       afBuscarPorVendedor,
 
+      autoridad,
       camion,
       camiones,
       chofer,
@@ -731,7 +705,6 @@ export default {
       fMostrarDialogo,
       fFormatoFecha,
 
-      cargando,
       columns,
       seeDialog,
       pagination,
@@ -742,3 +715,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.item-lista {
+  border-bottom: 2px solid white;
+  padding: 5px;
+}
+</style>

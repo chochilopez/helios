@@ -2,6 +2,12 @@
 @import 'src/css/fuentes.scss';
 @import 'src/css/hover/hover.scss';
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 @media only screen and (max-width: 600px) {
   .ocultar-telefono {
     display: none;

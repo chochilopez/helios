@@ -23,11 +23,16 @@ public class Helper {
     }
 
     public static String localDateTimeToString(LocalDateTime localDateTime, String format) {
-        if (format.isEmpty())
-            format = "HH:mm:ss dd-MM-yyyy";
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+        try {
+            if (format.isEmpty())
+                format = "HH:mm:ss dd-MM-yyyy";
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
 
-        return dateTimeFormatter.format(ZonedDateTime.of(localDateTime, ZoneId.of("America/Argentina/Buenos_Aires")));
+            return dateTimeFormatter.format(ZonedDateTime.of(localDateTime, ZoneId.of("America/Argentina/Buenos_Aires")));
+        } catch (Exception e) {
+            log.error("Error converting LocalDateTime to String. Exception: " + e);
+            return null;
+        }
     }
 
     public static LocalDateTime zonedDateTimeToLocalDateTime(ZonedDateTime date) {

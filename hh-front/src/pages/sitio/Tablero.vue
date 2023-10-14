@@ -5,12 +5,34 @@ import TableroGrafico from 'src/components/sitio/TableroGrafico.vue';
 </template>
 
 <script>
-import TableroContador from 'src/components/sitio/TableroContador.vue'
-import TableroGrafico from 'src/components/sitio/TableroGrafico.vue'
+import { onBeforeRouteLeave } from 'vue-router'
+import { useQuasar, QSpinnerCube } from 'quasar'
+import { onBeforeMount } from 'vue'
+import TableroContador from '../../components/sitio/TableroContador.vue'
+import TableroGrafico from '../../components/sitio/TableroGrafico.vue'
 
 export default {
   setup () {
+    const $q = useQuasar()
+
+    onBeforeMount(() => {
+      $q.loading.hide()
+    })
+
+    onBeforeRouteLeave((to, from, next) => {
+      $q.loading.show({
+        spinner: QSpinnerCube,
+        message: 'Procesando...',
+        boxClass: 'paleta1-color4 paleta1-fondo1',
+        spinnerColor: 'paleta1-color5'
+      })
+      next()
+    })
+    return {}
   },
-  components: { TableroContador, TableroGrafico }
+  components: {
+    TableroContador,
+    TableroGrafico
+  }
 }
 </script>

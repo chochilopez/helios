@@ -4,16 +4,34 @@
 </template>
 
 <script>
-import ViajesViajesContador from 'src/components/sitio/ViajesViajesContador.vue'
-import ViajesViajesListado from 'src/components/sitio/ViajesViajesListado.vue'
+import { onBeforeRouteLeave } from 'vue-router'
+import { useQuasar, QSpinnerCube } from 'quasar'
+import ViajesViajesContador from '../../components/sitio/ViajesViajesContador.vue'
+import ViajesViajesListado from '../../components/sitio/ViajesViajesListado.vue'
+import { onBeforeMount } from 'vue'
 
 export default {
+  setup () {
+    const $q = useQuasar()
+
+    onBeforeMount(() => {
+      $q.loading.hide()
+    })
+
+    onBeforeRouteLeave((to, from, next) => {
+      $q.loading.show({
+        spinner: QSpinnerCube,
+        message: 'Procesando...',
+        boxClass: 'paleta1-color4 paleta1-fondo1',
+        spinnerColor: 'paleta1-color5'
+      })
+      next()
+    })
+    return {}
+  },
   components: {
     ViajesViajesContador,
     ViajesViajesListado
-  },
-  setup () {
-    return {}
   }
 }
 </script>
