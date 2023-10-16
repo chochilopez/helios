@@ -41,14 +41,14 @@ public class BancoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<BancoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         BancoModel objeto = bancoService.buscarPorId(id);
         return new ResponseEntity<>(bancoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BancoDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         BancoModel objeto = bancoService.buscarPorIdConEliminadas(id);
         return new ResponseEntity<>(bancoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
@@ -66,7 +66,7 @@ public class BancoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<BancoDTO>> buscarTodasConEliminadas() {
         List<BancoModel> listado = bancoService.buscarTodasConEliminadas();
         ArrayList<BancoDTO> bancos = new ArrayList<>();
@@ -94,7 +94,7 @@ public class BancoController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Slice<BancoDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<BancoModel> listado = bancoService.buscarTodasPorOrdenPorPaginaConEliminadas(
                 paginadoDTO.getDireccion(),
@@ -111,14 +111,14 @@ public class BancoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= bancoService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
     }
 
     @GetMapping(value = "/contar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Long> contarTodasConEliminadas() {
         Long cantidad= bancoService.contarTodasConEliminadas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -139,7 +139,7 @@ public class BancoController extends AbsBaseController {
     }
 
     @PostMapping(value = "/reciclar/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BancoDTO> reciclar(@PathVariable(name = "id") Long id) {
         BancoModel objeto = bancoService.reciclar(id);
         return new ResponseEntity<>(bancoMapper.toDto(objeto), Helper.httpHeaders("Se reciclo correctamente la entidad con id: " + id + "."), HttpStatus.OK);

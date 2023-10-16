@@ -41,14 +41,14 @@ public class ReciboController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<ReciboDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         ReciboModel objeto = reciboService.buscarPorId(id);
         return new ResponseEntity<>(reciboMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ReciboDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         ReciboModel objeto = reciboService.buscarPorIdConEliminadas(id);
         return new ResponseEntity<>(reciboMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
@@ -66,7 +66,7 @@ public class ReciboController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<ReciboDTO>> buscarTodasConEliminadas() {
         List<ReciboModel> listado = reciboService.buscarTodasConEliminadas();
         ArrayList<ReciboDTO> recibos = new ArrayList<>();
@@ -94,7 +94,7 @@ public class ReciboController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Slice<ReciboDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<ReciboModel> listado = reciboService.buscarTodasPorOrdenPorPaginaConEliminadas(
                 paginadoDTO.getDireccion(),
@@ -111,14 +111,14 @@ public class ReciboController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= reciboService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
     }
 
     @GetMapping(value = "/contar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Long> contarTodasConEliminadas() {
         Long cantidad= reciboService.contarTodasConEliminadas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -139,7 +139,7 @@ public class ReciboController extends AbsBaseController {
     }
 
     @PostMapping(value = "/reciclar/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ReciboDTO> reciclar(@PathVariable(name = "id") Long id) {
         ReciboModel objeto = reciboService.reciclar(id);
         return new ResponseEntity<>(reciboMapper.toDto(objeto), Helper.httpHeaders("Se reciclo correctamente la entidad con id: " + id + "."), HttpStatus.OK);

@@ -14,6 +14,14 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByCamionIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByConductorId(Long id);
     List<ViajeModel> findAllByConductorIdAndEliminadaIsNull(Long id);
+    List<ViajeModel> findAllByCompradorId(Long id);
+    List<ViajeModel> findAllByCompradorIdAndEliminadaIsNull(Long id);
+    List<ViajeModel> findAllByVendedorId(Long id);
+    List<ViajeModel> findAllByVendedorIdAndEliminadaIsNull(Long id);
+    List<ViajeModel> findAllByOrigenId(Long id);
+    List<ViajeModel> findAllByOrigenIdAndEliminadaIsNull(Long id);
+    List<ViajeModel> findAllByDestinoId(Long id);
+    List<ViajeModel> findAllByDestinoIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByCompradorNombreContainingIgnoreCase(String nombre);
     List<ViajeModel> findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(String nombre);
     List<ViajeModel> findAllByVendedorNombreContainingIgnoreCase(String nombre);

@@ -41,14 +41,14 @@ public class CajaController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<CajaDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         CajaModel objeto = cajaService.buscarPorId(id);
         return new ResponseEntity<>(cajaMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CajaDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         CajaModel objeto = cajaService.buscarPorIdConEliminadas(id);
         return new ResponseEntity<>(cajaMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
@@ -66,7 +66,7 @@ public class CajaController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<CajaDTO>> buscarTodasConEliminadas() {
         List<CajaModel> listado = cajaService.buscarTodasConEliminadas();
         ArrayList<CajaDTO> cajas = new ArrayList<>();
@@ -94,7 +94,7 @@ public class CajaController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Slice<CajaDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<CajaModel> listado = cajaService.buscarTodasPorOrdenPorPaginaConEliminadas(
                 paginadoDTO.getDireccion(),
@@ -111,14 +111,14 @@ public class CajaController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= cajaService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
     }
 
     @GetMapping(value = "/contar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Long> contarTodasConEliminadas() {
         Long cantidad= cajaService.contarTodasConEliminadas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -139,7 +139,7 @@ public class CajaController extends AbsBaseController {
     }
 
     @PostMapping(value = "/reciclar/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CajaDTO> reciclar(@PathVariable(name = "id") Long id) {
         CajaModel objeto = cajaService.reciclar(id);
         return new ResponseEntity<>(cajaMapper.toDto(objeto), Helper.httpHeaders("Se reciclo correctamente la entidad con id: " + id + "."), HttpStatus.OK);

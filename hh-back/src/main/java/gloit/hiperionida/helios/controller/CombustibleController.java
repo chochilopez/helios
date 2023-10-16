@@ -41,14 +41,14 @@ public class CombustibleController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<CombustibleDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         CombustibleModel objeto = combustibleService.buscarPorId(id);
         return new ResponseEntity<>(combustibleMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CombustibleDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         CombustibleModel objeto = combustibleService.buscarPorIdConEliminadas(id);
         return new ResponseEntity<>(combustibleMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
@@ -66,7 +66,7 @@ public class CombustibleController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<CombustibleDTO>> buscarTodasConEliminadas() {
         List<CombustibleModel> listado = combustibleService.buscarTodasConEliminadas();
         ArrayList<CombustibleDTO> combustibles = new ArrayList<>();
@@ -94,7 +94,7 @@ public class CombustibleController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Slice<CombustibleDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<CombustibleModel> listado = combustibleService.buscarTodasPorOrdenPorPaginaConEliminadas(
                 paginadoDTO.getDireccion(),
@@ -111,14 +111,14 @@ public class CombustibleController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= combustibleService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
     }
 
     @GetMapping(value = "/contar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Long> contarTodasConEliminadas() {
         Long cantidad= combustibleService.contarTodasConEliminadas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -139,7 +139,7 @@ public class CombustibleController extends AbsBaseController {
     }
 
     @PostMapping(value = "/reciclar/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CombustibleDTO> reciclar(@PathVariable(name = "id") Long id) {
         CombustibleModel objeto = combustibleService.reciclar(id);
         return new ResponseEntity<>(combustibleMapper.toDto(objeto), Helper.httpHeaders("Se reciclo correctamente la entidad con id: " + id + "."), HttpStatus.OK);

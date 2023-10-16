@@ -41,14 +41,14 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<DireccionDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         DireccionModel objeto = direccionService.buscarPorId(id);
         return new ResponseEntity<>(direccionMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<DireccionDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         DireccionModel objeto = direccionService.buscarPorIdConEliminadas(id);
         return new ResponseEntity<>(direccionMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
@@ -66,7 +66,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<DireccionDTO>> buscarTodasConEliminadas() {
         List<DireccionModel> listado = direccionService.buscarTodasConEliminadas();
         ArrayList<DireccionDTO> direccions = new ArrayList<>();
@@ -94,7 +94,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Slice<DireccionDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<DireccionModel> listado = direccionService.buscarTodasPorOrdenPorPaginaConEliminadas(
                 paginadoDTO.getDireccion(),
@@ -111,14 +111,14 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= direccionService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
     }
 
     @GetMapping(value = "/contar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Long> contarTodasConEliminadas() {
         Long cantidad= direccionService.contarTodasConEliminadas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -139,7 +139,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @PostMapping(value = "/reciclar/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<DireccionDTO> reciclar(@PathVariable(name = "id") Long id) {
         DireccionModel objeto = direccionService.reciclar(id);
         return new ResponseEntity<>(direccionMapper.toDto(objeto), Helper.httpHeaders("Se reciclo correctamente la entidad con id: " + id + "."), HttpStatus.OK);

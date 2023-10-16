@@ -58,7 +58,7 @@ public class PresupuestoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-fecha-con-eliminadas/{fecha}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorFechaFechaConEliminadas(@PathVariable(name = "fecha") String fecha) {
         List<PresupuestoModel> listado = presupuestoService.buscarTodasPorFechaFechaConEliminadas(fecha);
         ArrayList<PresupuestoDTO> fechas = new ArrayList<>();
@@ -80,7 +80,7 @@ public class PresupuestoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-comprador-nombre-con-eliminadas/{nombre}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorCompradorNombreConEliminadas(@PathVariable(name = "nombre") String nombre) {
         List<PresupuestoModel> listado = presupuestoService.buscarTodasPorCompradorNombreConEliminadas(nombre);
         ArrayList<PresupuestoDTO> fechas = new ArrayList<>();
@@ -102,7 +102,7 @@ public class PresupuestoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-origen-direccion-con-eliminadas/{direccion}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorOrigenDireccionConEliminadas(@PathVariable(name = "direccion") String direccion) {
         List<PresupuestoModel> listado = presupuestoService.buscarTodasPorOrigenDireccionConEliminadas(direccion);
         ArrayList<PresupuestoDTO> fechas = new ArrayList<>();
@@ -124,7 +124,7 @@ public class PresupuestoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-destino-direccion-con-eliminadas/{direccion}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorDestinoDireccionConEliminadas(@PathVariable(name = "direccion") String direccion) {
         List<PresupuestoModel> listado = presupuestoService.buscarTodasPorDestinoDireccionConEliminadas(direccion);
         ArrayList<PresupuestoDTO> fechas = new ArrayList<>();
@@ -135,14 +135,14 @@ public class PresupuestoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<PresupuestoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         PresupuestoModel objeto = presupuestoService.buscarPorId(id);
         return new ResponseEntity<>(presupuestoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<PresupuestoDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         PresupuestoModel objeto = presupuestoService.buscarPorIdConEliminadas(id);
         return new ResponseEntity<>(presupuestoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
@@ -160,7 +160,7 @@ public class PresupuestoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<PresupuestoDTO>> buscarTodasConEliminadas() {
         List<PresupuestoModel> listado = presupuestoService.buscarTodasConEliminadas();
         ArrayList<PresupuestoDTO> presupuestos = new ArrayList<>();
@@ -188,7 +188,7 @@ public class PresupuestoController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Slice<PresupuestoDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<PresupuestoModel> listado = presupuestoService.buscarTodasPorOrdenPorPaginaConEliminadas(
                 paginadoDTO.getDireccion(),
@@ -205,14 +205,14 @@ public class PresupuestoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('CARGA')")
+    @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= presupuestoService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
     }
 
     @GetMapping(value = "/contar-todas-con-eliminadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Long> contarTodasConEliminadas() {
         Long cantidad= presupuestoService.contarTodasConEliminadas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -233,7 +233,7 @@ public class PresupuestoController extends AbsBaseController {
     }
 
     @PostMapping(value = "/reciclar/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<PresupuestoDTO> reciclar(@PathVariable(name = "id") Long id) {
         PresupuestoModel objeto = presupuestoService.reciclar(id);
         return new ResponseEntity<>(presupuestoMapper.toDto(objeto), Helper.httpHeaders("Se reciclo correctamente la entidad con id: " + id + "."), HttpStatus.OK);

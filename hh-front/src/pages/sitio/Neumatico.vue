@@ -5,20 +5,20 @@
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 
 export default {
   setup () {
     const $q = useQuasar()
 
-    onBeforeMount(() => {
+    onMounted(() => {
       $q.loading.hide()
     })
 
     onBeforeRouteLeave((to, from, next) => {
       $q.loading.show({
         spinner: QSpinnerCube,
-        message: 'Procesando...',
+        message: 'Cargando...',
         boxClass: 'paleta1-color4 paleta1-fondo1',
         spinnerColor: 'paleta1-color5'
       })

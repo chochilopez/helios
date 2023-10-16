@@ -1,83 +1,220 @@
 <template>
   <q-card class="q-ma-md font-5 no-shadow no-border">
+    <div class="row justify-around">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md" style="max-width: 300px">
+        <q-input outlined dense v-model="fechaInicio" clearable label="Buscar por fecha inicio" readonly>
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-date v-model="fechaInicio" minimal mask="DD-MM-YYYY">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md" style="max-width: 300px">
+        <q-input outlined dense v-model="fechaFin" clearable label="Buscar por fecha fin" readonly>
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-date v-model="fechaFin" minimal mask="DD-MM-YYYY">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+      </div>
+    </div>
+    <hr>
     <div class="row justify-around q-pb-md">
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md">
         <q-select
           outlined
-          v-model="camion"
-          :options="camiones"
-          option-label="modelo"
-          option-value="id"
-          label="Buscar por camion"
           dense
           emit-value
           map-options
-          class="q-pa-md"
-          @update:model-value="afBuscarPorCamion()"
+          clearable
+          v-model="comprador"
+          :options="compradores"
+          option-value="id"
+          option-label="nombre"
+          label="Buscar por comprador"
+          use-input
+          input-debounce="0"
+          @filter="filtrarCompradores"
+          @update:model-value="afBuscarPorCompradorId()"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
         >
           <template v-slot:before>
-            <q-icon name="fa-solid fa-truck-moving" class="q-mx-xs" />
+            <q-icon name="monetization_on" class="q-mx-xs" />
+          </template>
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                Sin resultados
+              </q-item-section>
+            </q-item>
           </template>
         </q-select>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md">
         <q-select
           outlined
-          v-model="chofer"
-          :options="choferes"
-          option-label="nombre"
-          option-value="id"
-          label="Buscar por chofer"
           dense
           emit-value
           map-options
-          class="q-pa-md"
-          @update:model-value="afBuscarPorChofer()"
+          clearable
+          v-model="vendedor"
+          :options="vendedores"
+          option-value="id"
+          option-label="nombre"
+          label="Buscar por vendedor"
+          use-input
+          input-debounce="0"
+          @filter="filtrarVendedores"
+          @update:model-value="afBuscarPorVendedorId()"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
+        >
+          <template v-slot:before>
+            <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
+          </template>
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                Sin resultados
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md">
+        <q-select
+          outlined
+          dense
+          emit-value
+          map-options
+          clearable
+          v-model="chofer"
+          :options="choferes"
+          option-value="id"
+          option-label="nombre"
+          label="Buscar por chofer"
+          use-input
+          input-debounce="0"
+          @filter="filtrarChoferes"
+          @update:model-value="afBuscarPorChoferId()"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
         >
           <template v-slot:before>
             <q-icon name="airline_seat_recline_extra" class="q-mx-xs" />
           </template>
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                Sin resultados
+              </q-item-section>
+            </q-item>
+          </template>
         </q-select>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-        <q-input outlined v-on:keypress.enter="afBuscarPorVendedor" v-model="vendedor" label="Buscar por vendedor" counter maxlength="24" dense class="q-pa-md">
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
-          </template>
-          <template v-slot:append>
-            <q-icon name="search" class="cursor-mano" @click="afBuscarPorVendedor" />
-          </template>
-        </q-input>
-      </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-        <q-input outlined v-on:keypress.enter="afBuscarPorOrigen" v-model="origen" label="Buscar por origen" counter maxlength="24" dense class="q-pa-md">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md">
+        <q-select
+          outlined
+          dense
+          emit-value
+          map-options
+          clearable
+          v-model="origen"
+          :options="origenes"
+          option-value="id"
+          option-label="direccion"
+          label="Buscar por origen"
+          use-input
+          input-debounce="0"
+          @filter="filtrarOrigenes"
+          @update:model-value="afBuscarPorOrigenId()"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
+        >
           <template v-slot:before>
             <q-icon name="fa-solid fa-map-location-dot" class="q-mx-xs" />
           </template>
-          <template v-slot:append>
-            <q-icon name="search" class="cursor-mano" @click="afBuscarPorOrigen" />
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                Sin resultados
+              </q-item-section>
+            </q-item>
           </template>
-        </q-input>
+        </q-select>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-        <q-input outlined v-on:keypress.enter="afBuscarPorDestino" v-model="destino" label="Buscar por destino" counter maxlength="24" dense class="q-pa-md">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md">
+        <q-select
+          outlined
+          dense
+          emit-value
+          map-options
+          clearable
+          v-model="destino"
+          :options="destinos"
+          option-value="id"
+          option-label="direccion"
+          label="Buscar por destino"
+          use-input
+          input-debounce="0"
+          @filter="filtrarDestinos"
+          @update:model-value="afBuscarPorDestinoId()"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
+        >
           <template v-slot:before>
             <q-icon name="fa-solid fa-map-location" class="q-mx-xs" />
           </template>
-          <template v-slot:append>
-            <q-icon name="search" class="cursor-mano" @click="afBuscarPorDestino" />
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                Sin resultados
+              </q-item-section>
+            </q-item>
           </template>
-        </q-input>
+        </q-select>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-        <q-input outlined v-on:keypress.enter="afBuscarPorComprador" v-model="comprador" label="Buscar por comprador" counter maxlength="24" dense class="q-pa-md">
+
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md">
+        <q-select
+          outlined
+          dense
+          emit-value
+          map-options
+          clearable
+          v-model="camion"
+          option-value="id"
+          option-label="modelo"
+          label="Buscar por modelo camion"
+          use-input
+          hide-selected
+          fill-input
+          :options="camiones"
+          @filter="filtrarCamiones"
+          @update:model-value="afBuscarPorCamionId()"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
+        >
           <template v-slot:before>
-            <q-icon name="monetization_on" class="q-mx-xs" />
+            <q-icon name="fa-solid fa-truck-moving" class="q-mx-xs" />
           </template>
-          <template v-slot:append>
-            <q-icon name="search" class="cursor-mano" @click="afBuscarPorComprador" />
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                Sin resultados
+              </q-item-section>
+            </q-item>
           </template>
-        </q-input>
+        </q-select>
       </div>
     </div>
   </q-card>
@@ -96,7 +233,7 @@
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td auto-width class="text-center">
-              <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
+              <q-btn size="sm" class="text-white" :class="props.expand ? 'paleta5-fondo2' : 'paleta5-fondo3'" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
             </q-td>
             <q-td class="text-center">
               {{ props.row.id }}
@@ -256,6 +393,8 @@ import { autenticacionService } from 'src/services/autenticacion_service'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { helper } from 'app/src/helpers/ayuda'
 import { useQuasar } from 'quasar'
+import { clienteService } from 'src/services/cliente_service'
+import { direccionService } from 'src/services/direccion_service'
 
 const pagination = {
   rowsPerPage: 50,
@@ -341,24 +480,38 @@ export default {
   setup () {
     const $q = useQuasar()
 
-    const camion = ref(null)
+    const fechaInicio = ref('')
+    const fechaFin = ref('')
+
     const chofer = ref(null)
+    const camion = ref(null)
     const vendedor = ref(null)
     const origen = ref(null)
     const destino = ref(null)
     const comprador = ref(null)
 
-    const seeDialog = ref(false)
-    const viaje = reactive(new ViajeModel())
     const viajes = ref([])
     const choferes = ref([])
+    const choferesList = ref([])
     const camiones = ref([])
+    const camionesList = ref([])
+    const vendedores = ref([])
+    const compradores = ref([])
+    const origenes = ref([])
+    const destinos = ref([])
 
-    const autoridad = ref([autenticacionService.obtenerAutoridades()])
+    const clientes = ref([])
+    const direcciones = ref([])
+
+    const viaje = reactive(new ViajeModel())
+
+    const autoridad = ref(autenticacionService.obtenerAutoridades())
 
     afBuscarCamiones()
     afBuscarChoferes()
     afBuscarPaginadas()
+    afBuscarClientes()
+    afBuscarDirecciones()
 
     async function afBuscarCamiones () {
       try {
@@ -369,7 +522,7 @@ export default {
           resultado = await camionService.spfBuscarTodas()
         }
         if (resultado.status === 200) {
-          camiones.value = resultado.data
+          camionesList.value = resultado.data
           $q.loading.hide()
         }
       } catch (err) {
@@ -396,7 +549,61 @@ export default {
           resultado = await conductorService.spfBuscarTodas()
         }
         if (resultado.status === 200) {
-          choferes.value = resultado.data
+          choferesList.value = resultado.data
+          $q.loading.hide()
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afBuscarClientes () {
+      $q.loading.show()
+      try {
+        let resultado = null
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
+          resultado = await clienteService.spfBuscarTodasConEliminadas()
+        } else {
+          resultado = await clienteService.spfBuscarTodas()
+        }
+        if (resultado.status === 200) {
+          clientes.value = resultado.data
+          $q.loading.hide()
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afBuscarDirecciones () {
+      $q.loading.show()
+      try {
+        let resultado = null
+        if (autoridad.value.includes(rolEnum.ADMIN)) {
+          resultado = await direccionService.spfBuscarTodasConEliminadas()
+        } else {
+          resultado = await direccionService.spfBuscarTodas()
+        }
+        if (resultado.status === 200) {
+          direcciones.value = resultado.data
           $q.loading.hide()
         }
       } catch (err) {
@@ -446,177 +653,190 @@ export default {
       }
     }
 
-    async function afBuscarPorCamion () {
-      $q.loading.show()
-      try {
-        let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorCamionIdConEliminadas(camion.value)
-        } else {
-          resultado = await viajeService.spfBuscarTodasPorCamionId(camion.value)
-        }
-        if (resultado.status === 200) {
-          console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data
+    async function afBuscarPorCamionId () {
+      if (camion.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorCamionIdConEliminadas(camion.value)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorCamionId(camion.value)
+          }
+          if (resultado.status === 200) {
+            console.info(resultado.headers.mensaje)
+            viajes.value = resultado.data
+          }
+          $q.loading.hide()
+          fLimpiarInputs('camion')
+        } catch (err) {
+          console.clear()
+          if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
           $q.loading.hide()
         }
-        fLimpiarInputs('camion')
-      } catch (err) {
-        console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
       }
     }
 
-    async function afBuscarPorChofer () {
-      $q.loading.show()
-      try {
-        let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorChoferIdConEliminadas(chofer.value)
-        } else {
-          resultado = await viajeService.spfBuscarTodasPorChoferId(chofer.value)
-        }
-        if (resultado.status === 200) {
-          console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data
+    async function afBuscarPorChoferId () {
+      if (chofer.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorChoferIdConEliminadas(chofer.value)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorChoferId(chofer.value)
+          }
+          if (resultado.status === 200) {
+            console.info(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+          fLimpiarInputs('chofer')
+        } catch (err) {
+          console.clear()
+          if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
           $q.loading.hide()
         }
-        fLimpiarInputs('chofer')
-      } catch (err) {
-        console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
       }
     }
 
-    async function afBuscarPorComprador () {
-      $q.loading.show()
-      try {
-        let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorCompradorNombreConEliminadas(comprador.value)
-        } else {
-          resultado = await viajeService.spfBuscarTodasPorCompradorNombre(comprador.value)
-        }
-        if (resultado.status === 200) {
-          console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data
+    async function afBuscarPorCompradorId () {
+      if (comprador.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorCompradorIdConEliminadas(comprador.value)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorCompradorId(comprador.value)
+          }
+          if (resultado.status === 200) {
+            console.info(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+          fLimpiarInputs('comprador')
+        } catch (err) {
+          console.clear()
+          if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
           $q.loading.hide()
         }
-        fLimpiarInputs('comprador')
-      } catch (err) {
-        console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
       }
     }
 
-    async function afBuscarPorDestino () {
-      $q.loading.show()
-      try {
-        let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorDestinoDireccionConEliminadas(destino.value)
-        } else {
-          resultado = await viajeService.spfBuscarTodasPorDestinoDireccion(destino.value)
-        }
-        if (resultado.status === 200) {
-          console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data
+    async function afBuscarPorDestinoId () {
+      if (destino.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorDestinoIdConEliminadas(destino.value)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorDestinoId(destino.value)
+          }
+          if (resultado.status === 200) {
+            console.info(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+          fLimpiarInputs('destino')
+        } catch (err) {
+          console.clear()
+          if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
           $q.loading.hide()
         }
-        fLimpiarInputs('destino')
-      } catch (err) {
-        console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
       }
     }
 
-    async function afBuscarPorOrigen () {
-      $q.loading.show()
-      try {
-        let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorOrigenDireccionConEliminadas(origen.value)
-        } else {
-          resultado = await viajeService.spfBuscarTodasPorOrigenDireccion(origen.value)
-        }
-        if (resultado.status === 200) {
-          console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data
+    async function afBuscarPorOrigenId () {
+      if (origen.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorOrigenIdConEliminadas(origen.value)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorOrigenId(origen.value)
+          }
+          if (resultado.status === 200) {
+            console.info(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+          fLimpiarInputs('origen')
+        } catch (err) {
+          console.clear()
+          if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
           $q.loading.hide()
         }
-        fLimpiarInputs('origen')
-      } catch (err) {
-        console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
       }
     }
 
-    async function afBuscarPorVendedor () {
-      $q.loading.show()
-      try {
-        let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasPorVendedorNombreConEliminadas(vendedor.value)
-        } else {
-          resultado = await viajeService.spfBuscarTodasPorVendedorNombre(vendedor.value)
-        }
-        if (resultado.status === 200) {
-          console.info(resultado.headers.mensaje)
-          viajes.value = resultado.data
+    async function afBuscarPorVendedorId () {
+      if (vendedor.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            console.log('aca')
+            resultado = await viajeService.spfBuscarTodasPorVendedorIdConEliminadas(vendedor.value)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorVendedorId(vendedor.value)
+          }
+          if (resultado.status === 200) {
+            console.info(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+          fLimpiarInputs('vendedor')
+        } catch (err) {
+          console.clear()
+          if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
           $q.loading.hide()
         }
-        fLimpiarInputs('vendedor')
-      } catch (err) {
-        console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
       }
     }
 
@@ -679,38 +899,99 @@ export default {
       return helper.getDateWithFormat(fecha)
     }
 
-    function fMostrarDialogo (props) {
-      Object.assign(viaje, props.row)
-      seeDialog.value = true
-    }
-
     return {
-      afBuscarPorCamion,
-      afBuscarPorChofer,
-      afBuscarPorComprador,
-      afBuscarPorDestino,
-      afBuscarPorOrigen,
-      afBuscarPorVendedor,
+      afBuscarPorCamionId,
+      afBuscarPorChoferId,
+      afBuscarPorCompradorId,
+      afBuscarPorDestinoId,
+      afBuscarPorOrigenId,
+      afBuscarPorVendedorId,
 
       autoridad,
+      fechaInicio,
+      fechaFin,
       camion,
       camiones,
       chofer,
       choferes,
       vendedor,
+      vendedores,
       origen,
+      origenes,
       destino,
+      destinos,
       comprador,
+      compradores,
 
-      fMostrarDialogo,
       fFormatoFecha,
 
       columns,
-      seeDialog,
       pagination,
       viaje,
-      viajes
+      viajes,
 
+      model: ref(null),
+
+      filtrarCamiones (val, update, abort) {
+        if (val.length < 3) {
+          abort()
+          return
+        }
+        update(() => {
+          const needle = val.toLowerCase()
+          camiones.value = camionesList.value.filter(v => v.modelo.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+      filtrarChoferes (val, update, abort) {
+        if (val.length < 3) {
+          abort()
+          return
+        }
+        update(() => {
+          const needle = val.toLowerCase()
+          choferes.value = choferesList.value.filter(v => v.nombre.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+      filtrarCompradores (val, update, abort) {
+        if (val.length < 3) {
+          abort()
+          return
+        }
+        update(() => {
+          const needle = val.toLowerCase()
+          compradores.value = clientes.value.filter(v => v.nombre.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+      filtrarVendedores (val, update, abort) {
+        if (val.length < 3) {
+          abort()
+          return
+        }
+        update(() => {
+          const needle = val.toLowerCase()
+          vendedores.value = clientes.value.filter(v => v.nombre.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+      filtrarOrigenes (val, update, abort) {
+        if (val.length < 3) {
+          abort()
+          return
+        }
+        update(() => {
+          const needle = val.toLowerCase()
+          origenes.value = direcciones.value.filter(v => v.direccion.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+      filtrarDestinos (val, update, abort) {
+        if (val.length < 3) {
+          abort()
+          return
+        }
+        update(() => {
+          const needle = val.toLowerCase()
+          destinos.value = direcciones.value.filter(v => v.direccion.toLowerCase().indexOf(needle) > -1)
+        })
+      }
     }
   }
 }

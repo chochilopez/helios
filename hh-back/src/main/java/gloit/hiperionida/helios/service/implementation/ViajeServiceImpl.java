@@ -98,6 +98,78 @@ public class ViajeServiceImpl implements ViajeService {
     }
 
     @Override
+    public List<ViajeModel> buscarTodasPorCompradorId(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Comprador: {}.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByCompradorIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Comprador: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorCompradorIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Comprador: {}, con eliminadas.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByCompradorId(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Comprador: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorVendedorId(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Vendedor: {}.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByVendedorIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Vendedor: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorVendedorIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Vendedor: {}, con eliminadas.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByVendedorId(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Vendedor: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorOrigenId(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Origen: {}.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByOrigenIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Origen: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorOrigenIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Origen: {}, con eliminadas.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByOrigenId(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Origen: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorDestinoId(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Destino: {}.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByDestinoIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Destino: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorDestinoIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Destino: {}, con eliminadas.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByDestinoId(id);
+        if (listado.isEmpty())
+            throw new CustomDataNotFoundException("No se encontraron entidades Viaje con id de Destino: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
     public List<ViajeModel> buscarTodasPorCompradorNombre(String nombre) {
         log.info("Buscando todas las entidades Viaje con nombre de Comprador: {}.", nombre);
         List<ViajeModel> listado = viajeDAO.findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
