@@ -2,8 +2,8 @@ package gloit.hiperionida.helios.util.service.implementation;
 
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.model.enums.RolEnum;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.mapper.RolMapper;
 import gloit.hiperionida.helios.util.mapper.creation.RolCreation;
 import gloit.hiperionida.helios.util.model.RolModel;
@@ -28,7 +28,7 @@ public class RolServiceImpl implements RolService {
     @Override
     public RolModel buscarPorRol(String nombre) {
         log.info("Buscando todas las entidades Rol con nombre: {}.", nombre);
-        RolModel rol = rolDAO.findByRolAndEliminadaIsNull(RolEnum.valueOf(nombre)).orElseThrow(() -> new CustomDataNotFoundException("No se encontro la entidad Rol con nombre: " + nombre + "."));
+        RolModel rol = rolDAO.findByRolAndEliminadaIsNull(RolEnum.valueOf(nombre)).orElseThrow(() -> new DatosInexistentesException("No se encontro la entidad Rol con nombre: " + nombre + "."));
         String mensaje = "Se encontro una entidad Rol con nombre: " + nombre + ".";
         log.info(mensaje);
         return rol;
@@ -37,7 +37,7 @@ public class RolServiceImpl implements RolService {
     @Override
     public RolModel buscarPorRolConEliminadas(String nombre) {
         log.info("Buscando todas las entidades Rol con nombre: {}, incluidas las eliminadas.", nombre);
-        RolModel rol = rolDAO.findByRol(RolEnum.valueOf(nombre)).orElseThrow(() -> new CustomDataNotFoundException("No se encontro la entidad Rol con nombre: " + nombre + ", incluidas las eliminadas."));
+        RolModel rol = rolDAO.findByRol(RolEnum.valueOf(nombre)).orElseThrow(() -> new DatosInexistentesException("No se encontro la entidad Rol con nombre: " + nombre + ", incluidas las eliminadas."));
         String mensaje = "Se encontro una entidad Rol con nombre: " + nombre + ", incluidas las eliminadas.";
         log.info(mensaje);
         return rol;
@@ -46,7 +46,7 @@ public class RolServiceImpl implements RolService {
     @Override
     public RolModel buscarPorId(Long id) {
         log.info("Buscando la entidad Rol con id: {}.", id);
-        RolModel rolModel = rolDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad con id " + id + "."));
+        RolModel rolModel = rolDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con id " + id + "."));
         String mensaje = "Se encontro una entidad Rol.";
         log.info(mensaje);
         return rolModel;
@@ -55,7 +55,7 @@ public class RolServiceImpl implements RolService {
     @Override
     public RolModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Rol con id: {}, incluidas las eliminadas.", id);
-        RolModel rolModel = rolDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad con id: " + id +", incluidas las eliminadas."));
+        RolModel rolModel = rolDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Rol con id: " + id + ".");
         return rolModel;
     }
@@ -65,7 +65,7 @@ public class RolServiceImpl implements RolService {
         log.info("Buscando todas las entidades Rol.");
         List<RolModel> listado = rolDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Rol.");
+            throw new DatosInexistentesException("No se encontraron entidades Rol.");
         return listado;
     }
 
@@ -74,7 +74,7 @@ public class RolServiceImpl implements RolService {
         log.info("Buscando todas las entidades Rol, incluidas las eliminadas.");
         List<RolModel> listado = rolDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Rol, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Rol, incluidas las eliminadas.");
         return listado;
     }
 
@@ -83,7 +83,7 @@ public class RolServiceImpl implements RolService {
         log.info("Buscando todas las entidades Rol, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<RolModel> slice = rolDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Rol.");
+            throw new DatosInexistentesException("No se encontraron entidades Rol.");
         return slice;
     }
 
@@ -92,7 +92,7 @@ public class RolServiceImpl implements RolService {
         log.info("Buscando todas las entidades Rol, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<RolModel> slice = rolDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Rol, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Rol, incluidas las eliminadas.");
         return slice;
     }
 
@@ -139,7 +139,7 @@ public class RolServiceImpl implements RolService {
         RolModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Rol con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -153,7 +153,7 @@ public class RolServiceImpl implements RolService {
         RolModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Rol con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         rolDAO.delete(objeto);
         log.info("La entidad fue destruida y el rol " + objeto + " fue eliminado correctamente.");

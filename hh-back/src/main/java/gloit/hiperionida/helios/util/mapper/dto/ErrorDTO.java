@@ -1,4 +1,4 @@
-package gloit.hiperionida.helios.util.exception;
+package gloit.hiperionida.helios.util.mapper.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import gloit.hiperionida.helios.util.Helper;

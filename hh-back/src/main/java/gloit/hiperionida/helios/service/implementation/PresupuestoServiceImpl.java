@@ -6,9 +6,9 @@ import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.repository.PresupuestoDAO;
 import gloit.hiperionida.helios.service.PresupuestoService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
-import gloit.hiperionida.helios.util.exception.CustomParameterConstraintException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
+import gloit.hiperionida.helios.util.exception.ParametroInvalidoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +33,11 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         if (Helper.stringToLocalDateTime(fecha, "") != null) {
             List<PresupuestoModel> listado = presupuestoDAO.findAllByFechaFechaAndEliminadaIsNull(Helper.stringToLocalDateTime(fecha, ""));
             if (listado.isEmpty())
-                throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con fecha: " + fecha + ".");
+                throw new DatosInexistentesException("No se encontraron entidades Presupuesto con fecha: " + fecha + ".");
             else
                 return listado;
         } else {
-            throw new CustomParameterConstraintException("La fecha no tiene formato valido.");
+            throw new ParametroInvalidoException("La fecha no tiene formato valido.");
         }
     }
 
@@ -47,11 +47,11 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         if (Helper.stringToLocalDateTime(fecha, "") != null) {
             List<PresupuestoModel> listado = presupuestoDAO.findAllByFechaFecha(Helper.stringToLocalDateTime(fecha, ""));
             if (listado.isEmpty())
-                throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con fecha: " + fecha + ", incluidas las eliminadas.");
+                throw new DatosInexistentesException("No se encontraron entidades Presupuesto con fecha: " + fecha + ", incluidas las eliminadas.");
             else
                 return listado;
         } else {
-            throw new CustomParameterConstraintException("La fecha no tiene formato valido, incluidas las eliminadas..");
+            throw new ParametroInvalidoException("La fecha no tiene formato valido, incluidas las eliminadas..");
         }
     }
 
@@ -67,7 +67,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Buscando todas las entidades Presupuesto con nombre de Comprador: {}.", nombre);
         List<PresupuestoModel> listado = presupuestoDAO.findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con nombre de Comprador: " + nombre + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con nombre de Comprador: " + nombre + ".");
         return listado;
     }
 
@@ -76,7 +76,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Buscando todas las entidades Presupuesto con nombre de Comprador: {}, con eliminadas.", nombre);
         List<PresupuestoModel> listado = presupuestoDAO.findAllByCompradorNombreContainingIgnoreCase(nombre);
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con nombre de Comprador: " + nombre + ", con eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con nombre de Comprador: " + nombre + ", con eliminadas.");
         return listado;
     }
 
@@ -85,7 +85,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Buscando todas las entidades Presupuesto con Origen: {}.", direccion);
         List<PresupuestoModel> listado = presupuestoDAO.findAllByOrigenDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con Origen: " + direccion + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con Origen: " + direccion + ".");
         return listado;
     }
 
@@ -94,7 +94,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Buscando todas las entidades Presupuesto con Origen: {}, con eliminadas.", direccion);
         List<PresupuestoModel> listado = presupuestoDAO.findAllByOrigenDireccionContainingIgnoreCase(direccion);
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con Origen: " + direccion + ", con eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con Origen: " + direccion + ", con eliminadas.");
         return listado;
     }
 
@@ -103,7 +103,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Buscando todas las entidades Presupuesto con Destino: {}.", direccion);
         List<PresupuestoModel> listado = presupuestoDAO.findAllByDestinoDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con Destino: " + direccion + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con Destino: " + direccion + ".");
         return listado;
     }
 
@@ -112,14 +112,14 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Buscando todas las entidades Presupuesto con Destino: {}, con eliminadas.", direccion);
         List<PresupuestoModel> listado = presupuestoDAO.findAllByDestinoDireccionContainingIgnoreCase(direccion);
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto con Destino: " + direccion + ", con eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con Destino: " + direccion + ", con eliminadas.");
         return listado;
     }
 
     @Override
     public PresupuestoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Presupuesto con id: {}.", id);
-        PresupuestoModel presupuestoModel = presupuestoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Presupuesto con id: " + id + "."));
+        PresupuestoModel presupuestoModel = presupuestoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Presupuesto con id: " + id + "."));
         String mensaje = "Se encontro una entidad Presupuesto.";
         log.info(mensaje);
         return presupuestoModel;
@@ -128,7 +128,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     @Override
     public PresupuestoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Presupuesto con id: {}, incluidas las eliminadas.", id);
-        PresupuestoModel presupuestoModel = presupuestoDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Presupuesto con id: " + id +", incluidas las eliminadas."));
+        PresupuestoModel presupuestoModel = presupuestoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Presupuesto con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Presupuesto con id: " + id + ".");
         return presupuestoModel;
     }
@@ -138,7 +138,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Buscando todas las entidades Presupuesto.");
         List<PresupuestoModel> listado = presupuestoDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto.");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto.");
         return listado;
     }
 
@@ -147,7 +147,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Buscando todas las entidades Presupuesto, incluidas las eliminadas.");
         List<PresupuestoModel> listado = presupuestoDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto, incluidas las eliminadas.");
         return listado;
     }
 
@@ -156,7 +156,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Buscando todas las entidades Presupuesto, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<PresupuestoModel> slice = presupuestoDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto.");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto.");
         return slice;
     }
 
@@ -165,7 +165,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Buscando todas las entidades Presupuesto, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<PresupuestoModel> slice = presupuestoDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Presupuesto, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto, incluidas las eliminadas.");
         return slice;
     }
 
@@ -215,7 +215,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         PresupuestoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Presupuesto con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -229,7 +229,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         PresupuestoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Presupuesto con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         presupuestoDAO.delete(objeto);
         log.info("La entidad fue destruida.");

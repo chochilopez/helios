@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.CamionModel;
 import gloit.hiperionida.helios.repository.CamionDAO;
 import gloit.hiperionida.helios.service.CamionService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class CamionServiceImpl implements CamionService {
     @Override
     public CamionModel buscarPorId(Long id) {
         log.info("Buscando la entidad Camion con id: {}.", id);
-        CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Camion con id: " + id + "."));
+        CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Camion con id: " + id + "."));
         String mensaje = "Se encontro una entidad Camion.";
         log.info(mensaje);
         return camionModel;
@@ -38,7 +38,7 @@ public class CamionServiceImpl implements CamionService {
     @Override
     public CamionModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Camion con id: {}, incluidas las eliminadas.", id);
-        CamionModel camionModel = camionDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Camion con id: " + id +", incluidas las eliminadas."));
+        CamionModel camionModel = camionDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Camion con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Camion con id: " + id + ".");
         return camionModel;
     }
@@ -48,7 +48,7 @@ public class CamionServiceImpl implements CamionService {
         log.info("Buscando todas las entidades Camion.");
         List<CamionModel> listado = camionDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Camion.");
+            throw new DatosInexistentesException("No se encontraron entidades Camion.");
         log.info("Se encontraron {} entidades Camion.", listado.size());
         return listado;
     }
@@ -58,7 +58,7 @@ public class CamionServiceImpl implements CamionService {
         log.info("Buscando todas las entidades Camion, incluidas las eliminadas.");
         List<CamionModel> listado = camionDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Camion, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Camion, incluidas las eliminadas.");
         log.info("Se encontraron {} entidades Camion, incluidas las eliminadas.", listado.size());
         return listado;
     }
@@ -68,7 +68,7 @@ public class CamionServiceImpl implements CamionService {
         log.info("Buscando todas las entidades Camion, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<CamionModel> slice = camionDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Camion.");
+            throw new DatosInexistentesException("No se encontraron entidades Camion.");
         return slice;
     }
 
@@ -77,7 +77,7 @@ public class CamionServiceImpl implements CamionService {
         log.info("Buscando todas las entidades Camion, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<CamionModel> slice = camionDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Camion, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Camion, incluidas las eliminadas.");
         return slice;
     }
 
@@ -127,7 +127,7 @@ public class CamionServiceImpl implements CamionService {
         CamionModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Camion con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -141,7 +141,7 @@ public class CamionServiceImpl implements CamionService {
         CamionModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Camion con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         camionDAO.delete(objeto);
         log.info("La entidad fue destruida.");

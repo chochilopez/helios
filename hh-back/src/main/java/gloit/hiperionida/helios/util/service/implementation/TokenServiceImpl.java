@@ -1,6 +1,6 @@
 package gloit.hiperionida.helios.util.service.implementation;
 
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.model.TokenModel;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.model.enums.TipoToken;
@@ -39,7 +39,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public TokenModel buscarPorId(Long id) {
         log.info("Buscando la entidad Token con id: {}.", id);
-        TokenModel tokenModel = tokenDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Token con id " + id + "."));
+        TokenModel tokenModel = tokenDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Token con id " + id + "."));
         log.info("Se encontro una entidad Token con id: {}.");
         return tokenModel;
     }
@@ -49,7 +49,7 @@ public class TokenServiceImpl implements TokenService {
         log.info("Buscando todas las entidades Token.");
         List<TokenModel> listado = tokenDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Token.");
+            throw new DatosInexistentesException("No se encontraron entidades Token.");
         return listado;
     }
 

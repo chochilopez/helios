@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.CompraModel;
 import gloit.hiperionida.helios.repository.CompraDAO;
 import gloit.hiperionida.helios.service.CompraService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class CompraServiceImpl implements CompraService {
     @Override
     public CompraModel buscarPorId(Long id) {
         log.info("Buscando la entidad Compra con id: {}.", id);
-        CompraModel compraModel = compraDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Compra con id: " + id + "."));
+        CompraModel compraModel = compraDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Compra con id: " + id + "."));
         String mensaje = "Se encontro una entidad Compra.";
         log.info(mensaje);
         return compraModel;
@@ -38,7 +38,7 @@ public class CompraServiceImpl implements CompraService {
     @Override
     public CompraModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Compra con id: {}, incluidas las eliminadas.", id);
-        CompraModel compraModel = compraDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Compra con id: " + id +", incluidas las eliminadas."));
+        CompraModel compraModel = compraDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Compra con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Compra con id: " + id + ".");
         return compraModel;
     }
@@ -48,7 +48,7 @@ public class CompraServiceImpl implements CompraService {
         log.info("Buscando todas las entidades Compra.");
         List<CompraModel> listado = compraDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Compra.");
+            throw new DatosInexistentesException("No se encontraron entidades Compra.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class CompraServiceImpl implements CompraService {
         log.info("Buscando todas las entidades Compra, incluidas las eliminadas.");
         List<CompraModel> listado = compraDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Compra, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Compra, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class CompraServiceImpl implements CompraService {
         log.info("Buscando todas las entidades Compra, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<CompraModel> slice = compraDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Compra.");
+            throw new DatosInexistentesException("No se encontraron entidades Compra.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class CompraServiceImpl implements CompraService {
         log.info("Buscando todas las entidades Compra, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<CompraModel> slice = compraDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Compra, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Compra, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class CompraServiceImpl implements CompraService {
         CompraModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Compra con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class CompraServiceImpl implements CompraService {
         CompraModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Compra con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         compraDAO.delete(objeto);
         log.info("La entidad fue destruida.");

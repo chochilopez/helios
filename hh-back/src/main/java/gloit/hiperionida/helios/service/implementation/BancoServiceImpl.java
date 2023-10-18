@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.BancoModel;
 import gloit.hiperionida.helios.repository.BancoDAO;
 import gloit.hiperionida.helios.service.BancoService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class BancoServiceImpl implements BancoService {
     @Override
     public BancoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Banco con id: {}.", id);
-        BancoModel bancoModel = bancoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Banco con id: " + id + "."));
+        BancoModel bancoModel = bancoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Banco con id: " + id + "."));
         String mensaje = "Se encontro una entidad Banco.";
         log.info(mensaje);
         return bancoModel;
@@ -38,7 +38,7 @@ public class BancoServiceImpl implements BancoService {
     @Override
     public BancoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Banco con id: {}, incluidas las eliminadas.", id);
-        BancoModel bancoModel = bancoDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Banco con id: " + id +", incluidas las eliminadas."));
+        BancoModel bancoModel = bancoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Banco con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Banco con id: " + id + ".");
         return bancoModel;
     }
@@ -48,7 +48,7 @@ public class BancoServiceImpl implements BancoService {
         log.info("Buscando todas las entidades Banco.");
         List<BancoModel> listado = bancoDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Banco.");
+            throw new DatosInexistentesException("No se encontraron entidades Banco.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class BancoServiceImpl implements BancoService {
         log.info("Buscando todas las entidades Banco, incluidas las eliminadas.");
         List<BancoModel> listado = bancoDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Banco, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Banco, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class BancoServiceImpl implements BancoService {
         log.info("Buscando todas las entidades Banco, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<BancoModel> slice = bancoDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Banco.");
+            throw new DatosInexistentesException("No se encontraron entidades Banco.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class BancoServiceImpl implements BancoService {
         log.info("Buscando todas las entidades Banco, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<BancoModel> slice = bancoDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Banco, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Banco, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class BancoServiceImpl implements BancoService {
         BancoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Banco con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class BancoServiceImpl implements BancoService {
         BancoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Banco con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         bancoDAO.delete(objeto);
         log.info("La entidad fue destruida.");

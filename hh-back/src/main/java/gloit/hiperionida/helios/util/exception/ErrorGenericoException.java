@@ -6,25 +6,25 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
-public class CustomErrorException extends RuntimeException {
+public class ErrorGenericoException extends RuntimeException {
     private HttpStatus status = null;
 
     private Object data = null;
 
-    public CustomErrorException() {
+    public ErrorGenericoException() {
         super();
     }
 
-    public CustomErrorException(String message) {
+    public ErrorGenericoException(String message) {
         super(message);
     }
 
-    public CustomErrorException(HttpStatus status, String message) {
+    public ErrorGenericoException(HttpStatus status, String message) {
         this(message);
         this.status = status;
     }
 
-    public CustomErrorException(HttpStatus status, String message, Object data) {
+    public ErrorGenericoException(HttpStatus status, String message, Object data) {
         this(status, message);
         this.data = data;
     }

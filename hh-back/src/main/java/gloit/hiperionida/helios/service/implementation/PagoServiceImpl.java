@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.PagoModel;
 import gloit.hiperionida.helios.repository.PagoDAO;
 import gloit.hiperionida.helios.service.PagoService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class PagoServiceImpl implements PagoService {
     @Override
     public PagoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Pago con id: {}.", id);
-        PagoModel pagoModel = pagoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Pago con id: " + id + "."));
+        PagoModel pagoModel = pagoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Pago con id: " + id + "."));
         String mensaje = "Se encontro una entidad Pago.";
         log.info(mensaje);
         return pagoModel;
@@ -38,7 +38,7 @@ public class PagoServiceImpl implements PagoService {
     @Override
     public PagoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Pago con id: {}, incluidas las eliminadas.", id);
-        PagoModel pagoModel = pagoDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Pago con id: " + id +", incluidas las eliminadas."));
+        PagoModel pagoModel = pagoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Pago con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Pago con id: " + id + ".");
         return pagoModel;
     }
@@ -48,7 +48,7 @@ public class PagoServiceImpl implements PagoService {
         log.info("Buscando todas las entidades Pago.");
         List<PagoModel> listado = pagoDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Pago.");
+            throw new DatosInexistentesException("No se encontraron entidades Pago.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class PagoServiceImpl implements PagoService {
         log.info("Buscando todas las entidades Pago, incluidas las eliminadas.");
         List<PagoModel> listado = pagoDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Pago, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Pago, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class PagoServiceImpl implements PagoService {
         log.info("Buscando todas las entidades Pago, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<PagoModel> slice = pagoDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Pago.");
+            throw new DatosInexistentesException("No se encontraron entidades Pago.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class PagoServiceImpl implements PagoService {
         log.info("Buscando todas las entidades Pago, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<PagoModel> slice = pagoDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Pago, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Pago, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class PagoServiceImpl implements PagoService {
         PagoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Pago con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class PagoServiceImpl implements PagoService {
         PagoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Pago con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         pagoDAO.delete(objeto);
         log.info("La entidad fue destruida.");

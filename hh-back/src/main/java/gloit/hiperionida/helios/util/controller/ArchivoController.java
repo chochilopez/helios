@@ -1,7 +1,7 @@
 package gloit.hiperionida.helios.util.controller;
 
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.ErrorDTO;
+import gloit.hiperionida.helios.util.mapper.dto.ErrorDTO;
 import gloit.hiperionida.helios.util.mapper.creation.ArchivoCreation;
 import gloit.hiperionida.helios.util.mapper.dto.ArchivoDTO;
 import gloit.hiperionida.helios.util.model.ArchivoModel;

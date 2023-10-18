@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.UbicacionModel;
 import gloit.hiperionida.helios.repository.UbicacionDAO;
 import gloit.hiperionida.helios.service.UbicacionService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class UbicacionServiceImpl implements UbicacionService {
     @Override
     public UbicacionModel buscarPorId(Long id) {
         log.info("Buscando la entidad Ubicacion con id: {}.", id);
-        UbicacionModel ubicacionModel = ubicacionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Ubicacion con id: " + id + "."));
+        UbicacionModel ubicacionModel = ubicacionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Ubicacion con id: " + id + "."));
         String mensaje = "Se encontro una entidad Ubicacion.";
         log.info(mensaje);
         return ubicacionModel;
@@ -38,7 +38,7 @@ public class UbicacionServiceImpl implements UbicacionService {
     @Override
     public UbicacionModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Ubicacion con id: {}, incluidas las eliminadas.", id);
-        UbicacionModel ubicacionModel = ubicacionDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Ubicacion con id: " + id +", incluidas las eliminadas."));
+        UbicacionModel ubicacionModel = ubicacionDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Ubicacion con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Ubicacion con id: " + id + ".");
         return ubicacionModel;
     }
@@ -48,7 +48,7 @@ public class UbicacionServiceImpl implements UbicacionService {
         log.info("Buscando todas las entidades Ubicacion.");
         List<UbicacionModel> listado = ubicacionDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Ubicacion.");
+            throw new DatosInexistentesException("No se encontraron entidades Ubicacion.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class UbicacionServiceImpl implements UbicacionService {
         log.info("Buscando todas las entidades Ubicacion, incluidas las eliminadas.");
         List<UbicacionModel> listado = ubicacionDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Ubicacion, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Ubicacion, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class UbicacionServiceImpl implements UbicacionService {
         log.info("Buscando todas las entidades Ubicacion, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<UbicacionModel> slice = ubicacionDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Ubicacion.");
+            throw new DatosInexistentesException("No se encontraron entidades Ubicacion.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class UbicacionServiceImpl implements UbicacionService {
         log.info("Buscando todas las entidades Ubicacion, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<UbicacionModel> slice = ubicacionDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Ubicacion, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Ubicacion, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class UbicacionServiceImpl implements UbicacionService {
         UbicacionModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Ubicacion con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class UbicacionServiceImpl implements UbicacionService {
         UbicacionModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Ubicacion con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         ubicacionDAO.delete(objeto);
         log.info("La entidad fue destruida.");

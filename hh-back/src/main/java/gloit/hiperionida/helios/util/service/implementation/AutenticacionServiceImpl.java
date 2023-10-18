@@ -1,8 +1,8 @@
 package gloit.hiperionida.helios.util.service.implementation;
 
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomTokenMismatchException;
-import gloit.hiperionida.helios.util.exception.CustomUserAlreadyCreatedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.TokensIncorrectosException;
+import gloit.hiperionida.helios.util.exception.UsuarioExistenteException;
 import gloit.hiperionida.helios.util.mapper.creation.UsuarioCreation;
 import gloit.hiperionida.helios.util.mapper.dto.AutenticacionRequestDTO;
 import gloit.hiperionida.helios.util.mapper.dto.AutenticacionResponseDTO;
@@ -53,11 +53,11 @@ public class AutenticacionServiceImpl implements AutenticacionService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(autenticacionRequestDTO.getUsername(), autenticacionRequestDTO.getPassword()));
         } catch (Exception e) {
-            throw new CustomDataNotFoundException("El usuario: " + autenticacionRequestDTO.getUsername() + " no existe");
+            throw new DatosInexistentesException("El usuario: " + autenticacionRequestDTO.getUsername() + " no existe");
         }
         UsuarioModel usuario = usuarioService.buscarPorNombreDeUsuario(autenticacionRequestDTO.getUsername());
         if (!usuario.getHabilitada())
-            throw new CustomDataNotFoundException("El usuario: " + autenticacionRequestDTO.getUsername() + " no se encuentra habilitado, debe confirmar su email");
+            throw new DatosInexistentesException("El usuario: " + autenticacionRequestDTO.getUsername() + " no se encuentra habilitado, debe confirmar su email");
         String token = jwtService.generarToken(usuario);
         tokenService.revocarTokensUsuario(usuario);
         tokenService.guardarTokenUsuario(usuario, token);
@@ -78,14 +78,14 @@ public class AutenticacionServiceImpl implements AutenticacionService {
             return usuarioDAO.save(usuario);
         } else {
             log.warn("Ocurrió un error al intentar habilitar la cuenta.");
-            throw new CustomTokenMismatchException("No se pudo habilitar el usuario " + usuario.getUsername() + " ya que los tokens no coinciden.");
+            throw new TokensIncorrectosException("No se pudo habilitar el usuario " + usuario.getUsername() + " ya que los tokens no coinciden.");
         }
     }
 
     @Override
     public UsuarioModel registrar(UsuarioCreation usuarioCreation) {
         if (usuarioService.existeUsuarioPorNombreDeUsuario(usuarioCreation.getUsername()))
-            throw new CustomUserAlreadyCreatedException("Ya existe un usuario con ese nombre de usuario.");
+            throw new UsuarioExistenteException("Ya existe un usuario con ese nombre de usuario.");
         UsuarioModel usuario = usuarioService.guardar(usuarioCreation);
         usuario.setHabilitada(false);
         String token = Base64.encodeBase64URLSafeString(DEFAULT_TOKEN_GENERATOR.generateKey());

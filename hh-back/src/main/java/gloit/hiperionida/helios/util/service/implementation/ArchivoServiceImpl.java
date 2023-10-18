@@ -1,8 +1,8 @@
 package gloit.hiperionida.helios.util.service.implementation;
 
 import gloit.hiperionida.helios.util.model.enums.TipoArchivoEnum;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.mapper.ArchivoMapper;
 import gloit.hiperionida.helios.util.mapper.creation.ArchivoCreation;
 import gloit.hiperionida.helios.util.model.ArchivoModel;
@@ -92,7 +92,7 @@ public class ArchivoServiceImpl implements ArchivoService {
     @Override
     public ArchivoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Archivo con id: {}.", id);
-        ArchivoModel archivoModel = archivoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Archivo con id: " + id + "."));
+        ArchivoModel archivoModel = archivoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Archivo con id: " + id + "."));
         log.info("Se encontro una entidad Archivo con id: {}.", id);
         return archivoModel;
     }
@@ -100,7 +100,7 @@ public class ArchivoServiceImpl implements ArchivoService {
     @Override
     public ArchivoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Archivo con id: {}, incluidas las eliminadas.", id);
-        ArchivoModel archivoModel = archivoDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Archivo con id: " + id +", incluidas las eliminadas."));
+        ArchivoModel archivoModel = archivoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Archivo con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Archivo con id: {} , incluidas las eliminadas.", id);
         return archivoModel;
     }
@@ -110,7 +110,7 @@ public class ArchivoServiceImpl implements ArchivoService {
         log.info("Buscando todas las entidades Archivo.");
         List<ArchivoModel> listado = archivoDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Archivo.");
+            throw new DatosInexistentesException("No se encontraron entidades Archivo.");
         return listado;
     }
 
@@ -119,7 +119,7 @@ public class ArchivoServiceImpl implements ArchivoService {
         log.info("Buscando todas las entidades Archivo, incluidas las eliminadas.");
         List<ArchivoModel> listado = archivoDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Archivo, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Archivo, incluidas las eliminadas.");
         return listado;
     }
 
@@ -128,7 +128,7 @@ public class ArchivoServiceImpl implements ArchivoService {
         log.info("Buscando todas las entidades Archivo, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<ArchivoModel> slice = archivoDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Archivo.");
+            throw new DatosInexistentesException("No se encontraron entidades Archivo.");
         return slice;
     }
 
@@ -137,7 +137,7 @@ public class ArchivoServiceImpl implements ArchivoService {
         log.info("Buscando todas las entidades Archivo, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<ArchivoModel> slice = archivoDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Archivo, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Archivo, incluidas las eliminadas.");
         return slice;
     }
 
@@ -187,7 +187,7 @@ public class ArchivoServiceImpl implements ArchivoService {
         ArchivoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Archivo con id: {}, no se encuentra eliminada, por lo tanto no es necesario reciclarla.", id);
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -201,7 +201,7 @@ public class ArchivoServiceImpl implements ArchivoService {
         ArchivoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Archivo con id: {}, no se encuentra eliminada, por lo tanto no puede ser destruida.", id);
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         Path fileToDeletePath = Paths.get(objeto.getPath() + "/" + objeto.getNombre());
         Files.delete(fileToDeletePath);

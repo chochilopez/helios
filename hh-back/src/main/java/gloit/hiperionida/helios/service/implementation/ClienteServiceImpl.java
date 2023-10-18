@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.ClienteModel;
 import gloit.hiperionida.helios.repository.ClienteDAO;
 import gloit.hiperionida.helios.service.ClienteService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteModel buscarPorId(Long id) {
         log.info("Buscando la entidad Cliente con id: {}.", id);
-        ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Cliente con id: " + id + "."));
+        ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Cliente con id: " + id + "."));
         String mensaje = "Se encontro una entidad Cliente.";
         log.info(mensaje);
         return clienteModel;
@@ -38,7 +38,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Cliente con id: {}, incluidas las eliminadas.", id);
-        ClienteModel clienteModel = clienteDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Cliente con id: " + id +", incluidas las eliminadas."));
+        ClienteModel clienteModel = clienteDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Cliente con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Cliente con id: " + id + ".");
         return clienteModel;
     }
@@ -48,7 +48,7 @@ public class ClienteServiceImpl implements ClienteService {
         log.info("Buscando todas las entidades Cliente.");
         List<ClienteModel> listado = clienteDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Cliente.");
+            throw new DatosInexistentesException("No se encontraron entidades Cliente.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class ClienteServiceImpl implements ClienteService {
         log.info("Buscando todas las entidades Cliente, incluidas las eliminadas.");
         List<ClienteModel> listado = clienteDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Cliente, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Cliente, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class ClienteServiceImpl implements ClienteService {
         log.info("Buscando todas las entidades Cliente, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<ClienteModel> slice = clienteDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Cliente.");
+            throw new DatosInexistentesException("No se encontraron entidades Cliente.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class ClienteServiceImpl implements ClienteService {
         log.info("Buscando todas las entidades Cliente, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<ClienteModel> slice = clienteDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Cliente, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Cliente, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class ClienteServiceImpl implements ClienteService {
         ClienteModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Cliente con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class ClienteServiceImpl implements ClienteService {
         ClienteModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Cliente con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         clienteDAO.delete(objeto);
         log.info("La entidad fue destruida.");

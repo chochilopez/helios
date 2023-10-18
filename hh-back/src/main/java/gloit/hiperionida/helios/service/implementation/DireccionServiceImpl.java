@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.DireccionModel;
 import gloit.hiperionida.helios.repository.DireccionDAO;
 import gloit.hiperionida.helios.service.DireccionService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class DireccionServiceImpl implements DireccionService {
     @Override
     public DireccionModel buscarPorId(Long id) {
         log.info("Buscando la entidad Direccion con id: {}.", id);
-        DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Direccion con id: " + id + "."));
+        DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Direccion con id: " + id + "."));
         String mensaje = "Se encontro una entidad Direccion.";
         log.info(mensaje);
         return direccionModel;
@@ -38,7 +38,7 @@ public class DireccionServiceImpl implements DireccionService {
     @Override
     public DireccionModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Direccion con id: {}, incluidas las eliminadas.", id);
-        DireccionModel direccionModel = direccionDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Direccion con id: " + id +", incluidas las eliminadas."));
+        DireccionModel direccionModel = direccionDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Direccion con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Direccion con id: " + id + ".");
         return direccionModel;
     }
@@ -48,7 +48,7 @@ public class DireccionServiceImpl implements DireccionService {
         log.info("Buscando todas las entidades Direccion.");
         List<DireccionModel> listado = direccionDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Direccion.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class DireccionServiceImpl implements DireccionService {
         log.info("Buscando todas las entidades Direccion, incluidas las eliminadas.");
         List<DireccionModel> listado = direccionDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Direccion, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class DireccionServiceImpl implements DireccionService {
         log.info("Buscando todas las entidades Direccion, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<DireccionModel> slice = direccionDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Direccion.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class DireccionServiceImpl implements DireccionService {
         log.info("Buscando todas las entidades Direccion, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<DireccionModel> slice = direccionDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Direccion, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class DireccionServiceImpl implements DireccionService {
         DireccionModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Direccion con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class DireccionServiceImpl implements DireccionService {
         DireccionModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Direccion con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         direccionDAO.delete(objeto);
         log.info("La entidad fue destruida.");

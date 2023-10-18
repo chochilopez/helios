@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.CajaModel;
 import gloit.hiperionida.helios.repository.CajaDAO;
 import gloit.hiperionida.helios.service.CajaService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class CajaServiceImpl implements CajaService {
     @Override
     public CajaModel buscarPorId(Long id) {
         log.info("Buscando la entidad Caja con id: {}.", id);
-        CajaModel cajaModel = cajaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Caja con id: " + id + "."));
+        CajaModel cajaModel = cajaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Caja con id: " + id + "."));
         String mensaje = "Se encontro una entidad Caja.";
         log.info(mensaje);
         return cajaModel;
@@ -38,7 +38,7 @@ public class CajaServiceImpl implements CajaService {
     @Override
     public CajaModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Caja con id: {}, incluidas las eliminadas.", id);
-        CajaModel cajaModel = cajaDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Caja con id: " + id +", incluidas las eliminadas."));
+        CajaModel cajaModel = cajaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Caja con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Caja con id: " + id + ".");
         return cajaModel;
     }
@@ -48,7 +48,7 @@ public class CajaServiceImpl implements CajaService {
         log.info("Buscando todas las entidades Caja.");
         List<CajaModel> listado = cajaDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Caja.");
+            throw new DatosInexistentesException("No se encontraron entidades Caja.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class CajaServiceImpl implements CajaService {
         log.info("Buscando todas las entidades Caja, incluidas las eliminadas.");
         List<CajaModel> listado = cajaDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Caja, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Caja, incluidas las eliminadas.");
         return listado;
     }
 
@@ -67,7 +67,7 @@ public class CajaServiceImpl implements CajaService {
         log.info("Buscando todas las entidades Caja, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<CajaModel> slice = cajaDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Caja.");
+            throw new DatosInexistentesException("No se encontraron entidades Caja.");
         return slice;
     }
 
@@ -76,7 +76,7 @@ public class CajaServiceImpl implements CajaService {
         log.info("Buscando todas las entidades Caja, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<CajaModel> slice = cajaDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Caja, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Caja, incluidas las eliminadas.");
         return slice;
     }
 
@@ -126,7 +126,7 @@ public class CajaServiceImpl implements CajaService {
         CajaModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Caja con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -140,7 +140,7 @@ public class CajaServiceImpl implements CajaService {
         CajaModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Caja con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         cajaDAO.delete(objeto);
         log.info("La entidad fue destruida.");

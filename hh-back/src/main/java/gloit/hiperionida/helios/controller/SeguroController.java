@@ -7,7 +7,7 @@ import gloit.hiperionida.helios.model.SeguroModel;
 import gloit.hiperionida.helios.service.implementation.SeguroServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.controller.AbsBaseController;
-import gloit.hiperionida.helios.util.exception.ErrorDTO;
+import gloit.hiperionida.helios.util.mapper.dto.ErrorDTO;
 import gloit.hiperionida.helios.util.mapper.dto.PaginadoDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

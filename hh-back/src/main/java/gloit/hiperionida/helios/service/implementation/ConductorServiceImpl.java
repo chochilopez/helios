@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.ConductorModel;
 import gloit.hiperionida.helios.repository.ConductorDAO;
 import gloit.hiperionida.helios.service.ConductorService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class ConductorServiceImpl implements ConductorService {
     @Override
     public ConductorModel buscarPorId(Long id) {
         log.info("Buscando la entidad Conductor con id: {}.", id);
-        ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Conductor con id: " + id + "."));
+        ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Conductor con id: " + id + "."));
         String mensaje = "Se encontro una entidad Conductor.";
         log.info(mensaje);
         return conductorModel;
@@ -38,7 +38,7 @@ public class ConductorServiceImpl implements ConductorService {
     @Override
     public ConductorModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Conductor con id: {}, incluidas las eliminadas.", id);
-        ConductorModel conductorModel = conductorDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Conductor con id: " + id +", incluidas las eliminadas."));
+        ConductorModel conductorModel = conductorDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Conductor con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Conductor con id: " + id + ".");
         return conductorModel;
     }
@@ -48,7 +48,7 @@ public class ConductorServiceImpl implements ConductorService {
         log.info("Buscando todas las entidades Conductor.");
         List<ConductorModel> listado = conductorDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Conductor.");
+            throw new DatosInexistentesException("No se encontraron entidades Conductor.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class ConductorServiceImpl implements ConductorService {
         log.info("Buscando todas las entidades Conductor, incluidas las eliminadas.");
         List<ConductorModel> listado = conductorDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Conductor, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Conductor, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class ConductorServiceImpl implements ConductorService {
         log.info("Buscando todas las entidades Conductor, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<ConductorModel> slice = conductorDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Conductor.");
+            throw new DatosInexistentesException("No se encontraron entidades Conductor.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class ConductorServiceImpl implements ConductorService {
         log.info("Buscando todas las entidades Conductor, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<ConductorModel> slice = conductorDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Conductor, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Conductor, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class ConductorServiceImpl implements ConductorService {
         ConductorModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Conductor con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class ConductorServiceImpl implements ConductorService {
         ConductorModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Conductor con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         conductorDAO.delete(objeto);
         log.info("La entidad fue destruida.");

@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.CategoriaViajeModel;
 import gloit.hiperionida.helios.repository.CategoriaViajeDAO;
 import gloit.hiperionida.helios.service.CategoriaViajeService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
     @Override
     public CategoriaViajeModel buscarPorId(Long id) {
         log.info("Buscando la entidad CategoriaViaje con id: {}.", id);
-        CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad CategoriaViaje con id: " + id + "."));
+        CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad CategoriaViaje con id: " + id + "."));
         String mensaje = "Se encontro una entidad CategoriaViaje.";
         log.info(mensaje);
         return categoriaViajeModel;
@@ -38,7 +38,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
     @Override
     public CategoriaViajeModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad CategoriaViaje con id: {}, incluidas las eliminadas.", id);
-        CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad CategoriaViaje con id: " + id +", incluidas las eliminadas."));
+        CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad CategoriaViaje con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad CategoriaViaje con id: " + id + ".");
         return categoriaViajeModel;
     }
@@ -48,7 +48,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
         log.info("Buscando todas las entidades CategoriaViaje.");
         List<CategoriaViajeModel> listado = categoriaViajeDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades CategoriaViaje.");
+            throw new DatosInexistentesException("No se encontraron entidades CategoriaViaje.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
         log.info("Buscando todas las entidades CategoriaViaje, incluidas las eliminadas.");
         List<CategoriaViajeModel> listado = categoriaViajeDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades CategoriaViaje, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades CategoriaViaje, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
         log.info("Buscando todas las entidades CategoriaViajeModel, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<CategoriaViajeModel> slice = categoriaViajeDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades CategoriaViajeModel.");
+            throw new DatosInexistentesException("No se encontraron entidades CategoriaViajeModel.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
         log.info("Buscando todas las entidades CategoriaViajeModel, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<CategoriaViajeModel> slice = categoriaViajeDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades CategoriaViajeModel, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades CategoriaViajeModel, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
         CategoriaViajeModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad CategoriaViaje con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
         CategoriaViajeModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad CategoriaViaje con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         categoriaViajeDAO.delete(objeto);
         log.info("La entidad fue destruida.");

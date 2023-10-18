@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.EventoModel;
 import gloit.hiperionida.helios.repository.EventoDAO;
 import gloit.hiperionida.helios.service.EventoService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class EventoServiceImpl implements EventoService {
     @Override
     public EventoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Evento con id: {}.", id);
-        EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Evento con id: " + id + "."));
+        EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Evento con id: " + id + "."));
         String mensaje = "Se encontro una entidad Evento.";
         log.info(mensaje);
         return eventoModel;
@@ -38,7 +38,7 @@ public class EventoServiceImpl implements EventoService {
     @Override
     public EventoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Evento con id: {}, incluidas las eliminadas.", id);
-        EventoModel eventoModel = eventoDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Evento con id: " + id +", incluidas las eliminadas."));
+        EventoModel eventoModel = eventoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Evento con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Evento con id: " + id + ".");
         return eventoModel;
     }
@@ -48,7 +48,7 @@ public class EventoServiceImpl implements EventoService {
         log.info("Buscando todas las entidades Evento.");
         List<EventoModel> listado = eventoDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Evento.");
+            throw new DatosInexistentesException("No se encontraron entidades Evento.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class EventoServiceImpl implements EventoService {
         log.info("Buscando todas las entidades Evento, incluidas las eliminadas.");
         List<EventoModel> listado = eventoDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Evento, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Evento, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class EventoServiceImpl implements EventoService {
         log.info("Buscando todas las entidades Evento, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<EventoModel> slice = eventoDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Evento.");
+            throw new DatosInexistentesException("No se encontraron entidades Evento.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class EventoServiceImpl implements EventoService {
         log.info("Buscando todas las entidades Evento, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<EventoModel> slice = eventoDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Evento, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Evento, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class EventoServiceImpl implements EventoService {
         EventoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Evento con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class EventoServiceImpl implements EventoService {
         EventoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Evento con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         eventoDAO.delete(objeto);
         log.info("La entidad fue destruida.");

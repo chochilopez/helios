@@ -1,9 +1,9 @@
 package gloit.hiperionida.helios.util.controller;
 
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomTokenMismatchException;
-import gloit.hiperionida.helios.util.exception.CustomUserAlreadyCreatedException;
-import gloit.hiperionida.helios.util.exception.ErrorDTO;
+import gloit.hiperionida.helios.util.exception.TokensIncorrectosException;
+import gloit.hiperionida.helios.util.exception.UsuarioExistenteException;
+import gloit.hiperionida.helios.util.mapper.dto.ErrorDTO;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.mapper.creation.UsuarioCreation;
 import gloit.hiperionida.helios.util.mapper.dto.AutenticacionRequestDTO;
@@ -30,7 +30,7 @@ public class AutenticacionController extends AbsBaseController {
 	@Value("${helios.app.mail.path}")
 	private String path;
 
-	@ExceptionHandler(CustomTokenMismatchException.class)
+	@ExceptionHandler(TokensIncorrectosException.class)
 	public ResponseEntity<ErrorDTO> handleTokenMismatchException(Exception e) {
 		HttpStatus status = HttpStatus.CONFLICT; // 409
 		String mensaje = "Error al comparar los tokens. " + e.getMessage();
@@ -38,7 +38,7 @@ public class AutenticacionController extends AbsBaseController {
 		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
-	@ExceptionHandler(CustomUserAlreadyCreatedException.class)
+	@ExceptionHandler(UsuarioExistenteException.class)
 	public ResponseEntity<ErrorDTO> handleUserAlreadyCreatedException(Exception e) {
 		HttpStatus status = HttpStatus.CONFLICT; // 409
 		String mensaje = "El usuario ingresado ya existe. " + e.getMessage();

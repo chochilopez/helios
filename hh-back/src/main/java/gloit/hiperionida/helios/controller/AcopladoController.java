@@ -2,7 +2,7 @@ package gloit.hiperionida.helios.controller;
 
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.controller.AbsBaseController;
-import gloit.hiperionida.helios.util.exception.ErrorDTO;
+import gloit.hiperionida.helios.util.mapper.dto.ErrorDTO;
 import gloit.hiperionida.helios.mapper.creation.AcopladoCreation;
 import gloit.hiperionida.helios.mapper.dto.AcopladoDTO;
 import gloit.hiperionida.helios.model.AcopladoModel;

@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.LicenciaModel;
 import gloit.hiperionida.helios.repository.LicenciaDAO;
 import gloit.hiperionida.helios.service.LicenciaService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class LicenciaServiceImpl implements LicenciaService {
     @Override
     public LicenciaModel buscarPorId(Long id) {
         log.info("Buscando la entidad Licencia con id: {}.", id);
-        LicenciaModel licenciaModel = licenciaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Licencia con id: " + id + "."));
+        LicenciaModel licenciaModel = licenciaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Licencia con id: " + id + "."));
         String mensaje = "Se encontro una entidad Licencia.";
         log.info(mensaje);
         return licenciaModel;
@@ -38,7 +38,7 @@ public class LicenciaServiceImpl implements LicenciaService {
     @Override
     public LicenciaModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Licencia con id: {}, incluidas las eliminadas.", id);
-        LicenciaModel licenciaModel = licenciaDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Licencia con id: " + id +", incluidas las eliminadas."));
+        LicenciaModel licenciaModel = licenciaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Licencia con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Licencia con id: " + id + ".");
         return licenciaModel;
     }
@@ -48,7 +48,7 @@ public class LicenciaServiceImpl implements LicenciaService {
         log.info("Buscando todas las entidades Licencia.");
         List<LicenciaModel> listado = licenciaDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Licencia.");
+            throw new DatosInexistentesException("No se encontraron entidades Licencia.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class LicenciaServiceImpl implements LicenciaService {
         log.info("Buscando todas las entidades Licencia, incluidas las eliminadas.");
         List<LicenciaModel> listado = licenciaDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Licencia, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Licencia, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class LicenciaServiceImpl implements LicenciaService {
         log.info("Buscando todas las entidades Licencia, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<LicenciaModel> slice = licenciaDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Licencia.");
+            throw new DatosInexistentesException("No se encontraron entidades Licencia.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class LicenciaServiceImpl implements LicenciaService {
         log.info("Buscando todas las entidades Licencia, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<LicenciaModel> slice = licenciaDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Licencia, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Licencia, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class LicenciaServiceImpl implements LicenciaService {
         LicenciaModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Licencia con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class LicenciaServiceImpl implements LicenciaService {
         LicenciaModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Licencia con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         licenciaDAO.delete(objeto);
         log.info("La entidad fue destruida.");

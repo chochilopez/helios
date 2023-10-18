@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @Component
 @Slf4j
-public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+public class NoAutenticadoHandler implements AccessDeniedHandler {
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exc) throws IOException {

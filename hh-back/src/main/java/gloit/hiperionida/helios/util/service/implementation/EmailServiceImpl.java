@@ -1,8 +1,8 @@
 package gloit.hiperionida.helios.util.service.implementation;
 
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.mapper.EmailMapper;
 import gloit.hiperionida.helios.util.mapper.creation.EmailCreation;
 import gloit.hiperionida.helios.util.model.EmailModel;
@@ -44,7 +44,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public EmailModel buscarPorId(Long id) {
         log.info("Buscando la entidad Email con id: {}.", id);
-        EmailModel emailModel = emailDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Email con id: " + id + "."));
+        EmailModel emailModel = emailDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Email con id: " + id + "."));
         String mensaje = "Se encontro una entidad Email.";
         log.info(mensaje);
         return emailModel;
@@ -53,7 +53,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public EmailModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Email con id: {}, incluidas las eliminadas.", id);
-        EmailModel emailModel = emailDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Email con id: " + id +", incluidas las eliminadas."));
+        EmailModel emailModel = emailDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Email con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Email con id: " + id + ".");
         return emailModel;
     }
@@ -63,7 +63,7 @@ public class EmailServiceImpl implements EmailService {
         log.info("Buscando todas las entidades Email.");
         List<EmailModel> listado = emailDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Email.");
+            throw new DatosInexistentesException("No se encontraron entidades Email.");
         return listado;
     }
 
@@ -72,7 +72,7 @@ public class EmailServiceImpl implements EmailService {
         log.info("Buscando todas las entidades Email, incluidas las eliminadas.");
         List<EmailModel> listado = emailDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Email, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Email, incluidas las eliminadas.");
         return listado;
     }
 
@@ -81,7 +81,7 @@ public class EmailServiceImpl implements EmailService {
         log.info("Buscando todas las entidades Email, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<EmailModel> slice = emailDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Email.");
+            throw new DatosInexistentesException("No se encontraron entidades Email.");
         return slice;
     }
 
@@ -90,7 +90,7 @@ public class EmailServiceImpl implements EmailService {
         log.info("Buscando todas las entidades Email, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<EmailModel> slice = emailDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Email, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Email, incluidas las eliminadas.");
         return slice;
     }
 
@@ -140,7 +140,7 @@ public class EmailServiceImpl implements EmailService {
         EmailModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Email con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -154,7 +154,7 @@ public class EmailServiceImpl implements EmailService {
         EmailModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Email con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         emailDAO.delete(objeto);
         log.info("La entidad fue destruida.");

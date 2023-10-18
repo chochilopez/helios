@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.NeumaticoModel;
 import gloit.hiperionida.helios.repository.NeumaticoDAO;
 import gloit.hiperionida.helios.service.NeumaticoService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
     @Override
     public NeumaticoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Neumatico con id: {}.", id);
-        NeumaticoModel neumaticoModel = neumaticoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Neumatico con id: " + id + "."));
+        NeumaticoModel neumaticoModel = neumaticoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Neumatico con id: " + id + "."));
         String mensaje = "Se encontro una entidad Neumatico.";
         log.info(mensaje);
         return neumaticoModel;
@@ -38,7 +38,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
     @Override
     public NeumaticoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Neumatico con id: {}, incluidas las eliminadas.", id);
-        NeumaticoModel neumaticoModel = neumaticoDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Neumatico con id: " + id +", incluidas las eliminadas."));
+        NeumaticoModel neumaticoModel = neumaticoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Neumatico con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Neumatico con id: " + id + ".");
         return neumaticoModel;
     }
@@ -48,7 +48,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
         log.info("Buscando todas las entidades Neumatico.");
         List<NeumaticoModel> listado = neumaticoDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Neumatico.");
+            throw new DatosInexistentesException("No se encontraron entidades Neumatico.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
         log.info("Buscando todas las entidades Neumatico, incluidas las eliminadas.");
         List<NeumaticoModel> listado = neumaticoDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Neumatico, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Neumatico, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
         log.info("Buscando todas las entidades Neumatico, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<NeumaticoModel> slice = neumaticoDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Neumatico.");
+            throw new DatosInexistentesException("No se encontraron entidades Neumatico.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
         log.info("Buscando todas las entidades Neumatico, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<NeumaticoModel> slice = neumaticoDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Neumatico, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Neumatico, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
         NeumaticoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Neumatico con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
         NeumaticoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Neumatico con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         neumaticoDAO.delete(objeto);
         log.info("La entidad fue destruida.");

@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.FacturaModel;
 import gloit.hiperionida.helios.repository.FacturaDAO;
 import gloit.hiperionida.helios.service.FacturaService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     public FacturaModel buscarPorId(Long id) {
         log.info("Buscando la entidad Factura con id: {}.", id);
-        FacturaModel facturaModel = facturaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Factura con id: " + id + "."));
+        FacturaModel facturaModel = facturaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Factura con id: " + id + "."));
         String mensaje = "Se encontro una entidad Factura.";
         log.info(mensaje);
         return facturaModel;
@@ -38,7 +38,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     public FacturaModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Factura con id: {}, incluidas las eliminadas.", id);
-        FacturaModel facturaModel = facturaDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Factura con id: " + id +", incluidas las eliminadas."));
+        FacturaModel facturaModel = facturaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Factura con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Factura con id: " + id + ".");
         return facturaModel;
     }
@@ -48,7 +48,7 @@ public class FacturaServiceImpl implements FacturaService {
         log.info("Buscando todas las entidades Factura.");
         List<FacturaModel> listado = facturaDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Factura.");
+            throw new DatosInexistentesException("No se encontraron entidades Factura.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class FacturaServiceImpl implements FacturaService {
         log.info("Buscando todas las entidades Factura, incluidas las eliminadas.");
         List<FacturaModel> listado = facturaDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Factura, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Factura, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class FacturaServiceImpl implements FacturaService {
         log.info("Buscando todas las entidades Factura, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<FacturaModel> slice = facturaDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Factura.");
+            throw new DatosInexistentesException("No se encontraron entidades Factura.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class FacturaServiceImpl implements FacturaService {
         log.info("Buscando todas las entidades Factura, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<FacturaModel> slice = facturaDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Factura, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Factura, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class FacturaServiceImpl implements FacturaService {
         FacturaModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Factura con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class FacturaServiceImpl implements FacturaService {
         FacturaModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Factura con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         facturaDAO.delete(objeto);
         log.info("La entidad fue destruida.");

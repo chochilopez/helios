@@ -1,7 +1,7 @@
 package gloit.hiperionida.helios.util.security;
 
-import gloit.hiperionida.helios.util.exception.CustomAccessDeniedHandler;
-import gloit.hiperionida.helios.util.exception.CustomAuthenticationEntryPoint;
+import gloit.hiperionida.helios.util.exception.NoAutenticadoHandler;
+import gloit.hiperionida.helios.util.exception.NoAutorizadoEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +23,8 @@ import java.util.Arrays;
 public class WebSecurityConfig {
 	private final JwtAuthenticationFilter jwtAuthFilter;
 	private final AuthenticationProvider authenticationProvider;
-	private final CustomAccessDeniedHandler customAccessDeniedHandler;
-	private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+	private final NoAutenticadoHandler noAutenticadoHandler;
+	private final NoAutorizadoEntryPoint noAutorizadoEntryPoint;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,8 +32,8 @@ public class WebSecurityConfig {
 				.csrf(csrf -> csrf.disable())
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.exceptionHandling(exception -> exception
-						.accessDeniedHandler(customAccessDeniedHandler)
-						.authenticationEntryPoint(customAuthenticationEntryPoint)
+						.accessDeniedHandler(noAutenticadoHandler)
+						.authenticationEntryPoint(noAutorizadoEntryPoint)
 				)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth

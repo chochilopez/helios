@@ -6,8 +6,8 @@ import gloit.hiperionida.helios.model.VisitaModel;
 import gloit.hiperionida.helios.repository.VisitaDAO;
 import gloit.hiperionida.helios.service.VisitaService;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class VisitaServiceImpl implements VisitaService {
     @Override
     public VisitaModel buscarPorId(Long id) {
         log.info("Buscando la entidad Visita con id: {}.", id);
-        VisitaModel visitaModel = visitaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Visita con id: " + id + "."));
+        VisitaModel visitaModel = visitaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Visita con id: " + id + "."));
         String mensaje = "Se encontro una entidad Visita.";
         log.info(mensaje);
         return visitaModel;
@@ -38,7 +38,7 @@ public class VisitaServiceImpl implements VisitaService {
     @Override
     public VisitaModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Visita con id: {}, incluidas las eliminadas.", id);
-        VisitaModel visitaModel = visitaDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad Visita con id: " + id +", incluidas las eliminadas."));
+        VisitaModel visitaModel = visitaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Visita con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Visita con id: " + id + ".");
         return visitaModel;
     }
@@ -48,7 +48,7 @@ public class VisitaServiceImpl implements VisitaService {
         log.info("Buscando todas las entidades Visita.");
         List<VisitaModel> listado = visitaDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Visita.");
+            throw new DatosInexistentesException("No se encontraron entidades Visita.");
         return listado;
     }
 
@@ -57,7 +57,7 @@ public class VisitaServiceImpl implements VisitaService {
         log.info("Buscando todas las entidades Visita, incluidas las eliminadas.");
         List<VisitaModel> listado = visitaDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Visita, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Visita, incluidas las eliminadas.");
         return listado;
     }
 
@@ -66,7 +66,7 @@ public class VisitaServiceImpl implements VisitaService {
         log.info("Buscando todas las entidades Visita, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<VisitaModel> slice = visitaDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Visita.");
+            throw new DatosInexistentesException("No se encontraron entidades Visita.");
         return slice;
     }
 
@@ -75,7 +75,7 @@ public class VisitaServiceImpl implements VisitaService {
         log.info("Buscando todas las entidades Visita, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<VisitaModel> slice = visitaDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Visita, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Visita, incluidas las eliminadas.");
         return slice;
     }
 
@@ -125,7 +125,7 @@ public class VisitaServiceImpl implements VisitaService {
         VisitaModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Visita con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -139,7 +139,7 @@ public class VisitaServiceImpl implements VisitaService {
         VisitaModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Visita con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         visitaDAO.delete(objeto);
         log.info("La entidad fue destruida.");

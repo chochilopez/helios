@@ -1,8 +1,8 @@
 package gloit.hiperionida.helios.util.service.implementation;
 
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.mapper.creation.UsuarioCreation;
 import gloit.hiperionida.helios.util.model.RolModel;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -33,7 +32,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioModel buscarPorNombreDeUsuarioHabilitado(String nombreUsuario) {
         log.info("Buscando la entidad Usuario con nombre de usuario: {}, y habilitada.", nombreUsuario);
-        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCaseAndHabilitadaIsTrueAndEliminadaIsNull(nombreUsuario).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad con Usuario con nombre de usuario: " + nombreUsuario + ", y habilitada."));
+        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCaseAndHabilitadaIsTrueAndEliminadaIsNull(nombreUsuario).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con Usuario con nombre de usuario: " + nombreUsuario + ", y habilitada."));
         log.info("Se encontro una entidad usuario habilitada con nombre de usuario: " + nombreUsuario + ".");
         return usuarioModel;
     }
@@ -46,7 +45,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioModel buscarPorNombreDeUsuario(String nombreUsuario) {
         log.info("Buscando la entidad Usuario con nombre de usuario: {}.", nombreUsuario);
-        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCaseAndEliminadaIsNull(nombreUsuario).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad con nombre de usuario: " + nombreUsuario + "."));
+        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCaseAndEliminadaIsNull(nombreUsuario).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con nombre de usuario: " + nombreUsuario + "."));
         String mensaje = "Se encontro una entidad Usuario con nombre de usuario: " + nombreUsuario + ".";
         log.info(mensaje);
         return usuarioModel;
@@ -55,7 +54,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioModel buscarPorNombreDeUsuarioConEliminadas(String nombreUsuario) {
         log.info("Buscando la entidad Usuario con nombre de usuario: {}, incluidas las eliminadas.", nombreUsuario);
-        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCase(nombreUsuario).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad con nombre de usuario: " + nombreUsuario + ", incluidas las eliminadas."));
+        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCase(nombreUsuario).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con nombre de usuario: " + nombreUsuario + ", incluidas las eliminadas."));
         String mensaje = "Se encontro una entidad Usuario con nombre de usuario: " + nombreUsuario + ", incluidas las eliminadas.";
         log.info(mensaje);
         return usuarioModel;
@@ -82,7 +81,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 return this.buscarPorNombreDeUsuario(authentication.getName());
             else
                 return this.buscarPorNombreDeUsuario("admin@municrespo.gob.ar");
-        } catch (CustomDataNotFoundException exception) {
+        } catch (DatosInexistentesException exception) {
             return null;
         }
     }
@@ -90,7 +89,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioModel buscarPorId(Long id) {
         log.info("Buscando la entidad Usuario con id: {}.", id);
-        UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad con id " + id + "."));
+        UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con id " + id + "."));
         String mensaje = "Se encontro una entidad Usuario.";
         log.info(mensaje);
         return usuarioModel;
@@ -99,7 +98,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Usuario con id: {}, incluidas las eliminadas.", id);
-        UsuarioModel usuarioModel = usuarioDAO.findById(id).orElseThrow(()-> new CustomDataNotFoundException("No se encontro la entidad con id: " + id +", incluidas las eliminadas."));
+        UsuarioModel usuarioModel = usuarioDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Usuario con id: " + id + ".");
         return usuarioModel;
     }
@@ -109,7 +108,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         log.info("Buscando todas las entidades Usuario.");
         List<UsuarioModel> listado = usuarioDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Usuario.");
+            throw new DatosInexistentesException("No se encontraron entidades Usuario.");
         return listado;
     }
 
@@ -118,7 +117,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         log.info("Buscando todas las entidades Usuario, incluidas las eliminadas.");
         List<UsuarioModel> listado = usuarioDAO.findAll();
         if (listado.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Usuario, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Usuario, incluidas las eliminadas.");
         return listado;
     }
 
@@ -127,7 +126,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         log.info("Buscando todas las entidades Usuario, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
         Slice<UsuarioModel> slice = usuarioDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Usuario.");
+            throw new DatosInexistentesException("No se encontraron entidades Usuario.");
         return slice;
     }
 
@@ -136,7 +135,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         log.info("Buscando todas las entidades Usuario, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
         Slice<UsuarioModel> slice = usuarioDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
-            throw new CustomDataNotFoundException("No se encontraron entidades Usuario, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Usuario, incluidas las eliminadas.");
         return slice;
     }
 
@@ -186,7 +185,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         UsuarioModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Usuario con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
-            throw new CustomObjectNotDeletedException("No se puede reciclar la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
         objeto.setEliminador(null);
@@ -200,7 +199,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         UsuarioModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Usuario con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
-            throw new CustomObjectNotDeletedException("No se puede destruir la entidad.");
+            throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
         usuarioDAO.delete(objeto);
         log.info("La entidad fue destruida y el usuario " + objeto + " fue eliminado correctamente.");

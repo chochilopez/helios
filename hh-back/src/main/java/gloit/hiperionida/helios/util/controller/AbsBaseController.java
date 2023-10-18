@@ -1,11 +1,11 @@
 package gloit.hiperionida.helios.util.controller;
 
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.CustomDataNotFoundException;
-import gloit.hiperionida.helios.util.exception.CustomErrorException;
-import gloit.hiperionida.helios.util.exception.CustomObjectNotDeletedException;
-import gloit.hiperionida.helios.util.exception.CustomParameterConstraintException;
-import gloit.hiperionida.helios.util.exception.ErrorDTO;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
+import gloit.hiperionida.helios.util.exception.ErrorGenericoException;
+import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
+import gloit.hiperionida.helios.util.exception.ParametroInvalidoException;
+import gloit.hiperionida.helios.util.mapper.dto.ErrorDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -41,7 +41,7 @@ public abstract class AbsBaseController {
 		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
-	@ExceptionHandler(CustomParameterConstraintException.class)
+	@ExceptionHandler(ParametroInvalidoException.class)
 	public ResponseEntity<ErrorDTO> handleCustomParameterConstraintExceptions(Exception e) {
 		HttpStatus status = HttpStatus.BAD_REQUEST; // 400
 		String mensaje = "Los datos ingresados no poseen el formato correcto. " + e.getMessage();
@@ -49,14 +49,14 @@ public abstract class AbsBaseController {
 		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
-	@ExceptionHandler(CustomDataNotFoundException.class)
+	@ExceptionHandler(DatosInexistentesException.class)
 	public ResponseEntity<ErrorDTO> handleCustomDataNotFoundExceptions(Exception e) {
 		HttpStatus status = HttpStatus.NOT_FOUND; // 404
 
 		return new ResponseEntity<>(new ErrorDTO(status, e.getMessage()), Helper.httpHeaders(e.getMessage()), status);
 	}
 
-	@ExceptionHandler(CustomObjectNotDeletedException.class)
+	@ExceptionHandler(ObjectoNoEliminadoException.class)
 	public ResponseEntity<ErrorDTO> handleCustomObjectNotDeletedException(Exception e) {
 		HttpStatus status = HttpStatus.CONFLICT; // 409
 		String mensaje = "El objeto no se encuentra eliminado. " + e.getMessage();
@@ -72,15 +72,15 @@ public abstract class AbsBaseController {
 		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 
-	@ExceptionHandler(CustomErrorException.class)
+	@ExceptionHandler(ErrorGenericoException.class)
 	public ResponseEntity<ErrorDTO> handleCustomErrorExceptions(Exception e) {
 		// casting the generic Exception e to CustomErrorException
-		CustomErrorException customErrorException = (CustomErrorException) e;
+		ErrorGenericoException errorGenericoException = (ErrorGenericoException) e;
 
-		HttpStatus status = customErrorException.getStatus();
+		HttpStatus status = errorGenericoException.getStatus();
 		String mensaje = "Ocurrio un error. " + e.getMessage();
 
-		return new ResponseEntity<>(new ErrorDTO(status, customErrorException.getMessage()), Helper.httpHeaders(mensaje), status);
+		return new ResponseEntity<>(new ErrorDTO(status, errorGenericoException.getMessage()), Helper.httpHeaders(mensaje), status);
 	}
 
 	// fallback method
