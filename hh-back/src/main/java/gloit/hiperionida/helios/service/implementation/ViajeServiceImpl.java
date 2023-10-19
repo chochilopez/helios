@@ -63,6 +63,32 @@ public class ViajeServiceImpl implements ViajeService {
     }
 
     @Override
+    public List<ViajeModel> buscarTodasPorCreadaEntreFechas(String inicio, String fin) {
+        log.info("Buscando todas las entidades entre las fechas: {} y {}.", inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+        List<ViajeModel> listado = viajeDAO.findAllByCreadaBetweenAndEliminadaIsNull( fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje entre las fechas: " + inicio + " y " + fin + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorCreadaEntreFechasConEliminadas(String inicio, String fin) {
+        log.info("Buscando todas las entidades entre las fechas: {} y {}, con eliminadas.", inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+        List<ViajeModel> listado = viajeDAO.findAllByCreadaBetween(fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades entre las fechas: " + inicio + " y " + fin + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
     public List<ViajeModel> buscarTodasPorCamionId(Long id) {
         log.info("Buscando todas las entidades Viaje con id de Camion: {}.", id);
         List<ViajeModel> listado = viajeDAO.findAllByCamionIdAndEliminadaIsNull(id);

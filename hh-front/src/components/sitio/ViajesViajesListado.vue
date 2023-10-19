@@ -1,38 +1,5 @@
 <template>
   <q-card class="q-ma-md font-5 no-shadow no-border">
-    <div class="row justify-around">
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md" style="max-width: 300px">
-        <q-input outlined dense v-model="fechaInicio" clearable label="Buscar por fecha inicio" readonly>
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="fechaInicio" minimal mask="DD-MM-YYYY">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-      </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md" style="max-width: 300px">
-        <q-input outlined dense v-model="fechaFin" clearable label="Buscar por fecha fin" readonly>
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="fechaFin" minimal mask="DD-MM-YYYY">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-      </div>
-    </div>
-    <hr>
     <div class="row justify-around q-pb-md">
       <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md">
         <q-select
@@ -216,6 +183,21 @@
           </template>
         </q-select>
       </div>
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md">
+        <q-input outlined dense label="Buscar por fecha" readonly :model-value="rangoFechas.to + ' - ' + rangoFechas.from">
+          <template v-slot:after>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-date v-model="rangoFechas" range mask="DD-MM-YYYY">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="Buscar" color="primary" flat v-on:click="afBuscarEntreFechas()" />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+      </div>
     </div>
   </q-card>
   <div class="row q-pa-md">
@@ -391,7 +373,7 @@ import { camionService } from 'src/services/camion_service'
 import { viajeService } from 'src/services/viaje_service'
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { rolEnum } from 'src/models/enums/rol_enum'
-import { helper } from 'app/src/helpers/ayuda'
+import { ayuda } from 'app/src/helpers/ayuda'
 import { useQuasar } from 'quasar'
 import { clienteService } from 'src/services/cliente_service'
 import { direccionService } from 'src/services/direccion_service'
@@ -480,8 +462,7 @@ export default {
   setup () {
     const $q = useQuasar()
 
-    const fechaInicio = ref('')
-    const fechaFin = ref('')
+    const rangoFechas = ref({ from: null, to: null })
 
     const chofer = ref(null)
     const camion = ref(null)
@@ -608,6 +589,44 @@ export default {
         }
       } catch (err) {
         console.clear()
+        if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afBuscarEntreFechas () {
+      $q.loading.show()
+      try {
+        if (vendedor.value != null || camion.value != null || chofer.value != null || comprador.value != null || origen.value != null || destino.value != null) {
+          console.log('Filtrar viaje por busqueda.')
+          viaje.value = viaje.value.filter((viaje) => {
+            console.log(viaje.creada.slice(0, 10))
+            return ayuda.fFormatearStringALocalDate(rangoFechas.value.to) <= ayuda.fFormatearStringALocalDate(viaje.creada) &&
+            ayuda.fFormatearStringALocalDate(rangoFechas.value.to) >= ayuda.fFormatearStringALocalDate(viaje.creada)
+          })
+        } else {
+          console.log(
+            ayuda.fFormatearStringALocalDate(rangoFechas.value.to))
+          // let resultado = null
+          // if (autoridad.value.includes(rolEnum.ADMIN)) {
+          //   resultado = await viajeService.spfBuscarTodasPorCreadaEntreFechasConEliminadas(rangoFechas.value.to, rangoFechas.value.from)
+          // } else {
+          //   resultado = await viajeService.spfBuscarTodasPorCreadaEntreFechas(rangoFechas.value.to, rangoFechas.value.from)
+          // }
+          // if (resultado.status === 200) {
+          //   viaje.value = resultado.data
+          // }
+        }
+        $q.loading.hide()
+      } catch (err) {
+        // console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
           notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
@@ -841,6 +860,8 @@ export default {
     }
 
     function fLimpiarInputs (actual) {
+      rangoFechas.value.inicio = null
+      rangoFechas.value.fin = null
       switch (actual) {
         case 'camion':
           chofer.value = null
@@ -896,10 +917,12 @@ export default {
     }
 
     function fFormatoFecha (fecha) {
-      return helper.getDateWithFormat(fecha)
+      return ayuda.getDateWithFormat(fecha)
     }
 
     return {
+      afBuscarEntreFechas,
+
       afBuscarPorCamionId,
       afBuscarPorChoferId,
       afBuscarPorCompradorId,
@@ -908,8 +931,6 @@ export default {
       afBuscarPorVendedorId,
 
       autoridad,
-      fechaInicio,
-      fechaFin,
       camion,
       camiones,
       chofer,
@@ -922,6 +943,8 @@ export default {
       destinos,
       comprador,
       compradores,
+
+      rangoFechas,
 
       fFormatoFecha,
 

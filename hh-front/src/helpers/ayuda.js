@@ -154,7 +154,11 @@ function letterForNumber (numero) {
   return variable
 }
 
-export const helper = {
+function fFormatearStringALocalDate (texto) {
+  return texto.substring(6, 12) + '-' + texto.substring(3, 5) + '-' + texto.substring(0, 2) + ' 00:00:00.000000'
+}
+
+export const ayuda = {
   difBetweenDates,
   isValidDate,
   getAsset,
@@ -165,5 +169,6 @@ export const helper = {
   getDateWithFormat,
   getByIdInArray,
   delByIdInArray,
+  fFormatearStringALocalDate,
   letterForNumber
 }

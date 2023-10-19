@@ -8,10 +8,10 @@ export class UbicacionModel {
     this.pais = ''
 
     this.creador = new UsuarioModel()
-    this.creado = ''
+    this.creada = ''
     this.modificador = new UsuarioModel()
-    this.modificado = ''
+    this.modificada = ''
     this.eliminador = new UsuarioModel()
-    this.elimiando = ''
+    this.elimianda = ''
   }
 }

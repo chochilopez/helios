@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ViajeService extends GenericService<ViajeModel, ViajeCreation> {
+    List<ViajeModel> buscarTodasPorCreadaEntreFechas(String inicio, String fin);
+    List<ViajeModel> buscarTodasPorCreadaEntreFechasConEliminadas(String inicio, String fin);
+
     List<ViajeModel> buscarTodasPorCamionId(Long id);
     List<ViajeModel> buscarTodasPorCamionIdConEliminadas(Long id);
     List<ViajeModel> buscarTodasPorCamionIdEntreFechas(Long id, String inicio, String fin);

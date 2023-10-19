@@ -26,6 +26,38 @@ function obtenerPorIdConEliminadas (id) {
   return llaveroService.obtenerDeLocal('hhViajePorIdConEliminadas/' + id + '/')
 }
 
+function spfBuscarTodasPorCreadaEntreFechas (inicio, fin) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/buscar-todas-por-creada-entre-fechas/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorCreadaEntreFechasConEliminadas (inicio, fin) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/buscar-todas-por-creada-entre-fechas-con-eliminadas/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodasPorCamionId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-camion-id/' + id, {
@@ -677,6 +709,9 @@ export const viajeService = {
   obtenerTodasConEliminadas,
   obtenerPorId,
   obtenerPorIdConEliminadas,
+
+  spfBuscarTodasPorCreadaEntreFechas,
+  spfBuscarTodasPorCreadaEntreFechasConEliminadas,
 
   spfBuscarTodasPorCamionId,
   spfBuscarTodasPorCamionIdConEliminadas,

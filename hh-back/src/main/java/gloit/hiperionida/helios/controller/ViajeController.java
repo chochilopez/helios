@@ -70,6 +70,35 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(kmCargado.toString(), Helper.httpHeaders("La sumatoria de km cargado es + " + kmCargado + "."), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/buscar-todas-por-creada-entre-fechas/{inicio}/{fin}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCreadaEntreFechas(
+            @PathVariable(name = "inicio") String inicio,
+            @PathVariable(name = "fin") String fin
+    ) {
+        List<ViajeModel> listado = viajeService.buscarTodasPorCreadaEntreFechas(inicio, fin);
+        ArrayList<ViajeDTO> viajes = new ArrayList<>();
+        for (ViajeModel viaje:listado) {
+            viajes.add(viajeMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-creada-entre-fechas-con-eliminadas/{inicio}/{fin}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCreadaEntreFechasConEliminadas(
+            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "inicio") String inicio,
+            @PathVariable(name = "fin") String fin
+    ) {
+        List<ViajeModel> listado = viajeService.buscarTodasPorCreadaEntreFechasConEliminadas(inicio, fin);
+        ArrayList<ViajeDTO> viajes = new ArrayList<>();
+        for (ViajeModel viaje:listado) {
+            viajes.add(viajeMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/buscar-todas-por-camion-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<ViajeDTO>> buscarTodasPorCamionId(@PathVariable(name = "id") Long id) {
