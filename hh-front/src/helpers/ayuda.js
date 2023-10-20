@@ -154,8 +154,12 @@ function letterForNumber (numero) {
   return variable
 }
 
-function fFormatearStringALocalDate (texto) {
-  return texto.substring(6, 12) + '-' + texto.substring(3, 5) + '-' + texto.substring(0, 2) + ' 00:00:00.000000'
+function fFormatearDeDatePicker (texto) {
+  return texto.substring(6, 12) + '-' + texto.substring(3, 5) + '-' + texto.substring(0, 2) + ' 00:00:00'
+}
+
+function fFormatearDeBackend (texto) {
+  return texto.substring(0, 10) + ' 00:00:00'
 }
 
 export const ayuda = {
@@ -169,6 +173,7 @@ export const ayuda = {
   getDateWithFormat,
   getByIdInArray,
   delByIdInArray,
-  fFormatearStringALocalDate,
+  fFormatearDeDatePicker,
+  fFormatearDeBackend,
   letterForNumber
 }

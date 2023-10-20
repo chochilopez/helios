@@ -183,14 +183,28 @@
           </template>
         </q-select>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 q-pa-md">
-        <q-input outlined dense label="Buscar por fecha" readonly :model-value="rangoFechas.to + ' - ' + rangoFechas.from">
-          <template v-slot:after>
+    </div>
+    <hr />
+    <div class="row justify-start q-pb-md">
+      <div class="col-lg-4 col-sm-5 col-xs-12 q-pa-md">
+        <q-input
+          mask="##-##-####"
+          v-model="rangoFechas.from"
+          outlined
+          dense
+          clearable
+          label="Busqueda entre fechas - Inicio"
+          hint="Ingresá la fecha con el formato dd-mm-yyyy. Ej: 20-01-2020"
+        >
+          <template v-slot:before>
+            <q-icon name="fa-solid fa-greater-than" class="q-mx-xs" />
+          </template>
+          <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="rangoFechas" range mask="DD-MM-YYYY">
+                <q-date v-model="rangoFechas.from" mask="DD-MM-YYYY">
                   <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Buscar" color="primary" flat v-on:click="afBuscarEntreFechas()" />
+                    <q-btn v-close-popup label="OK" color="primary" flat />
                   </div>
                 </q-date>
               </q-popup-proxy>
@@ -198,7 +212,37 @@
           </template>
         </q-input>
       </div>
+      <div class="col-lg-4 col-sm-5 col-xs-12 q-pa-md">
+        <q-input
+          mask="##-##-####"
+          v-model="rangoFechas.to"
+          outlined
+          dense
+          clearable
+          label="Busqueda entre fechas - Fin"
+          hint="Ingresá la fecha con el formato dd-mm-yyyy. Ej: 30-01-2020"
+        >
+          <template v-slot:before>
+            <q-icon name="fa-solid fa-less-than" class="q-mx-xs" />
+          </template>
+          <template v-slot:prepend>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-date v-model="rangoFechas.to" mask="DD-MM-YYYY">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="OK" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+      </div>
+      <div class="col-lg-4 col-sm-2 col-xs-12 q-pa-md text-center">
+        <q-btn class="paleta1-fondo4 paleta1-color1" icon-right="fa-solid fa-magnifying-glass-arrow-right" label="Buscar" v-on:click="afBuscarEntreFechas" />
+      </div>
     </div>
+    <hr />
   </q-card>
   <div class="row q-pa-md">
     <div class="col">
@@ -504,6 +548,7 @@ export default {
         }
         if (resultado.status === 200) {
           camionesList.value = resultado.data
+          console.log(resultado.headers.mensaje)
           $q.loading.hide()
         }
       } catch (err) {
@@ -531,6 +576,7 @@ export default {
         }
         if (resultado.status === 200) {
           choferesList.value = resultado.data
+          console.log(resultado.headers.mensaje)
           $q.loading.hide()
         }
       } catch (err) {
@@ -558,6 +604,7 @@ export default {
         }
         if (resultado.status === 200) {
           clientes.value = resultado.data
+          console.log(resultado.headers.mensaje)
           $q.loading.hide()
         }
       } catch (err) {
@@ -585,6 +632,7 @@ export default {
         }
         if (resultado.status === 200) {
           direcciones.value = resultado.data
+          console.log(resultado.headers.mensaje)
           $q.loading.hide()
         }
       } catch (err) {
@@ -602,40 +650,68 @@ export default {
     }
 
     async function afBuscarEntreFechas () {
-      $q.loading.show()
-      try {
-        if (vendedor.value != null || camion.value != null || chofer.value != null || comprador.value != null || origen.value != null || destino.value != null) {
-          console.log('Filtrar viaje por busqueda.')
-          viaje.value = viaje.value.filter((viaje) => {
-            console.log(viaje.creada.slice(0, 10))
-            return ayuda.fFormatearStringALocalDate(rangoFechas.value.to) <= ayuda.fFormatearStringALocalDate(viaje.creada) &&
-            ayuda.fFormatearStringALocalDate(rangoFechas.value.to) >= ayuda.fFormatearStringALocalDate(viaje.creada)
-          })
-        } else {
-          console.log(
-            ayuda.fFormatearStringALocalDate(rangoFechas.value.to))
-          // let resultado = null
-          // if (autoridad.value.includes(rolEnum.ADMIN)) {
-          //   resultado = await viajeService.spfBuscarTodasPorCreadaEntreFechasConEliminadas(rangoFechas.value.to, rangoFechas.value.from)
-          // } else {
-          //   resultado = await viajeService.spfBuscarTodasPorCreadaEntreFechas(rangoFechas.value.to, rangoFechas.value.from)
-          // }
-          // if (resultado.status === 200) {
-          //   viaje.value = resultado.data
-          // }
+      if (rangoFechas.value.from == null) {
+        notificarService.notificarAlerta('El campo fecha desde no puede estar vacio.')
+      } else if (rangoFechas.value.to == null) {
+        notificarService.notificarAlerta('El campo fecha hasta no puede estar vacio.')
+      } else if (rangoFechas.value.from > rangoFechas.value.to) {
+        notificarService.notificarAlerta('El campo fecha desde no puede ser mayor que fecha hasta.')
+      } else {
+        $q.loading.show()
+        try {
+          if (vendedor.value != null || camion.value != null || chofer.value != null || comprador.value != null || origen.value != null || destino.value != null) {
+            viajes.value = viajes.value.filter((objetoViaje) => {
+              console.log('Desde: ' + ayuda.fFormatearDeDatePicker(rangoFechas.value.from))
+              console.log('Hasta: ' + ayuda.fFormatearDeDatePicker(rangoFechas.value.to))
+              console.log('Viaje: ' + ayuda.fFormatearDeBackend(objetoViaje.fecha.fecha))
+              console.log('Es despues de desde: ' + ayuda.fFormatearDeDatePicker(rangoFechas.value.from) >=
+                ayuda.fFormatearDeBackend(objetoViaje.fecha.fecha))
+              console.log('Es antes de hasta: ' + ayuda.fFormatearDeDatePicker(rangoFechas.value.to) <=
+                ayuda.fFormatearDeBackend(objetoViaje.fecha.fecha))
+              console.log('El viaje esta en la ventana: ' +
+              ayuda.fFormatearDeDatePicker(rangoFechas.value.from) <= objetoViaje.fecha.fecha &&
+              ayuda.fFormatearDeDatePicker(rangoFechas.value.to) >= objetoViaje.fecha.fecha
+              )
+              console.log('')
+
+              return ayuda.fFormatearDeDatePicker(rangoFechas.value.to) <= objetoViaje.fecha.fecha &&
+            ayuda.fFormatearDeDatePicker(rangoFechas.value.to) >= objetoViaje.fecha.fecha
+            })
+          } else {
+            let resultado = null
+            if (autoridad.value.includes(rolEnum.ADMIN)) {
+              resultado = await viajeService.spfBuscarTodasPorFechaEntreFechasConEliminadas(
+                ayuda.fFormatearDeDatePicker(rangoFechas.value.from),
+                ayuda.fFormatearDeDatePicker(rangoFechas.value.to)
+              )
+            } else {
+              resultado = await viajeService.spfBuscarTodasPorFechaEntreFechas(
+                ayuda.fFormatearDeDatePicker(rangoFechas.value.from),
+                ayuda.fFormatearDeDatePicker(rangoFechas.value.to)
+              )
+            }
+            if (resultado.status === 200) {
+              console.log(resultado.headers.mensaje)
+              viajes.value = resultado.data
+            }
+          }
+          $q.loading.hide()
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
         }
-        $q.loading.hide()
-      } catch (err) {
-        // console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
       }
     }
 
@@ -656,11 +732,16 @@ export default {
         }
         if (resultado.status === 200) {
           viajes.value = resultado.data.content
+          console.log(resultado.headers.mensaje)
           $q.loading.hide()
         }
       } catch (err) {
         console.clear()
-        if (err.response.headers.mensaje) {
+        if (err.response.status === 404) {
+          viajes.value = []
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
           notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
@@ -676,6 +757,7 @@ export default {
       if (camion.value != null) {
         $q.loading.show()
         try {
+          fLimpiarInputs('camion')
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
             resultado = await viajeService.spfBuscarTodasPorCamionIdConEliminadas(camion.value)
@@ -683,14 +765,17 @@ export default {
             resultado = await viajeService.spfBuscarTodasPorCamionId(camion.value)
           }
           if (resultado.status === 200) {
-            console.info(resultado.headers.mensaje)
+            console.log(resultado.headers.mensaje)
             viajes.value = resultado.data
           }
           $q.loading.hide()
-          fLimpiarInputs('camion')
         } catch (err) {
           console.clear()
-          if (err.response.headers.mensaje) {
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
             notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
@@ -707,6 +792,7 @@ export default {
       if (chofer.value != null) {
         $q.loading.show()
         try {
+          fLimpiarInputs('chofer')
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
             resultado = await viajeService.spfBuscarTodasPorChoferIdConEliminadas(chofer.value)
@@ -714,14 +800,17 @@ export default {
             resultado = await viajeService.spfBuscarTodasPorChoferId(chofer.value)
           }
           if (resultado.status === 200) {
-            console.info(resultado.headers.mensaje)
+            console.log(resultado.headers.mensaje)
             viajes.value = resultado.data
             $q.loading.hide()
           }
-          fLimpiarInputs('chofer')
         } catch (err) {
           console.clear()
-          if (err.response.headers.mensaje) {
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
             notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
@@ -738,6 +827,7 @@ export default {
       if (comprador.value != null) {
         $q.loading.show()
         try {
+          fLimpiarInputs('comprador')
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
             resultado = await viajeService.spfBuscarTodasPorCompradorIdConEliminadas(comprador.value)
@@ -745,14 +835,17 @@ export default {
             resultado = await viajeService.spfBuscarTodasPorCompradorId(comprador.value)
           }
           if (resultado.status === 200) {
-            console.info(resultado.headers.mensaje)
+            console.log(resultado.headers.mensaje)
             viajes.value = resultado.data
             $q.loading.hide()
           }
-          fLimpiarInputs('comprador')
         } catch (err) {
           console.clear()
-          if (err.response.headers.mensaje) {
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
             notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
@@ -769,6 +862,7 @@ export default {
       if (destino.value != null) {
         $q.loading.show()
         try {
+          fLimpiarInputs('destino')
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
             resultado = await viajeService.spfBuscarTodasPorDestinoIdConEliminadas(destino.value)
@@ -776,14 +870,17 @@ export default {
             resultado = await viajeService.spfBuscarTodasPorDestinoId(destino.value)
           }
           if (resultado.status === 200) {
-            console.info(resultado.headers.mensaje)
+            console.log(resultado.headers.mensaje)
             viajes.value = resultado.data
             $q.loading.hide()
           }
-          fLimpiarInputs('destino')
         } catch (err) {
           console.clear()
-          if (err.response.headers.mensaje) {
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
             notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
@@ -800,6 +897,7 @@ export default {
       if (origen.value != null) {
         $q.loading.show()
         try {
+          fLimpiarInputs('origen')
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
             resultado = await viajeService.spfBuscarTodasPorOrigenIdConEliminadas(origen.value)
@@ -807,14 +905,20 @@ export default {
             resultado = await viajeService.spfBuscarTodasPorOrigenId(origen.value)
           }
           if (resultado.status === 200) {
-            console.info(resultado.headers.mensaje)
+            console.log(resultado.headers.mensaje)
             viajes.value = resultado.data
             $q.loading.hide()
           }
-          fLimpiarInputs('origen')
         } catch (err) {
           console.clear()
-          if (err.response.headers.mensaje) {
+          if (err.response.status === 404) {
+            viajes.value = []
+          }
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
             notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
@@ -831,6 +935,7 @@ export default {
       if (vendedor.value != null) {
         $q.loading.show()
         try {
+          fLimpiarInputs('vendedor')
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
             console.log('aca')
@@ -839,14 +944,20 @@ export default {
             resultado = await viajeService.spfBuscarTodasPorVendedorId(vendedor.value)
           }
           if (resultado.status === 200) {
-            console.info(resultado.headers.mensaje)
+            console.log(resultado.headers.mensaje)
             viajes.value = resultado.data
             $q.loading.hide()
           }
-          fLimpiarInputs('vendedor')
         } catch (err) {
           console.clear()
-          if (err.response.headers.mensaje) {
+          if (err.response.status === 404) {
+            viajes.value = []
+          }
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
             notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
@@ -860,8 +971,8 @@ export default {
     }
 
     function fLimpiarInputs (actual) {
-      rangoFechas.value.inicio = null
-      rangoFechas.value.fin = null
+      rangoFechas.value.from = null
+      rangoFechas.value.to = null
       switch (actual) {
         case 'camion':
           chofer.value = null

@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface ViajeDAO extends GenericDTO<ViajeModel> {
-    List<ViajeModel> findAllByCreadaBetween(LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByCreadaBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
+    List<ViajeModel> findAllByFechaFechaBetween(LocalDateTime inicio, LocalDateTime fin);
+    List<ViajeModel> findAllByFechaFechaBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByCamionId(Long id);
     List<ViajeModel> findAllByCamionIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByCamionIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);

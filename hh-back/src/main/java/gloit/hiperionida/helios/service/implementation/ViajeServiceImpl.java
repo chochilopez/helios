@@ -63,26 +63,26 @@ public class ViajeServiceImpl implements ViajeService {
     }
 
     @Override
-    public List<ViajeModel> buscarTodasPorCreadaEntreFechas(String inicio, String fin) {
+    public List<ViajeModel> buscarTodasPorFechaEntreFechas(String inicio, String fin) {
         log.info("Buscando todas las entidades entre las fechas: {} y {}.", inicio, fin);
-        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "");
-        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "");
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
         if (fInicio == null || fFin == null)
             throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
-        List<ViajeModel> listado = viajeDAO.findAllByCreadaBetweenAndEliminadaIsNull( fInicio, fFin);
+        List<ViajeModel> listado = viajeDAO.findAllByFechaFechaBetweenAndEliminadaIsNull( fInicio, fFin);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Viaje entre las fechas: " + inicio + " y " + fin + ".");
         return listado;
     }
 
     @Override
-    public List<ViajeModel> buscarTodasPorCreadaEntreFechasConEliminadas(String inicio, String fin) {
+    public List<ViajeModel> buscarTodasPorFechaEntreFechasConEliminadas(String inicio, String fin) {
         log.info("Buscando todas las entidades entre las fechas: {} y {}, con eliminadas.", inicio, fin);
-        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "");
-        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "");
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
         if (fInicio == null || fFin == null)
             throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
-        List<ViajeModel> listado = viajeDAO.findAllByCreadaBetween(fInicio, fFin);
+        List<ViajeModel> listado = viajeDAO.findAllByFechaFechaBetween(fInicio, fFin);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades entre las fechas: " + inicio + " y " + fin + ", con eliminadas.");
         return listado;

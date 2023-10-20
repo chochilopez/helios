@@ -70,13 +70,13 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(kmCargado.toString(), Helper.httpHeaders("La sumatoria de km cargado es + " + kmCargado + "."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-creada-entre-fechas/{inicio}/{fin}")
+    @GetMapping(value = "/buscar-todas-por-fecha-entre-fechas/{inicio}/{fin}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCreadaEntreFechas(
+    public ResponseEntity<List<ViajeDTO>> buscarTodasPorFechaEntreFechas(
             @PathVariable(name = "inicio") String inicio,
             @PathVariable(name = "fin") String fin
     ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorCreadaEntreFechas(inicio, fin);
+        List<ViajeModel> listado = viajeService.buscarTodasPorFechaEntreFechas(inicio, fin);
         ArrayList<ViajeDTO> viajes = new ArrayList<>();
         for (ViajeModel viaje:listado) {
             viajes.add(viajeMapper.toDto(viaje));
@@ -84,14 +84,13 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-creada-entre-fechas-con-eliminadas/{inicio}/{fin}")
+    @GetMapping(value = "/buscar-todas-por-fecha-entre-fechas-con-eliminadas/{inicio}/{fin}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCreadaEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
+    public ResponseEntity<List<ViajeDTO>> buscarTodasPorFechaEntreFechasConEliminadas(
             @PathVariable(name = "inicio") String inicio,
             @PathVariable(name = "fin") String fin
     ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorCreadaEntreFechasConEliminadas(inicio, fin);
+        List<ViajeModel> listado = viajeService.buscarTodasPorFechaEntreFechasConEliminadas(inicio, fin);
         ArrayList<ViajeDTO> viajes = new ArrayList<>();
         for (ViajeModel viaje:listado) {
             viajes.add(viajeMapper.toDto(viaje));
