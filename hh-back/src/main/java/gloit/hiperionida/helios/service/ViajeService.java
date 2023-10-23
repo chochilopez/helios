@@ -11,14 +11,22 @@ public interface ViajeService extends GenericService<ViajeModel, ViajeCreation> 
     List<ViajeModel> buscarTodasPorFechaEntreFechas(String inicio, String fin);
     List<ViajeModel> buscarTodasPorFechaEntreFechasConEliminadas(String inicio, String fin);
 
+    List<ViajeModel> buscarTodasPorAcopladoId(Long id);
+    List<ViajeModel> buscarTodasPorAcopladoIdConEliminadas(Long id);
+    List<ViajeModel> buscarTodasPorAcopladoIdEntreFechas(Long id, String inicio, String fin);
+    List<ViajeModel> buscarTodasPorAcopladoIdEntreFechasConEliminadas(Long id, String inicio, String fin);
     List<ViajeModel> buscarTodasPorCamionId(Long id);
     List<ViajeModel> buscarTodasPorCamionIdConEliminadas(Long id);
     List<ViajeModel> buscarTodasPorCamionIdEntreFechas(Long id, String inicio, String fin);
     List<ViajeModel> buscarTodasPorCamionIdEntreFechasConEliminadas(Long id, String inicio, String fin);
-    List<ViajeModel> buscarTodasPorChoferId(Long id);
-    List<ViajeModel> buscarTodasPorChoferIdConEliminadas(Long id);
-    List<ViajeModel> buscarTodasPorChoferIdEntreFechas(Long id, String inicio, String fin);
-    List<ViajeModel> buscarTodasPorChoferIdEntreFechasConEliminadas(Long id, String inicio, String fin);
+    List<ViajeModel> buscarTodasPorCategoriaViajeId(Long id);
+    List<ViajeModel> buscarTodasPorCategoriaViajeIdConEliminadas(Long id);
+    List<ViajeModel> buscarTodasPorCategoriaViajeIdEntreFechas(Long id, String inicio, String fin);
+    List<ViajeModel> buscarTodasPorCategoriaViajeIdEntreFechasConEliminadas(Long id, String inicio, String fin);
+    List<ViajeModel> buscarTodasPorConductorId(Long id);
+    List<ViajeModel> buscarTodasPorConductorIdConEliminadas(Long id);
+    List<ViajeModel> buscarTodasPorConductorIdEntreFechas(Long id, String inicio, String fin);
+    List<ViajeModel> buscarTodasPorConductorIdEntreFechasConEliminadas(Long id, String inicio, String fin);
     List<ViajeModel> buscarTodasPorCompradorId(Long id);
     List<ViajeModel> buscarTodasPorCompradorIdConEliminadas(Long id);
     List<ViajeModel> buscarTodasPorCompradorIdEntreFechas(Long id, String inicio, String fin);

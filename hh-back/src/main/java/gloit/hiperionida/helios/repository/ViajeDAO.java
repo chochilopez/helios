@@ -12,10 +12,18 @@ import java.util.List;
 public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByFechaFechaBetween(LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByFechaFechaBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
+    List<ViajeModel> findAllByAcopladoId(Long id);
+    List<ViajeModel> findAllByAcopladoIdAndEliminadaIsNull(Long id);
+    List<ViajeModel> findAllByAcopladoIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
+    List<ViajeModel> findAllByAcopladoIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByCamionId(Long id);
     List<ViajeModel> findAllByCamionIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByCamionIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByCamionIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
+    List<ViajeModel> findAllByCategoriaViajeId(Long id);
+    List<ViajeModel> findAllByCategoriaViajeIdAndEliminadaIsNull(Long id);
+    List<ViajeModel> findAllByCategoriaViajeIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
+    List<ViajeModel> findAllByCategoriaViajeIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByConductorId(Long id);
     List<ViajeModel> findAllByConductorIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByConductorIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
@@ -53,13 +61,4 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     Double sumarKmVacio();
 
     ViajeModel findFirstByOrderByIdDesc();
-
-
 }
-//    this.cantidadTransportada = ''
-//    this.valorKm = ''
-//    this.kgNeto = ''
-//    this.kmCargado = ''
-//    this.kmVacio = ''
-//    this.notas = ''
-//    this.guia = ''
