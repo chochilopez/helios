@@ -11,19 +11,19 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('hhPagoTodas')
+  return llaveroService.obtenerDeLocalConTTL('hhPagoTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('hhPagoTodasConEliminadas')
+  return llaveroService.obtenerDeLocalConTTL('hhPagoTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('hhPagoPorId/' + id + '/')
+  return llaveroService.obtenerDeLocalConTTL('hhPagoPorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('hhPagoPorIdConEliminadas/' + id + '/')
+  return llaveroService.obtenerDeLocalConTTL('hhPagoPorIdConEliminadas/' + id + '/')
 }
 
 function spfBuscarTodas () {

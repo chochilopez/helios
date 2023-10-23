@@ -58,6 +58,44 @@ function spfBuscarTodasConEliminadas () {
   })
 }
 
+function spfBuscarTodasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'acoplado/buscar-todas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhAcopladoTodasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'acoplado/buscar-todas-con-eliminadas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhAcopladoTodasConEliminadasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
     axios.post(API_URL + 'acoplado/buscar-todas-paginadas', paginadoDTO, {
@@ -226,6 +264,8 @@ export const acopladoService = {
 
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
+  spfBuscarTodasConSesion,
+  spfBuscarTodasConEliminadasConSesion,
   spfBuscarTodasPaginadas,
   spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,

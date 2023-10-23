@@ -11,19 +11,19 @@ l -> local
 */
 
 function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('hhCaregoriaViajeTodas')
+  return llaveroService.obtenerDeLocalConTTL('hhCaregoriaViajeTodas')
 }
 
 function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('hhCaregoriaViajeTodasConEliminadas')
+  return llaveroService.obtenerDeLocalConTTL('hhCaregoriaViajeTodasConEliminadas')
 }
 
 function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('hhCaregoriaViajePorId/' + id + '/')
+  return llaveroService.obtenerDeLocalConTTL('hhCaregoriaViajePorId/' + id + '/')
 }
 
 function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('hhCaregoriaViajePorIdConEliminadas/' + id + '/')
+  return llaveroService.obtenerDeLocalConTTL('hhCaregoriaViajePorIdConEliminadas/' + id + '/')
 }
 
 function spfBuscarTodas () {
