@@ -19,6 +19,10 @@ public interface ViajeService extends GenericService<ViajeModel, ViajeCreation> 
     List<ViajeModel> buscarTodasPorCamionIdConEliminadas(Long id);
     List<ViajeModel> buscarTodasPorCamionIdEntreFechas(Long id, String inicio, String fin);
     List<ViajeModel> buscarTodasPorCamionIdEntreFechasConEliminadas(Long id, String inicio, String fin);
+    List<ViajeModel> buscarTodasPorCargaId(Long id);
+    List<ViajeModel> buscarTodasPorCargaIdConEliminadas(Long id);
+    List<ViajeModel> buscarTodasPorCargaIdEntreFechas(Long id, String inicio, String fin);
+    List<ViajeModel> buscarTodasPorCargaIdEntreFechasConEliminadas(Long id, String inicio, String fin);
     List<ViajeModel> buscarTodasPorCategoriaViajeId(Long id);
     List<ViajeModel> buscarTodasPorCategoriaViajeIdConEliminadas(Long id);
     List<ViajeModel> buscarTodasPorCategoriaViajeIdEntreFechas(Long id, String inicio, String fin);
@@ -31,6 +35,10 @@ public interface ViajeService extends GenericService<ViajeModel, ViajeCreation> 
     List<ViajeModel> buscarTodasPorCompradorIdConEliminadas(Long id);
     List<ViajeModel> buscarTodasPorCompradorIdEntreFechas(Long id, String inicio, String fin);
     List<ViajeModel> buscarTodasPorCompradorIdEntreFechasConEliminadas(Long id, String inicio, String fin);
+    List<ViajeModel> buscarTodasPorIntermediarioId(Long id);
+    List<ViajeModel> buscarTodasPorIntermediarioIdConEliminadas(Long id);
+    List<ViajeModel> buscarTodasPorIntermediarioIdEntreFechas(Long id, String inicio, String fin);
+    List<ViajeModel> buscarTodasPorIntermediarioIdEntreFechasConEliminadas(Long id, String inicio, String fin);
     List<ViajeModel> buscarTodasPorVendedorId(Long id);
     List<ViajeModel> buscarTodasPorVendedorIdConEliminadas(Long id);
     List<ViajeModel> buscarTodasPorVendedorIdEntreFechas(Long id, String inicio, String fin);

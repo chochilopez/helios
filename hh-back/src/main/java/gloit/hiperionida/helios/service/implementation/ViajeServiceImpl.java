@@ -177,6 +177,50 @@ public class ViajeServiceImpl implements ViajeService {
     }
 
     @Override
+    public List<ViajeModel> buscarTodasPorCargaId(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Carga: {}.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByCargaIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Carga: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorCargaIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Carga: {}, con eliminadas.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByCargaId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Carga: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorCargaIdEntreFechas(Long id, String inicio, String fin) {
+        log.info("Buscando todas las entidades Viaje con id de Carga: {}, entre las fechas: {} y {}.", id, inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+        List<ViajeModel> listado = viajeDAO.findAllByCargaIdAndEliminadaIsNullAndCreadaBetween(id, fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Carga: " + id + ", entre las fechas: " + inicio + " y " + fin + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorCargaIdEntreFechasConEliminadas(Long id, String inicio, String fin) {
+        log.info("Buscando todas las entidades Viaje con id de Carga: {}, entre las fechas: {} y {}, con eliminadas.", id, inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+        List<ViajeModel> listado = viajeDAO.findAllByCargaIdAndCreadaBetween(id, fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Carga: " + id + ", entre las fechas: " + inicio + " y " + fin + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
     public List<ViajeModel> buscarTodasPorCategoriaViajeId(Long id) {
         log.info("Buscando todas las entidades Viaje con id de CategoriaViaje: {}.", id);
         List<ViajeModel> listado = viajeDAO.findAllByCategoriaViajeIdAndEliminadaIsNull(id);
@@ -305,6 +349,50 @@ public class ViajeServiceImpl implements ViajeService {
         List<ViajeModel> listado = viajeDAO.findAllByCompradorIdAndCreadaBetween(id, fInicio, fFin);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Comprador: " + id + ", entre las fechas: " + inicio + " y " + fin + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorIntermediarioId(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Intermediario: {}.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByIntermediarioIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Intermediario: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorIntermediarioIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Intermediario: {}, con eliminadas.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByIntermediarioId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Intermediario: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorIntermediarioIdEntreFechas(Long id, String inicio, String fin) {
+        log.info("Buscando todas las entidades Viaje con id de Intermediario: {}, entre las fechas: {} y {}.", id, inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+        List<ViajeModel> listado = viajeDAO.findAllByIntermediarioIdAndEliminadaIsNullAndCreadaBetween(id, fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Intermediario: " + id + ", entre las fechas: " + inicio + " y " + fin + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorIntermediarioIdEntreFechasConEliminadas(Long id, String inicio, String fin) {
+        log.info("Buscando todas las entidades Viaje con id de Intermediario: {}, entre las fechas: {} y {}, con eliminadas.", id, inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+        List<ViajeModel> listado = viajeDAO.findAllByIntermediarioIdAndCreadaBetween(id, fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Intermediario: " + id + ", entre las fechas: " + inicio + " y " + fin + ", con eliminadas.");
         return listado;
     }
 

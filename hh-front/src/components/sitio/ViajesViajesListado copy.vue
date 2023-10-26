@@ -970,12 +970,12 @@ export default {
           } else {
             let resultado = null
             if (autoridad.value.includes(rolEnum.ADMIN)) {
-              resultado = await viajeService.spfBuscarTodasPorFechaEntreFechasConEliminadas(
+              resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechasConEliminadas(
                 ayuda.fFormatearDeDatePicker(rangoFechas.value.from),
                 ayuda.fFormatearDeDatePicker(rangoFechas.value.to)
               )
             } else {
-              resultado = await viajeService.spfBuscarTodasPorFechaEntreFechas(
+              resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechas(
                 ayuda.fFormatearDeDatePicker(rangoFechas.value.from),
                 ayuda.fFormatearDeDatePicker(rangoFechas.value.to)
               )
@@ -1155,9 +1155,9 @@ export default {
           fLimpiarInputs('destino')
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorDestinoIdConEliminadas(destino.value)
+            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoIdConEliminadas(destino.value)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorDestinoId(destino.value)
+            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoId(destino.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -1190,9 +1190,9 @@ export default {
           fLimpiarInputs('origen')
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorOrigenIdConEliminadas(origen.value)
+            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenIdConEliminadas(origen.value)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorOrigenId(origen.value)
+            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenId(origen.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)

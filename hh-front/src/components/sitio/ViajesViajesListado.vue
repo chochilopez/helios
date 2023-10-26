@@ -42,7 +42,7 @@
                 @click="fMostrarCategoriaViaje"
               >
                 <q-item-section avatar>
-                  <q-icon name="fa-solid fa-hippo" />
+                  <q-icon name="fa-solid fa-boxes-packing" />
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>Categoria viaje</q-item-label>
@@ -312,7 +312,7 @@
           hint="Tenés que escribir al menos 3 caracteres para buscar."
         >
           <template v-slot:before>
-            <q-icon name="fa-solid fa-hippo" class="q-mx-xs" />
+            <q-icon name="fa-solid fa-boxes-packing" class="q-mx-xs" />
           </template>
           <template v-slot:no-option>
             <q-item>
@@ -337,6 +337,7 @@
           input-debounce="0"
           @filter="fFiltrarCompradores"
           @update:model-value="afBuscarPorCompradorId()"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
         >
           <template v-slot:before>
             <q-icon name="monetization_on" class="q-mx-xs" />
@@ -377,14 +378,42 @@
         </q-select>
 
         <q-select
+          v-if="editDireccionCarga"
+          outlined
+          dense
+          emit-value
+          map-options
+          clearable
+          v-model="direccionCarga"
+          :options="direccionesCarga"
+          option-value="id"
+          option-label="direccion"
+          label="Buscar por carga"
+          use-input
+          input-debounce="0"
+          @filter="fFiltrarDireccionesCarga"
+          @update:model-value="afBuscarPorDireccionCargaId()"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
+        >
+          <template v-slot:before>
+            <q-icon name="fa-solid fa-truck-ramp-box" class="q-mx-xs" />
+          </template>
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> Sin resultados </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+
+        <q-select
           v-if="editDireccionDestino"
           outlined
           dense
           emit-value
           map-options
           clearable
-          v-model="destino"
-          :options="destinos"
+          v-model="direccionDestino"
+          :options="direccionesDestino"
           option-value="id"
           option-label="direccion"
           label="Buscar por destino"
@@ -411,8 +440,8 @@
           emit-value
           map-options
           clearable
-          v-model="origen"
-          :options="origenes"
+          v-model="direccionOrigen"
+          :options="direccionesOrigen"
           option-value="id"
           option-label="direccion"
           label="Buscar por origen"
@@ -431,6 +460,42 @@
             </q-item>
           </template>
         </q-select>
+
+        <q-select
+          v-if="editIntermediario"
+          outlined
+          dense
+          emit-value
+          map-options
+          clearable
+          v-model="intermediario"
+          :options="intermediarios"
+          option-value="id"
+          option-label="nombre"
+          label="Buscar por intermediario"
+          use-input
+          input-debounce="0"
+          @filter="fFiltrarIntermediarios"
+          @update:model-value="afBuscarPorIntermediarioId()"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
+        >
+          <template v-slot:before>
+            <q-icon name="fa-solid fa-people-arrows" class="q-mx-xs" />
+          </template>
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> Sin resultados </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+
+              <q-range
+              v-if="editKilometrosCargado"
+                v-model="kmCargado"
+                :min="1"
+                :max="2000"
+                label
+              />
 
         <q-select
           v-if="editVendedor"
@@ -935,9 +1000,9 @@ export default {
     const fechas = ref([])
     const intermediario = ref(null)
     const intermediarios = ref([])
-    const kmCargado = ref(null)
+    const kmCargado = ref({ min: 10, max: 35 })
     const kmsCargado = ref([])
-    const kmVacio = ref(null)
+    const kmVacio = ref({ min: 0, max: 2000 })
     const kmsVacio = ref([])
     const notas = ref(null)
     const notases = ref([])
@@ -1621,17 +1686,55 @@ export default {
       }
     }
 
+    async function afBuscarPorDireccionCargaId () {
+      if (direccionCarga.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorDireccionCargaIdConEliminadas(
+              direccionCarga.value
+            )
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorDireccionCargaId(direccionCarga.value)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta(
+              'Advertencia: ' + err.response.headers.mensaje
+            )
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
     async function afBuscarPorDireccionDestinoId () {
       if (direccionDestino.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorDestinoIdConEliminadas(
+            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoIdConEliminadas(
               direccionDestino.value
             )
           } else {
-            resultado = await viajeService.spfBuscarTodasPorDestinoId(direccionDestino.value)
+            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoId(direccionDestino.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -1665,11 +1768,49 @@ export default {
         try {
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorOrigenIdConEliminadas(
+            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenIdConEliminadas(
               direccionOrigen.value
             )
           } else {
-            resultado = await viajeService.spfBuscarTodasPorOrigenId(direccionOrigen.value)
+            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenId(direccionOrigen.value)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta(
+              'Advertencia: ' + err.response.headers.mensaje
+            )
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
+    async function afBuscarPorIntermediarioId () {
+      if (intermediario.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorIntermediarioIdConEliminadas(
+              intermediario.value
+            )
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorIntermediarioId(intermediario.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -1711,12 +1852,12 @@ export default {
         try {
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorFechaEntreFechasConEliminadas(
+            resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechasConEliminadas(
               ayuda.fFormatearDeDatePicker(fecha.value.from),
               ayuda.fFormatearDeDatePicker(fecha.value.to)
             )
           } else {
-            resultado = await viajeService.spfBuscarTodasPorFechaEntreFechas(
+            resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechas(
               ayuda.fFormatearDeDatePicker(fecha.value.from),
               ayuda.fFormatearDeDatePicker(fecha.value.to)
             )
@@ -1810,7 +1951,6 @@ export default {
     }
 
     function fFiltrarCategoriasViaje (val, update, abort) {
-      console.log(categoriasViajeList.value)
       if (val.length < 3) {
         abort()
         return
@@ -1846,6 +1986,18 @@ export default {
       })
     }
 
+    function fFiltrarDireccionesCarga (val, update, abort) {
+      if (val.length < 3) {
+        abort()
+        return
+      }
+      update(() => {
+        direccionesCarga.value = direccionesList.value.filter(
+          (v) => v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1
+        )
+      })
+    }
+
     function fFiltrarDireccionesDestino (val, update, abort) {
       if (val.length < 3) {
         abort()
@@ -1864,10 +2016,34 @@ export default {
         return
       }
       update(() => {
-        direccionOrigen.value = direccionesList.value.filter(
+        direccionesOrigen.value = direccionesList.value.filter(
           (v) => v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1
         )
       })
+    }
+
+    function fFiltrarIntermediarios (val, update, abort) {
+      if (val.length < 3) {
+        abort()
+        return
+      }
+      update(() => {
+        intermediarios.value = clientesList.value.filter(
+          (v) => v.nombre.toLowerCase().indexOf(val.toLowerCase()) > -1
+        )
+      })
+    }
+
+    function afBuscarPorKmCargadoRango (val, update, abort) {
+      // if (val.length < 3) {
+      //   abort()
+      //   return
+      // }
+      // update(() => {
+      //   intermediarios.value = clientesList.value.filter(
+      //     (v) => v.nombre.toLowerCase().indexOf(val.toLowerCase()) > -1
+      //   )
+      // })
     }
 
     function fFiltrarVendedores (val, update, abort) {
@@ -1908,9 +2084,10 @@ export default {
       editIntermediario.value = false
       intermediario.value = null
       editKilometrosCargado.value = false
-      kmCargado.value = null
+      kmCargado.value.min = 0
+      kmCargado.value.max = 2000
       editKilometrosVacio.value = false
-      kmVacio.value = null
+      kmVacio.value = [{ min: 0, max: 2000 }]
       editNotas.value = false
       notas.value = null
       editNumeroGuia.value = false
@@ -1995,6 +2172,7 @@ export default {
     }
 
     function fMostrarKilometrosCargado () {
+      fLimpiarInputs()
       editKilometrosCargado.value = true
     }
 
@@ -2035,9 +2213,12 @@ export default {
       afBuscarPorCategoriaViajeId,
       afBuscarPorConductorId,
       afBuscarPorCompradorId,
+      afBuscarPorDireccionCargaId,
       afBuscarPorDireccionDestinoId,
       afBuscarPorDireccionOrigenId,
       afBuscarPorFechaViaje,
+      afBuscarPorIntermediarioId,
+      afBuscarPorKmCargadoRango,
       afBuscarPorVendedorId,
 
       editAcoplado,
@@ -2126,8 +2307,10 @@ export default {
       fFiltrarCategoriasViaje,
       fFiltrarConductores,
       fFiltrarCompradores,
+      fFiltrarDireccionesCarga,
       fFiltrarDireccionesDestino,
       fFiltrarDireccionesOrigen,
+      fFiltrarIntermediarios,
       fFiltrarVendedores,
       fFormatoFecha
     }
@@ -2137,6 +2320,9 @@ export default {
 <style scoped>
 .q-btn-dropdown {
   width: 250px;
+}
+.q-select, .q-range {
+  width: 300px;
 }
 .item-lista {
   border-bottom: 2px solid white;

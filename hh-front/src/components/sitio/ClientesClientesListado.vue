@@ -764,9 +764,9 @@ export default {
           fLimpiarInputs('notas')
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorDestinoIdConEliminadas(notas.value)
+            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoIdConEliminadas(notas.value)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorDestinoId(notas.value)
+            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoId(notas.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -799,9 +799,9 @@ export default {
           fLimpiarInputs('nombre')
           let resultado = null
           if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorOrigenIdConEliminadas(nombre.value)
+            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenIdConEliminadas(nombre.value)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorOrigenId(nombre.value)
+            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenId(nombre.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
