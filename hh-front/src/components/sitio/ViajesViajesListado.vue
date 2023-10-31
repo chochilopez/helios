@@ -489,13 +489,45 @@
           </template>
         </q-select>
 
-              <q-range
-              v-if="editKilometrosCargado"
-                v-model="kmCargado"
-                :min="1"
-                :max="2000"
-                label
-              />
+        <div class="column" v-if="editKilometrosCargado">
+          <div class="row justify-between">
+            <div class="col">
+              <q-chip
+                v-model:selected="kmCargadoChip.izq"
+                color="primary"
+                text-color="white"
+                size="12px"
+                icon="fa-solid fa-minus"
+              >
+                Mínimo
+              </q-chip>
+            </div>
+            <div class="col text-center justify-center">
+              <span>Kms cargado</span>
+            </div>
+            <div class="col text-right">
+              <q-chip
+                v-model:selected="kmCargadoChip.der"
+                color="primary"
+                text-color="white"
+                size="12px"
+                icon="fa-solid fa-plus"
+              >
+                Máximo
+              </q-chip>
+            </div>
+          </div>
+          <div class="row">
+            <q-range
+              label-always
+              switch-label-side
+              v-model="kmCargado"
+              :min="1"
+              :max="1000"
+              label
+            />
+          </div>
+        </div>
 
         <q-select
           v-if="editVendedor"
@@ -641,7 +673,7 @@
               {{ props.row.valorKm }}
             </q-td>
           </q-tr>
-          <q-tr v-show="props.expand" :props="props" class="paleta1-fondo4">
+          <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
             <q-td colspan="100%">
               <div class="row">
                 <div
@@ -1000,19 +1032,24 @@ export default {
     const fechas = ref([])
     const intermediario = ref(null)
     const intermediarios = ref([])
-    const kmCargado = ref({ min: 10, max: 35 })
+    const kmCargado = ref({ min: 0, max: 1000 })
+    const kmCargadoChip = ref({ izq: false, der: false })
     const kmsCargado = ref([])
-    const kmVacio = ref({ min: 0, max: 2000 })
+    const kmVacio = ref({ min: 0, max: 1000 })
+    const kmVacioChip = ref({ izq: false, der: false })
     const kmsVacio = ref([])
     const notas = ref(null)
     const notases = ref([])
     const numeroGuia = ref(null)
     const numerosGuia = ref([])
-    const pesoNeto = ref(null)
+    const pesoNeto = ref({ min: 0, max: 1000 })
+    const pesoNetoChip = ref({ izq: false, der: false })
     const pesosNeto = ref([])
-    const tara = ref(null)
+    const tara = ref({ min: 0, max: 1000 })
+    const taraChip = ref({ izq: false, der: false })
     const taras = ref([])
-    const valorKm = ref(null)
+    const valorKm = ref({ min: 0, max: 1000 })
+    const valorKmChip = ref({ izq: false, der: false })
     const valoresKm = ref([])
     const vendedor = ref(null)
     const vendedores = ref([])
@@ -2085,19 +2122,33 @@ export default {
       intermediario.value = null
       editKilometrosCargado.value = false
       kmCargado.value.min = 0
-      kmCargado.value.max = 2000
+      kmCargado.value.max = 1000
+      kmCargadoChip.value.izq = false
+      kmCargadoChip.value.der = false
       editKilometrosVacio.value = false
-      kmVacio.value = [{ min: 0, max: 2000 }]
+      kmVacio.value.min = 0
+      kmVacio.value.max = 1000
+      kmVacio.value.izq = false
+      kmVacio.value.der = false
       editNotas.value = false
       notas.value = null
       editNumeroGuia.value = false
       numeroGuia.value = null
       editPesoNeto.value = false
-      pesoNeto.value = null
+      pesoNeto.value.min = 0
+      pesoNeto.value.max = 1000
+      pesoNetoChip.value.izq = false
+      pesoNetoChip.value.der = false
       editTara.value = false
-      tara.value = null
+      tara.value.min = 0
+      tara.value.max = 1000
+      taraChip.value.izq = false
+      taraChip.value.der = false
       editValorKilomertro.value = false
-      valorKm.value = null
+      valorKm.value.min = 0
+      valorKm.value.max = 1000
+      valorKmChip.value.izq = false
+      valorKmChip.value.der = false
       editVendedor.value = false
       vendedor.value = null
     }
@@ -2253,9 +2304,11 @@ export default {
       intermediarios,
       editKilometrosCargado,
       kmCargado,
+      kmCargadoChip,
       kmsCargado,
       editKilometrosVacio,
       kmVacio,
+      kmVacioChip,
       kmsVacio,
       editNotas,
       notas,
@@ -2265,12 +2318,15 @@ export default {
       numerosGuia,
       editPesoNeto,
       pesoNeto,
+      pesoNetoChip,
       pesosNeto,
       editTara,
       tara,
+      taraChip,
       taras,
       editValorKilomertro,
       valorKm,
+      valorKmChip,
       valoresKm,
       editVendedor,
       vendedor,
