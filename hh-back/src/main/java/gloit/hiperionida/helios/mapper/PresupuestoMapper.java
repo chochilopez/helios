@@ -48,8 +48,6 @@ public class PresupuestoMapper {
                 presupuestoModel.setValorKm(Helper.getDecimal(presupuestoCreation.getValorKm()));
             if (Helper.getDecimal(presupuestoCreation.getNeto()) != null)
                 presupuestoModel.setNeto(Helper.getDecimal(presupuestoCreation.getNeto()));
-            if (Helper.getDecimal(presupuestoCreation.getTara()) != null)
-                presupuestoModel.setTara(Helper.getDecimal(presupuestoCreation.getTara()));
             if (Helper.getDecimal(presupuestoCreation.getKmCargado()) != null)
                 presupuestoModel.setKmCargado(Helper.getDecimal(presupuestoCreation.getKmCargado()));
             if (Helper.getDecimal(presupuestoCreation.getKmVacio()) != null)
@@ -127,8 +125,6 @@ public class PresupuestoMapper {
                 dto.setValorKm(format.format(presupuestoModel.getValorKm()).toString());
             if (presupuestoModel.getNeto() != null)
                 dto.setNeto(format.format(presupuestoModel.getNeto()).toString());
-            if (presupuestoModel.getTara() != null)
-                dto.setTara(format.format(presupuestoModel.getTara()).toString());
             if (presupuestoModel.getKmCargado() != null)
                 dto.setKmCargado(format.format(presupuestoModel.getKmCargado()).toString());
             if (presupuestoModel.getKmVacio() != null)

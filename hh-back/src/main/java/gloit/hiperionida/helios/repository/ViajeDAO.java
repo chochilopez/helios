@@ -40,6 +40,18 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByIntermediarioIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByIntermediarioIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByIntermediarioIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
+    List<ViajeModel> findAllByKmCargadoBetween(Double min, Double max);
+    List<ViajeModel> findAllByKmCargadoBetweenAndEliminadaIsNull(Double min, Double max);
+    List<ViajeModel> findAllByKmVacioBetween(Double min, Double max);
+    List<ViajeModel> findAllByKmVacioBetweenAndEliminadaIsNull(Double min, Double max);
+    List<ViajeModel> findAllByNotasContainingIgnoreCase(String nota);
+    List<ViajeModel> findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(String nota);
+    List<ViajeModel> findAllByGuiaContainingIgnoreCase(String nota);
+    List<ViajeModel> findAllByGuiaContainingIgnoreCaseAndEliminadaIsNull(String nota);
+    List<ViajeModel> findAllByNetoBetween(Double min, Double max);
+    List<ViajeModel> findAllByNetoBetweenAndEliminadaIsNull(Double min, Double max);
+    List<ViajeModel> findAllByValorKmBetween(Double min, Double max);
+    List<ViajeModel> findAllByValorKmBetweenAndEliminadaIsNull(Double min, Double max);
     List<ViajeModel> findAllByVendedorId(Long id);
     List<ViajeModel> findAllByVendedorIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByVendedorIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);

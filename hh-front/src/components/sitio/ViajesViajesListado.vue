@@ -117,6 +117,32 @@
                 clickable
                 v-close-popup
                 class="desplegable paleta2-fondo2 paleta1-color1"
+                @click="fMostrarDireccionOrigen"
+              >
+                <q-item-section avatar>
+                  <q-icon name="fa-solid fa-map-location-dot" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Dirección origen</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                class="desplegable paleta2-fondo2 paleta1-color1"
+                @click="fMostrarFechaViaje"
+              >
+                <q-item-section avatar>
+                  <q-icon name="fa-solid fa-calendar-days" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Fecha viaje</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                class="desplegable paleta2-fondo2 paleta1-color1"
                 @click="fMostrarIntermediario"
               >
                 <q-item-section avatar>
@@ -189,19 +215,6 @@
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>Peso neto</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarTara"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-plus" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Tara</q-item-label>
                 </q-item-section>
               </q-item>
               <q-item
@@ -461,6 +474,60 @@
           </template>
         </q-select>
 
+        <div class="column" v-if="editFecha">
+          <div class="row justify-around">
+
+              <q-input
+                mask="##-##-####"
+                style="width: 180px"
+                v-model="fecha.from"
+                outlined
+                dense
+                clearable
+                label="Fecha fin"
+                hint="20-01-2020"
+              >
+                <template v-slot:before>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-date v-model="fecha.from" mask="DD-MM-YYYY">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="OK" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+              <q-input
+                class="q-ml-md"
+                mask="##-##-####"
+                style="width: 180px"
+                v-model="fecha.to"
+                outlined
+                dense
+                clearable
+                label="Fecha inicio"
+                hint="30-01-2020"
+              >
+                <template v-slot:before>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-date v-model="fecha.to" mask="DD-MM-YYYY">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="OK" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            <div class="col">
+              <q-icon name="fa-solid fa-magnifying-glass" size="24px" class="cursor-pointer q-pa-sm edits" v-on:click="afBuscarPorFechaViaje()" />
+            </div>
+          </div>
+        </div>
+
         <q-select
           v-if="editIntermediario"
           outlined
@@ -494,24 +561,27 @@
             <div class="col">
               <q-chip
                 v-model:selected="kmCargadoChip.izq"
-                color="primary"
+                :class="{ 'paleta2-fondo2': kmCargadoChip.izq, 'edits-fondo': !kmCargadoChip.izq  }"
                 text-color="white"
                 size="12px"
                 icon="fa-solid fa-minus"
+                @update:selected="afBuscarPorKilometrosCargado()"
               >
                 Mínimo
               </q-chip>
             </div>
-            <div class="col text-center justify-center">
-              <span>Kms cargado</span>
+            <div class="edits col text-center">
+              <span>Kms cargado</span><br />
+              <q-icon name="fa-solid fa-truck-fast" />
             </div>
             <div class="col text-right">
               <q-chip
                 v-model:selected="kmCargadoChip.der"
-                color="primary"
+                :class="{ 'paleta2-fondo2': kmCargadoChip.der, 'edits-fondo': !kmCargadoChip.der  }"
                 text-color="white"
                 size="12px"
                 icon="fa-solid fa-plus"
+                @update:selected="afBuscarPorKilometrosCargado()"
               >
                 Máximo
               </q-chip>
@@ -521,10 +591,193 @@
             <q-range
               label-always
               switch-label-side
+              color="grey-6"
               v-model="kmCargado"
               :min="1"
               :max="1000"
               label
+              @change="kmCargadoChip.izq = false, kmCargadoChip.der = false"
+            />
+          </div>
+        </div>
+
+        <div class="column" v-if="editKilometrosVacio">
+          <div class="row justify-between">
+            <div class="col">
+              <q-chip
+                v-model:selected="kmVacioChip.izq"
+                :class="{ 'paleta2-fondo2': kmVacioChip.izq, 'edits-fondo': !kmVacioChip.izq  }"
+                text-color="white"
+                size="12px"
+                icon="fa-solid fa-minus"
+                @update:selected="afBuscarPorKilometrosVacio()"
+              >
+                Mínimo
+              </q-chip>
+            </div>
+            <div class="edits col text-center">
+              <span>Kms vacio</span><br />
+              <q-icon name="fa-solid fa-truck-pickup" />
+            </div>
+            <div class="col text-right">
+              <q-chip
+                v-model:selected="kmVacioChip.der"
+                :class="{ 'paleta2-fondo2': kmVacioChip.der, 'edits-fondo': !kmVacioChip.der  }"
+                text-color="white"
+                size="12px"
+                icon="fa-solid fa-plus"
+                @update:selected="afBuscarPorKilometrosVacio()"
+              >
+                Máximo
+              </q-chip>
+            </div>
+          </div>
+          <div class="row">
+            <q-range
+              label-always
+              switch-label-side
+              color="grey-6"
+              v-model="kmVacio"
+              :min="1"
+              :max="1000"
+              label
+              @change="kmVacioChip.izq = false, kmVacioChip.der = false"
+            />
+          </div>
+        </div>
+
+        <q-input
+          v-if="editNotas"
+          outlined
+          dense
+          clearable
+          v-on:keyup.enter="afBuscarPorNotas()"
+          v-model="notas"
+          label="Buscar por notas"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
+        >
+          <template v-slot:before>
+            <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
+          </template>
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> Sin resultados </q-item-section>
+            </q-item>
+          </template>
+          <template v-slot:after>
+            <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorNotas()" style="cursor: pointer" />
+          </template>
+        </q-input>
+
+        <q-input
+          v-if="editNumeroGuia"
+          outlined
+          dense
+          clearable
+          v-on:keyup.enter="afBuscarPorGuia()"
+          v-model="numeroGuia"
+          label="Buscar por número guía"
+          hint="Tenés que escribir al menos 3 caracteres para buscar."
+        >
+          <template v-slot:before>
+            <q-icon name="fa-solid fa-shuffle" class="q-mx-xs" />
+          </template>
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> Sin resultados </q-item-section>
+            </q-item>
+          </template>
+          <template v-slot:after>
+            <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorGuia()" style="cursor: pointer" />
+          </template>
+        </q-input>
+
+        <div class="column" v-if="editPesoNeto">
+          <div class="row justify-between">
+            <div class="col">
+              <q-chip
+                v-model:selected="pesoNetoChip.izq"
+                :class="{ 'paleta2-fondo2': pesoNetoChip.izq, 'edits-fondo': !pesoNetoChip.izq  }"
+                text-color="white"
+                size="12px"
+                icon="fa-solid fa-minus"
+                @update:selected="afBuscarPorPesoNeto()"
+              >
+                Mínimo
+              </q-chip>
+            </div>
+            <div class="edits col text-center">
+              <span>Peso Neto</span><br />
+              <q-icon name="fa-solid fa-plus-minus" />
+            </div>
+            <div class="col text-right">
+              <q-chip
+                v-model:selected="pesoNetoChip.der"
+                :class="{ 'paleta2-fondo2': pesoNetoChip.der, 'edits-fondo': !pesoNetoChip.der  }"
+                text-color="white"
+                size="12px"
+                icon="fa-solid fa-plus"
+                @update:selected="afBuscarPorPesoNeto()"
+              >
+                Máximo
+              </q-chip>
+            </div>
+          </div>
+          <div class="row">
+            <q-range
+              label-always
+              switch-label-side
+              color="grey-6"
+              v-model="pesoNeto"
+              :min="1"
+              :max="50000"
+              label
+              @change="pesoNetoChip.izq = false, pesoNetoChip.der = false"
+            />
+          </div>
+        </div>
+
+        <div class="column" v-if="editValorKilomertro">
+          <div class="row justify-between">
+            <div class="col">
+              <q-chip
+                v-model:selected="valorKmChip.izq"
+                :class="{ 'paleta2-fondo2': valorKmChip.izq, 'edits-fondo': !valorKmChip.izq  }"
+                text-color="white"
+                size="12px"
+                icon="fa-solid fa-minus"
+                @update:selected="afBuscarPorValorKm()"
+              >
+                Mínimo
+              </q-chip>
+            </div>
+            <div class="edits col text-center">
+              <span>Valor kilometro</span><br />
+              <q-icon name="fa-solid fa-money-bill-1-wave" />
+            </div>
+            <div class="col text-right">
+              <q-chip
+                v-model:selected="valorKmChip.der"
+                :class="{ 'paleta2-fondo2': valorKmChip.der, 'edits-fondo': !valorKmChip.der  }"
+                text-color="white"
+                size="12px"
+                icon="fa-solid fa-plus"
+                @update:selected="afBuscarPorValorKm()"
+              >
+                Máximo
+              </q-chip>
+            </div>
+          </div>
+          <div class="row">
+            <q-range
+              label-always
+              switch-label-side
+              color="grey-6"
+              v-model="valorKm"
+              :min="0"
+              :max="2000"
+              label
+              @change="valorKmChip.izq = false, valorKmChip.der = false"
             />
           </div>
         </div>
@@ -559,64 +812,7 @@
       </div>
     </q-card-section>
   </q-card>
-  <!-- <q-card>
-    <q-card-section>
-      <div class="row justify-start q-pb-md">
-        <div class="col-lg-4 col-sm-5 col-xs-12 q-pa-md">
-          <q-input
-            mask="##-##-####"
-            v-model="fecha.from"
-            outlined
-            dense
-            clearable
-            label="Busqueda entre fechas - Inicio"
-            hint="Ingresá la fecha con el formato dd-mm-yyyy. Ej: 20-01-2020"
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-greater-than" class="q-mx-xs" />
-            </template>
-            <template v-slot:prepend>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="fecha.from" mask="DD-MM-YYYY">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="OK" color="primary" flat />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </div>
-        <div class="col-lg-4 col-sm-5 col-xs-12 q-pa-md">
-          <q-input
-            mask="##-##-####"
-            v-model="fecha.to"
-            outlined
-            dense
-            clearable
-            label="Busqueda entre fechas - Fin"
-            hint="Ingresá la fecha con el formato dd-mm-yyyy. Ej: 30-01-2020"
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-less-than" class="q-mx-xs" />
-            </template>
-            <template v-slot:prepend>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="fecha.to" mask="DD-MM-YYYY">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="OK" color="primary" flat />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </div>
-      </div>
-    </q-card-section>
-  </q-card> -->
+
   <div class="row q-pa-md">
     <div class="col">
       <q-table
@@ -703,13 +899,6 @@
                 >
                   <div class="row text-white">{{ props.row.neto }}</div>
                   <div class="row paleta1-color2">Peso neto</div>
-                </div>
-                <div
-                  v-if="props.row.tara != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.tara }}</div>
-                  <div class="row paleta1-color2">Tara</div>
                 </div>
                 <div
                   v-if="props.row.kmCargado != null"
@@ -884,7 +1073,7 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { notificarService } from 'src/helpers/notificar_service'
 import { ViajeModel } from 'src/models/viaje_model'
 import { conductorService } from 'src/services/conductor_service'
@@ -1002,7 +1191,6 @@ export default {
     const editNotas = ref(false)
     const editNumeroGuia = ref(false)
     const editPesoNeto = ref(false)
-    const editTara = ref(false)
     const editValorKilomertro = ref(false)
     const editVendedor = ref(false)
 
@@ -1042,13 +1230,10 @@ export default {
     const notases = ref([])
     const numeroGuia = ref(null)
     const numerosGuia = ref([])
-    const pesoNeto = ref({ min: 0, max: 1000 })
+    const pesoNeto = ref({ min: 0, max: 50000 })
     const pesoNetoChip = ref({ izq: false, der: false })
     const pesosNeto = ref([])
-    const tara = ref({ min: 0, max: 1000 })
-    const taraChip = ref({ izq: false, der: false })
-    const taras = ref([])
-    const valorKm = ref({ min: 0, max: 1000 })
+    const valorKm = ref({ min: 0, max: 2000 })
     const valorKmChip = ref({ izq: false, der: false })
     const valoresKm = ref([])
     const vendedor = ref(null)
@@ -1372,68 +1557,6 @@ export default {
     }
 
     async function afBuscarDirecciones () {
-      $q.loading.show()
-      try {
-        let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            direccionesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConEliminadasConSesion',
-              sesion.value
-            ).value
-            console.log('DireccionService: Sesion recargada, con eliminadas.')
-          } else {
-            resultado = await direccionService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
-            if (resultado.status === 200) {
-              direccionesList.value = resultado.data
-              console.log('DireccionService: ' + resultado.headers.mensaje)
-            }
-          }
-        } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            direccionesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConSesion',
-              sesion.value
-            ).value
-            console.log('DireccionService: Sesion recargada.')
-          } else {
-            resultado = await direccionService.spfBuscarTodasConSesion(sesion.value)
-            if (resultado.status === 200) {
-              direccionesList.value = resultado.data
-              console.log('DireccionService: ' + resultado.headers.mensaje)
-            }
-          }
-        }
-        $q.loading.hide()
-      } catch (err) {
-        console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
-      }
-    }
-
-    async function afBuscarFechasViaje () {
       $q.loading.show()
       try {
         let resultado = null
@@ -1925,6 +2048,230 @@ export default {
       }
     }
 
+    async function afBuscarPorKilometrosCargado () {
+      if (kmCargadoChip.value.izq === true && kmCargadoChip.value.der === true) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorRangoKmCargadoConEliminadas(kmCargado.value.min, kmCargado.value.max)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorRangoKmCargado(kmCargado.value.min, kmCargado.value.max)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta(
+              'Advertencia: ' + err.response.headers.mensaje
+            )
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+        kmCargadoChip.value.izq = false
+        kmCargadoChip.value.der = false
+      }
+    }
+
+    async function afBuscarPorKilometrosVacio () {
+      if (kmVacioChip.value.izq === true && kmVacioChip.value.der === true) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorRangoKmVacioConEliminadas(kmVacio.value.min, kmVacio.value.max)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorRangoKmVacio(kmVacio.value.min, kmVacio.value.max)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta(
+              'Advertencia: ' + err.response.headers.mensaje
+            )
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+        kmVacioChip.value.izq = false
+        kmVacioChip.value.der = false
+      }
+    }
+
+    async function afBuscarPorNotas () {
+      if (notas.value !== null && notas.value.length > 2) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorNotasConEliminadas(notas.value)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorNotas(notas.value)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta(
+              'Advertencia: ' + err.response.headers.mensaje
+            )
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
+    async function afBuscarPorGuia () {
+      if (numeroGuia.value !== null && numeroGuia.value.length > 2) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorGuiaConEliminadas(numeroGuia.value)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorGuia(numeroGuia.value)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta(
+              'Advertencia: ' + err.response.headers.mensaje
+            )
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
+    async function afBuscarPorPesoNeto () {
+      if (pesoNetoChip.value.izq === true && pesoNetoChip.value.der === true) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorRangoNetoConEliminadas(pesoNeto.value.min, pesoNeto.value.max)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorRangoNeto(pesoNeto.value.min, pesoNeto.value.max)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta(
+              'Advertencia: ' + err.response.headers.mensaje
+            )
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+        pesoNetoChip.value.izq = false
+        pesoNetoChip.value.der = false
+      }
+    }
+
+    async function afBuscarPorValorKm () {
+      if (valorKmChip.value.izq === true && valorKmChip.value.der === true) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value.includes(rolEnum.ADMIN)) {
+            resultado = await viajeService.spfBuscarTodasPorRangoValorKmConEliminadas(valorKm.value.min, valorKm.value.max)
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorRangoValorKm(valorKm.value.min, valorKm.value.max)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta(
+              'Advertencia: ' + err.response.headers.mensaje
+            )
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+        valorKmChip.value.izq = false
+        valorKmChip.value.der = false
+      }
+    }
+
     async function afBuscarPorVendedorId () {
       if (vendedor.value != null) {
         $q.loading.show()
@@ -2071,18 +2418,6 @@ export default {
       })
     }
 
-    function afBuscarPorKmCargadoRango (val, update, abort) {
-      // if (val.length < 3) {
-      //   abort()
-      //   return
-      // }
-      // update(() => {
-      //   intermediarios.value = clientesList.value.filter(
-      //     (v) => v.nombre.toLowerCase().indexOf(val.toLowerCase()) > -1
-      //   )
-      // })
-    }
-
     function fFiltrarVendedores (val, update, abort) {
       if (val.length < 3) {
         abort()
@@ -2117,7 +2452,8 @@ export default {
       editDireccionOrigen.value = false
       direccionOrigen.value = null
       editFecha.value = false
-      fecha.value = null
+      fecha.value.from = null
+      fecha.value.to = null
       editIntermediario.value = false
       intermediario.value = null
       editKilometrosCargado.value = false
@@ -2128,25 +2464,20 @@ export default {
       editKilometrosVacio.value = false
       kmVacio.value.min = 0
       kmVacio.value.max = 1000
-      kmVacio.value.izq = false
-      kmVacio.value.der = false
+      kmVacioChip.value.izq = false
+      kmVacioChip.value.der = false
       editNotas.value = false
       notas.value = null
       editNumeroGuia.value = false
       numeroGuia.value = null
       editPesoNeto.value = false
       pesoNeto.value.min = 0
-      pesoNeto.value.max = 1000
+      pesoNeto.value.max = 50000
       pesoNetoChip.value.izq = false
       pesoNetoChip.value.der = false
-      editTara.value = false
-      tara.value.min = 0
-      tara.value.max = 1000
-      taraChip.value.izq = false
-      taraChip.value.der = false
       editValorKilomertro.value = false
       valorKm.value.min = 0
-      valorKm.value.max = 1000
+      valorKm.value.max = 2000
       valorKmChip.value.izq = false
       valorKmChip.value.der = false
       editVendedor.value = false
@@ -2210,9 +2541,8 @@ export default {
     }
 
     function fMostrarFechaViaje () {
-      afBuscarFechasViaje().then(
-        editFecha.value = true
-      )
+      fLimpiarInputs()
+      editFecha.value = true
     }
 
     function fMostrarIntermediario () {
@@ -2228,26 +2558,27 @@ export default {
     }
 
     function fMostrarKilometrosVacio () {
+      fLimpiarInputs()
       editKilometrosVacio.value = true
     }
 
     function fMostrarNotas () {
+      fLimpiarInputs()
       editNotas.value = true
     }
 
     function fMostrarNumeroGuia () {
+      fLimpiarInputs()
       editNumeroGuia.value = true
     }
 
     function fMostrarPesoNeto () {
+      fLimpiarInputs()
       editPesoNeto.value = true
     }
 
-    function fMostrarTara () {
-      editTara.value = true
-    }
-
     function fMostrarValorKilomertro () {
+      fLimpiarInputs()
       editValorKilomertro.value = true
     }
 
@@ -2269,7 +2600,12 @@ export default {
       afBuscarPorDireccionOrigenId,
       afBuscarPorFechaViaje,
       afBuscarPorIntermediarioId,
-      afBuscarPorKmCargadoRango,
+      afBuscarPorKilometrosCargado,
+      afBuscarPorKilometrosVacio,
+      afBuscarPorNotas,
+      afBuscarPorGuia,
+      afBuscarPorPesoNeto,
+      afBuscarPorValorKm,
       afBuscarPorVendedorId,
 
       editAcoplado,
@@ -2320,10 +2656,6 @@ export default {
       pesoNeto,
       pesoNetoChip,
       pesosNeto,
-      editTara,
-      tara,
-      taraChip,
-      taras,
       editValorKilomertro,
       valorKm,
       valorKmChip,
@@ -2354,7 +2686,6 @@ export default {
       fMostrarNotas,
       fMostrarNumeroGuia,
       fMostrarPesoNeto,
-      fMostrarTara,
       fMostrarValorKilomertro,
       fMostrarVendedor,
 
@@ -2374,6 +2705,12 @@ export default {
 }
 </script>
 <style scoped>
+.edits-fondo {
+  background: #9E9E9E;
+}
+.edits {
+  color: #9E9E9E;
+}
 .q-btn-dropdown {
   width: 250px;
 }

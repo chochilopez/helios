@@ -117,14 +117,6 @@
                   <q-item-label>Peso neto</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item clickable v-close-popup @click="fMostrarTara">
-                <q-item-section avatar>
-                  <q-icon color="primary" name="bluetooth" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Tara</q-item-label>
-                </q-item-section>
-              </q-item>
               <q-item clickable v-close-popup @click="fMostrarValorKilomertro">
                 <q-item-section avatar>
                   <q-icon color="primary" name="bluetooth" />
@@ -484,10 +476,6 @@
                   <div class="row text-white">{{props.row.neto}}</div>
                   <div class="row paleta1-color2">Peso neto</div>
                 </div>
-                <div v-if="props.row.tara != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{props.row.tara}}</div>
-                  <div class="row paleta1-color2">Tara</div>
-                </div>
                 <div v-if="props.row.kmCargado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{props.row.kmCargado}}</div>
                   <div class="row paleta1-color2">Kilometros cargado</div>
@@ -700,7 +688,6 @@ export default {
     const editNotas = ref(false)
     const editNumeroGuia = ref(false)
     const editPesoNeto = ref(false)
-    const editTara = ref(false)
     const editValorKilomertro = ref(false)
     const editVendedor = ref(false)
 
@@ -731,7 +718,6 @@ export default {
     const pesoNeto = ref(null)
     const origen = ref(null)
     const origenes = ref([])
-    const tara = ref(null)
     const valorKm = ref(null)
     const vendedor = ref(null)
     const vendedores = ref([])
@@ -1365,8 +1351,6 @@ export default {
       guia.value = null
       editPesoNeto.value = false
       pesoNeto.value = null
-      editTara.value = false
-      tara.value = null
       editValorKilomertro.value = false
       valorKm.value = null
       viajes.value = []
@@ -1452,10 +1436,6 @@ export default {
       editPesoNeto.value = true
     }
 
-    function fMostrarTara () {
-      editTara.value = true
-    }
-
     function fMostrarValorKilomertro () {
       editValorKilomertro.value = true
     }
@@ -1490,7 +1470,6 @@ export default {
       editNotas,
       editNumeroGuia,
       editPesoNeto,
-      editTara,
       editValorKilomertro,
       editVendedor,
 
@@ -1530,7 +1509,6 @@ export default {
       fMostrarNotas,
       fMostrarNumeroGuia,
       fMostrarPesoNeto,
-      fMostrarTara,
       fMostrarValorKilomertro,
       fMostrarVendedor,
 

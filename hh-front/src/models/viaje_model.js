@@ -13,7 +13,6 @@ export class ViajeModel {
     this.cantidadTransportada = ''
     this.valorKm = ''
     this.neto = ''
-    this.tara = ''
     this.kmCargado = ''
     this.kmVacio = ''
     this.notas = ''

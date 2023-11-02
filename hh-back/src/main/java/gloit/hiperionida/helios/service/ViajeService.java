@@ -39,6 +39,18 @@ public interface ViajeService extends GenericService<ViajeModel, ViajeCreation> 
     List<ViajeModel> buscarTodasPorIntermediarioIdConEliminadas(Long id);
     List<ViajeModel> buscarTodasPorIntermediarioIdEntreFechas(Long id, String inicio, String fin);
     List<ViajeModel> buscarTodasPorIntermediarioIdEntreFechasConEliminadas(Long id, String inicio, String fin);
+    List<ViajeModel> buscarTodasPorRangoKmCargado(Double min, Double max);
+    List<ViajeModel> buscarTodasPorRangoKmCargadoConEliminadas(Double min, Double max);
+    List<ViajeModel> buscarTodasPorRangoKmVacio(Double min, Double max);
+    List<ViajeModel> buscarTodasPorRangoKmVacioConEliminadas(Double min, Double max);
+    List<ViajeModel> buscarTodasPorNotas(String nota);
+    List<ViajeModel> buscarTodasPorNotasConEliminadas(String nota);
+    List<ViajeModel> buscarTodasPorGuia(String guia);
+    List<ViajeModel> buscarTodasPorGuiaConEliminadas(String guia);
+    List<ViajeModel> buscarTodasPorRangoNeto(Double min, Double max);
+    List<ViajeModel> buscarTodasPorRangoNetoConEliminadas(Double min, Double max);
+    List<ViajeModel> buscarTodasPorRangoValorKm(Double min, Double max);
+    List<ViajeModel> buscarTodasPorRangoValorKmConEliminadas(Double min, Double max);
     List<ViajeModel> buscarTodasPorVendedorId(Long id);
     List<ViajeModel> buscarTodasPorVendedorIdConEliminadas(Long id);
     List<ViajeModel> buscarTodasPorVendedorIdEntreFechas(Long id, String inicio, String fin);

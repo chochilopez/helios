@@ -397,6 +397,114 @@ public class ViajeServiceImpl implements ViajeService {
     }
 
     @Override
+    public List<ViajeModel> buscarTodasPorRangoKmCargado(Double min, Double max) {
+        log.info("Buscando todas las entidades Viaje con un rango de kilometros entre: {} y {}.", min, max);
+        List<ViajeModel> listado = viajeDAO.findAllByKmCargadoBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con un rango de kilometros cargado entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorRangoKmCargadoConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Viaje con un rango de kilometros entre: {} y {}, con eliminadas.", min, max);
+        List<ViajeModel> listado = viajeDAO.findAllByKmCargadoBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con un rango de kilometros cargado entre: " + min + " y " + max + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorRangoKmVacio(Double min, Double max) {
+        log.info("Buscando todas las entidades Viaje con un rango de kilometros entre: {} y {}.", min, max);
+        List<ViajeModel> listado = viajeDAO.findAllByKmVacioBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con un rango de kilometros vacio entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorRangoKmVacioConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Viaje con un rango de kilometros entre: {} y {}, con eliminadas.", min, max);
+        List<ViajeModel> listado = viajeDAO.findAllByKmVacioBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con un rango de kilometros vacio entre: " + min + " y " + max + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorNotas(String nota) {
+        log.info("Buscando todas las entidades Viaje con notas: {}.", nota);
+        List<ViajeModel> listado = viajeDAO.findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(nota);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con notas: " + nota + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorNotasConEliminadas(String nota) {
+        log.info("Buscando todas las entidades Viaje con notas: {}, con eliminadas.", nota);
+        List<ViajeModel> listado = viajeDAO.findAllByNotasContainingIgnoreCase(nota);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con notas: " + nota + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorGuia(String guia) {
+        log.info("Buscando todas las entidades Viaje con notas: {}.", guia);
+        List<ViajeModel> listado = viajeDAO.findAllByGuiaContainingIgnoreCaseAndEliminadaIsNull(guia);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con notas: " + guia + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorGuiaConEliminadas(String guia) {
+        log.info("Buscando todas las entidades Viaje con notas: {}, con eliminadas.", guia);
+        List<ViajeModel> listado = viajeDAO.findAllByGuiaContainingIgnoreCase(guia);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con notas: " + guia + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorRangoNeto(Double min, Double max) {
+        log.info("Buscando todas las entidades Viaje con un rango de peso neto entre: {} y {}.", min, max);
+        List<ViajeModel> listado = viajeDAO.findAllByNetoBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con un rango de peso neto entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorRangoNetoConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Viaje con un rango de peso neto entre: {} y {}, con eliminadas.", min, max);
+        List<ViajeModel> listado = viajeDAO.findAllByNetoBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con un rango de peso neto entre: " + min + " y " + max + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorRangoValorKm(Double min, Double max) {
+        log.info("Buscando todas las entidades Viaje con un rango de valor del kilometro entre: {} y {}.", min, max);
+        List<ViajeModel> listado = viajeDAO.findAllByValorKmBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con un rango de valor del kilometro entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorRangoValorKmConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Viaje con un rango de valor del kilometro entre: {} y {}, con eliminadas.", min, max);
+        List<ViajeModel> listado = viajeDAO.findAllByValorKmBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con un rango de valor del kilometro entre: " + min + " y " + max + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
     public List<ViajeModel> buscarTodasPorVendedorId(Long id) {
         log.info("Buscando todas las entidades Viaje con id de Vendedor: {}.", id);
         List<ViajeModel> listado = viajeDAO.findAllByVendedorIdAndEliminadaIsNull(id);

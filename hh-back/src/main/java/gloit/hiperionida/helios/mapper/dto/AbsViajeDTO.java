@@ -12,8 +12,7 @@ public abstract class AbsViajeDTO extends AbsAuditoriaDTO {
     private String cantidadTransportada;
     private String valorKm;
     private String neto;
-    private String tara;
-    private String kmCargado;
+    private String tara;    private String kmCargado;
     private String kmVacio;
     private String notas;
     private CategoriaViajeDTO categoriaViaje;

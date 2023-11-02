@@ -71,8 +71,6 @@ public class ViajeMapper {
                 viajeModel.setValorKm(Helper.getDecimal(viajeCreation.getValorKm()));
             if (Helper.getDecimal(viajeCreation.getNeto()) != null)
                 viajeModel.setNeto(Helper.getDecimal(viajeCreation.getNeto()));
-            if (Helper.getDecimal(viajeCreation.getTara()) != null)
-                viajeModel.setTara(Helper.getDecimal(viajeCreation.getTara()));
             if (Helper.getDecimal(viajeCreation.getKmCargado()) != null)
                 viajeModel.setKmCargado(Helper.getDecimal(viajeCreation.getKmCargado()));
             if (Helper.getDecimal(viajeCreation.getKmVacio()) != null)
@@ -163,8 +161,6 @@ public class ViajeMapper {
                 dto.setValorKm(format.format(viajeModel.getValorKm()).toString());
             if (viajeModel.getNeto() != null)
                 dto.setNeto(format.format(viajeModel.getNeto()).toString());
-            if (viajeModel.getTara() != null)
-                dto.setTara(format.format(viajeModel.getTara()).toString());
             if (viajeModel.getKmCargado() != null)
                 dto.setKmCargado(format.format(viajeModel.getKmCargado()).toString());
             if (viajeModel.getKmVacio() != null)
