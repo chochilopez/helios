@@ -202,14 +202,6 @@ const routes = [
         }
       },
       {
-        path: '/presupuestar',
-        name: 'Presupuestar',
-        component: () => import('pages/sitio/Presupuestar.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
-      {
         path: '/presupuesto',
         name: 'Presupuesto',
         component: () => import('pages/sitio/Presupuesto.vue'),
@@ -218,9 +210,9 @@ const routes = [
         }
       },
       {
-        path: '/programar-viaje',
-        name: 'ProgramarViaje',
-        component: () => import('pages/sitio/ProgramarViaje.vue'),
+        path: '/agenda-viaje',
+        name: 'AgendaViaje',
+        component: () => import('pages/sitio/AgendaViaje.vue'),
         meta: {
           rol: rolEnum.CARGA
         }

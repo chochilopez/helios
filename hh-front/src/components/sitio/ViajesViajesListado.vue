@@ -3,18 +3,9 @@
     <q-card-section>
       <div class="row justify-center">
         <div class="col-xs-6">
-          <q-btn-dropdown
-            class="paleta2-fondo2 paleta1-color1"
-            label="Buscar viajes por"
-            dropdown-icon="fa-solid fa-magnifying-glass"
-          >
+          <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar viajes por" dropdown-icon="fa-solid fa-magnifying-glass">
             <q-list>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarAcoplado"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAcoplado">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-trailer" />
                 </q-item-section>
@@ -22,12 +13,7 @@
                   <q-item-label>Acoplado</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarCamion"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCamion">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-truck-fast" />
                 </q-item-section>
@@ -35,12 +21,7 @@
                   <q-item-label>Camion</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarCategoriaViaje"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCategoriaViaje">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-boxes-packing" />
                 </q-item-section>
@@ -48,12 +29,7 @@
                   <q-item-label>Categoria viaje</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarComprador"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarComprador">
                 <q-item-section avatar>
                   <q-icon name="monetization_on" />
                 </q-item-section>
@@ -61,12 +37,7 @@
                   <q-item-label>Comprador</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarConductor"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarConductor">
                 <q-item-section avatar>
                   <q-icon name="airline_seat_recline_extra" />
                 </q-item-section>
@@ -74,12 +45,7 @@
                   <q-item-label>Conductor</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarDireccionCarga"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccionCarga">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-truck-ramp-box" />
                 </q-item-section>
@@ -87,12 +53,7 @@
                   <q-item-label>Dirección carga</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarDireccionDestino"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccionDestino">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-map-location" />
                 </q-item-section>
@@ -100,12 +61,7 @@
                   <q-item-label>Dirección destino</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarDireccionOrigen"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccionOrigen">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-map-location-dot" />
                 </q-item-section>
@@ -113,25 +69,7 @@
                   <q-item-label>Dirección origen</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarDireccionOrigen"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-map-location-dot" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Dirección origen</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarFechaViaje"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarFechaViaje">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-calendar-days" />
                 </q-item-section>
@@ -139,12 +77,7 @@
                   <q-item-label>Fecha viaje</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarIntermediario"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarIntermediario">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-people-arrows" />
                 </q-item-section>
@@ -152,12 +85,7 @@
                   <q-item-label>Intermediario</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarKilometrosCargado"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarKilometrosCargado">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-truck-fast" />
                 </q-item-section>
@@ -165,12 +93,7 @@
                   <q-item-label>Kilometros cargado</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarKilometrosVacio"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarKilometrosVacio">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-truck-pickup" />
                 </q-item-section>
@@ -178,12 +101,7 @@
                   <q-item-label>Kilometros vacio</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarNotas"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-pen-to-square" />
                 </q-item-section>
@@ -191,12 +109,7 @@
                   <q-item-label>Notas</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarNumeroGuia"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNumeroGuia">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-shuffle" />
                 </q-item-section>
@@ -204,12 +117,7 @@
                   <q-item-label>Numero guía</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarPesoNeto"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarPesoNeto">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-plus-minus" />
                 </q-item-section>
@@ -217,12 +125,7 @@
                   <q-item-label>Peso neto</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarValorKilomertro"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarValorKilomertro">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-money-bill-1-wave" />
                 </q-item-section>
@@ -230,12 +133,7 @@
                   <q-item-label>Valor kilometro</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarVendedor"
-              >
+              <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarVendedor">
                 <q-item-section avatar>
                   <q-icon name="fa-solid fa-cash-register" />
                 </q-item-section>
@@ -872,194 +770,103 @@
           <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
             <q-td colspan="100%">
               <div class="row">
-                <div
-                  v-if="props.row.id != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.id != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.id }}</div>
                   <div class="row paleta1-color2">Id</div>
                 </div>
-                <div
-                  v-if="props.row.cantidadTransportada != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.acoplado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.acoplado.marca + ' - ' + props.row.acoplado.modelo }}</div>
+                  <div class="row paleta1-color2">Acoplado</div>
+                </div>
+                <div v-if="props.row.camion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.camion.marca + ' - ' + props.row.camion.modelo}}</div>
+                  <div class="row paleta1-color2">Camion</div>
+                </div>
+                <div v-if="props.row.categoriaViaje != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.categoriaViaje.categoria }}</div>
+                  <div class="row paleta1-color2">Categoria viaje</div>
+                </div>
+                <div v-if="props.row.cantidadTransportada != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
                   <div class="row text-white">{{ props.row.cantidadTransportada }}</div>
                   <div class="row paleta1-color2">Cantidad transportada</div>
                 </div>
-                <div
-                  v-if="props.row.valorKm != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.valorKm }}</div>
-                  <div class="row paleta1-color2">Valor del kilometro</div>
+                <div v-if="props.row.carga != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.carga.ubicacion.ciudad + "-" + props.row.carga.direccion }}</div>
+                  <div class="row paleta1-color2">Direccion carga</div>
                 </div>
-                <div
-                  v-if="props.row.neto != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.neto }}</div>
-                  <div class="row paleta1-color2">Peso neto</div>
-                </div>
-                <div
-                  v-if="props.row.kmCargado != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.kmCargado }}</div>
-                  <div class="row paleta1-color2">Kilometros cargado</div>
-                </div>
-                <div
-                  v-if="props.row.kmVacio != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.kmVacio }}</div>
-                  <div class="row paleta1-color2">Kilometros vacio</div>
-                </div>
-                <div
-                  v-if="props.row.notas != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.notas }}</div>
-                  <div class="row paleta1-color2">Notas</div>
-                </div>
-                <div
-                  v-if="props.row.guia != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.guia }}</div>
-                  <div class="row paleta1-color2">N° guia</div>
-                </div>
-                <div
-                  v-if="props.row.categoriaViaje != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">
-                    {{ props.row.categoriaViaje.categoria }}
-                  </div>
-                  <div class="row paleta1-color2">Categoria viaje</div>
-                </div>
-                <div
-                  v-if="props.row.origen != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">
-                    {{
-                      props.row.origen.ubicacion.ciudad + "-" + props.row.origen.direccion
-                    }}
-                  </div>
-                  <div class="row paleta1-color2">Origen viaje</div>
-                </div>
-                <div
-                  v-if="props.row.carga != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">
-                    {{
-                      props.row.carga.ubicacion.ciudad + "-" + props.row.carga.direccion
-                    }}
-                  </div>
-                  <div class="row paleta1-color2">Direccion de carga</div>
-                </div>
-                <div
-                  v-if="props.row.destino != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">
-                    {{
-                      props.row.destino.ubicacion.ciudad +
-                      "-" +
-                      props.row.destino.direccion
-                    }}
-                  </div>
+                <div v-if="props.row.destino != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                  <div class="row text-white">{{ props.row.destino.ubicacion.ciudad + "-" + props.row.destino.direccion }}</div>
                   <div class="row paleta1-color2">Direccion de destino</div>
                 </div>
-                <div
-                  v-if="props.row.vendedor != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.vendedor.nombre }}</div>
-                  <div class="row paleta1-color2">Nombre vendedor</div>
+                <div v-if="props.row.origen != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.origen.ubicacion.ciudad + "-" + props.row.origen.direccion }}</div>
+                  <div class="row paleta1-color2">Direccion origen</div>
                 </div>
-                <div
-                  v-if="props.row.intermediario != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.intermediario.nombre }}</div>
-                  <div class="row paleta1-color2">Nombre intermediario</div>
-                </div>
-                <div
-                  v-if="props.row.comprador != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.comprador.nombre }}</div>
-                  <div class="row paleta1-color2">Nombre comprador</div>
-                </div>
-                <div
-                  v-if="props.row.fecha != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.fecha != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.fecha.fecha }}</div>
                   <div class="row paleta1-color2">Fecha del viaje</div>
                 </div>
-                <div
-                  v-if="props.row.conductor != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.kmCargado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.kmCargado }}</div>
+                  <div class="row paleta1-color2">Kilometros cargado</div>
+                </div>
+                <div v-if="props.row.kmVacio != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.kmVacio }}</div>
+                  <div class="row paleta1-color2">Kilometros vacio</div>
+                </div>
+                <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.notas }}</div>
+                  <div class="row paleta1-color2">Notas</div>
+                </div>
+                <div v-if="props.row.guia != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.guia }}</div>
+                  <div class="row paleta1-color2">N° guia</div>
+                </div>
+                <div v-if="props.row.comprador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.comprador.nombre }}</div>
+                  <div class="row paleta1-color2">Nombre comprador</div>
+                </div>
+                <div v-if="props.row.conductor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.conductor.nombre }}</div>
                   <div class="row paleta1-color2">Nombre conductor</div>
                 </div>
-                <div
-                  v-if="props.row.camion != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.camion.marca }}</div>
-                  <div class="row paleta1-color2">Camion</div>
+                <div v-if="props.row.intermediario != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.intermediario.nombre }}</div>
+                  <div class="row paleta1-color2">Nombre intermediario</div>
                 </div>
-                <div
-                  v-if="props.row.acoplado != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.acoplado.marca }}</div>
-                  <div class="row paleta1-color2">Acoplado</div>
+                <div v-if="props.row.vendedor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.vendedor.nombre }}</div>
+                  <div class="row paleta1-color2">Nombre vendedor</div>
                 </div>
-                <div
-                  v-if="props.row.creador != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.neto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.neto }}</div>
+                  <div class="row paleta1-color2">Peso neto</div>
+                </div>
+                <div v-if="props.row.valorKm != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.valorKm }}</div>
+                  <div class="row paleta1-color2">Valor del kilometro</div>
+                </div>
+                <div v-if="props.row.creador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.creador.username }}</div>
                   <div class="row paleta1-color2">Creador</div>
                 </div>
-                <div
-                  v-if="props.row.creado != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.creado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.creado }}</div>
                   <div class="row paleta1-color2">Creado</div>
                 </div>
-                <div
-                  v-if="props.row.modificador != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.modificador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.modificador.username }}</div>
                   <div class="row paleta1-color2">Modificador</div>
                 </div>
-                <div
-                  v-if="props.row.modificado != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.modificado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.modificado }}</div>
                   <div class="row paleta1-color2">Modificado</div>
                 </div>
-                <div
-                  v-if="props.row.eliminador != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.eliminador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
                   <div class="row text-white">{{ props.row.eliminador.username }}</div>
                   <div class="row paleta1-color2">Eliminador</div>
                 </div>
-                <div
-                  v-if="props.row.eliminado != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.eliminado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.elimiando }}</div>
                   <div class="row paleta1-color2">Elimiando</div>
                 </div>

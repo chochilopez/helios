@@ -1,7 +1,6 @@
-import TableroGrafico from 'src/components/sitio/TableroGrafico.vue';
 <template>
-  <TableroContador />
-  <TableroGrafico />
+  <TableroContador class="q-ma-lg" />
+  <TableroGrafico class="q-ma-lg" />
 </template>
 
 <script>
