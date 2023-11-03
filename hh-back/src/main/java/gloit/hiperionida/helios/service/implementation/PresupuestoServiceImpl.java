@@ -17,6 +17,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,6 +27,212 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     private final PresupuestoDAO presupuestoDAO;
     private final PresupuestoMapper presupuestoMapper;
     private final UsuarioServiceImpl usuarioService;
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorCargaId(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Carga: {}.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByCargaIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Carga: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorCargaIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Carga: {}, con eliminadas.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByCargaId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Carga: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorCategoriaViajeId(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de CategoriaViaje: {}.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByCategoriaViajeIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de CategoriaViaje: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorCategoriaViajeIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de CategoriaViaje: {}, con eliminadas.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByCategoriaViajeId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de CategoriaViaje: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorCompradorId(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Comprador: {}.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByCompradorIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Comprador: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorCompradorIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Comprador: {}, con eliminadas.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByCompradorId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Comprador: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorDestinoId(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Destino: {}.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByDestinoIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Destino: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorDestinoIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Destino: {}, con eliminadas.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByDestinoId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Destino: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorFechaEntreFechas(String inicio, String fin) {
+        log.info("Buscando todas las entidades entre las fechas: {} y {}.", inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByFechaFechaBetweenAndEliminadaIsNull( fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto entre las fechas: " + inicio + " y " + fin + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorFechaEntreFechasConEliminadas(String inicio, String fin) {
+        log.info("Buscando todas las entidades entre las fechas: {} y {}, incluidas las eliminadas.", inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas, incluidas las eliminadas.");
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByFechaFechaBetween( fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto entre las fechas: " + inicio + " y " + fin + ", incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorRangoKmCargado(Double min, Double max) {
+        log.info("Buscando todas las entidades Presupuesto con un rango de kilometros entre: {} y {}.", min, max);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByKmCargadoBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con un rango de kilometros cargado entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorRangoKmCargadoConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Presupuesto con un rango de kilometros entre: {} y {}, con eliminadas.", min, max);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByKmCargadoBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con un rango de kilometros cargado entre: " + min + " y " + max + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorRangoKmVacio(Double min, Double max) {
+        log.info("Buscando todas las entidades Presupuesto con un rango de kilometros entre: {} y {}.", min, max);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByKmVacioBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con un rango de kilometros vacio entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorRangoKmVacioConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Presupuesto con un rango de kilometros entre: {} y {}, con eliminadas.", min, max);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByKmVacioBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con un rango de kilometros vacio entre: " + min + " y " + max + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorNotas(String nota) {
+        log.info("Buscando todas las entidades Presupuesto con notas: {}.", nota);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(nota);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con notas: " + nota + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorNotasConEliminadas(String nota) {
+        log.info("Buscando todas las entidades Presupuesto con notas: {}, con eliminadas.", nota);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByNotasContainingIgnoreCase(nota);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con notas: " + nota + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorOrigenId(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Origen: {}.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByOrigenIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Origen: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorOrigenIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Origen: {}, con eliminadas.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByOrigenId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Origen: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorRangoValorKm(Double min, Double max) {
+        log.info("Buscando todas las entidades Presupuesto con un rango de valor del kilometro entre: {} y {}.", min, max);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByValorKmBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con un rango de valor del kilometro entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorRangoValorKmConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Presupuesto con un rango de valor del kilometro entre: {} y {}, con eliminadas.", min, max);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByValorKmBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con un rango de valor del kilometro entre: " + min + " y " + max + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorVendedorId(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Vendedor: {}.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByVendedorIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Vendedor: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorVendedorIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Vendedor: {}, con eliminadas.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByVendedorId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Vendedor: " + id + ", con eliminadas.");
+        return listado;
+    }
 
     @Override
     public List<PresupuestoModel> buscarTodasPorFechaFecha(String fecha) {

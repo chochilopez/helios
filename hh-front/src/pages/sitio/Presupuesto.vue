@@ -1,5 +1,8 @@
 <template>
-  <ViajesPresupuestosListado />
+  <div class="q-ma-md">
+    <ViajesPresupuestosContador />
+    <ViajesPresupuestosListado />
+  </div>
 </template>
 
 <script>
@@ -7,6 +10,7 @@ import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import ViajesPresupuestosListado from 'src/components/sitio/ViajesPresupuestosListado.vue'
 import { onMounted } from 'vue'
+import ViajesPresupuestosContador from 'src/components/sitio/ViajesPresupuestosContador.vue'
 
 export default {
   setup () {
@@ -28,7 +32,8 @@ export default {
     return {}
   },
   components: {
-    ViajesPresupuestosListado
+    ViajesPresupuestosListado,
+    ViajesPresupuestosContador
   }
 }
 </script>

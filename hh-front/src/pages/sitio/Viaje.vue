@@ -1,6 +1,8 @@
 <template>
-  <ViajesViajesContador class="q-ma-lg" />
-  <ViajesViajesListado class="q-ma-lg" />
+  <div class="q-ma-md">
+    <ViajesViajesContador />
+    <ViajesViajesListado />
+  </div>
 </template>
 
 <script>

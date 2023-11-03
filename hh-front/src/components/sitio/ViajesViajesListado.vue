@@ -1,8 +1,8 @@
 <template>
   <q-card class="q-ma-md font-5 no-shadow no-border">
     <q-card-section>
-      <div class="row justify-center">
-        <div class="col-xs-6">
+      <div class="row justify-around">
+        <div class="col-md-6 q-mb-md">
           <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar viajes por" dropdown-icon="fa-solid fa-magnifying-glass">
             <q-list>
               <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAcoplado">
@@ -144,573 +144,556 @@
             </q-list>
           </q-btn-dropdown>
         </div>
-
-        <q-select
-          v-if="editAcoplado"
-          outlined
-          dense
-          emit-value
-          map-options
-          clearable
-          v-model="acoplado"
-          option-value="id"
-          option-label="modelo"
-          label="Buscar por modelo acoplado"
-          use-input
-          hide-selected
-          fill-input
-          :options="acoplados"
-          @filter="fFiltrarAcoplados"
-          @update:model-value="afBuscarPorAcopladoId()"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-trailer" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-
-        <q-select
-          v-if="editCamion"
-          outlined
-          dense
-          emit-value
-          map-options
-          clearable
-          v-model="camion"
-          option-value="id"
-          option-label="modelo"
-          label="Buscar por modelo camion"
-          use-input
-          hide-selected
-          fill-input
-          :options="camiones"
-          @filter="fFiltrarCamiones"
-          @update:model-value="afBuscarPorCamionId()"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-truck-moving" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-
-        <q-select
-          v-if="editCategoriaViaje"
-          outlined
-          dense
-          emit-value
-          map-options
-          clearable
-          v-model="categoriaViaje"
-          option-value="id"
-          option-label="categoria"
-          label="Buscar por categoria de viaje"
-          use-input
-          hide-selected
-          fill-input
-          :options="categoriasViaje"
-          @filter="fFiltrarCategoriasViaje"
-          @update:model-value="afBuscarPorCategoriaViajeId()"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-boxes-packing" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-
-        <q-select
-          v-if="editComprador"
-          outlined
-          dense
-          emit-value
-          map-options
-          clearable
-          v-model="comprador"
-          :options="compradores"
-          option-value="id"
-          option-label="nombre"
-          label="Buscar por comprador"
-          use-input
-          input-debounce="0"
-          @filter="fFiltrarCompradores"
-          @update:model-value="afBuscarPorCompradorId()"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="monetization_on" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-
-        <q-select
-          v-if="editConductor"
-          outlined
-          dense
-          emit-value
-          map-options
-          clearable
-          v-model="conductor"
-          :options="conductores"
-          option-value="id"
-          option-label="nombre"
-          label="Buscar por conductor"
-          use-input
-          input-debounce="0"
-          @filter="fFiltrarConductores"
-          @update:model-value="afBuscarPorConductorId()"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="airline_seat_recline_extra" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-
-        <q-select
-          v-if="editDireccionCarga"
-          outlined
-          dense
-          emit-value
-          map-options
-          clearable
-          v-model="direccionCarga"
-          :options="direccionesCarga"
-          option-value="id"
-          option-label="direccion"
-          label="Buscar por carga"
-          use-input
-          input-debounce="0"
-          @filter="fFiltrarDireccionesCarga"
-          @update:model-value="afBuscarPorDireccionCargaId()"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-truck-ramp-box" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-
-        <q-select
-          v-if="editDireccionDestino"
-          outlined
-          dense
-          emit-value
-          map-options
-          clearable
-          v-model="direccionDestino"
-          :options="direccionesDestino"
-          option-value="id"
-          option-label="direccion"
-          label="Buscar por destino"
-          use-input
-          input-debounce="0"
-          @filter="fFiltrarDireccionesDestino"
-          @update:model-value="afBuscarPorDireccionDestinoId()"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-map-location" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-
-        <q-select
-          v-if="editDireccionOrigen"
-          outlined
-          dense
-          emit-value
-          map-options
-          clearable
-          v-model="direccionOrigen"
-          :options="direccionesOrigen"
-          option-value="id"
-          option-label="direccion"
-          label="Buscar por origen"
-          use-input
-          input-debounce="0"
-          @filter="fFiltrarDireccionesOrigen"
-          @update:model-value="afBuscarPorDireccionOrigenId()"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-map-location-dot" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-
-        <div class="column" v-if="editFecha">
-          <div class="row justify-around">
-
-              <q-input
-                mask="##-##-####"
-                style="width: 180px"
-                v-model="fecha.from"
-                outlined
-                dense
-                clearable
-                label="Fecha fin"
-                hint="20-01-2020"
-              >
-                <template v-slot:before>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-date v-model="fecha.from" mask="DD-MM-YYYY">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="OK" color="primary" flat />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-              <q-input
-                class="q-ml-md"
-                mask="##-##-####"
-                style="width: 180px"
-                v-model="fecha.to"
-                outlined
-                dense
-                clearable
-                label="Fecha inicio"
-                hint="30-01-2020"
-              >
-                <template v-slot:before>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-date v-model="fecha.to" mask="DD-MM-YYYY">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="OK" color="primary" flat />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-            <div class="col">
-              <q-icon name="fa-solid fa-magnifying-glass" size="24px" class="cursor-pointer q-pa-sm edits" v-on:click="afBuscarPorFechaViaje()" />
+        <div class="col-md-6">
+          <q-select
+            v-if="editAcoplado"
+            outlined
+            dense
+            emit-value
+            map-options
+            clearable
+            v-model="acoplado"
+            option-value="id"
+            option-label="modelo"
+            label="Buscar por modelo acoplado"
+            use-input
+            hide-selected
+            fill-input
+            :options="acoplados"
+            @filter="fFiltrarAcoplados"
+            @update:model-value="afBuscarPorAcopladoId()"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="fa-solid fa-trailer" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+          <q-select
+            v-if="editCamion"
+            outlined
+            dense
+            emit-value
+            map-options
+            clearable
+            v-model="camion"
+            option-value="id"
+            option-label="modelo"
+            label="Buscar por modelo camion"
+            use-input
+            hide-selected
+            fill-input
+            :options="camiones"
+            @filter="fFiltrarCamiones"
+            @update:model-value="afBuscarPorCamionId()"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="fa-solid fa-truck-moving" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+          <q-select
+            v-if="editCategoriaViaje"
+            outlined
+            dense
+            emit-value
+            map-options
+            clearable
+            v-model="categoriaViaje"
+            option-value="id"
+            option-label="categoria"
+            label="Buscar por categoria de viaje"
+            use-input
+            hide-selected
+            fill-input
+            :options="categoriasViaje"
+            @filter="fFiltrarCategoriasViaje"
+            @update:model-value="afBuscarPorCategoriaViajeId()"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="fa-solid fa-boxes-packing" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+          <q-select
+            v-if="editComprador"
+            outlined
+            dense
+            emit-value
+            map-options
+            clearable
+            v-model="comprador"
+            :options="compradores"
+            option-value="id"
+            option-label="nombre"
+            label="Buscar por comprador"
+            use-input
+            input-debounce="0"
+            @filter="fFiltrarCompradores"
+            @update:model-value="afBuscarPorCompradorId()"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="monetization_on" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+          <q-select
+            v-if="editConductor"
+            outlined
+            dense
+            emit-value
+            map-options
+            clearable
+            v-model="conductor"
+            :options="conductores"
+            option-value="id"
+            option-label="nombre"
+            label="Buscar por conductor"
+            use-input
+            input-debounce="0"
+            @filter="fFiltrarConductores"
+            @update:model-value="afBuscarPorConductorId()"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="airline_seat_recline_extra" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+          <q-select
+            v-if="editDireccionCarga"
+            outlined
+            dense
+            emit-value
+            map-options
+            clearable
+            v-model="direccionCarga"
+            :options="direccionesCarga"
+            option-value="id"
+            option-label="direccion"
+            label="Buscar por carga"
+            use-input
+            input-debounce="0"
+            @filter="fFiltrarDireccionesCarga"
+            @update:model-value="afBuscarPorDireccionCargaId()"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="fa-solid fa-truck-ramp-box" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+          <q-select
+            v-if="editDireccionDestino"
+            outlined
+            dense
+            emit-value
+            map-options
+            clearable
+            v-model="direccionDestino"
+            :options="direccionesDestino"
+            option-value="id"
+            option-label="direccion"
+            label="Buscar por destino"
+            use-input
+            input-debounce="0"
+            @filter="fFiltrarDireccionesDestino"
+            @update:model-value="afBuscarPorDireccionDestinoId()"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="fa-solid fa-map-location" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+          <q-select
+            v-if="editDireccionOrigen"
+            outlined
+            dense
+            emit-value
+            map-options
+            clearable
+            v-model="direccionOrigen"
+            :options="direccionesOrigen"
+            option-value="id"
+            option-label="direccion"
+            label="Buscar por origen"
+            use-input
+            input-debounce="0"
+            @filter="fFiltrarDireccionesOrigen"
+            @update:model-value="afBuscarPorDireccionOrigenId()"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="fa-solid fa-map-location-dot" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+          <div class="column" v-if="editFecha">
+            <div class="row justify-around">
+                <q-input
+                  mask="##-##-####"
+                  style="width: 180px"
+                  v-model="fecha.from"
+                  outlined
+                  dense
+                  clearable
+                  label="Fecha fin"
+                  hint="20-01-2020"
+                >
+                  <template v-slot:before>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                        <q-date v-model="fecha.from" mask="DD-MM-YYYY">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="OK" color="primary" flat />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+                <q-input
+                  class="q-ml-md"
+                  mask="##-##-####"
+                  style="width: 180px"
+                  v-model="fecha.to"
+                  outlined
+                  dense
+                  clearable
+                  label="Fecha inicio"
+                  hint="30-01-2020"
+                >
+                  <template v-slot:before>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                        <q-date v-model="fecha.to" mask="DD-MM-YYYY">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="OK" color="primary" flat />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              <div class="col">
+                <q-icon name="fa-solid fa-magnifying-glass" size="24px" class="cursor-pointer q-pa-sm edits" v-on:click="afBuscarPorFechaViaje()" />
+              </div>
             </div>
           </div>
+          <q-select
+            v-if="editIntermediario"
+            outlined
+            dense
+            emit-value
+            map-options
+            clearable
+            v-model="intermediario"
+            :options="intermediarios"
+            option-value="id"
+            option-label="nombre"
+            label="Buscar por intermediario"
+            use-input
+            input-debounce="0"
+            @filter="fFiltrarIntermediarios"
+            @update:model-value="afBuscarPorIntermediarioId()"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="fa-solid fa-people-arrows" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+          <div class="column" v-if="editKilometrosCargado">
+            <div class="row justify-between">
+              <div class="col">
+                <q-chip
+                  v-model:selected="kmCargadoChip.izq"
+                  :class="{ 'paleta2-fondo2': kmCargadoChip.izq, 'edits-fondo': !kmCargadoChip.izq  }"
+                  text-color="white"
+                  size="12px"
+                  icon="fa-solid fa-minus"
+                  @update:selected="afBuscarPorKilometrosCargado()"
+                >
+                  Mínimo
+                </q-chip>
+              </div>
+              <div class="edits col text-center">
+                <span>Kms cargado</span><br />
+                <q-icon name="fa-solid fa-truck-fast" />
+              </div>
+              <div class="col text-right">
+                <q-chip
+                  v-model:selected="kmCargadoChip.der"
+                  :class="{ 'paleta2-fondo2': kmCargadoChip.der, 'edits-fondo': !kmCargadoChip.der  }"
+                  text-color="white"
+                  size="12px"
+                  icon="fa-solid fa-plus"
+                  @update:selected="afBuscarPorKilometrosCargado()"
+                >
+                  Máximo
+                </q-chip>
+              </div>
+            </div>
+            <div class="row">
+              <q-range
+                label-always
+                switch-label-side
+                color="grey-6"
+                v-model="kmCargado"
+                :min="1"
+                :max="1000"
+                label
+                @change="kmCargadoChip.izq = false, kmCargadoChip.der = false"
+              />
+            </div>
+          </div>
+          <div class="column" v-if="editKilometrosVacio">
+            <div class="row justify-between">
+              <div class="col">
+                <q-chip
+                  v-model:selected="kmVacioChip.izq"
+                  :class="{ 'paleta2-fondo2': kmVacioChip.izq, 'edits-fondo': !kmVacioChip.izq  }"
+                  text-color="white"
+                  size="12px"
+                  icon="fa-solid fa-minus"
+                  @update:selected="afBuscarPorKilometrosVacio()"
+                >
+                  Mínimo
+                </q-chip>
+              </div>
+              <div class="edits col text-center">
+                <span>Kms vacio</span><br />
+                <q-icon name="fa-solid fa-truck-pickup" />
+              </div>
+              <div class="col text-right">
+                <q-chip
+                  v-model:selected="kmVacioChip.der"
+                  :class="{ 'paleta2-fondo2': kmVacioChip.der, 'edits-fondo': !kmVacioChip.der  }"
+                  text-color="white"
+                  size="12px"
+                  icon="fa-solid fa-plus"
+                  @update:selected="afBuscarPorKilometrosVacio()"
+                >
+                  Máximo
+                </q-chip>
+              </div>
+            </div>
+            <div class="row">
+              <q-range
+                label-always
+                switch-label-side
+                color="grey-6"
+                v-model="kmVacio"
+                :min="1"
+                :max="1000"
+                label
+                @change="kmVacioChip.izq = false, kmVacioChip.der = false"
+              />
+            </div>
+          </div>
+          <q-input
+            v-if="editNotas"
+            outlined
+            dense
+            clearable
+            v-on:keyup.enter="afBuscarPorNotas()"
+            v-model="notas"
+            label="Buscar por notas"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+            <template v-slot:after>
+              <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorNotas()" style="cursor: pointer" />
+            </template>
+          </q-input>
+          <q-input
+            v-if="editNumeroGuia"
+            outlined
+            dense
+            clearable
+            v-on:keyup.enter="afBuscarPorGuia()"
+            v-model="numeroGuia"
+            label="Buscar por número guía"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="fa-solid fa-shuffle" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+            <template v-slot:after>
+              <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorGuia()" style="cursor: pointer" />
+            </template>
+          </q-input>
+          <div class="column" v-if="editPesoNeto">
+            <div class="row justify-between">
+              <div class="col">
+                <q-chip
+                  v-model:selected="pesoNetoChip.izq"
+                  :class="{ 'paleta2-fondo2': pesoNetoChip.izq, 'edits-fondo': !pesoNetoChip.izq  }"
+                  text-color="white"
+                  size="12px"
+                  icon="fa-solid fa-minus"
+                  @update:selected="afBuscarPorPesoNeto()"
+                >
+                  Mínimo
+                </q-chip>
+              </div>
+              <div class="edits col text-center">
+                <span>Peso Neto</span><br />
+                <q-icon name="fa-solid fa-plus-minus" />
+              </div>
+              <div class="col text-right">
+                <q-chip
+                  v-model:selected="pesoNetoChip.der"
+                  :class="{ 'paleta2-fondo2': pesoNetoChip.der, 'edits-fondo': !pesoNetoChip.der  }"
+                  text-color="white"
+                  size="12px"
+                  icon="fa-solid fa-plus"
+                  @update:selected="afBuscarPorPesoNeto()"
+                >
+                  Máximo
+                </q-chip>
+              </div>
+            </div>
+            <div class="row">
+              <q-range
+                label-always
+                switch-label-side
+                color="grey-6"
+                v-model="pesoNeto"
+                :min="1"
+                :max="50000"
+                label
+                @change="pesoNetoChip.izq = false, pesoNetoChip.der = false"
+              />
+            </div>
+          </div>
+          <div class="column" v-if="editValorKilomertro">
+            <div class="row justify-between">
+              <div class="col">
+                <q-chip
+                  v-model:selected="valorKmChip.izq"
+                  :class="{ 'paleta2-fondo2': valorKmChip.izq, 'edits-fondo': !valorKmChip.izq  }"
+                  text-color="white"
+                  size="12px"
+                  icon="fa-solid fa-minus"
+                  @update:selected="afBuscarPorValorKm()"
+                >
+                  Mínimo
+                </q-chip>
+              </div>
+              <div class="edits col text-center">
+                <span>Valor kilometro</span><br />
+                <q-icon name="fa-solid fa-money-bill-1-wave" />
+              </div>
+              <div class="col text-right">
+                <q-chip
+                  v-model:selected="valorKmChip.der"
+                  :class="{ 'paleta2-fondo2': valorKmChip.der, 'edits-fondo': !valorKmChip.der  }"
+                  text-color="white"
+                  size="12px"
+                  icon="fa-solid fa-plus"
+                  @update:selected="afBuscarPorValorKm()"
+                >
+                  Máximo
+                </q-chip>
+              </div>
+            </div>
+            <div class="row">
+              <q-range
+                label-always
+                switch-label-side
+                color="grey-6"
+                v-model="valorKm"
+                :min="0"
+                :max="2000"
+                label
+                @change="valorKmChip.izq = false, valorKmChip.der = false"
+              />
+            </div>
+          </div>
+          <q-select
+            v-if="editVendedor"
+            outlined
+            dense
+            emit-value
+            map-options
+            clearable
+            v-model="vendedor"
+            :options="vendedores"
+            option-value="id"
+            option-label="nombre"
+            label="Buscar por vendedor"
+            use-input
+            input-debounce="0"
+            @filter="fFiltrarVendedores"
+            @update:model-value="afBuscarPorVendedorId()"
+            hint="Tenés que escribir al menos 3 caracteres para buscar."
+          >
+            <template v-slot:before>
+              <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
+            </template>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> Sin resultados </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
         </div>
-
-        <q-select
-          v-if="editIntermediario"
-          outlined
-          dense
-          emit-value
-          map-options
-          clearable
-          v-model="intermediario"
-          :options="intermediarios"
-          option-value="id"
-          option-label="nombre"
-          label="Buscar por intermediario"
-          use-input
-          input-debounce="0"
-          @filter="fFiltrarIntermediarios"
-          @update:model-value="afBuscarPorIntermediarioId()"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-people-arrows" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-
-        <div class="column" v-if="editKilometrosCargado">
-          <div class="row justify-between">
-            <div class="col">
-              <q-chip
-                v-model:selected="kmCargadoChip.izq"
-                :class="{ 'paleta2-fondo2': kmCargadoChip.izq, 'edits-fondo': !kmCargadoChip.izq  }"
-                text-color="white"
-                size="12px"
-                icon="fa-solid fa-minus"
-                @update:selected="afBuscarPorKilometrosCargado()"
-              >
-                Mínimo
-              </q-chip>
-            </div>
-            <div class="edits col text-center">
-              <span>Kms cargado</span><br />
-              <q-icon name="fa-solid fa-truck-fast" />
-            </div>
-            <div class="col text-right">
-              <q-chip
-                v-model:selected="kmCargadoChip.der"
-                :class="{ 'paleta2-fondo2': kmCargadoChip.der, 'edits-fondo': !kmCargadoChip.der  }"
-                text-color="white"
-                size="12px"
-                icon="fa-solid fa-plus"
-                @update:selected="afBuscarPorKilometrosCargado()"
-              >
-                Máximo
-              </q-chip>
-            </div>
-          </div>
-          <div class="row">
-            <q-range
-              label-always
-              switch-label-side
-              color="grey-6"
-              v-model="kmCargado"
-              :min="1"
-              :max="1000"
-              label
-              @change="kmCargadoChip.izq = false, kmCargadoChip.der = false"
-            />
-          </div>
-        </div>
-
-        <div class="column" v-if="editKilometrosVacio">
-          <div class="row justify-between">
-            <div class="col">
-              <q-chip
-                v-model:selected="kmVacioChip.izq"
-                :class="{ 'paleta2-fondo2': kmVacioChip.izq, 'edits-fondo': !kmVacioChip.izq  }"
-                text-color="white"
-                size="12px"
-                icon="fa-solid fa-minus"
-                @update:selected="afBuscarPorKilometrosVacio()"
-              >
-                Mínimo
-              </q-chip>
-            </div>
-            <div class="edits col text-center">
-              <span>Kms vacio</span><br />
-              <q-icon name="fa-solid fa-truck-pickup" />
-            </div>
-            <div class="col text-right">
-              <q-chip
-                v-model:selected="kmVacioChip.der"
-                :class="{ 'paleta2-fondo2': kmVacioChip.der, 'edits-fondo': !kmVacioChip.der  }"
-                text-color="white"
-                size="12px"
-                icon="fa-solid fa-plus"
-                @update:selected="afBuscarPorKilometrosVacio()"
-              >
-                Máximo
-              </q-chip>
-            </div>
-          </div>
-          <div class="row">
-            <q-range
-              label-always
-              switch-label-side
-              color="grey-6"
-              v-model="kmVacio"
-              :min="1"
-              :max="1000"
-              label
-              @change="kmVacioChip.izq = false, kmVacioChip.der = false"
-            />
-          </div>
-        </div>
-
-        <q-input
-          v-if="editNotas"
-          outlined
-          dense
-          clearable
-          v-on:keyup.enter="afBuscarPorNotas()"
-          v-model="notas"
-          label="Buscar por notas"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-          <template v-slot:after>
-            <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorNotas()" style="cursor: pointer" />
-          </template>
-        </q-input>
-
-        <q-input
-          v-if="editNumeroGuia"
-          outlined
-          dense
-          clearable
-          v-on:keyup.enter="afBuscarPorGuia()"
-          v-model="numeroGuia"
-          label="Buscar por número guía"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-shuffle" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-          <template v-slot:after>
-            <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorGuia()" style="cursor: pointer" />
-          </template>
-        </q-input>
-
-        <div class="column" v-if="editPesoNeto">
-          <div class="row justify-between">
-            <div class="col">
-              <q-chip
-                v-model:selected="pesoNetoChip.izq"
-                :class="{ 'paleta2-fondo2': pesoNetoChip.izq, 'edits-fondo': !pesoNetoChip.izq  }"
-                text-color="white"
-                size="12px"
-                icon="fa-solid fa-minus"
-                @update:selected="afBuscarPorPesoNeto()"
-              >
-                Mínimo
-              </q-chip>
-            </div>
-            <div class="edits col text-center">
-              <span>Peso Neto</span><br />
-              <q-icon name="fa-solid fa-plus-minus" />
-            </div>
-            <div class="col text-right">
-              <q-chip
-                v-model:selected="pesoNetoChip.der"
-                :class="{ 'paleta2-fondo2': pesoNetoChip.der, 'edits-fondo': !pesoNetoChip.der  }"
-                text-color="white"
-                size="12px"
-                icon="fa-solid fa-plus"
-                @update:selected="afBuscarPorPesoNeto()"
-              >
-                Máximo
-              </q-chip>
-            </div>
-          </div>
-          <div class="row">
-            <q-range
-              label-always
-              switch-label-side
-              color="grey-6"
-              v-model="pesoNeto"
-              :min="1"
-              :max="50000"
-              label
-              @change="pesoNetoChip.izq = false, pesoNetoChip.der = false"
-            />
-          </div>
-        </div>
-
-        <div class="column" v-if="editValorKilomertro">
-          <div class="row justify-between">
-            <div class="col">
-              <q-chip
-                v-model:selected="valorKmChip.izq"
-                :class="{ 'paleta2-fondo2': valorKmChip.izq, 'edits-fondo': !valorKmChip.izq  }"
-                text-color="white"
-                size="12px"
-                icon="fa-solid fa-minus"
-                @update:selected="afBuscarPorValorKm()"
-              >
-                Mínimo
-              </q-chip>
-            </div>
-            <div class="edits col text-center">
-              <span>Valor kilometro</span><br />
-              <q-icon name="fa-solid fa-money-bill-1-wave" />
-            </div>
-            <div class="col text-right">
-              <q-chip
-                v-model:selected="valorKmChip.der"
-                :class="{ 'paleta2-fondo2': valorKmChip.der, 'edits-fondo': !valorKmChip.der  }"
-                text-color="white"
-                size="12px"
-                icon="fa-solid fa-plus"
-                @update:selected="afBuscarPorValorKm()"
-              >
-                Máximo
-              </q-chip>
-            </div>
-          </div>
-          <div class="row">
-            <q-range
-              label-always
-              switch-label-side
-              color="grey-6"
-              v-model="valorKm"
-              :min="0"
-              :max="2000"
-              label
-              @change="valorKmChip.izq = false, valorKmChip.der = false"
-            />
-          </div>
-        </div>
-
-        <q-select
-          v-if="editVendedor"
-          outlined
-          dense
-          emit-value
-          map-options
-          clearable
-          v-model="vendedor"
-          :options="vendedores"
-          option-value="id"
-          option-label="nombre"
-          label="Buscar por vendedor"
-          use-input
-          input-debounce="0"
-          @filter="fFiltrarVendedores"
-          @update:model-value="afBuscarPorVendedorId()"
-          hint="Tenés que escribir al menos 3 caracteres para buscar."
-        >
-          <template v-slot:before>
-            <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
-          </template>
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey"> Sin resultados </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
       </div>
     </q-card-section>
   </q-card>
-
   <div class="row q-pa-md">
     <div class="col">
       <q-table
@@ -846,27 +829,27 @@
                   <div class="row text-white">{{ props.row.valorKm }}</div>
                   <div class="row paleta1-color2">Valor del kilometro</div>
                 </div>
-                <div v-if="props.row.creador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.creador.username }}</div>
                   <div class="row paleta1-color2">Creador</div>
                 </div>
-                <div v-if="props.row.creado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                <div v-if="props.row.creado != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.creado }}</div>
                   <div class="row paleta1-color2">Creado</div>
                 </div>
-                <div v-if="props.row.modificador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.modificador.username }}</div>
                   <div class="row paleta1-color2">Modificador</div>
                 </div>
-                <div v-if="props.row.modificado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                <div v-if="props.row.modificado != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.modificado }}</div>
                   <div class="row paleta1-color2">Modificado</div>
                 </div>
-                <div v-if="props.row.eliminador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
                   <div class="row text-white">{{ props.row.eliminador.username }}</div>
                   <div class="row paleta1-color2">Eliminador</div>
                 </div>
-                <div v-if="props.row.eliminado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                <div v-if="props.row.eliminado != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.elimiando }}</div>
                   <div class="row paleta1-color2">Elimiando</div>
                 </div>
@@ -881,22 +864,23 @@
 
 <script>
 import { ref, reactive, computed } from 'vue'
-import { notificarService } from 'src/helpers/notificar_service'
-import { ViajeModel } from 'src/models/viaje_model'
-import { conductorService } from 'src/services/conductor_service'
-import { camionService } from 'src/services/camion_service'
-import { viajeService } from 'src/services/viaje_service'
-import { autenticacionService } from 'src/services/autenticacion_service'
 import { rolEnum } from 'src/models/enums/rol_enum'
-import { ayuda } from 'app/src/helpers/ayuda'
 import { useQuasar } from 'quasar'
-import { clienteService } from 'src/services/cliente_service'
-import { direccionService } from 'src/services/direccion_service'
-import { acopladoService } from 'src/services/acoplado_service'
-import { categoriaViajeService } from 'src/services/categoria_viaje_service'
 import { v4 as uuidv4 } from 'uuid'
 
+import { ayuda } from 'app/src/helpers/ayuda'
 import { llaveroService } from 'src/helpers/llavero_service'
+
+import { autenticacionService } from 'src/services/autenticacion_service'
+import { acopladoService } from 'src/services/acoplado_service'
+import { camionService } from 'src/services/camion_service'
+import { categoriaViajeService } from 'src/services/categoria_viaje_service'
+import { conductorService } from 'src/services/conductor_service'
+import { clienteService } from 'src/services/cliente_service'
+import { direccionService } from 'src/services/direccion_service'
+import { notificarService } from 'src/helpers/notificar_service'
+import { viajeService } from 'src/services/viaje_service'
+import { ViajeModel } from 'src/models/viaje_model'
 
 const paginacion = {
   rowsPerPage: 50,
@@ -932,15 +916,15 @@ const columnas = [
     sortable: true
   },
   {
-    name: 'vendedor',
-    label: 'Vendedor',
+    name: 'comprador',
+    label: 'Comprador',
     align: 'left',
     field: '',
     sortable: true
   },
   {
-    name: 'comprador',
-    label: 'Comprador',
+    name: 'vendedor',
+    label: 'Vendedor',
     align: 'left',
     field: '',
     sortable: true
@@ -1001,7 +985,7 @@ export default {
     const editValorKilomertro = ref(false)
     const editVendedor = ref(false)
 
-    const autoridad = ref(autenticacionService.obtenerAutoridades())
+    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const acoplado = ref(null)
     const acoplados = ref(null)
     const acopladosList = ref([])
@@ -1057,38 +1041,20 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhAcopladoTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            acopladosList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhAcopladoTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+        if (esAdmin.value) {
+          if (llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConEliminadasConSesion', sesion.value) !== null) {
+            acopladosList.value = llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConEliminadasConSesion', sesion.value).value
             console.log('AcopladoService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await acopladoService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await acopladoService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               acopladosList.value = resultado.data
               console.log('AcopladoService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhAcopladoTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            acopladosList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhAcopladoTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConSesion', sesion.value) !== null) {
+            acopladosList.value = llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConSesion', sesion.value).value
             console.log('AcopladoService: Sesion recargada.')
           } else {
             resultado = await acopladoService.spfBuscarTodasConSesion(sesion.value)
@@ -1103,9 +1069,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -1119,38 +1083,20 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhCamionTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            camionesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhCamionTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+        if (esAdmin.value) {
+          if (llaveroService.obtenerDeLocalConSesion('hhCamionTodasConEliminadasConSesion', sesion.value) !== null) {
+            camionesList.value = llaveroService.obtenerDeLocalConSesion('hhCamionTodasConEliminadasConSesion', sesion.value).value
             console.log('CamionService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await camionService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await camionService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               camionesList.value = resultado.data
               console.log('CamionService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhCamionTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            camionesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhCamionTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhCamionTodasConSesion', sesion.value) !== null) {
+            camionesList.value = llaveroService.obtenerDeLocalConSesion('hhCamionTodasConSesion', sesion.value).value
             console.log('CamionService: Sesion recargada.')
           } else {
             resultado = await camionService.spfBuscarTodasConSesion(sesion.value)
@@ -1165,9 +1111,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -1181,38 +1125,20 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhCategoriaViajeTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            categoriasViajeList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhCategoriaViajeTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+        if (esAdmin.value) {
+          if (llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConEliminadasConSesion', sesion.value) !== null) {
+            categoriasViajeList.value = llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConEliminadasConSesion', sesion.value).value
             console.log('CategoriaViajeService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await categoriaViajeService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await categoriaViajeService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               categoriasViajeList.value = resultado.data
               console.log('CategoriaViajeService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhCategoriaViajeTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            categoriasViajeList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhCategoriaViajeTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConSesion', sesion.value) !== null) {
+            categoriasViajeList.value = llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConSesion', sesion.value).value
             console.log('CategoriaViajeService: Sesion recargada.')
           } else {
             resultado = await categoriaViajeService.spfBuscarTodasConSesion(sesion.value)
@@ -1227,9 +1153,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -1243,38 +1167,20 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhClienteTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            clientesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhClienteTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+        if (esAdmin.value) {
+          if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value) !== null) {
+            clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value).value
             console.log('ClienteService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await clienteService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await clienteService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               clientesList.value = resultado.data
               console.log('ClienteService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhClienteTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            clientesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhClienteTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConSesion', sesion.value) !== null) {
+            clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConSesion', sesion.value).value
             console.log('ClienteService: Sesion recargada.')
           } else {
             resultado = await clienteService.spfBuscarTodasConSesion(sesion.value)
@@ -1289,9 +1195,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -1305,17 +1209,9 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhConductorTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            conductoresList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhConductorTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+        if (esAdmin.value) {
+          if (llaveroService.obtenerDeLocalConSesion('hhConductorTodasConEliminadasConSesion', sesion.value) !== null) {
+            conductoresList.value = llaveroService.obtenerDeLocalConSesion('hhConductorTodasConEliminadasConSesion', sesion.value).value
             console.log('ConductorService: Sesion recargada, con eliminadas.')
           } else {
             resultado = await conductorService.spfBuscarTodasConEliminadasConSesion(
@@ -1327,16 +1223,8 @@ export default {
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhConductorTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            conductoresList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhConductorTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhConductorTodasConSesion', sesion.value) !== null) {
+            conductoresList.value = llaveroService.obtenerDeLocalConSesion('hhConductorTodasConSesion', sesion.value).value
             console.log('ConductorService: Sesion recargada.')
           } else {
             resultado = await conductorService.spfBuscarTodasConSesion(sesion.value)
@@ -1351,9 +1239,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -1367,17 +1253,9 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            direccionesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+        if (esAdmin.value) {
+          if (llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConEliminadasConSesion', sesion.value) !== null) {
+            direccionesList.value = llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConEliminadasConSesion', sesion.value).value
             console.log('DireccionService: Sesion recargada, con eliminadas.')
           } else {
             resultado = await direccionService.spfBuscarTodasConEliminadasConSesion(
@@ -1389,16 +1267,8 @@ export default {
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            direccionesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConSesion', sesion.value) !== null) {
+            direccionesList.value = llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConSesion', sesion.value).value
             console.log('DireccionService: Sesion recargada.')
           } else {
             resultado = await direccionService.spfBuscarTodasConSesion(sesion.value)
@@ -1413,9 +1283,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -1435,10 +1303,8 @@ export default {
           elementos: '50'
         }
         let resultado = null
-        if (autoridad.value.includes(rolEnum.ADMIN)) {
-          resultado = await viajeService.spfBuscarTodasConEliminadasPaginadas(
-            paginadoDTO
-          )
+        if (esAdmin.value) {
+          resultado = await viajeService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
           resultado = await viajeService.spfBuscarTodasPaginadas(paginadoDTO)
         }
@@ -1455,9 +1321,7 @@ export default {
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -1472,10 +1336,8 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorAcopladoIdConEliminadas(
-              acoplado.value
-            )
+          if (esAdmin.value) {
+            resultado = await viajeService.spfBuscarTodasPorAcopladoIdConEliminadas(acoplado.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorAcopladoId(acoplado.value)
           }
@@ -1492,9 +1354,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1510,10 +1370,8 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorCamionIdConEliminadas(
-              camion.value
-            )
+          if (esAdmin.value) {
+            resultado = await viajeService.spfBuscarTodasPorCamionIdConEliminadas(camion.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorCamionId(camion.value)
           }
@@ -1530,9 +1388,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1548,7 +1404,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
+          if (esAdmin.value) {
             resultado = await viajeService.spfBuscarTodasPorCategoriaViajeIdConEliminadas(categoriaViaje.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorCategoriaViajeId(categoriaViaje.value)
@@ -1582,10 +1438,8 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorCompradorIdConEliminadas(
-              comprador.value
-            )
+          if (esAdmin.value) {
+            resultado = await viajeService.spfBuscarTodasPorCompradorIdConEliminadas(comprador.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorCompradorId(comprador.value)
           }
@@ -1602,9 +1456,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1620,10 +1472,8 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorConductorIdConEliminadas(
-              conductor.value
-            )
+          if (esAdmin.value) {
+            resultado = await viajeService.spfBuscarTodasPorConductorIdConEliminadas(conductor.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorConductorId(conductor.value)
           }
@@ -1640,9 +1490,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1658,10 +1506,8 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorDireccionCargaIdConEliminadas(
-              direccionCarga.value
-            )
+          if (esAdmin.value) {
+            resultado = await viajeService.spfBuscarTodasPorDireccionCargaIdConEliminadas(direccionCarga.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorDireccionCargaId(direccionCarga.value)
           }
@@ -1678,9 +1524,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1696,10 +1540,8 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoIdConEliminadas(
-              direccionDestino.value
-            )
+          if (esAdmin.value) {
+            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoIdConEliminadas(direccionDestino.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorDireccionDestinoId(direccionDestino.value)
           }
@@ -1716,9 +1558,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1734,10 +1574,8 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenIdConEliminadas(
-              direccionOrigen.value
-            )
+          if (esAdmin.value) {
+            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenIdConEliminadas(direccionOrigen.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorDireccionOrigenId(direccionOrigen.value)
           }
@@ -1754,9 +1592,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1772,10 +1608,8 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorIntermediarioIdConEliminadas(
-              intermediario.value
-            )
+          if (esAdmin.value) {
+            resultado = await viajeService.spfBuscarTodasPorIntermediarioIdConEliminadas(intermediario.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorIntermediarioId(intermediario.value)
           }
@@ -1792,9 +1626,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1811,14 +1643,12 @@ export default {
       } else if (fecha.value.to == null) {
         notificarService.notificarAlerta('El campo fecha hasta no puede estar vacio.')
       } else if (fecha.value.from > fecha.value.to) {
-        notificarService.notificarAlerta(
-          'El campo fecha desde no puede ser mayor que fecha hasta.'
-        )
+        notificarService.notificarAlerta('El campo fecha desde no puede ser mayor que fecha hasta.')
       } else {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
+          if (esAdmin.value) {
             resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechasConEliminadas(
               ayuda.fFormatearDeDatePicker(fecha.value.from),
               ayuda.fFormatearDeDatePicker(fecha.value.to)
@@ -1842,9 +1672,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1860,7 +1688,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
+          if (esAdmin.value) {
             resultado = await viajeService.spfBuscarTodasPorRangoKmCargadoConEliminadas(kmCargado.value.min, kmCargado.value.max)
           } else {
             resultado = await viajeService.spfBuscarTodasPorRangoKmCargado(kmCargado.value.min, kmCargado.value.max)
@@ -1878,9 +1706,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1898,7 +1724,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
+          if (esAdmin.value) {
             resultado = await viajeService.spfBuscarTodasPorRangoKmVacioConEliminadas(kmVacio.value.min, kmVacio.value.max)
           } else {
             resultado = await viajeService.spfBuscarTodasPorRangoKmVacio(kmVacio.value.min, kmVacio.value.max)
@@ -1916,9 +1742,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1936,7 +1760,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
+          if (esAdmin.value) {
             resultado = await viajeService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorNotas(notas.value)
@@ -1954,9 +1778,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1972,7 +1794,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
+          if (esAdmin.value) {
             resultado = await viajeService.spfBuscarTodasPorGuiaConEliminadas(numeroGuia.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorGuia(numeroGuia.value)
@@ -1990,9 +1812,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2008,7 +1828,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
+          if (esAdmin.value) {
             resultado = await viajeService.spfBuscarTodasPorRangoNetoConEliminadas(pesoNeto.value.min, pesoNeto.value.max)
           } else {
             resultado = await viajeService.spfBuscarTodasPorRangoNeto(pesoNeto.value.min, pesoNeto.value.max)
@@ -2026,9 +1846,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2046,7 +1864,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
+          if (esAdmin.value) {
             resultado = await viajeService.spfBuscarTodasPorRangoValorKmConEliminadas(valorKm.value.min, valorKm.value.max)
           } else {
             resultado = await viajeService.spfBuscarTodasPorRangoValorKm(valorKm.value.min, valorKm.value.max)
@@ -2064,9 +1882,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2084,10 +1900,8 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value.includes(rolEnum.ADMIN)) {
-            resultado = await viajeService.spfBuscarTodasPorVendedorIdConEliminadas(
-              vendedor.value
-            )
+          if (esAdmin.value) {
+            resultado = await viajeService.spfBuscarTodasPorVendedorIdConEliminadas(vendedor.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorVendedorId(vendedor.value)
           }
@@ -2104,9 +1918,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2471,8 +2283,8 @@ export default {
       vendedor,
       vendedores,
 
-      autoridad,
       columnas,
+      esAdmin,
       nuevaBusqueda,
       paginacion,
       viaje,
