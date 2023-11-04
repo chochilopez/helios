@@ -88,14 +88,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/compra',
-        name: 'Compra',
-        component: () => import('pages/sitio/Compra.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/compra',
+      //   name: 'Compra',
+      //   component: () => import('pages/sitio/Compra.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/concepto-adelanto',
         name: 'ConceptoAdelanto',
@@ -104,14 +104,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/concepto-compra',
-        name: 'ConceptoCompra',
-        component: () => import('pages/sitio/ConceptoCompra.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/concepto-compra',
+      //   name: 'ConceptoCompra',
+      //   component: () => import('pages/sitio/ConceptoCompra.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/conciliacion',
         name: 'Conciliacion',
@@ -137,14 +137,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/facturar',
-        name: 'Facturar',
-        component: () => import('pages/sitio/Facturar.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/facturar',
+      //   name: 'Facturar',
+      //   component: () => import('pages/sitio/Facturar.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/marca',
         name: 'Marca',
@@ -153,14 +153,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/movimiento-cuenta-corriente-proveedor',
-        name: 'MovCtaCteProveedor',
-        component: () => import('pages/sitio/MovCtaCteProveedor.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/movimiento-cuenta-corriente-proveedor',
+      //   name: 'MovCtaCteProveedor',
+      //   component: () => import('pages/sitio/MovCtaCteProveedor.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/movimiento-caja',
         name: 'MovimientoCaja',
@@ -217,14 +217,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/proveedor',
-        name: 'Proveedor',
-        component: () => import('pages/sitio/Proveedor.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/proveedor',
+      //   name: 'Proveedor',
+      //   component: () => import('pages/sitio/Proveedor.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/recibo',
         name: 'Recibo',
@@ -257,14 +257,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/ubicacion',
-        name: 'Ubicacion',
-        component: () => import('pages/sitio/Ubicacion.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/ubicacion',
+      //   name: 'Ubicacion',
+      //   component: () => import('pages/sitio/Ubicacion.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/vehiculo',
         name: 'Vehiculo',

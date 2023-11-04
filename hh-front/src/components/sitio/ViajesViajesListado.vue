@@ -1,8 +1,11 @@
 <template>
-  <q-card class="q-ma-md font-5 no-shadow no-border">
+  <q-card class="font-5 no-shadow no-border">
     <q-card-section>
-      <div class="row justify-around">
-        <div class="col-md-6 q-mb-md">
+      <div class="row justify-center items-center">
+        <div class="col-md-4 q-mb-md">
+          <q-btn class="paleta2-fondo2 paleta1-color1" icon-right="add_circle" label="Nuevo viaje"></q-btn>
+        </div>
+        <div class="col-md-4 q-mb-md q-mx-md">
           <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar viajes por" dropdown-icon="fa-solid fa-magnifying-glass">
             <q-list>
               <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAcoplado">
@@ -144,7 +147,7 @@
             </q-list>
           </q-btn-dropdown>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <q-select
             v-if="editAcoplado"
             outlined
@@ -970,7 +973,7 @@ export default {
     const editAcoplado = ref(false)
     const editCamion = ref(false)
     const editCategoriaViaje = ref(false)
-    const editComprador = ref(false)
+    const editComprador = ref(true)
     const editConductor = ref(false)
     const editDireccionCarga = ref(false)
     const editDireccionDestino = ref(false)

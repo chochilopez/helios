@@ -30,7 +30,6 @@ public class Helper {
 
             return dateTimeFormatter.format(ZonedDateTime.of(localDateTime, ZoneId.of("America/Argentina/Buenos_Aires")));
         } catch (Exception e) {
-            log.error("Error converting LocalDateTime to String. Exception: " + e);
             return null;
         }
     }
@@ -41,7 +40,6 @@ public class Helper {
             ZonedDateTime zonedDateTime = date.withZoneSameInstant(zoneId);
             return zonedDateTime.toLocalDateTime();
         } catch (Exception e) {
-            log.error("Error converting ZonedDateTime to LocalDateTime. Exception: " + e);
             return null;
         }
     }

@@ -7,12 +7,7 @@
           <span class="q-ml-sm text-bold">Helios</span>
         </q-toolbar-title>
         <q-space />
-        <q-btn-dropdown
-          :label="username"
-          class="q-ml-xs paleta1-fondo4 paleta1-color1"
-          no-caps
-          dropdown-icon="brightness_high"
-        >
+        <q-btn-dropdown :label="username" class="q-ml-xs paleta1-fondo4 paleta1-color1" no-caps dropdown-icon="brightness_high">
           <q-item clickable v-close-popup @click="cerrarSesion">
             <q-item-section>
               <q-item-label>Cerrar sesión</q-item-label>
@@ -21,14 +16,7 @@
         </q-btn-dropdown>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      show-if-above
-      v-model="leftDrawerOpen"
-      side="left"
-      bordered
-      class="paleta1-fondo5 text-white font-5 text-bold"
-    >
+    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered class="paleta1-fondo5 text-white font-5 text-bold">
       <q-list bordered padding class="rounded-borders paleta1-color1">
         <q-item
           clickable
@@ -44,7 +32,6 @@
           </q-item-section>
           <q-item-section class="white-text">Panel Principal</q-item-section>
         </q-item>
-
         <q-expansion-item icon="account_balance" label="Banco">
           <q-item
             clickable
@@ -77,7 +64,6 @@
             <q-item-section class="white-text">Movimientos conciliaciones</q-item-section>
           </q-item>
         </q-expansion-item>
-
         <q-expansion-item icon="paid" label="Caja">
           <q-item
             clickable
@@ -155,7 +141,6 @@
             <q-item-section class="white-text">Planes de cuenta</q-item-section>
           </q-item>
         </q-expansion-item>
-
         <q-expansion-item icon="calendar_month" label="Calendario">
           <q-item
             clickable
@@ -203,7 +188,6 @@
             <q-item-section class="white-text">Vencimientos</q-item-section>
           </q-item>
         </q-expansion-item>
-
         <q-expansion-item icon="airline_seat_recline_extra" label="Choferes">
           <q-item
             clickable
@@ -266,7 +250,6 @@
             <q-item-section class="white-text">Resumen por chofer</q-item-section>
           </q-item>
         </q-expansion-item>
-
         <q-expansion-item icon="groups" label="Clientes">
           <q-item
             clickable
@@ -333,8 +316,7 @@
             <q-item-section class="white-text">Saldos cuentas corrientes</q-item-section>
           </q-item>
         </q-expansion-item>
-
-        <q-expansion-item icon="shopping_cart" label="Compras">
+        <!-- <q-expansion-item icon="shopping_cart" label="Compras">
           <q-item
             clickable
             v-ripple
@@ -365,10 +347,9 @@
             </q-item-section>
             <q-item-section class="white-text">Concepto compras</q-item-section>
           </q-item>
-        </q-expansion-item>
-
+        </q-expansion-item> -->
         <q-expansion-item icon="receipt_long" label="Facturacion">
-          <q-item
+          <!-- <q-item
             clickable
             v-ripple
             :active="link === 'facturar'"
@@ -382,7 +363,7 @@
               <q-icon name="fa-solid fa-file-invoice-dollar" />
             </q-item-section>
             <q-item-section class="white-text">Facturar</q-item-section>
-          </q-item>
+          </q-item> -->
           <q-item
             clickable
             v-ripple
@@ -414,7 +395,6 @@
             <q-item-section class="white-text">Recibos</q-item-section>
           </q-item>
         </q-expansion-item>
-
         <q-expansion-item icon="fa-solid fa-ring" label="Neumaticos">
           <q-item
             clickable
@@ -462,8 +442,7 @@
             <q-item-section class="white-text">Neumaticos colocados</q-item-section>
           </q-item>
         </q-expansion-item>
-
-        <q-expansion-item icon="storefront" label="Proveedores">
+        <!-- <q-expansion-item icon="storefront" label="Proveedores">
           <q-item
             clickable
             v-ripple
@@ -496,9 +475,8 @@
             </q-item-section>
             <q-item-section class="white-text">Proveedores</q-item-section>
           </q-item>
-        </q-expansion-item>
-
-        <q-expansion-item icon="public" label="Ubicaciones">
+        </q-expansion-item> -->
+        <!-- <q-expansion-item icon="public" label="Ubicaciones">
           <q-item
             clickable
             v-ripple
@@ -514,8 +492,7 @@
             </q-item-section>
             <q-item-section class="white-text">Ubicaciones</q-item-section>
           </q-item>
-        </q-expansion-item>
-
+        </q-expansion-item> -->
         <q-expansion-item icon="local_shipping" label="Vehiculo">
           <q-item
             clickable
@@ -548,7 +525,6 @@
             <q-item-section class="white-text">Camiones</q-item-section>
           </q-item>
         </q-expansion-item>
-
         <q-expansion-item icon="fa-solid fa-route" label="Viajes">
           <q-item
             clickable
@@ -598,7 +574,6 @@
         </q-expansion-item>
       </q-list>
     </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
