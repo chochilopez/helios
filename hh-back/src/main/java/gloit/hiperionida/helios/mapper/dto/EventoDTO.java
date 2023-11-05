@@ -15,4 +15,12 @@ public class EventoDTO extends AbsAuditoriaDTO implements Serializable {
     private String habilitada;
     private String recordatorio;
     private String nombre;
+    /*
+        private Long id;
+    private LocalDateTime fecha;
+    private String descripcion;
+    private Boolean habilitada;
+    private Boolean recordatorio;
+    private String nombre;
+     */
 }

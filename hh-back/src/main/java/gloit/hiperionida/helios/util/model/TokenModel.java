@@ -17,15 +17,9 @@ public class TokenModel {
 	public Long id;
 	@Column(unique = true, columnDefinition = "TEXT")
 	public String token;
-
 	@Enumerated(EnumType.STRING)
 	public TipoToken tipoToken = TipoToken.BEARER;
-
 	public boolean revocado;
-
 	public boolean expirado;
-
-	@ManyToOne()
-	@JoinColumn(name = "usuario_id")
-	private UsuarioModel usuario;
+	private Long usuario_id;
 }

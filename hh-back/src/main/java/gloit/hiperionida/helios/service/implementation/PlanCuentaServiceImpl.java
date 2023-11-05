@@ -99,11 +99,11 @@ public class PlanCuentaServiceImpl implements PlanCuentaService {
         PlanCuentaModel planCuentaModel = planCuentaDAO.save(planCuentaMapper.toEntity(creation));
         if (creation.getId() == null) {
             planCuentaModel.setCreada(Helper.getNow(""));
-            planCuentaModel.setCreador(usuarioService.obtenerUsuario());
+            planCuentaModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             planCuentaModel.setModificada(Helper.getNow(""));
-            planCuentaModel.setModificador(usuarioService.obtenerUsuario());
+            planCuentaModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return planCuentaDAO.save(planCuentaModel);
@@ -114,7 +114,7 @@ public class PlanCuentaServiceImpl implements PlanCuentaService {
         log.info("Eliminando la entidad PlanCuenta con id: {}.", id);
         PlanCuentaModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad PlanCuenta con id: " + id + ", fue eliminada correctamente.");
         return planCuentaDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class PlanCuentaServiceImpl implements PlanCuentaService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad PlanCuenta con id: " + id + ", fue reciclada correctamente.");
         return planCuentaDAO.save(objeto);
     }

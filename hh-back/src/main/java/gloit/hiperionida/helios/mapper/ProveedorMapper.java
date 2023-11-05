@@ -26,7 +26,6 @@ public class ProveedorMapper {
 
             if (Helper.getLong(proveedorCreation.getId()) != null)
                 proveedorModel.setId(Helper.getLong(proveedorCreation.getId()));
-            proveedorModel.setDireccion(proveedorCreation.getDireccion());
             proveedorModel.setEmail(proveedorCreation.getEmail());
             proveedorModel.setIdentificacion(proveedorCreation.getIdentificacion());
             proveedorModel.setNombre(proveedorCreation.getNombre());
@@ -65,7 +64,6 @@ public class ProveedorMapper {
 
             dto.setId(proveedorModel.getId().toString());
 
-            dto.setDireccion(proveedorModel.getDireccion());
             dto.setEmail(proveedorModel.getEmail());
             dto.setIdentificacion(proveedorModel.getIdentificacion());
             dto.setNombre(proveedorModel.getNombre());

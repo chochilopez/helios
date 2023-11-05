@@ -99,11 +99,11 @@ public class PagoServiceImpl implements PagoService {
         PagoModel pagoModel = pagoDAO.save(pagoMapper.toEntity(creation));
         if (creation.getId() == null) {
             pagoModel.setCreada(Helper.getNow(""));
-            pagoModel.setCreador(usuarioService.obtenerUsuario());
+            pagoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             pagoModel.setModificada(Helper.getNow(""));
-            pagoModel.setModificador(usuarioService.obtenerUsuario());
+            pagoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return pagoDAO.save(pagoModel);
@@ -114,7 +114,7 @@ public class PagoServiceImpl implements PagoService {
         log.info("Eliminando la entidad Pago con id: {}.", id);
         PagoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Pago con id: " + id + ", fue eliminada correctamente.");
         return pagoDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class PagoServiceImpl implements PagoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Pago con id: " + id + ", fue reciclada correctamente.");
         return pagoDAO.save(objeto);
     }

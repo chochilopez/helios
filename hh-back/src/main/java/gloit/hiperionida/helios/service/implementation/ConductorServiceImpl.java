@@ -99,11 +99,11 @@ public class ConductorServiceImpl implements ConductorService {
         ConductorModel conductorModel = conductorDAO.save(conductorMapper.toEntity(creation));
         if (creation.getId() == null) {
             conductorModel.setCreada(Helper.getNow(""));
-            conductorModel.setCreador(usuarioService.obtenerUsuario());
+            conductorModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             conductorModel.setModificada(Helper.getNow(""));
-            conductorModel.setModificador(usuarioService.obtenerUsuario());
+            conductorModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return conductorDAO.save(conductorModel);
@@ -114,7 +114,7 @@ public class ConductorServiceImpl implements ConductorService {
         log.info("Eliminando la entidad Conductor con id: {}.", id);
         ConductorModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Conductor con id: " + id + ", fue eliminada correctamente.");
         return conductorDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class ConductorServiceImpl implements ConductorService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Conductor con id: " + id + ", fue reciclada correctamente.");
         return conductorDAO.save(objeto);
     }

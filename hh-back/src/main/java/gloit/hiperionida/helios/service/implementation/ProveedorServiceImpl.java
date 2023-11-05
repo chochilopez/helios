@@ -99,11 +99,11 @@ public class ProveedorServiceImpl implements ProveedorService {
         ProveedorModel proveedorModel = proveedorDAO.save(proveedorMapper.toEntity(creation));
         if (creation.getId() == null) {
             proveedorModel.setCreada(Helper.getNow(""));
-            proveedorModel.setCreador(usuarioService.obtenerUsuario());
+            proveedorModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             proveedorModel.setModificada(Helper.getNow(""));
-            proveedorModel.setModificador(usuarioService.obtenerUsuario());
+            proveedorModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return proveedorDAO.save(proveedorModel);
@@ -114,7 +114,7 @@ public class ProveedorServiceImpl implements ProveedorService {
         log.info("Eliminando la entidad Proveedor con id: {}.", id);
         ProveedorModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Proveedor con id: " + id + ", fue eliminada correctamente.");
         return proveedorDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class ProveedorServiceImpl implements ProveedorService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Proveedor con id: " + id + ", fue reciclada correctamente.");
         return proveedorDAO.save(objeto);
     }

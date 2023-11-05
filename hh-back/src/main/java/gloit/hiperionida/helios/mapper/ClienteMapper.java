@@ -26,7 +26,6 @@ public class ClienteMapper {
 
             if (Helper.getLong(clienteCreation.getId()) != null)
                 clienteModel.setId(Helper.getLong(clienteCreation.getId()));
-            clienteModel.setDireccion(clienteCreation.getDireccion());
             clienteModel.setEmail(clienteCreation.getEmail());
             clienteModel.setIdentificacion(clienteCreation.getIdentificacion());
             clienteModel.setNombre(clienteCreation.getNombre());
@@ -64,7 +63,6 @@ public class ClienteMapper {
             ClienteDTO dto = new ClienteDTO();
 
             dto.setId(clienteModel.getId().toString());
-            dto.setDireccion(clienteModel.getDireccion());
             dto.setEmail(clienteModel.getEmail());
             dto.setIdentificacion(clienteModel.getIdentificacion());
             dto.setNombre(clienteModel.getNombre());

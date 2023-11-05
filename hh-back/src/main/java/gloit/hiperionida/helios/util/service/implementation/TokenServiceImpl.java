@@ -20,7 +20,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void guardarTokenUsuario(UsuarioModel usuario, String jwt) {
-        tokenDAO.save(new TokenModel(null, jwt, TipoToken.BEARER, false, false, usuario));
+        tokenDAO.save(new TokenModel(null, jwt, TipoToken.BEARER, false, false, usuario.getId()));
     }
 
     @Override

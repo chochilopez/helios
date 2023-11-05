@@ -3,7 +3,6 @@ package gloit.hiperionida.helios.mapper.creation;
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
@@ -19,4 +18,16 @@ public class CombustibleCreation extends AbsAuditoriaCreation {
     private String camion_id;
     private String conductor_id;
     private String proveedor_id;
+        /*
+        private Long id;
+    private LocalDateTime fecha;
+    private Double kilometros;
+    private Double litros;
+    private Double precio;
+    private String notas;
+
+    private Long camion_id;
+    private Long conductor_id;
+    private Long proveedor_id;
+     */
 }

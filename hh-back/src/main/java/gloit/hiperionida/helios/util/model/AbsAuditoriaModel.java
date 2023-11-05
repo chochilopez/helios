@@ -14,12 +14,7 @@ public abstract class AbsAuditoriaModel {
     private LocalDateTime eliminada;
     private LocalDateTime modificada;
 
-    @ManyToOne()
-    private UsuarioModel creador;
-
-    @ManyToOne()
-    private UsuarioModel eliminador;
-
-    @ManyToOne()
-    private UsuarioModel modificador;
+    private Long creador_id;
+    private Long eliminador_id;
+    private Long modificador_id;
 }

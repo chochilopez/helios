@@ -12,4 +12,10 @@ public class BancoDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String banco;
     private String notas;
+        /*
+        private Long id;
+    private String banco;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
+     */
 }

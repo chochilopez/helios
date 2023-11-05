@@ -12,4 +12,9 @@ public class ReciboDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String monto;
     private String fecha;
+    /*
+        private Long id;
+    private Double monto;
+    private LocalDateTime fecha;
+     */
 }

@@ -15,4 +15,15 @@ public abstract class AbsPersonaCreation extends AbsAuditoriaCreation {
     private String nombre;
     private String notas;
     private String telefono;
+
+    /*
+        private String email;
+    private String identificacion;
+    private String nombre;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
+    private String telefono;
+
+    private Long direccion_id;
+     */
 }

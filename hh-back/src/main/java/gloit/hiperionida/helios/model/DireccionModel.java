@@ -17,8 +17,6 @@ public class DireccionModel extends AbsAuditoriaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String direccion;
+    private String ciudad;
     private String nombre;
-
-    @ManyToOne()
-    private UbicacionModel ubicacion;
 }

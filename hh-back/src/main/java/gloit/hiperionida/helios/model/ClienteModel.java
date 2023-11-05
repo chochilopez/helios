@@ -1,11 +1,8 @@
 package gloit.hiperionida.helios.model;
 
 
-import lombok.*;
-
 import jakarta.persistence.*;
-
-import java.util.List;
+import lombok.*;
 
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
@@ -18,6 +15,5 @@ public class ClienteModel extends AbsPersonaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 }
 

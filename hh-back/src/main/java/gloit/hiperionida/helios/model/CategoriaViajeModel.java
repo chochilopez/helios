@@ -11,12 +11,11 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @Setter
-@Table(name = "movimiento")
-public class MovimientoModel extends AbsAuditoriaModel {
+@Table(name = "categoria_viaje")
+public class CategoriaViajeModel extends AbsAuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-// TODO movimiento de cuenta puede ser pagado o no
+    private String categoria;
 }
 

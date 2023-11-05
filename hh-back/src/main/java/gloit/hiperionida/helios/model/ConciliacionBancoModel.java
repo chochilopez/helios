@@ -26,6 +26,5 @@ public class ConciliacionBancoModel extends AbsAuditoriaModel {
     private String concepto;
     private Double monto;
 
-    @ManyToOne()
-    private BancoModel banco;
+    private Long banco_id;
 }

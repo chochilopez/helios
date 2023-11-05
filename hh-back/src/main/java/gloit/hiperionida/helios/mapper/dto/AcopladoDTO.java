@@ -12,4 +12,8 @@ public class AcopladoDTO extends AbsVehiculoDTO implements Serializable {
     private String id;
     private List<NeumaticoDTO> neumaticos;
     private SeguroDTO seguro;
+        /*
+        private Long id;
+    private Long seguro_id;
+     */
 }

@@ -2,13 +2,10 @@ package gloit.hiperionida.helios.model;
 
 import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
 import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
-import gloit.hiperionida.helios.util.model.ArchivoModel;
-
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
@@ -30,16 +27,7 @@ public class CompraModel extends AbsAuditoriaModel {
     @Column(columnDefinition = "TEXT")
     private String notas;
 
-    @OneToOne
-    private ArchivoModel comprobante;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "compra_id")
-    private Set<PagoModel> pagos;
-
-    @ManyToOne
-    private ProveedorModel proveedor;
-
-    @OneToOne
-    private RemitoModel remito;
+    private Long comprobante_id;
+    private Long proveedor_id;
+    private Long remito_id;
 }

@@ -99,11 +99,11 @@ public class NeumaticoServiceImpl implements NeumaticoService {
         NeumaticoModel neumaticoModel = neumaticoDAO.save(neumaticoMapper.toEntity(creation));
         if (creation.getId() == null) {
             neumaticoModel.setCreada(Helper.getNow(""));
-            neumaticoModel.setCreador(usuarioService.obtenerUsuario());
+            neumaticoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             neumaticoModel.setModificada(Helper.getNow(""));
-            neumaticoModel.setModificador(usuarioService.obtenerUsuario());
+            neumaticoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return neumaticoDAO.save(neumaticoModel);
@@ -114,7 +114,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
         log.info("Eliminando la entidad Neumatico con id: {}.", id);
         NeumaticoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Neumatico con id: " + id + ", fue eliminada correctamente.");
         return neumaticoDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Neumatico con id: " + id + ", fue reciclada correctamente.");
         return neumaticoDAO.save(objeto);
     }

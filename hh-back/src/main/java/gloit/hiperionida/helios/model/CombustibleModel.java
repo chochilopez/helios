@@ -24,13 +24,8 @@ public class CombustibleModel extends AbsAuditoriaModel {
     private Double precio;
     private String notas;
 
-    @ManyToOne()
-    private CamionModel camion;
-
-    @ManyToOne()
-    private ConductorModel conductor;
-
-    @ManyToOne()
-    private ProveedorModel proveedor;
+    private Long camion_id;
+    private Long conductor_id;
+    private Long proveedor_id;
 }
 

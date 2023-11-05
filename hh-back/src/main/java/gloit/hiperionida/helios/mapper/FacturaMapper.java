@@ -4,7 +4,6 @@ import gloit.hiperionida.helios.mapper.creation.FacturaCreation;
 import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.*;
 import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
-import gloit.hiperionida.helios.repository.MovimientoDAO;
 import gloit.hiperionida.helios.repository.PagoDAO;
 import gloit.hiperionida.helios.repository.RemitoDAO;
 import gloit.hiperionida.helios.repository.ViajeDAO;
@@ -29,9 +28,7 @@ public class FacturaMapper {
     private final RemitoDAO remitoDAO;
     private final RemitoMapper remitoMapper;
     private final ViajeDAO viajeDAO;
-    private final ViajeMapper viajeMapper;
-    private final MovimientoDAO movimientoDAO;
-    private final MovimientoMapper movimientoMapper;
+    private final ViajeFacturaMapper viajeFacturaMapper;
 
     public FacturaModel toEntity(FacturaCreation facturaCreation) {
         try {
@@ -71,10 +68,6 @@ public class FacturaMapper {
             if (Helper.getLong(facturaCreation.getViaje_id()) != null) {
                 Optional<ViajeModel> viaje = viajeDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getViaje_id()));
                 viaje.ifPresent(facturaModel::setViaje);
-            }
-            if (Helper.getLong(facturaCreation.getMovimiento_id()) != null) {
-                Optional<MovimientoModel> movimiento = movimientoDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getMovimiento_id()));
-                movimiento.ifPresent(facturaModel::setMovimiento);
             }
 
             if (Helper.getLong(facturaCreation.getCreador_id()) != null) {
@@ -123,12 +116,10 @@ public class FacturaMapper {
                 }
                 dto.setPagos(pagoDTOS);
             }
-            if (facturaModel.getMovimiento() != null)
-                dto.setMovimiento(movimientoMapper.toDto(facturaModel.getMovimiento()));
             if (facturaModel.getRemito() != null)
                 dto.setRemito(remitoMapper.toDto(facturaModel.getRemito()));
             if (facturaModel.getViaje() != null)
-                dto.setViaje(viajeMapper.toDto(facturaModel.getViaje()));
+                dto.setViaje(viajeFacturaMapper.toDto(facturaModel.getViaje()));
 
             if (facturaModel.getCreador() != null)
                 dto.setCreador(usuarioMapper.toDto(facturaModel.getCreador()));

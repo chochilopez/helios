@@ -1,12 +1,11 @@
-package gloit.hiperionida.helios.controller;
+package gloit.hiperionida.helios.util.controller;
 
-import gloit.hiperionida.helios.mapper.VisitaMapper;
-import gloit.hiperionida.helios.mapper.creation.VisitaCreation;
-import gloit.hiperionida.helios.mapper.dto.VisitaDTO;
-import gloit.hiperionida.helios.model.VisitaModel;
-import gloit.hiperionida.helios.service.implementation.VisitaServiceImpl;
+import gloit.hiperionida.helios.util.mapper.LogueoMapper;
+import gloit.hiperionida.helios.util.mapper.creation.LogueoCreation;
+import gloit.hiperionida.helios.util.mapper.dto.LogueoDTO;
+import gloit.hiperionida.helios.util.model.LogueoModel;
+import gloit.hiperionida.helios.util.service.implementation.LogueoServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.controller.AbsBaseController;
 import gloit.hiperionida.helios.util.mapper.dto.ErrorDTO;
 import gloit.hiperionida.helios.util.mapper.dto.PaginadoDTO;
 import jakarta.validation.Valid;
@@ -29,8 +28,8 @@ import java.util.List;
 @RestController
 @Slf4j
 public class VisitaController extends AbsBaseController {
-    private final VisitaServiceImpl visitaService;
-    private final VisitaMapper visitaMapper;
+    private final LogueoServiceImpl visitaService;
+    private final LogueoMapper logueoMapper;
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<ErrorDTO> handleIOException(IOException e) {
@@ -42,52 +41,52 @@ public class VisitaController extends AbsBaseController {
 
     @GetMapping(value = "/buscar-por-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<VisitaDTO> buscarPorId(@PathVariable(name = "id") Long id) {
-        VisitaModel objeto = visitaService.buscarPorId(id);
-        return new ResponseEntity<>(visitaMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+    public ResponseEntity<LogueoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
+        LogueoModel objeto = visitaService.buscarPorId(id);
+        return new ResponseEntity<>(logueoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<VisitaDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
-        VisitaModel objeto = visitaService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(visitaMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+    public ResponseEntity<LogueoDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
+        LogueoModel objeto = visitaService.buscarPorIdConEliminadas(id);
+        return new ResponseEntity<>(logueoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<VisitaDTO>> buscarTodas() {
-        List<VisitaModel> listado = visitaService.buscarTodas();
-        ArrayList<VisitaDTO> visitas = new ArrayList<>();
-        for (VisitaModel visita:listado) {
-            visitas.add(visitaMapper.toDto(visita));
+    public ResponseEntity<List<LogueoDTO>> buscarTodas() {
+        List<LogueoModel> listado = visitaService.buscarTodas();
+        ArrayList<LogueoDTO> visitas = new ArrayList<>();
+        for (LogueoModel visita:listado) {
+            visitas.add(logueoMapper.toDto(visita));
         }
         return new ResponseEntity<>(visitas, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-con-eliminadas")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<VisitaDTO>> buscarTodasConEliminadas() {
-        List<VisitaModel> listado = visitaService.buscarTodasConEliminadas();
-        ArrayList<VisitaDTO> visitas = new ArrayList<>();
-        for (VisitaModel visita:listado) {
-            visitas.add(visitaMapper.toDto(visita));
+    public ResponseEntity<List<LogueoDTO>> buscarTodasConEliminadas() {
+        List<LogueoModel> listado = visitaService.buscarTodasConEliminadas();
+        ArrayList<LogueoDTO> visitas = new ArrayList<>();
+        for (LogueoModel visita:listado) {
+            visitas.add(logueoMapper.toDto(visita));
         }
         return new ResponseEntity<>(visitas, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
     @PostMapping(value = "/buscar-todas-paginadas")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<Slice<VisitaDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
-        Slice<VisitaModel> listado = visitaService.buscarTodasPorOrdenPorPagina(
+    public ResponseEntity<Slice<LogueoDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
+        Slice<LogueoModel> listado = visitaService.buscarTodasPorOrdenPorPagina(
                 paginadoDTO.getDireccion(),
                 paginadoDTO.getCampo(),
                 paginadoDTO.getPagina(),
                 paginadoDTO.getElementos()
         );
-        ArrayList<VisitaDTO> visitas = new ArrayList<>();
-        for (VisitaModel visita:listado) {
-            visitas.add(visitaMapper.toDto(visita));
+        ArrayList<LogueoDTO> visitas = new ArrayList<>();
+        for (LogueoModel visita:listado) {
+            visitas.add(logueoMapper.toDto(visita));
         }
         Slice slice = new SliceImpl(visitas, listado.getPageable(), listado.hasNext());
         return new ResponseEntity<>(slice, Helper.httpHeaders("Se encontraron " + slice.getSize() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
@@ -95,16 +94,16 @@ public class VisitaController extends AbsBaseController {
 
     @PostMapping(value = "/buscar-todas-con-eliminadas-paginadas")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Slice<VisitaDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
-        Slice<VisitaModel> listado = visitaService.buscarTodasPorOrdenPorPaginaConEliminadas(
+    public ResponseEntity<Slice<LogueoDTO>> buscarTodasConEliminadas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
+        Slice<LogueoModel> listado = visitaService.buscarTodasPorOrdenPorPaginaConEliminadas(
                 paginadoDTO.getDireccion(),
                 paginadoDTO.getCampo(),
                 paginadoDTO.getPagina(),
                 paginadoDTO.getElementos()
         );
-        ArrayList<VisitaDTO> visitas = new ArrayList<>();
-        for (VisitaModel visita:listado) {
-            visitas.add(visitaMapper.toDto(visita));
+        ArrayList<LogueoDTO> visitas = new ArrayList<>();
+        for (LogueoModel visita:listado) {
+            visitas.add(logueoMapper.toDto(visita));
         }
         Slice slice = new SliceImpl(visitas, listado.getPageable(), listado.hasNext());
         return new ResponseEntity<>(slice, Helper.httpHeaders("Se encontraron " + slice.getSize() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
@@ -126,23 +125,23 @@ public class VisitaController extends AbsBaseController {
 
     @PutMapping
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<VisitaDTO> guardar(@Valid @RequestBody VisitaCreation visitaCreation) {
-        VisitaModel objeto = visitaService.guardar(visitaCreation);
-        return new ResponseEntity<>(visitaMapper.toDto(objeto), Helper.httpHeaders("Se persistio correctamente la entidad."), HttpStatus.CREATED);
+    public ResponseEntity<LogueoDTO> guardar(@Valid @RequestBody LogueoCreation logueoCreation) {
+        LogueoModel objeto = visitaService.guardar(logueoCreation);
+        return new ResponseEntity<>(logueoMapper.toDto(objeto), Helper.httpHeaders("Se persistio correctamente la entidad."), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<VisitaDTO> borrar(@PathVariable(name = "id") Long id) {
-        VisitaModel objeto = visitaService.eliminar(id);
-        return new ResponseEntity<>(visitaMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
+    public ResponseEntity<LogueoDTO> borrar(@PathVariable(name = "id") Long id) {
+        LogueoModel objeto = visitaService.eliminar(id);
+        return new ResponseEntity<>(logueoMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
     @PostMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<VisitaDTO> reciclar(@PathVariable(name = "id") Long id) {
-        VisitaModel objeto = visitaService.reciclar(id);
-        return new ResponseEntity<>(visitaMapper.toDto(objeto), Helper.httpHeaders("Se reciclo correctamente la entidad con id: " + id + "."), HttpStatus.OK);
+    public ResponseEntity<LogueoDTO> reciclar(@PathVariable(name = "id") Long id) {
+        LogueoModel objeto = visitaService.reciclar(id);
+        return new ResponseEntity<>(logueoMapper.toDto(objeto), Helper.httpHeaders("Se reciclo correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/destruir/{id}")

@@ -18,10 +18,7 @@ public class SeguroModel extends AbsAuditoriaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne()
-    private ProveedorModel aseguradora;
-
-    @OneToOne()
-    private EventoModel vencimiento;
+    private Long aseguradora_id;
+    private Long vencimiento_id;
 
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class UsuarioDTO implements Serializable {
+public class UsuarioDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String nombre;
     private String dni;

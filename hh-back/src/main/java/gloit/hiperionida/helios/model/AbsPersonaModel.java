@@ -9,11 +9,12 @@ import lombok.Setter;
 @MappedSuperclass
 @Setter
 public abstract class AbsPersonaModel extends AbsAuditoriaModel {
-    private String direccion;
     private String email;
     private String identificacion;
     private String nombre;
     @Column(columnDefinition = "TEXT")
     private String notas;
     private String telefono;
+
+    private Long direccion_id;
 }

@@ -19,11 +19,5 @@ public class AcopladoModel extends AbsVehiculoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "acoplado_id")
-    private Set<NeumaticoModel> neumaticos;
-
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private SeguroModel seguro;
+    private Long seguro_id;
 }

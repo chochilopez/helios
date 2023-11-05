@@ -56,24 +56,18 @@ public class AcopladoMapper {
             }
             acopladoModel.setNeumaticos(neumaticos);
 
-            if (Helper.getLong(acopladoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(acopladoCreation.getCreador_id()));
-                usuario.ifPresent(acopladoModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(acopladoCreation.getCreada(), "") != null)
-                acopladoModel.setCreada(Helper.stringToLocalDateTime(acopladoCreation.getCreada(), ""));
-            if (Helper.getLong(acopladoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(acopladoCreation.getModificador_id()));
-                usuario.ifPresent(acopladoModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(acopladoCreation.getModificada(), "") != null)
-                acopladoModel.setModificada(Helper.stringToLocalDateTime(acopladoCreation.getModificada(), ""));
-            if (Helper.getLong(acopladoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(acopladoCreation.getEliminador_id()));
-                usuario.ifPresent(acopladoModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(acopladoCreation.getEliminada(), "") != null)
-                acopladoModel.setEliminada(Helper.stringToLocalDateTime(acopladoCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
             return acopladoModel;
         } catch (Exception e) {

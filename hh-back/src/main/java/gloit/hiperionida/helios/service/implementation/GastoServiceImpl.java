@@ -99,11 +99,11 @@ public class GastoServiceImpl implements GastoService {
         GastoModel gastoModel = gastoDAO.save(gastoMapper.toEntity(creation));
         if (creation.getId() == null) {
             gastoModel.setCreada(Helper.getNow(""));
-            gastoModel.setCreador(usuarioService.obtenerUsuario());
+            gastoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             gastoModel.setModificada(Helper.getNow(""));
-            gastoModel.setModificador(usuarioService.obtenerUsuario());
+            gastoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return gastoDAO.save(gastoModel);
@@ -114,7 +114,7 @@ public class GastoServiceImpl implements GastoService {
         log.info("Eliminando la entidad Gasto con id: {}.", id);
         GastoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Gasto con id: " + id + ", fue eliminada correctamente.");
         return gastoDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class GastoServiceImpl implements GastoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Gasto con id: " + id + ", fue reciclada correctamente.");
         return gastoDAO.save(objeto);
     }

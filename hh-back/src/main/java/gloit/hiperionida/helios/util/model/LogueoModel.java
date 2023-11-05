@@ -1,12 +1,7 @@
-package gloit.hiperionida.helios.model;
-
-import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
-import gloit.hiperionida.helios.util.model.UsuarioModel;
-
-import lombok.*;
+package gloit.hiperionida.helios.util.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
+import lombok.*;
 
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
@@ -14,8 +9,8 @@ import org.hibernate.annotations.Cascade;
 @Getter
 @NoArgsConstructor
 @Setter
-@Table(name = "visita")
-public class VisitaModel extends AbsAuditoriaModel {
+@Table(name = "logueo")
+public class LogueoModel extends AbsAuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +25,8 @@ public class VisitaModel extends AbsAuditoriaModel {
     private String isp; // "CABLE VISIÃN CRESPO SRL",
     private String organization; // "Gigared S.A.",
     private String asn; // "AS20207",
-    @ManyToOne()
-    private UsuarioModel visitante;
+
+    private String username;
+    private Boolean logueado;
 }
 

@@ -99,11 +99,11 @@ public class ReciboServiceImpl implements ReciboService {
         ReciboModel reciboModel = reciboDAO.save(reciboMapper.toEntity(creation));
         if (creation.getId() == null) {
             reciboModel.setCreada(Helper.getNow(""));
-            reciboModel.setCreador(usuarioService.obtenerUsuario());
+            reciboModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             reciboModel.setModificada(Helper.getNow(""));
-            reciboModel.setModificador(usuarioService.obtenerUsuario());
+            reciboModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return reciboDAO.save(reciboModel);
@@ -114,7 +114,7 @@ public class ReciboServiceImpl implements ReciboService {
         log.info("Eliminando la entidad Recibo con id: {}.", id);
         ReciboModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Recibo con id: " + id + ", fue eliminada correctamente.");
         return reciboDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class ReciboServiceImpl implements ReciboService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Recibo con id: " + id + ", fue reciclada correctamente.");
         return reciboDAO.save(objeto);
     }

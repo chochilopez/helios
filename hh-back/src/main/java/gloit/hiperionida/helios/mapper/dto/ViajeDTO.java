@@ -15,4 +15,12 @@ public class ViajeDTO extends AbsViajeDTO implements Serializable {
     private CamionDTO camion;
     private AcopladoDTO acoplado;
     private List<GastoDTO> gastos;
+    /*
+        private Long id;
+    private String guia;
+
+    private Long conductor_id;
+    private Long camion_id;
+    private Long acoplado_id;
+     */
 }

@@ -13,4 +13,11 @@ public class LicenciaDTO extends AbsAuditoriaDTO implements Serializable {
     private String numero;
     private String categoria;
     private EventoDTO vencimiento;
+    /*
+        private Long id;
+    private String numero;
+    private String categoria;
+
+    private Long vencimiento_id;
+     */
 }

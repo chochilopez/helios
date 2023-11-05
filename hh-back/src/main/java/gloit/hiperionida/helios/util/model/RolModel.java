@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @Table(name = "rol")
-public class RolModel extends AbsAuditoriaModel {
+public class RolModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

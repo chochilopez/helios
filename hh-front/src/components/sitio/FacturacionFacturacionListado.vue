@@ -199,6 +199,17 @@
                 :icon="props.expand ? 'remove' : 'add'"
               />
             </q-td>
+            private String id;
+            private String cantidadTransportada;
+            private String valorKm;
+            private String conductor;
+            private String camion;
+
+            private String categoriaViaje;
+            private String origen;
+            private String destino;
+            private String comprador;
+            private String fecha;
             <q-td class="text-center">
               {{ props.row.id }}
             </q-td>
@@ -212,19 +223,19 @@
               {{ props.row.numeroComprobante }}
             </q-td>
             <q-td>
-              {{ props.row.viaje.origen.ciudad + ' - ' + props.row.viaje.origen.direccion }}
+              {{ props.row.viaje.origen }}
             </q-td>
             <q-td>
-              {{ props.row.viaje.destino.ciudad + ' - ' + props.row.viaje.destino.direccion }}
+              {{ props.row.viaje.destino }}
             </q-td>
             <q-td>
-              {{ props.row.viaje.conductor.nombre }}
+              {{ props.row.viaje.conductor }}
             </q-td>
             <q-td>
-              {{ props.row.viaje.camion.marca + ' - ' + props.row.viaje.camion.modelo }}
+              {{ props.row.viaje.camion }}
             </q-td>
             <q-td>
-              {{ props.row.viaje.categoriaViaje.categoria }}
+              {{ props.row.viaje.categoriaViaje }}
             </q-td>
             <q-td class="text-center">
               {{ props.row.viaje.cantidadTransportada }}
@@ -239,7 +250,7 @@
           <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
             <q-td colspan="100%">
               <div class="row">
-                <div v-if="props.row.id != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                <!-- <div v-if="props.row.id != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.id }}</div>
                   <div class="row paleta1-color2">Id</div>
                 </div>
@@ -338,7 +349,7 @@
                 <div v-if="props.row.eliminado != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.elimiando }}</div>
                   <div class="row paleta1-color2">Elimiando</div>
-                </div>
+                </div> -->
               </div>
             </q-td>
           </q-tr>

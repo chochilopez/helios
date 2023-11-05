@@ -7,9 +7,9 @@ import lombok.*;
 @NoArgsConstructor
 public class ArchivoCreation extends AbsAuditoriaCreation {
     private String id;
-    private String path;
-    private String nombre;
-    private String tipo;
-    private String tamanio;
     private String descripcion;
+    private String nombre;
+    private String path;
+    private String tamanio;
+    private String tipo;
 }

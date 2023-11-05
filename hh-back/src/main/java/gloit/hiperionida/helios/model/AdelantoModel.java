@@ -26,6 +26,6 @@ public class AdelantoModel extends AbsAuditoriaModel {
     private String recibo;
     private Boolean rendido;
 
-    @ManyToOne()
-    private CajaModel caja;
+    private Long caja_id;
+    private Long conductor_id;
 }

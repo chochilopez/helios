@@ -1,10 +1,8 @@
 package gloit.hiperionida.helios.model;
 
 
-import lombok.*;
-
 import jakarta.persistence.*;
-import java.util.Set;
+import lombok.*;
 
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
@@ -17,20 +15,10 @@ public class ViajeModel extends AbsViajeModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne()
-    private ConductorModel conductor;
-
-    @ManyToOne()
-    private CamionModel camion;
-
-    @ManyToOne()
-    private AcopladoModel acoplado;
-
     private String guia;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "viaje_id")
-    private Set<GastoModel> gastos;
+    private Long conductor_id;
+    private Long camion_id;
+    private Long acoplado_id;
 }
 

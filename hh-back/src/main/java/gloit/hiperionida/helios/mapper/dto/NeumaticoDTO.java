@@ -22,4 +22,24 @@ public class NeumaticoDTO extends AbsAuditoriaDTO implements Serializable {
     private String estado;
     private String baja;
     private ProveedorDTO proveedor;
+    /*
+        private Long id;
+    private LocalDateTime fechaCompra;
+    private Double kmVida;
+    private Double kmActuales;
+    private Double kmRecapado;
+    private String numeroRemito;
+    private String marca ;
+    private Double precioCompra;
+    private Integer recapadosMaximos;
+    @Enumerated(EnumType.STRING)
+    private UbicacionNeumaticoEnum ubicacion;
+    @Enumerated(EnumType.STRING)
+    private EstadoNeumaticoEnum estado;
+    private Boolean baja;
+
+    private Long acoplado_id;
+    private Long camion_id;
+    private Long proveedor_id;
+     */
 }

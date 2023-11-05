@@ -13,4 +13,10 @@ public class ConductorDTO extends AbsPersonaDTO implements Serializable {
     private List<AdelantoDTO> adelantos;
     private CamionDTO camion;
     private LicenciaDTO licencia;
+    /*
+        private Long id;
+
+    private Long camion_id;
+    private Long licencia_id;
+     */
 }

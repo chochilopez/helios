@@ -99,11 +99,11 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
         CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.save(categoriaViajeMapper.toEntity(creation));
         if (creation.getId() == null) {
             categoriaViajeModel.setCreada(Helper.getNow(""));
-            categoriaViajeModel.setCreador(usuarioService.obtenerUsuario());
+            categoriaViajeModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             categoriaViajeModel.setModificada(Helper.getNow(""));
-            categoriaViajeModel.setModificador(usuarioService.obtenerUsuario());
+            categoriaViajeModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return categoriaViajeDAO.save(categoriaViajeModel);
@@ -114,7 +114,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
         log.info("Eliminando la entidad CategoriaViaje con id: {}.", id);
         CategoriaViajeModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad CategoriaViaje con id: " + id + ", fue eliminada correctamente.");
         return categoriaViajeDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad CategoriaViaje con id: " + id + ", fue reciclada correctamente.");
         return categoriaViajeDAO.save(objeto);
     }

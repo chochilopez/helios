@@ -7,8 +7,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class ArchivoDTO implements Serializable {
+public class ArchivoDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
-    private String path;
+    private String descripcion;
     private String nombre;
+    private String path;
+    private String tamanio;
+    private String tipo;
 }

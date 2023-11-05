@@ -33,7 +33,8 @@ public class NeumaticoModel extends AbsAuditoriaModel {
     private EstadoNeumaticoEnum estado;
     private Boolean baja;
 
-    @ManyToOne
-    private ProveedorModel proveedor;
+    private Long acoplado_id;
+    private Long camion_id;
+    private Long proveedor_id;
 }
 

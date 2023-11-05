@@ -99,11 +99,11 @@ public class FacturaServiceImpl implements FacturaService {
         FacturaModel facturaModel = facturaDAO.save(facturaMapper.toEntity(creation));
         if (creation.getId() == null) {
             facturaModel.setCreada(Helper.getNow(""));
-            facturaModel.setCreador(usuarioService.obtenerUsuario());
+            facturaModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             facturaModel.setModificada(Helper.getNow(""));
-            facturaModel.setModificador(usuarioService.obtenerUsuario());
+            facturaModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return facturaDAO.save(facturaModel);
@@ -114,7 +114,7 @@ public class FacturaServiceImpl implements FacturaService {
         log.info("Eliminando la entidad Factura con id: {}.", id);
         FacturaModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Factura con id: " + id + ", fue eliminada correctamente.");
         return facturaDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class FacturaServiceImpl implements FacturaService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Factura con id: " + id + ", fue reciclada correctamente.");
         return facturaDAO.save(objeto);
     }

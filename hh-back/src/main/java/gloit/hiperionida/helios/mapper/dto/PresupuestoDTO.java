@@ -10,4 +10,8 @@ import java.io.Serializable;
 public class PresupuestoDTO extends AbsViajeDTO implements Serializable {
     private String id;
     private String validez;
+    /*
+        private Long id;
+    private LocalDateTime validez;
+     */
 }

@@ -99,11 +99,11 @@ public class AdelantoServiceImpl implements AdelantoService {
         AdelantoModel adelantoModel = adelantoDAO.save(adelantoMapper.toEntity(creation));
         if (creation.getId() == null) {
             adelantoModel.setCreada(Helper.getNow(""));
-            adelantoModel.setCreador(usuarioService.obtenerUsuario());
+            adelantoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             adelantoModel.setModificada(Helper.getNow(""));
-            adelantoModel.setModificador(usuarioService.obtenerUsuario());
+            adelantoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return adelantoDAO.save(adelantoModel);
@@ -114,7 +114,7 @@ public class AdelantoServiceImpl implements AdelantoService {
         log.info("Eliminando la entidad Adelanto con id: {}.", id);
         AdelantoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Adelanto con id: " + id + ", fue eliminada correctamente.");
         return adelantoDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class AdelantoServiceImpl implements AdelantoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Adelanto con id: " + id + ", fue reciclada correctamente.");
         return adelantoDAO.save(objeto);
     }

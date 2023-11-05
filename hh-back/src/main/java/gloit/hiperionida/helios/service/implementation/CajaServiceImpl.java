@@ -100,11 +100,11 @@ public class CajaServiceImpl implements CajaService {
         CajaModel cajaModel = cajaDAO.save(cajaMapper.toEntity(creation));
         if (creation.getId() == null) {
             cajaModel.setCreada(Helper.getNow(""));
-            cajaModel.setCreador(usuarioService.obtenerUsuario());
+            cajaModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             cajaModel.setModificada(Helper.getNow(""));
-            cajaModel.setModificador(usuarioService.obtenerUsuario());
+            cajaModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return cajaDAO.save(cajaModel);
@@ -115,7 +115,7 @@ public class CajaServiceImpl implements CajaService {
         log.info("Eliminando la entidad Caja con id: {}.", id);
         CajaModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Caja con id: " + id + ", fue eliminada correctamente.");
         return cajaDAO.save(objeto);
     }
@@ -129,7 +129,7 @@ public class CajaServiceImpl implements CajaService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Caja con id: " + id + ", fue reciclada correctamente.");
         return cajaDAO.save(objeto);
     }

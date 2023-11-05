@@ -8,10 +8,10 @@ import lombok.Setter;
 @MappedSuperclass
 @Setter
 public abstract class AbsAuditoriaDTO {
-    private UsuarioDTO creador;
     private String creada;
-    private UsuarioDTO modificador;
+    private String creador;
     private String modificada;
-    private UsuarioDTO eliminador;
+    private String modificador;
     private String eliminada;
+    private String eliminador;
 }

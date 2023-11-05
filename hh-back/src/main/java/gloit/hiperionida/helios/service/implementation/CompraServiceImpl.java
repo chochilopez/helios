@@ -99,11 +99,11 @@ public class CompraServiceImpl implements CompraService {
         CompraModel compraModel = compraDAO.save(compraMapper.toEntity(creation));
         if (creation.getId() == null) {
             compraModel.setCreada(Helper.getNow(""));
-            compraModel.setCreador(usuarioService.obtenerUsuario());
+            compraModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             compraModel.setModificada(Helper.getNow(""));
-            compraModel.setModificador(usuarioService.obtenerUsuario());
+            compraModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return compraDAO.save(compraModel);
@@ -114,7 +114,7 @@ public class CompraServiceImpl implements CompraService {
         log.info("Eliminando la entidad Compra con id: {}.", id);
         CompraModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Compra con id: " + id + ", fue eliminada correctamente.");
         return compraDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class CompraServiceImpl implements CompraService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Compra con id: " + id + ", fue reciclada correctamente.");
         return compraDAO.save(objeto);
     }

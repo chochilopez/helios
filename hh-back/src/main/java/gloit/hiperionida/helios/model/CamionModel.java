@@ -23,14 +23,5 @@ public class CamionModel extends AbsVehiculoModel {
     private String numeroMotor;
     private String pesoArrastre;
 
-    @OneToOne()
-    private SeguroModel seguro;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "camion_id")
-    private Set<ServicioModel> servicios;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "camion_id")
-    private Set<NeumaticoModel> neumaticos;
+    private Long seguro_id;
 }

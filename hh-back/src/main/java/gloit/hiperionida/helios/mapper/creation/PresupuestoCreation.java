@@ -2,7 +2,6 @@ package gloit.hiperionida.helios.mapper.creation;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
@@ -11,4 +10,8 @@ import lombok.NoArgsConstructor;
 public class PresupuestoCreation extends AbsViajeCreation {
     private String id;
     private String validez;
+        /*
+        private Long id;
+    private LocalDateTime validez;
+     */
 }

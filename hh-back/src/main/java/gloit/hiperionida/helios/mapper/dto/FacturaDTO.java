@@ -19,8 +19,24 @@ public class FacturaDTO extends AbsAuditoriaDTO implements Serializable {
     private String subTotal;
     private String tipoComprobante;
     private String pagada;
-    private MovimientoDTO movimiento;
     private List<PagoDTO> pagos;
     private RemitoDTO remito;
-    private ViajeDTO viaje;
+    private ViajeFacturaDTO viaje;
+    /*
+        @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Double descuento;
+    private LocalDateTime fecha;
+    private Double iva;
+    private String numeroComprobante;
+    private Double recarga;
+    private Double subTotal;
+    @Enumerated(EnumType.STRING)
+    private TipoComprobanteEnum tipoComprobante;
+    private Boolean pagada;
+
+    private Long remito_id;
+    private Long viaje_id;
+     */
 }

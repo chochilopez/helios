@@ -3,7 +3,6 @@ package gloit.hiperionida.helios.mapper.creation;
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
@@ -13,4 +12,10 @@ public class BancoCreation extends AbsAuditoriaCreation {
     private String id;
     private String banco;
     private String notas;
+    /*
+        private Long id;
+    private String banco;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
+     */
 }

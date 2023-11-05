@@ -2,10 +2,7 @@ package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.DireccionCreation;
 import gloit.hiperionida.helios.mapper.dto.DireccionDTO;
-import gloit.hiperionida.helios.mapper.dto.UbicacionDTO;
 import gloit.hiperionida.helios.model.DireccionModel;
-import gloit.hiperionida.helios.model.UbicacionModel;
-import gloit.hiperionida.helios.repository.UbicacionDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;

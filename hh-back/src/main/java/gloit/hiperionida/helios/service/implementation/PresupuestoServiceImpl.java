@@ -396,11 +396,11 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         PresupuestoModel presupuestoModel = presupuestoDAO.save(presupuestoMapper.toEntity(creation));
         if (creation.getId() == null) {
             presupuestoModel.setCreada(Helper.getNow(""));
-            presupuestoModel.setCreador(usuarioService.obtenerUsuario());
+            presupuestoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             presupuestoModel.setModificada(Helper.getNow(""));
-            presupuestoModel.setModificador(usuarioService.obtenerUsuario());
+            presupuestoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return presupuestoDAO.save(presupuestoModel);
@@ -411,7 +411,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         log.info("Eliminando la entidad Presupuesto con id: {}.", id);
         PresupuestoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Presupuesto con id: " + id + ", fue eliminada correctamente.");
         return presupuestoDAO.save(objeto);
     }
@@ -425,7 +425,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Presupuesto con id: " + id + ", fue reciclada correctamente.");
         return presupuestoDAO.save(objeto);
     }

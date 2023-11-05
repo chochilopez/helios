@@ -61,18 +61,18 @@ public class CategoriaViajeMapper {
             dto.setId(categoriaViajeModel.getId().toString());
             dto.setCategoria(categoriaViajeModel.getCategoria());
 
-            if (categoriaViajeModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(categoriaViajeModel.getCreador()));
-            if (Helper.localDateTimeToString(categoriaViajeModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(categoriaViajeModel.getCreada(), ""));
-            if (categoriaViajeModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(categoriaViajeModel.getModificador()));
-            if (Helper.localDateTimeToString(categoriaViajeModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(categoriaViajeModel.getModificada(), ""));
-            if (categoriaViajeModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(categoriaViajeModel.getEliminador()));
-            if (Helper.localDateTimeToString(categoriaViajeModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(categoriaViajeModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

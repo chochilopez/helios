@@ -99,11 +99,11 @@ public class EventoServiceImpl implements EventoService {
         EventoModel eventoModel = eventoDAO.save(eventoMapper.toEntity(creation));
         if (creation.getId() == null) {
             eventoModel.setCreada(Helper.getNow(""));
-            eventoModel.setCreador(usuarioService.obtenerUsuario());
+            eventoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             eventoModel.setModificada(Helper.getNow(""));
-            eventoModel.setModificador(usuarioService.obtenerUsuario());
+            eventoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return eventoDAO.save(eventoModel);
@@ -114,7 +114,7 @@ public class EventoServiceImpl implements EventoService {
         log.info("Eliminando la entidad Evento con id: {}.", id);
         EventoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Evento con id: " + id + ", fue eliminada correctamente.");
         return eventoDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class EventoServiceImpl implements EventoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Evento con id: " + id + ", fue reciclada correctamente.");
         return eventoDAO.save(objeto);
     }

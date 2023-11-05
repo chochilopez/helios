@@ -1,14 +1,13 @@
-package gloit.hiperionida.helios.service.implementation;
+package gloit.hiperionida.helios.util.service.implementation;
 
-import gloit.hiperionida.helios.mapper.VisitaMapper;
-import gloit.hiperionida.helios.mapper.creation.VisitaCreation;
-import gloit.hiperionida.helios.model.VisitaModel;
-import gloit.hiperionida.helios.repository.VisitaDAO;
-import gloit.hiperionida.helios.service.VisitaService;
+import gloit.hiperionida.helios.util.mapper.LogueoMapper;
+import gloit.hiperionida.helios.util.mapper.creation.LogueoCreation;
+import gloit.hiperionida.helios.util.model.LogueoModel;
+import gloit.hiperionida.helios.util.repository.LogueoDAO;
+import gloit.hiperionida.helios.util.service.LogueoService;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
-import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -21,59 +20,59 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class VisitaServiceImpl implements VisitaService {
-    private final VisitaDAO visitaDAO;
-    private final VisitaMapper visitaMapper;
+public class LogueoServiceImpl implements LogueoService {
+    private final LogueoDAO logueoDAO;
+    private final LogueoMapper logueoMapper;
     private final UsuarioServiceImpl usuarioService;
 
     @Override
-    public VisitaModel buscarPorId(Long id) {
+    public LogueoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Visita con id: {}.", id);
-        VisitaModel visitaModel = visitaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Visita con id: " + id + "."));
+        LogueoModel logueoModel = logueoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Visita con id: " + id + "."));
         String mensaje = "Se encontro una entidad Visita.";
         log.info(mensaje);
-        return visitaModel;
+        return logueoModel;
     }
 
     @Override
-    public VisitaModel buscarPorIdConEliminadas(Long id) {
+    public LogueoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Visita con id: {}, incluidas las eliminadas.", id);
-        VisitaModel visitaModel = visitaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Visita con id: " + id +", incluidas las eliminadas."));
+        LogueoModel logueoModel = logueoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Visita con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontro una entidad Visita con id: " + id + ".");
-        return visitaModel;
+        return logueoModel;
     }
 
     @Override
-    public List<VisitaModel> buscarTodas() {
+    public List<LogueoModel> buscarTodas() {
         log.info("Buscando todas las entidades Visita.");
-        List<VisitaModel> listado = visitaDAO.findAllByEliminadaIsNull();
+        List<LogueoModel> listado = logueoDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Visita.");
         return listado;
     }
 
     @Override
-    public List<VisitaModel> buscarTodasConEliminadas() {
+    public List<LogueoModel> buscarTodasConEliminadas() {
         log.info("Buscando todas las entidades Visita, incluidas las eliminadas.");
-        List<VisitaModel> listado = visitaDAO.findAll();
+        List<LogueoModel> listado = logueoDAO.findAll();
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Visita, incluidas las eliminadas.");
         return listado;
     }
 
     @Override
-    public Slice<VisitaModel> buscarTodasPorOrdenPorPagina(String direccion, String campo, int pagina, int elementos) {
+    public Slice<LogueoModel> buscarTodasPorOrdenPorPagina(String direccion, String campo, int pagina, int elementos) {
         log.info("Buscando todas las entidades Visita, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
-        Slice<VisitaModel> slice = visitaDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        Slice<LogueoModel> slice = logueoDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Visita.");
         return slice;
     }
 
     @Override
-    public Slice<VisitaModel> buscarTodasPorOrdenPorPaginaConEliminadas(String direccion, String campo, int pagina, int elementos) {
+    public Slice<LogueoModel> buscarTodasPorOrdenPorPaginaConEliminadas(String direccion, String campo, int pagina, int elementos) {
         log.info("Buscando todas las entidades Visita, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
-        Slice<VisitaModel> slice = visitaDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        Slice<LogueoModel> slice = logueoDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Visita, incluidas las eliminadas.");
         return slice;
@@ -81,67 +80,67 @@ public class VisitaServiceImpl implements VisitaService {
 
     @Override
     public Long contarTodas() {
-        Long cantidad = visitaDAO.countAllByEliminadaIsNull();
+        Long cantidad = logueoDAO.countAllByEliminadaIsNull();
         log.info("Existen {} entidades Visita.", cantidad);
         return cantidad;
     }
 
     @Override
     public Long contarTodasConEliminadas() {
-        Long cantidad = visitaDAO.count();
+        Long cantidad = logueoDAO.count();
         log.info("Existen {} entidades Visita, incluidas las eliminadas.", cantidad);
         return cantidad;
     }
 
     @Override
-    public VisitaModel guardar(VisitaCreation creation) {
+    public LogueoModel guardar(LogueoCreation creation) {
         log.info("Insertando la entidad Visita: {}.",  creation);
-        VisitaModel visitaModel = visitaDAO.save(visitaMapper.toEntity(creation));
+        LogueoModel logueoModel = logueoDAO.save(logueoMapper.toEntity(creation));
         if (creation.getId() == null) {
-            visitaModel.setCreada(Helper.getNow(""));
-            visitaModel.setCreador(usuarioService.obtenerUsuario());
+            logueoModel.setCreada(Helper.getNow(""));
+            logueoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
-            visitaModel.setModificada(Helper.getNow(""));
-            visitaModel.setModificador(usuarioService.obtenerUsuario());
+            logueoModel.setModificada(Helper.getNow(""));
+            logueoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
-        return visitaDAO.save(visitaModel);
+        return logueoDAO.save(logueoModel);
     }
 
     @Override
-    public VisitaModel eliminar(Long id) {
+    public LogueoModel eliminar(Long id) {
         log.info("Eliminando la entidad Visita con id: {}.", id);
-        VisitaModel objeto = this.buscarPorId(id);
+        LogueoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Visita con id: " + id + ", fue eliminada correctamente.");
-        return visitaDAO.save(objeto);
+        return logueoDAO.save(objeto);
     }
 
     @Override
-    public VisitaModel reciclar(Long id) {
+    public LogueoModel reciclar(Long id) {
         log.info("Reciclando la entidad Visita con id: {}.", id);
-        VisitaModel objeto = this.buscarPorIdConEliminadas(id);
+        LogueoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Visita con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Visita con id: " + id + ", fue reciclada correctamente.");
-        return visitaDAO.save(objeto);
+        return logueoDAO.save(objeto);
     }
 
     @Override
     public void destruir(Long id) {
         log.info("Destruyendo la entidad Visita con id: {}.", id);
-        VisitaModel objeto = this.buscarPorIdConEliminadas(id);
+        LogueoModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad Visita con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
             throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
-        visitaDAO.delete(objeto);
+        logueoDAO.delete(objeto);
         log.info("La entidad fue destruida.");
     }
 }

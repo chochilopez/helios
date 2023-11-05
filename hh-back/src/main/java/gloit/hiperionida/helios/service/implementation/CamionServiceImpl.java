@@ -101,11 +101,11 @@ public class CamionServiceImpl implements CamionService {
         CamionModel camionModel = camionDAO.save(camionMapper.toEntity(creation));
         if (creation.getId() == null) {
             camionModel.setCreada(Helper.getNow(""));
-            camionModel.setCreador(usuarioService.obtenerUsuario());
+            camionModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             camionModel.setModificada(Helper.getNow(""));
-            camionModel.setModificador(usuarioService.obtenerUsuario());
+            camionModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return camionDAO.save(camionModel);
@@ -116,7 +116,7 @@ public class CamionServiceImpl implements CamionService {
         log.info("Eliminando la entidad Camion con id: {}.", id);
         CamionModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Camion con id: " + id + ", fue eliminada correctamente.");
         return camionDAO.save(objeto);
     }
@@ -130,7 +130,7 @@ public class CamionServiceImpl implements CamionService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Camion con id: " + id + ", fue reciclada correctamente.");
         return camionDAO.save(objeto);
     }

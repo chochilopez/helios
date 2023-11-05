@@ -3,7 +3,6 @@ package gloit.hiperionida.helios.mapper.creation;
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
@@ -14,4 +13,11 @@ public class LicenciaCreation extends AbsAuditoriaCreation {
     private String numero;
     private String categoria;
     private String vencimiento_id;
+        /*
+        private Long id;
+    private String numero;
+    private String categoria;
+
+    private Long vencimiento_id;
+     */
 }

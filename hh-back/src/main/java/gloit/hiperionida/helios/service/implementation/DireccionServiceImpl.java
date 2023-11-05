@@ -99,11 +99,11 @@ public class DireccionServiceImpl implements DireccionService {
         DireccionModel direccionModel = direccionDAO.save(direccionMapper.toEntity(creation));
         if (creation.getId() == null) {
             direccionModel.setCreada(Helper.getNow(""));
-            direccionModel.setCreador(usuarioService.obtenerUsuario());
+            direccionModel.setCreador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             direccionModel.setModificada(Helper.getNow(""));
-            direccionModel.setModificador(usuarioService.obtenerUsuario());
+            direccionModel.setModificador_id(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return direccionDAO.save(direccionModel);
@@ -114,7 +114,7 @@ public class DireccionServiceImpl implements DireccionService {
         log.info("Eliminando la entidad Direccion con id: {}.", id);
         DireccionModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador(usuarioService.obtenerUsuario());
+        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Direccion con id: " + id + ", fue eliminada correctamente.");
         return direccionDAO.save(objeto);
     }
@@ -128,7 +128,7 @@ public class DireccionServiceImpl implements DireccionService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador(null);
+        objeto.setEliminador_id(null);
         log.info("La entidad Direccion con id: " + id + ", fue reciclada correctamente.");
         return direccionDAO.save(objeto);
     }

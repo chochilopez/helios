@@ -18,12 +18,10 @@ public class RolMapper {
 
     public RolModel toEntity(RolCreation rolCreation) {
         try {
-            log.info("Rol creation to entity.");
             RolModel rolModel = new RolModel();
 
-            if (Helper.getLong(rolCreation.getId()) != null) {
+            if (Helper.getLong(rolCreation.getId()) != null)
                 rolModel = rolDAO.findByIdAndEliminadaIsNull(Helper.getLong(rolCreation.getId())).get();
-            }
             rolModel.setRol(RolEnum.valueOf(rolCreation.getRol()));
 
             return rolModel;
@@ -35,7 +33,6 @@ public class RolMapper {
 
     public RolDTO toDto(RolModel rolModel) {
         try {
-            log.info("Rol entity to dto.");
             RolDTO dto = new RolDTO();
 
             dto.setId(rolModel.getId().toString());

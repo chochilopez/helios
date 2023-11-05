@@ -1,15 +1,13 @@
-package gloit.hiperionida.helios.mapper.creation;
+package gloit.hiperionida.helios.util.mapper.dto;
 
-import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.io.Serializable;
 
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class VisitaCreation extends AbsAuditoriaCreation {
+public class LogueoDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String ip;
     private String hostname;
@@ -22,5 +20,7 @@ public class VisitaCreation extends AbsAuditoriaCreation {
     private String isp;
     private String organization;
     private String asn;
-    private String visitante_id;
+
+    private String username;
+    private String logueado;
 }

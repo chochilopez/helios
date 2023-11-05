@@ -13,4 +13,14 @@ public class GastoDTO extends AbsAuditoriaDTO implements Serializable {
     private String monto;
     private String notas;
     private CategoriaGastoDTO categoriaGasto;
+    /*
+        private Long id;
+    private Double monto;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
+
+    private Long categoriaGasto_id;
+    private Long viaje_id;
+}
+     */
 }

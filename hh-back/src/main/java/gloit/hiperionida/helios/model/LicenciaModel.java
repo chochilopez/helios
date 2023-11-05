@@ -20,6 +20,5 @@ public class LicenciaModel extends AbsAuditoriaModel {
     private String numero;
     private String categoria;
 
-    @OneToOne
-    private EventoModel vencimiento;
+    private Long vencimiento_id;
 }

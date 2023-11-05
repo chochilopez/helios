@@ -35,7 +35,6 @@ public class ConductorMapper {
 
             if (Helper.getLong(conductorCreation.getId()) != null)
                 conductorModel.setId(Helper.getLong(conductorCreation.getId()));
-            conductorModel.setDireccion(conductorCreation.getDireccion());
             conductorModel.setEmail(conductorCreation.getEmail());
             conductorModel.setIdentificacion(conductorCreation.getIdentificacion());
             conductorModel.setNombre(conductorCreation.getNombre());
@@ -91,7 +90,6 @@ public class ConductorMapper {
             ConductorDTO dto = new ConductorDTO();
 
             dto.setId(conductorModel.getId().toString());
-            dto.setDireccion(conductorModel.getDireccion());
             dto.setEmail(conductorModel.getEmail());
             dto.setIdentificacion(conductorModel.getIdentificacion());
             dto.setNombre(conductorModel.getNombre());

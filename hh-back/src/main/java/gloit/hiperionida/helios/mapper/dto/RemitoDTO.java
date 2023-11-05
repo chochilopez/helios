@@ -13,4 +13,11 @@ public class RemitoDTO extends AbsAuditoriaDTO implements Serializable {
     private String descripcion;
     private String fecha;
     private String numero;
+    /*
+        private Long id;
+    @Column(columnDefinition = "TEXT")
+    private String descripcion;
+    private LocalDateTime fecha;
+    private String numero;
+     */
 }
