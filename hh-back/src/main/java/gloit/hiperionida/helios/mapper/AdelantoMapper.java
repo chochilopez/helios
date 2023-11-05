@@ -24,79 +24,97 @@ public class AdelantoMapper {
     private final UsuarioMapper usuarioMapper;
     private final CajaDAO cajaDAO;
     private final CajaMapper cajaMapper;
+    
+    /*
+        private String id;
+    private String descripcion;
+    private String fecha;
+    private String monto;
+    private String notas;
+    private String recibo;
+    private String rendido;
+    private String caja_id;
+    private String conductor_id;
+     */
 
-    public AdelantoModel toEntity(AdelantoCreation adelantoCreation) {
+    public AdelantoModel toEntity(AdelantoCreation creation) {
         try {
-            AdelantoModel adelantoModel = new AdelantoModel();
+            AdelantoModel model = new AdelantoModel();
 
-            if (Helper.getLong(adelantoCreation.getId()) != null)
-                adelantoModel.setId(Helper.getLong(adelantoCreation.getId()));
-            adelantoModel.setDescripcion(adelantoCreation.getDescripcion());
-            adelantoModel.setNotas(adelantoCreation.getNotas());
-            adelantoModel.setRecibo(adelantoCreation.getRecibo());
-            if (Helper.getBoolean(adelantoCreation.getRendido()) != null)
-                adelantoModel.setRendido(Helper.getBoolean(adelantoCreation.getRendido()));
-            if (adelantoCreation.getFecha() != null && Helper.stringToLocalDateTime(adelantoCreation.getFecha(), "") != null)
-                adelantoModel.setFecha(Helper.stringToLocalDateTime(adelantoCreation.getFecha(), ""));
-            if (Helper.getDecimal(adelantoCreation.getMonto()) != null)
-                adelantoModel.setMonto(Helper.getDecimal(adelantoCreation.getMonto()));
-            if (Helper.getLong(adelantoCreation.getCaja_id()) != null) {
-                Optional<CajaModel> caja = cajaDAO.findById(Helper.getLong(adelantoCreation.getCaja_id()));
-                caja.ifPresent(adelantoModel::setCaja);
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            model.setDescripcion(creation.getDescripcion());
+            model.setNotas(creation.getNotas());
+            model.setRecibo(creation.getRecibo());
+            if (Helper.getBoolean(creation.getRendido()) != null)
+                model.setRendido(Helper.getBoolean(creation.getRendido()));
+            if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
+                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
+            if (Helper.getDecimal(creation.getMonto()) != null)
+                model.setMonto(Helper.getDecimal(creation.getMonto()));
+            if (Helper.getLong(creation.getCaja_id()) != null) {
+                Optional<CajaModel> caja = cajaDAO.findById(Helper.getLong(creation.getCaja_id()));
+                caja.ifPresent(model::setCaja);
             }
 
-            if (Helper.getLong(adelantoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(adelantoCreation.getCreador_id()));
-                usuario.ifPresent(adelantoModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(adelantoCreation.getCreada(), "") != null)
-                adelantoModel.setCreada(Helper.stringToLocalDateTime(adelantoCreation.getCreada(), ""));
-            if (Helper.getLong(adelantoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(adelantoCreation.getModificador_id()));
-                usuario.ifPresent(adelantoModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(adelantoCreation.getModificada(), "") != null)
-                adelantoModel.setModificada(Helper.stringToLocalDateTime(adelantoCreation.getModificada(), ""));
-            if (Helper.getLong(adelantoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(adelantoCreation.getEliminador_id()));
-                usuario.ifPresent(adelantoModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(adelantoCreation.getEliminada(), "") != null)
-                adelantoModel.setEliminada(Helper.stringToLocalDateTime(adelantoCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return adelantoModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    
+    /*
+        private String id;
+    private String descripcion;
+    private String fecha;
+    private String monto;
+    private String notas;
+    private String recibo;
+    private String rendido;
+    private String caja_id;
+    private String conductor_id;
+     */
 
-    public AdelantoDTO toDto(AdelantoModel adelantoModel) {
+    public AdelantoDTO toDto(AdelantoModel model) {
         try {
             AdelantoDTO dto = new AdelantoDTO();
 
-            dto.setId(adelantoModel.getId().toString());
-            dto.setDescripcion(adelantoModel.getDescripcion());
-            dto.setFecha(adelantoModel.getFecha().toString());
-            dto.setMonto(adelantoModel.getMonto().toString());
-            dto.setNotas(adelantoModel.getNotas());
-            dto.setRecibo(adelantoModel.getRecibo());
-            dto.setRendido(adelantoModel.getRendido().toString());
-            if (adelantoModel.getCaja() != null)
-                dto.setCaja(cajaMapper.toDto(adelantoModel.getCaja()));
+            dto.setId(model.getId().toString());
+            dto.setDescripcion(model.getDescripcion());
+            dto.setFecha(model.getFecha().toString());
+            dto.setMonto(model.getMonto().toString());
+            dto.setNotas(model.getNotas());
+            dto.setRecibo(model.getRecibo());
+            dto.setRendido(model.getRendido().toString());
+            if (model.getCaja() != null)
+                dto.setCaja(cajaMapper.toDto(model.getCaja()));
 
-            if (adelantoModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(adelantoModel.getCreador()));
-            if (Helper.localDateTimeToString(adelantoModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(adelantoModel.getCreada(), ""));
-            if (adelantoModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(adelantoModel.getModificador()));
-            if (Helper.localDateTimeToString(adelantoModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(adelantoModel.getModificada(), ""));
-            if (adelantoModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(adelantoModel.getEliminador()));
-            if (Helper.localDateTimeToString(adelantoModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(adelantoModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

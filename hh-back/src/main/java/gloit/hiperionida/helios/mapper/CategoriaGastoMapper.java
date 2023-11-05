@@ -19,60 +19,62 @@ import java.util.Optional;
 public class CategoriaGastoMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    /*
+        private String id;
+    private String categoria;
+     */
 
-    public CategoriaGastoModel toEntity(CategoriaGastoCreation categoriaGastoCreation) {
+    public CategoriaGastoModel toEntity(CategoriaGastoCreation creation) {
         try {
-            CategoriaGastoModel categoriaGastoModel = new CategoriaGastoModel();
+            CategoriaGastoModel model = new CategoriaGastoModel();
 
-            if (Helper.getLong(categoriaGastoCreation.getId()) != null)
-                categoriaGastoModel.setId(Helper.getLong(categoriaGastoCreation.getId()));
-            categoriaGastoModel.setCategoria(categoriaGastoCreation.getCategoria());
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            model.setCategoria(creation.getCategoria());
 
-            if (Helper.getLong(categoriaGastoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(categoriaGastoCreation.getCreador_id()));
-                usuario.ifPresent(categoriaGastoModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(categoriaGastoCreation.getCreada(), "") != null)
-                categoriaGastoModel.setCreada(Helper.stringToLocalDateTime(categoriaGastoCreation.getCreada(), ""));
-            if (Helper.getLong(categoriaGastoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(categoriaGastoCreation.getModificador_id()));
-                usuario.ifPresent(categoriaGastoModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(categoriaGastoCreation.getModificada(), "") != null)
-                categoriaGastoModel.setModificada(Helper.stringToLocalDateTime(categoriaGastoCreation.getModificada(), ""));
-            if (Helper.getLong(categoriaGastoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(categoriaGastoCreation.getEliminador_id()));
-                usuario.ifPresent(categoriaGastoModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(categoriaGastoCreation.getEliminada(), "") != null)
-                categoriaGastoModel.setEliminada(Helper.stringToLocalDateTime(categoriaGastoCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return categoriaGastoModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String categoria;
+     */
 
-    public CategoriaGastoDTO toDto(CategoriaGastoModel categoriaGastoModel) {
+    public CategoriaGastoDTO toDto(CategoriaGastoModel model) {
         try {
             CategoriaGastoDTO dto = new CategoriaGastoDTO();
 
-            dto.setId(categoriaGastoModel.getId().toString());
-            dto.setCategoria(categoriaGastoModel.getCategoria());
+            dto.setId(model.getId().toString());
+            dto.setCategoria(model.getCategoria());
 
-            if (categoriaGastoModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(categoriaGastoModel.getCreador()));
-            if (Helper.localDateTimeToString(categoriaGastoModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(categoriaGastoModel.getCreada(), ""));
-            if (categoriaGastoModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(categoriaGastoModel.getModificador()));
-            if (Helper.localDateTimeToString(categoriaGastoModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(categoriaGastoModel.getModificada(), ""));
-            if (categoriaGastoModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(categoriaGastoModel.getEliminador()));
-            if (Helper.localDateTimeToString(categoriaGastoModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(categoriaGastoModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

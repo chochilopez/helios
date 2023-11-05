@@ -11,16 +11,7 @@ import java.util.List;
 public class ViajeDTO extends AbsViajeDTO implements Serializable {
     private String id;
     private String guia;
-    private ConductorDTO conductor;
-    private CamionDTO camion;
-    private AcopladoDTO acoplado;
-    private List<GastoDTO> gastos;
-    /*
-        private Long id;
-    private String guia;
-
-    private Long conductor_id;
-    private Long camion_id;
-    private Long acoplado_id;
-     */
+    private String conductor_id;
+    private String camion_id;
+    private String acoplado_id;
 }

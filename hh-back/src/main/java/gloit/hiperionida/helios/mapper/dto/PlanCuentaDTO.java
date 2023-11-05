@@ -11,8 +11,4 @@ import java.io.Serializable;
 public class PlanCuentaDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String nombre;
-    /*
-        private Long id;
-    private String nombre;
-     */
 }

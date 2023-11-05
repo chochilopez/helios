@@ -11,9 +11,5 @@ import java.io.Serializable;
 public class CajaDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String nombre;
-        /*
-        private Long id;
-    private String nombre;
     private String notas;
-     */
 }

@@ -20,85 +20,109 @@ import java.util.Optional;
 public class ChequeMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    
+    /*
+        private String id;
+    private String cuitEmisor;
+    private String destinatario;
+    private String emisor;
+    private String estado;
+    private String fechaCobro;
+    private String fechaEmision;
+    private String monto;
+    private String numeroCheque;
+    private String banco;
+    private String entregadoA;
+    private String recibidoDe;
+     */
 
-    public ChequeModel toEntity(ChequeCreation chequeCreation) {
+    public ChequeModel toEntity(ChequeCreation creation) {
         try {
-            ChequeModel chequeModel = new ChequeModel();
+            ChequeModel model = new ChequeModel();
 
-            if (Helper.getLong(chequeCreation.getId()) != null)
-                chequeModel.setId(Helper.getLong(chequeCreation.getId()));
-            chequeModel.setCuitEmisor(chequeCreation.getCuitEmisor());
-            chequeModel.setDestinatario(chequeCreation.getDestinatario());
-            chequeModel.setEmisor(chequeCreation.getEmisor());
-            chequeModel.setEntregadoA(chequeCreation.getEntregadoA());
-            chequeModel.setRecibidoDe(chequeCreation.getRecibidoDe());
-            chequeModel.setBanco(chequeCreation.getBanco());
-            if (chequeCreation.getEstado() != null)
-                chequeModel.setEstado(EstadoChequeEnum.valueOf(chequeCreation.getEstado()));
-            if (chequeCreation.getFechaCobro() != null && Helper.stringToLocalDateTime(chequeCreation.getFechaCobro(), "") != null)
-                chequeModel.setFechaCobro(Helper.stringToLocalDateTime(chequeCreation.getFechaCobro(), ""));
-            if (chequeCreation.getFechaEmision() != null && Helper.stringToLocalDateTime(chequeCreation.getFechaEmision(), "") != null)
-                chequeModel.setFechaEmision(Helper.stringToLocalDateTime(chequeCreation.getFechaEmision(), ""));
-            if (Helper.getDecimal(chequeCreation.getMonto()) != null)
-                chequeModel.setMonto(Helper.getDecimal(chequeCreation.getMonto()));
-            chequeModel.setNumeroCheque(chequeCreation.getNumeroCheque());
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            model.setCuitEmisor(creation.getCuitEmisor());
+            model.setDestinatario(creation.getDestinatario());
+            model.setEmisor(creation.getEmisor());
+            model.setEntregadoA(creation.getEntregadoA());
+            model.setRecibidoDe(creation.getRecibidoDe());
+            model.setBanco(creation.getBanco());
+            if (creation.getEstado() != null)
+                model.setEstado(EstadoChequeEnum.valueOf(creation.getEstado()));
+            if (creation.getFechaCobro() != null && Helper.stringToLocalDateTime(creation.getFechaCobro(), "") != null)
+                model.setFechaCobro(Helper.stringToLocalDateTime(creation.getFechaCobro(), ""));
+            if (creation.getFechaEmision() != null && Helper.stringToLocalDateTime(creation.getFechaEmision(), "") != null)
+                model.setFechaEmision(Helper.stringToLocalDateTime(creation.getFechaEmision(), ""));
+            if (Helper.getDecimal(creation.getMonto()) != null)
+                model.setMonto(Helper.getDecimal(creation.getMonto()));
+            model.setNumeroCheque(creation.getNumeroCheque());
 
-            if (Helper.getLong(chequeCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(chequeCreation.getCreador_id()));
-                usuario.ifPresent(chequeModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(chequeCreation.getCreada(), "") != null)
-                chequeModel.setCreada(Helper.stringToLocalDateTime(chequeCreation.getCreada(), ""));
-            if (Helper.getLong(chequeCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(chequeCreation.getModificador_id()));
-                usuario.ifPresent(chequeModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(chequeCreation.getModificada(), "") != null)
-                chequeModel.setModificada(Helper.stringToLocalDateTime(chequeCreation.getModificada(), ""));
-            if (Helper.getLong(chequeCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(chequeCreation.getEliminador_id()));
-                usuario.ifPresent(chequeModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(chequeCreation.getEliminada(), "") != null)
-                chequeModel.setEliminada(Helper.stringToLocalDateTime(chequeCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return chequeModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    
+    /*
+        private String id;
+    private String cuitEmisor;
+    private String destinatario;
+    private String emisor;
+    private String estado;
+    private String fechaCobro;
+    private String fechaEmision;
+    private String monto;
+    private String numeroCheque;
+    private String banco;
+    private String entregadoA;
+    private String recibidoDe;
+     */
 
-    public ChequeDTO toDto(ChequeModel chequeModel) {
+    public ChequeDTO toDto(ChequeModel model) {
         try {
             ChequeDTO dto = new ChequeDTO();
 
-            dto.setId(chequeModel.getId().toString());
-            dto.setCuitEmisor(chequeModel.getCuitEmisor());
-            dto.setDestinatario(chequeModel.getDestinatario());
-            dto.setEmisor(chequeModel.getEmisor());
-            dto.setEstado(chequeModel.getEstado().toString());
-            dto.setFechaCobro(chequeModel.getFechaCobro().toString());
-            dto.setFechaEmision(chequeModel.getFechaEmision().toString());
-            dto.setMonto(chequeModel.getMonto().toString());
-            dto.setNumeroCheque(chequeModel.getNumeroCheque());
-            dto.setCuitEmisor(chequeModel.getCuitEmisor());
-            dto.setBanco(chequeModel.getBanco());
-            dto.setEntregadoA(chequeModel.getEntregadoA());
-            dto.setRecibidoDe(chequeModel.getRecibidoDe());
+            dto.setId(model.getId().toString());
+            dto.setCuitEmisor(model.getCuitEmisor());
+            dto.setDestinatario(model.getDestinatario());
+            dto.setEmisor(model.getEmisor());
+            dto.setEstado(model.getEstado().toString());
+            dto.setFechaCobro(model.getFechaCobro().toString());
+            dto.setFechaEmision(model.getFechaEmision().toString());
+            dto.setMonto(model.getMonto().toString());
+            dto.setNumeroCheque(model.getNumeroCheque());
+            dto.setCuitEmisor(model.getCuitEmisor());
+            dto.setBanco(model.getBanco());
+            dto.setEntregadoA(model.getEntregadoA());
+            dto.setRecibidoDe(model.getRecibidoDe());
 
-            if (chequeModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(chequeModel.getCreador()));
-            if (Helper.localDateTimeToString(chequeModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(chequeModel.getCreada(), ""));
-            if (chequeModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(chequeModel.getModificador()));
-            if (Helper.localDateTimeToString(chequeModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(chequeModel.getModificada(), ""));
-            if (chequeModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(chequeModel.getEliminador()));
-            if (Helper.localDateTimeToString(chequeModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(chequeModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

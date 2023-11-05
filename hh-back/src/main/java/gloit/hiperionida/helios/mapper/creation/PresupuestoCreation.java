@@ -10,8 +10,4 @@ import lombok.NoArgsConstructor;
 public class PresupuestoCreation extends AbsViajeCreation {
     private String id;
     private String validez;
-        /*
-        private Long id;
-    private LocalDateTime validez;
-     */
 }

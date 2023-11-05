@@ -29,72 +29,76 @@ public class SeguroMapper {
     private final EventoMapper eventoMapper;
     private final ProveedorDAO proveedorDAO;
     private final EventoDAO eventoDAO;
+    /*
+        private String id;
+    private String aseguradora_id;
+    private String vencimiento_id;
+     */
 
-    public SeguroModel toEntity(SeguroCreation seguroCreation) {
+    public SeguroModel toEntity(SeguroCreation creation) {
         try {
-            SeguroModel seguroModel = new SeguroModel();
+            SeguroModel model = new SeguroModel();
 
-            if (Helper.getLong(seguroCreation.getId()) != null)
-                seguroModel.setId(Helper.getLong(seguroCreation.getId()));
-            if (Helper.getLong(seguroCreation.getAseguradora_id()) != null) {
-                Optional<ProveedorModel> aseguradora = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(seguroCreation.getAseguradora_id()));
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (Helper.getLong(creation.getAseguradora_id()) != null) {
+                Optional<ProveedorModel> aseguradora = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getAseguradora_id()));
                 if (aseguradora.isPresent())
-                    seguroModel.setAseguradora(aseguradora.get());
+                    model.setAseguradora(aseguradora.get());
             }
-            if (Helper.getLong(seguroCreation.getVencimiento_id()) != null) {
-                Optional<EventoModel> vencimiento = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(seguroCreation.getVencimiento_id()));
+            if (Helper.getLong(creation.getVencimiento_id()) != null) {
+                Optional<EventoModel> vencimiento = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getVencimiento_id()));
                 if (vencimiento.isPresent())
-                    seguroModel.setVencimiento(vencimiento.get());
+                    model.setVencimiento(vencimiento.get());
             }
 
-            if (Helper.getLong(seguroCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(seguroCreation.getCreador_id()));
-                usuario.ifPresent(seguroModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(seguroCreation.getCreada(), "") != null)
-                seguroModel.setCreada(Helper.stringToLocalDateTime(seguroCreation.getCreada(), ""));
-            if (Helper.getLong(seguroCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(seguroCreation.getModificador_id()));
-                usuario.ifPresent(seguroModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(seguroCreation.getModificada(), "") != null)
-                seguroModel.setModificada(Helper.stringToLocalDateTime(seguroCreation.getModificada(), ""));
-            if (Helper.getLong(seguroCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(seguroCreation.getEliminador_id()));
-                usuario.ifPresent(seguroModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(seguroCreation.getEliminada(), "") != null)
-                seguroModel.setEliminada(Helper.stringToLocalDateTime(seguroCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return seguroModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String aseguradora_id;
+    private String vencimiento_id;
+     */
 
-    public SeguroDTO toDto(SeguroModel seguroModel) {
+    public SeguroDTO toDto(SeguroModel model) {
         try {
             SeguroDTO dto = new SeguroDTO();
 
-            dto.setId(seguroModel.getId().toString());
-            if (seguroModel.getAseguradora() != null)
-                dto.setAseguradora(proveedorMapper.toDto(seguroModel.getAseguradora()));
-            if (seguroModel.getVencimiento() != null)
-                dto.setVencimiento(eventoMapper.toDto(seguroModel.getVencimiento()));
+            dto.setId(model.getId().toString());
+            if (model.getAseguradora() != null)
+                dto.setAseguradora(proveedorMapper.toDto(model.getAseguradora()));
+            if (model.getVencimiento() != null)
+                dto.setVencimiento(eventoMapper.toDto(model.getVencimiento()));
 
-            if (seguroModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(seguroModel.getCreador()));
-            if (Helper.localDateTimeToString(seguroModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(seguroModel.getCreada(), ""));
-            if (seguroModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(seguroModel.getModificador()));
-            if (Helper.localDateTimeToString(seguroModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(seguroModel.getModificada(), ""));
-            if (seguroModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(seguroModel.getEliminador()));
-            if (Helper.localDateTimeToString(seguroModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(seguroModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

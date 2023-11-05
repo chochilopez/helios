@@ -25,73 +25,84 @@ public class PagoMapper {
     private final UsuarioMapper usuarioMapper;
     private final ReciboDAO reciboDAO;
     private final ReciboMapper reciboMapper;
+/*
+    private String id;
+    private String monto;
+    private String notas;
+    private String tipoPago;
+    private String compra_id;
+    private String factura_id;
+    private String recibo_id;
+ */
 
-
-    public PagoModel toEntity(PagoCreation pagoCreation) {
+    public PagoModel toEntity(PagoCreation creation) {
         try {
-            PagoModel pagoModel = new PagoModel();
+            PagoModel model = new PagoModel();
 
-            if (Helper.getLong(pagoCreation.getId()) != null)
-                pagoModel.setId(Helper.getLong(pagoCreation.getId()));
-            if (Helper.getDecimal(pagoCreation.getMonto()) != null)
-                pagoModel.setMonto(Helper.getDecimal(pagoCreation.getMonto()));
-            pagoModel.setNotas(pagoCreation.getNotas());
-            if (pagoCreation.getTipoPago() != null)
-                pagoModel.setTipoPago(TipoPagoEnum.valueOf(pagoCreation.getTipoPago()));
-            if (Helper.getLong(pagoCreation.getRecibo_id()) != null) {
-                Optional<ReciboModel> recibo = reciboDAO.findByIdAndEliminadaIsNull(Helper.getLong(pagoCreation.getRecibo_id()));
-                recibo.ifPresent(pagoModel::setRecibo);
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (Helper.getDecimal(creation.getMonto()) != null)
+                model.setMonto(Helper.getDecimal(creation.getMonto()));
+            model.setNotas(creation.getNotas());
+            if (creation.getTipoPago() != null)
+                model.setTipoPago(TipoPagoEnum.valueOf(creation.getTipoPago()));
+            if (Helper.getLong(creation.getRecibo_id()) != null) {
+                Optional<ReciboModel> recibo = reciboDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getRecibo_id()));
+                recibo.ifPresent(model::setRecibo);
             }
 
-            if (Helper.getLong(pagoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(pagoCreation.getCreador_id()));
-                usuario.ifPresent(pagoModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(pagoCreation.getCreada(), "") != null)
-                pagoModel.setCreada(Helper.stringToLocalDateTime(pagoCreation.getCreada(), ""));
-            if (Helper.getLong(pagoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(pagoCreation.getModificador_id()));
-                usuario.ifPresent(pagoModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(pagoCreation.getModificada(), "") != null)
-                pagoModel.setModificada(Helper.stringToLocalDateTime(pagoCreation.getModificada(), ""));
-            if (Helper.getLong(pagoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(pagoCreation.getEliminador_id()));
-                usuario.ifPresent(pagoModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(pagoCreation.getEliminada(), "") != null)
-                pagoModel.setEliminada(Helper.stringToLocalDateTime(pagoCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return pagoModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String monto;
+    private String notas;
+    private String tipoPago;
+    private String compra_id;
+    private String factura_id;
+    private String recibo_id;
+     */
 
-    public PagoDTO toDto(PagoModel pagoModel) {
+    public PagoDTO toDto(PagoModel model) {
         try {
             PagoDTO dto = new PagoDTO();
 
-            dto.setId(pagoModel.getId().toString());
-            dto.setMonto(pagoModel.getMonto().toString());
-            dto.setNotas(pagoModel.getNotas());
-            dto.setTipoPago(pagoModel.getTipoPago().name());
-            if (pagoModel.getRecibo() != null)
-                dto.setRecibo(reciboMapper.toDto(pagoModel.getRecibo()));
+            dto.setId(model.getId().toString());
+            dto.setMonto(model.getMonto().toString());
+            dto.setNotas(model.getNotas());
+            dto.setTipoPago(model.getTipoPago().name());
+            if (model.getRecibo() != null)
+                dto.setRecibo(reciboMapper.toDto(model.getRecibo()));
 
-            if (pagoModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(pagoModel.getCreador()));
-            if (Helper.localDateTimeToString(pagoModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(pagoModel.getCreada(), ""));
-            if (pagoModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(pagoModel.getModificador()));
-            if (Helper.localDateTimeToString(pagoModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(pagoModel.getModificada(), ""));
-            if (pagoModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(pagoModel.getEliminador()));
-            if (Helper.localDateTimeToString(pagoModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(pagoModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

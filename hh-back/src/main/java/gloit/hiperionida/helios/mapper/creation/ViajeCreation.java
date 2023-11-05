@@ -15,13 +15,4 @@ public class ViajeCreation extends AbsViajeCreation {
     private String conductor_id;
     private String camion_id;
     private String acoplado_id;
-    private List<String> gastos_id;
-        /*
-        private Long id;
-    private String guia;
-
-    private Long conductor_id;
-    private Long camion_id;
-    private Long acoplado_id;
-     */
 }

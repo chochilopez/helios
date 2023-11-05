@@ -1,9 +1,14 @@
 package gloit.hiperionida.helios.mapper.dto;
 
+import gloit.hiperionida.helios.model.enums.EstadoNeumaticoEnum;
+import gloit.hiperionida.helios.model.enums.UbicacionNeumaticoEnum;
 import gloit.hiperionida.helios.util.mapper.dto.AbsAuditoriaDTO;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Data
@@ -21,25 +26,7 @@ public class NeumaticoDTO extends AbsAuditoriaDTO implements Serializable {
     private String ubicacion;
     private String estado;
     private String baja;
-    private ProveedorDTO proveedor;
-    /*
-        private Long id;
-    private LocalDateTime fechaCompra;
-    private Double kmVida;
-    private Double kmActuales;
-    private Double kmRecapado;
-    private String numeroRemito;
-    private String marca ;
-    private Double precioCompra;
-    private Integer recapadosMaximos;
-    @Enumerated(EnumType.STRING)
-    private UbicacionNeumaticoEnum ubicacion;
-    @Enumerated(EnumType.STRING)
-    private EstadoNeumaticoEnum estado;
-    private Boolean baja;
-
-    private Long acoplado_id;
-    private Long camion_id;
-    private Long proveedor_id;
-     */
+    private String acoplado_id;
+    private String camion_id;
+    private String proveedor_id;
 }

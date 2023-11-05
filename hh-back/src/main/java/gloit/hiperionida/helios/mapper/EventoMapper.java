@@ -19,71 +19,81 @@ import java.util.Optional;
 public class EventoMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    /*
+        private String id;
+    private String fecha;
+    private String descripcion;
+    private String habilitada;
+    private String recordatorio;
+    private String nombre;
+     */
 
-    public EventoModel toEntity(EventoCreation eventoCreation) {
+    public EventoModel toEntity(EventoCreation creation) {
         try {
-            EventoModel eventoModel = new EventoModel();
+            EventoModel model = new EventoModel();
 
-            if (Helper.getLong(eventoCreation.getId()) != null)
-                eventoModel.setId(Helper.getLong(eventoCreation.getId()));
-            if (eventoCreation.getFecha() != null && Helper.stringToLocalDateTime(eventoCreation.getFecha(), "") != null)
-                eventoModel.setFecha(Helper.stringToLocalDateTime(eventoCreation.getFecha(), ""));
-            eventoModel.setDescripcion(eventoCreation.getDescripcion());
-            if (eventoCreation.getHabilitada() != null)
-                eventoModel.setHabilitada(Helper.getBoolean(eventoCreation.getHabilitada()));
-            if (eventoCreation.getRecordatorio() != null)
-                eventoModel.setRecordatorio(Helper.getBoolean(eventoCreation.getRecordatorio()));
-            eventoModel.setNombre(eventoCreation.getNombre());
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
+                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
+            model.setDescripcion(creation.getDescripcion());
+            if (creation.getHabilitada() != null)
+                model.setHabilitada(Helper.getBoolean(creation.getHabilitada()));
+            if (creation.getRecordatorio() != null)
+                model.setRecordatorio(Helper.getBoolean(creation.getRecordatorio()));
+            model.setNombre(creation.getNombre());
 
-            if (Helper.getLong(eventoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(eventoCreation.getCreador_id()));
-                usuario.ifPresent(eventoModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(eventoCreation.getCreada(), "") != null)
-                eventoModel.setCreada(Helper.stringToLocalDateTime(eventoCreation.getCreada(), ""));
-            if (Helper.getLong(eventoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(eventoCreation.getModificador_id()));
-                usuario.ifPresent(eventoModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(eventoCreation.getModificada(), "") != null)
-                eventoModel.setModificada(Helper.stringToLocalDateTime(eventoCreation.getModificada(), ""));
-            if (Helper.getLong(eventoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(eventoCreation.getEliminador_id()));
-                usuario.ifPresent(eventoModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(eventoCreation.getEliminada(), "") != null)
-                eventoModel.setEliminada(Helper.stringToLocalDateTime(eventoCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return eventoModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String fecha;
+    private String descripcion;
+    private String habilitada;
+    private String recordatorio;
+    private String nombre;
+     */
 
-    public EventoDTO toDto(EventoModel eventoModel) {
+    public EventoDTO toDto(EventoModel model) {
         try {
             EventoDTO dto = new EventoDTO();
 
-            dto.setId(eventoModel.getId().toString());
-            dto.setFecha(eventoModel.getFecha().toString());
-            dto.setDescripcion(eventoModel.getDescripcion());
-            dto.setHabilitada(eventoModel.getHabilitada().toString());
-            dto.setRecordatorio(eventoModel.getRecordatorio().toString());
-            dto.setNombre(eventoModel.getNombre());
+            dto.setId(model.getId().toString());
+            dto.setFecha(model.getFecha().toString());
+            dto.setDescripcion(model.getDescripcion());
+            dto.setHabilitada(model.getHabilitada().toString());
+            dto.setRecordatorio(model.getRecordatorio().toString());
+            dto.setNombre(model.getNombre());
 
-            if (eventoModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(eventoModel.getCreador()));
-            if (Helper.localDateTimeToString(eventoModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(eventoModel.getCreada(), ""));
-            if (eventoModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(eventoModel.getModificador()));
-            if (Helper.localDateTimeToString(eventoModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(eventoModel.getModificada(), ""));
-            if (eventoModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(eventoModel.getEliminador()));
-            if (Helper.localDateTimeToString(eventoModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(eventoModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

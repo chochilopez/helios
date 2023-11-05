@@ -11,8 +11,4 @@ import java.io.Serializable;
 public class CategoriaGastoDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String categoria;
-    /*
-        private Long id;
-    private String categoria;
-     */
 }

@@ -24,69 +24,77 @@ public class GastoMapper {
     private final UsuarioMapper usuarioMapper;
     private final CategoriaGastoDAO categoriaGastoDAO;
     private final CategoriaGastoMapper categoriaGastoMapper;
+    /*
+        private String id;
+    private String monto;
+    private String notas;
+    private String categoriaGasto_id;
+    private String viaje_id;
+     */
 
-    public GastoModel toEntity(GastoCreation gastoCreation) {
+    public GastoModel toEntity(GastoCreation creation) {
         try {
-            GastoModel gastoModel = new GastoModel();
+            GastoModel model = new GastoModel();
 
-            if (Helper.getLong(gastoCreation.getId()) != null)
-                gastoModel.setId(Helper.getLong(gastoCreation.getId()));
-            if (Helper.getDecimal(gastoCreation.getMonto()) != null)
-                gastoModel.setMonto(Helper.getDecimal(gastoCreation.getMonto()));
-            gastoModel.setNotas(gastoCreation.getNotas());
-            if (Helper.getLong(gastoCreation.getCategoriaGasto_id()) != null) {
-                Optional<CategoriaGastoModel> categoriaGasto = categoriaGastoDAO.findByIdAndEliminadaIsNull(Helper.getLong(gastoCreation.getCategoriaGasto_id()));
-                categoriaGasto.ifPresent(gastoModel::setCategoriaGasto);
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (Helper.getDecimal(creation.getMonto()) != null)
+                model.setMonto(Helper.getDecimal(creation.getMonto()));
+            model.setNotas(creation.getNotas());
+            if (Helper.getLong(creation.getCategoriaGasto_id()) != null) {
+                Optional<CategoriaGastoModel> categoriaGasto = categoriaGastoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCategoriaGasto_id()));
+                categoriaGasto.ifPresent(model::setCategoriaGasto);
             }
 
-            if (Helper.getLong(gastoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(gastoCreation.getCreador_id()));
-                usuario.ifPresent(gastoModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(gastoCreation.getCreada(), "") != null)
-                gastoModel.setCreada(Helper.stringToLocalDateTime(gastoCreation.getCreada(), ""));
-            if (Helper.getLong(gastoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(gastoCreation.getModificador_id()));
-                usuario.ifPresent(gastoModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(gastoCreation.getModificada(), "") != null)
-                gastoModel.setModificada(Helper.stringToLocalDateTime(gastoCreation.getModificada(), ""));
-            if (Helper.getLong(gastoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(gastoCreation.getEliminador_id()));
-                usuario.ifPresent(gastoModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(gastoCreation.getEliminada(), "") != null)
-                gastoModel.setEliminada(Helper.stringToLocalDateTime(gastoCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return gastoModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String monto;
+    private String notas;
+    private String categoriaGasto_id;
+    private String viaje_id;
+     */
 
-    public GastoDTO toDto(GastoModel gastoModel) {
+    public GastoDTO toDto(GastoModel model) {
         try {
             GastoDTO dto = new GastoDTO();
 
-            dto.setId(gastoModel.getId().toString());
-            dto.setMonto(gastoModel.getMonto().toString());
-            dto.setNotas(gastoModel.getNotas());
-            if (gastoModel.getCategoriaGasto() != null)
-                dto.setCategoriaGasto(categoriaGastoMapper.toDto(gastoModel.getCategoriaGasto()));
+            dto.setId(model.getId().toString());
+            dto.setMonto(model.getMonto().toString());
+            dto.setNotas(model.getNotas());
+            if (model.getCategoriaGasto() != null)
+                dto.setCategoriaGasto(categoriaGastoMapper.toDto(model.getCategoriaGasto()));
 
-            if (gastoModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(gastoModel.getCreador()));
-            if (Helper.localDateTimeToString(gastoModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(gastoModel.getCreada(), ""));
-            if (gastoModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(gastoModel.getModificador()));
-            if (Helper.localDateTimeToString(gastoModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(gastoModel.getModificada(), ""));
-            if (gastoModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(gastoModel.getEliminador()));
-            if (Helper.localDateTimeToString(gastoModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(gastoModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

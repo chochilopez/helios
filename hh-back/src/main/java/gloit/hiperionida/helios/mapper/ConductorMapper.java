@@ -28,97 +28,101 @@ public class ConductorMapper {
     private final CamionMapper camionMapper;
     private final LicenciaDAO licenciaDAO;
     private final LicenciaMapper licenciaMapper;
+    /*
+        private String id;
+    private String camion_id;
+    private String licencia_id;
+     */
 
-    public ConductorModel toEntity(ConductorCreation conductorCreation) {
+    public ConductorModel toEntity(ConductorCreation creation) {
         try {
-            ConductorModel conductorModel = new ConductorModel();
+            ConductorModel model = new ConductorModel();
 
-            if (Helper.getLong(conductorCreation.getId()) != null)
-                conductorModel.setId(Helper.getLong(conductorCreation.getId()));
-            conductorModel.setEmail(conductorCreation.getEmail());
-            conductorModel.setIdentificacion(conductorCreation.getIdentificacion());
-            conductorModel.setNombre(conductorCreation.getNombre());
-            conductorModel.setNotas(conductorCreation.getNotas());
-            conductorModel.setTelefono(conductorCreation.getTelefono());
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            model.setEmail(creation.getEmail());
+            model.setIdentificacion(creation.getIdentificacion());
+            model.setNombre(creation.getNombre());
+            model.setNotas(creation.getNotas());
+            model.setTelefono(creation.getTelefono());
             Set<AdelantoModel> adelantos = new HashSet<>();
-            if (conductorCreation.getAdelantos_id() != null) {
-                for (String adelanto_id : conductorCreation.getAdelantos_id()) {
+            if (creation.getAdelantos_id() != null) {
+                for (String adelanto_id : creation.getAdelantos_id()) {
                     if (Helper.getLong(adelanto_id) != null) {
                         Optional<AdelantoModel> adelanto = adelantoDAO.findByIdAndEliminadaIsNull(Helper.getLong(adelanto_id));
                         adelanto.ifPresent(adelantos::add);
                     }
                 }
             }
-            conductorModel.setAdelantos(adelantos);
-            if (Helper.getLong(conductorCreation.getCamion_id()) != null) {
-                Optional<CamionModel> camion = camionDAO.findByIdAndEliminadaIsNull(Helper.getLong(conductorCreation.getCamion_id()));
-                camion.ifPresent(conductorModel::setCamion);
+            model.setAdelantos(adelantos);
+            if (Helper.getLong(creation.getCamion_id()) != null) {
+                Optional<CamionModel> camion = camionDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCamion_id()));
+                camion.ifPresent(model::setCamion);
             }
-            if (Helper.getLong(conductorCreation.getLicencia_id()) != null) {
-                Optional<LicenciaModel> licencia = licenciaDAO.findByIdAndEliminadaIsNull(Helper.getLong(conductorCreation.getLicencia_id()));
-                licencia.ifPresent(conductorModel::setLicencia);
+            if (Helper.getLong(creation.getLicencia_id()) != null) {
+                Optional<LicenciaModel> licencia = licenciaDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getLicencia_id()));
+                licencia.ifPresent(model::setLicencia);
             }
 
-            if (Helper.getLong(conductorCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(conductorCreation.getCreador_id()));
-                usuario.ifPresent(conductorModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(conductorCreation.getCreada(), "") != null)
-                conductorModel.setCreada(Helper.stringToLocalDateTime(conductorCreation.getCreada(), ""));
-            if (Helper.getLong(conductorCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(conductorCreation.getModificador_id()));
-                usuario.ifPresent(conductorModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(conductorCreation.getModificada(), "") != null)
-                conductorModel.setModificada(Helper.stringToLocalDateTime(conductorCreation.getModificada(), ""));
-            if (Helper.getLong(conductorCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(conductorCreation.getEliminador_id()));
-                usuario.ifPresent(conductorModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(conductorCreation.getEliminada(), "") != null)
-                conductorModel.setEliminada(Helper.stringToLocalDateTime(conductorCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return conductorModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String camion_id;
+    private String licencia_id;
+     */
 
-    public ConductorDTO toDto(ConductorModel conductorModel) {
+    public ConductorDTO toDto(ConductorModel model) {
         try {
             ConductorDTO dto = new ConductorDTO();
 
-            dto.setId(conductorModel.getId().toString());
-            dto.setEmail(conductorModel.getEmail());
-            dto.setIdentificacion(conductorModel.getIdentificacion());
-            dto.setNombre(conductorModel.getNombre());
-            dto.setNotas(conductorModel.getNotas());
-            dto.setTelefono(conductorModel.getTelefono());
-            if (!conductorModel.getAdelantos().isEmpty()) {
+            dto.setId(model.getId().toString());
+            dto.setEmail(model.getEmail());
+            dto.setIdentificacion(model.getIdentificacion());
+            dto.setNombre(model.getNombre());
+            dto.setNotas(model.getNotas());
+            dto.setTelefono(model.getTelefono());
+            if (!model.getAdelantos().isEmpty()) {
                 List<AdelantoDTO> adelantoDTOS = new ArrayList<>();
-                for (AdelantoModel adelanto:conductorModel.getAdelantos()) {
+                for (AdelantoModel adelanto:model.getAdelantos()) {
                     adelantoDTOS.add(adelantoMapper.toDto(adelanto));
                 }
                 dto.setAdelantos(adelantoDTOS);
             }
-            if (conductorModel.getCamion() != null)
-                dto.setCamion(camionMapper.toDto(conductorModel.getCamion()));
-            if (conductorModel.getLicencia() != null)
-                dto.setLicencia(licenciaMapper.toDto(conductorModel.getLicencia()));
+            if (model.getCamion() != null)
+                dto.setCamion(camionMapper.toDto(model.getCamion()));
+            if (model.getLicencia() != null)
+                dto.setLicencia(licenciaMapper.toDto(model.getLicencia()));
 
-            if (conductorModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(conductorModel.getCreador()));
-            if (Helper.localDateTimeToString(conductorModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(conductorModel.getCreada(), ""));
-            if (conductorModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(conductorModel.getModificador()));
-            if (Helper.localDateTimeToString(conductorModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(conductorModel.getModificada(), ""));
-            if (conductorModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(conductorModel.getEliminador()));
-            if (Helper.localDateTimeToString(conductorModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(conductorModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

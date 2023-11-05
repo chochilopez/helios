@@ -1,10 +1,14 @@
 package gloit.hiperionida.helios.mapper.creation;
 
+import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -20,25 +24,6 @@ public class FacturaCreation extends AbsAuditoriaCreation {
     private String subTotal;
     private String tipoComprobante;
     private String pagada;
-    private String movimiento_id;
-    private List<String> pagos_id;
     private String remito_id;
     private String viaje_id;
-        /*
-        @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Double descuento;
-    private LocalDateTime fecha;
-    private Double iva;
-    private String numeroComprobante;
-    private Double recarga;
-    private Double subTotal;
-    @Enumerated(EnumType.STRING)
-    private TipoComprobanteEnum tipoComprobante;
-    private Boolean pagada;
-
-    private Long remito_id;
-    private Long viaje_id;
-     */
 }

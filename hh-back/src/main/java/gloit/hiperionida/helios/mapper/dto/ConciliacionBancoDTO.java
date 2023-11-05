@@ -1,9 +1,14 @@
 package gloit.hiperionida.helios.mapper.dto;
 
+import gloit.hiperionida.helios.model.enums.MovimientoEnum;
 import gloit.hiperionida.helios.util.mapper.dto.AbsAuditoriaDTO;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Data
@@ -14,16 +19,5 @@ public class ConciliacionBancoDTO extends AbsAuditoriaDTO implements Serializabl
     private String fecha;
     private String concepto;
     private String monto;
-    private BancoDTO banco;
-    /*
-        private Long id;
-    @Enumerated(EnumType.STRING)
-    private MovimientoEnum movimiento;
-    private LocalDateTime fecha;
-    @Column(columnDefinition = "TEXT")
-    private String concepto;
-    private Double monto;
-
-    private Long banco_id;
-     */
+    private String banco_id;
 }

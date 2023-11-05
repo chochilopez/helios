@@ -31,87 +31,103 @@ public class CombustibleMapper {
     private final ConductorMapper conductorMapper;
     private final ProveedorDAO proveedorDAO;
     private final ProveedorMapper proveedorMapper;
+    /*
+        private String id;
+    private String fecha;
+    private String kilometros;
+    private String litros;
+    private String precio;
+    private String notas;
+    private String camion_id;
+    private String conductor_id;
+    private String proveedor_id;
+     */
 
-    public CombustibleModel toEntity(CombustibleCreation combustibleCreation) {
+    public CombustibleModel toEntity(CombustibleCreation creation) {
         try {
-            CombustibleModel combustibleModel = new CombustibleModel();
+            CombustibleModel model = new CombustibleModel();
 
-            if (Helper.getLong(combustibleCreation.getId()) != null)
-                combustibleModel.setId(Helper.getLong(combustibleCreation.getId()));
-            if (combustibleCreation.getFecha() != null && Helper.stringToLocalDateTime(combustibleCreation.getFecha(), "") != null)
-                combustibleModel.setFecha(Helper.stringToLocalDateTime(combustibleCreation.getFecha(), ""));
-            if (Helper.getDecimal(combustibleCreation.getKilometros()) != null)
-                combustibleModel.setKilometros(Helper.getDecimal(combustibleCreation.getKilometros()));
-            if (Helper.getDecimal(combustibleCreation.getLitros()) != null)
-                combustibleModel.setLitros(Helper.getDecimal(combustibleCreation.getLitros()));
-            if (Helper.getDecimal(combustibleCreation.getPrecio()) != null)
-                combustibleModel.setPrecio(Helper.getDecimal(combustibleCreation.getPrecio()));
-            combustibleModel.setNotas(combustibleCreation.getNotas());
-            if (Helper.getLong(combustibleCreation.getCamion_id()) != null) {
-                Optional<CamionModel> camion = camionDAO.findByIdAndEliminadaIsNull(Helper.getLong(combustibleCreation.getCamion_id()));
-                camion.ifPresent(combustibleModel::setCamion);
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
+                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
+            if (Helper.getDecimal(creation.getKilometros()) != null)
+                model.setKilometros(Helper.getDecimal(creation.getKilometros()));
+            if (Helper.getDecimal(creation.getLitros()) != null)
+                model.setLitros(Helper.getDecimal(creation.getLitros()));
+            if (Helper.getDecimal(creation.getPrecio()) != null)
+                model.setPrecio(Helper.getDecimal(creation.getPrecio()));
+            model.setNotas(creation.getNotas());
+            if (Helper.getLong(creation.getCamion_id()) != null) {
+                Optional<CamionModel> camion = camionDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCamion_id()));
+                camion.ifPresent(model::setCamion);
             }
-            if (Helper.getLong(combustibleCreation.getConductor_id()) != null) {
-                Optional<ConductorModel> conductor = conductorDAO.findByIdAndEliminadaIsNull(Helper.getLong(combustibleCreation.getConductor_id()));
-                conductor.ifPresent(combustibleModel::setConductor);
+            if (Helper.getLong(creation.getConductor_id()) != null) {
+                Optional<ConductorModel> conductor = conductorDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getConductor_id()));
+                conductor.ifPresent(model::setConductor);
             }
-            if (Helper.getLong(combustibleCreation.getProveedor_id()) != null) {
-                Optional<ProveedorModel> proveedor = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(combustibleCreation.getProveedor_id()));
-                proveedor.ifPresent(combustibleModel::setProveedor);
+            if (Helper.getLong(creation.getProveedor_id()) != null) {
+                Optional<ProveedorModel> proveedor = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getProveedor_id()));
+                proveedor.ifPresent(model::setProveedor);
             }
-            
-            if (Helper.getLong(combustibleCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(combustibleCreation.getCreador_id()));
-                usuario.ifPresent(combustibleModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(combustibleCreation.getCreada(), "") != null)
-                combustibleModel.setCreada(Helper.stringToLocalDateTime(combustibleCreation.getCreada(), ""));
-            if (Helper.getLong(combustibleCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(combustibleCreation.getModificador_id()));
-                usuario.ifPresent(combustibleModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(combustibleCreation.getModificada(), "") != null)
-                combustibleModel.setModificada(Helper.stringToLocalDateTime(combustibleCreation.getModificada(), ""));
-            if (Helper.getLong(combustibleCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(combustibleCreation.getEliminador_id()));
-                usuario.ifPresent(combustibleModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(combustibleCreation.getEliminada(), "") != null)
-                combustibleModel.setEliminada(Helper.stringToLocalDateTime(combustibleCreation.getEliminada(), ""));
 
-            return combustibleModel;
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
+
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String fecha;
+    private String kilometros;
+    private String litros;
+    private String precio;
+    private String notas;
+    private String camion_id;
+    private String conductor_id;
+    private String proveedor_id;
+     */
 
-    public CombustibleDTO toDto(CombustibleModel combustibleModel) {
+    public CombustibleDTO toDto(CombustibleModel model) {
         try {
             CombustibleDTO dto = new CombustibleDTO();
 
-            dto.setId(combustibleModel.getId().toString());
-            dto.setFecha(combustibleModel.getFecha().toString());
-            dto.setKilometros(combustibleModel.getKilometros().toString());
-            dto.setLitros(combustibleModel.getLitros().toString());
-            dto.setPrecio(combustibleModel.getPrecio().toString());
-            dto.setNotas(combustibleModel.getNotas());
-            dto.setCamion(camionMapper.toDto(combustibleModel.getCamion()));
-            dto.setConductor(conductorMapper.toDto(combustibleModel.getConductor()));
-            dto.setProveedor(proveedorMapper.toDto(combustibleModel.getProveedor()));
+            dto.setId(model.getId().toString());
+            dto.setFecha(model.getFecha().toString());
+            dto.setKilometros(model.getKilometros().toString());
+            dto.setLitros(model.getLitros().toString());
+            dto.setPrecio(model.getPrecio().toString());
+            dto.setNotas(model.getNotas());
+            dto.setCamion(camionMapper.toDto(model.getCamion()));
+            dto.setConductor(conductorMapper.toDto(model.getConductor()));
+            dto.setProveedor(proveedorMapper.toDto(model.getProveedor()));
 
-            if (combustibleModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(combustibleModel.getCreador()));
-            if (Helper.localDateTimeToString(combustibleModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(combustibleModel.getCreada(), ""));
-            if (combustibleModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(combustibleModel.getModificador()));
-            if (Helper.localDateTimeToString(combustibleModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(combustibleModel.getModificada(), ""));
-            if (combustibleModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(combustibleModel.getEliminador()));
-            if (Helper.localDateTimeToString(combustibleModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(combustibleModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

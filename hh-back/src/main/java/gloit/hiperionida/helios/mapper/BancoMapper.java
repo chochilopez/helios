@@ -19,62 +19,68 @@ import java.util.Optional;
 public class BancoMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    
+    /*
+        private String id;
+    private String banco;
+    private String notas;
+     */
 
-    public BancoModel toEntity(BancoCreation bancoCreation) {
+    public BancoModel toEntity(BancoCreation creation) {
         try {
-            BancoModel bancoModel = new BancoModel();
+            BancoModel model = new BancoModel();
 
-            if (Helper.getLong(bancoCreation.getId()) != null)
-                bancoModel.setId(Helper.getLong(bancoCreation.getId()));
-            bancoModel.setBanco(bancoCreation.getBanco());
-            bancoModel.setNotas(bancoCreation.getNotas());
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            model.setBanco(creation.getBanco());
+            model.setNotas(creation.getNotas());
 
-            if (Helper.getLong(bancoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(bancoCreation.getCreador_id()));
-                usuario.ifPresent(bancoModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(bancoCreation.getCreada(), "") != null)
-                bancoModel.setCreada(Helper.stringToLocalDateTime(bancoCreation.getCreada(), ""));
-            if (Helper.getLong(bancoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(bancoCreation.getModificador_id()));
-                usuario.ifPresent(bancoModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(bancoCreation.getModificada(), "") != null)
-                bancoModel.setModificada(Helper.stringToLocalDateTime(bancoCreation.getModificada(), ""));
-            if (Helper.getLong(bancoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(bancoCreation.getEliminador_id()));
-                usuario.ifPresent(bancoModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(bancoCreation.getEliminada(), "") != null)
-                bancoModel.setEliminada(Helper.stringToLocalDateTime(bancoCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return bancoModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    
+    /*
+        private String id;
+    private String banco;
+    private String notas;
+     */
 
-    public BancoDTO toDto(BancoModel bancoModel) {
+    public BancoDTO toDto(BancoModel model) {
         try {
             BancoDTO dto = new BancoDTO();
 
-            dto.setId(bancoModel.getId().toString());
-            dto.setBanco(bancoModel.getBanco());
-            dto.setNotas(bancoModel.getNotas());
+            dto.setId(model.getId().toString());
+            dto.setBanco(model.getBanco());
+            dto.setNotas(model.getNotas());
 
-            if (bancoModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(bancoModel.getCreador()));
-            if (Helper.localDateTimeToString(bancoModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(bancoModel.getCreada(), ""));
-            if (bancoModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(bancoModel.getModificador()));
-            if (Helper.localDateTimeToString(bancoModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(bancoModel.getModificada(), ""));
-            if (bancoModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(bancoModel.getEliminador()));
-            if (Helper.localDateTimeToString(bancoModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(bancoModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

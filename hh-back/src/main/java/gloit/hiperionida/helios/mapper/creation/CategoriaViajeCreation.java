@@ -11,8 +11,4 @@ import lombok.NoArgsConstructor;
 public class CategoriaViajeCreation extends AbsAuditoriaCreation {
     private String id;
     private String categoria;
-        /*
-        private Long id;
-    private String categoria;
-     */
 }

@@ -28,33 +28,38 @@ public class AcopladoMapper {
     private final NeumaticoDAO neumaticoDAO;
     private final SeguroMapper seguroMapper;
     private final NeumaticoMapper neumaticoMapper;
+    
+    /*
+        private String id;
+    private String seguro_id;
+     */
 
-    public AcopladoModel toEntity(AcopladoCreation acopladoCreation) {
+    public AcopladoModel toEntity(AcopladoCreation creation) {
         try {
-            AcopladoModel acopladoModel = new AcopladoModel();
+            AcopladoModel model = new AcopladoModel();
 
-            if (Helper.getLong(acopladoCreation.getId()) != null)
-                acopladoModel.setId(Helper.getLong(acopladoCreation.getId()));
-            acopladoModel.setCantidadNeumaticos(acopladoCreation.getCantidadNeumaticos());
-            acopladoModel.setMarca(acopladoCreation.getMarca());
-            acopladoModel.setModelo(acopladoCreation.getModelo());
-            acopladoModel.setAnio(acopladoCreation.getAnio());
-            acopladoModel.setPatente(acopladoCreation.getPatente());
-            acopladoModel.setPeso(acopladoCreation.getPeso());
-            if (Helper.getLong(acopladoCreation.getSeguro_id()) != null) {
-                Optional<SeguroModel> seguro = seguroDAO.findByIdAndEliminadaIsNull(Helper.getLong(acopladoCreation.getSeguro_id()));
-                seguro.ifPresent(acopladoModel::setSeguro);
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            model.setCantidadNeumaticos(creation.getCantidadNeumaticos());
+            model.setMarca(creation.getMarca());
+            model.setModelo(creation.getModelo());
+            model.setAnio(creation.getAnio());
+            model.setPatente(creation.getPatente());
+            model.setPeso(creation.getPeso());
+            if (Helper.getLong(creation.getSeguro_id()) != null) {
+                Optional<SeguroModel> seguro = seguroDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getSeguro_id()));
+                seguro.ifPresent(model::setSeguro);
             }
             Set<NeumaticoModel> neumaticos = new HashSet<>();
-            if (acopladoCreation.getNeumaticos_id() != null) {
-                for (String neumatico_id : acopladoCreation.getNeumaticos_id()) {
+            if (creation.getNeumaticos_id() != null) {
+                for (String neumatico_id : creation.getNeumaticos_id()) {
                     if (Helper.getLong(neumatico_id) != null) {
                         Optional<NeumaticoModel> neumatico = neumaticoDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumatico_id));
                         neumatico.ifPresent(neumaticos::add);
                     }
                 }
             }
-            acopladoModel.setNeumaticos(neumaticos);
+            model.setNeumaticos(neumaticos);
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -69,46 +74,51 @@ public class AcopladoMapper {
             if (!Helper.isEmptyString(creation.getEliminada()))
                 model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return acopladoModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    
+    /*
+        private String id;
+    private String seguro_id;
+     */
 
-    public AcopladoDTO toDto(AcopladoModel acopladoModel) {
+    public AcopladoDTO toDto(AcopladoModel model) {
         try {
             AcopladoDTO dto = new AcopladoDTO();
 
-            dto.setId(acopladoModel.getId().toString());
-            dto.setCantidadNeumaticos(acopladoModel.getCantidadNeumaticos());
-            dto.setMarca(acopladoModel.getMarca());
-            dto.setModelo(acopladoModel.getModelo());
-            dto.setAnio(acopladoModel.getAnio());
-            dto.setPatente(acopladoModel.getPatente());
-            dto.setPeso(acopladoModel.getPeso());
-            if (!acopladoModel.getNeumaticos().isEmpty()) {
+            dto.setId(model.getId().toString());
+            dto.setCantidadNeumaticos(model.getCantidadNeumaticos());
+            dto.setMarca(model.getMarca());
+            dto.setModelo(model.getModelo());
+            dto.setAnio(model.getAnio());
+            dto.setPatente(model.getPatente());
+            dto.setPeso(model.getPeso());
+            if (!model.getNeumaticos().isEmpty()) {
                 List<NeumaticoDTO> neumaticoDTOS = new ArrayList<>();
-                for (NeumaticoModel neumatico:acopladoModel.getNeumaticos()) {
+                for (NeumaticoModel neumatico:model.getNeumaticos()) {
                     neumaticoDTOS.add(neumaticoMapper.toDto(neumatico));
                 }
                 dto.setNeumaticos(neumaticoDTOS);
             }
-            if (acopladoModel.getSeguro() != null)
-                dto.setSeguro(seguroMapper.toDto(acopladoModel.getSeguro()));
+            if (model.getSeguro() != null)
+                dto.setSeguro(seguroMapper.toDto(model.getSeguro()));
 
-            if (acopladoModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(acopladoModel.getCreador()));
-            if (Helper.localDateTimeToString(acopladoModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(acopladoModel.getCreada(), ""));
-            if (acopladoModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(acopladoModel.getModificador()));
-            if (Helper.localDateTimeToString(acopladoModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(acopladoModel.getModificada(), ""));
-            if (acopladoModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(acopladoModel.getEliminador()));
-            if (Helper.localDateTimeToString(acopladoModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(acopladoModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

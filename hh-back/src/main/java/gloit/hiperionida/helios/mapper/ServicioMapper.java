@@ -19,69 +19,79 @@ import java.util.Optional;
 public class ServicioMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    /*
+        private String id;
+    private String kmServicio;
+    private String kmActual;
+    private String kmProximo;
+    private String tipo;
+    private String camion_id;
+     */
 
-    public ServicioModel toEntity(ServicioCreation servicioCreation) {
+    public ServicioModel toEntity(ServicioCreation creation) {
         try {
-            ServicioModel servicioModel = new ServicioModel();
+            ServicioModel model = new ServicioModel();
 
-            if (Helper.getLong(servicioCreation.getId()) != null)
-                servicioModel.setId(Helper.getLong(servicioCreation.getId()));
-            if (Helper.getDecimal(servicioCreation.getKmServicio()) != null)
-                servicioModel.setKmServicio(Helper.getDecimal(servicioCreation.getKmServicio()));
-            if (Helper.getDecimal(servicioCreation.getKmActual()) != null)
-                servicioModel.setKmActual(Helper.getDecimal(servicioCreation.getKmActual()));
-            if (Helper.getDecimal(servicioCreation.getKmProximo()) != null)
-                servicioModel.setKmProximo(Helper.getDecimal(servicioCreation.getKmProximo()));
-            servicioModel.setTipo(servicioCreation.getTipo());
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (Helper.getDecimal(creation.getKmServicio()) != null)
+                model.setKmServicio(Helper.getDecimal(creation.getKmServicio()));
+            if (Helper.getDecimal(creation.getKmActual()) != null)
+                model.setKmActual(Helper.getDecimal(creation.getKmActual()));
+            if (Helper.getDecimal(creation.getKmProximo()) != null)
+                model.setKmProximo(Helper.getDecimal(creation.getKmProximo()));
+            model.setTipo(creation.getTipo());
 
-            if (Helper.getLong(servicioCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(servicioCreation.getCreador_id()));
-                usuario.ifPresent(servicioModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(servicioCreation.getCreada(), "") != null)
-                servicioModel.setCreada(Helper.stringToLocalDateTime(servicioCreation.getCreada(), ""));
-            if (Helper.getLong(servicioCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(servicioCreation.getModificador_id()));
-                usuario.ifPresent(servicioModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(servicioCreation.getModificada(), "") != null)
-                servicioModel.setModificada(Helper.stringToLocalDateTime(servicioCreation.getModificada(), ""));
-            if (Helper.getLong(servicioCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(servicioCreation.getEliminador_id()));
-                usuario.ifPresent(servicioModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(servicioCreation.getEliminada(), "") != null)
-                servicioModel.setEliminada(Helper.stringToLocalDateTime(servicioCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return servicioModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String kmServicio;
+    private String kmActual;
+    private String kmProximo;
+    private String tipo;
+    private String camion_id;
+     */
 
-    public ServicioDTO toDto(ServicioModel servicioModel) {
+    public ServicioDTO toDto(ServicioModel model) {
         try {
             ServicioDTO dto = new ServicioDTO();
 
-            dto.setId(servicioModel.getId().toString());
-            dto.setKmServicio(servicioModel.getKmServicio().toString());
-            dto.setKmActual(servicioModel.getKmActual().toString());
-            dto.setKmProximo(servicioModel.getKmProximo().toString());
-            dto.setTipo(servicioModel.getTipo());
+            dto.setId(model.getId().toString());
+            dto.setKmServicio(model.getKmServicio().toString());
+            dto.setKmActual(model.getKmActual().toString());
+            dto.setKmProximo(model.getKmProximo().toString());
+            dto.setTipo(model.getTipo());
 
-            if (servicioModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(servicioModel.getCreador()));
-            if (Helper.localDateTimeToString(servicioModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(servicioModel.getCreada(), ""));
-            if (servicioModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(servicioModel.getModificador()));
-            if (Helper.localDateTimeToString(servicioModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(servicioModel.getModificada(), ""));
-            if (servicioModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(servicioModel.getEliminador()));
-            if (Helper.localDateTimeToString(servicioModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(servicioModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

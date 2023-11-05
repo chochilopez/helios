@@ -11,9 +11,5 @@ import lombok.NoArgsConstructor;
 public class CajaCreation extends AbsAuditoriaCreation {
     private String id;
     private String nombre;
-    /*
-        private Long id;
-    private String nombre;
     private String notas;
-     */
 }

@@ -29,110 +29,130 @@ public class FacturaMapper {
     private final RemitoMapper remitoMapper;
     private final ViajeDAO viajeDAO;
     private final ViajeFacturaMapper viajeFacturaMapper;
+    /*
+        private String id;
+    private String descuento;
+    private String fecha;
+    private String iva;
+    private String numeroComprobante;
+    private String recarga;
+    private String subTotal;
+    private String tipoComprobante;
+    private String pagada;
+    private String remito_id;
+    private String viaje_id;
+     */
 
-    public FacturaModel toEntity(FacturaCreation facturaCreation) {
+    public FacturaModel toEntity(FacturaCreation creation) {
         try {
-            FacturaModel facturaModel = new FacturaModel();
+            FacturaModel model = new FacturaModel();
 
-            if (Helper.getLong(facturaCreation.getId()) != null)
-                facturaModel.setId(Helper.getLong(facturaCreation.getId()));
-            if (Helper.getDecimal(facturaCreation.getDescuento()) != null)
-                facturaModel.setDescuento(Helper.getDecimal(facturaCreation.getDescuento()));
-            if (facturaCreation.getFecha() != null && Helper.stringToLocalDateTime(facturaCreation.getFecha(), "") != null)
-                facturaModel.setFecha(Helper.stringToLocalDateTime(facturaCreation.getFecha(), ""));
-            if (Helper.getDecimal(facturaCreation.getIva()) != null)
-                facturaModel.setIva(Helper.getDecimal(facturaCreation.getIva()));
-            facturaModel.setNumeroComprobante(facturaCreation.getNumeroComprobante());
-            if (Helper.getDecimal(facturaCreation.getRecarga()) != null)
-                facturaModel.setRecarga(Helper.getDecimal(facturaCreation.getRecarga()));
-            if (Helper.getDecimal(facturaCreation.getSubTotal()) != null)
-                facturaModel.setSubTotal(Helper.getDecimal(facturaCreation.getSubTotal()));
-            if (facturaCreation.getTipoComprobante() != null)
-                facturaModel.setTipoComprobante(TipoComprobanteEnum.valueOf(facturaCreation.getTipoComprobante()));
-            if (Helper.getBoolean(facturaCreation.getPagada()) != null)
-                facturaModel.setPagada(Helper.getBoolean(facturaCreation.getPagada()));
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (Helper.getDecimal(creation.getDescuento()) != null)
+                model.setDescuento(Helper.getDecimal(creation.getDescuento()));
+            if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
+                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
+            if (Helper.getDecimal(creation.getIva()) != null)
+                model.setIva(Helper.getDecimal(creation.getIva()));
+            model.setNumeroComprobante(creation.getNumeroComprobante());
+            if (Helper.getDecimal(creation.getRecarga()) != null)
+                model.setRecarga(Helper.getDecimal(creation.getRecarga()));
+            if (Helper.getDecimal(creation.getSubTotal()) != null)
+                model.setSubTotal(Helper.getDecimal(creation.getSubTotal()));
+            if (creation.getTipoComprobante() != null)
+                model.setTipoComprobante(TipoComprobanteEnum.valueOf(creation.getTipoComprobante()));
+            if (Helper.getBoolean(creation.getPagada()) != null)
+                model.setPagada(Helper.getBoolean(creation.getPagada()));
             Set<PagoModel> pagos = new HashSet<>();
-            if (facturaCreation.getPagos_id() != null) {
-                for (String pago_id : facturaCreation.getPagos_id()) {
+            if (creation.getPagos_id() != null) {
+                for (String pago_id : creation.getPagos_id()) {
                     if (Helper.getLong(pago_id) != null) {
                         Optional<PagoModel> pago = pagoDAO.findByIdAndEliminadaIsNull(Helper.getLong(pago_id));
                         pago.ifPresent(pagos::add);
                     }
                 }
             }
-            facturaModel.setPagos(pagos);
-            if (Helper.getLong(facturaCreation.getRemito_id()) != null) {
-                Optional<RemitoModel> remito = remitoDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getRemito_id()));
-                remito.ifPresent(facturaModel::setRemito);
+            model.setPagos(pagos);
+            if (Helper.getLong(creation.getRemito_id()) != null) {
+                Optional<RemitoModel> remito = remitoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getRemito_id()));
+                remito.ifPresent(model::setRemito);
             }
-            if (Helper.getLong(facturaCreation.getViaje_id()) != null) {
-                Optional<ViajeModel> viaje = viajeDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getViaje_id()));
-                viaje.ifPresent(facturaModel::setViaje);
+            if (Helper.getLong(creation.getViaje_id()) != null) {
+                Optional<ViajeModel> viaje = viajeDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getViaje_id()));
+                viaje.ifPresent(model::setViaje);
             }
 
-            if (Helper.getLong(facturaCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getCreador_id()));
-                usuario.ifPresent(facturaModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(facturaCreation.getCreada(), "") != null)
-                facturaModel.setCreada(Helper.stringToLocalDateTime(facturaCreation.getCreada(), ""));
-            if (Helper.getLong(facturaCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getModificador_id()));
-                usuario.ifPresent(facturaModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(facturaCreation.getModificada(), "") != null)
-                facturaModel.setModificada(Helper.stringToLocalDateTime(facturaCreation.getModificada(), ""));
-            if (Helper.getLong(facturaCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(facturaCreation.getEliminador_id()));
-                usuario.ifPresent(facturaModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(facturaCreation.getEliminada(), "") != null)
-                facturaModel.setEliminada(Helper.stringToLocalDateTime(facturaCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return facturaModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String descuento;
+    private String fecha;
+    private String iva;
+    private String numeroComprobante;
+    private String recarga;
+    private String subTotal;
+    private String tipoComprobante;
+    private String pagada;
+    private String remito_id;
+    private String viaje_id;
+     */
 
-    public FacturaDTO toDto(FacturaModel facturaModel) {
+    public FacturaDTO toDto(FacturaModel model) {
         try {
             FacturaDTO dto = new FacturaDTO();
 
-            dto.setId(facturaModel.getId().toString());
-            dto.setDescuento(facturaModel.getDescuento().toString());
-            dto.setFecha(facturaModel.getFecha().toString());
-            dto.setIva(facturaModel.getIva().toString());
-            dto.setNumeroComprobante(facturaModel.getNumeroComprobante());
-            dto.setRecarga(facturaModel.getRecarga().toString());
-            dto.setSubTotal(facturaModel.getSubTotal().toString());
-            dto.setTipoComprobante(facturaModel.getTipoComprobante().name());
-            dto.setPagada(facturaModel.getPagada().toString());
-            if (!facturaModel.getPagos().isEmpty()) {
+            dto.setId(model.getId().toString());
+            dto.setDescuento(model.getDescuento().toString());
+            dto.setFecha(model.getFecha().toString());
+            dto.setIva(model.getIva().toString());
+            dto.setNumeroComprobante(model.getNumeroComprobante());
+            dto.setRecarga(model.getRecarga().toString());
+            dto.setSubTotal(model.getSubTotal().toString());
+            dto.setTipoComprobante(model.getTipoComprobante().name());
+            dto.setPagada(model.getPagada().toString());
+            if (!model.getPagos().isEmpty()) {
                 List<PagoDTO> pagoDTOS = new ArrayList<>();
-                for (PagoModel pago:facturaModel.getPagos()) {
+                for (PagoModel pago:model.getPagos()) {
                     pagoDTOS.add(pagoMapper.toDto(pago));
                 }
                 dto.setPagos(pagoDTOS);
             }
-            if (facturaModel.getRemito() != null)
-                dto.setRemito(remitoMapper.toDto(facturaModel.getRemito()));
-            if (facturaModel.getViaje() != null)
-                dto.setViaje(viajeFacturaMapper.toDto(facturaModel.getViaje()));
+            if (model.getRemito() != null)
+                dto.setRemito(remitoMapper.toDto(model.getRemito()));
+            if (model.getViaje() != null)
+                dto.setViaje(viajeFacturaMapper.toDto(model.getViaje()));
 
-            if (facturaModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(facturaModel.getCreador()));
-            if (Helper.localDateTimeToString(facturaModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(facturaModel.getCreada(), ""));
-            if (facturaModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(facturaModel.getModificador()));
-            if (Helper.localDateTimeToString(facturaModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(facturaModel.getModificada(), ""));
-            if (facturaModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(facturaModel.getEliminador()));
-            if (Helper.localDateTimeToString(facturaModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(facturaModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

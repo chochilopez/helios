@@ -19,69 +19,69 @@ import java.util.Optional;
 public class ProveedorMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    /*
+        private String id;
+     */
 
-    public ProveedorModel toEntity(ProveedorCreation proveedorCreation) {
+    public ProveedorModel toEntity(ProveedorCreation creation) {
         try {
-            ProveedorModel proveedorModel = new ProveedorModel();
+            ProveedorModel model = new ProveedorModel();
 
-            if (Helper.getLong(proveedorCreation.getId()) != null)
-                proveedorModel.setId(Helper.getLong(proveedorCreation.getId()));
-            proveedorModel.setEmail(proveedorCreation.getEmail());
-            proveedorModel.setIdentificacion(proveedorCreation.getIdentificacion());
-            proveedorModel.setNombre(proveedorCreation.getNombre());
-            proveedorModel.setNotas(proveedorCreation.getNotas());
-            proveedorModel.setTelefono(proveedorCreation.getTelefono());
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            model.setEmail(creation.getEmail());
+            model.setIdentificacion(creation.getIdentificacion());
+            model.setNombre(creation.getNombre());
+            model.setNotas(creation.getNotas());
+            model.setTelefono(creation.getTelefono());
 
-            if (Helper.getLong(proveedorCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(proveedorCreation.getCreador_id()));
-                usuario.ifPresent(proveedorModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(proveedorCreation.getCreada(), "") != null)
-                proveedorModel.setCreada(Helper.stringToLocalDateTime(proveedorCreation.getCreada(), ""));
-            if (Helper.getLong(proveedorCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(proveedorCreation.getModificador_id()));
-                usuario.ifPresent(proveedorModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(proveedorCreation.getModificada(), "") != null)
-                proveedorModel.setModificada(Helper.stringToLocalDateTime(proveedorCreation.getModificada(), ""));
-            if (Helper.getLong(proveedorCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(proveedorCreation.getEliminador_id()));
-                usuario.ifPresent(proveedorModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(proveedorCreation.getEliminada(), "") != null)
-                proveedorModel.setEliminada(Helper.stringToLocalDateTime(proveedorCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return proveedorModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+     */
 
-    public ProveedorDTO toDto(ProveedorModel proveedorModel) {
+    public ProveedorDTO toDto(ProveedorModel model) {
         try {
             ProveedorDTO dto = new ProveedorDTO();
 
-            dto.setId(proveedorModel.getId().toString());
+            dto.setId(model.getId().toString());
 
-            dto.setEmail(proveedorModel.getEmail());
-            dto.setIdentificacion(proveedorModel.getIdentificacion());
-            dto.setNombre(proveedorModel.getNombre());
-            dto.setNotas(proveedorModel.getNotas());
-            dto.setTelefono(proveedorModel.getTelefono());
+            dto.setEmail(model.getEmail());
+            dto.setIdentificacion(model.getIdentificacion());
+            dto.setNombre(model.getNombre());
+            dto.setNotas(model.getNotas());
+            dto.setTelefono(model.getTelefono());
 
-            if (proveedorModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(proveedorModel.getCreador()));
-            if (Helper.localDateTimeToString(proveedorModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(proveedorModel.getCreada(), ""));
-            if (proveedorModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(proveedorModel.getModificador()));
-            if (Helper.localDateTimeToString(proveedorModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(proveedorModel.getModificada(), ""));
-            if (proveedorModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(proveedorModel.getEliminador()));
-            if (Helper.localDateTimeToString(proveedorModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(proveedorModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

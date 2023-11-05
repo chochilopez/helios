@@ -33,117 +33,127 @@ public class CamionMapper {
     private final NeumaticoMapper neumaticoMapper;
     private final ServicioDAO servicioDAO;
     private final ServicioMapper servicioMapper;
+    
+    /*
+        private String id;
+    private String numeroChasis;
+    private String numeroMotor;
+    private String pesoArrastre;
+    private String seguro_id;
+     */
 
-    public CamionModel toEntity(CamionCreation camionCreation) {
+    public CamionModel toEntity(CamionCreation creation) {
         try {
-            CamionModel camionModel = new CamionModel();
+            CamionModel model = new CamionModel();
 
-            if (Helper.getLong(camionCreation.getId()) != null)
-                camionModel.setId(Helper.getLong(camionCreation.getId()));
-            camionModel.setNumeroChasis(camionModel.getNumeroChasis());
-            camionModel.setNumeroMotor(camionCreation.getNumeroMotor());
-            camionModel.setPesoArrastre(camionCreation.getPesoArrastre());
-            camionModel.setCantidadNeumaticos(camionCreation.getCantidadNeumaticos());
-            camionModel.setMarca(camionCreation.getMarca());
-            camionModel.setModelo(camionCreation.getModelo());
-            camionModel.setAnio(camionCreation.getAnio());
-            camionModel.setPatente(camionCreation.getPatente());
-            camionModel.setPeso(camionCreation.getPeso());
-            if (Helper.getLong(camionCreation.getSeguro_id()) != null) {
-                Optional<SeguroModel> seguro = seguroDAO.findByIdAndEliminadaIsNull(Helper.getLong(camionCreation.getSeguro_id()));
-                seguro.ifPresent(camionModel::setSeguro);
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            model.setNumeroChasis(model.getNumeroChasis());
+            model.setNumeroMotor(creation.getNumeroMotor());
+            model.setPesoArrastre(creation.getPesoArrastre());
+            model.setCantidadNeumaticos(creation.getCantidadNeumaticos());
+            model.setMarca(creation.getMarca());
+            model.setModelo(creation.getModelo());
+            model.setAnio(creation.getAnio());
+            model.setPatente(creation.getPatente());
+            model.setPeso(creation.getPeso());
+            if (Helper.getLong(creation.getSeguro_id()) != null) {
+                Optional<SeguroModel> seguro = seguroDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getSeguro_id()));
+                seguro.ifPresent(model::setSeguro);
             }
 
             Set<NeumaticoModel> neumaticos = new HashSet<>();
-            if (camionCreation.getNeumaticos_id() != null) {
-                for (String neumatico_id : camionCreation.getNeumaticos_id()) {
+            if (creation.getNeumaticos_id() != null) {
+                for (String neumatico_id : creation.getNeumaticos_id()) {
                     if (Helper.getLong(neumatico_id) != null) {
                         Optional<NeumaticoModel> neumatico = neumaticoDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumatico_id));
                         neumatico.ifPresent(neumaticos::add);
                     }
                 }
             }
-            camionModel.setNeumaticos(neumaticos);
+            model.setNeumaticos(neumaticos);
             Set<ServicioModel> servicios = new HashSet<>();
-            if (camionCreation.getServicios_id() != null) {
-                for (String servicio_id : camionCreation.getServicios_id()) {
+            if (creation.getServicios_id() != null) {
+                for (String servicio_id : creation.getServicios_id()) {
                     if (Helper.getLong(servicio_id) != null) {
                         Optional<ServicioModel> servicio = servicioDAO.findByIdAndEliminadaIsNull(Helper.getLong(servicio_id));
                         servicio.ifPresent(servicios::add);
                     }
                 }
             }
-            camionModel.setServicios(servicios);
+            model.setServicios(servicios);
 
-            if (Helper.getLong(camionCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(camionCreation.getCreador_id()));
-                usuario.ifPresent(camionModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(camionCreation.getCreada(), "") != null)
-                camionModel.setCreada(Helper.stringToLocalDateTime(camionCreation.getCreada(), ""));
-            if (Helper.getLong(camionCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(camionCreation.getModificador_id()));
-                usuario.ifPresent(camionModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(camionCreation.getModificada(), "") != null)
-                camionModel.setModificada(Helper.stringToLocalDateTime(camionCreation.getModificada(), ""));
-            if (Helper.getLong(camionCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(camionCreation.getEliminador_id()));
-                usuario.ifPresent(camionModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(camionCreation.getEliminada(), "") != null)
-                camionModel.setEliminada(Helper.stringToLocalDateTime(camionCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return camionModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    
+    /*
+        private String id;
+    private String numeroChasis;
+    private String numeroMotor;
+    private String pesoArrastre;
+    private String seguro_id;
+     */
 
-    public CamionDTO toDto(CamionModel camionModel) {
+    public CamionDTO toDto(CamionModel model) {
         try {
             CamionDTO dto = new CamionDTO();
 
-            dto.setId(camionModel.getId().toString());
-            dto.setCantidadNeumaticos(camionModel.getCantidadNeumaticos());
-            dto.setMarca(camionModel.getMarca());
-            dto.setNumeroChasis(camionModel.getNumeroChasis());
-            dto.setNumeroMotor(camionModel.getNumeroMotor());
-            dto.setPesoArrastre(camionModel.getPesoArrastre());
-            dto.setModelo(camionModel.getModelo());
-            dto.setAnio(camionModel.getAnio());
-            dto.setPatente(camionModel.getPatente());
-            dto.setPeso(camionModel.getPeso());
-            if (!camionModel.getNeumaticos().isEmpty()) {
+            dto.setId(model.getId().toString());
+            dto.setCantidadNeumaticos(model.getCantidadNeumaticos());
+            dto.setMarca(model.getMarca());
+            dto.setNumeroChasis(model.getNumeroChasis());
+            dto.setNumeroMotor(model.getNumeroMotor());
+            dto.setPesoArrastre(model.getPesoArrastre());
+            dto.setModelo(model.getModelo());
+            dto.setAnio(model.getAnio());
+            dto.setPatente(model.getPatente());
+            dto.setPeso(model.getPeso());
+            if (!model.getNeumaticos().isEmpty()) {
                 List<NeumaticoDTO> neumaticoDTOS = new ArrayList<>();
-                for (NeumaticoModel neumatico:camionModel.getNeumaticos()) {
+                for (NeumaticoModel neumatico:model.getNeumaticos()) {
                     neumaticoDTOS.add(neumaticoMapper.toDto(neumatico));
                 }
                 dto.setNeumaticos(neumaticoDTOS);
             }
-            if (!camionModel.getServicios().isEmpty()) {
+            if (!model.getServicios().isEmpty()) {
                 List<ServicioDTO> servicioDTOS = new ArrayList<>();
-                for (ServicioModel servicio:camionModel.getServicios()) {
+                for (ServicioModel servicio:model.getServicios()) {
                     servicioDTOS.add(servicioMapper.toDto(servicio));
                 }
                 dto.setServicios(servicioDTOS);
             }
-            if (camionModel.getSeguro() != null)
-                dto.setSeguro(seguroMapper.toDto(camionModel.getSeguro()));
+            if (model.getSeguro() != null)
+                dto.setSeguro(seguroMapper.toDto(model.getSeguro()));
 
-            if (camionModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(camionModel.getCreador()));
-            if (Helper.localDateTimeToString(camionModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(camionModel.getCreada(), ""));
-            if (camionModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(camionModel.getModificador()));
-            if (Helper.localDateTimeToString(camionModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(camionModel.getModificada(), ""));
-            if (camionModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(camionModel.getEliminador()));
-            if (Helper.localDateTimeToString(camionModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(camionModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

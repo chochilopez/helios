@@ -19,60 +19,62 @@ import java.util.Optional;
 public class PlanCuentaMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    /*
+        private String id;
+    private String nombre;
+     */
 
-    public PlanCuentaModel toEntity(PlanCuentaCreation planCuentaCreation) {
+    public PlanCuentaModel toEntity(PlanCuentaCreation creation) {
         try {
-            PlanCuentaModel planCuentaModel = new PlanCuentaModel();
+            PlanCuentaModel model = new PlanCuentaModel();
 
-            if (Helper.getLong(planCuentaCreation.getId()) != null)
-                planCuentaModel.setId(Helper.getLong(planCuentaCreation.getId()));
-            planCuentaModel.setNombre(planCuentaCreation.getNombre());
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            model.setNombre(creation.getNombre());
 
-            if (Helper.getLong(planCuentaCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(planCuentaCreation.getCreador_id()));
-                usuario.ifPresent(planCuentaModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(planCuentaCreation.getCreada(), "") != null)
-                planCuentaModel.setCreada(Helper.stringToLocalDateTime(planCuentaCreation.getCreada(), ""));
-            if (Helper.getLong(planCuentaCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(planCuentaCreation.getModificador_id()));
-                usuario.ifPresent(planCuentaModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(planCuentaCreation.getModificada(), "") != null)
-                planCuentaModel.setModificada(Helper.stringToLocalDateTime(planCuentaCreation.getModificada(), ""));
-            if (Helper.getLong(planCuentaCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(planCuentaCreation.getEliminador_id()));
-                usuario.ifPresent(planCuentaModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(planCuentaCreation.getEliminada(), "") != null)
-                planCuentaModel.setEliminada(Helper.stringToLocalDateTime(planCuentaCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return planCuentaModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String nombre;
+     */
 
-    public PlanCuentaDTO toDto(PlanCuentaModel planCuentaModel) {
+    public PlanCuentaDTO toDto(PlanCuentaModel model) {
         try {
             PlanCuentaDTO dto = new PlanCuentaDTO();
 
-            dto.setId(planCuentaModel.getId().toString());
-            dto.setNombre(planCuentaModel.getNombre());
+            dto.setId(model.getId().toString());
+            dto.setNombre(model.getNombre());
 
-            if (planCuentaModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(planCuentaModel.getCreador()));
-            if (Helper.localDateTimeToString(planCuentaModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(planCuentaModel.getCreada(), ""));
-            if (planCuentaModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(planCuentaModel.getModificador()));
-            if (Helper.localDateTimeToString(planCuentaModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(planCuentaModel.getModificada(), ""));
-            if (planCuentaModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(planCuentaModel.getEliminador()));
-            if (Helper.localDateTimeToString(planCuentaModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(planCuentaModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

@@ -1,9 +1,12 @@
 package gloit.hiperionida.helios.mapper.creation;
 
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Data
@@ -13,11 +16,4 @@ public class RemitoCreation extends AbsAuditoriaCreation {
     private String descripcion;
     private String fecha;
     private String numero;
-        /*
-        private Long id;
-    @Column(columnDefinition = "TEXT")
-    private String descripcion;
-    private LocalDateTime fecha;
-    private String numero;
-     */
 }

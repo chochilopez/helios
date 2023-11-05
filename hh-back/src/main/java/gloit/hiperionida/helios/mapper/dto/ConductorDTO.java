@@ -10,13 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 public class ConductorDTO extends AbsPersonaDTO implements Serializable {
     private String id;
-    private List<AdelantoDTO> adelantos;
-    private CamionDTO camion;
-    private LicenciaDTO licencia;
-    /*
-        private Long id;
-
-    private Long camion_id;
-    private Long licencia_id;
-     */
+    private String camion_id;
+    private String licencia_id;
 }

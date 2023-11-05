@@ -1,6 +1,7 @@
 package gloit.hiperionida.helios.mapper.dto;
 
 import gloit.hiperionida.helios.util.mapper.dto.AbsAuditoriaDTO;
+import jakarta.persistence.Column;
 import lombok.*;
 
 import java.io.Serializable;
@@ -12,15 +13,6 @@ public class GastoDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String monto;
     private String notas;
-    private CategoriaGastoDTO categoriaGasto;
-    /*
-        private Long id;
-    private Double monto;
-    @Column(columnDefinition = "TEXT")
-    private String notas;
-
-    private Long categoriaGasto_id;
-    private Long viaje_id;
-}
-     */
+    private String categoriaGasto_id;
+    private String viaje_id;
 }

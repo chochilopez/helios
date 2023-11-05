@@ -11,12 +11,6 @@ import lombok.NoArgsConstructor;
 public class DireccionCreation extends AbsAuditoriaCreation {
     private String id;
     private String direccion;
-    private String nombre;
-    private String ubicacion_id;
-        /*
-        private Long id;
-    private String direccion;
     private String ciudad;
     private String nombre;
-     */
 }

@@ -19,64 +19,68 @@ import java.util.Optional;
 public class ReciboMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    /*
+        private String id;
+    private String monto;
+    private String fecha;
+     */
 
-    public ReciboModel toEntity(ReciboCreation reciboCreation) {
+    public ReciboModel toEntity(ReciboCreation creation) {
         try {
-            ReciboModel reciboModel = new ReciboModel();
+            ReciboModel model = new ReciboModel();
 
-            if (Helper.getLong(reciboCreation.getId()) != null)
-                reciboModel.setId(Helper.getLong(reciboCreation.getId()));
-            if (reciboCreation.getFecha() != null && Helper.stringToLocalDateTime(reciboCreation.getFecha(), "") != null)
-                reciboModel.setFecha(Helper.stringToLocalDateTime(reciboCreation.getFecha(), ""));
-            if (Helper.getDecimal(reciboCreation.getMonto()) != null)
-                reciboModel.setMonto(Helper.getDecimal(reciboCreation.getMonto()));
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
+                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
+            if (Helper.getDecimal(creation.getMonto()) != null)
+                model.setMonto(Helper.getDecimal(creation.getMonto()));
 
-            if (Helper.getLong(reciboCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(reciboCreation.getCreador_id()));
-                usuario.ifPresent(reciboModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(reciboCreation.getCreada(), "") != null)
-                reciboModel.setCreada(Helper.stringToLocalDateTime(reciboCreation.getCreada(), ""));
-            if (Helper.getLong(reciboCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(reciboCreation.getModificador_id()));
-                usuario.ifPresent(reciboModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(reciboCreation.getModificada(), "") != null)
-                reciboModel.setModificada(Helper.stringToLocalDateTime(reciboCreation.getModificada(), ""));
-            if (Helper.getLong(reciboCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(reciboCreation.getEliminador_id()));
-                usuario.ifPresent(reciboModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(reciboCreation.getEliminada(), "") != null)
-                reciboModel.setEliminada(Helper.stringToLocalDateTime(reciboCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return reciboModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String monto;
+    private String fecha;
+     */
 
-    public ReciboDTO toDto(ReciboModel reciboModel) {
+    public ReciboDTO toDto(ReciboModel model) {
         try {
             ReciboDTO dto = new ReciboDTO();
 
-            dto.setId(reciboModel.getId().toString());
-            dto.setFecha(reciboModel.getFecha().toString());
-            dto.setMonto(reciboModel.getMonto().toString());
+            dto.setId(model.getId().toString());
+            dto.setFecha(model.getFecha().toString());
+            dto.setMonto(model.getMonto().toString());
 
-            if (reciboModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(reciboModel.getCreador()));
-            if (Helper.localDateTimeToString(reciboModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(reciboModel.getCreada(), ""));
-            if (reciboModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(reciboModel.getModificador()));
-            if (Helper.localDateTimeToString(reciboModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(reciboModel.getModificada(), ""));
-            if (reciboModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(reciboModel.getEliminador()));
-            if (Helper.localDateTimeToString(reciboModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(reciboModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

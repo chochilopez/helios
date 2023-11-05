@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
@@ -15,12 +17,4 @@ public class EventoCreation extends AbsAuditoriaCreation {
     private String habilitada;
     private String recordatorio;
     private String nombre;
-        /*
-        private Long id;
-    private LocalDateTime fecha;
-    private String descripcion;
-    private Boolean habilitada;
-    private Boolean recordatorio;
-    private String nombre;
-     */
 }

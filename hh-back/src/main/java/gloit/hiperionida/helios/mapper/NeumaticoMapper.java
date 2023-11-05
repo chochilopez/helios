@@ -25,89 +25,117 @@ public class NeumaticoMapper {
     private final UsuarioMapper usuarioMapper;
     private final ProveedorDAO proveedorDAO;
     private final ProveedorMapper proveedorMapper;
+    /*
+        private String id;
+    private String fechaCompra;
+    private String kmVida;
+    private String kmActuales;
+    private String kmRecapado;
+    private String numeroRemito;
+    private String marca ;
+    private String precioCompra;
+    private String recapadosMaximos;
+    private String ubicacion;
+    private String estado;
+    private String baja;
+    private String acoplado_id;
+    private String camion_id;
+    private String proveedor_id;
+     */
 
-    public NeumaticoModel toEntity(NeumaticoCreation neumaticoCreation) {
+    public NeumaticoModel toEntity(NeumaticoCreation creation) {
         try {
-            NeumaticoModel neumaticoModel = new NeumaticoModel();
+            NeumaticoModel model = new NeumaticoModel();
 
-            if (Helper.getLong(neumaticoCreation.getId()) != null)
-                neumaticoModel.setId(Helper.getLong(neumaticoCreation.getId()));
-            if (neumaticoCreation.getFechaCompra() != null && Helper.stringToLocalDateTime(neumaticoCreation.getFechaCompra(), "") != null)
-                neumaticoModel.setFechaCompra(Helper.stringToLocalDateTime(neumaticoCreation.getFechaCompra(), ""));
-            if (Helper.getDecimal(neumaticoCreation.getKmVida()) != null)
-                neumaticoModel.setKmVida(Helper.getDecimal(neumaticoCreation.getKmVida()));
-            if (Helper.getDecimal(neumaticoCreation.getKmRecapado()) != null)
-                neumaticoModel.setKmRecapado(Helper.getDecimal(neumaticoCreation.getKmRecapado()));
-            if (Helper.getDecimal(neumaticoCreation.getKmActuales()) != null)
-                neumaticoModel.setKmActuales(Helper.getDecimal(neumaticoCreation.getKmActuales()));
-            if (neumaticoCreation.getUbicacion() != null)
-                neumaticoModel.setUbicacion(UbicacionNeumaticoEnum.valueOf(neumaticoCreation.getUbicacion()));
-            if (neumaticoCreation.getEstado() != null)
-                neumaticoModel.setEstado(EstadoNeumaticoEnum.valueOf(neumaticoCreation.getEstado()));
-            if (Helper.getBoolean(neumaticoCreation.getBaja()) != null)
-                neumaticoModel.setBaja(Helper.getBoolean(neumaticoCreation.getBaja()));
-            if (Helper.getLong(neumaticoCreation.getProveedor_id()) != null) {
-                Optional<ProveedorModel> proveedor = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumaticoCreation.getProveedor_id()));
-                proveedor.ifPresent(neumaticoModel::setProveedor);
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (creation.getFechaCompra() != null && Helper.stringToLocalDateTime(creation.getFechaCompra(), "") != null)
+                model.setFechaCompra(Helper.stringToLocalDateTime(creation.getFechaCompra(), ""));
+            if (Helper.getDecimal(creation.getKmVida()) != null)
+                model.setKmVida(Helper.getDecimal(creation.getKmVida()));
+            if (Helper.getDecimal(creation.getKmRecapado()) != null)
+                model.setKmRecapado(Helper.getDecimal(creation.getKmRecapado()));
+            if (Helper.getDecimal(creation.getKmActuales()) != null)
+                model.setKmActuales(Helper.getDecimal(creation.getKmActuales()));
+            if (creation.getUbicacion() != null)
+                model.setUbicacion(UbicacionNeumaticoEnum.valueOf(creation.getUbicacion()));
+            if (creation.getEstado() != null)
+                model.setEstado(EstadoNeumaticoEnum.valueOf(creation.getEstado()));
+            if (Helper.getBoolean(creation.getBaja()) != null)
+                model.setBaja(Helper.getBoolean(creation.getBaja()));
+            if (Helper.getLong(creation.getProveedor_id()) != null) {
+                Optional<ProveedorModel> proveedor = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getProveedor_id()));
+                proveedor.ifPresent(model::setProveedor);
             }
 
-            if (Helper.getLong(neumaticoCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumaticoCreation.getCreador_id()));
-                usuario.ifPresent(neumaticoModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(neumaticoCreation.getCreada(), "") != null)
-                neumaticoModel.setCreada(Helper.stringToLocalDateTime(neumaticoCreation.getCreada(), ""));
-            if (Helper.getLong(neumaticoCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumaticoCreation.getModificador_id()));
-                usuario.ifPresent(neumaticoModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(neumaticoCreation.getModificada(), "") != null)
-                neumaticoModel.setModificada(Helper.stringToLocalDateTime(neumaticoCreation.getModificada(), ""));
-            if (Helper.getLong(neumaticoCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumaticoCreation.getEliminador_id()));
-                usuario.ifPresent(neumaticoModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(neumaticoCreation.getEliminada(), "") != null)
-                neumaticoModel.setEliminada(Helper.stringToLocalDateTime(neumaticoCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return neumaticoModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String fechaCompra;
+    private String kmVida;
+    private String kmActuales;
+    private String kmRecapado;
+    private String numeroRemito;
+    private String marca ;
+    private String precioCompra;
+    private String recapadosMaximos;
+    private String ubicacion;
+    private String estado;
+    private String baja;
+    private String acoplado_id;
+    private String camion_id;
+    private String proveedor_id;
+     */
 
-    public NeumaticoDTO toDto(NeumaticoModel neumaticoModel) {
+    public NeumaticoDTO toDto(NeumaticoModel model) {
         try {
             NeumaticoDTO dto = new NeumaticoDTO();
 
-            dto.setId(neumaticoModel.getId().toString());
-            dto.setFechaCompra(neumaticoModel.getFechaCompra().toString());
-            dto.setKmVida(neumaticoModel.getKmVida().toString());
-            dto.setKmActuales(neumaticoModel.getKmActuales().toString());
-            dto.setKmRecapado(neumaticoModel.getKmRecapado().toString());
-            dto.setNumeroRemito(neumaticoModel.getNumeroRemito());
-            dto.setMarca(neumaticoModel.getMarca());
-            dto.setPrecioCompra(neumaticoModel.getPrecioCompra().toString());
-            dto.setRecapadosMaximos(neumaticoModel.getRecapadosMaximos().toString());
-            dto.setUbicacion(neumaticoModel.getUbicacion().name());
-            dto.setEstado(neumaticoModel.getEstado().name());
-            dto.setBaja(neumaticoModel.getBaja().toString());
-            if (neumaticoModel.getProveedor() != null)
-                dto.setProveedor(proveedorMapper.toDto(neumaticoModel.getProveedor()));
+            dto.setId(model.getId().toString());
+            dto.setFechaCompra(model.getFechaCompra().toString());
+            dto.setKmVida(model.getKmVida().toString());
+            dto.setKmActuales(model.getKmActuales().toString());
+            dto.setKmRecapado(model.getKmRecapado().toString());
+            dto.setNumeroRemito(model.getNumeroRemito());
+            dto.setMarca(model.getMarca());
+            dto.setPrecioCompra(model.getPrecioCompra().toString());
+            dto.setRecapadosMaximos(model.getRecapadosMaximos().toString());
+            dto.setUbicacion(model.getUbicacion().name());
+            dto.setEstado(model.getEstado().name());
+            dto.setBaja(model.getBaja().toString());
+            if (model.getProveedor() != null)
+                dto.setProveedor(proveedorMapper.toDto(model.getProveedor()));
 
-            if (neumaticoModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(neumaticoModel.getCreador()));
-            if (Helper.localDateTimeToString(neumaticoModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(neumaticoModel.getCreada(), ""));
-            if (neumaticoModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(neumaticoModel.getModificador()));
-            if (Helper.localDateTimeToString(neumaticoModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(neumaticoModel.getModificada(), ""));
-            if (neumaticoModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(neumaticoModel.getEliminador()));
-            if (Helper.localDateTimeToString(neumaticoModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(neumaticoModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

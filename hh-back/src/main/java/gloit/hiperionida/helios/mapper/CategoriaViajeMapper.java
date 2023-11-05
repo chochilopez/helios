@@ -19,47 +19,49 @@ import java.util.Optional;
 public class CategoriaViajeMapper {
     private final UsuarioDAO usuarioDAO;
     private final UsuarioMapper usuarioMapper;
+    /*
+        private String id;
+    private String categoria;
+     */
 
-    public CategoriaViajeModel toEntity(CategoriaViajeCreation categoriaViajeCreation) {
+    public CategoriaViajeModel toEntity(CategoriaViajeCreation creation) {
         try {
-            CategoriaViajeModel categoriaViajeModel = new CategoriaViajeModel();
+            CategoriaViajeModel model = new CategoriaViajeModel();
 
-            if (Helper.getLong(categoriaViajeCreation.getId()) != null)
-                categoriaViajeModel.setId(Helper.getLong(categoriaViajeCreation.getId()));
-            categoriaViajeModel.setCategoria(categoriaViajeCreation.getCategoria());
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            model.setCategoria(creation.getCategoria());
 
-            if (Helper.getLong(categoriaViajeCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(categoriaViajeCreation.getCreador_id()));
-                usuario.ifPresent(categoriaViajeModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(categoriaViajeCreation.getCreada(), "") != null)
-                categoriaViajeModel.setCreada(Helper.stringToLocalDateTime(categoriaViajeCreation.getCreada(), ""));
-            if (Helper.getLong(categoriaViajeCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(categoriaViajeCreation.getModificador_id()));
-                usuario.ifPresent(categoriaViajeModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(categoriaViajeCreation.getModificada(), "") != null)
-                categoriaViajeModel.setModificada(Helper.stringToLocalDateTime(categoriaViajeCreation.getModificada(), ""));
-            if (Helper.getLong(categoriaViajeCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(categoriaViajeCreation.getEliminador_id()));
-                usuario.ifPresent(categoriaViajeModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(categoriaViajeCreation.getEliminada(), "") != null)
-                categoriaViajeModel.setEliminada(Helper.stringToLocalDateTime(categoriaViajeCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return categoriaViajeModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String categoria;
+     */
 
-    public CategoriaViajeDTO toDto(CategoriaViajeModel categoriaViajeModel) {
+    public CategoriaViajeDTO toDto(CategoriaViajeModel model) {
         try {
             CategoriaViajeDTO dto = new CategoriaViajeDTO();
 
-            dto.setId(categoriaViajeModel.getId().toString());
-            dto.setCategoria(categoriaViajeModel.getCategoria());
+            dto.setId(model.getId().toString());
+            dto.setCategoria(model.getCategoria());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

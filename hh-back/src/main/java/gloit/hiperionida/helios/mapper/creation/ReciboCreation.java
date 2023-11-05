@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
@@ -12,9 +14,4 @@ public class ReciboCreation extends AbsAuditoriaCreation {
     private String id;
     private String monto;
     private String fecha;
-        /*
-        private Long id;
-    private Double monto;
-    private LocalDateTime fecha;
-     */
 }

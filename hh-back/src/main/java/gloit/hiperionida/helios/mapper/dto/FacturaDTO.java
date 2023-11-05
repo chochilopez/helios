@@ -1,9 +1,13 @@
 package gloit.hiperionida.helios.mapper.dto;
 
+import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
 import gloit.hiperionida.helios.util.mapper.dto.AbsAuditoriaDTO;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,24 +23,6 @@ public class FacturaDTO extends AbsAuditoriaDTO implements Serializable {
     private String subTotal;
     private String tipoComprobante;
     private String pagada;
-    private List<PagoDTO> pagos;
-    private RemitoDTO remito;
-    private ViajeFacturaDTO viaje;
-    /*
-        @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Double descuento;
-    private LocalDateTime fecha;
-    private Double iva;
-    private String numeroComprobante;
-    private Double recarga;
-    private Double subTotal;
-    @Enumerated(EnumType.STRING)
-    private TipoComprobanteEnum tipoComprobante;
-    private Boolean pagada;
-
-    private Long remito_id;
-    private Long viaje_id;
-     */
+    private String remito_id;
+    private String viaje_id;
 }

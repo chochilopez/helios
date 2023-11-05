@@ -12,10 +12,4 @@ public class SeguroCreation extends AbsAuditoriaCreation {
     private String id;
     private String aseguradora_id;
     private String vencimiento_id;
-        /*
-        private Long id;
-
-    private Long aseguradora_id;
-    private Long vencimiento_id;
-     */
 }

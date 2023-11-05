@@ -11,12 +11,6 @@ import java.io.Serializable;
 public class DireccionDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String direccion;
-    private String nombre;
-    private UbicacionDTO ubicacion;
-    /*
-        private Long id;
-    private String direccion;
     private String ciudad;
     private String nombre;
-     */
 }

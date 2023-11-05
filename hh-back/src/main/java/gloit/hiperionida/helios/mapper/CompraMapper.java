@@ -34,110 +34,128 @@ public class CompraMapper {
     private final ProveedorMapper proveedorMapper;
     private final RemitoDAO remitoDAO;
     private final RemitoMapper remitoMapper;
+    /*
+        private String id;
+    private String fecha;
+    private String iva;
+    private String numeroComprobante;
+    private String subTotal;
+    private String tipoComprobante;
+    private String notas;
+    private String comprobante_id;
+    private String proveedor_id;
+    private String remito_id;
+     */
 
-    public CompraModel toEntity(CompraCreation compraCreation) {
+    public CompraModel toEntity(CompraCreation creation) {
         try {
-            CompraModel compraModel = new CompraModel();
+            CompraModel model = new CompraModel();
 
-            if (Helper.getLong(compraCreation.getId()) != null)
-                compraModel.setId(Helper.getLong(compraCreation.getId()));
-            if (compraCreation.getFecha() != null && Helper.stringToLocalDateTime(compraCreation.getFecha(), "") != null)
-                compraModel.setFecha(Helper.stringToLocalDateTime(compraCreation.getFecha(), ""));
-            if (Helper.getDecimal(compraCreation.getFecha()) != null)
-                compraModel.setIva(Helper.getDecimal(compraCreation.getFecha()));
-            compraModel.setNumeroComprobante(compraCreation.getNumeroComprobante());
-            if (Helper.getDecimal(compraCreation.getSubTotal()) != null)
-                compraModel.setSubTotal(Helper.getDecimal(compraCreation.getSubTotal()));
-            if (compraCreation.getTipoComprobante() != null)
-                compraModel.setTipoComprobante(TipoComprobanteEnum.valueOf(compraCreation.getTipoComprobante()));
-            compraModel.setNotas(compraCreation.getNotas());
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
+                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
+            if (Helper.getDecimal(creation.getFecha()) != null)
+                model.setIva(Helper.getDecimal(creation.getFecha()));
+            model.setNumeroComprobante(creation.getNumeroComprobante());
+            if (Helper.getDecimal(creation.getSubTotal()) != null)
+                model.setSubTotal(Helper.getDecimal(creation.getSubTotal()));
+            if (creation.getTipoComprobante() != null)
+                model.setTipoComprobante(TipoComprobanteEnum.valueOf(creation.getTipoComprobante()));
+            model.setNotas(creation.getNotas());
 
-            if (Helper.getLong(compraCreation.getComprobante_id()) != null) {
-                Optional<ArchivoModel> archivo = archivoDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getComprobante_id()));
-                archivo.ifPresent(compraModel::setComprobante);
+            if (Helper.getLong(creation.getComprobante_id()) != null) {
+                Optional<ArchivoModel> archivo = archivoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getComprobante_id()));
+                archivo.ifPresent(model::setComprobante);
             }
-            if (Helper.getLong(compraCreation.getProveedor_id()) != null) {
-                Optional<ProveedorModel> proveedor = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getProveedor_id()));
-                proveedor.ifPresent(compraModel::setProveedor);
+            if (Helper.getLong(creation.getProveedor_id()) != null) {
+                Optional<ProveedorModel> proveedor = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getProveedor_id()));
+                proveedor.ifPresent(model::setProveedor);
             }
-            if (Helper.getLong(compraCreation.getRemito_id()) != null) {
-                Optional<RemitoModel> remito = remitoDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getRemito_id()));
-                remito.ifPresent(compraModel::setRemito);
+            if (Helper.getLong(creation.getRemito_id()) != null) {
+                Optional<RemitoModel> remito = remitoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getRemito_id()));
+                remito.ifPresent(model::setRemito);
             }
             Set<PagoModel> pagos = new HashSet<>();
-            if (compraCreation.getPagos_id() != null) {
-                for (String pago_id : compraCreation.getPagos_id()) {
+            if (creation.getPagos_id() != null) {
+                for (String pago_id : creation.getPagos_id()) {
                     if (Helper.getLong(pago_id) != null) {
                         Optional<PagoModel> pago = pagoDAO.findByIdAndEliminadaIsNull(Helper.getLong(pago_id));
                         pago.ifPresent(pagos::add);
                     }
                 }
             }
-            compraModel.setPagos(pagos);
+            model.setPagos(pagos);
 
-            if (Helper.getLong(compraCreation.getCreador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getCreador_id()));
-                usuario.ifPresent(compraModel::setCreador);
-            }
-            if (Helper.stringToLocalDateTime(compraCreation.getCreada(), "") != null)
-                compraModel.setCreada(Helper.stringToLocalDateTime(compraCreation.getCreada(), ""));
-            if (Helper.getLong(compraCreation.getModificador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getModificador_id()));
-                usuario.ifPresent(compraModel::setModificador);
-            }
-            if (Helper.stringToLocalDateTime(compraCreation.getModificada(), "") != null)
-                compraModel.setModificada(Helper.stringToLocalDateTime(compraCreation.getModificada(), ""));
-            if (Helper.getLong(compraCreation.getEliminador_id()) != null) {
-                Optional<UsuarioModel> usuario = usuarioDAO.findByIdAndEliminadaIsNull(Helper.getLong(compraCreation.getEliminador_id()));
-                usuario.ifPresent(compraModel::setEliminador);
-            }
-            if (Helper.stringToLocalDateTime(compraCreation.getEliminada(), "") != null)
-                compraModel.setEliminada(Helper.stringToLocalDateTime(compraCreation.getEliminada(), ""));
+            if (Helper.getLong(creation.getCreador_id()) != null)
+                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (!Helper.isEmptyString(creation.getCreada()))
+                model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
+            if (Helper.getLong(creation.getModificador_id()) != null)
+                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (!Helper.isEmptyString(creation.getModificada()))
+                model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
+            if (Helper.getLong(creation.getEliminador_id()) != null)
+                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (!Helper.isEmptyString(creation.getEliminada()))
+                model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
-            return compraModel;
+            return model;
         } catch (Exception e) {
             log.error("Ocurrio un error al convertir Creation a entidad. Excepcion: " + e);
             return null;
         }
     }
+    /*
+        private String id;
+    private String fecha;
+    private String iva;
+    private String numeroComprobante;
+    private String subTotal;
+    private String tipoComprobante;
+    private String notas;
+    private String comprobante_id;
+    private String proveedor_id;
+    private String remito_id;
+     */
 
-    public CompraDTO toDto(CompraModel compraModel) {
+    public CompraDTO toDto(CompraModel model) {
         try {
             CompraDTO dto = new CompraDTO();
 
-            dto.setId(compraModel.getId().toString());
-            dto.setFecha(compraModel.getFecha().toString());
-            dto.setIva(compraModel.getIva().toString());
-            dto.setNumeroComprobante(compraModel.getNumeroComprobante());
-            dto.setSubTotal(compraModel.getSubTotal().toString());
-            dto.setTipoComprobante(compraModel.getTipoComprobante().name());
-            dto.setNotas(compraModel.getNotas());
-            if (compraModel.getComprobante() != null)
-                dto.setComprobante(archivoMapper.toDto(compraModel.getComprobante()));
-            if (compraModel.getProveedor() != null)
-                dto.setProveedor(proveedorMapper.toDto(compraModel.getProveedor()));
-            if (compraModel.getRemito() != null)
-                dto.setRemito(remitoMapper.toDto(compraModel.getRemito()));
-            if (!compraModel.getPagos().isEmpty()) {
+            dto.setId(model.getId().toString());
+            dto.setFecha(model.getFecha().toString());
+            dto.setIva(model.getIva().toString());
+            dto.setNumeroComprobante(model.getNumeroComprobante());
+            dto.setSubTotal(model.getSubTotal().toString());
+            dto.setTipoComprobante(model.getTipoComprobante().name());
+            dto.setNotas(model.getNotas());
+            if (model.getComprobante() != null)
+                dto.setComprobante(archivoMapper.toDto(model.getComprobante()));
+            if (model.getProveedor() != null)
+                dto.setProveedor(proveedorMapper.toDto(model.getProveedor()));
+            if (model.getRemito() != null)
+                dto.setRemito(remitoMapper.toDto(model.getRemito()));
+            if (!model.getPagos().isEmpty()) {
                 List<PagoDTO> pagoDTOS = new ArrayList<>();
-                for (PagoModel pago:compraModel.getPagos()) {
+                for (PagoModel pago:model.getPagos()) {
                     pagoDTOS.add(pagoMapper.toDto(pago));
                 }
                 dto.setPagos(pagoDTOS);
             }
 
-            if (compraModel.getCreador() != null)
-                dto.setCreador(usuarioMapper.toDto(compraModel.getCreador()));
-            if (Helper.localDateTimeToString(compraModel.getCreada(), "") != null)
-                dto.setCreada(Helper.localDateTimeToString(compraModel.getCreada(), ""));
-            if (compraModel.getModificador() != null)
-                dto.setModificador(usuarioMapper.toDto(compraModel.getModificador()));
-            if (Helper.localDateTimeToString(compraModel.getModificada(), "") != null)
-                dto.setModificada(Helper.localDateTimeToString(compraModel.getModificada(), ""));
-            if (compraModel.getEliminador() != null)
-                dto.setEliminador(usuarioMapper.toDto(compraModel.getEliminador()));
-            if (Helper.localDateTimeToString(compraModel.getEliminada(), "") != null)
-                dto.setEliminada(Helper.localDateTimeToString(compraModel.getEliminada(), ""));
+            if (model.getCreador_id() != null)
+                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreada() != null)
+                dto.setCreada(model.getCreada().toString());
+            if (model.getModificador_id() != null)
+                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificada() != null)
+                dto.setModificada(model.getModificada().toString());
+            if (model.getEliminador_id() != null)
+                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminada() != null)
+                dto.setEliminada(model.getEliminada().toString());
 
             return dto;
         } catch (Exception e) {

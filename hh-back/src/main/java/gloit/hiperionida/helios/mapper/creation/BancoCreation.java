@@ -12,10 +12,4 @@ public class BancoCreation extends AbsAuditoriaCreation {
     private String id;
     private String banco;
     private String notas;
-    /*
-        private Long id;
-    private String banco;
-    @Column(columnDefinition = "TEXT")
-    private String notas;
-     */
 }

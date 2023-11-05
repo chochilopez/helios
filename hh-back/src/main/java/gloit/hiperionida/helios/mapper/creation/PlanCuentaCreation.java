@@ -11,8 +11,4 @@ import lombok.NoArgsConstructor;
 public class PlanCuentaCreation extends AbsAuditoriaCreation {
     private String id;
     private String nombre;
-        /*
-        private Long id;
-    private String nombre;
-     */
 }

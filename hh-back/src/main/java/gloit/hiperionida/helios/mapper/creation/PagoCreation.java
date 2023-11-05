@@ -1,6 +1,10 @@
 package gloit.hiperionida.helios.mapper.creation;
 
+import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,17 +17,7 @@ public class PagoCreation extends AbsAuditoriaCreation {
     private String monto;
     private String notas;
     private String tipoPago;
+    private String compra_id;
+    private String factura_id;
     private String recibo_id;
-        /*
-        private Long id;
-    private Double monto;
-    @Column(columnDefinition = "TEXT")
-    private String notas;
-    @Enumerated(EnumType.STRING)
-    private TipoPagoEnum tipoPago;
-
-    private Long compra_id;
-    private Long factura_id;
-    private Long recibo_id;
-     */
 }
