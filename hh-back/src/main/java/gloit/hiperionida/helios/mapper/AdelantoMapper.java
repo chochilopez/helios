@@ -42,9 +42,9 @@ public class AdelantoMapper {
                 model.setRendido(Helper.getBoolean(creation.getRendido()));
 
             if (Helper.getLong(creation.getCaja_id()) != null)
-                model.setCaja_id(Helper.getLong(creation.getCaja_id()));
-            if (Helper.getLong(creation.getConductor_id()) != null)
-                model.setConductor_id(Helper.getLong(creation.getConductor_id()));
+                model.setCajaId(Helper.getLong(creation.getCaja_id()));
+            if (Helper.getLong(creation.getConductorId()) != null)
+                model.setConductorId(Helper.getLong(creation.getConductorId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -83,10 +83,10 @@ public class AdelantoMapper {
             dto.setRecibo(model.getRecibo());
             dto.setRendido(model.getRendido().toString());
 
-            if (model.getCaja_id() != null)
-                dto.setCaja(cajaDAO.findByIdAndEliminadaIsNull(model.getCaja_id()).get().getNombre());
-            if (model.getConductor_id() != null)
-                dto.setConductor(conductorDAO.findByIdAndEliminadaIsNull(model.getConductor_id()).get().getNombre());
+            if (model.getCajaId() != null)
+                dto.setCaja(cajaDAO.findByIdAndEliminadaIsNull(model.getCajaId()).get().getNombre());
+            if (model.getConductorId() != null)
+                dto.setConductor(conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).get().getNombre());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

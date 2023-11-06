@@ -20,11 +20,11 @@ public class ViajeModel extends AbsViajeModel {
     private Double kmCargado;
     private Double kmVacio;
 
-    private Long acoplado_id;
-    private Long camion_id;
-    private Long carga_id;
-    private Long conductor_id;
-    private Long intermediario_id;
-    private Long vendedor_id;
+    private Long acopladoId;
+    private Long camionId;
+    private Long cargaId;
+    private Long conductorId;
+    private Long intermediarioId;
+    private Long vendedorId;
 }
 

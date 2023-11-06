@@ -32,8 +32,8 @@ public class NeumaticoModel extends AbsAuditoriaModel {
     private EstadoNeumaticoEnum estado;
     private Boolean baja;
 
-    private Long acoplado_id;
-    private Long camion_id;
-    private Long proveedor_id;
+    private Long acopladoId;
+    private Long camionId;
+    private Long proveedorId;
 }
 

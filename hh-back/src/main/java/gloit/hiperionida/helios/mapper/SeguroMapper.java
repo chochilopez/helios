@@ -33,10 +33,10 @@ public class SeguroMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
-            if (Helper.getLong(creation.getAseguradora_id()) != null)
-                model.setAseguradora_id(Helper.getLong(creation.getAseguradora_id()));
-            if (Helper.getLong(creation.getVencimiento_id()) != null)
-                model.setVencimiento_id(Helper.getLong(creation.getVencimiento_id()));
+            if (Helper.getLong(creation.getAseguradoraId()) != null)
+                model.setAseguradoraId(Helper.getLong(creation.getAseguradoraId()));
+            if (Helper.getLong(creation.getVencimientoId()) != null)
+                model.setVencimientoId(Helper.getLong(creation.getVencimientoId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -63,10 +63,10 @@ public class SeguroMapper {
             SeguroDTO dto = new SeguroDTO();
 
             dto.setId(model.getId().toString());
-            if (model.getAseguradora_id() != null)
-                dto.setAseguradora(proveedorDAO.findByIdAndEliminadaIsNull(model.getAseguradora_id()).get().getNombre());
-            if (model.getVencimiento_id() != null)
-                dto.setVencimiento(eventoDAO.findByIdAndEliminadaIsNull(model.getVencimiento_id()).get().getFecha().toString());
+            if (model.getAseguradoraId() != null)
+                dto.setAseguradora(proveedorDAO.findByIdAndEliminadaIsNull(model.getAseguradoraId()).get().getNombre());
+            if (model.getVencimientoId() != null)
+                dto.setVencimiento(eventoDAO.findByIdAndEliminadaIsNull(model.getVencimientoId()).get().getFecha().toString());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

@@ -27,6 +27,6 @@ public class CompraModel extends AbsAuditoriaModel {
     @Column(columnDefinition = "TEXT")
     private String notas;
 
-    private Long comprobante_id;
-    private Long proveedor_id;
+    private Long comprobanteId;
+    private Long proveedorId;
 }

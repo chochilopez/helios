@@ -17,7 +17,8 @@ public class PagoCreation extends AbsAuditoriaCreation {
     private String monto;
     private String notas;
     private String tipoPago;
-    private String compra_id;
-    private String factura_id;
-    private String recibo_id;
+
+    private String compraId;
+    private String facturaId;
+    private String reciboId;
 }

@@ -23,7 +23,7 @@ public class RolServiceImpl implements RolService {
     @Override
     public RolModel buscarPorRol(String nombre) {
         log.info("Buscando todas las entidades Rol con nombre: {}.", nombre);
-        RolModel rol = rolDAO.findByRolAndEliminadaIsNull(RolEnum.valueOf(nombre)).orElseThrow(() -> new DatosInexistentesException("No se encontro la entidad Rol con nombre: " + nombre + "."));
+        RolModel rol = rolDAO.findByRol(RolEnum.valueOf(nombre)).orElseThrow(() -> new DatosInexistentesException("No se encontro la entidad Rol con nombre: " + nombre + "."));
         String mensaje = "Se encontro una entidad Rol con nombre: " + nombre + ".";
         log.info(mensaje);
         return rol;
@@ -32,7 +32,7 @@ public class RolServiceImpl implements RolService {
     @Override
     public RolModel buscarPorId(Long id) {
         log.info("Buscando la entidad Rol con id: {}.", id);
-        RolModel rolModel = rolDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con id " + id + "."));
+        RolModel rolModel = rolDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con id " + id + "."));
         String mensaje = "Se encontro una entidad Rol.";
         log.info(mensaje);
         return rolModel;
@@ -41,7 +41,7 @@ public class RolServiceImpl implements RolService {
     @Override
     public List<RolModel> buscarTodas() {
         log.info("Buscando todas las entidades Rol.");
-        List<RolModel> listado = rolDAO.findAllByEliminadaIsNull();
+        List<RolModel> listado = rolDAO.findAll();
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Rol.");
         return listado;

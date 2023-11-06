@@ -24,8 +24,8 @@ public class CombustibleModel extends AbsAuditoriaModel {
     private Double precio;
     private String notas;
 
-    private Long camion_id;
-    private Long conductor_id;
-    private Long proveedor_id;
+    private Long camionId;
+    private Long conductorId;
+    private Long proveedorId;
 }
 

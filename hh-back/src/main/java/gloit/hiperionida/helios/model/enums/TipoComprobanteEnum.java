@@ -1,7 +1,7 @@
 package gloit.hiperionida.helios.model.enums;
 
 public enum TipoComprobanteEnum {
-    SC,
+    SIN_COMPROBANTE,
     A,
     B,
     C

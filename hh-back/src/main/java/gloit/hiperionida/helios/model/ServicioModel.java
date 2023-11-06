@@ -21,5 +21,5 @@ public class ServicioModel extends AbsAuditoriaModel {
     private Double kmProximo;
     private String tipo;
 
-    private Long camion_id;
+    private Long camionId;
 }

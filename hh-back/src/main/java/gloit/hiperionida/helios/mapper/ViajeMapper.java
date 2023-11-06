@@ -47,26 +47,26 @@ public class ViajeMapper {
             model.setNotas(creation.getNotas());
             model.setGuia(creation.getGuia());
 
-            if (Helper.getLong(creation.getAcoplado_id()) != null)
-                model.setAcoplado_id(Helper.getLong(creation.getAcoplado_id()));
-            if (Helper.getLong(creation.getCamion_id()) != null)
-                model.setCamion_id(Helper.getLong(creation.getCamion_id()));
-            if (Helper.getLong(creation.getCarga_id()) != null)
-                model.setCarga_id(Helper.getLong(creation.getCarga_id()));
-            if (Helper.getLong(creation.getCategoriaViaje_id()) != null)
-                model.setCategoriaViaje_id(Helper.getLong(creation.getCategoriaViaje_id()));
-            if (Helper.getLong(creation.getComprador_id()) != null)
-                model.setComprador_id(Helper.getLong(creation.getComprador_id()));
-            if (Helper.getLong(creation.getConductor_id()) != null)
-                model.setConductor_id(Helper.getLong(creation.getConductor_id()));
-            if (Helper.getLong(creation.getDestino_id()) != null)
-                model.setDestino_id(Helper.getLong(creation.getDestino_id()));
-            if (Helper.getLong(creation.getFecha_id()) != null)
-                model.setFecha_id(Helper.getLong(creation.getFecha_id()));
-            if (Helper.getLong(creation.getOrigen_id()) != null)
-                model.setOrigen_id(Helper.getLong(creation.getOrigen_id()));
-            if (Helper.getLong(creation.getVendedor_id()) != null)
-                model.setVendedor_id(Helper.getLong(creation.getVendedor_id()));
+            if (Helper.getLong(creation.getAcopladoId()) != null)
+                model.setAcopladoId(Helper.getLong(creation.getAcopladoId()));
+            if (Helper.getLong(creation.getCamionId()) != null)
+                model.setCamionId(Helper.getLong(creation.getCamionId()));
+            if (Helper.getLong(creation.getCargaId()) != null)
+                model.setCargaId(Helper.getLong(creation.getCargaId()));
+            if (Helper.getLong(creation.getCategoriaViajeId()) != null)
+                model.setCategoriaViajeId(Helper.getLong(creation.getCategoriaViajeId()));
+            if (Helper.getLong(creation.getCompradorId()) != null)
+                model.setCompradorId(Helper.getLong(creation.getCompradorId()));
+            if (Helper.getLong(creation.getConductorId()) != null)
+                model.setConductorId(Helper.getLong(creation.getConductorId()));
+            if (Helper.getLong(creation.getDestinoId()) != null)
+                model.setDestinoId(Helper.getLong(creation.getDestinoId()));
+            if (Helper.getLong(creation.getFechaId()) != null)
+                model.setFechaId(Helper.getLong(creation.getFechaId()));
+            if (Helper.getLong(creation.getOrigenId()) != null)
+                model.setOrigenId(Helper.getLong(creation.getOrigenId()));
+            if (Helper.getLong(creation.getVendedorId()) != null)
+                model.setVendedorId(Helper.getLong(creation.getVendedorId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -107,38 +107,38 @@ public class ViajeMapper {
             if (model.getValorKm() != null)
                 dto.setValorKm(format.format(model.getValorKm()).toString());
 
-            if (model.getAcoplado_id() != null) {
-                Optional<AcopladoModel> acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(model.getAcoplado_id());
+            if (model.getAcopladoId() != null) {
+                Optional<AcopladoModel> acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(model.getAcopladoId());
                 dto.setAcoplado(acopladoModel.get().getMarca() + " - " + acopladoModel.get().getModelo());
             }
-            if (model.getCamion_id() != null) {
-                Optional<CamionModel> camionModel = camionDAO.findByIdAndEliminadaIsNull(model.getCamion_id());
+            if (model.getCamionId() != null) {
+                Optional<CamionModel> camionModel = camionDAO.findByIdAndEliminadaIsNull(model.getCamionId());
                 dto.setCamion(camionModel.get().getMarca() + " - " + camionModel.get().getModelo());
             }
-            if (model.getCarga_id() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getCarga_id());
+            if (model.getCargaId() != null) {
+                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getCargaId());
                 dto.setCarga(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
             }
-            if (model.getCategoriaViaje_id() != null)
-                dto.setCategoriaViaje(categoriaViajeDAO.findByIdAndEliminadaIsNull(model.getCategoriaViaje_id()).get().getCategoria());
-            if (model.getComprador_id() != null)
-                dto.setComprador(clienteDAO.findByIdAndEliminadaIsNull(model.getComprador_id()).get().getNombre());
-            if (model.getConductor_id() != null)
-                dto.setConductor(conductorDAO.findByIdAndEliminadaIsNull(model.getConductor_id()).get().getNombre());
-            if (model.getDestino_id() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestino_id());
+            if (model.getCategoriaViajeId() != null)
+                dto.setCategoriaViaje(categoriaViajeDAO.findByIdAndEliminadaIsNull(model.getCategoriaViajeId()).get().getCategoria());
+            if (model.getCompradorId() != null)
+                dto.setComprador(clienteDAO.findByIdAndEliminadaIsNull(model.getCompradorId()).get().getNombre());
+            if (model.getConductorId() != null)
+                dto.setConductor(conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).get().getNombre());
+            if (model.getDestinoId() != null) {
+                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId());
                 dto.setDestino(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
             }
-            if (model.getFecha_id() != null)
-                dto.setFecha(eventoDAO.findByIdAndEliminadaIsNull(model.getFecha_id()).get().getFecha().toString());
-            if (model.getIntermediario_id() != null)
-                dto.setIntermediario(clienteDAO.findByIdAndEliminadaIsNull(model.getIntermediario_id()).get().getNombre());
-            if (model.getOrigen_id() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigen_id());
+            if (model.getFechaId() != null)
+                dto.setFecha(eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).get().getFecha().toString());
+            if (model.getIntermediarioId() != null)
+                dto.setIntermediario(clienteDAO.findByIdAndEliminadaIsNull(model.getIntermediarioId()).get().getNombre());
+            if (model.getOrigenId() != null) {
+                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId());
                 dto.setOrigen(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
             }
-            if (model.getVendedor_id() != null)
-                dto.setVendedor(clienteDAO.findByIdAndEliminadaIsNull(model.getVendedor_id()).get().getNombre());
+            if (model.getVendedorId() != null)
+                dto.setVendedor(clienteDAO.findByIdAndEliminadaIsNull(model.getVendedorId()).get().getNombre());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

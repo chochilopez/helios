@@ -26,7 +26,8 @@ public class NeumaticoCreation extends AbsAuditoriaCreation {
     private String ubicacion;
     private String estado;
     private String baja;
-    private String acoplado_id;
-    private String camion_id;
-    private String proveedor_id;
+
+    private String acopladoId;
+    private String camionId;
+    private String proveedorId;
 }

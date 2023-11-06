@@ -61,7 +61,7 @@ public class UsuarioMapper {
             Set<RolModel> roles = new HashSet<>();
             for (String rolId:creation.getRoles_id()) {
                 if (Helper.getLong(rolId) != null) {
-                    Optional<RolModel> rol = rolDAO.findByIdAndEliminadaIsNull(Helper.getLong(rolId));
+                    Optional<RolModel> rol = rolDAO.findById(Helper.getLong(rolId));
                     if (rol.isPresent()) {
                         roles.add(rol.get());
                     }

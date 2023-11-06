@@ -14,5 +14,5 @@ public class ServicioDTO extends AbsAuditoriaDTO implements Serializable {
     private String kmActual;
     private String kmProximo;
     private String tipo;
-    private String camion_id;
+    private String camionId;
 }

@@ -19,6 +19,7 @@ public class CompraCreation extends AbsAuditoriaCreation {
     private String subTotal;
     private String tipoComprobante;
     private String notas;
-    private String comprobante_id;
-    private String proveedor_id;
+
+    private String comprobanteId;
+    private String proveedorId;
 }

@@ -37,8 +37,8 @@ public class ConciliacionBancoMapper {
             if (Helper.getDecimal(creation.getMonto()) != null)
                 model.setMonto(Helper.getDecimal(creation.getMonto()));
 
-            if (Helper.getLong(creation.getBanco_id()) != null)
-                model.setBanco_id(Helper.getLong(creation.getBanco_id()));
+            if (Helper.getLong(creation.getBancoId()) != null)
+                model.setBancoId(Helper.getLong(creation.getBancoId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -70,8 +70,8 @@ public class ConciliacionBancoMapper {
             dto.setConcepto(model.getConcepto());
             dto.setMonto(model.getMonto().toString());
 
-            if (model.getBanco_id() != null)
-                dto.setBanco(bancoDAO.findByIdAndEliminadaIsNull(model.getBanco_id()).get().getBanco());
+            if (model.getBancoId() != null)
+                dto.setBanco(bancoDAO.findByIdAndEliminadaIsNull(model.getBancoId()).get().getBanco());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

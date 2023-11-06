@@ -44,12 +44,12 @@ public class CombustibleMapper {
                 model.setPrecio(Helper.getDecimal(creation.getPrecio()));
             model.setNotas(creation.getNotas());
 
-            if (Helper.getLong(creation.getCamion_id()) != null)
-                model.setCamion_id(Helper.getLong(creation.getCamion_id()));
-            if (Helper.getLong(creation.getConductor_id()) != null)
-                model.setConductor_id(Helper.getLong(creation.getConductor_id()));
-            if (Helper.getLong(creation.getProveedor_id()) != null)
-                model.setProveedor_id(Helper.getLong(creation.getProveedor_id()));
+            if (Helper.getLong(creation.getCamionId()) != null)
+                model.setCamionId(Helper.getLong(creation.getCamionId()));
+            if (Helper.getLong(creation.getConductorId()) != null)
+                model.setConductorId(Helper.getLong(creation.getConductorId()));
+            if (Helper.getLong(creation.getProveedorId()) != null)
+                model.setProveedorId(Helper.getLong(creation.getProveedorId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -82,14 +82,14 @@ public class CombustibleMapper {
             dto.setPrecio(model.getPrecio().toString());
             dto.setNotas(model.getNotas());
 
-            if (model.getCamion_id() != null) {
+            if (model.getCamionId() != null) {
                 Optional<CamionModel> camionModel = camionDAO.findByIdAndEliminadaIsNull(model.getId());
                 dto.setCamion(camionModel.get().getMarca() + " - " + camionModel.get().getModelo());
             }
-            if (model.getConductor_id() != null)
-                dto.setConductor(conductorDAO.findByIdAndEliminadaIsNull(model.getConductor_id()).get().getNombre());
-            if (model.getProveedor_id() != null)
-                dto.setProveedor(proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedor_id()).get().getNombre());
+            if (model.getConductorId() != null)
+                dto.setConductor(conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).get().getNombre());
+            if (model.getProveedorId() != null)
+                dto.setProveedor(proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedorId()).get().getNombre());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

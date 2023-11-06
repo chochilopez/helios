@@ -16,6 +16,7 @@ import java.util.Optional;
 public interface GenericDTO<E> extends JpaRepository<E, Long> {
     Optional<E> findById(long id);
     Optional<E> findByIdAndEliminadaIsNull(long id);
+    Optional<E> findFirstByOrderByIdDesc();
     List<E> findAllByEliminadaIsNull();
     Long countAllByEliminadaIsNull();
 

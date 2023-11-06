@@ -14,5 +14,6 @@ public class ServicioCreation extends AbsAuditoriaCreation {
     private String kmActual;
     private String kmProximo;
     private String tipo;
-    private String camion_id;
+
+    private String camionId;
 }

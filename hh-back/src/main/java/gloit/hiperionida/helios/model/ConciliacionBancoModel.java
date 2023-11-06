@@ -26,5 +26,5 @@ public class ConciliacionBancoModel extends AbsAuditoriaModel {
     private String concepto;
     private Double monto;
 
-    private Long banco_id;
+    private Long bancoId;
 }

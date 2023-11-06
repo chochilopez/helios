@@ -52,12 +52,12 @@ public class NeumaticoMapper {
             if (Helper.getBoolean(creation.getBaja()) != null)
                 model.setBaja(Helper.getBoolean(creation.getBaja()));
 
-            if (Helper.getLong(creation.getAcoplado_id()) != null)
-                model.setAcoplado_id(Helper.getLong(creation.getAcoplado_id()));
-            if (Helper.getLong(creation.getCamion_id()) != null)
-                model.setCamion_id(Helper.getLong(creation.getCamion_id()));
-            if (Helper.getLong(creation.getProveedor_id()) != null)
-                model.setProveedor_id(Helper.getLong(creation.getProveedor_id()));
+            if (Helper.getLong(creation.getAcopladoId()) != null)
+                model.setAcopladoId(Helper.getLong(creation.getAcopladoId()));
+            if (Helper.getLong(creation.getCamionId()) != null)
+                model.setCamionId(Helper.getLong(creation.getCamionId()));
+            if (Helper.getLong(creation.getProveedorId()) != null)
+                model.setProveedorId(Helper.getLong(creation.getProveedorId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -95,12 +95,12 @@ public class NeumaticoMapper {
             dto.setEstado(model.getEstado().name());
             dto.setBaja(model.getBaja().toString());
 
-            if (model.getAcoplado_id() != null)
-                dto.setAcoplado_id(model.getAcoplado_id().toString());
-            if (model.getCamion_id() != null)
-                dto.setCamion_id(model.getCamion_id().toString());
-            if (model.getProveedor_id() != null)
-                dto.setProveedor(proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedor_id()).get().getNombre());
+            if (model.getAcopladoId() != null)
+                dto.setAcopladoId(model.getAcopladoId().toString());
+            if (model.getCamionId() != null)
+                dto.setCamionId(model.getCamionId().toString());
+            if (model.getProveedorId() != null)
+                dto.setProveedor(proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedorId()).get().getNombre());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

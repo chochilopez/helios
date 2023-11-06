@@ -19,8 +19,8 @@ public class SeguroModel extends AbsAuditoriaModel {
     private Long id;
 
     // Proveedor
-    private Long aseguradora_id;
+    private Long aseguradoraId;
     // Evento
-    private Long vencimiento_id;
+    private Long vencimientoId;
 
 }

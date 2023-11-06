@@ -12,5 +12,5 @@ public class LicenciaCreation extends AbsAuditoriaCreation {
     private String id;
     private String numero;
     private String categoria;
-    private String vencimiento_id;
+    private String vencimientoId;
 }

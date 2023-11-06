@@ -24,6 +24,7 @@ public class FacturaCreation extends AbsAuditoriaCreation {
     private String subTotal;
     private String tipoComprobante;
     private String pagada;
-    private String remito_id;
-    private String viaje_id;
+
+    private String remitoId;
+    private String viajeId;
 }

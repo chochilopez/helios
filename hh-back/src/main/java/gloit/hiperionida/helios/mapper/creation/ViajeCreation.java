@@ -15,10 +15,11 @@ public class ViajeCreation extends AbsViajeCreation {
     private String neto;
     private String kmCargado;
     private String kmVacio;
-    private String acoplado_id;
-    private String camion_id;
-    private String carga_id;
-    private String conductor_id;
-    private String intermediario_id;
-    private String vendedor_id;
+
+    private String acopladoId;
+    private String camionId;
+    private String cargaId;
+    private String conductorId;
+    private String intermediarioId;
+    private String vendedorId;
 }

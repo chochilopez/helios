@@ -34,10 +34,10 @@ public class GastoMapper {
                 model.setMonto(Helper.getDecimal(creation.getMonto()));
             model.setNotas(creation.getNotas());
 
-            if (Helper.getLong(creation.getCategoriaGasto_id()) != null)
-                model.setCategoriaGasto_id(Helper.getLong(creation.getCategoriaGasto_id()));
-            if (Helper.getLong(creation.getViaje_id()) != null)
-                model.setViaje_id(Helper.getLong(creation.getViaje_id()));
+            if (Helper.getLong(creation.getCategoriaGastoId()) != null)
+                model.setCategoriaGastoId(Helper.getLong(creation.getCategoriaGastoId()));
+            if (Helper.getLong(creation.getViajeId()) != null)
+                model.setViajeId(Helper.getLong(creation.getViajeId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -67,9 +67,9 @@ public class GastoMapper {
             dto.setMonto(model.getMonto().toString());
             dto.setNotas(model.getNotas());
 
-            if (model.getCategoriaGasto_id() != null)
-                dto.setCategoriaGasto(categoriaGastoDAO.findByIdAndEliminadaIsNull(model.getCategoriaGasto_id()).get().getCategoria());
-            model.setViaje_id(model.getViaje_id());
+            if (model.getCategoriaGastoId() != null)
+                dto.setCategoriaGasto(categoriaGastoDAO.findByIdAndEliminadaIsNull(model.getCategoriaGastoId()).get().getCategoria());
+            model.setViajeId(model.getViajeId());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

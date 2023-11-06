@@ -41,8 +41,8 @@ public class CamionMapper {
             model.setPatente(creation.getPatente());
             model.setPeso(creation.getPeso());
 
-            if (Helper.getLong(creation.getSeguro_id()) != null)
-                model.setSeguro_id(Helper.getLong(creation.getSeguro_id()));
+            if (Helper.getLong(creation.getSeguroId()) != null)
+                model.setSeguroId(Helper.getLong(creation.getSeguroId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -79,10 +79,10 @@ public class CamionMapper {
             dto.setPatente(model.getPatente());
             dto.setPeso(model.getPeso());
 
-            if (model.getSeguro_id() != null) {
-                Optional<SeguroModel> seguroModel = seguroDAO.findByIdAndEliminadaIsNull(model.getSeguro_id());
-                Optional<ProveedorModel> proveedorModel = proveedorDAO.findByIdAndEliminadaIsNull(seguroModel.get().getAseguradora_id());
-                Optional<EventoModel> eventoModel = eventoDAO.findByIdAndEliminadaIsNull(seguroModel.get().getVencimiento_id());
+            if (model.getSeguroId() != null) {
+                Optional<SeguroModel> seguroModel = seguroDAO.findByIdAndEliminadaIsNull(model.getSeguroId());
+                Optional<ProveedorModel> proveedorModel = proveedorDAO.findByIdAndEliminadaIsNull(seguroModel.get().getAseguradoraId());
+                Optional<EventoModel> eventoModel = eventoDAO.findByIdAndEliminadaIsNull(seguroModel.get().getVencimientoId());
                 dto.setAseguradora(proveedorModel.get().getNombre());
                 dto.setVencimiento(eventoModel.get().getFecha().toString());
             }

@@ -36,12 +36,12 @@ public class PagoMapper {
             if (creation.getTipoPago() != null)
                 model.setTipoPago(TipoPagoEnum.valueOf(creation.getTipoPago()));
 
-            if (Helper.getLong(creation.getCompra_id()) != null)
-                model.setRecibo_id(Helper.getLong(creation.getCompra_id()));
-            if (Helper.getLong(creation.getFactura_id()) != null)
-                model.setFactura_id(Helper.getLong(creation.getFactura_id()));
-            if (Helper.getLong(creation.getRecibo_id()) != null)
-                model.setRecibo_id(Helper.getLong(creation.getRecibo_id()));
+            if (Helper.getLong(creation.getCompraId()) != null)
+                model.setCompraId(Helper.getLong(creation.getCompraId()));
+            if (Helper.getLong(creation.getFacturaId()) != null)
+                model.setFacturaId(Helper.getLong(creation.getFacturaId()));
+            if (Helper.getLong(creation.getReciboId()) != null)
+                model.setReciboId(Helper.getLong(creation.getReciboId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -72,12 +72,12 @@ public class PagoMapper {
             dto.setNotas(model.getNotas());
             dto.setTipoPago(model.getTipoPago().name());
 
-            if (model.getCompra_id() != null)
-                dto.setCompra_id(model.getCompra_id().toString());
-            if (model.getFactura_id() != null)
-                dto.setFactura_id(model.getFactura_id().toString());
-            if (model.getRecibo_id() != null)
-                dto.setRecibo(reciboDAO.findByIdAndEliminadaIsNull(model.getRecibo_id()).get().getFecha().toString());
+            if (model.getCompraId() != null)
+                dto.setCompraId(model.getCompraId().toString());
+            if (model.getFacturaId() != null)
+                dto.setFacturaId(model.getFacturaId().toString());
+            if (model.getReciboId() != null)
+                dto.setRecibo(reciboDAO.findByIdAndEliminadaIsNull(model.getReciboId()).get().getFecha().toString());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

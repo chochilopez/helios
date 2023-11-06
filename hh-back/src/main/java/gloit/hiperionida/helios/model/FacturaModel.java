@@ -28,6 +28,6 @@ public class FacturaModel extends AbsAuditoriaModel {
     private TipoComprobanteEnum tipoComprobante;
     private Boolean pagada;
 
-    private Long remito_id;
-    private Long viaje_id;
+    private Long remitoId;
+    private Long viajeId;
 }

@@ -31,8 +31,8 @@ public class LicenciaMapper {
                 model.setId(Helper.getLong(creation.getId()));
             model.setNumero(creation.getNumero());
             model.setCategoria(creation.getCategoria());
-            if (Helper.getLong(creation.getVencimiento_id()) != null)
-                model.setVencimiento_id(Helper.getLong(creation.getVencimiento_id()));
+            if (Helper.getLong(creation.getVencimientoId()) != null)
+                model.setVencimientoId(Helper.getLong(creation.getVencimientoId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -62,8 +62,8 @@ public class LicenciaMapper {
             dto.setNumero(model.getNumero());
             dto.setCategoria(model.getCategoria());
 
-            if (model.getVencimiento_id() != null)
-                dto.setVencimiento(eventoDAO.findByIdAndEliminadaIsNull(model.getVencimiento_id()).get().getFecha().toString());
+            if (model.getVencimientoId() != null)
+                dto.setVencimiento(eventoDAO.findByIdAndEliminadaIsNull(model.getVencimientoId()).get().getFecha().toString());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

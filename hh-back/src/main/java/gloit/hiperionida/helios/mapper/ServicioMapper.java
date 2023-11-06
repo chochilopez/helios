@@ -33,8 +33,8 @@ public class ServicioMapper {
                 model.setKmProximo(Helper.getDecimal(creation.getKmProximo()));
             model.setTipo(creation.getTipo());
 
-            if (Helper.getLong(creation.getCamion_id()) != null)
-                model.setCamion_id(Helper.getLong(creation.getCamion_id()));
+            if (Helper.getLong(creation.getCamionId()) != null)
+                model.setCamionId(Helper.getLong(creation.getCamionId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -66,8 +66,8 @@ public class ServicioMapper {
             dto.setKmProximo(model.getKmProximo().toString());
             dto.setTipo(model.getTipo());
 
-            if (model.getCamion_id() != null)
-            dto.setCamion_id(model.getCamion_id().toString());
+            if (model.getCamionId() != null)
+            dto.setCamionId(model.getCamionId().toString());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

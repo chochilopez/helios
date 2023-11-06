@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SeguroCreation extends AbsAuditoriaCreation {
     private String id;
-    private String aseguradora_id;
-    private String vencimiento_id;
+
+    private String aseguradoraId;
+    private String vencimientoId;
 }

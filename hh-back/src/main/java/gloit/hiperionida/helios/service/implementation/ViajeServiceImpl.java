@@ -59,7 +59,7 @@ public class ViajeServiceImpl implements ViajeService {
     public ViajeModel buscarUltimoViaje() {
         log.info("Buscando la ultima entidad Viaje.");
 
-        return viajeDAO.findFirstByOrderByIdDesc();
+        return viajeDAO.findFirstByOrderByIdDesc().orElseThrow(() -> new DatosInexistentesException("No se encontro el ultimo Viaje"));
     }
 
     @Override

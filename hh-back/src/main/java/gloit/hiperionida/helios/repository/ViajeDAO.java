@@ -34,8 +34,6 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByCompradorIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByCompradorIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByCompradorIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByFechaFechaBetween(LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByFechaFechaBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByIntermediarioId(Long id);
     List<ViajeModel> findAllByIntermediarioIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByIntermediarioIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
@@ -64,13 +62,26 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByDestinoIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByDestinoIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByDestinoIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
+
+    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+    List<ViajeModel> findAllByFechaFechaBetween(LocalDateTime inicio, LocalDateTime fin);
+    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+    List<ViajeModel> findAllByFechaFechaBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
+    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
     List<ViajeModel> findAllByCompradorNombreContainingIgnoreCase(String nombre);
+    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
     List<ViajeModel> findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(String nombre);
+    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
     List<ViajeModel> findAllByVendedorNombreContainingIgnoreCase(String nombre);
+    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
     List<ViajeModel> findAllByVendedorNombreContainingIgnoreCaseAndEliminadaIsNull(String nombre);
+    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
     List<ViajeModel> findAllByOrigenDireccionContainingIgnoreCase(String direccion);
+    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
     List<ViajeModel> findAllByOrigenDireccionContainingIgnoreCaseAndEliminadaIsNull(String direccion);
+    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
     List<ViajeModel> findAllByDestinoDireccionContainingIgnoreCase(String direccion);
+    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
     List<ViajeModel> findAllByDestinoDireccionContainingIgnoreCaseAndEliminadaIsNull(String direccion);
 
     @Query("select SUM (cantidadTransportada) from ViajeModel")
@@ -79,6 +90,4 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     Double sumarKmCargado();
     @Query("select SUM (kmVacio) from ViajeModel")
     Double sumarKmVacio();
-
-    ViajeModel findFirstByOrderByIdDesc();
 }

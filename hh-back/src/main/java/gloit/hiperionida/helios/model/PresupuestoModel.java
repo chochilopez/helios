@@ -24,9 +24,10 @@ public class PresupuestoModel extends AbsViajeModel{
     private Double valorKm;
     @Column(columnDefinition = "TEXT")
     private String notas;
-    private Long categoriaViaje_id;
-    private Long origen_id;
-    private Long destino_id;
-    private Long comprador_id;
-    private Long fecha_id;
+
+    private Long categoriaViajeId;
+    private Long compradorId;
+    private Long destinoId;
+    private Long fechaId;
+    private Long origenId;
 }

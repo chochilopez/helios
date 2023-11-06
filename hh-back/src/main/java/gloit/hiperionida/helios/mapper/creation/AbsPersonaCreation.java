@@ -15,5 +15,6 @@ public abstract class AbsPersonaCreation extends AbsAuditoriaCreation {
     private String nombre;
     private String notas;
     private String telefono;
-    private String direccion_id;
+
+    private String direccionId;
 }

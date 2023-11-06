@@ -51,10 +51,10 @@ public class FacturaMapper {
             if (Helper.getBoolean(creation.getPagada()) != null)
                 model.setPagada(Helper.getBoolean(creation.getPagada()));
 
-            if (Helper.getLong(creation.getRemito_id()) != null)
-                model.setRemito_id(Helper.getLong(creation.getRemito_id()));
-            if (Helper.getLong(creation.getViaje_id()) != null)
-                model.setViaje_id(Helper.getLong(creation.getViaje_id()));
+            if (Helper.getLong(creation.getRemitoId()) != null)
+                model.setRemitoId(Helper.getLong(creation.getRemitoId()));
+            if (Helper.getLong(creation.getViajeId()) != null)
+                model.setViajeId(Helper.getLong(creation.getViajeId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -90,17 +90,17 @@ public class FacturaMapper {
             dto.setTipoComprobante(model.getTipoComprobante().name());
             dto.setPagada(model.getPagada().toString());
 
-            if (model.getRemito_id() != null)
-                dto.setRemito(remitoDAO.findByIdAndEliminadaIsNull(model.getRemito_id()).get().getNumero());
-            if (model.getViaje_id() != null) {
-                Optional<ViajeModel> viajeModel = viajeDAO.findByIdAndEliminadaIsNull(model.getViaje_id());
-                Optional<CamionModel> camionModel = camionDAO.findByIdAndEliminadaIsNull(viajeModel.get().getCamion_id());
-                Optional<CategoriaViajeModel> categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(viajeModel.get().getCategoriaViaje_id());
-                Optional<ClienteModel> clienteModel = clienteDAO.findByIdAndEliminadaIsNull(viajeModel.get().getComprador_id());
-                Optional<ConductorModel> conductorModel = conductorDAO.findByIdAndEliminadaIsNull(viajeModel.get().getConductor_id());
-                Optional<DireccionModel> destinoModel = direccionDAO.findByIdAndEliminadaIsNull(viajeModel.get().getDestino_id());
-                Optional<EventoModel> eventoModel = eventoDAO.findByIdAndEliminadaIsNull(viajeModel.get().getFecha_id());
-                Optional<DireccionModel> origenModel = direccionDAO.findByIdAndEliminadaIsNull(viajeModel.get().getOrigen_id());
+            if (model.getRemitoId() != null)
+                dto.setRemito(remitoDAO.findByIdAndEliminadaIsNull(model.getRemitoId()).get().getNumero());
+            if (model.getViajeId() != null) {
+                Optional<ViajeModel> viajeModel = viajeDAO.findByIdAndEliminadaIsNull(model.getViajeId());
+                Optional<CamionModel> camionModel = camionDAO.findByIdAndEliminadaIsNull(viajeModel.get().getCamionId());
+                Optional<CategoriaViajeModel> categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(viajeModel.get().getCategoriaViajeId());
+                Optional<ClienteModel> clienteModel = clienteDAO.findByIdAndEliminadaIsNull(viajeModel.get().getCompradorId());
+                Optional<ConductorModel> conductorModel = conductorDAO.findByIdAndEliminadaIsNull(viajeModel.get().getConductorId());
+                Optional<DireccionModel> destinoModel = direccionDAO.findByIdAndEliminadaIsNull(viajeModel.get().getDestinoId());
+                Optional<EventoModel> eventoModel = eventoDAO.findByIdAndEliminadaIsNull(viajeModel.get().getFechaId());
+                Optional<DireccionModel> origenModel = direccionDAO.findByIdAndEliminadaIsNull(viajeModel.get().getOrigenId());
                 dto.setCamion(camionModel.get().getMarca() + " - " + camionModel.get().getModelo());
                 dto.setCantidadTransportada(viajeModel.get().getCantidadTransportada().toString());
                 dto.setCategoriaViaje(categoriaViajeModel.get().getCategoria());

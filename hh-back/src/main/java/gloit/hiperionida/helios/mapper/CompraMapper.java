@@ -45,10 +45,10 @@ public class CompraMapper {
                 model.setTipoComprobante(TipoComprobanteEnum.valueOf(creation.getTipoComprobante()));
             model.setNotas(creation.getNotas());
 
-            if (Helper.getLong(creation.getComprobante_id()) != null)
-                model.setComprobante_id(Helper.getLong(creation.getComprobante_id()));
-            if (Helper.getLong(creation.getProveedor_id()) != null)
-                model.setProveedor_id(Helper.getLong(creation.getProveedor_id()));
+            if (Helper.getLong(creation.getComprobanteId()) != null)
+                model.setComprobanteId(Helper.getLong(creation.getComprobanteId()));
+            if (Helper.getLong(creation.getProveedorId()) != null)
+                model.setProveedorId(Helper.getLong(creation.getProveedorId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -81,12 +81,12 @@ public class CompraMapper {
             dto.setSubTotal(model.getSubTotal().toString());
             dto.setTipoComprobante(model.getTipoComprobante().name());
             dto.setNotas(model.getNotas());
-            if (model.getComprobante_id() != null) {
-                Optional<ArchivoModel> archivoModel = archivoDAO.findByIdAndEliminadaIsNull(model.getComprobante_id());
+            if (model.getComprobanteId() != null) {
+                Optional<ArchivoModel> archivoModel = archivoDAO.findByIdAndEliminadaIsNull(model.getComprobanteId());
                 dto.setComprobante(archivoModel.get().getPath() + archivoModel.get().getNombre());
             }
-            if (model.getProveedor_id() != null)
-                dto.setComprobante(proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedor_id()).get().getNombre());
+            if (model.getProveedorId() != null)
+                dto.setComprobante(proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedorId()).get().getNombre());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

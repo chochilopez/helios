@@ -34,8 +34,8 @@ public class ProveedorMapper {
             model.setNotas(creation.getNotas());
             model.setTelefono(creation.getTelefono());
 
-            if (Helper.getLong(creation.getDireccion_id()) != null)
-                model.setDireccion_id(Helper.getLong(creation.getDireccion_id()));
+            if (Helper.getLong(creation.getDireccionId()) != null)
+                model.setDireccionId(Helper.getLong(creation.getDireccionId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -68,8 +68,8 @@ public class ProveedorMapper {
             dto.setNotas(model.getNotas());
             dto.setTelefono(model.getTelefono());
 
-            if (model.getDireccion_id() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDireccion_id());
+            if (model.getDireccionId() != null) {
+                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDireccionId());
                 dto.setDireccion(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
             }
 

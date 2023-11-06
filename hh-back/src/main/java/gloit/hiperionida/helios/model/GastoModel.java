@@ -20,7 +20,7 @@ public class GastoModel extends AbsAuditoriaModel {
     @Column(columnDefinition = "TEXT")
     private String notas;
 
-    private Long categoriaGasto_id;
-    private Long viaje_id;
+    private Long categoriaGastoId;
+    private Long viajeId;
 }
 

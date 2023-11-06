@@ -21,7 +21,7 @@ public class RolMapper {
             RolModel rolModel = new RolModel();
 
             if (Helper.getLong(rolCreation.getId()) != null)
-                rolModel = rolDAO.findByIdAndEliminadaIsNull(Helper.getLong(rolCreation.getId())).get();
+                rolModel = rolDAO.findById(Helper.getLong(rolCreation.getId())).get();
             rolModel.setRol(RolEnum.valueOf(rolCreation.getRol()));
 
             return rolModel;

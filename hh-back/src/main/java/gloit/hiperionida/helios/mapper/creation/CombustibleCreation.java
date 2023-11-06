@@ -17,7 +17,8 @@ public class CombustibleCreation extends AbsAuditoriaCreation {
     private String litros;
     private String precio;
     private String notas;
-    private String camion_id;
-    private String conductor_id;
-    private String proveedor_id;
+
+    private String camionId;
+    private String conductorId;
+    private String proveedorId;
 }

@@ -14,5 +14,5 @@ public class GastoDTO extends AbsAuditoriaDTO implements Serializable {
     private String monto;
     private String notas;
     private String categoriaGasto;
-    private String viaje_id;
+    private String viajeId;
 }

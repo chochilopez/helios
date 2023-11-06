@@ -18,5 +18,5 @@ public abstract class AbsVehiculoModel extends AbsAuditoriaModel {
     private String patente;
     private String peso;
 
-    private Long seguro_id;
+    private Long seguroId;
 }

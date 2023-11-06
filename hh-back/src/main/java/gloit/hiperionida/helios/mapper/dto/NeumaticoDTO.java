@@ -25,7 +25,7 @@ public class NeumaticoDTO extends AbsAuditoriaDTO implements Serializable {
     private String ubicacion;
     private String estado;
     private String baja;
-    private String acoplado_id;
-    private String camion_id;
+    private String acopladoId;
+    private String camionId;
     private String proveedor;
 }

@@ -16,5 +16,5 @@ public abstract class AbsPersonaModel extends AbsAuditoriaModel {
     private String notas;
     private String telefono;
 
-    private Long direccion_id;
+    private Long direccionId;
 }

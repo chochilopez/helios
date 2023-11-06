@@ -13,6 +13,7 @@ public class GastoCreation extends AbsAuditoriaCreation {
     private String id;
     private String monto;
     private String notas;
-    private String categoriaGasto_id;
-    private String viaje_id;
+
+    private String categoriaGastoId;
+    private String viajeId;
 }
