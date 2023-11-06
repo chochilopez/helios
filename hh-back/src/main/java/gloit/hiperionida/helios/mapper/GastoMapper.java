@@ -6,6 +6,7 @@ import gloit.hiperionida.helios.mapper.dto.GastoDTO;
 import gloit.hiperionida.helios.model.CategoriaGastoModel;
 import gloit.hiperionida.helios.model.GastoModel;
 import gloit.hiperionida.helios.repository.CategoriaGastoDAO;
+import gloit.hiperionida.helios.repository.ViajeDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -20,17 +21,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class GastoMapper {
-    private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
     private final CategoriaGastoDAO categoriaGastoDAO;
-    private final CategoriaGastoMapper categoriaGastoMapper;
-    /*
-        private String id;
-    private String monto;
-    private String notas;
-    private String categoriaGasto_id;
-    private String viaje_id;
-     */
+    private final UsuarioDAO usuarioDAO;
 
     public GastoModel toEntity(GastoCreation creation) {
         try {
@@ -41,10 +33,11 @@ public class GastoMapper {
             if (Helper.getDecimal(creation.getMonto()) != null)
                 model.setMonto(Helper.getDecimal(creation.getMonto()));
             model.setNotas(creation.getNotas());
-            if (Helper.getLong(creation.getCategoriaGasto_id()) != null) {
-                Optional<CategoriaGastoModel> categoriaGasto = categoriaGastoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCategoriaGasto_id()));
-                categoriaGasto.ifPresent(model::setCategoriaGasto);
-            }
+
+            if (Helper.getLong(creation.getCategoriaGasto_id()) != null)
+                model.setCategoriaGasto_id(Helper.getLong(creation.getCategoriaGasto_id()));
+            if (Helper.getLong(creation.getViaje_id()) != null)
+                model.setViaje_id(Helper.getLong(creation.getViaje_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -65,13 +58,6 @@ public class GastoMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String monto;
-    private String notas;
-    private String categoriaGasto_id;
-    private String viaje_id;
-     */
 
     public GastoDTO toDto(GastoModel model) {
         try {
@@ -80,8 +66,10 @@ public class GastoMapper {
             dto.setId(model.getId().toString());
             dto.setMonto(model.getMonto().toString());
             dto.setNotas(model.getNotas());
-            if (model.getCategoriaGasto() != null)
-                dto.setCategoriaGasto(categoriaGastoMapper.toDto(model.getCategoriaGasto()));
+
+            if (model.getCategoriaGasto_id() != null)
+                dto.setCategoriaGasto(categoriaGastoDAO.findByIdAndEliminadaIsNull(model.getCategoriaGasto_id()).get().getCategoria());
+            model.setViaje_id(model.getViaje_id());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

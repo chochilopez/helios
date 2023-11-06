@@ -16,4 +16,6 @@ public abstract class AbsVehiculoCreation extends AbsAuditoriaCreation {
     private String anio;
     private String patente;
     private String peso;
+
+    private String seguro_id;
 }

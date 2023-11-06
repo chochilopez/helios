@@ -18,7 +18,9 @@ public class SeguroModel extends AbsAuditoriaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Proveedor
     private Long aseguradora_id;
+    // Evento
     private Long vencimiento_id;
 
 }

@@ -3,9 +3,7 @@ package gloit.hiperionida.helios.mapper;
 import gloit.hiperionida.helios.mapper.creation.ConductorCreation;
 import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.*;
-import gloit.hiperionida.helios.repository.AdelantoDAO;
-import gloit.hiperionida.helios.repository.CamionDAO;
-import gloit.hiperionida.helios.repository.LicenciaDAO;
+import gloit.hiperionida.helios.repository.*;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -20,19 +18,10 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class ConductorMapper {
-    private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    private final AdelantoDAO adelantoDAO;
-    private final AdelantoMapper adelantoMapper;
-    private final CamionDAO camionDAO;
-    private final CamionMapper camionMapper;
+    private final DireccionDAO direccionDAO;
+    private final EventoDAO eventoDAO;
     private final LicenciaDAO licenciaDAO;
-    private final LicenciaMapper licenciaMapper;
-    /*
-        private String id;
-    private String camion_id;
-    private String licencia_id;
-     */
+    private final UsuarioDAO usuarioDAO;
 
     public ConductorModel toEntity(ConductorCreation creation) {
         try {
@@ -45,24 +34,11 @@ public class ConductorMapper {
             model.setNombre(creation.getNombre());
             model.setNotas(creation.getNotas());
             model.setTelefono(creation.getTelefono());
-            Set<AdelantoModel> adelantos = new HashSet<>();
-            if (creation.getAdelantos_id() != null) {
-                for (String adelanto_id : creation.getAdelantos_id()) {
-                    if (Helper.getLong(adelanto_id) != null) {
-                        Optional<AdelantoModel> adelanto = adelantoDAO.findByIdAndEliminadaIsNull(Helper.getLong(adelanto_id));
-                        adelanto.ifPresent(adelantos::add);
-                    }
-                }
-            }
-            model.setAdelantos(adelantos);
-            if (Helper.getLong(creation.getCamion_id()) != null) {
-                Optional<CamionModel> camion = camionDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCamion_id()));
-                camion.ifPresent(model::setCamion);
-            }
-            if (Helper.getLong(creation.getLicencia_id()) != null) {
-                Optional<LicenciaModel> licencia = licenciaDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getLicencia_id()));
-                licencia.ifPresent(model::setLicencia);
-            }
+
+            if (Helper.getLong(creation.getDireccion_id()) != null)
+                model.setDireccion_id(Helper.getLong(creation.getDireccion_id()));
+            if (Helper.getLong(creation.getLicencia_id()) != null)
+                model.setLicencia_id(Helper.getLong(creation.getLicencia_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -83,11 +59,6 @@ public class ConductorMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String camion_id;
-    private String licencia_id;
-     */
 
     public ConductorDTO toDto(ConductorModel model) {
         try {
@@ -99,17 +70,17 @@ public class ConductorMapper {
             dto.setNombre(model.getNombre());
             dto.setNotas(model.getNotas());
             dto.setTelefono(model.getTelefono());
-            if (!model.getAdelantos().isEmpty()) {
-                List<AdelantoDTO> adelantoDTOS = new ArrayList<>();
-                for (AdelantoModel adelanto:model.getAdelantos()) {
-                    adelantoDTOS.add(adelantoMapper.toDto(adelanto));
-                }
-                dto.setAdelantos(adelantoDTOS);
+
+            if (model.getDireccion_id() != null) {
+                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDireccion_id());
+                dto.setDireccion(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
             }
-            if (model.getCamion() != null)
-                dto.setCamion(camionMapper.toDto(model.getCamion()));
-            if (model.getLicencia() != null)
-                dto.setLicencia(licenciaMapper.toDto(model.getLicencia()));
+            if (model.getLicencia_id() != null) {
+                Optional<LicenciaModel> licenciaModel = licenciaDAO.findByIdAndEliminadaIsNull(model.getLicencia_id());
+                Optional<EventoModel> eventoModel = eventoDAO.findByIdAndEliminadaIsNull(licenciaModel.get().getVencimiento_id());
+                dto.setCategotiaLicencia(licenciaModel.get().getCategoria());
+                dto.setVencimiento(eventoModel.get().getFecha().toString());
+            }
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

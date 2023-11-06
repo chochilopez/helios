@@ -18,11 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class PlanCuentaMapper {
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    /*
-        private String id;
-    private String nombre;
-     */
 
     public PlanCuentaModel toEntity(PlanCuentaCreation creation) {
         try {
@@ -51,10 +46,6 @@ public class PlanCuentaMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String nombre;
-     */
 
     public PlanCuentaDTO toDto(PlanCuentaModel model) {
         try {

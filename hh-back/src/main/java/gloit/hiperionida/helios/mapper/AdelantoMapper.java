@@ -6,6 +6,7 @@ import gloit.hiperionida.helios.mapper.dto.CajaDTO;
 import gloit.hiperionida.helios.model.AdelantoModel;
 import gloit.hiperionida.helios.model.CajaModel;
 import gloit.hiperionida.helios.repository.CajaDAO;
+import gloit.hiperionida.helios.repository.ConductorDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -20,22 +21,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class AdelantoMapper {
-    private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
     private final CajaDAO cajaDAO;
-    private final CajaMapper cajaMapper;
-    
-    /*
-        private String id;
-    private String descripcion;
-    private String fecha;
-    private String monto;
-    private String notas;
-    private String recibo;
-    private String rendido;
-    private String caja_id;
-    private String conductor_id;
-     */
+    private final ConductorDAO conductorDAO;
+    private final UsuarioDAO usuarioDAO;
 
     public AdelantoModel toEntity(AdelantoCreation creation) {
         try {
@@ -44,18 +32,19 @@ public class AdelantoMapper {
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
             model.setDescripcion(creation.getDescripcion());
-            model.setNotas(creation.getNotas());
-            model.setRecibo(creation.getRecibo());
-            if (Helper.getBoolean(creation.getRendido()) != null)
-                model.setRendido(Helper.getBoolean(creation.getRendido()));
             if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
                 model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
             if (Helper.getDecimal(creation.getMonto()) != null)
                 model.setMonto(Helper.getDecimal(creation.getMonto()));
-            if (Helper.getLong(creation.getCaja_id()) != null) {
-                Optional<CajaModel> caja = cajaDAO.findById(Helper.getLong(creation.getCaja_id()));
-                caja.ifPresent(model::setCaja);
-            }
+            model.setNotas(creation.getNotas());
+            model.setRecibo(creation.getRecibo());
+            if (Helper.getBoolean(creation.getRendido()) != null)
+                model.setRendido(Helper.getBoolean(creation.getRendido()));
+
+            if (Helper.getLong(creation.getCaja_id()) != null)
+                model.setCaja_id(Helper.getLong(creation.getCaja_id()));
+            if (Helper.getLong(creation.getConductor_id()) != null)
+                model.setConductor_id(Helper.getLong(creation.getConductor_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -78,13 +67,6 @@ public class AdelantoMapper {
     }
     
     /*
-        private String id;
-    private String descripcion;
-    private String fecha;
-    private String monto;
-    private String notas;
-    private String recibo;
-    private String rendido;
     private String caja_id;
     private String conductor_id;
      */
@@ -100,8 +82,11 @@ public class AdelantoMapper {
             dto.setNotas(model.getNotas());
             dto.setRecibo(model.getRecibo());
             dto.setRendido(model.getRendido().toString());
-            if (model.getCaja() != null)
-                dto.setCaja(cajaMapper.toDto(model.getCaja()));
+
+            if (model.getCaja_id() != null)
+                dto.setCaja(cajaDAO.findByIdAndEliminadaIsNull(model.getCaja_id()).get().getNombre());
+            if (model.getConductor_id() != null)
+                dto.setConductor(conductorDAO.findByIdAndEliminadaIsNull(model.getConductor_id()).get().getNombre());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

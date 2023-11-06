@@ -29,5 +29,4 @@ public class CompraModel extends AbsAuditoriaModel {
 
     private Long comprobante_id;
     private Long proveedor_id;
-    private Long remito_id;
 }

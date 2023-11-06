@@ -3,6 +3,9 @@ package gloit.hiperionida.helios.mapper;
 import gloit.hiperionida.helios.mapper.creation.ClienteCreation;
 import gloit.hiperionida.helios.mapper.dto.ClienteDTO;
 import gloit.hiperionida.helios.model.ClienteModel;
+import gloit.hiperionida.helios.model.DireccionModel;
+import gloit.hiperionida.helios.repository.ClienteDAO;
+import gloit.hiperionida.helios.repository.DireccionDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -17,11 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class ClienteMapper {
+    private final DireccionDAO direccionDAO;
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    /*
-        private String id;
-     */
 
     public ClienteModel toEntity(ClienteCreation creation) {
         try {
@@ -34,6 +34,9 @@ public class ClienteMapper {
             model.setNombre(creation.getNombre());
             model.setNotas(creation.getNotas());
             model.setTelefono(creation.getTelefono());
+
+            if (Helper.getLong(creation.getDireccion_id()) != null)
+                model.setDireccion_id(Helper.getLong(creation.getDireccion_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -54,9 +57,7 @@ public class ClienteMapper {
             return null;
         }
     }
-/*
-    private String id;
- */
+
     public ClienteDTO toDto(ClienteModel model) {
         try {
             ClienteDTO dto = new ClienteDTO();
@@ -67,6 +68,11 @@ public class ClienteMapper {
             dto.setNombre(model.getNombre());
             dto.setNotas(model.getNotas());
             dto.setTelefono(model.getTelefono());
+
+            if (model.getDireccion_id() != null) {
+                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDireccion_id());
+                dto.setDireccion(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
+            }
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

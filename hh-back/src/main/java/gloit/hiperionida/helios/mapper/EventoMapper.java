@@ -18,15 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class EventoMapper {
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    /*
-        private String id;
-    private String fecha;
-    private String descripcion;
-    private String habilitada;
-    private String recordatorio;
-    private String nombre;
-     */
 
     public EventoModel toEntity(EventoCreation creation) {
         try {
@@ -62,14 +53,6 @@ public class EventoMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String fecha;
-    private String descripcion;
-    private String habilitada;
-    private String recordatorio;
-    private String nombre;
-     */
 
     public EventoDTO toDto(EventoModel model) {
         try {

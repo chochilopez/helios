@@ -12,17 +12,11 @@ import lombok.Setter;
 public abstract class AbsViajeDTO extends AbsAuditoriaDTO {
     private String cantidadTransportada;
     private String valorKm;
-    private String neto;
-    private String kmCargado;
-    private String kmVacio;
     private String notas;
-    private String categoriaViaje_id;
-    private String origen_id;
-    private String carga_id;
-    private String destino_id;
-    private String vendedor_id;
-    private String intermediario_id;
-    private String comprador_id;
-    private String fecha_id;
+    private String categoriaViaje;
+    private String comprador;
+    private String destino;
+    private String fecha;
+    private String origen;
 }
 

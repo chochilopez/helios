@@ -4,13 +4,8 @@ import gloit.hiperionida.helios.mapper.creation.CamionCreation;
 import gloit.hiperionida.helios.mapper.dto.CamionDTO;
 import gloit.hiperionida.helios.mapper.dto.NeumaticoDTO;
 import gloit.hiperionida.helios.mapper.dto.ServicioDTO;
-import gloit.hiperionida.helios.model.CamionModel;
-import gloit.hiperionida.helios.model.NeumaticoModel;
-import gloit.hiperionida.helios.model.SeguroModel;
-import gloit.hiperionida.helios.model.ServicioModel;
-import gloit.hiperionida.helios.repository.NeumaticoDAO;
-import gloit.hiperionida.helios.repository.SeguroDAO;
-import gloit.hiperionida.helios.repository.ServicioDAO;
+import gloit.hiperionida.helios.model.*;
+import gloit.hiperionida.helios.repository.*;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
@@ -25,22 +20,10 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class CamionMapper {
-    private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
+    private final EventoDAO eventoDAO;
+    private final ProveedorDAO proveedorDAO;
     private final SeguroDAO seguroDAO;
-    private final SeguroMapper seguroMapper;
-    private final NeumaticoDAO neumaticoDAO;
-    private final NeumaticoMapper neumaticoMapper;
-    private final ServicioDAO servicioDAO;
-    private final ServicioMapper servicioMapper;
-    
-    /*
-        private String id;
-    private String numeroChasis;
-    private String numeroMotor;
-    private String pesoArrastre;
-    private String seguro_id;
-     */
+    private final UsuarioDAO usuarioDAO;
 
     public CamionModel toEntity(CamionCreation creation) {
         try {
@@ -57,31 +40,9 @@ public class CamionMapper {
             model.setAnio(creation.getAnio());
             model.setPatente(creation.getPatente());
             model.setPeso(creation.getPeso());
-            if (Helper.getLong(creation.getSeguro_id()) != null) {
-                Optional<SeguroModel> seguro = seguroDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getSeguro_id()));
-                seguro.ifPresent(model::setSeguro);
-            }
 
-            Set<NeumaticoModel> neumaticos = new HashSet<>();
-            if (creation.getNeumaticos_id() != null) {
-                for (String neumatico_id : creation.getNeumaticos_id()) {
-                    if (Helper.getLong(neumatico_id) != null) {
-                        Optional<NeumaticoModel> neumatico = neumaticoDAO.findByIdAndEliminadaIsNull(Helper.getLong(neumatico_id));
-                        neumatico.ifPresent(neumaticos::add);
-                    }
-                }
-            }
-            model.setNeumaticos(neumaticos);
-            Set<ServicioModel> servicios = new HashSet<>();
-            if (creation.getServicios_id() != null) {
-                for (String servicio_id : creation.getServicios_id()) {
-                    if (Helper.getLong(servicio_id) != null) {
-                        Optional<ServicioModel> servicio = servicioDAO.findByIdAndEliminadaIsNull(Helper.getLong(servicio_id));
-                        servicio.ifPresent(servicios::add);
-                    }
-                }
-            }
-            model.setServicios(servicios);
+            if (Helper.getLong(creation.getSeguro_id()) != null)
+                model.setSeguro_id(Helper.getLong(creation.getSeguro_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -103,14 +64,6 @@ public class CamionMapper {
         }
     }
     
-    /*
-        private String id;
-    private String numeroChasis;
-    private String numeroMotor;
-    private String pesoArrastre;
-    private String seguro_id;
-     */
-
     public CamionDTO toDto(CamionModel model) {
         try {
             CamionDTO dto = new CamionDTO();
@@ -125,22 +78,14 @@ public class CamionMapper {
             dto.setAnio(model.getAnio());
             dto.setPatente(model.getPatente());
             dto.setPeso(model.getPeso());
-            if (!model.getNeumaticos().isEmpty()) {
-                List<NeumaticoDTO> neumaticoDTOS = new ArrayList<>();
-                for (NeumaticoModel neumatico:model.getNeumaticos()) {
-                    neumaticoDTOS.add(neumaticoMapper.toDto(neumatico));
-                }
-                dto.setNeumaticos(neumaticoDTOS);
+
+            if (model.getSeguro_id() != null) {
+                Optional<SeguroModel> seguroModel = seguroDAO.findByIdAndEliminadaIsNull(model.getSeguro_id());
+                Optional<ProveedorModel> proveedorModel = proveedorDAO.findByIdAndEliminadaIsNull(seguroModel.get().getAseguradora_id());
+                Optional<EventoModel> eventoModel = eventoDAO.findByIdAndEliminadaIsNull(seguroModel.get().getVencimiento_id());
+                dto.setAseguradora(proveedorModel.get().getNombre());
+                dto.setVencimiento(eventoModel.get().getFecha().toString());
             }
-            if (!model.getServicios().isEmpty()) {
-                List<ServicioDTO> servicioDTOS = new ArrayList<>();
-                for (ServicioModel servicio:model.getServicios()) {
-                    servicioDTOS.add(servicioMapper.toDto(servicio));
-                }
-                dto.setServicios(servicioDTOS);
-            }
-            if (model.getSeguro() != null)
-                dto.setSeguro(seguroMapper.toDto(model.getSeguro()));
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

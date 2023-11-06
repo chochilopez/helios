@@ -20,18 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class ConciliacionBancoMapper {
-    private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
     private final BancoDAO bancoDAO;
-    private final BancoMapper bancoMapper;
-    /*
-        private String id;
-    private String movimiento;
-    private String fecha;
-    private String concepto;
-    private String monto;
-    private String banco_id;
-     */
+    private final UsuarioDAO usuarioDAO;
 
     public ConciliacionBancoModel toEntity(ConciliacionBancoCreation creation) {
         try {
@@ -46,10 +36,9 @@ public class ConciliacionBancoMapper {
             model.setConcepto(creation.getConcepto());
             if (Helper.getDecimal(creation.getMonto()) != null)
                 model.setMonto(Helper.getDecimal(creation.getMonto()));
-            if (Helper.getLong(creation.getBanco_id()) != null) {
-                Optional<BancoModel> banco = bancoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getBanco_id()));
-                banco.ifPresent(model::setBanco);
-            }
+
+            if (Helper.getLong(creation.getBanco_id()) != null)
+                model.setBanco_id(Helper.getLong(creation.getBanco_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -70,14 +59,6 @@ public class ConciliacionBancoMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String movimiento;
-    private String fecha;
-    private String concepto;
-    private String monto;
-    private String banco_id;
-     */
 
     public ConciliacionBancoDTO toDto(ConciliacionBancoModel model) {
         try {
@@ -88,8 +69,9 @@ public class ConciliacionBancoMapper {
             dto.setFecha(model.getFecha().toString());
             dto.setConcepto(model.getConcepto());
             dto.setMonto(model.getMonto().toString());
-            if (model.getBanco() != null)
-                dto.setBanco(bancoMapper.toDto(model.getBanco()));
+
+            if (model.getBanco_id() != null)
+                dto.setBanco(bancoDAO.findByIdAndEliminadaIsNull(model.getBanco_id()).get().getBanco());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

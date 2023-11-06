@@ -18,13 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class RemitoMapper {
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    /*
-        private String id;
-    private String descripcion;
-    private String fecha;
-    private String numero;
-     */
 
     public RemitoModel toEntity(RemitoCreation creation) {
         try {
@@ -56,12 +49,6 @@ public class RemitoMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String descripcion;
-    private String fecha;
-    private String numero;
-     */
 
     public RemitoDTO toDto(RemitoModel model) {
         try {

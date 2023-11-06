@@ -10,5 +10,4 @@ import java.util.List;
 @NoArgsConstructor
 public class AcopladoDTO extends AbsVehiculoDTO implements Serializable {
     private String id;
-    private String seguro_id;
 }

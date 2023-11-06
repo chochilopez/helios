@@ -23,7 +23,6 @@ public class NeumaticoModel extends AbsAuditoriaModel {
     private Double kmVida;
     private Double kmActuales;
     private Double kmRecapado;
-    private String numeroRemito;
     private String marca ;
     private Double precioCompra;
     private Integer recapadosMaximos;

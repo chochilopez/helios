@@ -20,7 +20,6 @@ public class NeumaticoCreation extends AbsAuditoriaCreation {
     private String kmVida;
     private String kmActuales;
     private String kmRecapado;
-    private String numeroRemito;
     private String marca ;
     private String precioCompra;
     private String recapadosMaximos;

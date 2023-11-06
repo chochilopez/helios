@@ -19,22 +19,6 @@ import java.util.Optional;
 @Slf4j
 public class ChequeMapper {
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    
-    /*
-        private String id;
-    private String cuitEmisor;
-    private String destinatario;
-    private String emisor;
-    private String estado;
-    private String fechaCobro;
-    private String fechaEmision;
-    private String monto;
-    private String numeroCheque;
-    private String banco;
-    private String entregadoA;
-    private String recibidoDe;
-     */
 
     public ChequeModel toEntity(ChequeCreation creation) {
         try {
@@ -78,21 +62,6 @@ public class ChequeMapper {
         }
     }
     
-    /*
-        private String id;
-    private String cuitEmisor;
-    private String destinatario;
-    private String emisor;
-    private String estado;
-    private String fechaCobro;
-    private String fechaEmision;
-    private String monto;
-    private String numeroCheque;
-    private String banco;
-    private String entregadoA;
-    private String recibidoDe;
-     */
-
     public ChequeDTO toDto(ChequeModel model) {
         try {
             ChequeDTO dto = new ChequeDTO();

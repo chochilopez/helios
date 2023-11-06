@@ -11,5 +11,4 @@ import java.util.List;
 @NoArgsConstructor
 public class AcopladoCreation extends AbsVehiculoCreation {
     private String id;
-    private String seguro_id;
 }

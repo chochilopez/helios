@@ -21,19 +21,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class PagoMapper {
-    private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
     private final ReciboDAO reciboDAO;
-    private final ReciboMapper reciboMapper;
-/*
-    private String id;
-    private String monto;
-    private String notas;
-    private String tipoPago;
-    private String compra_id;
-    private String factura_id;
-    private String recibo_id;
- */
+    private final UsuarioDAO usuarioDAO;
 
     public PagoModel toEntity(PagoCreation creation) {
         try {
@@ -46,10 +35,13 @@ public class PagoMapper {
             model.setNotas(creation.getNotas());
             if (creation.getTipoPago() != null)
                 model.setTipoPago(TipoPagoEnum.valueOf(creation.getTipoPago()));
-            if (Helper.getLong(creation.getRecibo_id()) != null) {
-                Optional<ReciboModel> recibo = reciboDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getRecibo_id()));
-                recibo.ifPresent(model::setRecibo);
-            }
+
+            if (Helper.getLong(creation.getCompra_id()) != null)
+                model.setRecibo_id(Helper.getLong(creation.getCompra_id()));
+            if (Helper.getLong(creation.getFactura_id()) != null)
+                model.setFactura_id(Helper.getLong(creation.getFactura_id()));
+            if (Helper.getLong(creation.getRecibo_id()) != null)
+                model.setRecibo_id(Helper.getLong(creation.getRecibo_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -70,15 +62,6 @@ public class PagoMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String monto;
-    private String notas;
-    private String tipoPago;
-    private String compra_id;
-    private String factura_id;
-    private String recibo_id;
-     */
 
     public PagoDTO toDto(PagoModel model) {
         try {
@@ -88,8 +71,13 @@ public class PagoMapper {
             dto.setMonto(model.getMonto().toString());
             dto.setNotas(model.getNotas());
             dto.setTipoPago(model.getTipoPago().name());
-            if (model.getRecibo() != null)
-                dto.setRecibo(reciboMapper.toDto(model.getRecibo()));
+
+            if (model.getCompra_id() != null)
+                dto.setCompra_id(model.getCompra_id().toString());
+            if (model.getFactura_id() != null)
+                dto.setFactura_id(model.getFactura_id().toString());
+            if (model.getRecibo_id() != null)
+                dto.setRecibo(reciboDAO.findByIdAndEliminadaIsNull(model.getRecibo_id()).get().getFecha().toString());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

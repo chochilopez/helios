@@ -23,7 +23,6 @@ public class CompraDTO extends AbsAuditoriaDTO implements Serializable {
     private String subTotal;
     private String tipoComprobante;
     private String notas;
-    private String comprobante_id;
-    private String proveedor_id;
-    private String remito_id;
+    private String comprobante;
+    private String proveedor;
 }

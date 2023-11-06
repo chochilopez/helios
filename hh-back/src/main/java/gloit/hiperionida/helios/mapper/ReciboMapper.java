@@ -18,12 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class ReciboMapper {
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    /*
-        private String id;
-    private String monto;
-    private String fecha;
-     */
 
     public ReciboModel toEntity(ReciboCreation creation) {
         try {
@@ -55,11 +49,6 @@ public class ReciboMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String monto;
-    private String fecha;
-     */
 
     public ReciboDTO toDto(ReciboModel model) {
         try {

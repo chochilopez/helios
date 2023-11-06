@@ -11,7 +11,14 @@ import java.util.List;
 public class ViajeDTO extends AbsViajeDTO implements Serializable {
     private String id;
     private String guia;
-    private String conductor_id;
-    private String camion_id;
-    private String acoplado_id;
+    private String neto;
+    private String kmCargado;
+    private String kmVacio;
+
+    private String conductor;
+    private String camion;
+    private String acoplado;
+    private String carga;
+    private String vendedor;
+    private String intermediario;
 }

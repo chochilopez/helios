@@ -18,15 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class ServicioMapper {
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    /*
-        private String id;
-    private String kmServicio;
-    private String kmActual;
-    private String kmProximo;
-    private String tipo;
-    private String camion_id;
-     */
 
     public ServicioModel toEntity(ServicioCreation creation) {
         try {
@@ -41,6 +32,9 @@ public class ServicioMapper {
             if (Helper.getDecimal(creation.getKmProximo()) != null)
                 model.setKmProximo(Helper.getDecimal(creation.getKmProximo()));
             model.setTipo(creation.getTipo());
+
+            if (Helper.getLong(creation.getCamion_id()) != null)
+                model.setCamion_id(Helper.getLong(creation.getCamion_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -61,14 +55,6 @@ public class ServicioMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String kmServicio;
-    private String kmActual;
-    private String kmProximo;
-    private String tipo;
-    private String camion_id;
-     */
 
     public ServicioDTO toDto(ServicioModel model) {
         try {
@@ -79,6 +65,9 @@ public class ServicioMapper {
             dto.setKmActual(model.getKmActual().toString());
             dto.setKmProximo(model.getKmProximo().toString());
             dto.setTipo(model.getTipo());
+
+            if (model.getCamion_id() != null)
+            dto.setCamion_id(model.getCamion_id().toString());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

@@ -16,9 +16,15 @@ public class ViajeModel extends AbsViajeModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String guia;
+    private Double neto;
+    private Double kmCargado;
+    private Double kmVacio;
 
-    private Long conductor_id;
-    private Long camion_id;
     private Long acoplado_id;
+    private Long camion_id;
+    private Long carga_id;
+    private Long conductor_id;
+    private Long intermediario_id;
+    private Long vendedor_id;
 }
 

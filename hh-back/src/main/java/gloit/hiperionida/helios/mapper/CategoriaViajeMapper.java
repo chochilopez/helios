@@ -18,11 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class CategoriaViajeMapper {
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    /*
-        private String id;
-    private String categoria;
-     */
 
     public CategoriaViajeModel toEntity(CategoriaViajeCreation creation) {
         try {
@@ -51,10 +46,6 @@ public class CategoriaViajeMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String categoria;
-     */
 
     public CategoriaViajeDTO toDto(CategoriaViajeModel model) {
         try {

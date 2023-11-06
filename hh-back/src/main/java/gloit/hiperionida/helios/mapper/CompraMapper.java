@@ -24,28 +24,9 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class CompraMapper {
-    private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
     private final ArchivoDAO archivoDAO;
-    private final ArchivoMapper archivoMapper;
-    private final PagoDAO pagoDAO;
-    private final PagoMapper pagoMapper;
     private final ProveedorDAO proveedorDAO;
-    private final ProveedorMapper proveedorMapper;
-    private final RemitoDAO remitoDAO;
-    private final RemitoMapper remitoMapper;
-    /*
-        private String id;
-    private String fecha;
-    private String iva;
-    private String numeroComprobante;
-    private String subTotal;
-    private String tipoComprobante;
-    private String notas;
-    private String comprobante_id;
-    private String proveedor_id;
-    private String remito_id;
-     */
+    private final UsuarioDAO usuarioDAO;
 
     public CompraModel toEntity(CompraCreation creation) {
         try {
@@ -64,28 +45,10 @@ public class CompraMapper {
                 model.setTipoComprobante(TipoComprobanteEnum.valueOf(creation.getTipoComprobante()));
             model.setNotas(creation.getNotas());
 
-            if (Helper.getLong(creation.getComprobante_id()) != null) {
-                Optional<ArchivoModel> archivo = archivoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getComprobante_id()));
-                archivo.ifPresent(model::setComprobante);
-            }
-            if (Helper.getLong(creation.getProveedor_id()) != null) {
-                Optional<ProveedorModel> proveedor = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getProveedor_id()));
-                proveedor.ifPresent(model::setProveedor);
-            }
-            if (Helper.getLong(creation.getRemito_id()) != null) {
-                Optional<RemitoModel> remito = remitoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getRemito_id()));
-                remito.ifPresent(model::setRemito);
-            }
-            Set<PagoModel> pagos = new HashSet<>();
-            if (creation.getPagos_id() != null) {
-                for (String pago_id : creation.getPagos_id()) {
-                    if (Helper.getLong(pago_id) != null) {
-                        Optional<PagoModel> pago = pagoDAO.findByIdAndEliminadaIsNull(Helper.getLong(pago_id));
-                        pago.ifPresent(pagos::add);
-                    }
-                }
-            }
-            model.setPagos(pagos);
+            if (Helper.getLong(creation.getComprobante_id()) != null)
+                model.setComprobante_id(Helper.getLong(creation.getComprobante_id()));
+            if (Helper.getLong(creation.getProveedor_id()) != null)
+                model.setProveedor_id(Helper.getLong(creation.getProveedor_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -106,18 +69,6 @@ public class CompraMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String fecha;
-    private String iva;
-    private String numeroComprobante;
-    private String subTotal;
-    private String tipoComprobante;
-    private String notas;
-    private String comprobante_id;
-    private String proveedor_id;
-    private String remito_id;
-     */
 
     public CompraDTO toDto(CompraModel model) {
         try {
@@ -130,19 +81,12 @@ public class CompraMapper {
             dto.setSubTotal(model.getSubTotal().toString());
             dto.setTipoComprobante(model.getTipoComprobante().name());
             dto.setNotas(model.getNotas());
-            if (model.getComprobante() != null)
-                dto.setComprobante(archivoMapper.toDto(model.getComprobante()));
-            if (model.getProveedor() != null)
-                dto.setProveedor(proveedorMapper.toDto(model.getProveedor()));
-            if (model.getRemito() != null)
-                dto.setRemito(remitoMapper.toDto(model.getRemito()));
-            if (!model.getPagos().isEmpty()) {
-                List<PagoDTO> pagoDTOS = new ArrayList<>();
-                for (PagoModel pago:model.getPagos()) {
-                    pagoDTOS.add(pagoMapper.toDto(pago));
-                }
-                dto.setPagos(pagoDTOS);
+            if (model.getComprobante_id() != null) {
+                Optional<ArchivoModel> archivoModel = archivoDAO.findByIdAndEliminadaIsNull(model.getComprobante_id());
+                dto.setComprobante(archivoModel.get().getPath() + archivoModel.get().getNombre());
             }
+            if (model.getProveedor_id() != null)
+                dto.setComprobante(proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedor_id()).get().getNombre());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

@@ -18,15 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class DireccionMapper {
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    private final UbicacionDAO ubicacionDAO;
-    private final UbicacionMapper ubicacionMapper;
-    /*
-        private String id;
-    private String direccion;
-    private String ciudad;
-    private String nombre;
-     */
 
     public DireccionModel toEntity(DireccionCreation creation) {
         try {
@@ -36,10 +27,7 @@ public class DireccionMapper {
                 model.setId(Helper.getLong(creation.getId()));
             model.setDireccion(creation.getDireccion());
             model.setNombre(creation.getNombre());
-            if (Helper.getLong(creation.getUbicacion_id()) != null) {
-                Optional<UbicacionModel> ubicacion = ubicacionDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getUbicacion_id()));
-                ubicacion.ifPresent(model::setUbicacion);
-            }
+            model.setCiudad(creation.getCiudad());
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -60,12 +48,6 @@ public class DireccionMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String direccion;
-    private String ciudad;
-    private String nombre;
-     */
 
     public DireccionDTO toDto(DireccionModel model) {
         try {
@@ -74,8 +56,7 @@ public class DireccionMapper {
             dto.setId(model.getId().toString());
             dto.setDireccion(model.getDireccion());
             dto.setNombre(model.getNombre());
-            if (model.getUbicacion() != null)
-                dto.setUbicacion(ubicacionMapper.toDto(model.getUbicacion()));
+            dto.setCiudad(model.getCiudad());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

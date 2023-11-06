@@ -21,5 +21,4 @@ public class CompraCreation extends AbsAuditoriaCreation {
     private String notas;
     private String comprobante_id;
     private String proveedor_id;
-    private String remito_id;
 }

@@ -19,5 +19,5 @@ public class PagoDTO extends AbsAuditoriaDTO implements Serializable {
     private String tipoPago;
     private String compra_id;
     private String factura_id;
-    private String recibo_id;
+    private String recibo;
 }

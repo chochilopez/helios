@@ -11,6 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class ConductorCreation extends AbsPersonaCreation {
     private String id;
-    private String camion_id;
     private String licencia_id;
 }

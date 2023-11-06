@@ -6,6 +6,8 @@ import gloit.hiperionida.helios.model.NeumaticoModel;
 import gloit.hiperionida.helios.model.ProveedorModel;
 import gloit.hiperionida.helios.model.enums.EstadoNeumaticoEnum;
 import gloit.hiperionida.helios.model.enums.UbicacionNeumaticoEnum;
+import gloit.hiperionida.helios.repository.AcopladoDAO;
+import gloit.hiperionida.helios.repository.CamionDAO;
 import gloit.hiperionida.helios.repository.ProveedorDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
@@ -21,27 +23,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class NeumaticoMapper {
-    private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
     private final ProveedorDAO proveedorDAO;
-    private final ProveedorMapper proveedorMapper;
-    /*
-        private String id;
-    private String fechaCompra;
-    private String kmVida;
-    private String kmActuales;
-    private String kmRecapado;
-    private String numeroRemito;
-    private String marca ;
-    private String precioCompra;
-    private String recapadosMaximos;
-    private String ubicacion;
-    private String estado;
-    private String baja;
-    private String acoplado_id;
-    private String camion_id;
-    private String proveedor_id;
-     */
+    private final UsuarioDAO usuarioDAO;
 
     public NeumaticoModel toEntity(NeumaticoCreation creation) {
         try {
@@ -57,16 +40,24 @@ public class NeumaticoMapper {
                 model.setKmRecapado(Helper.getDecimal(creation.getKmRecapado()));
             if (Helper.getDecimal(creation.getKmActuales()) != null)
                 model.setKmActuales(Helper.getDecimal(creation.getKmActuales()));
+            model.setMarca(creation.getMarca());
+            if (Helper.getDecimal(creation.getPrecioCompra()) != null)
+                model.setPrecioCompra(Helper.getDecimal(creation.getPrecioCompra()));
+            if (Helper.getInteger(creation.getRecapadosMaximos()) != null)
+                model.setRecapadosMaximos(Helper.getInteger(creation.getRecapadosMaximos()));
             if (creation.getUbicacion() != null)
                 model.setUbicacion(UbicacionNeumaticoEnum.valueOf(creation.getUbicacion()));
             if (creation.getEstado() != null)
                 model.setEstado(EstadoNeumaticoEnum.valueOf(creation.getEstado()));
             if (Helper.getBoolean(creation.getBaja()) != null)
                 model.setBaja(Helper.getBoolean(creation.getBaja()));
-            if (Helper.getLong(creation.getProveedor_id()) != null) {
-                Optional<ProveedorModel> proveedor = proveedorDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getProveedor_id()));
-                proveedor.ifPresent(model::setProveedor);
-            }
+
+            if (Helper.getLong(creation.getAcoplado_id()) != null)
+                model.setAcoplado_id(Helper.getLong(creation.getAcoplado_id()));
+            if (Helper.getLong(creation.getCamion_id()) != null)
+                model.setCamion_id(Helper.getLong(creation.getCamion_id()));
+            if (Helper.getLong(creation.getProveedor_id()) != null)
+                model.setProveedor_id(Helper.getLong(creation.getProveedor_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -87,23 +78,6 @@ public class NeumaticoMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String fechaCompra;
-    private String kmVida;
-    private String kmActuales;
-    private String kmRecapado;
-    private String numeroRemito;
-    private String marca ;
-    private String precioCompra;
-    private String recapadosMaximos;
-    private String ubicacion;
-    private String estado;
-    private String baja;
-    private String acoplado_id;
-    private String camion_id;
-    private String proveedor_id;
-     */
 
     public NeumaticoDTO toDto(NeumaticoModel model) {
         try {
@@ -114,15 +88,19 @@ public class NeumaticoMapper {
             dto.setKmVida(model.getKmVida().toString());
             dto.setKmActuales(model.getKmActuales().toString());
             dto.setKmRecapado(model.getKmRecapado().toString());
-            dto.setNumeroRemito(model.getNumeroRemito());
             dto.setMarca(model.getMarca());
             dto.setPrecioCompra(model.getPrecioCompra().toString());
             dto.setRecapadosMaximos(model.getRecapadosMaximos().toString());
             dto.setUbicacion(model.getUbicacion().name());
             dto.setEstado(model.getEstado().name());
             dto.setBaja(model.getBaja().toString());
-            if (model.getProveedor() != null)
-                dto.setProveedor(proveedorMapper.toDto(model.getProveedor()));
+
+            if (model.getAcoplado_id() != null)
+                dto.setAcoplado_id(model.getAcoplado_id().toString());
+            if (model.getCamion_id() != null)
+                dto.setCamion_id(model.getCamion_id().toString());
+            if (model.getProveedor_id() != null)
+                dto.setProveedor(proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedor_id()).get().getNombre());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

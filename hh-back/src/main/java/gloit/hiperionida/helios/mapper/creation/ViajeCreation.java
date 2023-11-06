@@ -12,7 +12,13 @@ import java.util.List;
 public class ViajeCreation extends AbsViajeCreation {
     private String id;
     private String guia;
-    private String conductor_id;
-    private String camion_id;
+    private String neto;
+    private String kmCargado;
+    private String kmVacio;
     private String acoplado_id;
+    private String camion_id;
+    private String carga_id;
+    private String conductor_id;
+    private String intermediario_id;
+    private String vendedor_id;
 }

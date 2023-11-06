@@ -19,7 +19,6 @@ public class NeumaticoDTO extends AbsAuditoriaDTO implements Serializable {
     private String kmVida;
     private String kmActuales;
     private String kmRecapado;
-    private String numeroRemito;
     private String marca ;
     private String precioCompra;
     private String recapadosMaximos;
@@ -28,5 +27,5 @@ public class NeumaticoDTO extends AbsAuditoriaDTO implements Serializable {
     private String baja;
     private String acoplado_id;
     private String camion_id;
-    private String proveedor_id;
+    private String proveedor;
 }

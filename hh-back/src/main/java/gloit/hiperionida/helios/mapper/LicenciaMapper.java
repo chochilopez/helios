@@ -20,16 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class LicenciaMapper {
-    private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
     private final EventoDAO eventoDAO;
-    private final EventoMapper eventoMapper;
-    /*
-        private String id;
-    private String numero;
-    private String categoria;
-    private String vencimiento_id;
-     */
+    private final UsuarioDAO usuarioDAO;
 
     public LicenciaModel toEntity(LicenciaCreation creation) {
         try {
@@ -39,10 +31,8 @@ public class LicenciaMapper {
                 model.setId(Helper.getLong(creation.getId()));
             model.setNumero(creation.getNumero());
             model.setCategoria(creation.getCategoria());
-            if (Helper.getLong(creation.getVencimiento_id()) != null) {
-                Optional<EventoModel> vencimiento = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getVencimiento_id()));
-                vencimiento.ifPresent(model::setVencimiento);
-            }
+            if (Helper.getLong(creation.getVencimiento_id()) != null)
+                model.setVencimiento_id(Helper.getLong(creation.getVencimiento_id()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -63,12 +53,6 @@ public class LicenciaMapper {
             return null;
         }
     }
-    /*
-        private String id;
-    private String numero;
-    private String categoria;
-    private String vencimiento_id;
-     */
 
     public LicenciaDTO toDto(LicenciaModel model) {
         try {
@@ -77,8 +61,9 @@ public class LicenciaMapper {
             dto.setId(model.getId().toString());
             dto.setNumero(model.getNumero());
             dto.setCategoria(model.getCategoria());
-            if (model.getVencimiento() != null)
-                dto.setVencimiento(eventoMapper.toDto(model.getVencimiento()));
+
+            if (model.getVencimiento_id() != null)
+                dto.setVencimiento(eventoDAO.findByIdAndEliminadaIsNull(model.getVencimiento_id()).get().getFecha().toString());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

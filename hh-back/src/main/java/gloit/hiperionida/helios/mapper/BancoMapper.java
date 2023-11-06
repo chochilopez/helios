@@ -18,13 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class BancoMapper {
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    
-    /*
-        private String id;
-    private String banco;
-    private String notas;
-     */
 
     public BancoModel toEntity(BancoCreation creation) {
         try {
@@ -55,12 +48,6 @@ public class BancoMapper {
         }
     }
     
-    /*
-        private String id;
-    private String banco;
-    private String notas;
-     */
-
     public BancoDTO toDto(BancoModel model) {
         try {
             BancoDTO dto = new BancoDTO();

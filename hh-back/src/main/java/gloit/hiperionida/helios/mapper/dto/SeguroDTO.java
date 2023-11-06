@@ -10,6 +10,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class SeguroDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
-    private String aseguradora_id;
-    private String vencimiento_id;
+    private String aseguradora;
+    private String vencimiento;
 }

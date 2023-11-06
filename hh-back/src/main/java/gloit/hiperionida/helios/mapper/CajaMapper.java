@@ -18,13 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class CajaMapper {
     private final UsuarioDAO usuarioDAO;
-    private final UsuarioMapper usuarioMapper;
-    
-    /*
-        private String id;
-    private String nombre;
-    private String notas;
-     */
 
     public CajaModel toEntity(CajaCreation creation) {
         try {
@@ -33,6 +26,7 @@ public class CajaMapper {
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
             model.setNombre(creation.getNombre());
+            model.setNotas(creation.getNotas());
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -53,12 +47,6 @@ public class CajaMapper {
             return null;
         }
     }
-    
-    /*
-        private String id;
-    private String nombre;
-    private String notas;
-     */
 
     public CajaDTO toDto(CajaModel model) {
         try {
@@ -66,6 +54,7 @@ public class CajaMapper {
 
             dto.setId(model.getId().toString());
             dto.setNombre(model.getNombre());
+            dto.setNotas(model.getNotas());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
