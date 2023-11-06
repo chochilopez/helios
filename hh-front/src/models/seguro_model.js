@@ -1,18 +1,14 @@
-import { UsuarioModel } from './usuario_model'
-import { ProveedorModel } from './proveedor_model'
-import { EventoModel } from './evento_model'
-
 export class SeguroModel {
   constructor () {
     this.id = ''
-    this.aseguradora = new ProveedorModel()
-    this.vencimiento = new EventoModel()
+    this.aseguradora = ''
+    this.vencimiento = ''
 
-    this.creador = new UsuarioModel()
     this.creada = ''
-    this.modificador = new UsuarioModel()
+    this.creador = ''
     this.modificada = ''
-    this.eliminador = new UsuarioModel()
-    this.elimianda = ''
+    this.modificador = ''
+    this.eliminada = ''
+    this.eliminador = ''
   }
 }

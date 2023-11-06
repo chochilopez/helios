@@ -1,8 +1,3 @@
-import { CamionModel } from './camion_model'
-import { ConductorModel } from './conductor_model'
-import { ProveedorModel } from './proveedor_model'
-import { UsuarioModel } from './usuario_model'
-
 export class CombustibleModel {
   constructor () {
     this.id = ''
@@ -11,15 +6,15 @@ export class CombustibleModel {
     this.litros = ''
     this.precio = ''
     this.notas = ''
-    this.camion = new CamionModel()
-    this.conductor = new ConductorModel()
-    this.proveedor = new ProveedorModel()
+    this.camion = ''
+    this.conductor = ''
+    this.proveedor = ''
 
-    this.creador = new UsuarioModel()
     this.creada = ''
-    this.modificador = new UsuarioModel()
+    this.creador = ''
     this.modificada = ''
-    this.eliminador = new UsuarioModel()
-    this.elimianda = ''
+    this.modificador = ''
+    this.eliminada = ''
+    this.eliminador = ''
   }
 }

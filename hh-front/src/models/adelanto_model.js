@@ -1,6 +1,3 @@
-import { UsuarioModel } from './usuario_model'
-import { CajaModel } from './caja_model'
-
 export class AdelantoModel {
   constructor () {
     this.id = ''
@@ -10,13 +7,14 @@ export class AdelantoModel {
     this.notas = ''
     this.recibo = ''
     this.rendido = ''
-    this.caja = new CajaModel()
+    this.caja = ''
+    this.conductor = ''
 
-    this.creador = new UsuarioModel()
     this.creada = ''
-    this.modificador = new UsuarioModel()
+    this.creador = ''
     this.modificada = ''
-    this.eliminador = new UsuarioModel()
-    this.elimianda = ''
+    this.modificador = ''
+    this.eliminada = ''
+    this.eliminador = ''
   }
 }

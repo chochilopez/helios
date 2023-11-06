@@ -1,6 +1,3 @@
-import { UsuarioModel } from './usuario_model'
-import { ProveedorModel } from './proveedor_model'
-
 export class NeumaticoModel {
   constructor () {
     this.id = ''
@@ -8,20 +5,21 @@ export class NeumaticoModel {
     this.kmVida = ''
     this.kmActuales = ''
     this.kmRecapado = ''
-    this.numeroRemito = ''
-    this.marca = ''
+    this.marca  = ''
     this.precioCompra = ''
     this.recapadosMaximos = ''
     this.ubicacion = ''
     this.estado = ''
     this.baja = ''
-    this.proveedor = new ProveedorModel()
+    this.acopladoId = ''
+    this.camionId = ''
+    this.proveedor = ''
 
-    this.creador = new UsuarioModel()
     this.creada = ''
-    this.modificador = new UsuarioModel()
+    this.creador = ''
     this.modificada = ''
-    this.eliminador = new UsuarioModel()
-    this.elimianda = ''
+    this.modificador = ''
+    this.eliminada = ''
+    this.eliminador = ''
   }
 }

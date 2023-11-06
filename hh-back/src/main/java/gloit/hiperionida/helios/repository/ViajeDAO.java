@@ -63,25 +63,54 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByDestinoIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByDestinoIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
 
-    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+    @Query(value = "SELECT v FROM ViajeModel v " +
+            "JOIN EventoModel e ON v.fechaId = e.id " +
+            "where e.fecha between :inicio and :fin")
     List<ViajeModel> findAllByFechaFechaBetween(LocalDateTime inicio, LocalDateTime fin);
-    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+
+    @Query(value = "SELECT v FROM ViajeModel v " +
+            "JOIN EventoModel e ON v.fechaId = e.id " +
+            "where e.fecha between :inicio and :fin and v.eliminada is null")
     List<ViajeModel> findAllByFechaFechaBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
-    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+
+    @Query(value = "SELECT v FROM ViajeModel v " +
+            "JOIN ClienteModel c ON v.compradorId = c.id " +
+            "where lower(c.nombre) like lower(concat('%',:nombre,'%'))")
     List<ViajeModel> findAllByCompradorNombreContainingIgnoreCase(String nombre);
-    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+
+    @Query(value = "SELECT v FROM ViajeModel v " +
+            "JOIN ClienteModel c ON v.compradorId = c.id " +
+            "where lower(c.nombre) like lower(concat('%',:nombre,'%')) and v.eliminada is null")
     List<ViajeModel> findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(String nombre);
-    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+
+    @Query(value = "SELECT v FROM ViajeModel v " +
+            "JOIN ClienteModel c ON v.vendedorId = c.id " +
+            "where lower(c.nombre) like lower(concat('%',:nombre,'%'))")
     List<ViajeModel> findAllByVendedorNombreContainingIgnoreCase(String nombre);
-    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+
+    @Query(value = "SELECT v FROM ViajeModel v " +
+            "JOIN ClienteModel c ON v.vendedorId = c.id " +
+            "where lower(c.nombre) like lower(concat('%',:nombre,'%')) and v.eliminada is null")
     List<ViajeModel> findAllByVendedorNombreContainingIgnoreCaseAndEliminadaIsNull(String nombre);
-    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+
+    @Query(value = "SELECT v FROM ViajeModel v " +
+            "JOIN DireccionModel d ON v.origenId = d.id " +
+            "where lower(d.ciudad) like lower(concat('%',:direccion,'%')) or lower(d.direccion) like lower(concat('%',:direccion,'%'))")
     List<ViajeModel> findAllByOrigenDireccionContainingIgnoreCase(String direccion);
-    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+
+    @Query(value = "SELECT v FROM ViajeModel v " +
+            "JOIN DireccionModel d ON v.origenId = d.id " +
+            "where lower(d.ciudad) like lower(concat('%',:direccion,'%')) or lower(d.direccion) like lower(concat('%',:direccion,'%')) and v.eliminada is null")
     List<ViajeModel> findAllByOrigenDireccionContainingIgnoreCaseAndEliminadaIsNull(String direccion);
-    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+
+    @Query(value = "SELECT v FROM ViajeModel v " +
+            "JOIN DireccionModel d ON v.destinoId = d.id " +
+            "where lower(d.ciudad) like lower(concat('%',:direccion,'%')) or lower(d.direccion) like lower(concat('%',:direccion,'%'))")
     List<ViajeModel> findAllByDestinoDireccionContainingIgnoreCase(String direccion);
-    @Query(value = "SELECT * FROM presupuesto p", nativeQuery = true)
+
+    @Query(value = "SELECT v FROM ViajeModel v " +
+            "JOIN DireccionModel d ON v.destinoId = d.id " +
+            "where lower(d.ciudad) like lower(concat('%',:direccion,'%')) or lower(d.direccion) like lower(concat('%',:direccion,'%')) and v.eliminada is null")
     List<ViajeModel> findAllByDestinoDireccionContainingIgnoreCaseAndEliminadaIsNull(String direccion);
 
     @Query("select SUM (cantidadTransportada) from ViajeModel")

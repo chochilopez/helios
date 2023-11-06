@@ -5,8 +5,14 @@ export class UsuarioModel {
     this.dni = ''
     this.direccion = ''
     this.telefono = ''
-    this.habilitada = ''
     this.username = ''
-    this.roles = new Array([])
+    this.roles = []
+
+    this.creada = ''
+    this.creador = ''
+    this.modificada = ''
+    this.modificador = ''
+    this.eliminada = ''
+    this.eliminador = ''
   }
 }

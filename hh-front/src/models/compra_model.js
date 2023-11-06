@@ -1,8 +1,3 @@
-import { UsuarioModel } from './usuario_model'
-import { ArchivoModel } from './archivo_model'
-import { ProveedorModel } from './proveedor_model'
-import { RemitoModel } from './remito_model'
-
 export class CompraModel {
   constructor () {
     this.id = ''
@@ -12,16 +7,14 @@ export class CompraModel {
     this.subTotal = ''
     this.tipoComprobante = ''
     this.notas = ''
-    this.comprobante = new ArchivoModel()
-    this.pagos = new Array([])
-    this.proveedor = new ProveedorModel()
-    this.remito = new RemitoModel()
+    this.comprobante = ''
+    this.proveedor = ''
 
-    this.creador = new UsuarioModel()
     this.creada = ''
-    this.modificador = new UsuarioModel()
+    this.creador = ''
     this.modificada = ''
-    this.eliminador = new UsuarioModel()
-    this.elimianda = ''
+    this.modificador = ''
+    this.eliminada = ''
+    this.eliminador = ''
   }
 }

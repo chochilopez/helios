@@ -1,8 +1,3 @@
-import { UsuarioModel } from './usuario_model'
-import { MovimientoModel } from './movimiento_model'
-import { RemitoModel } from './remito_model'
-import { ViajeModel } from './viaje_model'
-
 export class FacturaModel {
   constructor () {
     this.id = ''
@@ -14,16 +9,22 @@ export class FacturaModel {
     this.subTotal = ''
     this.tipoComprobante = ''
     this.pagada = ''
-    this.pagos = new Array([])
-    this.movimiento = new MovimientoModel()
-    this.remito = new RemitoModel()
-    this.viaje = new ViajeModel()
+    this.remito = ''
+    this.comprador = ''
+    this.fechaViaje = ''
+    this.numeroGuia = ''
+    this.origen = ''
+    this.destino = ''
+    this.conductor = ''
+    this.camion = ''
+    this.categoriaViaje = ''
+    this.cantidadTransportada = ''
 
-    this.creador = new UsuarioModel()
     this.creada = ''
-    this.modificador = new UsuarioModel()
+    this.creador = ''
     this.modificada = ''
-    this.eliminador = new UsuarioModel()
-    this.elimianda = ''
+    this.modificador = ''
+    this.eliminada = ''
+    this.eliminador = ''
   }
 }

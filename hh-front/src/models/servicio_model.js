@@ -1,5 +1,3 @@
-import { UsuarioModel } from './usuario_model'
-
 export class ServicioModel {
   constructor () {
     this.id = ''
@@ -7,12 +5,13 @@ export class ServicioModel {
     this.kmActual = ''
     this.kmProximo = ''
     this.tipo = ''
+    this.camionId = ''
 
-    this.creador = new UsuarioModel()
     this.creada = ''
-    this.modificador = new UsuarioModel()
+    this.creador = ''
     this.modificada = ''
-    this.eliminador = new UsuarioModel()
-    this.elimianda = ''
+    this.modificador = ''
+    this.eliminada = ''
+    this.eliminador = ''
   }
 }

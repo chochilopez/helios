@@ -1,33 +1,21 @@
-import { UsuarioModel } from './usuario_model'
-import { CategoriaViajeModel } from './categoria_viaje_model'
-import { DireccionModel } from './direccion_model'
-import { ClienteModel } from './cliente_model'
-import { EventoModel } from './evento_model'
-
 export class PresupuestoModel {
   constructor () {
     this.id = ''
     this.validez = ''
     this.cantidadTransportada = ''
     this.valorKm = ''
-    this.kgNeto = ''
-    this.kmCargado = ''
-    this.kmVacio = ''
     this.notas = ''
-    this.categoriaViaje = new CategoriaViajeModel()
-    this.origen = new DireccionModel()
-    this.carga = new DireccionModel()
-    this.destino = new DireccionModel()
-    this.vendedor = new ClienteModel()
-    this.intermediario = new ClienteModel()
-    this.comprador = new ClienteModel()
-    this.fecha = new EventoModel()
+    this.categoriaViaje = ''
+    this.comprador = ''
+    this.destino = ''
+    this.fecha = ''
+    this.origen = ''
 
-    this.creador = new UsuarioModel()
     this.creada = ''
-    this.modificador = new UsuarioModel()
+    this.creador = ''
     this.modificada = ''
-    this.eliminador = new UsuarioModel()
-    this.elimianda = ''
+    this.modificador = ''
+    this.eliminada = ''
+    this.eliminador = ''
   }
 }

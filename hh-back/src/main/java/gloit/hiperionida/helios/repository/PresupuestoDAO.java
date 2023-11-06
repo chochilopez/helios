@@ -31,7 +31,7 @@ public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
 
     @Query(value = "SELECT p FROM PresupuestoModel p " +
             "JOIN EventoModel e ON p.fechaId = e.id " +
-            "where e.eliminada is null and e.fecha between :inicio and :fin")
+            "where e.fecha between :inicio and :fin and p.eliminada is null")
     List<PresupuestoModel> findAllByFechaFechaBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
 
     @Query(value = "SELECT p FROM PresupuestoModel p " +
@@ -51,7 +51,7 @@ public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
 
     @Query(value = "SELECT p FROM PresupuestoModel p " +
             "JOIN DireccionModel d ON p.origenId = d.id " +
-            "where lower(d.ciudad) like lower(concat('%',:direccion,'%')) or lower(d.direccion) like lower(concat('%',:direccion,'%')) and d.eliminada is null")
+            "where lower(d.ciudad) like lower(concat('%',:direccion,'%')) or lower(d.direccion) like lower(concat('%',:direccion,'%')) and p.eliminada is null")
     List<PresupuestoModel> findAllByOrigenDireccionContainingIgnoreCaseAndEliminadaIsNull(String direccion);
 
     @Query(value = "SELECT p FROM PresupuestoModel p " +
@@ -61,6 +61,6 @@ public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
 
     @Query(value = "SELECT p FROM PresupuestoModel p " +
             "JOIN DireccionModel d ON p.destinoId = d.id " +
-            "where lower(d.ciudad) like lower(concat('%',:direccion,'%')) or lower(d.direccion) like lower(concat('%',:direccion,'%')) and d.eliminada is null")
+            "where lower(d.ciudad) like lower(concat('%',:direccion,'%')) or lower(d.direccion) like lower(concat('%',:direccion,'%')) and p.eliminada is null")
     List<PresupuestoModel> findAllByDestinoDireccionContainingIgnoreCaseAndEliminadaIsNull(String direccion);
 }

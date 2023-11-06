@@ -1,5 +1,3 @@
-import { UsuarioModel } from './usuario_model'
-
 export class EventoModel {
   constructor () {
     this.id = ''
@@ -9,11 +7,11 @@ export class EventoModel {
     this.recordatorio = ''
     this.nombre = ''
 
-    this.creador = new UsuarioModel()
     this.creada = ''
-    this.modificador = new UsuarioModel()
+    this.creador = ''
     this.modificada = ''
-    this.eliminador = new UsuarioModel()
-    this.elimianda = ''
+    this.modificador = ''
+    this.eliminada = ''
+    this.eliminador = ''
   }
 }
