@@ -3,7 +3,7 @@
     <q-card-section>
       <div class="row justify-center items-center">
         <div class="col-md-4 q-mb-md">
-          <q-btn class="paleta2-fondo2 paleta1-color1" icon-right="add_circle" label="Nuevo viaje"></q-btn>
+          <q-btn class="paleta2-fondo2 paleta1-color1" icon-right="add_circle" label="Nuevo viaje"  @click="nuevoPresupuestoDialog = true"> </q-btn>
         </div>
         <div class="col-md-4 q-mb-md q-mx-md">
           <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar presupuestos por" dropdown-icon="fa-solid fa-magnifying-glass">
@@ -601,6 +601,30 @@
       </q-table>
     </div>
   </div>
+    <q-dialog v-model="nuevoPresupuestoDialog" persistent transition-show="flip-down" transition-hide="flip-up">
+      <q-card class="bg-primary text-white">
+        <q-bar>
+          <q-icon name="network_wifi" />
+          <q-icon name="network_cell" />
+          <q-icon name="battery_full" />
+          <div>9:34</div>
+
+          <q-space />
+
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+
+        <q-card-section>
+          <div class="text-h6">Alert</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+        </q-card-section>
+      </q-card>
+    </q-dialog>
 </template>
 
 <script>
@@ -702,6 +726,7 @@ export default {
     const editNotas = ref(false)
     const editValorKilomertro = ref(false)
     const editVendedor = ref(false)
+    const nuevoPresupuestoDialog = ref(false)
 
     const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const categoriaViaje = ref(null)
@@ -1528,6 +1553,7 @@ export default {
       columnas,
       esAdmin,
       nuevaBusqueda,
+      nuevoPresupuestoDialog,
       paginacion,
       presupuesto,
       presupuestos,
