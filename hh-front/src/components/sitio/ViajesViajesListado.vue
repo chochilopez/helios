@@ -1,834 +1,5 @@
 <template>
   <q-card class="font-5 no-shadow no-border">
-    <q-card-section>
-      <div class="row justify-center items-center">
-        <div class="col-md-4 q-mb-md">
-          <q-btn
-            class="paleta2-fondo2 paleta1-color1"
-            icon-right="add_circle"
-            label="Nuevo viaje"
-            @click="nuevoViajeDialog = true"
-          />
-        </div>
-        <div class="col-md-4 q-mb-md q-mx-md">
-          <q-btn-dropdown
-            class="paleta2-fondo2 paleta1-color1"
-            label="Buscar viajes por"
-            dropdown-icon="fa-solid fa-magnifying-glass"
-          >
-            <q-list>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarAcoplado"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-trailer" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Acoplado</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarCamion"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-truck-fast" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Camion</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarCategoriaViaje"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-boxes-packing" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Categoria viaje</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarComprador"
-              >
-                <q-item-section avatar>
-                  <q-icon name="monetization_on" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Comprador</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarConductor"
-              >
-                <q-item-section avatar>
-                  <q-icon name="airline_seat_recline_extra" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Conductor</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarDireccionCarga"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-truck-ramp-box" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Dirección carga</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarDireccionDestino"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-map-location" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Dirección destino</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarDireccionOrigen"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-map-location-dot" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Dirección origen</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarFechaViaje"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-calendar-days" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Fecha viaje</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarIntermediario"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-people-arrows" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Intermediario</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarKilometrosCargado"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-truck-fast" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Kilometros cargado</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarKilometrosVacio"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-truck-pickup" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Kilometros vacio</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarNotas"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-pen-to-square" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Notas</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarNumeroGuia"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-shuffle" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Numero guía</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarPesoNeto"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-plus-minus" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Peso neto</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarValorKilomertro"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-money-bill-1-wave" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Valor kilometro</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                clickable
-                v-close-popup
-                class="desplegable paleta2-fondo2 paleta1-color1"
-                @click="fMostrarVendedor"
-              >
-                <q-item-section avatar>
-                  <q-icon name="fa-solid fa-cash-register" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Vendedor</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
-        </div>
-        <div class="col-md-4">
-          <q-select
-            v-if="editAcoplado"
-            outlined
-            dense
-            emit-value
-            map-options
-            clearable
-            v-model="acoplado"
-            option-value="id"
-            option-label="modelo"
-            label="Buscar por modelo acoplado"
-            use-input
-            hide-selected
-            fill-input
-            :options="acoplados"
-            @filter="fFiltrarAcoplados"
-            @update:model-value="afBuscarPorAcopladoId()"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-trailer" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-          <q-select
-            v-if="editCamion"
-            outlined
-            dense
-            emit-value
-            map-options
-            clearable
-            v-model="camion"
-            option-value="id"
-            option-label="modelo"
-            label="Buscar por modelo camion"
-            use-input
-            hide-selected
-            fill-input
-            :options="camiones"
-            @filter="fFiltrarCamiones"
-            @update:model-value="afBuscarPorCamionId()"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-truck-moving" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-          <q-select
-            v-if="editCategoriaViaje"
-            outlined
-            dense
-            emit-value
-            map-options
-            clearable
-            v-model="categoriaViaje"
-            option-value="id"
-            option-label="categoria"
-            label="Buscar por categoria de viaje"
-            use-input
-            hide-selected
-            fill-input
-            :options="categoriasViaje"
-            @filter="fFiltrarCategoriasViaje"
-            @update:model-value="afBuscarPorCategoriaViajeId()"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-boxes-packing" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-          <q-select
-            v-if="editComprador"
-            outlined
-            dense
-            emit-value
-            map-options
-            clearable
-            v-model="comprador"
-            :options="compradores"
-            option-value="id"
-            option-label="nombre"
-            label="Buscar por comprador"
-            use-input
-            input-debounce="0"
-            @filter="fFiltrarCompradores"
-            @update:model-value="afBuscarPorCompradorId()"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="monetization_on" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-          <q-select
-            v-if="editConductor"
-            outlined
-            dense
-            emit-value
-            map-options
-            clearable
-            v-model="conductor"
-            :options="conductores"
-            option-value="id"
-            option-label="nombre"
-            label="Buscar por conductor"
-            use-input
-            input-debounce="0"
-            @filter="fFiltrarConductores"
-            @update:model-value="afBuscarPorConductorId()"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="airline_seat_recline_extra" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-          <q-select
-            v-if="editDireccionCarga"
-            outlined
-            dense
-            emit-value
-            map-options
-            clearable
-            v-model="direccionCarga"
-            :options="direccionesCarga"
-            option-value="id"
-            option-label="direccion"
-            label="Buscar por carga"
-            use-input
-            input-debounce="0"
-            @filter="fFiltrarDireccionesCarga"
-            @update:model-value="afBuscarPorDireccionCargaId()"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-truck-ramp-box" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-          <q-select
-            v-if="editDireccionDestino"
-            outlined
-            dense
-            emit-value
-            map-options
-            clearable
-            v-model="direccionDestino"
-            :options="direccionesDestino"
-            option-value="id"
-            option-label="direccion"
-            label="Buscar por destino"
-            use-input
-            input-debounce="0"
-            @filter="fFiltrarDireccionesDestino"
-            @update:model-value="afBuscarPorDireccionDestinoId()"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-map-location" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-          <q-select
-            v-if="editDireccionOrigen"
-            outlined
-            dense
-            emit-value
-            map-options
-            clearable
-            v-model="direccionOrigen"
-            :options="direccionesOrigen"
-            option-value="id"
-            option-label="direccion"
-            label="Buscar por origen"
-            use-input
-            input-debounce="0"
-            @filter="fFiltrarDireccionesOrigen"
-            @update:model-value="afBuscarPorDireccionOrigenId()"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-map-location-dot" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-          <div class="column" v-if="editFecha">
-            <div class="row justify-around">
-              <q-input
-                mask="##-##-####"
-                style="width: 180px"
-                v-model="fecha.from"
-                outlined
-                dense
-                clearable
-                label="Fecha fin"
-                hint="20-01-2020"
-              >
-                <template v-slot:before>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-date v-model="fecha.from" mask="DD-MM-YYYY">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="OK" color="primary" flat />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-              <q-input
-                class="q-ml-md"
-                mask="##-##-####"
-                style="width: 180px"
-                v-model="fecha.to"
-                outlined
-                dense
-                clearable
-                label="Fecha inicio"
-                hint="30-01-2020"
-              >
-                <template v-slot:before>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-date v-model="fecha.to" mask="DD-MM-YYYY">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="OK" color="primary" flat />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-              <div class="col">
-                <q-icon
-                  name="fa-solid fa-magnifying-glass"
-                  size="24px"
-                  class="cursor-pointer q-pa-sm edits"
-                  v-on:click="afBuscarPorFechaViaje()"
-                />
-              </div>
-            </div>
-          </div>
-          <q-select
-            v-if="editIntermediario"
-            outlined
-            dense
-            emit-value
-            map-options
-            clearable
-            v-model="intermediario"
-            :options="intermediarios"
-            option-value="id"
-            option-label="nombre"
-            label="Buscar por intermediario"
-            use-input
-            input-debounce="0"
-            @filter="fFiltrarIntermediarios"
-            @update:model-value="afBuscarPorIntermediarioId()"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-people-arrows" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-          <div class="column" v-if="editKilometrosCargado">
-            <div class="row justify-between">
-              <div class="col">
-                <q-chip
-                  v-model:selected="kmCargadoChip.izq"
-                  :class="{
-                    'paleta2-fondo2': kmCargadoChip.izq,
-                    'edits-fondo': !kmCargadoChip.izq,
-                  }"
-                  text-color="white"
-                  size="12px"
-                  icon="fa-solid fa-minus"
-                  @update:selected="afBuscarPorKilometrosCargado()"
-                >
-                  Mínimo
-                </q-chip>
-              </div>
-              <div class="edits col text-center">
-                <span>Kms cargado</span><br />
-                <q-icon name="fa-solid fa-truck-fast" />
-              </div>
-              <div class="col text-right">
-                <q-chip
-                  v-model:selected="kmCargadoChip.der"
-                  :class="{
-                    'paleta2-fondo2': kmCargadoChip.der,
-                    'edits-fondo': !kmCargadoChip.der,
-                  }"
-                  text-color="white"
-                  size="12px"
-                  icon="fa-solid fa-plus"
-                  @update:selected="afBuscarPorKilometrosCargado()"
-                >
-                  Máximo
-                </q-chip>
-              </div>
-            </div>
-            <div class="row">
-              <q-range
-                label-always
-                switch-label-side
-                color="grey-6"
-                v-model="kmCargado"
-                :min="1"
-                :max="1000"
-                label
-                @change="(kmCargadoChip.izq = false), (kmCargadoChip.der = false)"
-              />
-            </div>
-          </div>
-          <div class="column" v-if="editKilometrosVacio">
-            <div class="row justify-between">
-              <div class="col">
-                <q-chip
-                  v-model:selected="kmVacioChip.izq"
-                  :class="{
-                    'paleta2-fondo2': kmVacioChip.izq,
-                    'edits-fondo': !kmVacioChip.izq,
-                  }"
-                  text-color="white"
-                  size="12px"
-                  icon="fa-solid fa-minus"
-                  @update:selected="afBuscarPorKilometrosVacio()"
-                >
-                  Mínimo
-                </q-chip>
-              </div>
-              <div class="edits col text-center">
-                <span>Kms vacio</span><br />
-                <q-icon name="fa-solid fa-truck-pickup" />
-              </div>
-              <div class="col text-right">
-                <q-chip
-                  v-model:selected="kmVacioChip.der"
-                  :class="{
-                    'paleta2-fondo2': kmVacioChip.der,
-                    'edits-fondo': !kmVacioChip.der,
-                  }"
-                  text-color="white"
-                  size="12px"
-                  icon="fa-solid fa-plus"
-                  @update:selected="afBuscarPorKilometrosVacio()"
-                >
-                  Máximo
-                </q-chip>
-              </div>
-            </div>
-            <div class="row">
-              <q-range
-                label-always
-                switch-label-side
-                color="grey-6"
-                v-model="kmVacio"
-                :min="1"
-                :max="1000"
-                label
-                @change="(kmVacioChip.izq = false), (kmVacioChip.der = false)"
-              />
-            </div>
-          </div>
-          <q-input
-            v-if="editNotas"
-            outlined
-            dense
-            clearable
-            v-on:keyup.enter="afBuscarPorNotas()"
-            v-model="notas"
-            label="Buscar por notas"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-            <template v-slot:after>
-              <q-icon
-                name="fa-solid fa-magnifying-glass"
-                class="q-mx-xs"
-                v-on:click="afBuscarPorNotas()"
-                style="cursor: pointer"
-              />
-            </template>
-          </q-input>
-          <q-input
-            v-if="editNumeroGuia"
-            outlined
-            dense
-            clearable
-            v-on:keyup.enter="afBuscarPorGuia()"
-            v-model="numeroGuia"
-            label="Buscar por número guía"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-shuffle" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-            <template v-slot:after>
-              <q-icon
-                name="fa-solid fa-magnifying-glass"
-                class="q-mx-xs"
-                v-on:click="afBuscarPorGuia()"
-                style="cursor: pointer"
-              />
-            </template>
-          </q-input>
-          <div class="column" v-if="editPesoNeto">
-            <div class="row justify-between">
-              <div class="col">
-                <q-chip
-                  v-model:selected="pesoNetoChip.izq"
-                  :class="{
-                    'paleta2-fondo2': pesoNetoChip.izq,
-                    'edits-fondo': !pesoNetoChip.izq,
-                  }"
-                  text-color="white"
-                  size="12px"
-                  icon="fa-solid fa-minus"
-                  @update:selected="afBuscarPorPesoNeto()"
-                >
-                  Mínimo
-                </q-chip>
-              </div>
-              <div class="edits col text-center">
-                <span>Peso Neto</span><br />
-                <q-icon name="fa-solid fa-plus-minus" />
-              </div>
-              <div class="col text-right">
-                <q-chip
-                  v-model:selected="pesoNetoChip.der"
-                  :class="{
-                    'paleta2-fondo2': pesoNetoChip.der,
-                    'edits-fondo': !pesoNetoChip.der,
-                  }"
-                  text-color="white"
-                  size="12px"
-                  icon="fa-solid fa-plus"
-                  @update:selected="afBuscarPorPesoNeto()"
-                >
-                  Máximo
-                </q-chip>
-              </div>
-            </div>
-            <div class="row">
-              <q-range
-                label-always
-                switch-label-side
-                color="grey-6"
-                v-model="pesoNeto"
-                :min="1"
-                :max="50000"
-                label
-                @change="(pesoNetoChip.izq = false), (pesoNetoChip.der = false)"
-              />
-            </div>
-          </div>
-          <div class="column" v-if="editValorKilomertro">
-            <div class="row justify-between">
-              <div class="col">
-                <q-chip
-                  v-model:selected="valorKmChip.izq"
-                  :class="{
-                    'paleta2-fondo2': valorKmChip.izq,
-                    'edits-fondo': !valorKmChip.izq,
-                  }"
-                  text-color="white"
-                  size="12px"
-                  icon="fa-solid fa-minus"
-                  @update:selected="afBuscarPorValorKm()"
-                >
-                  Mínimo
-                </q-chip>
-              </div>
-              <div class="edits col text-center">
-                <span>Valor kilometro</span><br />
-                <q-icon name="fa-solid fa-money-bill-1-wave" />
-              </div>
-              <div class="col text-right">
-                <q-chip
-                  v-model:selected="valorKmChip.der"
-                  :class="{
-                    'paleta2-fondo2': valorKmChip.der,
-                    'edits-fondo': !valorKmChip.der,
-                  }"
-                  text-color="white"
-                  size="12px"
-                  icon="fa-solid fa-plus"
-                  @update:selected="afBuscarPorValorKm()"
-                >
-                  Máximo
-                </q-chip>
-              </div>
-            </div>
-            <div class="row">
-              <q-range
-                label-always
-                switch-label-side
-                color="grey-6"
-                v-model="valorKm"
-                :min="0"
-                :max="2000"
-                label
-                @change="(valorKmChip.izq = false), (valorKmChip.der = false)"
-              />
-            </div>
-          </div>
-          <q-select
-            v-if="editVendedor"
-            outlined
-            dense
-            emit-value
-            map-options
-            clearable
-            v-model="vendedor"
-            :options="vendedores"
-            option-value="id"
-            option-label="nombre"
-            label="Buscar por vendedor"
-            use-input
-            input-debounce="0"
-            @filter="fFiltrarVendedores"
-            @update:model-value="afBuscarPorVendedorId()"
-            hint="Tenés que escribir al menos 3 caracteres para buscar."
-          >
-            <template v-slot:before>
-              <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
-            </template>
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Sin resultados </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-        </div>
-      </div>
-    </q-card-section>
   </q-card>
   <div class="row q-pa-md">
     <div class="col">
@@ -838,10 +9,846 @@
         rows-per-page-label="Registros por pagina"
         no-data-label="Sin datos para mostrar"
         :pagination="paginacion"
+        :filter="filtrado"
         hide-no-data
         :rows="viajes"
         row-key="id"
       >
+        <template v-slot:top-left>
+          <div class="column">
+            <p class="text-h5">Viajes</p>
+            <q-btn
+              class="paleta2-fondo2 paleta1-color1 q-mb-lg"
+              icon="add_circle"
+              label="Nuevo viaje"
+              @click="fMostrarNuevoViaje"
+            />
+          </div>
+        </template>
+        <template v-slot:top-right>
+          <div class="column items-end">
+            <div class="q-my-md">
+              <q-btn-dropdown
+                class="paleta2-fondo2 paleta1-color1"
+                label="Buscar viajes por"
+                dropdown-icon="fa-solid fa-magnifying-glass"
+              >
+                <q-list>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarAcoplado"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-trailer" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Acoplado</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarCamion"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-truck-fast" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Camion</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarCategoriaViaje"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-boxes-packing" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Categoria viaje</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarComprador"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="monetization_on" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Comprador</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarConductor"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="airline_seat_recline_extra" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Conductor</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarDireccionCarga"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-truck-ramp-box" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Dirección carga</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarDireccionDestino"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-map-location" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Dirección destino</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarDireccionOrigen"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-map-location-dot" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Dirección origen</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarFechaViaje"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-calendar-days" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Fecha viaje</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarIntermediario"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-people-arrows" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Intermediario</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarKilometrosCargado"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-truck-fast" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Kilometros cargado</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarKilometrosVacio"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-truck-pickup" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Kilometros vacio</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarNotas"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-pen-to-square" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Notas</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarNumeroGuia"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-shuffle" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Numero guía</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarPesoNeto"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-plus-minus" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Peso neto</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarValorKilomertro"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-money-bill-1-wave" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Valor kilometro</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarVendedor"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-cash-register" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Vendedor</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </div>
+            <div class="col">
+              <q-select
+                v-if="editAcoplado"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="acoplado"
+                option-value="id"
+                option-label="modelo"
+                label="Buscar por modelo acoplado"
+                use-input
+                hide-selected
+                fill-input
+                :options="acoplados"
+                @filter="fFiltrarAcoplados"
+                @update:model-value="afBuscarPorAcopladoId()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="fa-solid fa-trailer" class="q-mx-xs" />
+                </!--template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <q-select
+                v-if="editCamion"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="camion"
+                option-value="id"
+                option-label="modelo"
+                label="Buscar por modelo camion"
+                use-input
+                hide-selected
+                fill-input
+                :options="camiones"
+                @filter="fFiltrarCamiones"
+                @update:model-value="afBuscarPorCamionId()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="fa-solid fa-truck-moving" class="q-mx-xs" />
+                </!template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <q-select
+                v-if="editCategoriaViaje"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="categoriaViaje"
+                option-value="id"
+                option-label="categoria"
+                label="Buscar por categoria de viaje"
+                use-input
+                hide-selected
+                fill-input
+                :options="categoriasViaje"
+                @filter="fFiltrarCategoriasViaje"
+                @update:model-value="afBuscarPorCategoriaViajeId()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="fa-solid fa-boxes-packing" class="q-mx-xs" />
+                </!template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <q-select
+                v-if="editComprador"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="comprador"
+                :options="compradores"
+                option-value="id"
+                option-label="nombre"
+                label="Buscar por comprador"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarCompradores"
+                @update:model-value="afBuscarPorCompradorId()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="monetization_on" class="q-mx-xs" />
+                </!template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <q-select
+                v-if="editConductor"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="conductor"
+                :options="conductores"
+                option-value="id"
+                option-label="nombre"
+                label="Buscar por conductor"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarConductores"
+                @update:model-value="afBuscarPorConductorId()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="airline_seat_recline_extra" class="q-mx-xs" />
+                </!--template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <q-select
+                v-if="editDireccionCarga"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="direccionCarga"
+                :options="direccionesCarga"
+                option-value="id"
+                option-label="direccion"
+                label="Buscar por carga"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarDireccionesCarga"
+                @update:model-value="afBuscarPorDireccionCargaId()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="fa-solid fa-truck-ramp-box" class="q-mx-xs" />
+                </!--template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <q-select
+                v-if="editDireccionDestino"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="direccionDestino"
+                :options="direccionesDestino"
+                option-value="id"
+                option-label="direccion"
+                label="Buscar por destino"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarDireccionesDestino"
+                @update:model-value="afBuscarPorDireccionDestinoId()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="fa-solid fa-map-location" class="q-mx-xs" />
+                </!template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <q-select
+                v-if="editDireccionOrigen"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="direccionOrigen"
+                :options="direccionesOrigen"
+                option-value="id"
+                option-label="direccion"
+                label="Buscar por origen"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarDireccionesOrigen"
+                @update:model-value="afBuscarPorDireccionOrigenId()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="fa-solid fa-map-location-dot" class="q-mx-xs" />
+                </!--template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <div class="column" v-if="editFecha">
+                <div class="row justify-around">
+                  <q-input
+                    mask="##-##-####"
+                    style="width: 180px"
+                    v-model="fecha.from"
+                    outlined
+                    dense
+                    clearable
+                    label="Fecha fin"
+                    hint="20-01-2020"
+                  >
+                    <template v-slot:before>
+                      <q-icon name="event" class="cursor-pointer">
+                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                          <q-date v-model="fecha.from" mask="DD-MM-YYYY">
+                            <div class="row items-center justify-end">
+                              <q-btn v-close-popup label="OK" color="primary" flat />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
+                  <q-input
+                    class="q-ml-md"
+                    mask="##-##-####"
+                    style="width: 180px"
+                    v-model="fecha.to"
+                    outlined
+                    dense
+                    clearable
+                    label="Fecha inicio"
+                    hint="30-01-2020"
+                  >
+                    <template v-slot:before>
+                      <q-icon name="event" class="cursor-pointer">
+                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                          <q-date v-model="fecha.to" mask="DD-MM-YYYY">
+                            <div class="row items-center justify-end">
+                              <q-btn v-close-popup label="OK" color="primary" flat />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
+                  <div class="col">
+                    <q-icon
+                      name="fa-solid fa-magnifying-glass"
+                      size="24px"
+                      class="cursor-pointer q-pa-sm edits"
+                      v-on:click="afBuscarPorFechaViaje()"
+                    />
+                  </div>
+                </div>
+              </div>
+              <q-select
+                v-if="editIntermediario"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="intermediario"
+                :options="intermediarios"
+                option-value="id"
+                option-label="nombre"
+                label="Buscar por intermediario"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarIntermediarios"
+                @update:model-value="afBuscarPorIntermediarioId()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="fa-solid fa-people-arrows" class="q-mx-xs" />
+                </!--template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <div class="column" v-if="editKilometrosCargado">
+                <div class="row justify-between">
+                  <div class="col">
+                    <q-chip
+                      v-model:selected="kmCargadoChip.izq"
+                      :class="{
+                        'paleta2-fondo2': kmCargadoChip.izq,
+                        'edits-fondo': !kmCargadoChip.izq,
+                      }"
+                      text-color="white"
+                      size="12px"
+                      icon="fa-solid fa-minus"
+                      @update:selected="afBuscarPorKilometrosCargado()"
+                    >
+                      Mínimo
+                    </q-chip>
+                  </div>
+                  <div class="edits col text-center">
+                    <span>Kms cargado</span><br />
+                    <q-icon name="fa-solid fa-truck-fast" />
+                  </div>
+                  <div class="col text-right">
+                    <q-chip
+                      v-model:selected="kmCargadoChip.der"
+                      :class="{
+                        'paleta2-fondo2': kmCargadoChip.der,
+                        'edits-fondo': !kmCargadoChip.der,
+                      }"
+                      text-color="white"
+                      size="12px"
+                      icon="fa-solid fa-plus"
+                      @update:selected="afBuscarPorKilometrosCargado()"
+                    >
+                      Máximo
+                    </q-chip>
+                  </div>
+                </div>
+                <div class="row">
+                  <q-range
+                    label-always
+                    switch-label-side
+                    color="grey-6"
+                    v-model="kmCargado"
+                    :min="1"
+                    :max="1000"
+                    label
+                    @change="(kmCargadoChip.izq = false), (kmCargadoChip.der = false)"
+                  />
+                </div>
+              </div>
+              <div class="column" v-if="editKilometrosVacio">
+                <div class="row justify-between">
+                  <div class="col">
+                    <q-chip
+                      v-model:selected="kmVacioChip.izq"
+                      :class="{
+                        'paleta2-fondo2': kmVacioChip.izq,
+                        'edits-fondo': !kmVacioChip.izq,
+                      }"
+                      text-color="white"
+                      size="12px"
+                      icon="fa-solid fa-minus"
+                      @update:selected="afBuscarPorKilometrosVacio()"
+                    >
+                      Mínimo
+                    </q-chip>
+                  </div>
+                  <div class="edits col text-center">
+                    <span>Kms vacio</span><br />
+                    <q-icon name="fa-solid fa-truck-pickup" />
+                  </div>
+                  <div class="col text-right">
+                    <q-chip
+                      v-model:selected="kmVacioChip.der"
+                      :class="{
+                        'paleta2-fondo2': kmVacioChip.der,
+                        'edits-fondo': !kmVacioChip.der,
+                      }"
+                      text-color="white"
+                      size="12px"
+                      icon="fa-solid fa-plus"
+                      @update:selected="afBuscarPorKilometrosVacio()"
+                    >
+                      Máximo
+                    </q-chip>
+                  </div>
+                </div>
+                <div class="row">
+                  <q-range
+                    label-always
+                    switch-label-side
+                    color="grey-6"
+                    v-model="kmVacio"
+                    :min="1"
+                    :max="1000"
+                    label
+                    @change="(kmVacioChip.izq = false), (kmVacioChip.der = false)"
+                  />
+                </div>
+              </div>
+              <q-input
+                v-if="editNotas"
+                outlined
+                dense
+                clearable
+                v-on:keyup.enter="afBuscarPorNotas()"
+                v-model="notas"
+                label="Buscar por notas"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
+                </!--template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+                <template v-slot:after>
+                  <q-icon
+                    name="fa-solid fa-magnifying-glass"
+                    class="q-mx-xs"
+                    v-on:click="afBuscarPorNotas()"
+                    style="cursor: pointer"
+                  />
+                </template>
+              </q-input>
+              <q-input
+                v-if="editNumeroGuia"
+                outlined
+                dense
+                clearable
+                v-on:keyup.enter="afBuscarPorGuia()"
+                v-model="numeroGuia"
+                label="Buscar por número guía"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="fa-solid fa-shuffle" class="q-mx-xs" />
+                </!template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+                <template v-slot:after>
+                  <q-icon
+                    name="fa-solid fa-magnifying-glass"
+                    class="q-mx-xs"
+                    v-on:click="afBuscarPorGuia()"
+                    style="cursor: pointer"
+                  />
+                </template>
+              </q-input>
+              <div class="column" v-if="editPesoNeto">
+                <div class="row justify-between">
+                  <div class="col">
+                    <q-chip
+                      v-model:selected="pesoNetoChip.izq"
+                      :class="{
+                        'paleta2-fondo2': pesoNetoChip.izq,
+                        'edits-fondo': !pesoNetoChip.izq,
+                      }"
+                      text-color="white"
+                      size="12px"
+                      icon="fa-solid fa-minus"
+                      @update:selected="afBuscarPorPesoNeto()"
+                    >
+                      Mínimo
+                    </q-chip>
+                  </div>
+                  <div class="edits col text-center">
+                    <span>Peso Neto</span><br />
+                    <q-icon name="fa-solid fa-plus-minus" />
+                  </div>
+                  <div class="col text-right">
+                    <q-chip
+                      v-model:selected="pesoNetoChip.der"
+                      :class="{
+                        'paleta2-fondo2': pesoNetoChip.der,
+                        'edits-fondo': !pesoNetoChip.der,
+                      }"
+                      text-color="white"
+                      size="12px"
+                      icon="fa-solid fa-plus"
+                      @update:selected="afBuscarPorPesoNeto()"
+                    >
+                      Máximo
+                    </q-chip>
+                  </div>
+                </div>
+                <div class="row">
+                  <q-range
+                    label-always
+                    switch-label-side
+                    color="grey-6"
+                    v-model="pesoNeto"
+                    :min="1"
+                    :max="50000"
+                    label
+                    @change="(pesoNetoChip.izq = false), (pesoNetoChip.der = false)"
+                  />
+                </div>
+              </div>
+              <div class="column" v-if="editValorKilomertro">
+                <div class="row justify-between">
+                  <div class="col">
+                    <q-chip
+                      v-model:selected="valorKmChip.izq"
+                      :class="{
+                        'paleta2-fondo2': valorKmChip.izq,
+                        'edits-fondo': !valorKmChip.izq,
+                      }"
+                      text-color="white"
+                      size="12px"
+                      icon="fa-solid fa-minus"
+                      @update:selected="afBuscarPorValorKm()"
+                    >
+                      Mínimo
+                    </q-chip>
+                  </div>
+                  <div class="edits col text-center">
+                    <span>Valor kilometro</span><br />
+                    <q-icon name="fa-solid fa-money-bill-1-wave" />
+                  </div>
+                  <div class="col text-right">
+                    <q-chip
+                      v-model:selected="valorKmChip.der"
+                      :class="{
+                        'paleta2-fondo2': valorKmChip.der,
+                        'edits-fondo': !valorKmChip.der,
+                      }"
+                      text-color="white"
+                      size="12px"
+                      icon="fa-solid fa-plus"
+                      @update:selected="afBuscarPorValorKm()"
+                    >
+                      Máximo
+                    </q-chip>
+                  </div>
+                </div>
+                <div class="row">
+                  <q-range
+                    label-always
+                    switch-label-side
+                    color="grey-6"
+                    v-model="valorKm"
+                    :min="0"
+                    :max="2000"
+                    label
+                    @change="(valorKmChip.izq = false), (valorKmChip.der = false)"
+                  />
+                </div>
+              </div>
+              <q-select
+                v-if="editVendedor"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="vendedor"
+                :options="vendedores"
+                option-value="id"
+                option-label="nombre"
+                label="Buscar por vendedor"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarVendedores"
+                @update:model-value="afBuscarPorVendedorId()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <!--template v-slot:before>
+                  <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
+                </!--template-->
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col">
+
+            </div>
+          </div>
+        </template>
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td auto-width class="text-center">
@@ -859,13 +866,13 @@
               {{ props.row.id }}
             </q-td>
             <q-td>
+              {{ fFormatoFecha(props.row.fecha) }}
+            </q-td>
+            <q-td>
               {{ props.row.conductor }}
             </q-td>
             <q-td>
               {{ props.row.camion }}
-            </q-td>
-            <q-td>
-              {{ props.row.vendedor }}
             </q-td>
             <q-td>
               {{ props.row.comprador }}
@@ -1078,119 +1085,430 @@
     transition-show="fade"
     transition-hide="fade"
   >
-    <q-card style="max-width: 80%">
-      <q-card-section class="row items-center q-pb-none">
+    <q-card style="max-width: 650px">
+      <q-card-section class="row items-center">
         <div class="text-h6 text-grey-8">Nuevo viaje</div>
         <q-space />
         <q-btn class="text-grey-8" icon="close" flat round dense v-close-popup />
       </q-card-section>
-
-      <q-card-section>
-        <q-stepper
-          style="height: 400px"
-          v-model="step"
-          ref="stepper"
-          alternative-labels
-          animated
-          done-color="teal-6"
-          active-color="primary"
-          inactive-color="primary"
-        >
-
-          <!--
-          this.neto = ''
-          this.kmCargado = ''
-          this.kmVacio = ''
-          this.notas = ''
-          this.valorKm = ''
-
-          this.conductorId = ''
-          this.camionId = ''
-          this.acopladoId = ''
-          this.guia = ''
-          this.origenId = ''
-          this.cargaId = ''
-          this.destinoId = ''
-
-          this.fechaId = ''
-          this.compradorId = ''
-          this.intermediarioId = ''
-          this.vendedorId = ''
-          this.categoriaViajeId = ''
-          this.cantidadTransportada = ''
-            -->
-          <q-step
-            :name="1"
-            title="Select campaign settings"
-            icon="settings"
-            :done="step > 1"
-          >
-          <div class="row">
-          <div class="col-xs-6">
-            <q-input
-              mask="##-##-####"
-              v-model="viajeCreation.fechaId"
-              outlined
-              dense
-              clearable
-              label="Busqueda entre fechas - Inicio"
-              hint="Ingresá la fecha con el formato dd-mm-yyyy. Ej: 20-01-2020"
-            >
-              <template v-slot:before>
-                <q-icon name="fa-solid fa-greater-than" class="q-mx-xs" />
-              </template>
-              <template v-slot:prepend>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                    <q-date v-model="rangoFechas.from" mask="DD-MM-YYYY">
-                      <div class="row items-center justify-end">
-                        <q-btn v-close-popup label="OK" color="primary" flat />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
+      <div class="row justify-around">
+        <q-icon name="img:/icons/numeros/number1.svg" size="3em" class="svg-primary" :class="{ 'svg-accent': paso1 }" />
+        <q-icon name="img:/icons/numeros/number2.svg" size="3em" class="svg-primary" :class="{ 'svg-accent': paso2 }" />
+        <q-icon name="img:/icons/numeros/number3.svg" size="3em" class="svg-primary" :class="{ 'svg-accent': paso3 }" />
+      </div>
+      <q-card-section v-if="paso1">
+        <q-form v-on:submit.prevent="fIrPaso2">
+          <div class="row justify-around">
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-input
+                class="nuevo-viaje-input"
+                mask="##-##-####"
+                v-model="viajeCreation.fechaId"
+                :rules="[reglas.requerido,]"
+                outlined
+                dense
+                clearable
+                label="Fecha del viaje"
+                hint="Formato dd-mm-yyyy."
+              >
+                <template v-slot:prepend>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-date v-model="viajeCreation.fechaId" mask="DD-MM-YYYY">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="OK" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
             </div>
-          <div class="col-xs-6"></div>
-        </div>
-          </q-step>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-select
+                class="nuevo-viaje-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="viajeCreation.compradorId"
+                :rules="[reglas.requerido]"
+                :options="compradores"
+                option-value="id"
+                option-label="nombre"
+                label="Comprador"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarCompradores"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-select
+                class="nuevo-viaje-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="viajeCreation.categoriaViajeId"
+                :rules="[reglas.requerido]"
+                option-value="id"
+                option-label="categoria"
+                label="Categoria de viaje"
+                use-input
+                hide-selected
+                fill-input
+                :options="categoriasViaje"
+                @filter="fFiltrarCategoriasViaje"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-input
+                class="nuevo-viaje-input"
+                v-model="viajeCreation.cantidadTransportada"
+                :rules="[reglas.requerido]"
+                mask="###################"
+                outlined
+                dense
+                clearable
+                label="Cantidad transportada"
+                hint="Ingresá un número."
+              >
+              </q-input>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-select
+                class="nuevo-viaje-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="viajeCreation.vendedorId"
+                :options="vendedores"
+                option-value="id"
+                option-label="nombre"
+                label="Vendedor"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarVendedores"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-select
+                class="nuevo-viaje-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="viajeCreation.intermediarioId"
+                :options="intermediarios"
+                option-value="id"
+                option-label="nombre"
+                label="Intermediario"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarIntermediarios"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+          </div>
+          <div class="row justify-end q-mr-xl q-my-md">
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
+              Siguiente
+            </q-btn>
+          </div>
+        </q-form>
+      </q-card-section>
 
-          <q-step
-            :name="2"
-            title="Create an ad group"
-            caption="Optional"
-            icon="create_new_folder"
-            :done="step > 2"
-          >
-            An ad group contains one or more ads which target a shared set of keywords.
-          </q-step>
+      <q-card-section v-if="paso2">
+        <q-form v-on:submit.prevent="fIrPaso3">
+          <div class="row justify-around">
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-select
+                class="nuevo-viaje-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="viajeCreation.conductorId"
+                :options="conductores"
+                option-value="id"
+                option-label="nombre"
+                label="Buscar por conductor"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarConductores"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-select
+                class="nuevo-viaje-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="viajeCreation.camionId"
+                :rules="[reglas.requerido]"
+                :options="camiones"
+                option-value="id"
+                option-label="modelo"
+                label="Camión"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarCamiones"
+                hint="Ingresá 3 caracteres para buscar."
+                hide-selected
+                fill-input
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-select
+                class="nuevo-viaje-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                hide-selected
+                fill-input
+                v-model="viajeCreation.acopladoId"
+                :rules="[reglas.requerido]"
+                :options="acoplados"
+                option-value="id"
+                option-label="modelo"
+                label="Acoplado"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarAcoplados"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-select
+                class="nuevo-viaje-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="viajeCreation.cargaId"
+                :options="direccionesCarga"
+                option-value="id"
+                option-label="direccion"
+                label="Direccion de carga"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarDireccionesCarga"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-select
+                class="nuevo-viaje-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="viajeCreation.origenId"
+                :rules="[reglas.requerido]"
+                :options="direccionesOrigen"
+                option-value="id"
+                option-label="direccion"
+                label="Direccion de origen"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarDireccionesOrigen"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-select
+                class="nuevo-viaje-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="viajeCreation.destinoId"
+                :rules="[reglas.requerido]"
+                :options="direccionesDestino"
+                option-value="id"
+                option-label="direccion"
+                label="Direccion de destino"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarDireccionesDestino"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+          </div>
+          <div class="row justify-end q-mr-xl q-my-md">
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
+              Siguiente
+            </q-btn>
+          </div>
+        </q-form>
+      </q-card-section>
 
-          <q-step :name="3" title="Create an ad" icon="add_comment">
-            Try out different ad text to see what brings in the most customers, and learn
-            how to enhance your ads using features like ad extensions. If you run into any
-            problems with your ads, find out how to tell if they're running and how to
-            resolve approval issues.
-          </q-step>
+      <q-card-section v-if="paso3">
+        <q-form v-on:submit.prevent="fGuardarViaje">
+          <div class="row justify-around">
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-input
+                class="nuevo-viaje-input"
+                mask="##############"
+                v-model.number="viajeCreation.pesoNeto"
+                :rules="[reglas.requerido]"
+                outlined
+                dense
+                clearable
+                label="Peso neto aprox"
+                hint="Ingresá un número."
+              >
+              </q-input>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-input
+                class="nuevo-viaje-input"
+                v-model="viajeCreation.numeroGuia"
+                :rules="[reglas.requerido]"
+                outlined
+                dense
+                clearable
+                label="Número de guía"
+              >
+              </q-input>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-input
+                class="nuevo-viaje-input"
+                mask="##############"
+                v-model.number="viajeCreation.kmVacio"
+                :rules="[reglas.requerido]"
+                outlined
+                dense
+                clearable
+                label="Kilometros vacio"
+                hint="Ingresá un número."
+              >
+              </q-input>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-input
+                class="nuevo-viaje-input"
+                mask="##############"
+                v-model.number="viajeCreation.kmCargado"
+                :rules="[reglas.requerido]"
+                outlined
+                dense
+                clearable
+                label="Kilometros cargado"
+                hint="Ingresá un número."
+              >
+              </q-input>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-input
+                class="nuevo-viaje-input"
+                v-model.number="viajeCreation.valorKm"
+                :rules="[reglas.requerido]"
+                outlined
+                dense
+                clearable
+                label="Valor kilometro"
+                hint="Ingresá un número."
+              >
+              </q-input>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-input
 
-          <template v-slot:navigation>
-            <q-stepper-navigation>
-              <q-btn
-                @click="$refs.stepper.next()"
-                color="primary"
-                :label="step === 3 ? 'Finish' : 'Continue'"
+                class="nuevo-viaje-input"
+                type="textarea"
+                v-model="viajeCreation.notas"
+                outlined
+                dense
+                clearable
+                label="Notas"
               />
-              <q-btn
-                v-if="step > 1"
-                flat
-                color="primary"
-                @click="$refs.stepper.previous()"
-                label="Back"
-                class="q-ml-sm"
-              />
-            </q-stepper-navigation>
-          </template>
-        </q-stepper>
+            </div>
+          </div>
+          <div class="row justify-end q-mr-xl q-my-md">
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
+              Finalizar
+            </q-btn>
+          </div>
+        </q-form>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -1213,6 +1531,7 @@ import { conductorService } from 'src/services/conductor_service'
 import { clienteService } from 'src/services/cliente_service'
 import { direccionService } from 'src/services/direccion_service'
 import { notificarService } from 'src/helpers/notificar_service'
+import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { viajeService } from 'src/services/viaje_service'
 import { ViajeCreation } from 'src/models/creation/viaje_creation'
 import { ViajeModel } from 'src/models/viaje_model'
@@ -1237,63 +1556,62 @@ const columnas = [
     sortable: true
   },
   {
+    name: 'fecha',
+    label: 'Fecha',
+    align: 'left',
+    field: 'fecha',
+    sortOrder: 'da',
+    sortable: true
+  },
+  {
     name: 'conductor',
     label: 'Conductor',
     align: 'left',
-    field: '',
+    field: 'conductor',
     sortable: true
   },
   {
     name: 'camion',
     label: 'Camion',
     align: 'left',
-    field: '',
-    sortable: true
+    field: ''
   },
   {
     name: 'comprador',
     label: 'Comprador',
     align: 'left',
-    field: '',
-    sortable: true
-  },
-  {
-    name: 'vendedor',
-    label: 'Vendedor',
-    align: 'left',
-    field: '',
+    field: 'comprador',
     sortable: true
   },
   {
     name: 'categoria',
     label: 'Categoria',
     align: 'left',
-    field: '',
-    sortable: true
+    field: ''
   },
   {
     name: 'cantidadTransportada',
     label: 'Cantidad',
     align: 'center',
-    field: 'cantidadTransportada'
+    field: ''
   },
   {
     name: 'kmVacio',
     label: 'Km Vacio',
     align: 'center',
-    field: 'kmVacio'
+    field: ''
   },
   {
     name: 'kmCargado',
     label: 'Km Cargado',
     align: 'center',
-    field: 'kmCargado'
+    field: ''
   },
   {
     name: 'valorKm',
     label: 'Valor Km',
     align: 'center',
-    field: 'valorKm'
+    field: ''
   }
 ]
 
@@ -1301,6 +1619,8 @@ export default {
   setup () {
     const $q = useQuasar()
     const sesion = ref(uuidv4())
+    const reglas = reactive(reglasValidacion.reglas)
+    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
 
     const editAcoplado = ref(false)
     const editCamion = ref(false)
@@ -1321,9 +1641,6 @@ export default {
     const editVendedor = ref(false)
     const nuevoViajeDialog = ref(false)
 
-    const esAdmin = ref(
-      autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)
-    )
     const acoplado = ref(null)
     const acoplados = ref(null)
     const acopladosList = ref([])
@@ -1369,7 +1686,11 @@ export default {
     const vendedores = ref([])
 
     const clientesList = ref([])
+    const filtrado = ref('')
     const nuevaBusqueda = ref(false)
+    const paso1 = ref(false)
+    const paso2 = ref(false)
+    const paso3 = ref(true)
     const viajeCreation = reactive(new ViajeCreation())
     const viajeModel = reactive(new ViajeModel())
     const viajes = ref([])
@@ -2606,6 +2927,25 @@ export default {
       return ayuda.getDateWithFormat(fecha)
     }
 
+    function fGuardarViaje () {
+      paso1.value = true
+      paso2.value = false
+      paso3.value = false
+      console.log(viajeCreation)
+    }
+
+    function fIrPaso2 () {
+      paso1.value = false
+      paso2.value = true
+      console.log(viajeCreation)
+    }
+
+    function fIrPaso3 () {
+      paso2.value = false
+      paso3.value = true
+      console.log(viajeCreation)
+    }
+
     function fLimpiarInputs (actual) {
       editAcoplado.value = false
       acoplado.value = null
@@ -2739,6 +3079,22 @@ export default {
       editNotas.value = true
     }
 
+    function fMostrarNuevoViaje () {
+      afBuscarConductores().then(() => {
+        afBuscarClientes().then(() => {
+          afBuscarAcoplados().then(() => {
+            afBuscarCamiones().then(() => {
+              afBuscarCategoriasViaje().then(() => {
+                afBuscarDirecciones().then(() => {
+                  nuevoViajeDialog.value = true
+                })
+              })
+            })
+          })
+        })
+      })
+    }
+
     function fMostrarNumeroGuia () {
       fLimpiarInputs()
       editNumeroGuia.value = true
@@ -2840,12 +3196,22 @@ export default {
 
       columnas,
       esAdmin,
+      filtrado,
       nuevaBusqueda,
-      nuevoViajeDialog,
       paginacion,
+      reglas,
+      viajes,
+
+      fIrPaso2,
+      fIrPaso3,
+      fGuardarViaje,
+      fMostrarNuevoViaje,
+      nuevoViajeDialog,
+      paso1,
+      paso2,
+      paso3,
       viajeCreation,
       viajeModel,
-      viajes,
 
       fMostrarAcoplado,
       fMostrarCamion,
@@ -2897,5 +3263,8 @@ export default {
 .item-lista {
   border-bottom: 2px solid white;
   padding: 5px;
+}
+.nuevo-viaje-input {
+  width: 250px;
 }
 </style>

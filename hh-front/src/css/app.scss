@@ -119,3 +119,14 @@ span {
 .cursor-mano {
   cursor: pointer;
 }
+// svg filter
+
+.svg-primary {
+  filter: invert(28%) sepia(17%) saturate(938%) hue-rotate(172deg) brightness(98%) contrast(89%);
+}
+.svg-secondary {
+  filter: invert(40%) sepia(36%) saturate(413%) hue-rotate(164deg) brightness(91%) contrast(81%);
+}
+.svg-accent {
+  filter: invert(51%) sepia(48%) saturate(575%) hue-rotate(123deg) brightness(92%) contrast(88%);
+}

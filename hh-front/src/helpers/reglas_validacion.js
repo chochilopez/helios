@@ -1,6 +1,7 @@
 const reglas = {
-  requerido: (value) => !!value || 'Por favor ingresa algo',
-  min3: (value) => value.length >= 8 || 'Al menos 3 caracteres',
+  requerido: (value) => !!value || 'Informacion necesaria',
+  min1: (value) => value.length >= 1 || 'Informacion necesaria',
+  min3: (value) => value.length >= 3 || 'Al menos 3 caracteres',
   min8: (value) => value.length >= 8 || 'Al menos 8 caracteres',
   min100: (value) => value.length >= 100 || 'Al menos 100 caracteres',
   max10: (value) => value.length <= 10 || 'Cómo máximo 10 carácteres',
