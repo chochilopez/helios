@@ -7,7 +7,7 @@ export class PresupuestoCreation {
     this.categoriaViajeId = ''
     this.compradorId = ''
     this.destinoId = ''
-    this.fechaId = ''
+    this.fecha = ''
     this.origenId = ''
   }
 }

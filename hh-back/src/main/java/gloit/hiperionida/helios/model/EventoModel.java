@@ -23,4 +23,16 @@ public class EventoModel extends AbsAuditoriaModel {
     private Boolean habilitada;
     private Boolean recordatorio;
     private String nombre;
+
+    public EventoModel(LocalDateTime fecha, String descripcion, Boolean habilitada, Boolean recordatorio, String nombre, LocalDateTime creada, Long creadorId) {
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.habilitada = habilitada;
+        this.recordatorio = recordatorio;
+        this.nombre = nombre;
+        this.setCreada(creada);
+        this.setCreador_id(creadorId);
+    }
 }
+
+

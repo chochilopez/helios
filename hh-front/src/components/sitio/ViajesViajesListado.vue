@@ -1103,7 +1103,7 @@
               <q-input
                 class="nuevo-viaje-input"
                 mask="##-##-####"
-                v-model="viajeCreation.fechaId"
+                v-model="viajeCreation.fecha"
                 :rules="[reglas.requerido,]"
                 outlined
                 dense
@@ -1114,7 +1114,7 @@
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-date v-model="viajeCreation.fechaId" mask="DD-MM-YYYY">
+                      <q-date v-model="viajeCreation.fecha" mask="DD-MM-YYYY">
                         <div class="row items-center justify-end">
                           <q-btn v-close-popup label="OK" color="primary" flat />
                         </div>
@@ -1427,7 +1427,7 @@
               <q-input
                 class="nuevo-viaje-input"
                 mask="##############"
-                v-model.number="viajeCreation.pesoNeto"
+                v-model.number="viajeCreation.neto"
                 :rules="[reglas.requerido]"
                 outlined
                 dense
@@ -1440,7 +1440,7 @@
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-viaje-input"
-                v-model="viajeCreation.numeroGuia"
+                v-model="viajeCreation.guia"
                 :rules="[reglas.requerido]"
                 outlined
                 dense
@@ -1482,6 +1482,8 @@
                 class="nuevo-viaje-input"
                 v-model.number="viajeCreation.valorKm"
                 :rules="[reglas.requerido]"
+                :max-decimals="2"
+                type="number"
                 outlined
                 dense
                 clearable
@@ -1535,6 +1537,7 @@ import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { viajeService } from 'src/services/viaje_service'
 import { ViajeCreation } from 'src/models/creation/viaje_creation'
 import { ViajeModel } from 'src/models/viaje_model'
+import { AcopladoCreation } from 'src/models/creation/acoplado_creation'
 
 const paginacion = {
   rowsPerPage: 50,
@@ -1688,12 +1691,31 @@ export default {
     const clientesList = ref([])
     const filtrado = ref('')
     const nuevaBusqueda = ref(false)
-    const paso1 = ref(false)
+    const paso1 = ref(true)
     const paso2 = ref(false)
-    const paso3 = ref(true)
+    const paso3 = ref(false)
     const viajeCreation = reactive(new ViajeCreation())
     const viajeModel = reactive(new ViajeModel())
     const viajes = ref([])
+
+    viajeCreation.acopladoId = '5'
+    viajeCreation.camionId = '1'
+    viajeCreation.cantidadTransportada = '111'
+    viajeCreation.cargaId = '28'
+    viajeCreation.categoriaViajeId = '1'
+    viajeCreation.compradorId = '34'
+    viajeCreation.conductorId = '13'
+    viajeCreation.destinoId = '49'
+    viajeCreation.fecha = '01-01-2020'
+    viajeCreation.guia = '123123123123'
+    viajeCreation.intermediarioId = '766'
+    viajeCreation.kmCargado = 444
+    viajeCreation.kmVacio = 333
+    viajeCreation.neto = 222
+    viajeCreation.notas = '123'
+    viajeCreation.origenId = '28'
+    viajeCreation.valorKm = 555
+    viajeCreation.vendedorId = '167'
 
     afBuscarPaginadas()
 
@@ -2803,6 +2825,36 @@ export default {
       }
     }
 
+    async function afGuardarViaje () {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await viajeService.spfGuardar(viajeCreation)
+        if (resultado.status === 201) {
+          console.log(resultado.headers.mensaje)
+          viajeModel.value = resultado.data
+          $q.loading.hide()
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          viajes.value = []
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta(
+            'Advertencia: ' + err.response.headers.mensaje
+          )
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
     function fFiltrarAcoplados (val, update, abort) {
       if (val.length < 3) {
         abort()
@@ -2928,22 +2980,22 @@ export default {
     }
 
     function fGuardarViaje () {
-      paso1.value = true
-      paso2.value = false
-      paso3.value = false
-      console.log(viajeCreation)
+      afGuardarViaje().then(() => {
+        paso1.value = true
+        paso2.value = false
+        paso3.value = false
+        console.log(viajeCreation)
+      })
     }
 
     function fIrPaso2 () {
       paso1.value = false
       paso2.value = true
-      console.log(viajeCreation)
     }
 
     function fIrPaso3 () {
       paso2.value = false
       paso3.value = true
-      console.log(viajeCreation)
     }
 
     function fLimpiarInputs (actual) {

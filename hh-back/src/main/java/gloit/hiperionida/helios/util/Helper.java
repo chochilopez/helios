@@ -49,6 +49,7 @@ public class Helper {
             if (format.isEmpty())
                 format = "HH:mm:ss dd-MM-yyyy";
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+            System.out.println(LocalDateTime.parse(date, dateTimeFormatter));
 
             return LocalDateTime.parse(date, dateTimeFormatter);
         } catch (Exception e) {

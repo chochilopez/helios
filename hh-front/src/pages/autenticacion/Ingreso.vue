@@ -31,8 +31,9 @@
 
 <script>
 import { notificarService } from 'src/helpers/notificar_service'
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { useQuasar, QSpinnerCube } from 'quasar'
+import { ref, reactive, onMounted } from 'vue'
+import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
 
@@ -41,11 +42,26 @@ const PASSWORD = process.env.APP_PASSWORD_ADMIN
 
 export default {
   setup () {
+    const $q = useQuasar()
     const router = useRouter()
     const cargando = ref(false)
     const password = ref(PASSWORD)
     const username = ref(USERNAME)
     const reglas = reactive(reglasValidacion.reglas)
+
+    onMounted(() => {
+      $q.loading.hide()
+    })
+
+    onBeforeRouteLeave((to, from, next) => {
+      $q.loading.show({
+        spinner: QSpinnerCube,
+        message: 'Cargando...',
+        boxClass: 'paleta1-color4 paleta1-fondo1',
+        spinnerColor: 'paleta1-color5'
+      })
+      next()
+    })
 
     async function afLoguearUsuario () {
       cargando.value = true

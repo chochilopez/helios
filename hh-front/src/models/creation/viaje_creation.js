@@ -10,7 +10,7 @@ export class ViajeCreation {
     this.categoriaViajeId = ''
     this.compradorId = ''
     this.destinoId = ''
-    this.fechaId = ''
+    this.fecha = ''
     this.origenId = ''
     this.acopladoId = ''
     this.camionId = ''

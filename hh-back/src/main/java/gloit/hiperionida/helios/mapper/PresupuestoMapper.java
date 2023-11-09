@@ -48,8 +48,6 @@ public class PresupuestoMapper {
                 model.setCompradorId(Helper.getLong(creation.getCompradorId()));
             if (Helper.getLong(creation.getDestinoId()) != null)
                 model.setDestinoId(Helper.getLong(creation.getDestinoId()));
-            if (Helper.getLong(creation.getFechaId()) != null)
-                model.setFechaId(Helper.getLong(creation.getFechaId()));
             if (Helper.getLong(creation.getOrigenId()) != null)
                 model.setOrigenId(Helper.getLong(creation.getOrigenId()));
 

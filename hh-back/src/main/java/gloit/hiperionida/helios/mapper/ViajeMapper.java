@@ -1,5 +1,6 @@
 package gloit.hiperionida.helios.mapper;
 
+import gloit.hiperionida.helios.mapper.creation.EventoCreation;
 import gloit.hiperionida.helios.mapper.creation.ViajeCreation;
 import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.*;
@@ -8,6 +9,7 @@ import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
+import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -26,8 +28,7 @@ public class ViajeMapper {
     private final ConductorDAO conductorDAO;
     private final DireccionDAO direccionDAO;
     private final EventoDAO eventoDAO;
-    private final GastoDAO gastoDAO;
-    private final UsuarioDAO usuarioDAO;
+    private final UsuarioServiceImpl usuarioService;
 
 
     public ViajeModel toEntity(ViajeCreation creation) {
@@ -47,6 +48,21 @@ public class ViajeMapper {
             model.setNotas(creation.getNotas());
             model.setGuia(creation.getGuia());
 
+            //TODO CAMBIAR NOMBRE DEL CAMPO FECHAID A FECHA
+            if (creation.getFecha() != null) {
+                Optional<ClienteModel> clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId()));
+
+                EventoModel evento = eventoDAO.save(new EventoModel(
+                        Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
+                        "Viaje para " + clienteModel.get().getNombre(),
+                        null,
+                        null,
+                        "Viaje",
+                        Helper.getNow(""),
+                        usuarioService.obtenerUsuario().getId()
+                ));
+                model.setFechaId(evento.getId());
+            }
             if (Helper.getLong(creation.getAcopladoId()) != null)
                 model.setAcopladoId(Helper.getLong(creation.getAcopladoId()));
             if (Helper.getLong(creation.getCamionId()) != null)
@@ -61,12 +77,12 @@ public class ViajeMapper {
                 model.setConductorId(Helper.getLong(creation.getConductorId()));
             if (Helper.getLong(creation.getDestinoId()) != null)
                 model.setDestinoId(Helper.getLong(creation.getDestinoId()));
-            if (Helper.getLong(creation.getFechaId()) != null)
-                model.setFechaId(Helper.getLong(creation.getFechaId()));
             if (Helper.getLong(creation.getOrigenId()) != null)
                 model.setOrigenId(Helper.getLong(creation.getOrigenId()));
             if (Helper.getLong(creation.getVendedorId()) != null)
                 model.setVendedorId(Helper.getLong(creation.getVendedorId()));
+            if (Helper.getLong(creation.getIntermediarioId()) != null)
+                model.setIntermediarioId(Helper.getLong(creation.getIntermediarioId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -141,15 +157,15 @@ public class ViajeMapper {
                 dto.setVendedor(clienteDAO.findByIdAndEliminadaIsNull(model.getVendedorId()).get().getNombre());
 
             if (model.getCreador_id() != null)
-                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+                dto.setCreador(usuarioService.buscarPorId(model.getCreador_id()).getNombre());
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().toString());
             if (model.getModificador_id() != null)
-                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+                dto.setModificador(usuarioService.buscarPorId(model.getModificador_id()).getNombre());
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().toString());
             if (model.getEliminador_id() != null)
-                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+                dto.setEliminador(usuarioService.buscarPorId(model.getEliminador_id()).getNombre());
             if (model.getEliminada() != null)
                 dto.setEliminada(model.getEliminada().toString());
 
