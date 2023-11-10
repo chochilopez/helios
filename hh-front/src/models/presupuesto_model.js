@@ -6,6 +6,7 @@ export class PresupuestoModel {
     this.comprador = ''
     this.destino = ''
     this.fecha = ''
+    this.fechaEmision = ''
     this.kmCargado = ''
     this.notas = ''
     this.origen = ''

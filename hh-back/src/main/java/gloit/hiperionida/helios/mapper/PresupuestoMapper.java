@@ -104,6 +104,8 @@ public class PresupuestoMapper {
             }
             if (model.getFechaId() != null)
                 dto.setFecha(eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).get().getFecha().toString());
+            if (model.getCreada() != null)
+                dto.setFechaEmision(model.getCreada().toString());
             if (model.getKmCargado() != null)
                 dto.setKmCargado(model.getKmCargado().toString());
             dto.setNotas(model.getNotas());

@@ -57,14 +57,6 @@
                       <q-item-label>Comprador</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccionCarga">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-truck-ramp-box" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Dirección carga</q-item-label>
-                    </q-item-section>
-                  </q-item>
                   <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccionDestino">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-map-location" />
@@ -86,7 +78,7 @@
                       <q-icon name="fa-solid fa-calendar-days" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label>Fecha viaje</q-item-label>
+                      <q-item-label>Fecha emision</q-item-label>
                     </q-item-section>
                   </q-item>
                   <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarKilometrosCargado">
@@ -95,14 +87,6 @@
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>Kilometros cargado</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarKilometrosVacio">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-truck-pickup" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Kilometros vacio</q-item-label>
                     </q-item-section>
                   </q-item>
                   <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
@@ -119,14 +103,6 @@
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>Valor kilometro</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarVendedor">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-cash-register" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Vendedor</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -231,33 +207,6 @@
               >
                 <template v-slot:before>
                   <q-icon name="monetization_on" class="q-mx-xs" />
-                </template>
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-              <q-select
-                v-if="editDireccionCarga"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="direccionCarga"
-                :options="direccionesCarga"
-                option-value="id"
-                option-label="direccion"
-                label="Buscar por carga"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarDireccionesCarga"
-                @update:model-value="afBuscarPorDireccionCargaId()"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:before>
-                  <q-icon name="fa-solid fa-truck-ramp-box" class="q-mx-xs" />
                 </template>
                 <template v-slot:no-option>
                   <q-item>
@@ -416,50 +365,6 @@
                   />
                 </div>
               </div>
-              <div class="column" v-if="editKilometrosVacio">
-                <div class="row justify-between">
-                  <div class="col">
-                    <q-chip
-                      v-model:selected="kmVacioChip.izq"
-                      :class="{ 'paleta2-fondo2': kmVacioChip.izq, 'edits-fondo': !kmVacioChip.izq  }"
-                      text-color="white"
-                      size="12px"
-                      icon="fa-solid fa-minus"
-                      @update:selected="afBuscarPorKilometrosVacio()"
-                    >
-                      Mínimo
-                    </q-chip>
-                  </div>
-                  <div class="edits col text-center">
-                    <span>Kms vacio</span><br />
-                    <q-icon name="fa-solid fa-truck-pickup" />
-                  </div>
-                  <div class="col text-right">
-                    <q-chip
-                      v-model:selected="kmVacioChip.der"
-                      :class="{ 'paleta2-fondo2': kmVacioChip.der, 'edits-fondo': !kmVacioChip.der  }"
-                      text-color="white"
-                      size="12px"
-                      icon="fa-solid fa-plus"
-                      @update:selected="afBuscarPorKilometrosVacio()"
-                    >
-                      Máximo
-                    </q-chip>
-                  </div>
-                </div>
-                <div class="row">
-                  <q-range
-                    label-always
-                    switch-label-side
-                    color="grey-6"
-                    v-model="kmVacio"
-                    :min="1"
-                    :max="1000"
-                    label
-                    @change="kmVacioChip.izq = false, kmVacioChip.der = false"
-                  />
-                </div>
-              </div>
               <q-input
                 v-if="editNotas"
                 outlined
@@ -526,33 +431,6 @@
                   />
                 </div>
               </div>
-              <q-select
-                v-if="editVendedor"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="vendedor"
-                :options="vendedores"
-                option-value="id"
-                option-label="nombre"
-                label="Buscar por vendedor"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarVendedores"
-                @update:model-value="afBuscarPorVendedorId()"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:before>
-                  <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
-                </template>
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
             </div>
           </div>
         </template>
@@ -583,6 +461,9 @@
             </q-td>
             <q-td>
               {{ props.row.destino }}
+            </q-td>
+            <q-td>
+              {{ fFormatoFecha(props.row.fechaEmision) }}
             </q-td>
             <q-td>
               {{ fFormatoFecha(props.row.fecha) }}
@@ -624,16 +505,16 @@
                   <div class="row paleta1-color2">Destino</div>
                 </div>
                 <div v-if="props.row.fecha != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.fecha }}</div>
+                  <div class="row text-white">{{ fFormatoFecha(props.row.fecha) }}</div>
+                  <div class="row paleta1-color2">Fecha viaje</div>
+                </div>
+                <div v-if="props.row.fecha != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                  <div class="row text-white">{{ fFormatoFecha(props.row.fechaEmision) }}</div>
                   <div class="row paleta1-color2">Fecha emisión</div>
                 </div>
                 <div v-if="props.row.kmCargado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
                   <div class="row text-white">{{ props.row.kmCargado }}</div>
                   <div class="row paleta1-color2">Kilometro cargado</div>
-                </div>
-                <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.notas }}</div>
-                  <div class="row paleta1-color2">Notas</div>
                 </div>
                 <div v-if="props.row.origen != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.origen }}</div>
@@ -650,6 +531,34 @@
                 <div v-if="props.row.valorKm != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ (props.row.valorKm * props.row.kmCargado).toFixed(2) }}</div>
                   <div class="row paleta1-color2">Total</div>
+                </div>
+                <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.creador }}</div>
+                  <div class="row paleta1-color2">Creador</div>
+                </div>
+                <div v-if="props.row.creado != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.creado }}</div>
+                  <div class="row paleta1-color2">Creado</div>
+                </div>
+                <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.modificador }}</div>
+                  <div class="row paleta1-color2">Modificador</div>
+                </div>
+                <div v-if="props.row.modificado != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.modificado }}</div>
+                  <div class="row paleta1-color2">Modificado</div>
+                </div>
+                <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.eliminador }}</div>
+                  <div class="row paleta1-color2">Eliminador</div>
+                </div>
+                <div v-if="props.row.eliminado != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.elimiando }}</div>
+                  <div class="row paleta1-color2">Elimiando</div>
+                </div>
+                <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.notas }}</div>
+                  <div class="row paleta1-color2">Notas</div>
                 </div>
               </div>
             </q-td>
@@ -772,56 +681,6 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
-              <q-select
-                class="nuevo-presupuesto-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="presupuestoCreation.vendedorId"
-                :options="vendedores"
-                option-value="id"
-                option-label="nombre"
-                label="Vendedor"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarVendedores"
-                hint="Ingresá 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
-              <q-select
-                class="nuevo-presupuesto-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="presupuestoCreation.intermediarioId"
-                :options="intermediarios"
-                option-value="id"
-                option-label="nombre"
-                label="Intermediario"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarIntermediarios"
-                hint="Ingresá 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
           </div>
           <div class="row justify-end q-mr-xl q-my-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
@@ -834,112 +693,6 @@
       <q-card-section v-if="paso2">
         <q-form v-on:submit.prevent="fIrPaso3">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
-              <q-select
-                class="nuevo-presupuesto-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="presupuestoCreation.conductorId"
-                :options="conductores"
-                option-value="id"
-                option-label="nombre"
-                label="Buscar por conductor"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarConductores"
-                hint="Ingresá 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
-              <q-select
-                class="nuevo-presupuesto-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="presupuestoCreation.camionId"
-                :rules="[reglas.requerido]"
-                :options="camiones"
-                option-value="id"
-                option-label="modelo"
-                label="Camión"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarCamiones"
-                hint="Ingresá 3 caracteres para buscar."
-                hide-selected
-                fill-input
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
-              <q-select
-                class="nuevo-presupuesto-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                hide-selected
-                fill-input
-                v-model="presupuestoCreation.acopladoId"
-                :rules="[reglas.requerido]"
-                :options="acoplados"
-                option-value="id"
-                option-label="modelo"
-                label="Acoplado"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarAcoplados"
-                hint="Ingresá 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
-              <q-select
-                class="nuevo-presupuesto-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="presupuestoCreation.cargaId"
-                :options="direccionesCarga"
-                option-value="id"
-                option-label="direccion"
-                label="Direccion de carga"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarDireccionesCarga"
-                hint="Ingresá 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
                 class="nuevo-presupuesto-input"
@@ -992,58 +745,6 @@
                 </template>
               </q-select>
             </div>
-          </div>
-          <div class="row justify-end q-mr-xl q-my-md">
-            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
-              Siguiente
-            </q-btn>
-          </div>
-        </q-form>
-      </q-card-section>
-
-      <q-card-section v-if="paso3">
-        <q-form v-on:submit.prevent="fGuardarPresupuesto">
-          <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
-              <q-input
-                class="nuevo-presupuesto-input"
-                mask="##############"
-                v-model.number="presupuestoCreation.neto"
-                :rules="[reglas.requerido]"
-                outlined
-                dense
-                clearable
-                label="Peso neto aprox"
-                hint="Ingresá un número."
-              >
-              </q-input>
-            </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
-              <q-input
-                class="nuevo-presupuesto-input"
-                v-model="presupuestoCreation.guia"
-                :rules="[reglas.requerido]"
-                outlined
-                dense
-                clearable
-                label="Número de guía"
-              >
-              </q-input>
-            </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
-              <q-input
-                class="nuevo-presupuesto-input"
-                mask="##############"
-                v-model.number="presupuestoCreation.kmVacio"
-                :rules="[reglas.requerido]"
-                outlined
-                dense
-                clearable
-                label="Kilometros vacio"
-                hint="Ingresá un número."
-              >
-              </q-input>
-            </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-presupuesto-input"
@@ -1073,12 +774,39 @@
               >
               </q-input>
             </div>
+          </div>
+          <div class="row justify-end q-mr-xl q-my-md">
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
+              Siguiente
+            </q-btn>
+          </div>
+        </q-form>
+      </q-card-section>
+
+      <q-card-section v-if="paso3">
+        <q-form v-on:submit.prevent="fGuardarPresupuesto">
+          <div class="row justify-around">
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-
-                class="nuevo-presupuesto-input"
+                class="nuevo-viaje-input"
+                v-model.number="presupuestoCreation.validez"
+                :rules="[reglas.requerido]"
+                :max-decimals="2"
+                type="number"
+                outlined
+                dense
+                clearable
+                label="Validez en días"
+                hint="Ingresá un número."
+              >
+              </q-input>
+            </div>
+            <div class="col-xs-5 q-mx-xs q-my-md">
+              <q-input
+                class="nuevo-viaje-input"
                 type="textarea"
                 v-model="presupuestoCreation.notas"
+                autogrow
                 outlined
                 dense
                 clearable
@@ -1160,8 +888,14 @@ const columnas = [
     field: ''
   },
   {
-    name: 'fecha',
+    name: 'fechaEmision',
     label: 'Fecha emisión',
+    align: 'left',
+    field: ''
+  },
+  {
+    name: 'fecha',
+    label: 'Fecha viaje',
     align: 'left',
     field: ''
   },
@@ -1196,56 +930,45 @@ const columnas = [
 export default {
   setup () {
     const $q = useQuasar()
-    const sesion = ref(uuidv4())
-    const reglas = reactive(reglasValidacion.reglas)
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
-
-    const editCantidadTransportada = ref(false)
-    const editCategoriaViaje = ref(false)
-    const editComprador = ref(true)
-    const editDireccionCarga = ref(false)
-    const editDireccionDestino = ref(false)
-    const editDireccionOrigen = ref(false)
-    const editFecha = ref(false)
-    const editKilometrosCargado = ref(false)
-    const editKilometrosVacio = ref(false)
-    const editNotas = ref(false)
-    const editValorKilomertro = ref(false)
-    const editVendedor = ref(false)
-    const nuevoPresupuestoDialog = ref(false)
 
     const cantidadTransportada = ref({ min: 0, max: 300 })
     const cantidadTransportadaChip = ref({ izq: false, der: false })
     const categoriaViaje = ref(null)
     const categoriasViaje = ref([])
     const categoriasViajeList = ref([])
+    const clientesList = ref([])
     const comprador = ref(null)
     const compradores = ref([])
-    const direccionCarga = ref(null)
-    const direccionesCarga = ref([])
     const direccionDestino = ref(null)
     const direccionesDestino = ref([])
     const direccionOrigen = ref(null)
     const direccionesOrigen = ref([])
     const direccionesList = ref([])
+    const editCantidadTransportada = ref(false)
+    const editCategoriaViaje = ref(false)
+    const editComprador = ref(true)
+    const editDireccionDestino = ref(false)
+    const editDireccionOrigen = ref(false)
+    const editFecha = ref(false)
+    const editKilometrosCargado = ref(false)
+    const editNotas = ref(false)
+    const editValorKilomertro = ref(false)
+    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const fecha = ref({ from: null, to: null })
     const kmCargado = ref({ min: 0, max: 1000 })
     const kmCargadoChip = ref({ izq: false, der: false })
-    const kmVacio = ref({ min: 0, max: 1000 })
-    const kmVacioChip = ref({ izq: false, der: false })
     const notas = ref(null)
-    const valorKm = ref({ min: 0, max: 2000 })
-    const valorKmChip = ref({ izq: false, der: false })
-    const vendedor = ref(null)
-    const vendedores = ref([])
-
-    const clientesList = ref([])
     const nuevaBusqueda = ref(false)
+    const nuevoPresupuestoDialog = ref(false)
     const paso1 = ref(true)
     const paso2 = ref(false)
     const paso3 = ref(false)
-    const presupuestoCreation = reactive(new PresupuestoCreation())
     const presupuestos = ref([])
+    const presupuestoCreation = reactive(new PresupuestoCreation())
+    const reglas = reactive(reglasValidacion.reglas)
+    const sesion = ref(uuidv4())
+    const valorKm = ref({ min: 0, max: 2000 })
+    const valorKmChip = ref({ izq: false, der: false })
 
     afBuscarPaginadas()
 
@@ -1527,40 +1250,6 @@ export default {
       }
     }
 
-    async function afBuscarPorDireccionCargaId () {
-      if (direccionCarga.value != null) {
-        $q.loading.show()
-        try {
-          let resultado = null
-          if (esAdmin.value) {
-            resultado = await presupuestoService.spfBuscarTodasPorDireccionCargaIdConEliminadas(direccionCarga.value)
-          } else {
-            resultado = await presupuestoService.spfBuscarTodasPorDireccionCargaId(direccionCarga.value)
-          }
-          if (resultado.status === 200) {
-            console.log(resultado.headers.mensaje)
-            presupuestos.value = resultado.data
-            $q.loading.hide()
-          }
-        } catch (err) {
-          console.clear()
-          if (err.response.status === 404) {
-            presupuestos.value = []
-            console.info(err.response.headers.mensaje)
-            notificarService.infoAlerta(err.response.headers.mensaje)
-          } else if (err.response.headers.mensaje) {
-            console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-          } else {
-            const mensaje = 'Hubo un error al intentar obtener el listado.'
-            notificarService.notificarError(mensaje)
-            console.error(mensaje)
-          }
-          $q.loading.hide()
-        }
-      }
-    }
-
     async function afBuscarPorDireccionDestinoId () {
       if (direccionDestino.value != null) {
         $q.loading.show()
@@ -1711,42 +1400,6 @@ export default {
       }
     }
 
-    async function afBuscarPorKilometrosVacio () {
-      if (kmVacioChip.value.izq === true && kmVacioChip.value.der === true) {
-        $q.loading.show()
-        try {
-          let resultado = null
-          if (esAdmin.value) {
-            resultado = await presupuestoService.spfBuscarTodasPorRangoKmVacioConEliminadas(kmVacio.value.min, kmVacio.value.max)
-          } else {
-            resultado = await presupuestoService.spfBuscarTodasPorRangoKmVacio(kmVacio.value.min, kmVacio.value.max)
-          }
-          if (resultado.status === 200) {
-            console.log(resultado.headers.mensaje)
-            presupuestos.value = resultado.data
-            $q.loading.hide()
-          }
-        } catch (err) {
-          console.clear()
-          if (err.response.status === 404) {
-            presupuestos.value = []
-            console.info(err.response.headers.mensaje)
-            notificarService.infoAlerta(err.response.headers.mensaje)
-          } else if (err.response.headers.mensaje) {
-            console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-          } else {
-            const mensaje = 'Hubo un error al intentar obtener el listado.'
-            notificarService.notificarError(mensaje)
-            console.error(mensaje)
-          }
-          $q.loading.hide()
-        }
-        kmVacioChip.value.izq = false
-        kmVacioChip.value.der = false
-      }
-    }
-
     async function afBuscarPorNotas () {
       if (notas.value !== null && notas.value.length > 2) {
         $q.loading.show()
@@ -1817,40 +1470,6 @@ export default {
       }
     }
 
-    async function afBuscarPorVendedorId () {
-      if (vendedor.value != null) {
-        $q.loading.show()
-        try {
-          let resultado = null
-          if (esAdmin.value) {
-            resultado = await presupuestoService.spfBuscarTodasPorVendedorIdConEliminadas(vendedor.value)
-          } else {
-            resultado = await presupuestoService.spfBuscarTodasPorVendedorId(vendedor.value)
-          }
-          if (resultado.status === 200) {
-            console.log(resultado.headers.mensaje)
-            presupuestos.value = resultado.data
-            $q.loading.hide()
-          }
-        } catch (err) {
-          console.clear()
-          if (err.response.status === 404) {
-            presupuestos.value = []
-            console.info(err.response.headers.mensaje)
-            notificarService.infoAlerta(err.response.headers.mensaje)
-          } else if (err.response.headers.mensaje) {
-            console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-          } else {
-            const mensaje = 'Hubo un error al intentar obtener el listado.'
-            notificarService.notificarError(mensaje)
-            console.error(mensaje)
-          }
-          $q.loading.hide()
-        }
-      }
-    }
-
     async function afGuardarPresupuesto () {
       $q.loading.show()
       try {
@@ -1858,14 +1477,12 @@ export default {
         resultado = await presupuestoService.spfGuardar(presupuestoCreation)
         if (resultado.status === 201) {
           console.log(resultado.headers.mensaje)
-          presupuestos.value = resultado.data
           $q.loading.hide()
-          notificarService.notificarExito('Se creó correctamente el presupuesto.')
+          notificarService.notificarExito('Se creó correctamente el viaje.')
         }
       } catch (err) {
         console.clear()
         if (err.response.status === 404) {
-          presupuestos.value = []
           console.info(err.response.headers.mensaje)
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
@@ -1906,18 +1523,6 @@ export default {
       })
     }
 
-    function fFiltrarDireccionesCarga (val, update, abort) {
-      if (val.length < 3) {
-        abort()
-        return
-      }
-      update(() => {
-        direccionesCarga.value = direccionesList.value.filter(
-          (v) => v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1
-        )
-      })
-    }
-
     function fFiltrarDireccionesDestino (val, update, abort) {
       if (val.length < 3) {
         abort()
@@ -1938,18 +1543,6 @@ export default {
       update(() => {
         direccionesOrigen.value = direccionesList.value.filter(
           (v) => v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1
-        )
-      })
-    }
-
-    function fFiltrarVendedores (val, update, abort) {
-      if (val.length < 3) {
-        abort()
-        return
-      }
-      update(() => {
-        vendedores.value = clientesList.value.filter(
-          (v) => v.nombre.toLowerCase().indexOf(val.toLowerCase()) > -1
         )
       })
     }
@@ -1985,16 +1578,16 @@ export default {
     }
 
     function fLimpiarFormulario () {
-      presupuestoCreation.cantidadKm = null
       presupuestoCreation.cantidadTransportada = null
       presupuestoCreation.categoriaViajeId = null
       presupuestoCreation.compradorId = null
       presupuestoCreation.destinoId = null
       presupuestoCreation.fecha = null
+      presupuestoCreation.kmCargado = null
       presupuestoCreation.notas = null
       presupuestoCreation.origenId = null
       presupuestoCreation.validez = null
-      presupuestoCreation.kmCargado = null
+      presupuestoCreation.valorKm = null
     }
 
     function fLimpiarInputs (actual) {
@@ -2007,8 +1600,6 @@ export default {
       categoriaViaje.value = null
       editComprador.value = false
       comprador.value = null
-      editDireccionCarga.value = false
-      direccionCarga.value = null
       editDireccionDestino.value = false
       direccionDestino.value = null
       editDireccionOrigen.value = false
@@ -2021,11 +1612,6 @@ export default {
       kmCargado.value.max = 1000
       kmCargadoChip.value.izq = false
       kmCargadoChip.value.der = false
-      editKilometrosVacio.value = false
-      kmVacio.value.min = 0
-      kmVacio.value.max = 1000
-      kmVacioChip.value.izq = false
-      kmVacioChip.value.der = false
       editNotas.value = false
       notas.value = null
       editValorKilomertro.value = false
@@ -2033,8 +1619,6 @@ export default {
       valorKm.value.max = 2000
       valorKmChip.value.izq = false
       valorKmChip.value.der = false
-      editVendedor.value = false
-      vendedor.value = null
     }
 
     function fMostrarCantidadTransportada () {
@@ -2053,13 +1637,6 @@ export default {
       afBuscarClientes().then(() => {
         fLimpiarInputs()
         editComprador.value = true
-      })
-    }
-
-    function fMostrarDireccionCarga () {
-      afBuscarDirecciones().then(() => {
-        fLimpiarInputs()
-        editDireccionCarga.value = true
       })
     }
 
@@ -2087,11 +1664,6 @@ export default {
       editKilometrosCargado.value = true
     }
 
-    function fMostrarKilometrosVacio () {
-      fLimpiarInputs()
-      editKilometrosVacio.value = true
-    }
-
     function fMostrarNotas () {
       fLimpiarInputs()
       editNotas.value = true
@@ -2100,13 +1672,6 @@ export default {
     function fMostrarValorKilomertro () {
       fLimpiarInputs()
       editValorKilomertro.value = true
-    }
-
-    function fMostrarVendedor () {
-      afBuscarClientes().then(() => {
-        fLimpiarInputs()
-        editVendedor.value = true
-      })
     }
 
     function fMostrarNuevoPresupuesto () {
@@ -2128,83 +1693,62 @@ export default {
       afBuscarPorDireccionOrigenId,
       afBuscarPorFechaViaje,
       afBuscarPorKilometrosCargado,
-      afBuscarPorKilometrosVacio,
       afBuscarPorNotas,
       afBuscarPorValorKm,
-      afBuscarPorVendedorId,
-
-      editCantidadTransportada,
-      cantidadTransportada,
-      cantidadTransportadaChip,
-      editCategoriaViaje,
-      categoriaViaje,
-      categoriasViaje,
-      editComprador,
       comprador,
       compradores,
-      editDireccionCarga,
-      direccionCarga,
-      direccionesCarga,
-      editDireccionDestino,
+      cantidadTransportada,
+      cantidadTransportadaChip,
+      categoriaViaje,
+      categoriasViaje,
+      columnas,
       direccionDestino,
       direccionesDestino,
-      editDireccionOrigen,
       direccionOrigen,
       direccionesOrigen,
+      editCantidadTransportada,
+      editCategoriaViaje,
+      editComprador,
+      editDireccionDestino,
+      editDireccionOrigen,
       editFecha,
-      fecha,
       editKilometrosCargado,
-      kmCargado,
-      kmCargadoChip,
-      editKilometrosVacio,
-      kmVacio,
-      kmVacioChip,
       editNotas,
-      notas,
       editValorKilomertro,
-      valorKm,
-      valorKmChip,
-      editVendedor,
-      vendedor,
-      vendedores,
-
-      columnas,
       esAdmin,
-      nuevaBusqueda,
-      paginacion,
-      reglas,
-      presupuestos,
-
+      fecha,
+      fFiltrarCategoriasViaje,
+      fFiltrarCompradores,
+      fFiltrarDireccionesDestino,
+      fFiltrarDireccionesOrigen,
+      fFormatoFecha,
+      fGuardarPresupuesto,
       fIrPaso2,
       fIrPaso3,
-      fGuardarPresupuesto,
-      fMostrarNuevoPresupuesto,
-      nuevoPresupuestoDialog,
-      paso1,
-      paso2,
-      paso3,
-      presupuestoCreation,
-
       fMostrarCantidadTransportada,
       fMostrarCategoriaViaje,
       fMostrarComprador,
-      fMostrarDireccionCarga,
       fMostrarDireccionDestino,
       fMostrarDireccionOrigen,
       fMostrarFechaViaje,
       fMostrarKilometrosCargado,
-      fMostrarKilometrosVacio,
       fMostrarNotas,
+      fMostrarNuevoPresupuesto,
       fMostrarValorKilomertro,
-      fMostrarVendedor,
-
-      fFiltrarCategoriasViaje,
-      fFiltrarCompradores,
-      fFiltrarDireccionesCarga,
-      fFiltrarDireccionesDestino,
-      fFiltrarDireccionesOrigen,
-      fFiltrarVendedores,
-      fFormatoFecha,
+      kmCargado,
+      kmCargadoChip,
+      notas,
+      nuevaBusqueda,
+      nuevoPresupuestoDialog,
+      paginacion,
+      paso1,
+      paso2,
+      paso3,
+      presupuestoCreation,
+      presupuestos,
+      reglas,
+      valorKm,
+      valorKmChip,
 
       myLocale: {
         /* starting with Sunday */

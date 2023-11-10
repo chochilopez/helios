@@ -134,6 +134,28 @@ public class PresupuestoController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/buscar-todas-por-rango-km-cargado/{min}/{max}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorRangoKmCargado(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {
+        List<PresupuestoModel> listado = presupuestoService.buscarTodasPorRangoKmCargado(min, max);
+        ArrayList<PresupuestoDTO> viajes = new ArrayList<>();
+        for (PresupuestoModel viaje:listado) {
+            viajes.add(presupuestoMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-rango-km-cargado-con-eliminadas/{min}/{max}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorRangoKmCargadoConEliminadas(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {
+        List<PresupuestoModel> listado = presupuestoService.buscarTodasPorRangoKmCargadoConEliminadas(min, max);
+        ArrayList<PresupuestoDTO> viajes = new ArrayList<>();
+        for (PresupuestoModel viaje:listado) {
+            viajes.add(presupuestoMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/buscar-todas-por-rango-valor-km/{min}/{max}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorRangoValorKm(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {

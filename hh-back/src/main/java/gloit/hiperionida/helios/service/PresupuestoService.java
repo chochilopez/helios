@@ -2,6 +2,7 @@ package gloit.hiperionida.helios.service;
 
 import gloit.hiperionida.helios.mapper.creation.PresupuestoCreation;
 import gloit.hiperionida.helios.model.PresupuestoModel;
+import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.util.service.GenericService;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public interface PresupuestoService extends GenericService<PresupuestoModel, Pre
     List<PresupuestoModel> buscarTodasPorOrigenIdConEliminadas(Long id);
     List<PresupuestoModel> buscarTodasPorRangoCantidadTransportada(Integer min, Integer max);
     List<PresupuestoModel> buscarTodasPorRangoCantidadTransportadaConEliminadas(Integer min, Integer max);
+    List<PresupuestoModel> buscarTodasPorRangoKmCargado(Double min, Double max);
+    List<PresupuestoModel> buscarTodasPorRangoKmCargadoConEliminadas(Double min, Double max);
     List<PresupuestoModel> buscarTodasPorRangoValorKm(Double min, Double max);
     List<PresupuestoModel> buscarTodasPorRangoValorKmConEliminadas(Double min, Double max);
 

@@ -1033,13 +1033,6 @@
                   <div class="row paleta1-color2">Kilometros vacio</div>
                 </div>
                 <div
-                  v-if="props.row.notas != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
-                  <div class="row text-white">{{ props.row.notas }}</div>
-                  <div class="row paleta1-color2">Notas</div>
-                </div>
-                <div
                   v-if="props.row.guia != null"
                   class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
                 >
@@ -1129,6 +1122,13 @@
                 >
                   <div class="row text-white">{{ props.row.elimiando }}</div>
                   <div class="row paleta1-color2">Elimiando</div>
+                </div>
+                <div
+                  v-if="props.row.notas != null"
+                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
+                >
+                  <div class="row text-white">{{ props.row.notas }}</div>
+                  <div class="row paleta1-color2">Notas</div>
                 </div>
               </div>
             </q-td>
@@ -1554,10 +1554,10 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-
                 class="nuevo-viaje-input"
                 type="textarea"
                 v-model="viajeCreation.notas"
+                autogrow
                 outlined
                 dense
                 clearable
@@ -1596,7 +1596,6 @@ import { notificarService } from 'src/helpers/notificar_service'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { viajeService } from 'src/services/viaje_service'
 import { ViajeCreation } from 'src/models/creation/viaje_creation'
-import { ViajeModel } from 'src/models/viaje_model'
 
 const paginacion = {
   rowsPerPage: 50,
@@ -1750,7 +1749,6 @@ export default {
     const paso2 = ref(false)
     const paso3 = ref(false)
     const viajeCreation = reactive(new ViajeCreation())
-    const viajeModel = reactive(new ViajeModel())
     const viajes = ref([])
 
     afBuscarPaginadas()
@@ -2912,14 +2910,12 @@ export default {
         resultado = await viajeService.spfGuardar(viajeCreation)
         if (resultado.status === 201) {
           console.log(resultado.headers.mensaje)
-          viajeModel.value = resultado.data
           $q.loading.hide()
           notificarService.notificarExito('Se creó correctamente el viaje.')
         }
       } catch (err) {
         console.clear()
         if (err.response.status === 404) {
-          viajes.value = []
           console.info(err.response.headers.mensaje)
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
@@ -3380,7 +3376,6 @@ export default {
       paso2,
       paso3,
       viajeCreation,
-      viajeModel,
 
       fMostrarAcoplado,
       fMostrarCamion,

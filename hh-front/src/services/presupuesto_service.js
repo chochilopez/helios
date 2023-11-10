@@ -540,7 +540,7 @@ function spfContarTodasConEliminadas () {
 
 function spfGuardar (anObj) {
   return new Promise((resolve, reject) => {
-    axios.put(API_URL + 'viaje', anObj, {
+    axios.put(API_URL + 'presupuesto', anObj, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }

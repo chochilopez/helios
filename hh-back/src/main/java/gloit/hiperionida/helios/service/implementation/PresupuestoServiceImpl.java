@@ -163,6 +163,24 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     }
 
     @Override
+    public List<PresupuestoModel> buscarTodasPorRangoKmCargado(Double min, Double max) {
+        log.info("Buscando todas las entidades Presupuesto con un rango de km cargado entre: {} y {}.", min, max);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByKmCargadoBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con un rango de km cargado entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<PresupuestoModel> buscarTodasPorRangoKmCargadoConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Presupuesto con un rango de km cargado entre: {} y {}, con eliminadas.", min, max);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByKmCargadoBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con un rango de km cargado entre: " + min + " y " + max + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
     public List<PresupuestoModel> buscarTodasPorRangoValorKm(Double min, Double max) {
         log.info("Buscando todas las entidades Presupuesto con un rango de valor del kilometro entre: {} y {}.", min, max);
         List<PresupuestoModel> listado = presupuestoDAO.findAllByValorKmBetweenAndEliminadaIsNull(min, max);
