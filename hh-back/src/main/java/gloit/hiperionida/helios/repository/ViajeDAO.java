@@ -1,5 +1,6 @@
 package gloit.hiperionida.helios.repository;
 
+import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.util.repository.GenericDTO;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,8 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByCamionIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByCamionIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByCamionIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
+    List<ViajeModel> findAllByCantidadTransportadaBetween(Integer min, Integer max);
+    List<ViajeModel> findAllByCantidadTransportadaBetweenAndEliminadaIsNull(Integer min, Integer max);
     List<ViajeModel> findAllByCargaId(Long id);
     List<ViajeModel> findAllByCargaIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByCargaIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);

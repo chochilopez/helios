@@ -11,14 +11,17 @@ import lombok.Setter;
 @Setter
 public abstract class AbsViajeCreation extends AbsAuditoriaCreation {
     private String cantidadTransportada;
-    private String valorKm;
-    private String notas;
-
     private String categoriaViajeId;
     private String compradorId;
     private String destinoId;
     private String fecha;
+    private String kmCargado;
+    private String valorKm;
+    private String notas;
     private String origenId;
-
 }
+
+
+
+
 

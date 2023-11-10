@@ -35,23 +35,26 @@ public class ViajeMapper {
         try {
             ViajeModel model = new ViajeModel();
 
-            if (Helper.getDecimal(creation.getCantidadTransportada()) != null)
-                model.setCantidadTransportada(Helper.getDecimal(creation.getCantidadTransportada()));
-            if (Helper.getDecimal(creation.getValorKm()) != null)
-                model.setValorKm(Helper.getDecimal(creation.getValorKm()));
-            if (Helper.getDecimal(creation.getNeto()) != null)
-                model.setNeto(Helper.getDecimal(creation.getNeto()));
-            if (Helper.getDecimal(creation.getKmCargado()) != null)
-                model.setKmCargado(Helper.getDecimal(creation.getKmCargado()));
-            if (Helper.getDecimal(creation.getKmVacio()) != null)
-                model.setKmVacio(Helper.getDecimal(creation.getKmVacio()));
-            model.setNotas(creation.getNotas());
-            model.setGuia(creation.getGuia());
-
-            //TODO CAMBIAR NOMBRE DEL CAMPO FECHAID A FECHA
+            if (Helper.getLong(creation.getId()) != null)
+                model.setId(Helper.getLong(creation.getId()));
+            if (Helper.getLong(creation.getAcopladoId()) != null)
+                model.setAcopladoId(Helper.getLong(creation.getAcopladoId()));
+            if (Helper.getLong(creation.getCamionId()) != null)
+                model.setCamionId(Helper.getLong(creation.getCamionId()));
+            if (Helper.getInteger(creation.getCantidadTransportada()) != null)
+                model.setCantidadTransportada(Helper.getInteger(creation.getCantidadTransportada()));
+            if (Helper.getLong(creation.getCargaId()) != null)
+                model.setCargaId(Helper.getLong(creation.getCargaId()));
+            if (Helper.getLong(creation.getCategoriaViajeId()) != null)
+                model.setCategoriaViajeId(Helper.getLong(creation.getCategoriaViajeId()));
+            if (Helper.getLong(creation.getCompradorId()) != null)
+                model.setCompradorId(Helper.getLong(creation.getCompradorId()));
+            if (Helper.getLong(creation.getConductorId()) != null)
+                model.setConductorId(Helper.getLong(creation.getConductorId()));
+            if (Helper.getLong(creation.getDestinoId()) != null)
+                model.setDestinoId(Helper.getLong(creation.getDestinoId()));
             if (creation.getFecha() != null) {
                 Optional<ClienteModel> clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId()));
-
                 EventoModel evento = eventoDAO.save(new EventoModel(
                         Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
                         "Viaje para " + clienteModel.get().getNombre(),
@@ -63,26 +66,22 @@ public class ViajeMapper {
                 ));
                 model.setFechaId(evento.getId());
             }
-            if (Helper.getLong(creation.getAcopladoId()) != null)
-                model.setAcopladoId(Helper.getLong(creation.getAcopladoId()));
-            if (Helper.getLong(creation.getCamionId()) != null)
-                model.setCamionId(Helper.getLong(creation.getCamionId()));
-            if (Helper.getLong(creation.getCargaId()) != null)
-                model.setCargaId(Helper.getLong(creation.getCargaId()));
-            if (Helper.getLong(creation.getCategoriaViajeId()) != null)
-                model.setCategoriaViajeId(Helper.getLong(creation.getCategoriaViajeId()));
-            if (Helper.getLong(creation.getCompradorId()) != null)
-                model.setCompradorId(Helper.getLong(creation.getCompradorId()));
-            if (Helper.getLong(creation.getConductorId()) != null)
-                model.setConductorId(Helper.getLong(creation.getConductorId()));
-            if (Helper.getLong(creation.getDestinoId()) != null)
-                model.setDestinoId(Helper.getLong(creation.getDestinoId()));
-            if (Helper.getLong(creation.getOrigenId()) != null)
-                model.setOrigenId(Helper.getLong(creation.getOrigenId()));
-            if (Helper.getLong(creation.getVendedorId()) != null)
-                model.setVendedorId(Helper.getLong(creation.getVendedorId()));
+            model.setGuia(creation.getGuia());
             if (Helper.getLong(creation.getIntermediarioId()) != null)
                 model.setIntermediarioId(Helper.getLong(creation.getIntermediarioId()));
+            if (Helper.getDecimal(creation.getKmCargado()) != null)
+                model.setKmCargado(Helper.getDecimal(creation.getKmCargado()));
+            if (Helper.getDecimal(creation.getKmVacio()) != null)
+                model.setKmVacio(Helper.getDecimal(creation.getKmVacio()));
+            if (Helper.getDecimal(creation.getNeto()) != null)
+                model.setNeto(Helper.getDecimal(creation.getNeto()));
+            model.setNotas(creation.getNotas());
+            if (Helper.getLong(creation.getOrigenId()) != null)
+                model.setOrigenId(Helper.getLong(creation.getOrigenId()));
+            if (Helper.getDecimal(creation.getValorKm()) != null)
+                model.setValorKm(Helper.getDecimal(creation.getValorKm()));
+            if (Helper.getLong(creation.getVendedorId()) != null)
+                model.setVendedorId(Helper.getLong(creation.getVendedorId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -110,19 +109,6 @@ public class ViajeMapper {
             ViajeDTO dto = new ViajeDTO();
 
             dto.setId(model.getId().toString());
-            dto.setGuia(model.getGuia());
-            dto.setNotas(model.getNotas());
-            if (model.getNeto() != null)
-                dto.setNeto(model.getNeto().toString());
-            if (model.getKmCargado() != null)
-                dto.setKmCargado(model.getKmCargado().toString());
-            if (model.getKmVacio() != null)
-                dto.setKmVacio(model.getKmVacio().toString());
-            if (model.getCantidadTransportada() != null)
-                dto.setCantidadTransportada(format.format(model.getCantidadTransportada()).toString());
-            if (model.getValorKm() != null)
-                dto.setValorKm(format.format(model.getValorKm()).toString());
-
             if (model.getAcopladoId() != null) {
                 Optional<AcopladoModel> acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(model.getAcopladoId());
                 dto.setAcoplado(acopladoModel.get().getMarca() + " - " + acopladoModel.get().getModelo());
@@ -131,6 +117,8 @@ public class ViajeMapper {
                 Optional<CamionModel> camionModel = camionDAO.findByIdAndEliminadaIsNull(model.getCamionId());
                 dto.setCamion(camionModel.get().getMarca() + " - " + camionModel.get().getModelo());
             }
+            if (model.getCantidadTransportada() != null)
+                dto.setCantidadTransportada(model.getCantidadTransportada().toString());
             if (model.getCargaId() != null) {
                 Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getCargaId());
                 dto.setCarga(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
@@ -147,12 +135,22 @@ public class ViajeMapper {
             }
             if (model.getFechaId() != null)
                 dto.setFecha(eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).get().getFecha().toString());
+            dto.setGuia(model.getGuia());
             if (model.getIntermediarioId() != null)
                 dto.setIntermediario(clienteDAO.findByIdAndEliminadaIsNull(model.getIntermediarioId()).get().getNombre());
+            if (model.getKmCargado() != null)
+                dto.setKmCargado(model.getKmCargado().toString());
+            if (model.getKmVacio() != null)
+                dto.setKmVacio(model.getKmVacio().toString());
+            if (model.getNeto() != null)
+                dto.setNeto(model.getNeto().toString());
+            dto.setNotas(model.getNotas());
             if (model.getOrigenId() != null) {
                 Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId());
                 dto.setOrigen(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
             }
+            if (model.getValorKm() != null)
+                dto.setValorKm(model.getValorKm().toString());
             if (model.getVendedorId() != null)
                 dto.setVendedor(clienteDAO.findByIdAndEliminadaIsNull(model.getVendedorId()).get().getNombre());
 

@@ -9,7 +9,6 @@
         rows-per-page-label="Registros por pagina"
         no-data-label="Sin datos para mostrar"
         :pagination="paginacion"
-        :filter="filtrado"
         hide-no-data
         :rows="viajes"
         row-key="id"
@@ -58,6 +57,19 @@
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>Camion</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    clickable
+                    v-close-popup
+                    class="desplegable paleta2-fondo2 paleta1-color1"
+                    @click="fMostrarCantidadTransportada"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-cubes-stacked" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Cantidad transportada</q-item-label>
                     </q-item-section>
                   </q-item>
                   <q-item
@@ -259,6 +271,56 @@
               </q-btn-dropdown>
             </div>
             <div class="col">
+              <div class="column" v-if="editCantidadTransportada">
+                <div class="row justify-between">
+                  <div class="col">
+                    <q-chip
+                      v-model:selected="cantidadTransportadaChip.izq"
+                      :class="{
+                        'paleta2-fondo2': cantidadTransportadaChip.izq,
+                        'edits-fondo': !cantidadTransportadaChip.izq,
+                      }"
+                      text-color="white"
+                      size="12px"
+                      icon="fa-solid fa-minus"
+                      @update:selected="afBuscarPorCantidadTransportada()"
+                    >
+                      Mínimo
+                    </q-chip>
+                  </div>
+                  <div class="edits col text-center">
+                    <span>Cantidad transportada</span><br />
+                    <q-icon name="fa-solid fa-cubes-stacked" />
+                  </div>
+                  <div class="col text-right">
+                    <q-chip
+                      v-model:selected="cantidadTransportadaChip.der"
+                      :class="{
+                        'paleta2-fondo2': cantidadTransportadaChip.der,
+                        'edits-fondo': !cantidadTransportadaChip.der,
+                      }"
+                      text-color="white"
+                      size="12px"
+                      icon="fa-solid fa-plus"
+                      @update:selected="afBuscarPorCantidadTransportada()"
+                    >
+                      Máximo
+                    </q-chip>
+                  </div>
+                </div>
+                <div class="row">
+                  <q-range
+                    label-always
+                    switch-label-side
+                    color="grey-6"
+                    v-model="cantidadTransportada"
+                    :min="1"
+                    :max="300"
+                    label
+                    @change="(cantidadTransportadaChip.izq = false), (cantidadTransportadaChip.der = false)"
+                  />
+                </div>
+              </div>
               <q-select
                 v-if="editAcoplado"
                 outlined
@@ -844,9 +906,6 @@
                 </template>
               </q-select>
             </div>
-            <div class="col">
-
-            </div>
           </div>
         </template>
         <template v-slot:body="props">
@@ -1107,6 +1166,7 @@
                 :rules="[reglas.requerido,]"
                 outlined
                 dense
+                readonly
                 clearable
                 label="Fecha del viaje"
                 hint="Formato dd-mm-yyyy."
@@ -1114,7 +1174,7 @@
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-date v-model="viajeCreation.fecha" mask="DD-MM-YYYY">
+                      <q-date v-model="viajeCreation.fecha" mask="DD-MM-YYYY" :locale="myLocale">
                         <div class="row items-center justify-end">
                           <q-btn v-close-popup label="OK" color="primary" flat />
                         </div>
@@ -1537,7 +1597,6 @@ import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { viajeService } from 'src/services/viaje_service'
 import { ViajeCreation } from 'src/models/creation/viaje_creation'
 import { ViajeModel } from 'src/models/viaje_model'
-import { AcopladoCreation } from 'src/models/creation/acoplado_creation'
 
 const paginacion = {
   rowsPerPage: 50,
@@ -1629,6 +1688,7 @@ export default {
     const editCamion = ref(false)
     const editCategoriaViaje = ref(false)
     const editComprador = ref(true)
+    const editCantidadTransportada = ref(false)
     const editConductor = ref(false)
     const editDireccionCarga = ref(false)
     const editDireccionDestino = ref(false)
@@ -1650,6 +1710,8 @@ export default {
     const camion = ref(null)
     const camiones = ref([])
     const camionesList = ref([])
+    const cantidadTransportada = ref({ min: 0, max: 300 })
+    const cantidadTransportadaChip = ref({ izq: false, der: false })
     const categoriaViaje = ref(null)
     const categoriasViaje = ref([])
     const categoriasViajeList = ref([])
@@ -1666,30 +1728,23 @@ export default {
     const direccionesOrigen = ref([])
     const direccionesList = ref([])
     const fecha = ref({ from: null, to: null })
-    const fechas = ref([])
     const intermediario = ref(null)
     const intermediarios = ref([])
     const kmCargado = ref({ min: 0, max: 1000 })
     const kmCargadoChip = ref({ izq: false, der: false })
-    const kmsCargado = ref([])
     const kmVacio = ref({ min: 0, max: 1000 })
     const kmVacioChip = ref({ izq: false, der: false })
-    const kmsVacio = ref([])
     const notas = ref(null)
-    const notases = ref([])
     const numeroGuia = ref(null)
     const numerosGuia = ref([])
     const pesoNeto = ref({ min: 0, max: 50000 })
     const pesoNetoChip = ref({ izq: false, der: false })
-    const pesosNeto = ref([])
     const valorKm = ref({ min: 0, max: 2000 })
     const valorKmChip = ref({ izq: false, der: false })
-    const valoresKm = ref([])
     const vendedor = ref(null)
     const vendedores = ref([])
 
     const clientesList = ref([])
-    const filtrado = ref('')
     const nuevaBusqueda = ref(false)
     const paso1 = ref(true)
     const paso2 = ref(false)
@@ -1697,25 +1752,6 @@ export default {
     const viajeCreation = reactive(new ViajeCreation())
     const viajeModel = reactive(new ViajeModel())
     const viajes = ref([])
-
-    viajeCreation.acopladoId = '5'
-    viajeCreation.camionId = '1'
-    viajeCreation.cantidadTransportada = '111'
-    viajeCreation.cargaId = '28'
-    viajeCreation.categoriaViajeId = '1'
-    viajeCreation.compradorId = '34'
-    viajeCreation.conductorId = '13'
-    viajeCreation.destinoId = '49'
-    viajeCreation.fecha = '01-01-2020'
-    viajeCreation.guia = '123123123123'
-    viajeCreation.intermediarioId = '766'
-    viajeCreation.kmCargado = 444
-    viajeCreation.kmVacio = 333
-    viajeCreation.neto = 222
-    viajeCreation.notas = '123'
-    viajeCreation.origenId = '28'
-    viajeCreation.valorKm = 555
-    viajeCreation.vendedorId = '167'
 
     afBuscarPaginadas()
 
@@ -2206,6 +2242,50 @@ export default {
           }
           $q.loading.hide()
         }
+      }
+    }
+
+    async function afBuscarPorCantidadTransportada () {
+      if (cantidadTransportadaChip.value.izq === true && cantidadTransportadaChip.value.der === true) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (esAdmin.value) {
+            resultado = await viajeService.spfBuscarTodasPorRangoCantidadTransportadaConEliminadas(
+              cantidadTransportada.value.min,
+              cantidadTransportada.value.max
+            )
+          } else {
+            resultado = await viajeService.spfBuscarTodasPorRangoCantidadTransportada(
+              cantidadTransportada.value.min,
+              cantidadTransportada.value.max
+            )
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            viajes.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            viajes.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta(
+              'Advertencia: ' + err.response.headers.mensaje
+            )
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+        cantidadTransportadaChip.value.izq = false
+        cantidadTransportadaChip.value.der = false
       }
     }
 
@@ -2834,6 +2914,7 @@ export default {
           console.log(resultado.headers.mensaje)
           viajeModel.value = resultado.data
           $q.loading.hide()
+          notificarService.notificarExito('Se creó correctamente el viaje.')
         }
       } catch (err) {
         console.clear()
@@ -2981,11 +3062,17 @@ export default {
 
     function fGuardarViaje () {
       afGuardarViaje().then(() => {
-        paso1.value = true
-        paso2.value = false
-        paso3.value = false
-        console.log(viajeCreation)
+        afBuscarPaginadas().then(() => {
+          nuevoViajeDialog.value = false
+          fIrPaso1()
+        })
       })
+    }
+
+    function fIrPaso1 () {
+      paso1.value = true
+      paso2.value = false
+      paso3.value = false
     }
 
     function fIrPaso2 () {
@@ -2998,11 +3085,37 @@ export default {
       paso3.value = true
     }
 
+    function fLimpiarFormulario () {
+      viajeCreation.acopladoId = null
+      viajeCreation.camionId = null
+      viajeCreation.cantidadTransportada = null
+      viajeCreation.cargaId = null
+      viajeCreation.categoriaViajeId = null
+      viajeCreation.compradorId = null
+      viajeCreation.conductorId = null
+      viajeCreation.destinoId = null
+      viajeCreation.fecha = null
+      viajeCreation.guia = null
+      viajeCreation.intermediarioId = null
+      viajeCreation.kmCargado = null
+      viajeCreation.kmVacio = null
+      viajeCreation.neto = null
+      viajeCreation.notas = null
+      viajeCreation.origenId = null
+      viajeCreation.valorKm = null
+      viajeCreation.vendedorId = null
+    }
+
     function fLimpiarInputs (actual) {
       editAcoplado.value = false
       acoplado.value = null
       editCamion.value = false
       camion.value = null
+      editCantidadTransportada.value = false
+      cantidadTransportada.value.min = 0
+      cantidadTransportada.value.max = 300
+      cantidadTransportadaChip.value.izq = false
+      cantidadTransportadaChip.value.der = false
       editCategoriaViaje.value = false
       categoriaViaje.value = null
       editComprador.value = false
@@ -3060,6 +3173,11 @@ export default {
         fLimpiarInputs()
         editCamion.value = true
       })
+    }
+
+    function fMostrarCantidadTransportada () {
+      fLimpiarInputs()
+      editCantidadTransportada.value = true
     }
 
     function fMostrarCategoriaViaje () {
@@ -3138,6 +3256,8 @@ export default {
             afBuscarCamiones().then(() => {
               afBuscarCategoriasViaje().then(() => {
                 afBuscarDirecciones().then(() => {
+                  fLimpiarFormulario()
+                  fIrPaso1()
                   nuevoViajeDialog.value = true
                 })
               })
@@ -3174,6 +3294,7 @@ export default {
 
       afBuscarPorAcopladoId,
       afBuscarPorCamionId,
+      afBuscarPorCantidadTransportada,
       afBuscarPorCategoriaViajeId,
       afBuscarPorConductorId,
       afBuscarPorCompradorId,
@@ -3196,6 +3317,9 @@ export default {
       editCamion,
       camion,
       camiones,
+      editCantidadTransportada,
+      cantidadTransportada,
+      cantidadTransportadaChip,
       editCategoriaViaje,
       categoriaViaje,
       categoriasViaje,
@@ -3216,39 +3340,32 @@ export default {
       direccionesOrigen,
       editFecha,
       fecha,
-      fechas,
       editIntermediario,
       intermediario,
       intermediarios,
       editKilometrosCargado,
       kmCargado,
       kmCargadoChip,
-      kmsCargado,
       editKilometrosVacio,
       kmVacio,
       kmVacioChip,
-      kmsVacio,
       editNotas,
       notas,
-      notases,
       editNumeroGuia,
       numeroGuia,
       numerosGuia,
       editPesoNeto,
       pesoNeto,
       pesoNetoChip,
-      pesosNeto,
       editValorKilomertro,
       valorKm,
       valorKmChip,
-      valoresKm,
       editVendedor,
       vendedor,
       vendedores,
 
       columnas,
       esAdmin,
-      filtrado,
       nuevaBusqueda,
       paginacion,
       reglas,
@@ -3267,6 +3384,7 @@ export default {
 
       fMostrarAcoplado,
       fMostrarCamion,
+      fMostrarCantidadTransportada,
       fMostrarCategoriaViaje,
       fMostrarComprador,
       fMostrarConductor,
@@ -3293,7 +3411,18 @@ export default {
       fFiltrarDireccionesOrigen,
       fFiltrarIntermediarios,
       fFiltrarVendedores,
-      fFormatoFecha
+      fFormatoFecha,
+
+      myLocale: {
+        /* starting with Sunday */
+        days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),
+        daysShort: 'Dom_Lun_Mar_Mié_Jue_Vie_Sáb'.split('_'),
+        months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+        monthsShort: 'Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dic'.split('_'),
+        firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+        format24h: true,
+        pluralDay: 'dias'
+      }
     }
   }
 }

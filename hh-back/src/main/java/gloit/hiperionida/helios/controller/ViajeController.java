@@ -358,6 +358,28 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/buscar-todas-por-rango-cantidad-transportada/{min}/{max}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<ViajeDTO>> buscarTodasPorRangoCantidadTransportada(@PathVariable(name = "min") Integer min, @PathVariable(name = "max") Integer max) {
+        List<ViajeModel> listado = viajeService.buscarTodasPorRangoCantidadTransportada(min, max);
+        ArrayList<ViajeDTO> viajes = new ArrayList<>();
+        for (ViajeModel viaje:listado) {
+            viajes.add(viajeMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-rango-cantidad-transportada-con-eliminadas/{min}/{max}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<ViajeDTO>> buscarTodasPorRangoCantidadTransportadaConEliminadas(@PathVariable(name = "min") Integer min, @PathVariable(name = "max") Integer max) {
+        List<ViajeModel> listado = viajeService.buscarTodasPorRangoCantidadTransportadaConEliminadas(min, max);
+        ArrayList<ViajeDTO> viajes = new ArrayList<>();
+        for (ViajeModel viaje:listado) {
+            viajes.add(viajeMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/buscar-todas-por-rango-km-cargado/{min}/{max}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<ViajeDTO>> buscarTodasPorRangoKmCargado(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {

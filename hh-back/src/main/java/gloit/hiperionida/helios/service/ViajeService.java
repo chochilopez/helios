@@ -1,6 +1,7 @@
 package gloit.hiperionida.helios.service;
 
 import gloit.hiperionida.helios.mapper.creation.ViajeCreation;
+import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.util.service.GenericService;
 
@@ -47,6 +48,8 @@ public interface ViajeService extends GenericService<ViajeModel, ViajeCreation> 
     List<ViajeModel> buscarTodasPorNotasConEliminadas(String nota);
     List<ViajeModel> buscarTodasPorGuia(String guia);
     List<ViajeModel> buscarTodasPorGuiaConEliminadas(String guia);
+    List<ViajeModel> buscarTodasPorRangoCantidadTransportada(Integer min, Integer max);
+    List<ViajeModel> buscarTodasPorRangoCantidadTransportadaConEliminadas(Integer min, Integer max);
     List<ViajeModel> buscarTodasPorRangoNeto(Double min, Double max);
     List<ViajeModel> buscarTodasPorRangoNetoConEliminadas(Double min, Double max);
     List<ViajeModel> buscarTodasPorRangoValorKm(Double min, Double max);

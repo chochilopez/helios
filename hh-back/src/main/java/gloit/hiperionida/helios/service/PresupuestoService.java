@@ -7,7 +7,6 @@ import gloit.hiperionida.helios.util.service.GenericService;
 import java.util.List;
 
 public interface PresupuestoService extends GenericService<PresupuestoModel, PresupuestoCreation> {
-
     List<PresupuestoModel> buscarTodasPorCategoriaViajeId(Long id);
     List<PresupuestoModel> buscarTodasPorCategoriaViajeIdConEliminadas(Long id);
     List<PresupuestoModel> buscarTodasPorCompradorId(Long id);
@@ -20,6 +19,8 @@ public interface PresupuestoService extends GenericService<PresupuestoModel, Pre
     List<PresupuestoModel> buscarTodasPorNotasConEliminadas(String nota);
     List<PresupuestoModel> buscarTodasPorOrigenId(Long id);
     List<PresupuestoModel> buscarTodasPorOrigenIdConEliminadas(Long id);
+    List<PresupuestoModel> buscarTodasPorRangoCantidadTransportada(Integer min, Integer max);
+    List<PresupuestoModel> buscarTodasPorRangoCantidadTransportadaConEliminadas(Integer min, Integer max);
     List<PresupuestoModel> buscarTodasPorRangoValorKm(Double min, Double max);
     List<PresupuestoModel> buscarTodasPorRangoValorKmConEliminadas(Double min, Double max);
 

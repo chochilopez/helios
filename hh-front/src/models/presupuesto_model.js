@@ -1,15 +1,16 @@
 export class PresupuestoModel {
   constructor () {
     this.id = ''
-    this.validez = ''
     this.cantidadTransportada = ''
-    this.valorKm = ''
-    this.notas = ''
     this.categoriaViaje = ''
     this.comprador = ''
     this.destino = ''
     this.fecha = ''
+    this.kmCargado = ''
+    this.notas = ''
     this.origen = ''
+    this.validez = ''
+    this.valorKm = ''
 
     this.creada = ''
     this.creador = ''

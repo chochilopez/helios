@@ -9,15 +9,15 @@ import lombok.Setter;
 @MappedSuperclass
 @Setter
 public abstract class AbsViajeModel extends AbsAuditoriaModel {
-    private Double cantidadTransportada;
-    private Double valorKm;
-    @Column(columnDefinition = "TEXT")
-    private String notas;
-
+    private Integer cantidadTransportada;
     private Long categoriaViajeId;
     private Long compradorId;
     private Long destinoId;
     private Long fechaId;
+    private Double kmCargado;
+    private Double valorKm;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
     private Long origenId;
 }
 

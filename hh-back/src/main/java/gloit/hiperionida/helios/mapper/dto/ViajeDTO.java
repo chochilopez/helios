@@ -10,15 +10,14 @@ import java.util.List;
 @NoArgsConstructor
 public class ViajeDTO extends AbsViajeDTO implements Serializable {
     private String id;
-    private String guia;
-    private String neto;
-    private String kmCargado;
-    private String kmVacio;
-
-    private String conductor;
-    private String camion;
     private String acoplado;
+    private String camion;
     private String carga;
-    private String vendedor;
+    private String conductor;
+    private String guia;
     private String intermediario;
+    private String kmVacio;
+    private String neto;
+    private String vendedor;
 }
+

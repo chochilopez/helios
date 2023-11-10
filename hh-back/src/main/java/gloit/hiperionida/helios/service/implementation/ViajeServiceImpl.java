@@ -2,6 +2,7 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.ViajeMapper;
 import gloit.hiperionida.helios.mapper.creation.ViajeCreation;
+import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.repository.ViajeDAO;
 import gloit.hiperionida.helios.service.ViajeService;
@@ -465,6 +466,24 @@ public class ViajeServiceImpl implements ViajeService {
         List<ViajeModel> listado = viajeDAO.findAllByGuiaContainingIgnoreCase(guia);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Viaje con notas: " + guia + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorRangoCantidadTransportada(Integer min, Integer max) {
+        log.info("Buscando todas las entidades Viaje con un rango de cantidad transportada entre: {} y {}.", min, max);
+        List<ViajeModel> listado = viajeDAO.findAllByCantidadTransportadaBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con un rango de cantidad transportada entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<ViajeModel> buscarTodasPorRangoCantidadTransportadaConEliminadas(Integer min, Integer max) {
+        log.info("Buscando todas las entidades Viaje con un rango de cantidad transportada entre: {} y {}, con eliminadas.", min, max);
+        List<ViajeModel> listado = viajeDAO.findAllByCantidadTransportadaBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con un cantidad transportada entre: " + min + " y " + max + ", con eliminadas.");
         return listado;
     }
 

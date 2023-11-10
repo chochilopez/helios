@@ -506,6 +506,38 @@ function spfBuscarTodasPorFechaViajeEntreFechasConEliminadas (inicio, fin) {
   })
 }
 
+function spfBuscarTodasPorRangoCantidadTransportada (inicio, fin) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/buscar-todas-por-rango-cantidad-transportada/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorRangoCantidadTransportadaConEliminadas (inicio, fin) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/buscar-todas-por-rango-cantidad-transportada-con-eliminadas/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodasPorRangoKmCargado (inicio, fin) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-rango-km-cargado/' + inicio + '/' + fin, {
@@ -1128,6 +1160,8 @@ export const viajeService = {
   spfBuscarTodasPorIntermediarioIdEntreFechasConEliminadas,
   spfBuscarTodasPorFechaViajeEntreFechas,
   spfBuscarTodasPorFechaViajeEntreFechasConEliminadas,
+  spfBuscarTodasPorRangoCantidadTransportada,
+  spfBuscarTodasPorRangoCantidadTransportadaConEliminadas,
   spfBuscarTodasPorRangoKmCargado,
   spfBuscarTodasPorRangoKmCargadoConEliminadas,
   spfBuscarTodasPorRangoKmVacio,
