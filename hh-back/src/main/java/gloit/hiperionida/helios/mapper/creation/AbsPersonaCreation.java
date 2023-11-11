@@ -10,11 +10,10 @@ import lombok.Setter;
 @MappedSuperclass
 @Setter
 public abstract class AbsPersonaCreation extends AbsAuditoriaCreation {
+    private String direccion;
     private String email;
     private String identificacion;
     private String nombre;
     private String notas;
     private String telefono;
-
-    private String direccionId;
 }

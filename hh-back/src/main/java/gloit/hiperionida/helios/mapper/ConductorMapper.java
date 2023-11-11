@@ -29,14 +29,12 @@ public class ConductorMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
+            model.setDireccion(creation.getDireccion());
             model.setEmail(creation.getEmail());
             model.setIdentificacion(creation.getIdentificacion());
             model.setNombre(creation.getNombre());
             model.setNotas(creation.getNotas());
             model.setTelefono(creation.getTelefono());
-
-            if (Helper.getLong(creation.getDireccionId()) != null)
-                model.setDireccionId(Helper.getLong(creation.getDireccionId()));
             if (Helper.getLong(creation.getLicenciaId()) != null)
                 model.setLicenciaId(Helper.getLong(creation.getLicenciaId()));
 
@@ -66,15 +64,11 @@ public class ConductorMapper {
 
             dto.setId(model.getId().toString());
             dto.setEmail(model.getEmail());
+            dto.setDireccion(model.getDireccion());
             dto.setIdentificacion(model.getIdentificacion());
             dto.setNombre(model.getNombre());
             dto.setNotas(model.getNotas());
             dto.setTelefono(model.getTelefono());
-
-            if (model.getDireccionId() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDireccionId());
-                dto.setDireccion(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
-            }
             if (model.getLicenciaId() != null) {
                 Optional<LicenciaModel> licenciaModel = licenciaDAO.findByIdAndEliminadaIsNull(model.getLicenciaId());
                 Optional<EventoModel> eventoModel = eventoDAO.findByIdAndEliminadaIsNull(licenciaModel.get().getVencimientoId());

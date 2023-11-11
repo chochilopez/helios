@@ -40,6 +40,138 @@ public class ClienteController extends AbsBaseController {
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
     }
 
+    @GetMapping(value = "/buscar-todas-por-direccion/{direccion}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorDireccion(@PathVariable(name = "direccion") String direccion) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorDireccion(direccion);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-direccion-con-eliminadas/{direccion}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorDireccionConEliminadas(@PathVariable(name = "direccion") String direccion) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorDireccionConEliminadas(direccion);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-email/{email}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorEmail(@PathVariable(name = "email") String email) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorEmail(email);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-email-con-eliminadas/{email}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorEmailConEliminadas(@PathVariable(name = "email") String email) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorEmailConEliminadas(email);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-identificacion/{identificacion}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorIdentificacion(@PathVariable(name = "identificacion") String identificacion) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorIdentificacion(identificacion);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-identificacion-con-eliminadas/{identificacion}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorIdentificacionConEliminadas(@PathVariable(name = "identificacion") String identificacion) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorIdentificacionConEliminadas(identificacion);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-nombre/{nombre}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorNombre(@PathVariable(name = "nombre") String nombre) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorNombre(nombre);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-nombre-con-eliminadas/{nombre}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorNombreConEliminadas(@PathVariable(name = "nombre") String nombre) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorNombreConEliminadas(nombre);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas/{notas}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorNotas(notas);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas-con-eliminadas/{notas}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorNotasConEliminadas(@PathVariable(name = "notas") String notas) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorNotasConEliminadas(notas);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-telefono/{telefono}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorTelefono(@PathVariable(name = "telefono") String telefono) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorTelefono(telefono);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-telefono-con-eliminadas/{telefono}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ClienteDTO>> buscarTodasPorTelefonoConEliminadas(@PathVariable(name = "telefono") String telefono) {
+        List<ClienteModel> listado = clienteService.buscarTodasPorTelefonoConEliminadas(telefono);
+        ArrayList<ClienteDTO> clientes = new ArrayList<>();
+        for (ClienteModel cliente:listado) {
+            clientes.add(clienteMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(clientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/buscar-por-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<ClienteDTO> buscarPorId(@PathVariable(name = "id") Long id) {

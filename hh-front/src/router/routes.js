@@ -120,11 +120,18 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-
       {
         path: '/detalle-cuenta-corriente',
         name: 'DetalleCtaCte',
         component: () => import('pages/sitio/DetalleCtaCte.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/direccion',
+        name: 'Direccion',
+        component: () => import('pages/sitio/Direccion.vue'),
         meta: {
           rol: rolEnum.CARGA
         }

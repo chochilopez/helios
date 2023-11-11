@@ -29,14 +29,12 @@ public class ClienteMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
+            model.setDireccion(creation.getDireccion());
             model.setEmail(creation.getEmail());
             model.setIdentificacion(creation.getIdentificacion());
             model.setNombre(creation.getNombre());
             model.setNotas(creation.getNotas());
             model.setTelefono(creation.getTelefono());
-
-            if (Helper.getLong(creation.getDireccionId()) != null)
-                model.setDireccionId(Helper.getLong(creation.getDireccionId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -63,16 +61,12 @@ public class ClienteMapper {
             ClienteDTO dto = new ClienteDTO();
 
             dto.setId(model.getId().toString());
+            dto.setDireccion(model.getDireccion());
             dto.setEmail(model.getEmail());
             dto.setIdentificacion(model.getIdentificacion());
             dto.setNombre(model.getNombre());
             dto.setNotas(model.getNotas());
             dto.setTelefono(model.getTelefono());
-
-            if (model.getDireccionId() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDireccionId());
-                dto.setDireccion(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
-            }
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

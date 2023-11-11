@@ -286,6 +286,23 @@
           <q-item
             clickable
             v-ripple
+            :active="link === 'direccion'"
+            @click="link = 'direccion'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'Direccion' }"
+            class="q-ml-md paleta1-fondo5"
+          >
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-earth-americas" />
+            </q-item-section>
+            <q-item-section class="white-text"
+              >Direcciones</q-item-section
+            >
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
             :active="link === 'moviemientoCtaCte'"
             @click="link = 'moviemientoCtaCte'"
             active-class="seleccion-activa"

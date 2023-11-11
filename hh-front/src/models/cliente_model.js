@@ -1,12 +1,12 @@
 export class ClienteModel {
   constructor () {
     this.id = ''
+    this.direccion = ''
     this.email = ''
     this.identificacion = ''
     this.nombre = ''
     this.notas = ''
     this.telefono = ''
-    this.direccion = ''
 
     this.creada = ''
     this.creador = ''

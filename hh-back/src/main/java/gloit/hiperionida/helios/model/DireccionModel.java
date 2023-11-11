@@ -19,4 +19,5 @@ public class DireccionModel extends AbsAuditoriaModel {
     private String direccion;
     private String ciudad;
     private String nombre;
+    private String notas;
 }

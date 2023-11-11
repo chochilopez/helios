@@ -4,23 +4,23 @@
   <div class="row q-pa-md">
     <div class="col">
       <q-table
-        title="Clientes"
+        title="Direcciones"
         :columns="columnas"
         rows-per-page-label="Registros por pagina"
         no-data-label="Sin datos para mostrar"
         :pagination="paginacion"
         hide-no-data
-        :rows="clientes"
+        :rows="direcciones"
         row-key="id"
       >
         <template v-slot:top-left>
           <div class="column">
-            <p class="text-h5">Clientes</p>
+            <p class="text-h5">Direcciones</p>
             <q-btn
               class="paleta2-fondo2 paleta1-color1 q-mb-lg"
               icon="add_circle"
-              label="Nuevo cliente"
-              @click="fMostrarNuevoCliente"
+              label="Nueva direccion"
+              @click="fMostrarNuevaDireccion"
             />
           </div>
         </template>
@@ -29,7 +29,7 @@
             <div class="q-my-md">
               <q-btn-dropdown
                 class="paleta2-fondo2 paleta1-color1"
-                label="Buscar clientes por"
+                label="Buscar direcciones por"
                 dropdown-icon="fa-solid fa-magnifying-glass"
               >
                 <q-list>
@@ -39,46 +39,6 @@
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>Dirección</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarEmail">
-                    <q-item-section avatar>
-                      <q-icon name="alternate_email" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Email</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarIdentificacion">
-                    <q-item-section avatar>
-                      <q-icon name="badge" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Identificacion</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNombre">
-                    <q-item-section avatar>
-                      <q-icon name="account_circle" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Nombre</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
-                    <q-item-section avatar>
-                      <q-icon name="sticky_note_2" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Notas</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarTelefono">
-                    <q-item-section avatar>
-                      <q-icon name="phone_iphone" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Teléfono</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -109,126 +69,6 @@
                   />
                 </template>
               </q-input>
-              <q-input
-                v-if="editEmail"
-                outlined
-                dense
-                clearable
-                v-on:keyup.enter="afBuscarPorEmail()"
-                v-model="email"
-                label="Buscar por email"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-                <template v-slot:after>
-                  <q-icon
-                    name="fa-solid fa-magnifying-glass"
-                    class="q-mx-xs"
-                    v-on:click="afBuscarPorEmail()"
-                    style="cursor: pointer"
-                  />
-                </template>
-              </q-input>
-              <q-input
-                v-if="editIdentifiacion"
-                outlined
-                dense
-                clearable
-                v-on:keyup.enter="afBuscarPorIdentificacion()"
-                v-model="identifiacion"
-                label="Buscar por identifiacion"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-                <template v-slot:after>
-                  <q-icon
-                    name="fa-solid fa-magnifying-glass"
-                    class="q-mx-xs"
-                    v-on:click="afBuscarPorIdentificacion()"
-                    style="cursor: pointer"
-                  />
-                </template>
-              </q-input>
-              <q-input
-                v-if="editNombre"
-                outlined
-                dense
-                clearable
-                v-on:keyup.enter="afBuscarPorNombre()"
-                v-model="nombre"
-                label="Buscar por nombre"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-                <template v-slot:after>
-                  <q-icon
-                    name="fa-solid fa-magnifying-glass"
-                    class="q-mx-xs"
-                    v-on:click="afBuscarPorNombre()"
-                    style="cursor: pointer"
-                  />
-                </template>
-              </q-input>
-              <q-input
-                v-if="editNotas"
-                outlined
-                dense
-                clearable
-                v-on:keyup.enter="afBuscarPorNotas()"
-                v-model="notas"
-                label="Buscar por notas"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-                <template v-slot:after>
-                  <q-icon
-                    name="fa-solid fa-magnifying-glass"
-                    class="q-mx-xs"
-                    v-on:click="afBuscarPorNotas()"
-                    style="cursor: pointer"
-                  />
-                </template>
-              </q-input>
-              <q-input
-                v-if="editTelefono"
-                outlined
-                dense
-                clearable
-                v-on:keyup.enter="afBuscarPorTelefono()"
-                v-model="telefono"
-                label="Buscar por telefono"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-                <template v-slot:after>
-                  <q-icon
-                    name="fa-solid fa-magnifying-glass"
-                    class="q-mx-xs"
-                    v-on:click="afBuscarPorTelefono()"
-                    style="cursor: pointer"
-                  />
-                </template>
-              </q-input>
             </div>
           </div>
         </template>
@@ -246,19 +86,13 @@
               />
             </q-td>
             <q-td>
+              {{ props.row.direccion }}
+            </q-td>
+            <q-td>
+              {{ props.row.ciudad}}
+            </q-td>
+            <q-td>
               {{ props.row.nombre }}
-            </q-td>
-            <q-td>
-              {{ props.row.direccion}}
-            </q-td>
-            <q-td>
-              {{ props.row.email }}
-            </q-td>
-            <q-td>
-              {{ props.row.identificacion }}
-            </q-td>
-            <q-td>
-              {{ props.row.telefono }}
             </q-td>
           </q-tr>
           <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
@@ -272,21 +106,13 @@
                   <div class="row text-white">{{ props.row.direccion }}</div>
                   <div class="row paleta1-color2">Direccion</div>
                 </div>
-                <div v-if="props.row.email != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.email }}</div>
-                  <div class="row paleta1-color2">Email</div>
-                </div>
-                <div v-if="props.row.identificacion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.identificacion }}</div>
-                  <div class="row paleta1-color2">Identificacion</div>
+                <div v-if="props.row.ciudad != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.ciudad }}</div>
+                  <div class="row paleta1-color2">Ciudad</div>
                 </div>
                 <div v-if="props.row.nombre != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.nombre }}</div>
                   <div class="row paleta1-color2">Nombre</div>
-                </div>
-                <div v-if="props.row.telefono != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">props.row.telefono</div>
-                  <div class="row paleta1-color2">Telefono</div>
                 </div>
                 <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.creador }}</div>
@@ -332,7 +158,7 @@
   >
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
-        <div class="text-h6 text-grey-8">Nuevo cliente</div>
+        <div class="text-h6 text-grey-8">Nueva direccion</div>
         <q-space />
         <q-btn class="text-grey-8" icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -364,7 +190,7 @@
                 dense
                 clearable
                 label="Dirección"
-                hint="Dirección del cliente"
+                hint="Dirección del direccion"
               >
               </q-input>
             </div>
@@ -497,7 +323,7 @@ export default {
     const $q = useQuasar()
 
     const clienteCreation = reactive(new ClienteCreation())
-    const clientes = ref([])
+    const direcciones = ref([])
     const clientesList = ref([])
     const direccion = ref(null)
     const editDireccion = ref(false)
@@ -578,14 +404,14 @@ export default {
           resultado = await clienteService.spfBuscarTodasPaginadas(paginadoDTO)
         }
         if (resultado.status === 200) {
-          clientes.value = resultado.data.content
+          direcciones.value = resultado.data.content
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
         }
       } catch (err) {
         console.clear()
         if (err.response.status === 404) {
-          clientes.value = []
+          direcciones.value = []
           console.info(err.response.headers.mensaje)
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
@@ -614,13 +440,13 @@ export default {
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            clientes.value = resultado.data
+            direcciones.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            clientes.value = []
+            direcciones.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -652,13 +478,13 @@ export default {
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            clientes.value = resultado.data
+            direcciones.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            clientes.value = []
+            direcciones.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -690,13 +516,13 @@ export default {
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            clientes.value = resultado.data
+            direcciones.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            clientes.value = []
+            direcciones.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -728,13 +554,13 @@ export default {
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            clientes.value = resultado.data
+            direcciones.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            clientes.value = []
+            direcciones.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -766,13 +592,13 @@ export default {
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            clientes.value = resultado.data
+            direcciones.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            clientes.value = []
+            direcciones.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -804,13 +630,13 @@ export default {
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            clientes.value = resultado.data
+            direcciones.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            clientes.value = []
+            direcciones.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -924,7 +750,7 @@ export default {
       editTelefono.value = true
     }
 
-    function fMostrarNuevoCliente () {
+    function fMostrarNuevaDireccion () {
       fIrPaso1()
       nuevoClienteDialog.value = true
     }
@@ -937,7 +763,7 @@ export default {
       afBuscarPorNotas,
       afBuscarPorTelefono,
       clienteCreation,
-      clientes,
+      direcciones,
       columnas,
       direccion,
       editDireccion,
@@ -955,7 +781,7 @@ export default {
       fMostrarIdentificacion,
       fMostrarNombre,
       fMostrarNotas,
-      fMostrarNuevoCliente,
+      fMostrarNuevaDireccion,
       fMostrarTelefono,
       identificacion,
       nombre,
@@ -979,7 +805,7 @@ export default {
   color: #9e9e9e;
 }
 .q-btn-dropdown {
-  width: 240px;
+  width: 260px;
 }
 .item-lista {
   border-bottom: 2px solid white;

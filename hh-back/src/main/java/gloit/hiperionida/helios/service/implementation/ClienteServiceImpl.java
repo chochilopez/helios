@@ -27,6 +27,114 @@ public class ClienteServiceImpl implements ClienteService {
     private final UsuarioServiceImpl usuarioService;
 
     @Override
+    public List<ClienteModel> buscarTodasPorDireccion(String direccion) {
+        log.info("Buscando todas las entidad Cliente con direccion: {}.", direccion);
+        List<ClienteModel> listado = clienteDAO.findAllByDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorDireccionConEliminadas(String direccion) {
+        log.info("Buscando todas las entidad Cliente con direccion: {}, incluidas las eliminadas.", direccion);
+        List<ClienteModel> listado = clienteDAO.findAllByDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente, incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorEmail(String email) {
+        log.info("Buscando todas las entidad Cliente con email: {}.", email);
+        List<ClienteModel> listado = clienteDAO.findAllByEmailContainingIgnoreCaseAndEliminadaIsNull(email);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorEmailConEliminadas(String email) {
+        log.info("Buscando todas las entidad Cliente con email: {}, incluidas las eliminadas.", email);
+        List<ClienteModel> listado = clienteDAO.findAllByEmailContainingIgnoreCaseAndEliminadaIsNull(email);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente, incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorIdentificacion(String identificacion) {
+        log.info("Buscando todas las entidad Cliente con identificacion: {}.", identificacion);
+        List<ClienteModel> listado = clienteDAO.findAllByIdentificacionContainingIgnoreCaseAndEliminadaIsNull(identificacion);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorIdentificacionConEliminadas(String identificacion) {
+        log.info("Buscando todas las entidad Cliente con identificacion: {}, incluidas las eliminadas.", identificacion);
+        List<ClienteModel> listado = clienteDAO.findAllByIdentificacionContainingIgnoreCaseAndEliminadaIsNull(identificacion);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente, incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorNombre(String nombre) {
+        log.info("Buscando todas las entidad Cliente con nombre: {}.", nombre);
+        List<ClienteModel> listado = clienteDAO.findAllByNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorNombreConEliminadas(String nombre) {
+        log.info("Buscando todas las entidad Cliente con nombre: {}, incluidas las eliminadas.", nombre);
+        List<ClienteModel> listado = clienteDAO.findAllByNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente, incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorNotas(String notas) {
+        log.info("Buscando todas las entidad Cliente con notas: {}.", notas);
+        List<ClienteModel> listado = clienteDAO.findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(notas);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorNotasConEliminadas(String notas) {
+        log.info("Buscando todas las entidad Cliente con notas: {}, incluidas las eliminadas.", notas);
+        List<ClienteModel> listado = clienteDAO.findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(notas);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente, incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorTelefono(String telefono) {
+        log.info("Buscando todas las entidad Cliente con telefono: {}.", telefono);
+        List<ClienteModel> listado = clienteDAO.findAllByTelefonoContainingIgnoreCaseAndEliminadaIsNull(telefono);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente.");
+        return listado;
+    }
+
+    @Override
+    public List<ClienteModel> buscarTodasPorTelefonoConEliminadas(String telefono) {
+        log.info("Buscando todas las entidad Cliente con telefono: {}, incluidas las eliminadas.", telefono);
+        List<ClienteModel> listado = clienteDAO.findAllByTelefonoContainingIgnoreCaseAndEliminadaIsNull(telefono);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Cliente, incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
     public ClienteModel buscarPorId(Long id) {
         log.info("Buscando la entidad Cliente con id: {}.", id);
         ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Cliente con id: " + id + "."));

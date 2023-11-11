@@ -1089,10 +1089,10 @@
                   <div class="row paleta1-color2">Creador</div>
                 </div>
                 <div
-                  v-if="props.row.creado != null && esAdmin"
+                  v-if="props.row.creada != null && esAdmin"
                   class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
                 >
-                  <div class="row text-white">{{ props.row.creado }}</div>
+                  <div class="row text-white">{{ props.row.creada }}</div>
                   <div class="row paleta1-color2">Creado</div>
                 </div>
                 <div
@@ -1103,10 +1103,10 @@
                   <div class="row paleta1-color2">Modificador</div>
                 </div>
                 <div
-                  v-if="props.row.modificado != null && esAdmin"
+                  v-if="props.row.modificada != null && esAdmin"
                   class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
                 >
-                  <div class="row text-white">{{ props.row.modificado }}</div>
+                  <div class="row text-white">{{ props.row.modificada }}</div>
                   <div class="row paleta1-color2">Modificado</div>
                 </div>
                 <div
@@ -1117,7 +1117,7 @@
                   <div class="row paleta1-color2">Eliminador</div>
                 </div>
                 <div
-                  v-if="props.row.eliminado != null && esAdmin"
+                  v-if="props.row.eliminada != null && esAdmin"
                   class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
                 >
                   <div class="row text-white">{{ props.row.elimiando }}</div>
@@ -1160,7 +1160,7 @@
           <div class="row justify-around">
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 mask="##-##-####"
                 v-model="viajeCreation.fecha"
                 :rules="[reglas.requerido,]"
@@ -1186,7 +1186,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 outlined
                 dense
                 emit-value
@@ -1212,7 +1212,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 outlined
                 dense
                 emit-value
@@ -1239,7 +1239,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 v-model="viajeCreation.cantidadTransportada"
                 :rules="[reglas.requerido]"
                 mask="###################"
@@ -1253,7 +1253,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 outlined
                 dense
                 emit-value
@@ -1278,7 +1278,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 outlined
                 dense
                 emit-value
@@ -1315,7 +1315,7 @@
           <div class="row justify-around">
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 outlined
                 dense
                 emit-value
@@ -1340,7 +1340,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 outlined
                 dense
                 emit-value
@@ -1368,7 +1368,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 outlined
                 dense
                 emit-value
@@ -1396,7 +1396,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 outlined
                 dense
                 emit-value
@@ -1421,7 +1421,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 outlined
                 dense
                 emit-value
@@ -1447,7 +1447,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-select
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 outlined
                 dense
                 emit-value
@@ -1485,7 +1485,7 @@
           <div class="row justify-around">
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 mask="##############"
                 v-model.number="viajeCreation.neto"
                 :rules="[reglas.requerido]"
@@ -1499,7 +1499,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 v-model="viajeCreation.guia"
                 :rules="[reglas.requerido]"
                 outlined
@@ -1511,7 +1511,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 mask="##############"
                 v-model.number="viajeCreation.kmVacio"
                 :rules="[reglas.requerido]"
@@ -1525,7 +1525,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 mask="##############"
                 v-model.number="viajeCreation.kmCargado"
                 :rules="[reglas.requerido]"
@@ -1539,7 +1539,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 v-model.number="viajeCreation.valorKm"
                 :rules="[reglas.requerido]"
                 :max-decimals="2"
@@ -1554,7 +1554,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-                class="nuevo-viaje-input"
+                class="nuevo-input"
                 type="textarea"
                 v-model="viajeCreation.notas"
                 autogrow
@@ -1577,25 +1577,23 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
-import { rolEnum } from 'src/models/enums/rol_enum'
-import { useQuasar } from 'quasar'
-import { v4 as uuidv4 } from 'uuid'
-
-import { ayuda } from 'app/src/helpers/ayuda'
-import { llaveroService } from 'src/helpers/llavero_service'
-
-import { autenticacionService } from 'src/services/autenticacion_service'
 import { acopladoService } from 'src/services/acoplado_service'
+import { autenticacionService } from 'src/services/autenticacion_service'
+import { ayuda } from 'app/src/helpers/ayuda'
 import { camionService } from 'src/services/camion_service'
 import { categoriaViajeService } from 'src/services/categoria_viaje_service'
 import { conductorService } from 'src/services/conductor_service'
 import { clienteService } from 'src/services/cliente_service'
 import { direccionService } from 'src/services/direccion_service'
+import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
+import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
-import { viajeService } from 'src/services/viaje_service'
+import { rolEnum } from 'src/models/enums/rol_enum'
+import { useQuasar } from 'quasar'
+import { v4 as uuidv4 } from 'uuid'
 import { ViajeCreation } from 'src/models/creation/viaje_creation'
+import { viajeService } from 'src/services/viaje_service'
 
 const paginacion = {
   rowsPerPage: 50,
@@ -3440,7 +3438,7 @@ export default {
   border-bottom: 2px solid white;
   padding: 5px;
 }
-.nuevo-viaje-input {
+.nuevo-input {
   width: 250px;
 }
 </style>

@@ -26,6 +26,213 @@ function obtenerPorIdConEliminadas (id) {
   return llaveroService.obtenerDeLocal('hhClientePorIdConEliminadas/' + id + '/')
 }
 
+/*
+  spfBuscarTodasPorDireccion,
+  spfBuscarTodasPorDireccionConEliminadas,
+  spfBuscarTodasPorEmail,
+  spfBuscarTodasPorEmailConEliminadas,
+  spfBuscarTodasPorIdentificacion,
+  spfBuscarTodasPorIdentificacionConEliminadas,
+  spfBuscarTodasPorNombre,
+  spfBuscarTodasPorNombreConEliminadas,
+  spfBuscarTodasPorNotas,
+  spfBuscarTodasPorNotasConEliminadas,
+  spfBuscarTodasPorTelefono,
+  spfBuscarTodasPorTelefonoConEliminadas,
+  */
+
+function spfBuscarTodasPorDireccion (direccion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-direccion/' + direccion, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorDireccionConEliminadas (direccion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-direccion-con-eliminadas/' + direccion, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorEmail (email) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-email/' + email, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorEmailConEliminadas (email) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-email-con-eliminadas/' + email, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorIdentificacion (identificacion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-identificacion/' + identificacion, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorIdentificacionConEliminadas (identificacion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-identificacion-con-eliminadas/' + identificacion, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNombre (nombre) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-nombre/' + nombre, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNombreConEliminadas (nombre) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-nombre-con-eliminadas/' + nombre, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-notas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotasConEliminadas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-notas-con-eliminadas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorTelefono (telefono) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-telefono/' + telefono, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorTelefonoConEliminadas (telefono) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-por-telefono-con-eliminadas/' + telefono, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'cliente/buscar-todas', {
@@ -50,44 +257,6 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasConSesion (sesion) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cliente/buscar-todas', {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        if (result.status === 200) {
-          llaveroService.guardarEnLocalConSesion('hhClienteTodasConSesion', result.data, sesion)
-        }
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasConEliminadasConSesion (sesion) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cliente/buscar-todas-con-eliminadas', {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        if (result.status === 200) {
-          llaveroService.guardarEnLocalConSesion('hhClienteTodasConEliminadasConSesion', result.data, sesion)
-        }
         resolve(result)
       })
       .catch((error) => {
@@ -262,10 +431,21 @@ export const clienteService = {
   obtenerPorId,
   obtenerPorIdConEliminadas,
 
+  spfBuscarTodasPorDireccion,
+  spfBuscarTodasPorDireccionConEliminadas,
+  spfBuscarTodasPorEmail,
+  spfBuscarTodasPorEmailConEliminadas,
+  spfBuscarTodasPorIdentificacion,
+  spfBuscarTodasPorIdentificacionConEliminadas,
+  spfBuscarTodasPorNombre,
+  spfBuscarTodasPorNombreConEliminadas,
+  spfBuscarTodasPorNotas,
+  spfBuscarTodasPorNotasConEliminadas,
+  spfBuscarTodasPorTelefono,
+  spfBuscarTodasPorTelefonoConEliminadas,
+
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
-  spfBuscarTodasConSesion,
-  spfBuscarTodasConEliminadasConSesion,
   spfBuscarTodasPaginadas,
   spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,
