@@ -10,22 +10,6 @@ f -> funcion
 l -> local
 */
 
-function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('hhLicenciaTodas')
-}
-
-function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('hhLicenciaTodasConEliminadas')
-}
-
-function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('hhLicenciaPorId/' + id + '/')
-}
-
-function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('hhLicenciaPorIdConEliminadas/' + id + '/')
-}
-
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'hhicencia/buscar-todas', {
@@ -50,6 +34,44 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'licencia/buscar-todas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhLicenciaTodasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'licencia/buscar-todas-con-eliminadas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhLicenciaTodasConEliminadasConSesion', result.data, sesion)
+        }
         resolve(result)
       })
       .catch((error) => {
@@ -219,13 +241,10 @@ function spfDestruir (id) {
 }
 
 export const licenciaService = {
-  obtenerTodas,
-  obtenerTodasConEliminadas,
-  obtenerPorId,
-  obtenerPorIdConEliminadas,
-
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
+  spfBuscarTodasConSesion,
+  spfBuscarTodasConEliminadasConSesion,
   spfBuscarTodasPaginadas,
   spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,

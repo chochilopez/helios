@@ -46,17 +46,6 @@
             </q-item-section>
           </q-item>
         </div>
-        <!-- <div class="col-lg-3 col-md-6 col-xs-12">
-          <q-item class="q-pa-none fondo10">
-            <q-item-section side class=" q-pa-lg q-mr-none text-white fondo9">
-              <q-icon name="person" color="white" size="24px"></q-icon>
-            </q-item-section>
-            <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label class="text-white text-h6 text-weight-bolder">{{ ultimoPrecio }}</q-item-label>
-              <q-item-label>Ultimo precio km</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div> -->
       </div>
     </q-card-section>
   </q-card>

@@ -120,36 +120,6 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-acoplado-id-entre-fechas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorAcopladoIdEntreFechas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorAcopladoIdEntreFechas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-acoplado-id-entre-fechas-con-eliminadas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorAcopladoIdEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorAcopladoIdEntreFechasConEliminadas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/buscar-todas-por-camion-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<ViajeDTO>> buscarTodasPorCamionId(@PathVariable(name = "id") Long id) {
@@ -170,36 +140,6 @@ public class    ViajeController extends AbsBaseController {
             viajes.add(viajeMapper.toDto(viaje));
         }
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-camion-id-entre-fechas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCamionIdEntreFechas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorCamionIdEntreFechas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-camion-id-entre-fechas-con-eliminadas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCamionIdEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorCamionIdEntreFechasConEliminadas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-carga-id/{id}")
@@ -224,36 +164,6 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-carga-id-entre-fechas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCargaIdEntreFechas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorCargaIdEntreFechas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-carga-id-entre-fechas-con-eliminadas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCargaIdEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorCargaIdEntreFechasConEliminadas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/buscar-todas-por-categoria-viaje-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<ViajeDTO>> buscarTodasPorCategoriaViajeId(@PathVariable(name = "id") Long id) {
@@ -276,36 +186,6 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-categoria-viaje-id-entre-fechas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCategoriaViajeIdEntreFechas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorCategoriaViajeIdEntreFechas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-categoria-viaje-id-entre-fechas-con-eliminadas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCategoriaViajeIdEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorCategoriaViajeIdEntreFechasConEliminadas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/buscar-todas-por-intermediario-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<ViajeDTO>> buscarTodasPorIntermediarioId(@PathVariable(name = "id") Long id) {
@@ -326,36 +206,6 @@ public class    ViajeController extends AbsBaseController {
             viajes.add(viajeMapper.toDto(viaje));
         }
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-intermediario-id-entre-fechas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorIntermediarioIdEntreFechas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorIntermediarioIdEntreFechas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-intermediario-id-entre-fechas-con-eliminadas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorIntermediarioIdEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorIntermediarioIdEntreFechasConEliminadas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-rango-cantidad-transportada/{min}/{max}")
@@ -534,36 +384,6 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-conductor-id-entre-fechas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorConductorIdEntreFechas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorConductorIdEntreFechas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-conductor-id-entre-fechas-con-eliminadas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorConductorIdEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorConductorIdEntreFechasConEliminadas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/buscar-todas-por-comprador-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<ViajeDTO>> buscarTodasPorCompradorId(@PathVariable(name = "id") Long id) {
@@ -584,36 +404,6 @@ public class    ViajeController extends AbsBaseController {
             viajes.add(viajeMapper.toDto(viaje));
         }
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-comprador-id-entre-fechas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCompradorIdEntreFechas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorCompradorIdEntreFechas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-comprador-id-entre-fechas-con-eliminadas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorCompradorIdEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorCompradorIdEntreFechasConEliminadas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-destino-id/{id}")
@@ -638,36 +428,6 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-destino-id-entre-fechas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorDestinoIdEntreFechas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorDestinoIdEntreFechas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-destino-id-entre-fechas-con-eliminadas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorDestinoIdEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorDestinoIdEntreFechasConEliminadas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/buscar-todas-por-origen-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<ViajeDTO>> buscarTodasPorOrigenId(@PathVariable(name = "id") Long id) {
@@ -690,36 +450,6 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-origen-id-entre-fechas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorOrigenIdEntreFechas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorOrigenIdEntreFechas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-origen-id-entre-fechas-con-eliminadas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorOrigenIdEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorOrigenIdEntreFechasConEliminadas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/buscar-todas-por-vendedor-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<List<ViajeDTO>> buscarTodasPorVendedorId(@PathVariable(name = "id") Long id) {
@@ -740,36 +470,6 @@ public class    ViajeController extends AbsBaseController {
             viajes.add(viajeMapper.toDto(viaje));
         }
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-vendedor-id-entre-fechas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorVendedorIdEntreFechas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorVendedorIdEntreFechas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-vendedor-id-entre-fechas-con-eliminadas/{id}/{inicio}/{fin}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<ViajeDTO>> buscarTodasPorVendedorIdEntreFechasConEliminadas(
-            @PathVariable(name = "id") Long id,
-            @PathVariable(name = "inicio") String inicio,
-            @PathVariable(name = "fin") String fin
-    ) {
-        List<ViajeModel> listado = viajeService.buscarTodasPorVendedorIdEntreFechasConEliminadas(id, inicio, fin);
-        ArrayList<ViajeDTO> viajes = new ArrayList<>();
-        for (ViajeModel viaje:listado) {
-            viajes.add(viajeMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-comprador-nombre/{nombre}")

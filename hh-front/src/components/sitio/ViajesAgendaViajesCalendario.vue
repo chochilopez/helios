@@ -1,11 +1,6 @@
 <template>
   <div class="subcontent">
-    <navigation-bar
-      @today="onToday"
-      @prev="onPrev"
-      @next="onNext"
-    />
-
+    <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" />
     <div class="row justify-center">
       <div style="display: flex; max-width: 800px; width: 100%;">
         <q-calendar-month
@@ -27,18 +22,9 @@
           @click-head-day="onClickHeadDay"
         >
           <template #week="{ scope: { week, weekdays } }">
-            <template
-              v-for="(computedEvent, index) in getWeekEvents(week, weekdays)"
-              :key="index"
-            >
-              <div
-                :class="badgeClasses(computedEvent)"
-                :style="badgeStyles(computedEvent, week.length)"
-              >
-                <div
-                  v-if="computedEvent.event && computedEvent.event.details"
-                  class="title q-calendar__ellipsis"
-                >
+            <template v-for="(computedEvent, index) in getWeekEvents(week, weekdays)" :key="index">
+              <div :class="badgeClasses(computedEvent)" :style="badgeStyles(computedEvent, week.length)">
+                <div v-if="computedEvent.event && computedEvent.event.details" class="title q-calendar__ellipsis">
                   {{ computedEvent.event.title + (computedEvent.event.time ? ' - ' + computedEvent.event.time : '') }}
                   <q-tooltip>{{ computedEvent.event.details }}</q-tooltip>
                 </div>

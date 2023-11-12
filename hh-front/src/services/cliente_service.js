@@ -10,37 +10,6 @@ f -> funcion
 l -> local
 */
 
-function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('hhClienteTodas')
-}
-
-function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('hhClienteTodasConEliminadas')
-}
-
-function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('hhClientePorId/' + id + '/')
-}
-
-function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('hhClientePorIdConEliminadas/' + id + '/')
-}
-
-/*
-  spfBuscarTodasPorDireccion,
-  spfBuscarTodasPorDireccionConEliminadas,
-  spfBuscarTodasPorEmail,
-  spfBuscarTodasPorEmailConEliminadas,
-  spfBuscarTodasPorIdentificacion,
-  spfBuscarTodasPorIdentificacionConEliminadas,
-  spfBuscarTodasPorNombre,
-  spfBuscarTodasPorNombreConEliminadas,
-  spfBuscarTodasPorNotas,
-  spfBuscarTodasPorNotasConEliminadas,
-  spfBuscarTodasPorTelefono,
-  spfBuscarTodasPorTelefonoConEliminadas,
-  */
-
 function spfBuscarTodasPorDireccion (direccion) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'cliente/buscar-todas-por-direccion/' + direccion, {
@@ -265,6 +234,44 @@ function spfBuscarTodasConEliminadas () {
   })
 }
 
+function spfBuscarTodasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhClienteTodasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cliente/buscar-todas-con-eliminadas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhClienteTodasConEliminadasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
     axios.post(API_URL + 'cliente/buscar-todas-paginadas', paginadoDTO, {
@@ -426,11 +433,6 @@ function spfDestruir (id) {
 }
 
 export const clienteService = {
-  obtenerTodas,
-  obtenerTodasConEliminadas,
-  obtenerPorId,
-  obtenerPorIdConEliminadas,
-
   spfBuscarTodasPorDireccion,
   spfBuscarTodasPorDireccionConEliminadas,
   spfBuscarTodasPorEmail,
@@ -446,6 +448,8 @@ export const clienteService = {
 
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
+  spfBuscarTodasConSesion,
+  spfBuscarTodasConEliminadasConSesion,
   spfBuscarTodasPaginadas,
   spfBuscarTodasConEliminadasPaginadas,
   spfBuscarPorId,

@@ -30,11 +30,13 @@
 </template>
 
 <script>
-import { notificarService } from 'src/helpers/notificar_service'
-import { useQuasar, QSpinnerCube } from 'quasar'
-import { ref, reactive, onMounted } from 'vue'
-import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import { autenticacionService } from 'src/services/autenticacion_service'
+import { ingresoService } from 'src/services/ingreso_service'
+import { IngresoCreation } from 'src/models/creation/ingreso_creation'
+import { QSpinnerCube, useQuasar } from 'quasar'
+import { notificarService } from 'src/helpers/notificar_service'
+import { onBeforeRouteLeave, useRouter } from 'vue-router'
+import { onMounted, reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
 
 const USERNAME = process.env.APP_USERNAME_ADMIN
@@ -43,14 +45,16 @@ const PASSWORD = process.env.APP_PASSWORD_ADMIN
 export default {
   setup () {
     const $q = useQuasar()
-    const router = useRouter()
-    const cargando = ref(false)
     const password = ref(PASSWORD)
     const username = ref(USERNAME)
+    const cargando = ref(false)
+    const ingresoCreation = new IngresoCreation()
     const reglas = reactive(reglasValidacion.reglas)
+    const router = useRouter()
 
     onMounted(() => {
       $q.loading.hide()
+      afDatosIngreso()
     })
 
     onBeforeRouteLeave((to, from, next) => {
@@ -70,14 +74,19 @@ export default {
           username: username.value,
           password: password.value
         }
+        ingresoCreation.username = username.value
         const result = await autenticacionService.spfIngresar(user)
         console.log('Mensaje: ' + result.headers.mensaje)
         if (result.status === 200) {
           console.info(result.headers.mensaje)
+          ingresoCreation.logueado = true
+          ingresoService.spfGuardar(ingresoCreation)
           router.push({ name: 'Tablero' })
         }
       } catch (err) {
         console.clear()
+        ingresoCreation.logueado = false
+        ingresoService.spfGuardar(ingresoCreation)
         if (err.response.headers.mensaje) {
           console.error('Error: ' + err.response.headers.mensaje)
         } else {
@@ -86,6 +95,31 @@ export default {
         notificarService.notificarError('Hubo un error al comprobar las credenciales.')
       }
       cargando.value = false
+    }
+
+    async function afDatosIngreso () {
+      try {
+        const result = await ingresoService.spfObtenerDatosIngreso()
+        if (result.status === 200) {
+          ingresoCreation.ip = result.data.ip
+          ingresoCreation.hostname = result.data.hostname
+          ingresoCreation.country_name = result.data.country_name
+          ingresoCreation.state_prov = result.data.state_prov
+          ingresoCreation.district = result.data.district
+          ingresoCreation.city = result.data.city
+          ingresoCreation.zipcode = result.data.zipcode
+          ingresoCreation.country_flag = result.data.country_flag
+          ingresoCreation.isp = result.data.isp
+          ingresoCreation.organization = result.data.organization
+          ingresoCreation.asn = result.data.asn
+        }
+      } catch (err) {
+        if (err.response.headers.mensaje) {
+          console.error('Error: ' + err.response.headers.mensaje)
+        } else {
+          console.error('Hubo un error al intentar obtener los datos de ingreso.')
+        }
+      }
     }
 
     return {

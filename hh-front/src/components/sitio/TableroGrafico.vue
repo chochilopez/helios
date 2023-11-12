@@ -4,12 +4,7 @@
       <div class="row q-col-gutter-sm ">
         <div class="col-md-4 col-sm-12 col-xs-12">
           <q-item class="q-pa-none">
-            <apexchart
-      width="500"
-      type="bar"
-      :options="chartOptions"
-      :series="series"
-    ></apexchart>
+            <apexchart width="500" type="bar" :options="chartOptions" :series="series"></apexchart>
           </q-item>
         </div>
         <div class="col-md-4 col-sm-12 col-xs-12">

@@ -3,29 +3,6 @@ const API_URL = process.env.API_URL
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { llaveroService } from 'src/helpers/llavero_service'
 
-/*
-s -> servicio
-p -> promesa
-f -> funcion
-l -> local
-*/
-
-function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('hhCamionTodas')
-}
-
-function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('hhCamionTodasConEliminadas')
-}
-
-function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('hhCamionPorId/' + id + '/')
-}
-
-function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('hhCamionPorIdConEliminadas/' + id + '/')
-}
-
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'camion/buscar-todas', {
@@ -257,11 +234,6 @@ function spfDestruir (id) {
 }
 
 export const camionService = {
-  obtenerTodas,
-  obtenerTodasConEliminadas,
-  obtenerPorId,
-  obtenerPorIdConEliminadas,
-
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
   spfBuscarTodasConSesion,

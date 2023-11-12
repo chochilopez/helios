@@ -13,34 +13,20 @@ import java.util.List;
 public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByAcopladoId(Long id);
     List<ViajeModel> findAllByAcopladoIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByAcopladoIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByAcopladoIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByCamionId(Long id);
     List<ViajeModel> findAllByCamionIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByCamionIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByCamionIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByCantidadTransportadaBetween(Integer min, Integer max);
     List<ViajeModel> findAllByCantidadTransportadaBetweenAndEliminadaIsNull(Integer min, Integer max);
     List<ViajeModel> findAllByCargaId(Long id);
     List<ViajeModel> findAllByCargaIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByCargaIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByCargaIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByCategoriaViajeId(Long id);
     List<ViajeModel> findAllByCategoriaViajeIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByCategoriaViajeIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByCategoriaViajeIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByConductorId(Long id);
     List<ViajeModel> findAllByConductorIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByConductorIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByConductorIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByCompradorId(Long id);
     List<ViajeModel> findAllByCompradorIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByCompradorIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByCompradorIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByIntermediarioId(Long id);
     List<ViajeModel> findAllByIntermediarioIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByIntermediarioIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByIntermediarioIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByKmCargadoBetween(Double min, Double max);
     List<ViajeModel> findAllByKmCargadoBetweenAndEliminadaIsNull(Double min, Double max);
     List<ViajeModel> findAllByKmVacioBetween(Double min, Double max);
@@ -55,16 +41,10 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByValorKmBetweenAndEliminadaIsNull(Double min, Double max);
     List<ViajeModel> findAllByVendedorId(Long id);
     List<ViajeModel> findAllByVendedorIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByVendedorIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByVendedorIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByOrigenId(Long id);
     List<ViajeModel> findAllByOrigenIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByOrigenIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByOrigenIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
     List<ViajeModel> findAllByDestinoId(Long id);
     List<ViajeModel> findAllByDestinoIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByDestinoIdAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
-    List<ViajeModel> findAllByDestinoIdAndEliminadaIsNullAndCreadaBetween(Long id, LocalDateTime inicio, LocalDateTime fin);
 
     @Query(value = "SELECT v FROM ViajeModel v " +
             "JOIN EventoModel e ON v.fechaId = e.id " +

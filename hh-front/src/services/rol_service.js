@@ -11,22 +11,6 @@ f -> funcion
 l -> local
 */
 
-function obtenerTodas () {
-  return llavero.obtenerDeLocal('hhRolTodas')
-}
-
-function obtenerTodasConEliminadas () {
-  return llavero.obtenerDeLocal('hhRolTodasConEliminadas')
-}
-
-function obtenerPorId (id) {
-  return llavero.obtenerDeLocal('hhRolPorId/' + id + '/')
-}
-
-function obtenerPorIdConEliminadas (id) {
-  return llavero.obtenerDeLocal('hhRolPorIdConEliminadas/' + id + '/')
-}
-
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'rol/buscar-todas', {
@@ -228,11 +212,6 @@ function spfDestruir (id) {
 }
 
 export const rolService = {
-  obtenerTodas,
-  obtenerTodasConEliminadas,
-  obtenerPorId,
-  obtenerPorIdConEliminadas,
-
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
   spfBuscarTodasPaginadas,

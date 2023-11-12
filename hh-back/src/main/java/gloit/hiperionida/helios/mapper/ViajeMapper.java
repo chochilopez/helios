@@ -6,6 +6,7 @@ import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.*;
 import gloit.hiperionida.helios.repository.*;
 import gloit.hiperionida.helios.util.Helper;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
@@ -120,8 +121,8 @@ public class ViajeMapper {
             if (model.getCantidadTransportada() != null)
                 dto.setCantidadTransportada(model.getCantidadTransportada().toString());
             if (model.getCargaId() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getCargaId());
-                dto.setCarga(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
+                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getCargaId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección."));
+                dto.setCarga(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
             }
             if (model.getCategoriaViajeId() != null)
                 dto.setCategoriaViaje(categoriaViajeDAO.findByIdAndEliminadaIsNull(model.getCategoriaViajeId()).get().getCategoria());
@@ -130,8 +131,8 @@ public class ViajeMapper {
             if (model.getConductorId() != null)
                 dto.setConductor(conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).get().getNombre());
             if (model.getDestinoId() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId());
-                dto.setDestino(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
+                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección."));
+                dto.setDestino(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
             }
             if (model.getFechaId() != null)
                 dto.setFecha(eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).get().getFecha().toString());
@@ -146,8 +147,8 @@ public class ViajeMapper {
                 dto.setNeto(model.getNeto().toString());
             dto.setNotas(model.getNotas());
             if (model.getOrigenId() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId());
-                dto.setOrigen(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
+                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección."));
+                dto.setOrigen(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
             }
             if (model.getValorKm() != null)
                 dto.setValorKm(model.getValorKm().toString());

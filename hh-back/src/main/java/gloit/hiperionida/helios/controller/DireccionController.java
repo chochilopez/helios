@@ -3,6 +3,7 @@ package gloit.hiperionida.helios.controller;
 import gloit.hiperionida.helios.mapper.DireccionMapper;
 import gloit.hiperionida.helios.mapper.creation.DireccionCreation;
 import gloit.hiperionida.helios.mapper.dto.DireccionDTO;
+import gloit.hiperionida.helios.model.CiudadModel;
 import gloit.hiperionida.helios.model.DireccionModel;
 import gloit.hiperionida.helios.service.implementation.DireccionServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
@@ -38,6 +39,102 @@ public class DireccionController extends AbsBaseController {
         String mensaje = "Ocurrio un error al guardar el direccion. " + e.getMessage();
 
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+    }
+
+    @GetMapping(value = "/buscar-todas-ciudades")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<CiudadModel>> buscarTodasCiudades() {
+        List<CiudadModel> listado = direccionService.buscarTodasCiudad();
+
+        return new ResponseEntity<>(listado, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-ciudad/{ciudad}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<DireccionDTO>> buscarTodasPorCiudad(@PathVariable(name = "ciudad") String ciudad) {
+        List<DireccionModel> listado = direccionService.buscarTodasPorCiudad(ciudad);
+        ArrayList<DireccionDTO> direccions = new ArrayList<>();
+        for (DireccionModel direccion:listado) {
+            direccions.add(direccionMapper.toDto(direccion));
+        }
+        return new ResponseEntity<>(direccions, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-ciudad-con-eliminadas/{ciudad}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<DireccionDTO>> buscarTodasPorCiudadConEliminadas(@PathVariable(name = "ciudad") String ciudad) {
+        List<DireccionModel> listado = direccionService.buscarTodasPorCiudadConEliminadas(ciudad);
+        ArrayList<DireccionDTO> direccions = new ArrayList<>();
+        for (DireccionModel direccion:listado) {
+            direccions.add(direccionMapper.toDto(direccion));
+        }
+        return new ResponseEntity<>(direccions, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-direccion/{direcion}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<DireccionDTO>> buscarTodasPorDireccion(@PathVariable(name = "direcion") String direcion) {
+        List<DireccionModel> listado = direccionService.buscarTodasPorDireccion(direcion);
+        ArrayList<DireccionDTO> direccions = new ArrayList<>();
+        for (DireccionModel direccion:listado) {
+            direccions.add(direccionMapper.toDto(direccion));
+        }
+        return new ResponseEntity<>(direccions, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-direccion-con-eliminadas/{direcion}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<DireccionDTO>> buscarTodasPorDireccionConEliminadas(@PathVariable(name = "direcion") String direcion) {
+        List<DireccionModel> listado = direccionService.buscarTodasPorDireccionConEliminadas(direcion);
+        ArrayList<DireccionDTO> direccions = new ArrayList<>();
+        for (DireccionModel direccion:listado) {
+            direccions.add(direccionMapper.toDto(direccion));
+        }
+        return new ResponseEntity<>(direccions, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-nombre/{nombre}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<DireccionDTO>> buscarTodasPorNombre(@PathVariable(name = "nombre") String nombre) {
+        List<DireccionModel> listado = direccionService.buscarTodasPorNombre(nombre);
+        ArrayList<DireccionDTO> direccions = new ArrayList<>();
+        for (DireccionModel direccion:listado) {
+            direccions.add(direccionMapper.toDto(direccion));
+        }
+        return new ResponseEntity<>(direccions, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-nombre-con-eliminadas/{nombre}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<DireccionDTO>> buscarTodasPorNombreConEliminadas(@PathVariable(name = "nombre") String nombre) {
+        List<DireccionModel> listado = direccionService.buscarTodasPorNombreConEliminadas(nombre);
+        ArrayList<DireccionDTO> direccions = new ArrayList<>();
+        for (DireccionModel direccion:listado) {
+            direccions.add(direccionMapper.toDto(direccion));
+        }
+        return new ResponseEntity<>(direccions, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas/{notas}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<DireccionDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
+        List<DireccionModel> listado = direccionService.buscarTodasPorNotas(notas);
+        ArrayList<DireccionDTO> direccions = new ArrayList<>();
+        for (DireccionModel direccion:listado) {
+            direccions.add(direccionMapper.toDto(direccion));
+        }
+        return new ResponseEntity<>(direccions, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas-con-eliminadas/{notas}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<DireccionDTO>> buscarTodasPorNotasConEliminadas(@PathVariable(name = "notas") String notas) {
+        List<DireccionModel> listado = direccionService.buscarTodasPorNotasConEliminadas(notas);
+        ArrayList<DireccionDTO> direccions = new ArrayList<>();
+        for (DireccionModel direccion:listado) {
+            direccions.add(direccionMapper.toDto(direccion));
+        }
+        return new ResponseEntity<>(direccions, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")

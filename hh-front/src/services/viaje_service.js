@@ -10,22 +10,6 @@ f -> funcion
 l -> local
 */
 
-function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('hhViajeTodas')
-}
-
-function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('hhViajeTodasConEliminadas')
-}
-
-function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('hhViajePorId/' + id + '/')
-}
-
-function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('hhViajePorIdConEliminadas/' + id + '/')
-}
-
 function spfBuscarTodasPorAcopladoId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-acoplado-id/' + id, {
@@ -77,38 +61,6 @@ function spfBuscarTodasPorCamionId (id) {
 function spfBuscarTodasPorCamionIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-camion-id-con-eliminadas/' + id, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorCamionIdEntreFechas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-camion-id/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorCamionIdEntreFechasConEliminadas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-camion-id-con-eliminadas/' + id + '/' + inicio + '/' + fin, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -186,38 +138,6 @@ function spfBuscarTodasPorConductorIdConEliminadas (id) {
   })
 }
 
-function spfBuscarTodasPorConductorIdEntreFechas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-conductor-id/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorConductorIdEntreFechasConEliminadas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-conductor-id-con-eliminadas/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
 function spfBuscarTodasPorCompradorId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-comprador-id/' + id, {
@@ -237,38 +157,6 @@ function spfBuscarTodasPorCompradorId (id) {
 function spfBuscarTodasPorCompradorIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-comprador-id-con-eliminadas/' + id, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorCompradorIdEntreFechas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-comprador-id/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorCompradorIdEntreFechasConEliminadas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-comprador-id-con-eliminadas/' + id + '/' + inicio + '/' + fin, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -314,38 +202,6 @@ function spfBuscarTodasPorDireccionCargaIdConEliminadas (id) {
   })
 }
 
-function spfBuscarTodasPorDireccionCargaIdEntreFechas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-carga-id/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorDireccionCargaIdEntreFechasConEliminadas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-carga-id-con-eliminadas/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
 function spfBuscarTodasPorDireccionDestinoId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-destino-id/' + id, {
@@ -378,38 +234,6 @@ function spfBuscarTodasPorDireccionDestinoIdConEliminadas (id) {
   })
 }
 
-function spfBuscarTodasPorDireccionDestinoIdEntreFechas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-destino-id/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorDireccionDestinoIdEntreFechasConEliminadas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-destino-id-con-eliminadas/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
 function spfBuscarTodasPorDireccionOrigenId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-origen-id/' + id, {
@@ -429,38 +253,6 @@ function spfBuscarTodasPorDireccionOrigenId (id) {
 function spfBuscarTodasPorDireccionOrigenIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-origen-id-con-eliminadas/' + id, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorDireccionOrigenIdEntreFechas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-origen-id/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorDireccionOrigenIdEntreFechasConEliminadas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-origen-id-con-eliminadas/' + id + '/' + inicio + '/' + fin, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -762,38 +554,6 @@ function spfBuscarTodasPorIntermediarioIdConEliminadas (id) {
   })
 }
 
-function spfBuscarTodasPorIntermediarioIdEntreFechas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-intermediario-id/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorIntermediarioIdEntreFechasConEliminadas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-intermediario-id-con-eliminadas/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
 function spfBuscarTodasPorVendedorId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-vendedor-id/' + id, {
@@ -813,38 +573,6 @@ function spfBuscarTodasPorVendedorId (id) {
 function spfBuscarTodasPorVendedorIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-todas-por-vendedor-id-con-eliminadas/' + id, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorVendedorIdEntreFechas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-vendedor-id/' + id + '/' + inicio + '/' + fin, {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPorVendedorIdEntreFechasConEliminadas (id, inicio, fin) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'viaje/buscar-todas-por-vendedor-id-con-eliminadas/' + id + '/' + inicio + '/' + fin, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -922,10 +650,6 @@ function spfSumarKmVacio () {
   })
 }
 
-/* FIN métodos especificos */
-
-/* INICIO métodos generales */
-
 function spfBuscarPorId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-por-id/' + id, {
@@ -982,6 +706,44 @@ function spfBuscarTodasConEliminadas () {
       }
     })
       .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/buscar-todas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhViajeTodasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/buscar-todas-con-eliminadas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhViajeTodasConEliminadasConSesion', result.data, sesion)
+        }
         resolve(result)
       })
       .catch((error) => {
@@ -1121,68 +883,49 @@ function spfDestruir (id) {
 /* FIN métodos generales */
 
 export const viajeService = {
-  obtenerTodas,
-  obtenerTodasConEliminadas,
-  obtenerPorId,
-  obtenerPorIdConEliminadas,
-
   spfBuscarTodasPorAcopladoId,
   spfBuscarTodasPorAcopladoIdConEliminadas,
   spfBuscarTodasPorCamionId,
   spfBuscarTodasPorCamionIdConEliminadas,
-  spfBuscarTodasPorCamionIdEntreFechas,
-  spfBuscarTodasPorCamionIdEntreFechasConEliminadas,
   spfBuscarTodasPorCategoriaViajeId,
   spfBuscarTodasPorCategoriaViajeIdConEliminadas,
   spfBuscarTodasPorConductorId,
   spfBuscarTodasPorConductorIdConEliminadas,
-  spfBuscarTodasPorConductorIdEntreFechas,
-  spfBuscarTodasPorConductorIdEntreFechasConEliminadas,
   spfBuscarTodasPorCompradorId,
   spfBuscarTodasPorCompradorIdConEliminadas,
-  spfBuscarTodasPorCompradorIdEntreFechas,
-  spfBuscarTodasPorCompradorIdEntreFechasConEliminadas,
   spfBuscarTodasPorDireccionCargaId,
   spfBuscarTodasPorDireccionCargaIdConEliminadas,
-  spfBuscarTodasPorDireccionCargaIdEntreFechas,
-  spfBuscarTodasPorDireccionCargaIdEntreFechasConEliminadas,
   spfBuscarTodasPorDireccionDestinoId,
   spfBuscarTodasPorDireccionDestinoIdConEliminadas,
-  spfBuscarTodasPorDireccionDestinoIdEntreFechas,
-  spfBuscarTodasPorDireccionDestinoIdEntreFechasConEliminadas,
   spfBuscarTodasPorDireccionOrigenId,
   spfBuscarTodasPorDireccionOrigenIdConEliminadas,
-  spfBuscarTodasPorDireccionOrigenIdEntreFechas,
-  spfBuscarTodasPorDireccionOrigenIdEntreFechasConEliminadas,
   spfBuscarTodasPorIntermediarioId,
   spfBuscarTodasPorIntermediarioIdConEliminadas,
-  spfBuscarTodasPorIntermediarioIdEntreFechas,
-  spfBuscarTodasPorIntermediarioIdEntreFechasConEliminadas,
   spfBuscarTodasPorFechaViajeEntreFechas,
   spfBuscarTodasPorFechaViajeEntreFechasConEliminadas,
-  spfBuscarTodasPorRangoCantidadTransportada,
-  spfBuscarTodasPorRangoCantidadTransportadaConEliminadas,
-  spfBuscarTodasPorRangoKmCargado,
-  spfBuscarTodasPorRangoKmCargadoConEliminadas,
-  spfBuscarTodasPorRangoKmVacio,
-  spfBuscarTodasPorRangoKmVacioConEliminadas,
   spfBuscarTodasPorNotas,
   spfBuscarTodasPorNotasConEliminadas,
   spfBuscarTodasPorGuia,
   spfBuscarTodasPorGuiaConEliminadas,
+  spfBuscarTodasPorRangoCantidadTransportada,
+  spfBuscarTodasPorRangoCantidadTransportadaConEliminadas,
+
   spfBuscarTodasPorRangoNeto,
   spfBuscarTodasPorRangoNetoConEliminadas,
   spfBuscarTodasPorRangoValorKm,
   spfBuscarTodasPorRangoValorKmConEliminadas,
   spfBuscarTodasPorVendedorId,
   spfBuscarTodasPorVendedorIdConEliminadas,
-  spfBuscarTodasPorVendedorIdEntreFechas,
-  spfBuscarTodasPorVendedorIdEntreFechasConEliminadas,
-
+  spfBuscarTodasPorRangoKmCargado,
+  spfBuscarTodasPorRangoKmCargadoConEliminadas,
+  spfBuscarTodasPorRangoKmVacio,
+  spfBuscarTodasPorRangoKmVacioConEliminadas,
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
+  spfBuscarTodasConSesion,
+  spfBuscarTodasConEliminadasConSesion,
   spfBuscarTodasPaginadas,
   spfBuscarTodasConEliminadasPaginadas,
   spfBuscarUltimoViaje,

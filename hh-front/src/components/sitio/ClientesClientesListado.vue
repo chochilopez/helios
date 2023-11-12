@@ -16,22 +16,13 @@
         <template v-slot:top-left>
           <div class="column">
             <p class="text-h5">Clientes</p>
-            <q-btn
-              class="paleta2-fondo2 paleta1-color1 q-mb-lg"
-              icon="add_circle"
-              label="Nuevo cliente"
-              @click="fMostrarNuevoCliente"
-            />
+            <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo cliente" @click="fMostrarNuevoCliente" />
           </div>
         </template>
         <template v-slot:top-right>
           <div class="column items-end">
             <div class="q-my-md">
-              <q-btn-dropdown
-                class="paleta2-fondo2 paleta1-color1"
-                label="Buscar clientes por"
-                dropdown-icon="fa-solid fa-magnifying-glass"
-              >
+              <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar clientes por" dropdown-icon="fa-solid fa-magnifying-glass">
                 <q-list>
                   <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccion">
                     <q-item-section avatar>
@@ -67,7 +58,7 @@
                   </q-item>
                   <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
                     <q-item-section avatar>
-                      <q-icon name="sticky_note_2" />
+                      <q-icon name="fa-solid fa-pen-to-square" />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>Notas</q-item-label>
@@ -324,12 +315,7 @@
     </div>
   </div>
 
-  <q-dialog
-    v-model="nuevoClienteDialog"
-    persistent
-    transition-show="fade"
-    transition-hide="fade"
-  >
+  <q-dialog v-model="nuevoClienteDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
         <div class="text-h6 text-grey-8">Nuevo cliente</div>
@@ -606,9 +592,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorDireccionConEliminadas(
-              direccion.value
-            )
+            resultado = await clienteService.spfBuscarTodasPorDireccionConEliminadas(direccion.value)
           } else {
             resultado = await clienteService.spfBuscarTodasPorDireccion(direccion.value)
           }
@@ -625,9 +609,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -644,9 +626,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorEmailConEliminadas(
-              email.value
-            )
+            resultado = await clienteService.spfBuscarTodasPorEmailConEliminadas(email.value)
           } else {
             resultado = await clienteService.spfBuscarTodasPorEmail(email.value)
           }
@@ -663,9 +643,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -682,9 +660,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorIdentificacionConEliminadas(
-              identificacion.value
-            )
+            resultado = await clienteService.spfBuscarTodasPorIdentificacionConEliminadas(identificacion.value)
           } else {
             resultado = await clienteService.spfBuscarTodasPorIdentificacion(identificacion.value)
           }
@@ -701,9 +677,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -720,9 +694,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorNombreConEliminadas(
-              nombre.value
-            )
+            resultado = await clienteService.spfBuscarTodasPorNombreConEliminadas(nombre.value)
           } else {
             resultado = await clienteService.spfBuscarTodasPorNombre(nombre.value)
           }
@@ -739,9 +711,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -758,9 +728,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorNotasConEliminadas(
-              notas.value
-            )
+            resultado = await clienteService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
             resultado = await clienteService.spfBuscarTodasPorNotas(notas.value)
           }
@@ -777,9 +745,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -796,9 +762,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorTelefonoConEliminadas(
-              telefono.value
-            )
+            resultado = await clienteService.spfBuscarTodasPorTelefonoConEliminadas(telefono.value)
           } else {
             resultado = await clienteService.spfBuscarTodasPorTelefono(telefono.value)
           }
@@ -815,9 +779,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -836,7 +798,7 @@ export default {
         if (resultado.status === 201) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
-          notificarService.notificarExito('Se creó correctamente el viaje.')
+          notificarService.notificarExito('Se creó correctamente el cliente.')
         }
       } catch (err) {
         console.clear()
@@ -845,9 +807,7 @@ export default {
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)

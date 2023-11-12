@@ -27,11 +27,17 @@
         <template v-slot:top-right>
           <div class="column items-end">
             <div class="q-my-md">
-              <q-btn-dropdown
-                class="paleta2-fondo2 paleta1-color1"
-                label="Buscar direcciones por"
-                dropdown-icon="fa-solid fa-magnifying-glass"
-              >
+              <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar direcciones por" dropdown-icon="fa-solid fa-magnifying-glass">
+                <q-list>
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCiudad">
+                    <q-item-section avatar>
+                      <q-icon name="location_city" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Ciudad</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
                 <q-list>
                   <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccion">
                     <q-item-section avatar>
@@ -42,9 +48,54 @@
                     </q-item-section>
                   </q-item>
                 </q-list>
+                <q-list>
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNombre">
+                    <q-item-section avatar>
+                      <q-icon name="contact_mail" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Nombre</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+                <q-list>
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
+                    <q-item-section avatar>
+                      <q-icon name="fa-solid fa-pen-to-square" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Notas</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
               </q-btn-dropdown>
             </div>
             <div class="col">
+              <q-select
+                v-if="editCiudad"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="ciudad"
+                option-value="id"
+                option-label="ciudad"
+                label="Buscar por ciudad"
+                use-input
+                hide-selected
+                fill-input
+                :options="ciudades"
+                @filter="fFiltrarCiudades"
+                @update:model-value="afBuscarPorCiudad()"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
               <q-input
                 v-if="editDireccion"
                 outlined
@@ -61,12 +112,45 @@
                   </q-item>
                 </template>
                 <template v-slot:after>
-                  <q-icon
-                    name="fa-solid fa-magnifying-glass"
-                    class="q-mx-xs"
-                    v-on:click="afBuscarPorDireccion()"
-                    style="cursor: pointer"
-                  />
+                  <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorDireccion()" style="cursor: pointer" />
+                </template>
+              </q-input>
+              <q-input
+                v-if="editNombre"
+                outlined
+                dense
+                clearable
+                v-on:keyup.enter="afBuscarPorNombre()"
+                v-model="nombre"
+                label="Buscar por nombre"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+                <template v-slot:after>
+                  <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorNombre()" style="cursor: pointer" />
+                </template>
+              </q-input>
+              <q-input
+                v-if="editNotas"
+                outlined
+                dense
+                clearable
+                v-on:keyup.enter="afBuscarPorNotas()"
+                v-model="notas"
+                label="Buscar por notas"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+                <template v-slot:after>
+                  <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorNotas()" style="cursor: pointer" />
                 </template>
               </q-input>
             </div>
@@ -86,13 +170,16 @@
               />
             </q-td>
             <q-td>
-              {{ props.row.direccion }}
+              {{ props.row.ciudad }}
             </q-td>
             <q-td>
-              {{ props.row.ciudad}}
+              {{ props.row.direccion}}
             </q-td>
             <q-td>
               {{ props.row.nombre }}
+            </q-td>
+            <q-td>
+              {{ props.row.notas }}
             </q-td>
           </q-tr>
           <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
@@ -102,17 +189,21 @@
                   <div class="row text-white">{{ props.row.id }}</div>
                   <div class="row paleta1-color2">Id</div>
                 </div>
-                <div v-if="props.row.direccion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.direccion }}</div>
-                  <div class="row paleta1-color2">Direccion</div>
-                </div>
-                <div v-if="props.row.ciudad != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                <div v-if="props.row.ciudad != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
                   <div class="row text-white">{{ props.row.ciudad }}</div>
                   <div class="row paleta1-color2">Ciudad</div>
+                </div>
+                <div v-if="props.row.direccion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.direccion }}</div>
+                  <div class="row paleta1-color2">Direccion</div>
                 </div>
                 <div v-if="props.row.nombre != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.nombre }}</div>
                   <div class="row paleta1-color2">Nombre</div>
+                </div>
+                <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.notas }}</div>
+                  <div class="row paleta1-color2">Notas</div>
                 </div>
                 <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.creador }}</div>
@@ -150,12 +241,7 @@
     </div>
   </div>
 
-  <q-dialog
-    v-model="nuevoClienteDialog"
-    persistent
-    transition-show="fade"
-    transition-hide="fade"
-  >
+  <q-dialog v-model="nuevoDireccionDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
         <div class="text-h6 text-grey-8">Nueva direccion</div>
@@ -166,25 +252,38 @@
         <q-icon name="img:/icons/numeros/number1.svg" size="3em" class="svg-primary" :class="{ 'svg-accent': paso1 }" />
       </div>
       <q-card-section v-if="paso1">
-        <q-form v-on:submit.prevent="fGuardarCliente">
+        <q-form v-on:submit.prevent="fGuardarDireccion">
           <div class="row justify-around">
             <div class="col-xs-5 q-mx-xs q-my-md">
-              <q-input
+              <q-select
                 class="nuevo-input"
-                v-model="clienteCreation.nombre"
-                :rules="[reglas.requerido]"
                 outlined
                 dense
+                emit-value
+                map-options
                 clearable
-                label="Nombre"
-                hint="Apellido y nombre"
+                v-model="direccionCreation.ciudad"
+                :rules="[reglas.requerido]"
+                :options="direccionesDestino"
+                option-value="id"
+                option-label="direccion"
+                label="Direccion de destino"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarDireccionesDestino"
+                hint="Ingresá 3 caracteres para buscar."
               >
-              </q-input>
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-input"
-                v-model="clienteCreation.direccion"
+                v-model="direccionCreation.direccion"
                 :rules="[reglas.requerido]"
                 outlined
                 dense
@@ -197,7 +296,7 @@
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-input"
-                v-model="clienteCreation.email"
+                v-model="direccionCreation.email"
                 :rules="[reglas.requerido]"
                 outlined
                 dense
@@ -210,7 +309,7 @@
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-input"
-                v-model="clienteCreation.telefono"
+                v-model="direccionCreation.telefono"
                 :rules="[reglas.requerido]"
                 outlined
                 dense
@@ -223,7 +322,7 @@
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-input"
-                v-model="clienteCreation.identificacion"
+                v-model="direccionCreation.identificacion"
                 :rules="[reglas.requerido]"
                 outlined
                 dense
@@ -237,7 +336,7 @@
               <q-input
                 class="nuevo-input"
                 type="textarea"
-                v-model="clienteCreation.notas"
+                v-model="direccionCreation.notas"
                 autogrow
                 outlined
                 dense
@@ -261,8 +360,8 @@
 <script>
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
-import { ClienteCreation } from 'src/models/creation/cliente_creation'
-import { clienteService } from 'src/services/cliente_service'
+import { DireccionCreation } from 'src/models/creation/direccion_creation'
+import { direccionService } from 'src/services/direccion_service'
 import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { reactive, ref } from 'vue'
@@ -283,10 +382,10 @@ const columnas = [
     align: 'center'
   },
   {
-    name: 'nombre',
-    label: 'Nombre',
+    name: 'ciudad',
+    label: 'Ciudad',
     align: 'left',
-    field: 'nombre',
+    field: 'ciudad',
     sortable: true
   },
   {
@@ -297,24 +396,18 @@ const columnas = [
     sortable: true
   },
   {
-    name: 'email',
-    label: 'Email',
+    name: 'nombre',
+    label: 'Nombre',
     align: 'left',
-    field: 'email',
+    field: 'nombre',
     sortable: true
   },
   {
-    name: 'identificacion',
-    label: 'Identificacion',
+    name: 'notas',
+    label: 'Notas',
     align: 'left',
-    field: 'identificacion',
+    field: 'notas',
     sortable: true
-  },
-  {
-    name: 'telefono',
-    label: 'telefono',
-    align: 'left',
-    field: 'telefono'
   }
 ]
 
@@ -322,55 +415,39 @@ export default {
   setup () {
     const $q = useQuasar()
 
-    const clienteCreation = reactive(new ClienteCreation())
-    const direcciones = ref([])
-    const clientesList = ref([])
+    const ciudad = ref(null)
+    const ciudades = ref([])
+    const ciudadesList = ref([])
+    const direccionCreation = reactive(new DireccionCreation())
     const direccion = ref(null)
+    const direcciones = ref([])
+    const editCiudad = ref(false)
     const editDireccion = ref(false)
-    const editEmail = ref(false)
-    const editIdentifiacion = ref(false)
     const editNombre = ref(true)
     const editNotas = ref(false)
-    const editTelefono = ref(false)
-    const email = ref(null)
     const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
-    const identificacion = ref(null)
     const nombre = ref(null)
     const notas = ref(null)
     const nuevaBusqueda = ref(false)
-    const nuevoClienteDialog = ref(false)
+    const nuevoDireccionDialog = ref(false)
     const paso1 = ref(true)
     const reglas = reactive(reglasValidacion.reglas)
     const sesion = ref(uuidv4())
-    const telefono = ref(null)
 
     afBuscarPaginadas()
 
-    async function afBuscarClientes () {
+    async function afBuscarCiudades () {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
-          if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value) !== null) {
-            clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value).value
-            console.log('ClienteService: Sesion recargada, con eliminadas.')
-          } else {
-            resultado = await clienteService.spfBuscarTodasConEliminadasConSesion(sesion.value)
-            if (resultado.status === 200) {
-              clientesList.value = resultado.data
-              console.log('ClienteService: ' + resultado.headers.mensaje)
-            }
-          }
+        if (llaveroService.obtenerDeLocalConSesion('hhCiudadesTodasConSesion', sesion.value) !== null) {
+          ciudadesList.value = llaveroService.obtenerDeLocalConSesion('hhCiudadesTodasConSesion', sesion.value).value
+          console.log('DireccionService: Sesion recargada, con eliminadas.')
         } else {
-          if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConSesion', sesion.value) !== null) {
-            clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConSesion', sesion.value).value
-            console.log('ClienteService: Sesion recargada.')
-          } else {
-            resultado = await clienteService.spfBuscarTodasConSesion(sesion.value)
-            if (resultado.status === 200) {
-              clientesList.value = resultado.data
-              console.log('ClienteService: ' + resultado.headers.mensaje)
-            }
+          resultado = await direccionService.spfBuscarTodasCiudadesConSesion()
+          if (resultado.status === 200) {
+            ciudadesList.value = resultado.data
+            console.log('DireccionService: ' + resultado.headers.mensaje)
           }
         }
         $q.loading.hide()
@@ -399,9 +476,9 @@ export default {
         }
         let resultado = null
         if (esAdmin.value) {
-          resultado = await clienteService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
+          resultado = await direccionService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
-          resultado = await clienteService.spfBuscarTodasPaginadas(paginadoDTO)
+          resultado = await direccionService.spfBuscarTodasPaginadas(paginadoDTO)
         }
         if (resultado.status === 200) {
           direcciones.value = resultado.data.content
@@ -426,17 +503,49 @@ export default {
       }
     }
 
+    async function afBuscarPorCiudad () {
+      if (ciudad.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (esAdmin.value) {
+            resultado = await direccionService.spfBuscarTodasPorCiudadConEliminadas(ciudad.value)
+          } else {
+            resultado = await direccionService.spfBuscarTodasPorCiudad(ciudad.value)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            direcciones.value = resultado.data
+          }
+          $q.loading.hide()
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            direcciones.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
     async function afBuscarPorDireccion () {
       if (direccion.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorDireccionConEliminadas(
-              direccion.value
-            )
+            resultado = await direccionService.spfBuscarTodasPorDireccionConEliminadas(direccion.value)
           } else {
-            resultado = await clienteService.spfBuscarTodasPorDireccion(direccion.value)
+            resultado = await direccionService.spfBuscarTodasPorDireccion(direccion.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -451,85 +560,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
-          } else {
-            const mensaje = 'Hubo un error al intentar obtener el listado.'
-            notificarService.notificarError(mensaje)
-            console.error(mensaje)
-          }
-          $q.loading.hide()
-        }
-      }
-    }
-
-    async function afBuscarPorEmail () {
-      if (email.value != null) {
-        $q.loading.show()
-        try {
-          let resultado = null
-          if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorEmailConEliminadas(
-              email.value
-            )
-          } else {
-            resultado = await clienteService.spfBuscarTodasPorEmail(email.value)
-          }
-          if (resultado.status === 200) {
-            console.log(resultado.headers.mensaje)
-            direcciones.value = resultado.data
-          }
-          $q.loading.hide()
-        } catch (err) {
-          console.clear()
-          if (err.response.status === 404) {
-            direcciones.value = []
-            console.info(err.response.headers.mensaje)
-            notificarService.infoAlerta(err.response.headers.mensaje)
-          } else if (err.response.headers.mensaje) {
-            console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
-          } else {
-            const mensaje = 'Hubo un error al intentar obtener el listado.'
-            notificarService.notificarError(mensaje)
-            console.error(mensaje)
-          }
-          $q.loading.hide()
-        }
-      }
-    }
-
-    async function afBuscarPorIdentificacion () {
-      if (identificacion.value != null) {
-        $q.loading.show()
-        try {
-          let resultado = null
-          if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorIdentificacionConEliminadas(
-              identificacion.value
-            )
-          } else {
-            resultado = await clienteService.spfBuscarTodasPorIdentificacion(identificacion.value)
-          }
-          if (resultado.status === 200) {
-            console.log(resultado.headers.mensaje)
-            direcciones.value = resultado.data
-          }
-          $q.loading.hide()
-        } catch (err) {
-          console.clear()
-          if (err.response.status === 404) {
-            direcciones.value = []
-            console.info(err.response.headers.mensaje)
-            notificarService.infoAlerta(err.response.headers.mensaje)
-          } else if (err.response.headers.mensaje) {
-            console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -546,11 +577,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorNombreConEliminadas(
-              nombre.value
-            )
+            resultado = await direccionService.spfBuscarTodasPorNombreConEliminadas(nombre.value)
           } else {
-            resultado = await clienteService.spfBuscarTodasPorNombre(nombre.value)
+            resultado = await direccionService.spfBuscarTodasPorNombre(nombre.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -565,9 +594,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -584,11 +611,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorNotasConEliminadas(
-              notas.value
-            )
+            resultado = await direccionService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
-            resultado = await clienteService.spfBuscarTodasPorNotas(notas.value)
+            resultado = await direccionService.spfBuscarTodasPorNotas(notas.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -603,9 +628,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -616,53 +639,15 @@ export default {
       }
     }
 
-    async function afBuscarPorTelefono () {
-      if (telefono.value != null) {
-        $q.loading.show()
-        try {
-          let resultado = null
-          if (esAdmin.value) {
-            resultado = await clienteService.spfBuscarTodasPorTelefonoConEliminadas(
-              telefono.value
-            )
-          } else {
-            resultado = await clienteService.spfBuscarTodasPorTelefono(telefono.value)
-          }
-          if (resultado.status === 200) {
-            console.log(resultado.headers.mensaje)
-            direcciones.value = resultado.data
-          }
-          $q.loading.hide()
-        } catch (err) {
-          console.clear()
-          if (err.response.status === 404) {
-            direcciones.value = []
-            console.info(err.response.headers.mensaje)
-            notificarService.infoAlerta(err.response.headers.mensaje)
-          } else if (err.response.headers.mensaje) {
-            console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
-          } else {
-            const mensaje = 'Hubo un error al intentar obtener el listado.'
-            notificarService.notificarError(mensaje)
-            console.error(mensaje)
-          }
-          $q.loading.hide()
-        }
-      }
-    }
-
-    async function afGuardarCliente () {
+    async function afGuardarDireccion () {
       $q.loading.show()
       try {
         let resultado = null
-        resultado = await clienteService.spfGuardar(clienteCreation)
+        resultado = await direccionService.spfGuardar(direccionCreation)
         if (resultado.status === 201) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
-          notificarService.notificarExito('Se creó correctamente el viaje.')
+          notificarService.notificarExito('Se creó correctamente la direccion.')
         }
       } catch (err) {
         console.clear()
@@ -671,9 +656,7 @@ export default {
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -687,10 +670,22 @@ export default {
       return ayuda.getDateWithFormat(fecha)
     }
 
-    function fGuardarCliente () {
-      afGuardarCliente().then(() => {
+    function fFiltrarCiudades (val, update, abort) {
+      if (val.length < 3) {
+        abort()
+        return
+      }
+      update(() => {
+        ciudades.value = ciudadesList.value.filter(
+          (v) => v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1
+        )
+      })
+    }
+
+    function fGuardarDireccion () {
+      afGuardarDireccion().then(() => {
         afBuscarPaginadas().then(() => {
-          nuevoClienteDialog.value = false
+          nuevoDireccionDialog.value = false
           fIrPaso1()
         })
       })
@@ -702,41 +697,36 @@ export default {
     }
 
     function fLimpiarFormulario () {
-      clienteCreation.direccion = null
-      clienteCreation.email = null
-      clienteCreation.identificacion = null
-      clienteCreation.nombre = null
-      clienteCreation.notas = null
-      clienteCreation.telefono = null
+      direccionCreation.ciudad = null
+      direccionCreation.direccion = null
+      direccionCreation.nombre = null
+      direccionCreation.notas = null
     }
 
     function fLimpiarInputs (actual) {
-      direccion.value = null
+      editCiudad.value = null
+      ciudad.value = null
+      ciudades.value = null
       editDireccion.value = null
-      editEmail.value = null
-      editIdentifiacion.value = null
+      direccion.value = null
       editNombre.value = null
-      editNotas.value = null
-      editTelefono.value = null
-      email.value = null
-      identificacion.value = null
       nombre.value = null
+      editNotas.value = null
       notas.value = null
-      telefono.value = null
+    }
+
+    function fMostrarCiudad () {
+      afBuscarCiudades().then(() => {
+        fLimpiarInputs()
+        editCiudad.value = true
+      })
     }
 
     function fMostrarDireccion () {
       fLimpiarInputs()
       editDireccion.value = true
     }
-    function fMostrarEmail () {
-      fLimpiarInputs()
-      editEmail.value = true
-    }
-    function fMostrarIdentificacion () {
-      fLimpiarInputs()
-      editIdentifiacion.value = true
-    }
+
     function fMostrarNombre () {
       fLimpiarInputs()
       editNombre.value = true
@@ -745,52 +735,44 @@ export default {
       fLimpiarInputs()
       editNotas.value = true
     }
-    function fMostrarTelefono () {
-      fLimpiarInputs()
-      editTelefono.value = true
-    }
 
     function fMostrarNuevaDireccion () {
-      fIrPaso1()
-      nuevoClienteDialog.value = true
+      afBuscarCiudades().then(() => {
+        fIrPaso1()
+        nuevoDireccionDialog.value = true
+      })
     }
 
     return {
+      afBuscarPorCiudad,
       afBuscarPorDireccion,
-      afBuscarPorEmail,
-      afBuscarPorIdentificacion,
       afBuscarPorNombre,
       afBuscarPorNotas,
-      afBuscarPorTelefono,
-      clienteCreation,
-      direcciones,
+      ciudad,
+      ciudades,
       columnas,
       direccion,
+      direccionCreation,
+      direcciones,
+      editCiudad,
       editDireccion,
-      editEmail,
-      editIdentifiacion,
       editNombre,
       editNotas,
-      editTelefono,
-      email,
       esAdmin,
+      fFiltrarCiudades,
       fFormatoFecha,
-      fGuardarCliente,
+      fGuardarDireccion,
+      fMostrarCiudad,
       fMostrarDireccion,
-      fMostrarEmail,
-      fMostrarIdentificacion,
       fMostrarNombre,
       fMostrarNotas,
       fMostrarNuevaDireccion,
-      fMostrarTelefono,
-      identificacion,
       nombre,
       notas,
       nuevaBusqueda,
-      nuevoClienteDialog,
+      nuevoDireccionDialog,
       paginacion,
       paso1,
-      telefono,
       reglas
     }
   }

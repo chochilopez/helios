@@ -111,7 +111,7 @@ public class Helper {
         try {
             if (bool.isEmpty())
                 return null;
-            return Boolean.getBoolean(bool);
+            return Boolean.valueOf(bool);
         }catch(Exception e) {
             return null;
         }

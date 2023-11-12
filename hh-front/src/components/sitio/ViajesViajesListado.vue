@@ -1,10 +1,8 @@
 <template>
-  <q-card class="font-5 no-shadow no-border">
-  </q-card>
+  <q-card class="font-5 no-shadow no-border"> </q-card>
   <div class="row q-pa-md">
     <div class="col">
-      <q-table
-        title="Viajes"
+      <q-table title="Viajes"
         :columns="columnas"
         rows-per-page-label="Registros por pagina"
         no-data-label="Sin datos para mostrar"
@@ -16,29 +14,15 @@
         <template v-slot:top-left>
           <div class="column">
             <p class="text-h5">Viajes</p>
-            <q-btn
-              class="paleta2-fondo2 paleta1-color1 q-mb-lg"
-              icon="add_circle"
-              label="Nuevo viaje"
-              @click="fMostrarNuevoViaje"
-            />
+            <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo viaje" @click="fMostrarNuevoViaje" />
           </div>
         </template>
         <template v-slot:top-right>
           <div class="column items-end">
             <div class="q-my-md">
-              <q-btn-dropdown
-                class="paleta2-fondo2 paleta1-color1"
-                label="Buscar viajes por"
-                dropdown-icon="fa-solid fa-magnifying-glass"
-              >
+              <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar viajes por" dropdown-icon="fa-solid fa-magnifying-glass">
                 <q-list>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarAcoplado"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAcoplado">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-trailer" />
                     </q-item-section>
@@ -46,12 +30,7 @@
                       <q-item-label>Acoplado</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarCamion"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCamion">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-truck-fast" />
                     </q-item-section>
@@ -59,12 +38,7 @@
                       <q-item-label>Camion</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarCantidadTransportada"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCantidadTransportada">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-cubes-stacked" />
                     </q-item-section>
@@ -72,12 +46,7 @@
                       <q-item-label>Cantidad transportada</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarCategoriaViaje"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCategoriaViaje">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-boxes-packing" />
                     </q-item-section>
@@ -85,12 +54,7 @@
                       <q-item-label>Categoria viaje</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarComprador"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarComprador">
                     <q-item-section avatar>
                       <q-icon name="monetization_on" />
                     </q-item-section>
@@ -98,12 +62,7 @@
                       <q-item-label>Comprador</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarConductor"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarConductor">
                     <q-item-section avatar>
                       <q-icon name="airline_seat_recline_extra" />
                     </q-item-section>
@@ -111,12 +70,7 @@
                       <q-item-label>Conductor</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarDireccionCarga"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccionCarga">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-truck-ramp-box" />
                     </q-item-section>
@@ -124,12 +78,7 @@
                       <q-item-label>Dirección carga</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarDireccionDestino"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccionDestino">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-map-location" />
                     </q-item-section>
@@ -137,12 +86,7 @@
                       <q-item-label>Dirección destino</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarDireccionOrigen"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccionOrigen">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-map-location-dot" />
                     </q-item-section>
@@ -150,12 +94,7 @@
                       <q-item-label>Dirección origen</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarFechaViaje"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarFechaViaje">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-calendar-days" />
                     </q-item-section>
@@ -163,12 +102,7 @@
                       <q-item-label>Fecha viaje</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarIntermediario"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarIntermediario">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-people-arrows" />
                     </q-item-section>
@@ -176,12 +110,7 @@
                       <q-item-label>Intermediario</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarKilometrosCargado"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarKilometrosCargado">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-truck-fast" />
                     </q-item-section>
@@ -189,12 +118,7 @@
                       <q-item-label>Kilometros cargado</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarKilometrosVacio"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarKilometrosVacio">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-truck-pickup" />
                     </q-item-section>
@@ -202,12 +126,7 @@
                       <q-item-label>Kilometros vacio</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarNotas"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-pen-to-square" />
                     </q-item-section>
@@ -215,12 +134,7 @@
                       <q-item-label>Notas</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarNumeroGuia"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNumeroGuia">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-shuffle" />
                     </q-item-section>
@@ -228,12 +142,7 @@
                       <q-item-label>Numero guía</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarPesoNeto"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarPesoNeto">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-plus-minus" />
                     </q-item-section>
@@ -241,12 +150,7 @@
                       <q-item-label>Peso neto</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarValorKilomertro"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarValorKilomertro">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-money-bill-1-wave" />
                     </q-item-section>
@@ -254,12 +158,7 @@
                       <q-item-label>Valor kilometro</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item
-                    clickable
-                    v-close-popup
-                    class="desplegable paleta2-fondo2 paleta1-color1"
-                    @click="fMostrarVendedor"
-                  >
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarVendedor">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-cash-register" />
                     </q-item-section>
@@ -276,10 +175,7 @@
                   <div class="col">
                     <q-chip
                       v-model:selected="cantidadTransportadaChip.izq"
-                      :class="{
-                        'paleta2-fondo2': cantidadTransportadaChip.izq,
-                        'edits-fondo': !cantidadTransportadaChip.izq,
-                      }"
+                      :class="{ 'paleta2-fondo2': cantidadTransportadaChip.izq, 'edits-fondo': !cantidadTransportadaChip.izq }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-minus"
@@ -295,10 +191,7 @@
                   <div class="col text-right">
                     <q-chip
                       v-model:selected="cantidadTransportadaChip.der"
-                      :class="{
-                        'paleta2-fondo2': cantidadTransportadaChip.der,
-                        'edits-fondo': !cantidadTransportadaChip.der,
-                      }"
+                      :class="{ 'paleta2-fondo2': cantidadTransportadaChip.der, 'edits-fondo': !cantidadTransportadaChip.der }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-plus"
@@ -340,9 +233,6 @@
                 @update:model-value="afBuscarPorAcopladoId()"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="fa-solid fa-trailer" class="q-mx-xs" />
-                </!--template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -368,9 +258,6 @@
                 @update:model-value="afBuscarPorCamionId()"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="fa-solid fa-truck-moving" class="q-mx-xs" />
-                </!template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -396,9 +283,6 @@
                 @update:model-value="afBuscarPorCategoriaViajeId()"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="fa-solid fa-boxes-packing" class="q-mx-xs" />
-                </!template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -423,9 +307,6 @@
                 @update:model-value="afBuscarPorCompradorId()"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="monetization_on" class="q-mx-xs" />
-                </!template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -450,9 +331,6 @@
                 @update:model-value="afBuscarPorConductorId()"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="airline_seat_recline_extra" class="q-mx-xs" />
-                </!--template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -477,9 +355,6 @@
                 @update:model-value="afBuscarPorDireccionCargaId()"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="fa-solid fa-truck-ramp-box" class="q-mx-xs" />
-                </!--template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -504,9 +379,6 @@
                 @update:model-value="afBuscarPorDireccionDestinoId()"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="fa-solid fa-map-location" class="q-mx-xs" />
-                </!template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -531,9 +403,6 @@
                 @update:model-value="afBuscarPorDireccionOrigenId()"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="fa-solid fa-map-location-dot" class="q-mx-xs" />
-                </!--template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -615,9 +484,6 @@
                 @update:model-value="afBuscarPorIntermediarioId()"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="fa-solid fa-people-arrows" class="q-mx-xs" />
-                </!--template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -629,10 +495,7 @@
                   <div class="col">
                     <q-chip
                       v-model:selected="kmCargadoChip.izq"
-                      :class="{
-                        'paleta2-fondo2': kmCargadoChip.izq,
-                        'edits-fondo': !kmCargadoChip.izq,
-                      }"
+                      :class="{ 'paleta2-fondo2': kmCargadoChip.izq, 'edits-fondo': !kmCargadoChip.izq }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-minus"
@@ -648,10 +511,7 @@
                   <div class="col text-right">
                     <q-chip
                       v-model:selected="kmCargadoChip.der"
-                      :class="{
-                        'paleta2-fondo2': kmCargadoChip.der,
-                        'edits-fondo': !kmCargadoChip.der,
-                      }"
+                      :class="{ 'paleta2-fondo2': kmCargadoChip.der, 'edits-fondo': !kmCargadoChip.der }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-plus"
@@ -679,10 +539,7 @@
                   <div class="col">
                     <q-chip
                       v-model:selected="kmVacioChip.izq"
-                      :class="{
-                        'paleta2-fondo2': kmVacioChip.izq,
-                        'edits-fondo': !kmVacioChip.izq,
-                      }"
+                      :class="{ 'paleta2-fondo2': kmVacioChip.izq, 'edits-fondo': !kmVacioChip.izq }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-minus"
@@ -698,10 +555,7 @@
                   <div class="col text-right">
                     <q-chip
                       v-model:selected="kmVacioChip.der"
-                      :class="{
-                        'paleta2-fondo2': kmVacioChip.der,
-                        'edits-fondo': !kmVacioChip.der,
-                      }"
+                      :class="{ 'paleta2-fondo2': kmVacioChip.der, 'edits-fondo': !kmVacioChip.der }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-plus"
@@ -734,9 +588,6 @@
                 label="Buscar por notas"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
-                </!--template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -761,9 +612,6 @@
                 label="Buscar por número guía"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="fa-solid fa-shuffle" class="q-mx-xs" />
-                </!template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -783,10 +631,7 @@
                   <div class="col">
                     <q-chip
                       v-model:selected="pesoNetoChip.izq"
-                      :class="{
-                        'paleta2-fondo2': pesoNetoChip.izq,
-                        'edits-fondo': !pesoNetoChip.izq,
-                      }"
+                      :class="{ 'paleta2-fondo2': pesoNetoChip.izq, 'edits-fondo': !pesoNetoChip.izq }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-minus"
@@ -802,10 +647,7 @@
                   <div class="col text-right">
                     <q-chip
                       v-model:selected="pesoNetoChip.der"
-                      :class="{
-                        'paleta2-fondo2': pesoNetoChip.der,
-                        'edits-fondo': !pesoNetoChip.der,
-                      }"
+                      :class="{ 'paleta2-fondo2': pesoNetoChip.der, 'edits-fondo': !pesoNetoChip.der }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-plus"
@@ -833,10 +675,7 @@
                   <div class="col">
                     <q-chip
                       v-model:selected="valorKmChip.izq"
-                      :class="{
-                        'paleta2-fondo2': valorKmChip.izq,
-                        'edits-fondo': !valorKmChip.izq,
-                      }"
+                      :class="{ 'paleta2-fondo2': valorKmChip.izq, 'edits-fondo': !valorKmChip.izq }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-minus"
@@ -852,10 +691,7 @@
                   <div class="col text-right">
                     <q-chip
                       v-model:selected="valorKmChip.der"
-                      :class="{
-                        'paleta2-fondo2': valorKmChip.der,
-                        'edits-fondo': !valorKmChip.der,
-                      }"
+                      :class="{ 'paleta2-fondo2': valorKmChip.der, 'edits-fondo': !valorKmChip.der }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-plus"
@@ -896,9 +732,6 @@
                 @update:model-value="afBuscarPorVendedorId()"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
-                <!--template v-slot:before>
-                  <q-icon name="fa-solid fa-cash-register" class="q-mx-xs" />
-                </!--template-->
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sin resultados </q-item-section>
@@ -955,178 +788,103 @@
           <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
             <q-td colspan="100%">
               <div class="row">
-                <div
-                  v-if="props.row.id != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.id != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.id }}</div>
                   <div class="row paleta1-color2">Id</div>
                 </div>
-                <div
-                  v-if="props.row.acoplado != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.acoplado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.acoplado }}</div>
                   <div class="row paleta1-color2">Acoplado</div>
                 </div>
-                <div
-                  v-if="props.row.camion != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.camion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.camion }}</div>
                   <div class="row paleta1-color2">Camion</div>
                 </div>
-                <div
-                  v-if="props.row.categoriaViaje != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.categoriaViaje != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.categoriaViaje }}</div>
                   <div class="row paleta1-color2">Categoria viaje</div>
                 </div>
-                <div
-                  v-if="props.row.cantidadTransportada != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.cantidadTransportada != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.cantidadTransportada }}</div>
                   <div class="row paleta1-color2">Cantidad transportada</div>
                 </div>
-                <div
-                  v-if="props.row.carga != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.carga != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.carga }}</div>
                   <div class="row paleta1-color2">Direccion carga</div>
                 </div>
-                <div
-                  v-if="props.row.destino != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.destino != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.destino }}</div>
                   <div class="row paleta1-color2">Direccion de destino</div>
                 </div>
-                <div
-                  v-if="props.row.origen != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.origen != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.origen }}</div>
                   <div class="row paleta1-color2">Direccion origen</div>
                 </div>
-                <div
-                  v-if="props.row.fecha != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.fecha != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.fecha }}</div>
                   <div class="row paleta1-color2">Fecha del viaje</div>
                 </div>
-                <div
-                  v-if="props.row.kmCargado != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.kmCargado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.kmCargado }}</div>
                   <div class="row paleta1-color2">Kilometros cargado</div>
                 </div>
-                <div
-                  v-if="props.row.kmVacio != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.kmVacio != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.kmVacio }}</div>
                   <div class="row paleta1-color2">Kilometros vacio</div>
                 </div>
-                <div
-                  v-if="props.row.guia != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.guia != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.guia }}</div>
                   <div class="row paleta1-color2">N° guia</div>
                 </div>
-                <div
-                  v-if="props.row.comprador != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.comprador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.comprador }}</div>
                   <div class="row paleta1-color2">Nombre comprador</div>
                 </div>
-                <div
-                  v-if="props.row.conductor != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.conductor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.conductor }}</div>
                   <div class="row paleta1-color2">Nombre conductor</div>
                 </div>
-                <div
-                  v-if="props.row.intermediario != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.intermediario != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.intermediario }}</div>
                   <div class="row paleta1-color2">Nombre intermediario</div>
                 </div>
-                <div
-                  v-if="props.row.vendedor != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.vendedor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.vendedor }}</div>
                   <div class="row paleta1-color2">Nombre vendedor</div>
                 </div>
-                <div
-                  v-if="props.row.neto != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.neto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
                   <div class="row text-white">{{ props.row.neto }}</div>
                   <div class="row paleta1-color2">Peso neto</div>
                 </div>
-                <div
-                  v-if="props.row.valorKm != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.valorKm != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.valorKm }}</div>
                   <div class="row paleta1-color2">Valor del kilometro</div>
                 </div>
-                <div
-                  v-if="props.row.creador != null && esAdmin"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.creador }}</div>
                   <div class="row paleta1-color2">Creador</div>
                 </div>
-                <div
-                  v-if="props.row.creada != null && esAdmin"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.creada }}</div>
                   <div class="row paleta1-color2">Creado</div>
                 </div>
-                <div
-                  v-if="props.row.modificador != null && esAdmin"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.modificador }}</div>
                   <div class="row paleta1-color2">Modificador</div>
                 </div>
-                <div
-                  v-if="props.row.modificada != null && esAdmin"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.modificada }}</div>
                   <div class="row paleta1-color2">Modificado</div>
                 </div>
-                <div
-                  v-if="props.row.eliminador != null && esAdmin"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.eliminador }}</div>
                   <div class="row paleta1-color2">Eliminador</div>
                 </div>
-                <div
-                  v-if="props.row.eliminada != null && esAdmin"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.elimiando }}</div>
                   <div class="row paleta1-color2">Elimiando</div>
                 </div>
-                <div
-                  v-if="props.row.notas != null"
-                  class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista"
-                >
+                <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.notas }}</div>
                   <div class="row paleta1-color2">Notas</div>
                 </div>
@@ -1138,12 +896,7 @@
     </div>
   </div>
 
-  <q-dialog
-    v-model="nuevoViajeDialog"
-    persistent
-    transition-show="fade"
-    transition-hide="fade"
-  >
+  <q-dialog v-model="nuevoViajeDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
         <div class="text-h6 text-grey-8">Nuevo viaje</div>
@@ -1163,7 +916,7 @@
                 class="nuevo-input"
                 mask="##-##-####"
                 v-model="viajeCreation.fecha"
-                :rules="[reglas.requerido,]"
+                :rules="[reglas.requerido]"
                 outlined
                 dense
                 readonly
@@ -1303,7 +1056,7 @@
             </div>
           </div>
           <div class="row justify-end q-mr-xl q-my-md">
-            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple>
               Siguiente
             </q-btn>
           </div>
@@ -1473,7 +1226,7 @@
             </div>
           </div>
           <div class="row justify-end q-mr-xl q-my-md">
-            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple>
               Siguiente
             </q-btn>
           </div>
@@ -1566,7 +1319,7 @@
             </div>
           </div>
           <div class="row justify-end q-mr-xl q-my-md">
-            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple>
               Finalizar
             </q-btn>
           </div>
@@ -1679,7 +1432,9 @@ export default {
     const $q = useQuasar()
     const sesion = ref(uuidv4())
     const reglas = reactive(reglasValidacion.reglas)
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
+    const esAdmin = ref(
+      autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)
+    )
 
     const editAcoplado = ref(false)
     const editCamion = ref(false)
@@ -1756,37 +1511,19 @@ export default {
       try {
         let resultado = null
         if (esAdmin.value) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhAcopladoTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            acopladosList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhAcopladoTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConEliminadasConSesion', sesion.value) !== null) {
+            acopladosList.value = llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConEliminadasConSesion', sesion.value).value
             console.log('AcopladoService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await acopladoService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await acopladoService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               acopladosList.value = resultado.data
               console.log('AcopladoService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhAcopladoTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            acopladosList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhAcopladoTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConSesion', sesion.value) !== null) {
+            acopladosList.value = llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConSesion', sesion.value).value
             console.log('AcopladoService: Sesion recargada.')
           } else {
             resultado = await acopladoService.spfBuscarTodasConSesion(sesion.value)
@@ -1801,9 +1538,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -1818,37 +1553,19 @@ export default {
       try {
         let resultado = null
         if (esAdmin.value) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhCamionTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            camionesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhCamionTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhCamionTodasConEliminadasConSesion', sesion.value) !== null) {
+            camionesList.value = llaveroService.obtenerDeLocalConSesion('hhCamionTodasConEliminadasConSesion', sesion.value).value
             console.log('CamionService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await camionService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await camionService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               camionesList.value = resultado.data
               console.log('CamionService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhCamionTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            camionesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhCamionTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhCamionTodasConSesion', sesion.value) !== null) {
+            camionesList.value = llaveroService.obtenerDeLocalConSesion('hhCamionTodasConSesion', sesion.value).value
             console.log('CamionService: Sesion recargada.')
           } else {
             resultado = await camionService.spfBuscarTodasConSesion(sesion.value)
@@ -1863,9 +1580,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -1880,37 +1595,19 @@ export default {
       try {
         let resultado = null
         if (esAdmin.value) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhCategoriaViajeTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            categoriasViajeList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhCategoriaViajeTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConEliminadasConSesion', sesion.value) !== null) {
+            categoriasViajeList.value = llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConEliminadasConSesion', sesion.value).value
             console.log('CategoriaViajeService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await categoriaViajeService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await categoriaViajeService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               categoriasViajeList.value = resultado.data
               console.log('CategoriaViajeService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhCategoriaViajeTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            categoriasViajeList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhCategoriaViajeTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConSesion', sesion.value) !== null) {
+            categoriasViajeList.value = llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConSesion', sesion.value).value
             console.log('CategoriaViajeService: Sesion recargada.')
           } else {
             resultado = await categoriaViajeService.spfBuscarTodasConSesion(sesion.value)
@@ -1925,9 +1622,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -1942,37 +1637,19 @@ export default {
       try {
         let resultado = null
         if (esAdmin.value) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhClienteTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            clientesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhClienteTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value) !== null) {
+            clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value).value
             console.log('ClienteService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await clienteService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await clienteService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               clientesList.value = resultado.data
               console.log('ClienteService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhClienteTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            clientesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhClienteTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConSesion', sesion.value) !== null) {
+            clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConSesion', sesion.value).value
             console.log('ClienteService: Sesion recargada.')
           } else {
             resultado = await clienteService.spfBuscarTodasConSesion(sesion.value)
@@ -1987,9 +1664,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -2004,37 +1679,19 @@ export default {
       try {
         let resultado = null
         if (esAdmin.value) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhConductorTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            conductoresList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhConductorTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhConductorTodasConEliminadasConSesion', sesion.value) !== null) {
+            conductoresList.value = llaveroService.obtenerDeLocalConSesion('hhConductorTodasConEliminadasConSesion', sesion.value).value
             console.log('ConductorService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await conductorService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await conductorService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               conductoresList.value = resultado.data
               console.log('ConductorService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhConductorTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            conductoresList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhConductorTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhConductorTodasConSesion', sesion.value) !== null) {
+            conductoresList.value = llaveroService.obtenerDeLocalConSesion('hhConductorTodasConSesion', sesion.value).value
             console.log('ConductorService: Sesion recargada.')
           } else {
             resultado = await conductorService.spfBuscarTodasConSesion(sesion.value)
@@ -2049,9 +1706,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -2066,37 +1721,19 @@ export default {
       try {
         let resultado = null
         if (esAdmin.value) {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConEliminadasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            direccionesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConEliminadasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConEliminadasConSesion', sesion.value) !== null) {
+            direccionesList.value = llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConEliminadasConSesion', sesion.value).value
             console.log('DireccionService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await direccionService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await direccionService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               direccionesList.value = resultado.data
               console.log('DireccionService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (
-            llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConSesion',
-              sesion.value
-            ) !== null
-          ) {
-            direccionesList.value = llaveroService.obtenerDeLocalConSesion(
-              'hhDireccionTodasConSesion',
-              sesion.value
-            ).value
+          if (llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConSesion', sesion.value) !== null) {
+            direccionesList.value = llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConSesion', sesion.value).value
             console.log('DireccionService: Sesion recargada.')
           } else {
             resultado = await direccionService.spfBuscarTodasConSesion(sesion.value)
@@ -2111,9 +1748,7 @@ export default {
         console.clear()
         if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -2134,9 +1769,7 @@ export default {
         }
         let resultado = null
         if (esAdmin.value) {
-          resultado = await viajeService.spfBuscarTodasConEliminadasPaginadas(
-            paginadoDTO
-          )
+          resultado = await viajeService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
           resultado = await viajeService.spfBuscarTodasPaginadas(paginadoDTO)
         }
@@ -2153,9 +1786,7 @@ export default {
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -2171,9 +1802,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorAcopladoIdConEliminadas(
-              acoplado.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorAcopladoIdConEliminadas(acoplado.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorAcopladoId(acoplado.value)
           }
@@ -2190,9 +1819,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2209,9 +1836,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorCamionIdConEliminadas(
-              camion.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorCamionIdConEliminadas(camion.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorCamionId(camion.value)
           }
@@ -2228,9 +1853,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2247,15 +1870,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorRangoCantidadTransportadaConEliminadas(
-              cantidadTransportada.value.min,
-              cantidadTransportada.value.max
-            )
+            resultado = await viajeService.spfBuscarTodasPorRangoCantidadTransportadaConEliminadas(cantidadTransportada.value.min, cantidadTransportada.value.max)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorRangoCantidadTransportada(
-              cantidadTransportada.value.min,
-              cantidadTransportada.value.max
-            )
+            resultado = await viajeService.spfBuscarTodasPorRangoCantidadTransportada(cantidadTransportada.value.min, cantidadTransportada.value.max)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2270,9 +1887,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2291,13 +1906,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorCategoriaViajeIdConEliminadas(
-              categoriaViaje.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorCategoriaViajeIdConEliminadas(categoriaViaje.value)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorCategoriaViajeId(
-              categoriaViaje.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorCategoriaViajeId(categoriaViaje.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2312,9 +1923,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2331,9 +1940,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorCompradorIdConEliminadas(
-              comprador.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorCompradorIdConEliminadas(comprador.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorCompradorId(comprador.value)
           }
@@ -2350,9 +1957,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2369,9 +1974,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorConductorIdConEliminadas(
-              conductor.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorConductorIdConEliminadas(conductor.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorConductorId(conductor.value)
           }
@@ -2388,9 +1991,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2407,13 +2008,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorDireccionCargaIdConEliminadas(
-              direccionCarga.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorDireccionCargaIdConEliminadas(direccionCarga.value)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorDireccionCargaId(
-              direccionCarga.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorDireccionCargaId(direccionCarga.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2428,9 +2025,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2447,13 +2042,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoIdConEliminadas(
-              direccionDestino.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoIdConEliminadas(direccionDestino.value)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoId(
-              direccionDestino.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorDireccionDestinoId(direccionDestino.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2468,9 +2059,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2487,13 +2076,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenIdConEliminadas(
-              direccionOrigen.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenIdConEliminadas(direccionOrigen.value)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenId(
-              direccionOrigen.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorDireccionOrigenId(direccionOrigen.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2508,9 +2093,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2527,13 +2110,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorIntermediarioIdConEliminadas(
-              intermediario.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorIntermediarioIdConEliminadas(intermediario.value)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorIntermediarioId(
-              intermediario.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorIntermediarioId(intermediario.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2548,9 +2127,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2567,23 +2144,15 @@ export default {
       } else if (fecha.value.to == null) {
         notificarService.notificarAlerta('El campo fecha hasta no puede estar vacio.')
       } else if (fecha.value.from > fecha.value.to) {
-        notificarService.notificarAlerta(
-          'El campo fecha desde no puede ser mayor que fecha hasta.'
-        )
+        notificarService.notificarAlerta('El campo fecha desde no puede ser mayor que fecha hasta.')
       } else {
         $q.loading.show()
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechasConEliminadas(
-              ayuda.fFormatearDeDatePicker(fecha.value.from),
-              ayuda.fFormatearDeDatePicker(fecha.value.to)
-            )
+            resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechasConEliminadas(ayuda.fFormatearDeDatePicker(fecha.value.from), ayuda.fFormatearDeDatePicker(fecha.value.to))
           } else {
-            resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechas(
-              ayuda.fFormatearDeDatePicker(fecha.value.from),
-              ayuda.fFormatearDeDatePicker(fecha.value.to)
-            )
+            resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechas(ayuda.fFormatearDeDatePicker(fecha.value.from), ayuda.fFormatearDeDatePicker(fecha.value.to))
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2598,9 +2167,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2617,15 +2184,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorRangoKmCargadoConEliminadas(
-              kmCargado.value.min,
-              kmCargado.value.max
-            )
+            resultado = await viajeService.spfBuscarTodasPorRangoKmCargadoConEliminadas(kmCargado.value.min, kmCargado.value.max)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorRangoKmCargado(
-              kmCargado.value.min,
-              kmCargado.value.max
-            )
+            resultado = await viajeService.spfBuscarTodasPorRangoKmCargado(kmCargado.value.min, kmCargado.value.max)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2640,9 +2201,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2661,15 +2220,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorRangoKmVacioConEliminadas(
-              kmVacio.value.min,
-              kmVacio.value.max
-            )
+            resultado = await viajeService.spfBuscarTodasPorRangoKmVacioConEliminadas(kmVacio.value.min, kmVacio.value.max)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorRangoKmVacio(
-              kmVacio.value.min,
-              kmVacio.value.max
-            )
+            resultado = await viajeService.spfBuscarTodasPorRangoKmVacio(kmVacio.value.min, kmVacio.value.max)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2684,9 +2237,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2705,9 +2256,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorNotasConEliminadas(
-              notas.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorNotas(notas.value)
           }
@@ -2724,9 +2273,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2743,9 +2290,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorGuiaConEliminadas(
-              numeroGuia.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorGuiaConEliminadas(numeroGuia.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorGuia(numeroGuia.value)
           }
@@ -2762,9 +2307,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2781,15 +2324,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorRangoNetoConEliminadas(
-              pesoNeto.value.min,
-              pesoNeto.value.max
-            )
+            resultado = await viajeService.spfBuscarTodasPorRangoNetoConEliminadas(pesoNeto.value.min, pesoNeto.value.max)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorRangoNeto(
-              pesoNeto.value.min,
-              pesoNeto.value.max
-            )
+            resultado = await viajeService.spfBuscarTodasPorRangoNeto(pesoNeto.value.min, pesoNeto.value.max)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2804,9 +2341,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2825,15 +2360,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorRangoValorKmConEliminadas(
-              valorKm.value.min,
-              valorKm.value.max
-            )
+            resultado = await viajeService.spfBuscarTodasPorRangoValorKmConEliminadas(valorKm.value.min, valorKm.value.max)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorRangoValorKm(
-              valorKm.value.min,
-              valorKm.value.max
-            )
+            resultado = await viajeService.spfBuscarTodasPorRangoValorKm(valorKm.value.min, valorKm.value.max)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2848,9 +2377,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2869,9 +2396,7 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await viajeService.spfBuscarTodasPorVendedorIdConEliminadas(
-              vendedor.value
-            )
+            resultado = await viajeService.spfBuscarTodasPorVendedorIdConEliminadas(vendedor.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorVendedorId(vendedor.value)
           }
@@ -2888,9 +2413,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -2918,9 +2441,7 @@ export default {
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)
@@ -3410,7 +2931,9 @@ export default {
         /* starting with Sunday */
         days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),
         daysShort: 'Dom_Lun_Mar_Mié_Jue_Vie_Sáb'.split('_'),
-        months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+        months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split(
+          '_'
+        ),
         monthsShort: 'Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dic'.split('_'),
         firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
         format24h: true,

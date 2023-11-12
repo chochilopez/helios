@@ -10,20 +10,167 @@ f -> funcion
 l -> local
 */
 
-function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('hhDireccionTodas')
+function spfBuscarTodasCiudades () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'direccion/buscar-todas-ciudades', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
 }
 
-function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('hhDireccionTodasConEliminadas')
+function spfBuscarTodasCiudadesConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'direccion/buscar-todas-ciudades', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhCiudadesTodasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
 }
 
-function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('hhDireccionPorId/' + id + '/')
+function spfBuscarTodasPorCiudad (ciudad) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'direccion/buscar-todas-por-ciudad/' + ciudad, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
 }
 
-function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('hhDireccionPorIdConEliminadas/' + id + '/')
+function spfBuscarTodasPorCiudadConEliminadas (ciudad) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'direccion/buscar-todas-por-ciudad-con-eliminadas/' + ciudad, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorDireccion (direccion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'direccion/buscar-todas-por-direccion/' + direccion, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorDireccionConEliminadas (direccion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'direccion/buscar-todas-por-direccion-con-eliminadas/' + direccion, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNombre (nombre) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'direccion/buscar-todas-por-nombre/' + nombre, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNombreConEliminadas (nombre) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'direccion/buscar-todas-por-nombre-con-eliminadas/' + nombre, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'direccion/buscar-todas-por-notas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotasConEliminadas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'direccion/buscar-todas-por-notas-con-eliminadas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
 }
 
 function spfBuscarTodas () {
@@ -257,10 +404,16 @@ function spfDestruir (id) {
 }
 
 export const direccionService = {
-  obtenerTodas,
-  obtenerTodasConEliminadas,
-  obtenerPorId,
-  obtenerPorIdConEliminadas,
+  spfBuscarTodasCiudades,
+  spfBuscarTodasCiudadesConSesion,
+  spfBuscarTodasPorCiudad,
+  spfBuscarTodasPorCiudadConEliminadas,
+  spfBuscarTodasPorDireccion,
+  spfBuscarTodasPorDireccionConEliminadas,
+  spfBuscarTodasPorNombre,
+  spfBuscarTodasPorNombreConEliminadas,
+  spfBuscarTodasPorNotas,
+  spfBuscarTodasPorNotasConEliminadas,
 
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,

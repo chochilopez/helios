@@ -3,5 +3,6 @@ export class DireccionCreation {
     this.direccion = ''
     this.ciudad = ''
     this.nombre = ''
+    this.notas = ''
   }
 }

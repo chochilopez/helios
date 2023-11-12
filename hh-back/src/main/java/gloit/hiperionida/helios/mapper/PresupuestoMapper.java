@@ -3,11 +3,9 @@ package gloit.hiperionida.helios.mapper;
 import gloit.hiperionida.helios.mapper.creation.PresupuestoCreation;
 import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.*;
-import gloit.hiperionida.helios.repository.CategoriaViajeDAO;
-import gloit.hiperionida.helios.repository.ClienteDAO;
-import gloit.hiperionida.helios.repository.DireccionDAO;
-import gloit.hiperionida.helios.repository.EventoDAO;
+import gloit.hiperionida.helios.repository.*;
 import gloit.hiperionida.helios.util.Helper;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
@@ -99,8 +97,8 @@ public class PresupuestoMapper {
             if (model.getCompradorId() != null)
                 dto.setComprador(clienteDAO.findByIdAndEliminadaIsNull(model.getCompradorId()).get().getNombre());
             if (model.getDestinoId() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId());
-                dto.setDestino(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
+                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección."));
+                dto.setDestino(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
             }
             if (model.getFechaId() != null)
                 dto.setFecha(eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).get().getFecha().toString());
@@ -110,8 +108,8 @@ public class PresupuestoMapper {
                 dto.setKmCargado(model.getKmCargado().toString());
             dto.setNotas(model.getNotas());
             if (model.getOrigenId() != null) {
-                Optional<DireccionModel> direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId());
-                dto.setOrigen(direccionModel.get().getCiudad() + " - " + direccionModel.get().getDireccion());
+                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección."));
+                dto.setOrigen(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
             }
             dto.setValidez(model.getValidez().toString());
             if (model.getValorKm() != null)

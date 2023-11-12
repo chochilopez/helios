@@ -16,22 +16,13 @@
         <template v-slot:top-left>
           <div class="column">
             <p class="text-h5">Presupuestos</p>
-            <q-btn
-              class="paleta2-fondo2 paleta1-color1 q-mb-lg"
-              icon="add_circle"
-              label="Nuevo presupuesto"
-              @click="fMostrarNuevoPresupuesto"
-            />
+            <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo presupuesto" @click="fMostrarNuevoPresupuesto" />
           </div>
         </template>
         <template v-slot:top-right>
           <div class="column items-end">
             <div class="q-my-md">
-              <q-btn-dropdown
-                class="paleta2-fondo2 paleta1-color1"
-                label="Buscar presupuestos por"
-                dropdown-icon="fa-solid fa-magnifying-glass"
-              >
+              <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar presupuestos por" dropdown-icon="fa-solid fa-magnifying-glass">
                 <q-list>
                   <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCantidadTransportada">
                     <q-item-section avatar>
@@ -114,10 +105,7 @@
                   <div class="col">
                     <q-chip
                       v-model:selected="cantidadTransportadaChip.izq"
-                      :class="{
-                        'paleta2-fondo2': cantidadTransportadaChip.izq,
-                        'edits-fondo': !cantidadTransportadaChip.izq,
-                      }"
+                      :class="{ 'paleta2-fondo2': cantidadTransportadaChip.izq, 'edits-fondo': !cantidadTransportadaChip.izq }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-minus"
@@ -133,10 +121,7 @@
                   <div class="col text-right">
                     <q-chip
                       v-model:selected="cantidadTransportadaChip.der"
-                      :class="{
-                        'paleta2-fondo2': cantidadTransportadaChip.der,
-                        'edits-fondo': !cantidadTransportadaChip.der,
-                      }"
+                      :class="{ 'paleta2-fondo2': cantidadTransportadaChip.der, 'edits-fondo': !cantidadTransportadaChip.der }"
                       text-color="white"
                       size="12px"
                       icon="fa-solid fa-plus"
@@ -270,7 +255,6 @@
               </q-select>
               <div class="column" v-if="editFecha">
                 <div class="row justify-around">
-
                     <q-input
                       mask="##-##-####"
                       style="width: 180px"
@@ -568,12 +552,7 @@
     </div>
   </div>
 
-  <q-dialog
-    v-model="nuevoPresupuestoDialog"
-    persistent
-    transition-show="fade"
-    transition-hide="fade"
-  >
+  <q-dialog v-model="nuevoPresupuestoDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
         <div class="text-h6 text-grey-8">Nuevo presupuesto</div>
@@ -788,7 +767,7 @@
           <div class="row justify-around">
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-                class="nuevo-
+                class="nuevo-input"
                 v-model.number="presupuestoCreation.validez"
                 :rules="[reglas.requerido]"
                 :max-decimals="2"
@@ -803,7 +782,7 @@
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
-                class="nuevo-
+                class="nuevo-input"
                 type="textarea"
                 v-model="presupuestoCreation.notas"
                 autogrow
@@ -1063,9 +1042,7 @@ export default {
             direccionesList.value = llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConEliminadasConSesion', sesion.value).value
             console.log('DireccionService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await direccionService.spfBuscarTodasConEliminadasConSesion(
-              sesion.value
-            )
+            resultado = await direccionService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
               direccionesList.value = resultado.data
               console.log('DireccionService: ' + resultado.headers.mensaje)
@@ -1142,15 +1119,9 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await presupuestoService.spfBuscarTodasPorRangoCantidadTransportadaConEliminadas(
-              cantidadTransportada.value.min,
-              cantidadTransportada.value.max
-            )
+            resultado = await presupuestoService.spfBuscarTodasPorRangoCantidadTransportadaConEliminadas(cantidadTransportada.value.min, cantidadTransportada.value.max)
           } else {
-            resultado = await presupuestoService.spfBuscarTodasPorRangoCantidadTransportada(
-              cantidadTransportada.value.min,
-              cantidadTransportada.value.max
-            )
+            resultado = await presupuestoService.spfBuscarTodasPorRangoCantidadTransportada(cantidadTransportada.value.min, cantidadTransportada.value.max)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -1165,9 +1136,7 @@ export default {
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
             console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta(
-              'Advertencia: ' + err.response.headers.mensaje
-            )
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
             const mensaje = 'Hubo un error al intentar obtener el listado.'
             notificarService.notificarError(mensaje)
@@ -1476,7 +1445,7 @@ export default {
         if (resultado.status === 201) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
-          notificarService.notificarExito('Se creó correctamente el viaje.')
+          notificarService.notificarExito('Se creó correctamente el prespuesto.')
         }
       } catch (err) {
         console.clear()
@@ -1485,9 +1454,7 @@ export default {
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
           console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta(
-            'Advertencia: ' + err.response.headers.mensaje
-          )
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
         } else {
           const mensaje = 'Hubo un error al intentar obtener el listado.'
           notificarService.notificarError(mensaje)

@@ -199,17 +199,6 @@
                 :icon="props.expand ? 'remove' : 'add'"
               />
             </q-td>
-            private String id;
-            private String cantidadTransportada;
-            private String valorKm;
-            private String conductor;
-            private String camion;
-
-            private String categoriaViaje;
-            private String origen;
-            private String destino;
-            private String comprador;
-            private String fecha;
             <q-td class="text-center">
               {{ props.row.id }}
             </q-td>
@@ -250,106 +239,6 @@
           <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
             <q-td colspan="100%">
               <div class="row">
-                <!-- <div v-if="props.row.id != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.id }}</div>
-                  <div class="row paleta1-color2">Id</div>
-                </div>
-                <div v-if="props.row.acoplado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.acoplado.marca + ' - ' + props.row.acoplado.modelo }}</div>
-                  <div class="row paleta1-color2">Acoplado</div>
-                </div>
-                <div v-if="props.row.camion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.camion.marca + ' - ' + props.row.camion.modelo}}</div>
-                  <div class="row paleta1-color2">Camion</div>
-                </div>
-                <div v-if="props.row.categoriaViaje != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.categoriaViaje.categoria }}</div>
-                  <div class="row paleta1-color2">Categoria factura</div>
-                </div>
-                <div v-if="props.row.cantidadTransportada != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.cantidadTransportada }}</div>
-                  <div class="row paleta1-color2">Cantidad transportada</div>
-                </div>
-                <div v-if="props.row.carga != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.carga.ubicacion.ciudad + "-" + props.row.carga.direccion }}</div>
-                  <div class="row paleta1-color2">Direccion carga</div>
-                </div>
-                <div v-if="props.row.destino != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.destino.ubicacion.ciudad + "-" + props.row.destino.direccion }}</div>
-                  <div class="row paleta1-color2">Direccion de destino</div>
-                </div>
-                <div v-if="props.row.origen != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.origen.ubicacion.ciudad + "-" + props.row.origen.direccion }}</div>
-                  <div class="row paleta1-color2">Direccion origen</div>
-                </div>
-                <div v-if="props.row.fechaFacturacion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.fechaFacturacion.fechaFacturacion }}</div>
-                  <div class="row paleta1-color2">Fecha del factura</div>
-                </div>
-                <div v-if="props.row.kmCargado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.kmCargado }}</div>
-                  <div class="row paleta1-color2">Kilometros cargado</div>
-                </div>
-                <div v-if="props.row.kmVacio != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.kmVacio }}</div>
-                  <div class="row paleta1-color2">Kilometros vacio</div>
-                </div>
-                <div v-if="props.row.numeroRemito != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.numeroRemito }}</div>
-                  <div class="row paleta1-color2">Notas</div>
-                </div>
-                <div v-if="props.row.guia != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.guia }}</div>
-                  <div class="row paleta1-color2">N° guia</div>
-                </div>
-                <div v-if="props.row.comprador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.comprador.nombre }}</div>
-                  <div class="row paleta1-color2">Nombre comprador</div>
-                </div>
-                <div v-if="props.row.conductor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.conductor.nombre }}</div>
-                  <div class="row paleta1-color2">Nombre conductor</div>
-                </div>
-                <div v-if="props.row.numeroComprobante != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.numeroComprobante.nombre }}</div>
-                  <div class="row paleta1-color2">Nombre numeroComprobante</div>
-                </div>
-                <div v-if="props.row.tipoComprobante != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.tipoComprobante.nombre }}</div>
-                  <div class="row paleta1-color2">Nombre tipoComprobante</div>
-                </div>
-                <div v-if="props.row.neto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.neto }}</div>
-                  <div class="row paleta1-color2">Peso neto</div>
-                </div>
-                <div v-if="props.row.valorKm != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.valorKm }}</div>
-                  <div class="row paleta1-color2">Valor del kilometro</div>
-                </div>
-                <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.creador.username }}</div>
-                  <div class="row paleta1-color2">Creador</div>
-                </div>
-                <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.creada }}</div>
-                  <div class="row paleta1-color2">Creado</div>
-                </div>
-                <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.modificador.username }}</div>
-                  <div class="row paleta1-color2">Modificador</div>
-                </div>
-                <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.modificada }}</div>
-                  <div class="row paleta1-color2">Modificado</div>
-                </div>
-                <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.eliminador.username }}</div>
-                  <div class="row paleta1-color2">Eliminador</div>
-                </div>
-                <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.elimiando }}</div>
-                  <div class="row paleta1-color2">Elimiando</div>
-                </div> -->
               </div>
             </q-td>
           </q-tr>

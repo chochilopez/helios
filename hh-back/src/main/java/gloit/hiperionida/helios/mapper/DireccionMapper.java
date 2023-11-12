@@ -4,14 +4,11 @@ import gloit.hiperionida.helios.mapper.creation.DireccionCreation;
 import gloit.hiperionida.helios.mapper.dto.DireccionDTO;
 import gloit.hiperionida.helios.model.DireccionModel;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
-import gloit.hiperionida.helios.util.model.UsuarioModel;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -25,9 +22,10 @@ public class DireccionMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
+            model.setCiudad(creation.getCiudad());
             model.setDireccion(creation.getDireccion());
             model.setNombre(creation.getNombre());
-            model.setCiudad(creation.getCiudad());
+            model.setNotas(creation.getNotas());
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -54,9 +52,10 @@ public class DireccionMapper {
             DireccionDTO dto = new DireccionDTO();
 
             dto.setId(model.getId().toString());
+            dto.setCiudad(model.getNotas());
             dto.setDireccion(model.getDireccion());
             dto.setNombre(model.getNombre());
-            dto.setCiudad(model.getCiudad());
+            dto.setNotas(model.getNotas());
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());

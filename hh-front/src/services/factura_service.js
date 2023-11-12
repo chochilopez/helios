@@ -10,22 +10,6 @@ f -> funcion
 l -> local
 */
 
-function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('hhFacturaTodas')
-}
-
-function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('hhFacturaTodasConEliminadas')
-}
-
-function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('hhFacturaPorId/' + id + '/')
-}
-
-function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('hhFacturaPorIdConEliminadas/' + id + '/')
-}
-
 function spfBuscarTodasPorCompradorId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'factura/buscar-todas-por-comprador-id/' + id, {
@@ -314,6 +298,44 @@ function spfBuscarTodasConEliminadas () {
   })
 }
 
+function spfBuscarTodasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'factura/buscar-todas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhFacturaTodasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'factura/buscar-todas-con-eliminadas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhFacturaTodasConEliminadasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
     axios.post(API_URL + 'factura/buscar-todas-paginadas', paginadoDTO, {
@@ -443,11 +465,6 @@ function spfDestruir (id) {
 }
 
 export const facturaService = {
-  obtenerTodas,
-  obtenerTodasConEliminadas,
-  obtenerPorId,
-  obtenerPorIdConEliminadas,
-
   spfBuscarTodasPorCompradorId,
   spfBuscarTodasPorCompradorIdConEliminadas,
   spfBuscarTodasPorFechaEntreFechas,
@@ -467,6 +484,8 @@ export const facturaService = {
   spfBuscarPorIdConEliminadas,
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
+  spfBuscarTodasConSesion,
+  spfBuscarTodasConEliminadasConSesion,
   spfBuscarTodasPaginadas,
   spfBuscarTodasConEliminadasPaginadas,
   spfContarTodas,

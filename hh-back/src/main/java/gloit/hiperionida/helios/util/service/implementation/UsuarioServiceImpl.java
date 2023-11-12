@@ -80,7 +80,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             if (authentication != null)
                 return this.buscarPorNombreDeUsuario(authentication.getName());
             else
-                return this.buscarPorNombreDeUsuario("admin@municrespo.gob.ar");
+                return this.buscarPorNombreDeUsuario("admin@helios.com");
         } catch (DatosInexistentesException exception) {
             return null;
         }

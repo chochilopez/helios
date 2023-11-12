@@ -1,7 +1,6 @@
 import axios from 'axios'
 const API_URL = process.env.API_URL
 import { autenticacionService } from 'src/services/autenticacion_service'
-import { llaveroService } from 'src/helpers/llavero_service'
 
 /*
 s -> servicio
@@ -9,22 +8,6 @@ p -> promesa
 f -> funcion
 l -> local
 */
-
-function obtenerTodas () {
-  return llaveroService.obtenerDeLocal('hhUsuarioTodas')
-}
-
-function obtenerTodasConEliminadas () {
-  return llaveroService.obtenerDeLocal('hhUsuarioTodasConEliminadas')
-}
-
-function obtenerPorId (id) {
-  return llaveroService.obtenerDeLocal('hhUsuarioPorId/' + id + '/')
-}
-
-function obtenerPorIdConEliminadas (id) {
-  return llaveroService.obtenerDeLocal('hhUsuarioPorIdConEliminadas/' + id + '/')
-}
 
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
@@ -219,11 +202,6 @@ function spfDestruir (id) {
 }
 
 export const usuarioService = {
-  obtenerTodas,
-  obtenerTodasConEliminadas,
-  obtenerPorId,
-  obtenerPorIdConEliminadas,
-
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
   spfBuscarTodasPaginadas,

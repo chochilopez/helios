@@ -1,9 +1,10 @@
 export class DireccionModel {
   constructor () {
     this.id = ''
-    this.direccion = ''
     this.ciudad = ''
+    this.direccion = ''
     this.nombre = ''
+    this.notas = ''
 
     this.creada = ''
     this.creador = ''

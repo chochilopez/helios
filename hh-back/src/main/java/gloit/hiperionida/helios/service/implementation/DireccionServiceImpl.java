@@ -2,7 +2,9 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.DireccionMapper;
 import gloit.hiperionida.helios.mapper.creation.DireccionCreation;
+import gloit.hiperionida.helios.model.CiudadModel;
 import gloit.hiperionida.helios.model.DireccionModel;
+import gloit.hiperionida.helios.repository.CiudadDAO;
 import gloit.hiperionida.helios.repository.DireccionDAO;
 import gloit.hiperionida.helios.service.DireccionService;
 import gloit.hiperionida.helios.util.Helper;
@@ -22,9 +24,91 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class DireccionServiceImpl implements DireccionService {
+    private final CiudadDAO ciudadDAO;
     private final DireccionDAO direccionDAO;
     private final DireccionMapper direccionMapper;
     private final UsuarioServiceImpl usuarioService;
+
+    @Override
+    public List<CiudadModel> buscarTodasCiudad() {
+        log.info("Buscando todas las entidades Ciudad.");
+        List<CiudadModel> listado = ciudadDAO.findAll();
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Ciudad.");
+        return listado;
+    }
+
+    @Override
+    public List<DireccionModel> buscarTodasPorCiudad(String ciudad) {
+        log.info("Buscando todas las entidades Direccion con ciudad: {}.");
+        List<DireccionModel> listado = direccionDAO.findAllByCiudadContainingIgnoreCaseAndEliminadaIsNull(ciudad);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con ciudad: {}.");
+        return listado;
+    }
+
+    @Override
+    public List<DireccionModel> buscarTodasPorCiudadConEliminadas(String ciudad) {
+        log.info("Buscando todas las entidades Direccion con ciudad: {}, incluidas las eliminadas.");
+        List<DireccionModel> listado = direccionDAO.findAllByCiudadContainingIgnoreCase(ciudad);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con ciudad: {}, incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<DireccionModel> buscarTodasPorDireccion(String direccion) {
+        log.info("Buscando todas las entidades Direccion con direccion: {}.");
+        List<DireccionModel> listado = direccionDAO.findAllByDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con direccion: {}.");
+        return listado;
+    }
+
+    @Override
+    public List<DireccionModel> buscarTodasPorDireccionConEliminadas(String direccion) {
+        log.info("Buscando todas las entidades Direccion con direccion: {}, incluidas las eliminadas.");
+        List<DireccionModel> listado = direccionDAO.findAllByDireccionContainingIgnoreCase(direccion);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con direccion: {}, incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<DireccionModel> buscarTodasPorNombre(String nombre) {
+        log.info("Buscando todas las entidades Direccion con nombre: {}.");
+        List<DireccionModel> listado = direccionDAO.findAllByNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con nombre: {}.");
+        return listado;
+    }
+
+    @Override
+    public List<DireccionModel> buscarTodasPorNombreConEliminadas(String nombre) {
+        log.info("Buscando todas las entidades Direccion con nombre: {}, incluidas las eliminadas.");
+        List<DireccionModel> listado = direccionDAO.findAllByNombreContainingIgnoreCase(nombre);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con nombre: {}, incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<DireccionModel> buscarTodasPorNotas(String notas) {
+        log.info("Buscando todas las entidades Direccion con notas: {}.");
+        List<DireccionModel> listado = direccionDAO.findAllByDireccionContainingIgnoreCaseAndEliminadaIsNull(notas);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con notas: {}.");
+        return listado;
+    }
+
+    @Override
+    public List<DireccionModel> buscarTodasPorNotasConEliminadas(String notas) {
+        log.info("Buscando todas las entidades Direccion con notas: {}, incluidas las eliminadas.");
+        List<DireccionModel> listado = direccionDAO.findAllByDireccionContainingIgnoreCase(notas);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con notas: {}, incluidas las eliminadas.");
+        return listado;
+    }
 
     @Override
     public DireccionModel buscarPorId(Long id) {
