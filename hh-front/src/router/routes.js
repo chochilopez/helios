@@ -224,14 +224,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      // {
-      //   path: '/proveedor',
-      //   name: 'Proveedor',
-      //   component: () => import('pages/sitio/Proveedor.vue'),
-      //   meta: {
-      //     rol: rolEnum.CARGA
-      //   }
-      // },
+      {
+        path: '/proveedor',
+        name: 'Proveedor',
+        component: () => import('pages/sitio/Proveedor.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
       {
         path: '/recibo',
         name: 'Recibo',
@@ -257,6 +257,14 @@ const routes = [
         }
       },
       {
+        path: '/seguro',
+        name: 'Seguro',
+        component: () => import('pages/sitio/Seguro.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
         path: '/tarea',
         name: 'Tarea',
         component: () => import('pages/sitio/Tarea.vue'),
@@ -264,14 +272,6 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      // {
-      //   path: '/ubicacion',
-      //   name: 'Ubicacion',
-      //   component: () => import('pages/sitio/Ubicacion.vue'),
-      //   meta: {
-      //     rol: rolEnum.CARGA
-      //   }
-      // },
       {
         path: '/vehiculo',
         name: 'Vehiculo',

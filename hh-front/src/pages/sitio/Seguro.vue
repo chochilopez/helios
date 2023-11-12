@@ -1,17 +1,13 @@
 <template>
-  <ProveedoresProveedoresContador />
-  <ProveedoresProveedoresListado />
+  <h1>Seguro</h1>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import ProveedoresProveedoresContador from 'src/components/sitio/ProveedoresProveedoresContador.vue'
-import ProveedoresProveedoresListado from 'src/components/sitio/ProveedoresProveedoresListado.vue'
 
 export default {
-  components: { ProveedoresProveedoresContador, ProveedoresProveedoresListado },
   setup () {
     const $q = useQuasar()
 

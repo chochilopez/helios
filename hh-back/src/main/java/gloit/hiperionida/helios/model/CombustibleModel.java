@@ -22,6 +22,7 @@ public class CombustibleModel extends AbsAuditoriaModel {
     private Double kilometros;
     private Double litros;
     private Double precio;
+    @Column(columnDefinition = "TEXT")
     private String notas;
 
     private Long camionId;

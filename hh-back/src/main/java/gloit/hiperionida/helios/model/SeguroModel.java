@@ -22,5 +22,6 @@ public class SeguroModel extends AbsAuditoriaModel {
     private Long aseguradoraId;
     // Evento
     private Long vencimientoId;
-
+    @Column(columnDefinition = "TEXT")
+    private String notas;
 }

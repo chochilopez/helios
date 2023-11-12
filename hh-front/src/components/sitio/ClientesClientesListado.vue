@@ -423,13 +423,11 @@ import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
 import { ClienteCreation } from 'src/models/creation/cliente_creation'
 import { clienteService } from 'src/services/cliente_service'
-import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
-import { v4 as uuidv4 } from 'uuid'
 
 const paginacion = {
   rowsPerPage: 50,
@@ -484,7 +482,6 @@ export default {
 
     const clienteCreation = reactive(new ClienteCreation())
     const clientes = ref([])
-    const clientesList = ref([])
     const direccion = ref(null)
     const editDireccion = ref(false)
     const editEmail = ref(false)
@@ -501,52 +498,9 @@ export default {
     const nuevoClienteDialog = ref(false)
     const paso1 = ref(true)
     const reglas = reactive(reglasValidacion.reglas)
-    const sesion = ref(uuidv4())
     const telefono = ref(null)
 
     afBuscarPaginadas()
-
-    async function afBuscarClientes () {
-      $q.loading.show()
-      try {
-        let resultado = null
-        if (esAdmin.value) {
-          if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value) !== null) {
-            clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value).value
-            console.log('ClienteService: Sesion recargada, con eliminadas.')
-          } else {
-            resultado = await clienteService.spfBuscarTodasConEliminadasConSesion(sesion.value)
-            if (resultado.status === 200) {
-              clientesList.value = resultado.data
-              console.log('ClienteService: ' + resultado.headers.mensaje)
-            }
-          }
-        } else {
-          if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConSesion', sesion.value) !== null) {
-            clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConSesion', sesion.value).value
-            console.log('ClienteService: Sesion recargada.')
-          } else {
-            resultado = await clienteService.spfBuscarTodasConSesion(sesion.value)
-            if (resultado.status === 200) {
-              clientesList.value = resultado.data
-              console.log('ClienteService: ' + resultado.headers.mensaje)
-            }
-          }
-        }
-        $q.loading.hide()
-      } catch (err) {
-        console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
-      }
-    }
 
     async function afBuscarPaginadas () {
       $q.loading.show()

@@ -19,5 +19,6 @@ public class DireccionModel extends AbsAuditoriaModel {
     private String ciudad;
     private String direccion;
     private String nombre;
+    @Column(columnDefinition = "TEXT")
     private String notas;
 }

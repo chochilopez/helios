@@ -459,7 +459,7 @@
             <q-item-section class="white-text">Neumaticos colocados</q-item-section>
           </q-item>
         </q-expansion-item>
-        <!-- <q-expansion-item icon="storefront" label="Proveedores">
+        <q-expansion-item icon="storefront" label="Proveedores">
           <q-item
             clickable
             v-ripple
@@ -492,30 +492,13 @@
             </q-item-section>
             <q-item-section class="white-text">Proveedores</q-item-section>
           </q-item>
-        </q-expansion-item> -->
-        <!-- <q-expansion-item icon="public" label="Ubicaciones">
+        </q-expansion-item>
+        <q-expansion-item icon="local_shipping" label="Vehiculos">
           <q-item
             clickable
             v-ripple
-            :active="link === 'localidades'"
-            @click="link = 'localidades'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'Ubicacion' }"
-            class="q-ml-md paleta1-fondo5"
-          >
-            <q-item-section avatar>
-              <q-icon name="public" />
-            </q-item-section>
-            <q-item-section class="white-text">Ubicaciones</q-item-section>
-          </q-item>
-        </q-expansion-item> -->
-        <q-expansion-item icon="local_shipping" label="Vehiculo">
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'camiones'"
-            @click="link = 'camiones'"
+            :active="link === 'acoplados'"
+            @click="link = 'acoplados'"
             active-class="seleccion-activa"
             exact
             :to="{ name: 'Acoplado' }"
@@ -529,8 +512,8 @@
           <q-item
             clickable
             v-ripple
-            :active="link === 'acoplados'"
-            @click="link = 'acoplados'"
+            :active="link === 'camiones'"
+            @click="link = 'camiones'"
             active-class="seleccion-activa"
             exact
             :to="{ name: 'Camion' }"
@@ -540,6 +523,21 @@
               <q-icon name="fa-solid fa-truck-fast" />
             </q-item-section>
             <q-item-section class="white-text">Camiones</q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'seguros'"
+            @click="link = 'seguros'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'Seguro' }"
+            class="q-ml-md paleta1-fondo5"
+          >
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-car-burst" />
+            </q-item-section>
+            <q-item-section class="white-text">Seguros</q-item-section>
           </q-item>
         </q-expansion-item>
         <q-expansion-item icon="fa-solid fa-route" label="Viajes">

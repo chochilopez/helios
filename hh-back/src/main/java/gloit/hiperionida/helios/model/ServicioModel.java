@@ -20,6 +20,8 @@ public class ServicioModel extends AbsAuditoriaModel {
     private Double kmActual;
     private Double kmProximo;
     private String tipo;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
 
     private Long camionId;
 }

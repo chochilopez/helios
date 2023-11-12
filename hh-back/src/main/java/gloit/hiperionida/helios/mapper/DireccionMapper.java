@@ -4,10 +4,10 @@ import gloit.hiperionida.helios.mapper.creation.DireccionCreation;
 import gloit.hiperionida.helios.mapper.dto.DireccionDTO;
 import gloit.hiperionida.helios.model.DireccionModel;
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.WordUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,7 +22,7 @@ public class DireccionMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
-            model.setCiudad(creation.getCiudad());
+            model.setCiudad(WordUtils.capitalizeFully(creation.getCiudad()));
             model.setDireccion(creation.getDireccion());
             model.setNombre(creation.getNombre());
             model.setNotas(creation.getNotas());
@@ -52,7 +52,7 @@ public class DireccionMapper {
             DireccionDTO dto = new DireccionDTO();
 
             dto.setId(model.getId().toString());
-            dto.setCiudad(model.getNotas());
+            dto.setCiudad(model.getCiudad());
             dto.setDireccion(model.getDireccion());
             dto.setNombre(model.getNombre());
             dto.setNotas(model.getNotas());

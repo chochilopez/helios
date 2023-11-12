@@ -18,4 +18,6 @@ public class PresupuestoModel extends AbsViajeModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer validez;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
 }

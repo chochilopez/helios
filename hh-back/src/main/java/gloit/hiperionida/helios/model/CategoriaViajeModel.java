@@ -17,5 +17,7 @@ public class CategoriaViajeModel extends AbsAuditoriaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String categoria;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
 }
 

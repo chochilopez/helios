@@ -31,6 +31,8 @@ public class NeumaticoModel extends AbsAuditoriaModel {
     @Enumerated(EnumType.STRING)
     private EstadoNeumaticoEnum estado;
     private Boolean baja;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
 
     private Long acopladoId;
     private Long camionId;
