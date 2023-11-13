@@ -9,6 +9,7 @@ import gloit.hiperionida.helios.repository.NeumaticoDAO;
 import gloit.hiperionida.helios.repository.ProveedorDAO;
 import gloit.hiperionida.helios.repository.SeguroDAO;
 import gloit.hiperionida.helios.util.Helper;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
@@ -33,13 +34,13 @@ public class AcopladoMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
-            model.setCantidadNeumaticos(creation.getCantidadNeumaticos());
-            model.setMarca(creation.getMarca());
-            model.setModelo(creation.getModelo());
-            model.setAnio(creation.getAnio());
+            if (Helper.getInteger(creation.getCantidadNeumaticos()) != null)
+                model.setCantidadNeumaticos(Helper.getInteger(creation.getCantidadNeumaticos()));
+            model.setMarcaModelo(creation.getMarcaModelo());
+            if (Helper.getInteger(creation.getAnio()) != null)
+                model.setAnio(Helper.getInteger(creation.getAnio()));
             model.setPatente(creation.getPatente());
             model.setPeso(creation.getPeso());
-
             if (Helper.getLong(creation.getSeguroId()) != null)
                 model.setSeguroId(Helper.getLong(creation.getSeguroId()));
 
@@ -68,31 +69,35 @@ public class AcopladoMapper {
             AcopladoDTO dto = new AcopladoDTO();
 
             dto.setId(model.getId().toString());
-            dto.setCantidadNeumaticos(model.getCantidadNeumaticos());
-            dto.setMarca(model.getMarca());
-            dto.setModelo(model.getModelo());
-            dto.setAnio(model.getAnio());
+            dto.setCantidadNeumaticos(model.getCantidadNeumaticos().toString());
+            dto.setMarcaModelo(model.getMarcaModelo());
+            dto.setAnio(model.getAnio().toString());
             dto.setPatente(model.getPatente());
             dto.setPeso(model.getPeso());
-
             if (model.getSeguroId() != null) {
-                Optional<SeguroModel> seguroModel = seguroDAO.findByIdAndEliminadaIsNull(model.getSeguroId());
-                Optional<ProveedorModel> proveedorModel = proveedorDAO.findByIdAndEliminadaIsNull(seguroModel.get().getAseguradoraId());
-                Optional<EventoModel> eventoModel = eventoDAO.findByIdAndEliminadaIsNull(seguroModel.get().getVencimientoId());
-                dto.setAseguradora(proveedorModel.get().getNombre());
-                dto.setVencimiento(eventoModel.get().getFecha().toString());
+                SeguroModel seguroModel = seguroDAO.findByIdAndEliminadaIsNull(model.getSeguroId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el seguro con id: " + model.getSeguroId()));
+                ProveedorModel proveedorModel = proveedorDAO.findByIdAndEliminadaIsNull(seguroModel.getAseguradoraId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el asegurador con id: " + seguroModel.getAseguradoraId()));
+                EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(seguroModel.getVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vencimiento con id: " + seguroModel.getVencimientoId()));
+                dto.setAseguradora(proveedorModel.getNombre());
+                dto.setVencimiento(eventoModel.getFecha().toString());
             }
 
-            if (model.getCreador_id() != null)
-                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreador_id() + "."));
+                dto.setCreador(usuarioModel.getNombre());
+            }
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().toString());
-            if (model.getModificador_id() != null)
-                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el modificador con id: " + model.getModificador_id() + "."));
+                dto.setModificador(usuarioModel.getNombre());
+            }
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().toString());
-            if (model.getEliminador_id() != null)
-                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el eliminador con id: " + model.getEliminador_id() + "."));
+                dto.setEliminador(usuarioModel.getNombre());
+            }
             if (model.getEliminada() != null)
                 dto.setEliminada(model.getEliminada().toString());
 

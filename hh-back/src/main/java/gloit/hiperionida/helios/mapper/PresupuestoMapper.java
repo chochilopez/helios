@@ -92,23 +92,30 @@ public class PresupuestoMapper {
             dto.setId(model.getId().toString());
             if (model.getCantidadTransportada() != null)
                 dto.setCantidadTransportada(model.getCantidadTransportada().toString());
-            if (model.getCategoriaViajeId() != null)
-                dto.setCategoriaViaje(categoriaViajeDAO.findByIdAndEliminadaIsNull(model.getCategoriaViajeId()).get().getCategoria());
-            if (model.getCompradorId() != null)
-                dto.setComprador(clienteDAO.findByIdAndEliminadaIsNull(model.getCompradorId()).get().getNombre());
+
+            if (model.getCategoriaViajeId() != null) {
+                CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(model.getCategoriaViajeId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la categoria id: " + model.getCategoriaViajeId() + "."));
+                dto.setCategoriaViaje(categoriaViajeModel.getCategoria());
+            }
+            if (model.getCompradorId() != null) {
+                ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getCompradorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el comprador con id: " + model.getCompradorId() + "."));
+                dto.setComprador(clienteModel.getNombre());
+            }
             if (model.getDestinoId() != null) {
-                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección."));
+                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección de destino con id: " + model.getDestinoId() + "."));
                 dto.setDestino(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
             }
-            if (model.getFechaId() != null)
-                dto.setFecha(eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).get().getFecha().toString());
+            if (model.getFechaId() != null) {
+                EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de viaje con id: " + model.getFechaId() + "."));
+                dto.setFecha(eventoModel.getFecha().toString());
+            }
             if (model.getCreada() != null)
                 dto.setFechaEmision(model.getCreada().toString());
             if (model.getKmCargado() != null)
                 dto.setKmCargado(model.getKmCargado().toString());
             dto.setNotas(model.getNotas());
             if (model.getOrigenId() != null) {
-                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección."));
+                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección de destino con id: " + model.getOrigenId() + "."));
                 dto.setOrigen(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
             }
             dto.setValidez(model.getValidez().toString());

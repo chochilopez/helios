@@ -21,5 +21,4 @@ public class CamionModel extends AbsVehiculoModel {
     private Long id;
     private String numeroChasis;
     private String numeroMotor;
-    private String pesoArrastre;
 }

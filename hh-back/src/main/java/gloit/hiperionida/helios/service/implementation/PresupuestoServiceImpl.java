@@ -263,8 +263,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     public PresupuestoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Presupuesto con id: {}.", id);
         PresupuestoModel presupuestoModel = presupuestoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Presupuesto con id: " + id + "."));
-        String mensaje = "Se encontro una entidad Presupuesto.";
-        log.info(mensaje);
+        log.info("Se encontro una entidad Presupuesto con id: " + id + ".");
         return presupuestoModel;
     }
 
@@ -272,7 +271,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     public PresupuestoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Presupuesto con id: {}, incluidas las eliminadas.", id);
         PresupuestoModel presupuestoModel = presupuestoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Presupuesto con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Presupuesto con id: " + id + ".");
+        log.info("Se encontro una entidad Presupuesto con id: " + id + ", incluidas las eliminadas.");
         return presupuestoModel;
     }
 

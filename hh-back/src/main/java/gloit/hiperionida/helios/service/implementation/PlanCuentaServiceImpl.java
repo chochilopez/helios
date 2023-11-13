@@ -30,8 +30,7 @@ public class PlanCuentaServiceImpl implements PlanCuentaService {
     public PlanCuentaModel buscarPorId(Long id) {
         log.info("Buscando la entidad PlanCuenta con id: {}.", id);
         PlanCuentaModel planCuentaModel = planCuentaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad PlanCuenta con id: " + id + "."));
-        String mensaje = "Se encontro una entidad PlanCuenta.";
-        log.info(mensaje);
+        log.info("Se encontro una entidad PlanCuenta con id: " + id + ".");
         return planCuentaModel;
     }
 
@@ -39,7 +38,7 @@ public class PlanCuentaServiceImpl implements PlanCuentaService {
     public PlanCuentaModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad PlanCuenta con id: {}, incluidas las eliminadas.", id);
         PlanCuentaModel planCuentaModel = planCuentaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad PlanCuenta con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad PlanCuenta con id: " + id + ".");
+        log.info("Se encontro una entidad PlanCuenta con id: " + id + ", incluidas las eliminadas.");
         return planCuentaModel;
     }
 

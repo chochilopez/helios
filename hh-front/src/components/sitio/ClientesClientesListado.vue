@@ -332,7 +332,7 @@
               <q-input
                 class="nuevo-input"
                 v-model="clienteCreation.nombre"
-                :rules="[reglas.requerido]"
+                :rules="[reglas.requerido, reglas.min8, reglas.max50]"
                 outlined
                 dense
                 clearable
@@ -345,7 +345,7 @@
               <q-input
                 class="nuevo-input"
                 v-model="clienteCreation.direccion"
-                :rules="[reglas.requerido]"
+                :rules="[reglas.requerido, reglas.min8, reglas.max50]"
                 outlined
                 dense
                 clearable
@@ -358,7 +358,7 @@
               <q-input
                 class="nuevo-input"
                 v-model="clienteCreation.email"
-                :rules="[reglas.requerido]"
+                :rules="[reglas.requerido, reglas.min8, reglas.max50, reglas.email]"
                 outlined
                 dense
                 clearable
@@ -371,7 +371,7 @@
               <q-input
                 class="nuevo-input"
                 v-model="clienteCreation.telefono"
-                :rules="[reglas.requerido]"
+                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
                 outlined
                 dense
                 clearable
@@ -384,7 +384,7 @@
               <q-input
                 class="nuevo-input"
                 v-model="clienteCreation.identificacion"
-                :rules="[reglas.requerido]"
+                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
                 outlined
                 dense
                 clearable

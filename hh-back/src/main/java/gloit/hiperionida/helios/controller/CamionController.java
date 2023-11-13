@@ -3,6 +3,8 @@ package gloit.hiperionida.helios.controller;
 import gloit.hiperionida.helios.mapper.CamionMapper;
 import gloit.hiperionida.helios.mapper.creation.CamionCreation;
 import gloit.hiperionida.helios.mapper.dto.CamionDTO;
+import gloit.hiperionida.helios.mapper.dto.CamionDTO;
+import gloit.hiperionida.helios.model.CamionModel;
 import gloit.hiperionida.helios.model.CamionModel;
 import gloit.hiperionida.helios.service.implementation.CamionServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
@@ -38,6 +40,152 @@ public class CamionController extends AbsBaseController {
         String mensaje = "Ocurrio un error al guardar el camion. " + e.getMessage();
 
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+    }
+
+    @GetMapping(value = "/buscar-por-seguro-id/{id}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<CamionDTO> buscarPorSeguroId(@PathVariable(name = "id") Long id) {
+        CamionModel objeto = camionService.buscarPorSeguroId(id);
+        return new ResponseEntity<>(camionMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con seguro id :" + id + "."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-por-seguro-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<CamionDTO> buscarPorSeguroIdConEliminadas(@PathVariable(name = "id") Long id) {
+        CamionModel objeto = camionService.buscarPorSeguroIdConEliminadas(id);
+        return new ResponseEntity<>(camionMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con seguro id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-marca-modelo/{marcaModelo}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorMarcaModelo(@PathVariable(name = "marcaModelo") String marcaModelo) {
+        List<CamionModel> listado = camionService.buscarTodasPorMarcaModelo(marcaModelo);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel camion:listado) {
+            camionDTOS.add(camionMapper.toDto(camion));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-marca-modelo-con-eliminadas/{marcaModelo}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorMarcaModeloConEliminadas(@PathVariable(name = "marcaModelo") String marcaModelo) {
+        List<CamionModel> listado = camionService.buscarTodasPorMarcaModeloConEliminadas(marcaModelo);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel camion:listado) {
+            camionDTOS.add(camionMapper.toDto(camion));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-numero-chasis/{numeroChasis}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorNumeroChasis(@PathVariable(name = "numeroChasis") String numeroChasis) {
+        List<CamionModel> listado = camionService.buscarTodasPorNumeroChasis(numeroChasis);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel camion:listado) {
+            camionDTOS.add(camionMapper.toDto(camion));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-numero-chasis-con-eliminadas/{numeroChasis}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorNumeroChasisConEliminadas(@PathVariable(name = "numeroChasis") String numeroChasis) {
+        List<CamionModel> listado = camionService.buscarTodasPorNumeroChasisConEliminadas(numeroChasis);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel camion:listado) {
+            camionDTOS.add(camionMapper.toDto(camion));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-numero-motor/{numeroMotor}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorNumeroMotor(@PathVariable(name = "numeroMotor") String numeroMotor) {
+        List<CamionModel> listado = camionService.buscarTodasPorNumeroMotor(numeroMotor);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel camion:listado) {
+            camionDTOS.add(camionMapper.toDto(camion));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-numero-motor-con-eliminadas/{numeroMotor}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorNumeroMotorConEliminadas(@PathVariable(name = "numeroMotor") String numeroMotor) {
+        List<CamionModel> listado = camionService.buscarTodasPorNumeroMotorConEliminadas(numeroMotor);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel camion:listado) {
+            camionDTOS.add(camionMapper.toDto(camion));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-rango-anio/{min}/{max}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorRangoAnio(@PathVariable(name = "min") Integer min, @PathVariable(name = "max") Integer max) {
+        List<CamionModel> listado = camionService.buscarTodasPorRangoAnio(min, max);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel viaje:listado) {
+            camionDTOS.add(camionMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-rango-anio-con-eliminadas/{min}/{max}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorRangoAnioConEliminadas(@PathVariable(name = "min") Integer min, @PathVariable(name = "max") Integer max) {
+        List<CamionModel> listado = camionService.buscarTodasPorRangoAnioConEliminadas(min, max);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel viaje:listado) {
+            camionDTOS.add(camionMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-rango-cantidad-neumaticos/{min}/{max}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorRangoCantidadNeumaticos(@PathVariable(name = "min") Integer min, @PathVariable(name = "max") Integer max) {
+        List<CamionModel> listado = camionService.buscarTodasPorRangoCantidadNeumaticos(min, max);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel viaje:listado) {
+            camionDTOS.add(camionMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-rango-cantidad-neumaticos-con-eliminadas/{min}/{max}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorRangoCantidadNeumaticosConEliminadas(@PathVariable(name = "min") Integer min, @PathVariable(name = "max") Integer max) {
+        List<CamionModel> listado = camionService.buscarTodasPorRangoCantidadNeumaticosConEliminadas(min, max);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel viaje:listado) {
+            camionDTOS.add(camionMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas/{notas}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
+        List<CamionModel> listado = camionService.buscarTodasPorNotas(notas);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel viaje:listado) {
+            camionDTOS.add(camionMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas-con-eliminadas/{notas}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CamionDTO>> buscarTodasPorNotasConEliminadas(@PathVariable(name = "notas") String notas) {
+        List<CamionModel> listado = camionService.buscarTodasPorNotasConEliminadas(notas);
+        ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
+        for (CamionModel viaje:listado) {
+            camionDTOS.add(camionMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(camionDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")

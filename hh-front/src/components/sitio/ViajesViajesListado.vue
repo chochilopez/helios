@@ -1254,7 +1254,7 @@
               <q-input
                 class="nuevo-input"
                 v-model="viajeCreation.guia"
-                :rules="[reglas.requerido]"
+                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
                 outlined
                 dense
                 clearable

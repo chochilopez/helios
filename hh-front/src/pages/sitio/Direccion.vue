@@ -1,5 +1,4 @@
 <template>
-  <ClientesDireccionesContador />
   <ClientesDireccionesListado />
 </template>
 
@@ -7,11 +6,10 @@
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import ClientesDireccionesContador from 'src/components/sitio/ClientesDireccionesContador.vue'
 import ClientesDireccionesListado from 'src/components/sitio/ClientesDireccionesListado.vue'
 
 export default {
-  components: { ClientesDireccionesContador, ClientesDireccionesListado },
+  components: { ClientesDireccionesListado },
   setup () {
     const $q = useQuasar()
 

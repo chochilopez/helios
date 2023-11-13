@@ -30,8 +30,7 @@ public class RemitoServiceImpl implements RemitoService {
     public RemitoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Remito con id: {}.", id);
         RemitoModel remitoModel = remitoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Remito con id: " + id + "."));
-        String mensaje = "Se encontro una entidad Remito.";
-        log.info(mensaje);
+        log.info("Se encontro una entidad Remito con id: " + id + ".");
         return remitoModel;
     }
 
@@ -39,7 +38,7 @@ public class RemitoServiceImpl implements RemitoService {
     public RemitoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Remito con id: {}, incluidas las eliminadas.", id);
         RemitoModel remitoModel = remitoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Remito con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Remito con id: " + id + ".");
+        log.info("Se encontro una entidad Remito con id: " + id + ", incluidas las eliminadas.");
         return remitoModel;
     }
 

@@ -17,11 +17,11 @@ public class SeguroModel extends AbsAuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
 
     // Proveedor
     private Long aseguradoraId;
     // Evento
     private Long vencimientoId;
-    @Column(columnDefinition = "TEXT")
-    private String notas;
 }

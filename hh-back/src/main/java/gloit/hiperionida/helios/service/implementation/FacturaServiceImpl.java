@@ -30,8 +30,7 @@ public class FacturaServiceImpl implements FacturaService {
     public FacturaModel buscarPorId(Long id) {
         log.info("Buscando la entidad Factura con id: {}.", id);
         FacturaModel facturaModel = facturaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Factura con id: " + id + "."));
-        String mensaje = "Se encontro una entidad Factura.";
-        log.info(mensaje);
+        log.info("Se encontro una entidad Factura con id: " + id + ".");
         return facturaModel;
     }
 
@@ -39,7 +38,7 @@ public class FacturaServiceImpl implements FacturaService {
     public FacturaModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Factura con id: {}, incluidas las eliminadas.", id);
         FacturaModel facturaModel = facturaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Factura con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Factura con id: " + id + ".");
+        log.info("Se encontro una entidad Factura con id: " + id + ", incluidas las eliminadas.");
         return facturaModel;
     }
 

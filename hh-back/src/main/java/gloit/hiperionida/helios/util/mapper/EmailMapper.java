@@ -1,6 +1,7 @@
 package gloit.hiperionida.helios.util.mapper;
 
 import gloit.hiperionida.helios.util.Helper;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.mapper.creation.EmailCreation;
 import gloit.hiperionida.helios.util.mapper.dto.EmailDTO;
 import gloit.hiperionida.helios.util.model.EmailModel;
@@ -62,16 +63,22 @@ public class EmailMapper {
             dto.setBody(model.getBody());
             dto.setSended(model.getSended().toString());
 
-            if (model.getCreador_id() != null)
-                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreador_id() + "."));
+                dto.setCreador(usuarioModel.getNombre());
+            }
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().toString());
-            if (model.getModificador_id() != null)
-                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el modificador con id: " + model.getModificador_id() + "."));
+                dto.setModificador(usuarioModel.getNombre());
+            }
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().toString());
-            if (model.getEliminador_id() != null)
-                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el eliminador con id: " + model.getEliminador_id() + "."));
+                dto.setEliminador(usuarioModel.getNombre());
+            }
             if (model.getEliminada() != null)
                 dto.setEliminada(model.getEliminada().toString());
 

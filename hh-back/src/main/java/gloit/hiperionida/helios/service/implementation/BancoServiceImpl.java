@@ -30,8 +30,7 @@ public class BancoServiceImpl implements BancoService {
     public BancoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Banco con id: {}.", id);
         BancoModel bancoModel = bancoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Banco con id: " + id + "."));
-        String mensaje = "Se encontro una entidad Banco.";
-        log.info(mensaje);
+        log.info("Se encontro una entidad Banco con id: " + id + ".");
         return bancoModel;
     }
 
@@ -39,7 +38,7 @@ public class BancoServiceImpl implements BancoService {
     public BancoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Banco con id: {}, incluidas las eliminadas.", id);
         BancoModel bancoModel = bancoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Banco con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Banco con id: " + id + ".");
+        log.info("Se encontro una entidad Banco con id: " + id + ", incluidas las eliminadas.");
         return bancoModel;
     }
 

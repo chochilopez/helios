@@ -110,35 +110,47 @@ public class ViajeMapper {
             ViajeDTO dto = new ViajeDTO();
 
             dto.setId(model.getId().toString());
+
+
             if (model.getAcopladoId() != null) {
-                Optional<AcopladoModel> acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(model.getAcopladoId());
-                dto.setAcoplado(acopladoModel.get().getMarca() + " - " + acopladoModel.get().getModelo());
+                AcopladoModel acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(model.getAcopladoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el acoplado con id: " + model.getAcopladoId() + "."));
+                dto.setAcoplado(acopladoModel.getMarcaModelo());
             }
             if (model.getCamionId() != null) {
-                Optional<CamionModel> camionModel = camionDAO.findByIdAndEliminadaIsNull(model.getCamionId());
-                dto.setCamion(camionModel.get().getMarca() + " - " + camionModel.get().getModelo());
+                CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(model.getCamionId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el camion con id: " + model.getCamionId() + "."));
+                dto.setCamion(camionModel.getMarcaModelo());
             }
             if (model.getCantidadTransportada() != null)
                 dto.setCantidadTransportada(model.getCantidadTransportada().toString());
             if (model.getCargaId() != null) {
-                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getCargaId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección."));
+                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getCargaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la dirección de carga con id: " + model.getCargaId() + "."));
                 dto.setCarga(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
             }
-            if (model.getCategoriaViajeId() != null)
-                dto.setCategoriaViaje(categoriaViajeDAO.findByIdAndEliminadaIsNull(model.getCategoriaViajeId()).get().getCategoria());
-            if (model.getCompradorId() != null)
-                dto.setComprador(clienteDAO.findByIdAndEliminadaIsNull(model.getCompradorId()).get().getNombre());
-            if (model.getConductorId() != null)
-                dto.setConductor(conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).get().getNombre());
-            if (model.getDestinoId() != null) {
-                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección."));
-                dto.setDestino(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
+            if (model.getCategoriaViajeId() != null) {
+                CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(model.getCategoriaViajeId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la categoria id: " + model.getCategoriaViajeId() + "."));
+                dto.setCategoriaViaje(categoriaViajeModel.getCategoria());
             }
-            if (model.getFechaId() != null)
-                dto.setFecha(eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).get().getFecha().toString());
+            if (model.getCompradorId() != null) {
+                ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getCompradorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el comprador con id: " + model.getCompradorId() + "."));
+                dto.setComprador(clienteModel.getNombre());
+            }
+            if (model.getConductorId() != null) {
+                ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor con id: " + model.getConductorId() + "."));
+                dto.setConductor(conductorModel.getNombre());
+            }
+            if (model.getDestinoId() != null) {
+                DireccionModel destinoModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la dirección destino con id: " + model.getDestinoId() + "."));
+                dto.setDestino(destinoModel.getCiudad() + " - " + destinoModel.getDireccion());
+            }
+            if (model.getFechaId() != null) {
+                EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de viaje con id: " + model.getFechaId() + "."));
+                dto.setFecha(eventoModel.getFecha().toString());
+            }
             dto.setGuia(model.getGuia());
-            if (model.getIntermediarioId() != null)
-                dto.setIntermediario(clienteDAO.findByIdAndEliminadaIsNull(model.getIntermediarioId()).get().getNombre());
+            if (model.getIntermediarioId() != null) {
+                ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getIntermediarioId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el intermediario con id: " + model.getIntermediarioId() + "."));
+                dto.setIntermediario(clienteModel.getNombre());
+            }
             if (model.getKmCargado() != null)
                 dto.setKmCargado(model.getKmCargado().toString());
             if (model.getKmVacio() != null)
@@ -147,13 +159,15 @@ public class ViajeMapper {
                 dto.setNeto(model.getNeto().toString());
             dto.setNotas(model.getNotas());
             if (model.getOrigenId() != null) {
-                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección."));
-                dto.setOrigen(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
+                DireccionModel origenModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la dirección origen con id: " + model.getOrigenId() + "."));
+                dto.setOrigen(origenModel.getCiudad() + " - " + origenModel.getDireccion());
             }
             if (model.getValorKm() != null)
                 dto.setValorKm(model.getValorKm().toString());
-            if (model.getVendedorId() != null)
-                dto.setVendedor(clienteDAO.findByIdAndEliminadaIsNull(model.getVendedorId()).get().getNombre());
+            if (model.getVendedorId() != null) {
+                ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getVendedorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vendedor con id: " + model.getVendedorId() + "."));
+                dto.setVendedor(clienteModel.getNombre());
+            }
 
             if (model.getCreador_id() != null)
                 dto.setCreador(usuarioService.buscarPorId(model.getCreador_id()).getNombre());

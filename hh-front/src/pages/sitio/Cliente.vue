@@ -1,5 +1,4 @@
 <template>
-  <ClientesClientesContador />
   <ClientesClientesListado />
 </template>
 
@@ -7,11 +6,10 @@
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import ClientesClientesContador from 'src/components/sitio/ClientesClientesContador.vue'
 import ClientesClientesListado from 'src/components/sitio/ClientesClientesListado.vue'
 
 export default {
-  components: { ClientesClientesContador, ClientesClientesListado },
+  components: { ClientesClientesListado },
   setup () {
     const $q = useQuasar()
 

@@ -30,8 +30,7 @@ public class ConciliacionBancoServiceImpl implements ConciliacionBancoService {
     public ConciliacionBancoModel buscarPorId(Long id) {
         log.info("Buscando la entidad ConciliacionBanco con id: {}.", id);
         ConciliacionBancoModel conciliacionBancoModel = conciliacionBancoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad ConciliacionBanco con id: " + id + "."));
-        String mensaje = "Se encontro una entidad ConciliacionBanco.";
-        log.info(mensaje);
+        log.info("Se encontro una entidad ConciliacionBanco con id: " + id + ".");
         return conciliacionBancoModel;
     }
 
@@ -39,7 +38,7 @@ public class ConciliacionBancoServiceImpl implements ConciliacionBancoService {
     public ConciliacionBancoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad ConciliacionBanco con id: {}, incluidas las eliminadas.", id);
         ConciliacionBancoModel conciliacionBancoModel = conciliacionBancoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad ConciliacionBanco con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad ConciliacionBanco con id: " + id + ".");
+        log.info("Se encontro una entidad ConciliacionBanco con id: " + id + ", incluidas las eliminadas.");
         return conciliacionBancoModel;
     }
 

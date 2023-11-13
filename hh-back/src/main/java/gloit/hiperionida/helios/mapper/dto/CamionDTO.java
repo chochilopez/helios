@@ -12,5 +12,4 @@ public class CamionDTO extends AbsVehiculoDTO implements Serializable {
     private String id;
     private String numeroChasis;
     private String numeroMotor;
-    private String pesoArrastre;
 }

@@ -1,13 +1,15 @@
 <template>
-  <h1>Camion</h1>
+  <VehiculosCamionesListado />
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import VehiculosCamionesListado from 'src/components/sitio/VehiculosCamionesListado.vue'
 
 export default {
+  components: { VehiculosCamionesListado },
   setup () {
     const $q = useQuasar()
 

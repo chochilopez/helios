@@ -3,6 +3,8 @@ package gloit.hiperionida.helios.controller;
 import gloit.hiperionida.helios.mapper.SeguroMapper;
 import gloit.hiperionida.helios.mapper.creation.SeguroCreation;
 import gloit.hiperionida.helios.mapper.dto.SeguroDTO;
+import gloit.hiperionida.helios.mapper.dto.SeguroDTO;
+import gloit.hiperionida.helios.model.SeguroModel;
 import gloit.hiperionida.helios.model.SeguroModel;
 import gloit.hiperionida.helios.service.implementation.SeguroServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
@@ -38,6 +40,56 @@ public class SeguroController extends AbsBaseController {
         String mensaje = "Ocurrio un error al guardar el seguro. " + e.getMessage();
 
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+    }
+
+    @GetMapping(value = "/buscar-por-aseguradora-id/{id}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<SeguroDTO> buscarPorAseguradoraId(@PathVariable(name = "id") Long id) {
+        SeguroModel objeto = seguroService.buscarPorAseguradoraId(id);
+        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id aseguradora :" + id + "."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-por-aseguradora-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<SeguroDTO> buscarPorAseguradoraIdConEliminadas(@PathVariable(name = "id") Long id) {
+        SeguroModel objeto = seguroService.buscarPorAseguradoraIdConEliminadas(id);
+        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id aseguradora :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-por-vencimiento-id/{id}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<SeguroDTO> buscarPorVencimientoId(@PathVariable(name = "id") Long id) {
+        SeguroModel objeto = seguroService.buscarPorVencimientoId(id);
+        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con vencimiento id :" + id + "."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-por-vencimiento-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<SeguroDTO> buscarPorVencimientoIdConEliminadas(@PathVariable(name = "id") Long id) {
+        SeguroModel objeto = seguroService.buscarPorVencimientoIdConEliminadas(id);
+        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con vencimiento id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas/{notas}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<SeguroDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorNotas(notas);
+        ArrayList<SeguroDTO> seguroDTOS = new ArrayList<>();
+        for (SeguroModel viaje:listado) {
+            seguroDTOS.add(seguroMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(seguroDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas-con-eliminadas/{notas}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<SeguroDTO>> buscarTodasPorNotasConEliminadas(@PathVariable(name = "notas") String notas) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorNotasConEliminadas(notas);
+        ArrayList<SeguroDTO> seguroDTOS = new ArrayList<>();
+        for (SeguroModel viaje:listado) {
+            seguroDTOS.add(seguroMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(seguroDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")

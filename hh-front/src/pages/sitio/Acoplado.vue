@@ -1,13 +1,15 @@
 <template>
-  <h1>Acoplado</h1>
+  <VehiculosAcopladosListado />
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import VehiculosAcopladosListado from 'src/components/sitio/VehiculosAcopladosListado.vue'
 
 export default {
+  components: { VehiculosAcopladosListado },
   setup () {
     const $q = useQuasar()
 

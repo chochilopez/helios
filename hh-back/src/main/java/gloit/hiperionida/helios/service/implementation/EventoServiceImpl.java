@@ -30,8 +30,7 @@ public class EventoServiceImpl implements EventoService {
     public EventoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Evento con id: {}.", id);
         EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Evento con id: " + id + "."));
-        String mensaje = "Se encontro una entidad Evento.";
-        log.info(mensaje);
+        log.info("Se encontro una entidad Evento con id: " + id + ".");
         return eventoModel;
     }
 
@@ -39,7 +38,7 @@ public class EventoServiceImpl implements EventoService {
     public EventoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Evento con id: {}, incluidas las eliminadas.", id);
         EventoModel eventoModel = eventoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Evento con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Evento con id: " + id + ".");
+        log.info("Se encontro una entidad Evento con id: " + id + ", incluidas las eliminadas.");
         return eventoModel;
     }
 

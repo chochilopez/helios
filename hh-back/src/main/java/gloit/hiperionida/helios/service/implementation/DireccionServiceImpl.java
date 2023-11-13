@@ -40,73 +40,73 @@ public class DireccionServiceImpl implements DireccionService {
 
     @Override
     public List<DireccionModel> buscarTodasPorCiudad(String ciudad) {
-        log.info("Buscando todas las entidades Direccion con ciudad: {}.");
+        log.info("Buscando todas las entidades Direccion con ciudad: {}.", ciudad);
         List<DireccionModel> listado = direccionDAO.findAllByCiudadContainingIgnoreCaseAndEliminadaIsNull(ciudad);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Direccion con ciudad: {}.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con ciudad: " + ciudad + ".");
         return listado;
     }
 
     @Override
     public List<DireccionModel> buscarTodasPorCiudadConEliminadas(String ciudad) {
-        log.info("Buscando todas las entidades Direccion con ciudad: {}, incluidas las eliminadas.");
+        log.info("Buscando todas las entidades Direccion con ciudad: {}, incluidas las eliminadas.", ciudad);
         List<DireccionModel> listado = direccionDAO.findAllByCiudadContainingIgnoreCase(ciudad);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Direccion con ciudad: {}, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con ciudad: " + ciudad + ", incluidas las eliminadas.");
         return listado;
     }
 
     @Override
     public List<DireccionModel> buscarTodasPorDireccion(String direccion) {
-        log.info("Buscando todas las entidades Direccion con direccion: {}.");
+        log.info("Buscando todas las entidades Direccion con direccion: {}.", direccion);
         List<DireccionModel> listado = direccionDAO.findAllByDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Direccion con direccion: {}.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con direccion: " + direccion + ".");
         return listado;
     }
 
     @Override
     public List<DireccionModel> buscarTodasPorDireccionConEliminadas(String direccion) {
-        log.info("Buscando todas las entidades Direccion con direccion: {}, incluidas las eliminadas.");
+        log.info("Buscando todas las entidades Direccion con direccion: {}, incluidas las eliminadas.", direccion);
         List<DireccionModel> listado = direccionDAO.findAllByDireccionContainingIgnoreCase(direccion);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Direccion con direccion: {}, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con direccion: " + direccion + ", incluidas las eliminadas.");
         return listado;
     }
 
     @Override
     public List<DireccionModel> buscarTodasPorNombre(String nombre) {
-        log.info("Buscando todas las entidades Direccion con nombre: {}.");
+        log.info("Buscando todas las entidades Direccion con nombre: {}.", nombre);
         List<DireccionModel> listado = direccionDAO.findAllByNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Direccion con nombre: {}.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con nombre: " + nombre + ".");
         return listado;
     }
 
     @Override
     public List<DireccionModel> buscarTodasPorNombreConEliminadas(String nombre) {
-        log.info("Buscando todas las entidades Direccion con nombre: {}, incluidas las eliminadas.");
+        log.info("Buscando todas las entidades Direccion con nombre: {}, incluidas las eliminadas.", nombre);
         List<DireccionModel> listado = direccionDAO.findAllByNombreContainingIgnoreCase(nombre);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Direccion con nombre: {}, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con nombre: " + nombre + ", incluidas las eliminadas.");
         return listado;
     }
 
     @Override
     public List<DireccionModel> buscarTodasPorNotas(String notas) {
-        log.info("Buscando todas las entidades Direccion con notas: {}.");
-        List<DireccionModel> listado = direccionDAO.findAllByDireccionContainingIgnoreCaseAndEliminadaIsNull(notas);
+        log.info("Buscando todas las entidades Direccion con notas: {}.", notas);
+        List<DireccionModel> listado = direccionDAO.findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(notas);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Direccion con notas: {}.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con notas: " + notas + ".");
         return listado;
     }
 
     @Override
     public List<DireccionModel> buscarTodasPorNotasConEliminadas(String notas) {
-        log.info("Buscando todas las entidades Direccion con notas: {}, incluidas las eliminadas.");
-        List<DireccionModel> listado = direccionDAO.findAllByDireccionContainingIgnoreCase(notas);
+        log.info("Buscando todas las entidades Direccion con notas: {}, incluidas las eliminadas.", notas);
+        List<DireccionModel> listado = direccionDAO.findAllByNotasContainingIgnoreCase(notas);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Direccion con notas: {}, incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Direccion con notas: " + notas + ", incluidas las eliminadas.");
         return listado;
     }
 
@@ -114,8 +114,7 @@ public class DireccionServiceImpl implements DireccionService {
     public DireccionModel buscarPorId(Long id) {
         log.info("Buscando la entidad Direccion con id: {}.", id);
         DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Direccion con id: " + id + "."));
-        String mensaje = "Se encontro una entidad Direccion.";
-        log.info(mensaje);
+        log.info("Se encontro una entidad Direccion con id: " + id + ".");
         return direccionModel;
     }
 
@@ -123,7 +122,7 @@ public class DireccionServiceImpl implements DireccionService {
     public DireccionModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Direccion con id: {}, incluidas las eliminadas.", id);
         DireccionModel direccionModel = direccionDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Direccion con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Direccion con id: " + id + ".");
+        log.info("Se encontro una entidad Direccion con id: " + id + ", incluidas las eliminadas.");
         return direccionModel;
     }
 

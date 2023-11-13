@@ -5,9 +5,11 @@ import gloit.hiperionida.helios.mapper.dto.PagoDTO;
 import gloit.hiperionida.helios.mapper.dto.ReciboDTO;
 import gloit.hiperionida.helios.model.PagoModel;
 import gloit.hiperionida.helios.model.ReciboModel;
+import gloit.hiperionida.helios.model.RemitoModel;
 import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.repository.ReciboDAO;
 import gloit.hiperionida.helios.util.Helper;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
@@ -76,19 +78,27 @@ public class PagoMapper {
                 dto.setCompraId(model.getCompraId().toString());
             if (model.getFacturaId() != null)
                 dto.setFacturaId(model.getFacturaId().toString());
-            if (model.getReciboId() != null)
-                dto.setRecibo(reciboDAO.findByIdAndEliminadaIsNull(model.getReciboId()).get().getFecha().toString());
+            if (model.getReciboId() != null) {
+                ReciboModel reciboModel = reciboDAO.findByIdAndEliminadaIsNull(model.getReciboId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el remito con id: " + model.getReciboId() + "."));
+                dto.setRecibo(reciboModel.getFecha().toString());
+            }
 
-            if (model.getCreador_id() != null)
-                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreador_id() + "."));
+                dto.setCreador(usuarioModel.getNombre());
+            }
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().toString());
-            if (model.getModificador_id() != null)
-                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el modificador con id: " + model.getModificador_id() + "."));
+                dto.setModificador(usuarioModel.getNombre());
+            }
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().toString());
-            if (model.getEliminador_id() != null)
-                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el eliminador con id: " + model.getEliminador_id() + "."));
+                dto.setEliminador(usuarioModel.getNombre());
+            }
             if (model.getEliminada() != null)
                 dto.setEliminada(model.getEliminada().toString());
 

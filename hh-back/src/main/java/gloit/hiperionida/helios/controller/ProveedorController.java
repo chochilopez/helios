@@ -3,6 +3,8 @@ package gloit.hiperionida.helios.controller;
 import gloit.hiperionida.helios.mapper.ProveedorMapper;
 import gloit.hiperionida.helios.mapper.creation.ProveedorCreation;
 import gloit.hiperionida.helios.mapper.dto.ProveedorDTO;
+import gloit.hiperionida.helios.mapper.dto.ProveedorDTO;
+import gloit.hiperionida.helios.model.ProveedorModel;
 import gloit.hiperionida.helios.model.ProveedorModel;
 import gloit.hiperionida.helios.service.implementation.ProveedorServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
@@ -38,6 +40,138 @@ public class ProveedorController extends AbsBaseController {
         String mensaje = "Ocurrio un error al guardar el proveedor. " + e.getMessage();
 
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-direccion/{direccion}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorDireccion(@PathVariable(name = "direccion") String direccion) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorDireccion(direccion);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-direccion-con-eliminadas/{direccion}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorDireccionConEliminadas(@PathVariable(name = "direccion") String direccion) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorDireccionConEliminadas(direccion);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-email/{email}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorEmail(@PathVariable(name = "email") String email) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorEmail(email);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-email-con-eliminadas/{email}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorEmailConEliminadas(@PathVariable(name = "email") String email) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorEmailConEliminadas(email);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-identificacion/{identificacion}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorIdentificacion(@PathVariable(name = "identificacion") String identificacion) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorIdentificacion(identificacion);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-identificacion-con-eliminadas/{identificacion}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorIdentificacionConEliminadas(@PathVariable(name = "identificacion") String identificacion) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorIdentificacionConEliminadas(identificacion);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-nombre/{nombre}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorNombre(@PathVariable(name = "nombre") String nombre) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorNombre(nombre);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-nombre-con-eliminadas/{nombre}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorNombreConEliminadas(@PathVariable(name = "nombre") String nombre) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorNombreConEliminadas(nombre);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas/{notas}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorNotas(notas);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas-con-eliminadas/{notas}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorNotasConEliminadas(@PathVariable(name = "notas") String notas) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorNotasConEliminadas(notas);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-telefono/{telefono}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorTelefono(@PathVariable(name = "telefono") String telefono) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorTelefono(telefono);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-telefono-con-eliminadas/{telefono}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorTelefonoConEliminadas(@PathVariable(name = "telefono") String telefono) {
+        List<ProveedorModel> listado = proveedorService.buscarTodasPorTelefonoConEliminadas(telefono);
+        ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
+        for (ProveedorModel cliente:listado) {
+            proveedores.add(proveedorMapper.toDto(cliente));
+        }
+        return new ResponseEntity<>(proveedores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")

@@ -5,9 +5,11 @@ import gloit.hiperionida.helios.mapper.dto.AdelantoDTO;
 import gloit.hiperionida.helios.mapper.dto.CajaDTO;
 import gloit.hiperionida.helios.model.AdelantoModel;
 import gloit.hiperionida.helios.model.CajaModel;
+import gloit.hiperionida.helios.model.ConductorModel;
 import gloit.hiperionida.helios.repository.CajaDAO;
 import gloit.hiperionida.helios.repository.ConductorDAO;
 import gloit.hiperionida.helios.util.Helper;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
@@ -65,11 +67,6 @@ public class AdelantoMapper {
             return null;
         }
     }
-    
-    /*
-    private String caja_id;
-    private String conductor_id;
-     */
 
     public AdelantoDTO toDto(AdelantoModel model) {
         try {
@@ -83,21 +80,31 @@ public class AdelantoMapper {
             dto.setRecibo(model.getRecibo());
             dto.setRendido(model.getRendido().toString());
 
-            if (model.getCajaId() != null)
-                dto.setCaja(cajaDAO.findByIdAndEliminadaIsNull(model.getCajaId()).get().getNombre());
-            if (model.getConductorId() != null)
-                dto.setConductor(conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).get().getNombre());
+            if (model.getCajaId() != null) {
+                CajaModel cajaModel = cajaDAO.findByIdAndEliminadaIsNull(model.getCajaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la caja con id: " + model.getCajaId() + "."));
+                dto.setCaja(cajaModel.getNombre());
+            }
+            if (model.getConductorId() != null) {
+                ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor con id: " + model.getConductorId() + "."));
+                dto.setConductor(conductorModel.getNombre());
+            }
 
-            if (model.getCreador_id() != null)
-                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreador_id() + "."));
+                dto.setCreador(usuarioModel.getNombre());
+            }
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().toString());
-            if (model.getModificador_id() != null)
-                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el modificador con id: " + model.getModificador_id() + "."));
+                dto.setModificador(usuarioModel.getNombre());
+            }
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().toString());
-            if (model.getEliminador_id() != null)
-                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el eliminador con id: " + model.getEliminador_id() + "."));
+                dto.setEliminador(usuarioModel.getNombre());
+            }
             if (model.getEliminada() != null)
                 dto.setEliminada(model.getEliminada().toString());
 

@@ -7,6 +7,7 @@ import gloit.hiperionida.helios.model.ConciliacionBancoModel;
 import gloit.hiperionida.helios.model.enums.MovimientoEnum;
 import gloit.hiperionida.helios.repository.BancoDAO;
 import gloit.hiperionida.helios.util.Helper;
+import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
@@ -36,7 +37,6 @@ public class ConciliacionBancoMapper {
             model.setConcepto(creation.getConcepto());
             if (Helper.getDecimal(creation.getMonto()) != null)
                 model.setMonto(Helper.getDecimal(creation.getMonto()));
-
             if (Helper.getLong(creation.getBancoId()) != null)
                 model.setBancoId(Helper.getLong(creation.getBancoId()));
 
@@ -69,20 +69,27 @@ public class ConciliacionBancoMapper {
             dto.setFecha(model.getFecha().toString());
             dto.setConcepto(model.getConcepto());
             dto.setMonto(model.getMonto().toString());
+            if (model.getBancoId() != null) {
+                BancoModel bancoModel = bancoDAO.findByIdAndEliminadaIsNull(model.getBancoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el banco con id: " + model.getBancoId() + "."));
+                dto.setBanco(bancoModel.getBanco());
+            }
 
-            if (model.getBancoId() != null)
-                dto.setBanco(bancoDAO.findByIdAndEliminadaIsNull(model.getBancoId()).get().getBanco());
-
-            if (model.getCreador_id() != null)
-                dto.setCreador(usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).get().getNombre());
+            if (model.getCreador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreador_id() + "."));
+                dto.setCreador(usuarioModel.getNombre());
+            }
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().toString());
-            if (model.getModificador_id() != null)
-                dto.setModificador(usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).get().getNombre());
+            if (model.getModificador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el modificador con id: " + model.getModificador_id() + "."));
+                dto.setModificador(usuarioModel.getNombre());
+            }
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().toString());
-            if (model.getEliminador_id() != null)
-                dto.setEliminador(usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).get().getNombre());
+            if (model.getEliminador_id() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el eliminador con id: " + model.getEliminador_id() + "."));
+                dto.setEliminador(usuarioModel.getNombre());
+            }
             if (model.getEliminada() != null)
                 dto.setEliminada(model.getEliminada().toString());
 

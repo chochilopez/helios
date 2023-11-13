@@ -2,6 +2,7 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.SeguroMapper;
 import gloit.hiperionida.helios.mapper.creation.SeguroCreation;
+import gloit.hiperionida.helios.model.AcopladoModel;
 import gloit.hiperionida.helios.model.SeguroModel;
 import gloit.hiperionida.helios.repository.SeguroDAO;
 import gloit.hiperionida.helios.service.SeguroService;
@@ -27,11 +28,60 @@ public class SeguroServiceImpl implements SeguroService {
     private final UsuarioServiceImpl usuarioService;
 
     @Override
+    public SeguroModel buscarPorAseguradoraId(Long id) {
+        log.info("Buscando la entidad Seguro con id de aseguradora: {}.", id);
+        SeguroModel seguroModel = seguroDAO.findByAseguradoraIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id de aseguradora: " + id + "."));
+        log.info("Se encontro una entidad Seguro con id de aseguradora: " + id + ".");
+        return seguroModel;
+    }
+
+    @Override
+    public SeguroModel buscarPorAseguradoraIdConEliminadas(Long id) {
+        log.info("Buscando la entidad Seguro con id de aseguradora: {}, incluidas las eliminadas.", id);
+        SeguroModel seguroModel = seguroDAO.findByAseguradoraId(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id de aseguradora: " + id +", incluidas las eliminadas."));
+        log.info("Se encontro una entidad Seguro con id de aseguradora: " + id + ", incluidas las eliminadas.");
+        return seguroModel;
+    }
+
+    @Override
+    public SeguroModel buscarPorVencimientoId(Long id) {
+        log.info("Buscando la entidad Seguro con id de vencimiento: {}.", id);
+        SeguroModel seguroModel = seguroDAO.findByVencimientoIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id de vencimiento: " + id + "."));
+        log.info("Se encontro una entidad Seguro con id de vencimiento: " + id + ".");
+        return seguroModel;
+    }
+
+    @Override
+    public SeguroModel buscarPorVencimientoIdConEliminadas(Long id) {
+        log.info("Buscando la entidad Seguro con id de vencimiento: {}, incluidas las eliminadas.", id);
+        SeguroModel seguroModel = seguroDAO.findByVencimientoId(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id de vencimiento: " + id +", incluidas las eliminadas."));
+        log.info("Se encontro una entidad Seguro con id de vencimiento: " + id + ", incluidas las eliminadas.");
+        return seguroModel;
+    }
+
+    @Override
+    public List<SeguroModel> buscarTodasPorNotas(String notas) {
+        log.info("Buscando todas las entidades Acoplado con notas: {}.", notas);
+        List<SeguroModel> listado = seguroDAO.findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(notas);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con notas: " + notas + ".");
+        return listado;
+    }
+
+    @Override
+    public List<SeguroModel> buscarTodasPorNotasConEliminadas(String notas) {
+        log.info("Buscando todas las entidades Acoplado con notas: {}, incluidas las eliminadas.", notas);
+        List<SeguroModel> listado = seguroDAO.findAllByNotasContainingIgnoreCase(notas);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con notas: " + notas + ", incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
     public SeguroModel buscarPorId(Long id) {
         log.info("Buscando la entidad Seguro con id: {}.", id);
         SeguroModel seguroModel = seguroDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id: " + id + "."));
-        String mensaje = "Se encontro una entidad Seguro.";
-        log.info(mensaje);
+        log.info("Se encontro una entidad Seguro con id: " + id + ".");
         return seguroModel;
     }
 
@@ -39,7 +89,7 @@ public class SeguroServiceImpl implements SeguroService {
     public SeguroModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Seguro con id: {}, incluidas las eliminadas.", id);
         SeguroModel seguroModel = seguroDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Seguro con id: " + id + ".");
+        log.info("Se encontro una entidad Seguro con id: " + id + ", incluidas las eliminadas.");
         return seguroModel;
     }
 
