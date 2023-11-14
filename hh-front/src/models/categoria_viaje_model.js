@@ -2,6 +2,7 @@ export class CategoriaViajeModel {
   constructor () {
     this.id = ''
     this.categoria = ''
+    this.notas = ''
 
     this.creada = ''
     this.creador = ''

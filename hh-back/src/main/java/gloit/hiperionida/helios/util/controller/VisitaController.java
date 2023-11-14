@@ -137,7 +137,7 @@ public class VisitaController extends AbsBaseController {
         return new ResponseEntity<>(logueoMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<LogueoDTO> reciclar(@PathVariable(name = "id") Long id) {
         LogueoModel objeto = visitaService.reciclar(id);

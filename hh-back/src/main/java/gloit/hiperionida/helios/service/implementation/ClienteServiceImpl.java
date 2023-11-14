@@ -206,11 +206,11 @@ public class ClienteServiceImpl implements ClienteService {
         ClienteModel clienteModel = clienteDAO.save(clienteMapper.toEntity(creation));
         if (creation.getId() == null) {
             clienteModel.setCreada(Helper.getNow(""));
-            clienteModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            clienteModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             clienteModel.setModificada(Helper.getNow(""));
-            clienteModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            clienteModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return clienteDAO.save(clienteModel);
@@ -221,7 +221,7 @@ public class ClienteServiceImpl implements ClienteService {
         log.info("Eliminando la entidad Cliente con id: {}.", id);
         ClienteModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Cliente con id: " + id + ", fue eliminada correctamente.");
         return clienteDAO.save(objeto);
     }
@@ -235,7 +235,7 @@ public class ClienteServiceImpl implements ClienteService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Cliente con id: " + id + ", fue reciclada correctamente.");
         return clienteDAO.save(objeto);
     }

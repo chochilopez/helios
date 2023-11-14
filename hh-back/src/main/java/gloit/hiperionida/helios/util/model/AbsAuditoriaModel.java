@@ -14,7 +14,7 @@ public abstract class AbsAuditoriaModel {
     private LocalDateTime eliminada;
     private LocalDateTime modificada;
 
-    private Long creador_id;
-    private Long eliminador_id;
-    private Long modificador_id;
+    private Long creadorId;
+    private Long eliminadorId;
+    private Long modificadorId;
 }

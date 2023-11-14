@@ -192,7 +192,7 @@
               <q-btn
                 size="sm"
                 class="text-white"
-                :class="props.expand ? 'paleta5-fondo2' : 'paleta5-fondo3'"
+                :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
                 round
                 dense
                 @click="props.expand = !props.expand"

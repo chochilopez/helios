@@ -235,7 +235,7 @@ public class DireccionController extends AbsBaseController {
         return new ResponseEntity<>(direccionMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<DireccionDTO> reciclar(@PathVariable(name = "id") Long id) {
         DireccionModel objeto = direccionService.reciclar(id);

@@ -31,7 +31,7 @@ public class EventoModel extends AbsAuditoriaModel {
         this.recordatorio = recordatorio;
         this.nombre = nombre;
         this.setCreada(creada);
-        this.setCreador_id(creadorId);
+        this.setCreadorId(creadorId);
     }
 }
 

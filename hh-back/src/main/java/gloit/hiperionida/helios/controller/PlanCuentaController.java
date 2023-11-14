@@ -138,7 +138,7 @@ public class PlanCuentaController extends AbsBaseController {
         return new ResponseEntity<>(planCuentaMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<PlanCuentaDTO> reciclar(@PathVariable(name = "id") Long id) {
         PlanCuentaModel objeto = planCuentaService.reciclar(id);

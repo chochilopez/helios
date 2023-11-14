@@ -172,11 +172,11 @@ public class AcopladoServiceImpl implements AcopladoService {
         AcopladoModel acopladoModel = acopladoDAO.save(acopladoMapper.toEntity(creation));
         if (creation.getId() == null) {
             acopladoModel.setCreada(Helper.getNow(""));
-            acopladoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            acopladoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             acopladoModel.setModificada(Helper.getNow(""));
-            acopladoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            acopladoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return acopladoDAO.save(acopladoModel);
@@ -187,7 +187,7 @@ public class AcopladoServiceImpl implements AcopladoService {
         log.info("Eliminando la entidad Acoplado con id: {}.", id);
         AcopladoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Acoplado con id: {}, fue eliminada correctamente.", id);
         return acopladoDAO.save(objeto);
     }
@@ -201,7 +201,7 @@ public class AcopladoServiceImpl implements AcopladoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Acoplado con id: {}, fue reciclada correctamente.", id);
         return acopladoDAO.save(objeto);
     }

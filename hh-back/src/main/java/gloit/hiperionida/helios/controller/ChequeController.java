@@ -138,7 +138,7 @@ public class ChequeController extends AbsBaseController {
         return new ResponseEntity<>(chequeMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ChequeDTO> reciclar(@PathVariable(name = "id") Long id) {
         ChequeModel objeto = chequeService.reciclar(id);

@@ -594,7 +594,7 @@ function spfBorrar (id) {
 
 function spfReciclar (id) {
   return new Promise((resolve, reject) => {
-    axios.post(API_URL + 'presupuesto/reciclar/' + id, {
+    axios.get(API_URL + 'presupuesto/reciclar/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }

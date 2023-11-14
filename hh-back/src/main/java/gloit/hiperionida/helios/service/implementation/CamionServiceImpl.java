@@ -212,11 +212,11 @@ public class CamionServiceImpl implements CamionService {
         CamionModel camionModel = camionDAO.save(camionMapper.toEntity(creation));
         if (creation.getId() == null) {
             camionModel.setCreada(Helper.getNow(""));
-            camionModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            camionModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             camionModel.setModificada(Helper.getNow(""));
-            camionModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            camionModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return camionDAO.save(camionModel);
@@ -227,7 +227,7 @@ public class CamionServiceImpl implements CamionService {
         log.info("Eliminando la entidad Camion con id: {}.", id);
         CamionModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Camion con id: " + id + ", fue eliminada correctamente.");
         return camionDAO.save(objeto);
     }
@@ -241,7 +241,7 @@ public class CamionServiceImpl implements CamionService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Camion con id: " + id + ", fue reciclada correctamente.");
         return camionDAO.save(objeto);
     }

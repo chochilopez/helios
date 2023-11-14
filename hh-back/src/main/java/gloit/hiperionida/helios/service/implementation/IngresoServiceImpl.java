@@ -101,11 +101,11 @@ public class IngresoServiceImpl implements IngresoService {
         IngresoModel IngresoModel = IngresoDAO.save(IngresoMapper.toEntity(creation));
         if (creation.getId() == null) {
             IngresoModel.setCreada(Helper.getNow(""));
-            IngresoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            IngresoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             IngresoModel.setModificada(Helper.getNow(""));
-            IngresoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            IngresoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return IngresoDAO.save(IngresoModel);
@@ -116,7 +116,7 @@ public class IngresoServiceImpl implements IngresoService {
         log.info("Eliminando la entidad Ingreso con id: {}.", id);
         IngresoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Ingreso con id: " + id + ", fue eliminada correctamente.");
         return IngresoDAO.save(objeto);
     }
@@ -130,7 +130,7 @@ public class IngresoServiceImpl implements IngresoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Ingreso con id: " + id + ", fue reciclada correctamente.");
         return IngresoDAO.save(objeto);
     }

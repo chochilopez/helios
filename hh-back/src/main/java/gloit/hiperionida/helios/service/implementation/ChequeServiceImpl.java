@@ -98,11 +98,11 @@ public class ChequeServiceImpl implements ChequeService {
         ChequeModel chequeModel = chequeDAO.save(chequeMapper.toEntity(creation));
         if (creation.getId() == null) {
             chequeModel.setCreada(Helper.getNow(""));
-            chequeModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            chequeModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             chequeModel.setModificada(Helper.getNow(""));
-            chequeModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            chequeModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return chequeDAO.save(chequeModel);
@@ -113,7 +113,7 @@ public class ChequeServiceImpl implements ChequeService {
         log.info("Eliminando la entidad Cheque con id: {}.", id);
         ChequeModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Cheque con id: " + id + ", fue eliminada correctamente.");
         return chequeDAO.save(objeto);
     }
@@ -127,7 +127,7 @@ public class ChequeServiceImpl implements ChequeService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Cheque con id: " + id + ", fue reciclada correctamente.");
         return chequeDAO.save(objeto);
     }

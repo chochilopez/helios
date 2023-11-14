@@ -218,11 +218,11 @@ public class SeguroServiceImpl implements SeguroService {
         SeguroModel seguroModel = seguroDAO.save(seguroMapper.toEntity(creation));
         if (creation.getId() == null) {
             seguroModel.setCreada(Helper.getNow(""));
-            seguroModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            seguroModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             seguroModel.setModificada(Helper.getNow(""));
-            seguroModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            seguroModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return seguroDAO.save(seguroModel);
@@ -233,7 +233,7 @@ public class SeguroServiceImpl implements SeguroService {
         log.info("Eliminando la entidad Seguro con id: {}.", id);
         SeguroModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Seguro con id: " + id + ", fue eliminada correctamente.");
         return seguroDAO.save(objeto);
     }
@@ -247,7 +247,7 @@ public class SeguroServiceImpl implements SeguroService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Seguro con id: " + id + ", fue reciclada correctamente.");
         return seguroDAO.save(objeto);
     }

@@ -114,11 +114,11 @@ public class EmailServiceImpl implements EmailService {
         EmailModel emailModel = emailDAO.save(emailMapper.toEntity(creation));
         if (creation.getId() == null) {
             emailModel.setCreada(Helper.getNow(""));
-            emailModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            emailModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             emailModel.setModificada(Helper.getNow(""));
-            emailModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            emailModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return emailDAO.save(emailModel);
@@ -129,7 +129,7 @@ public class EmailServiceImpl implements EmailService {
         log.info("Eliminando la entidad Email con id: {}.", id);
         EmailModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Email con id: " + id + ", fue eliminada correctamente.");
         return emailDAO.save(objeto);
     }
@@ -143,7 +143,7 @@ public class EmailServiceImpl implements EmailService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Email con id: " + id + ", fue reciclada correctamente.");
         return emailDAO.save(objeto);
     }

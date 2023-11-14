@@ -98,11 +98,11 @@ public class LogueoServiceImpl implements LogueoService {
         LogueoModel logueoModel = logueoDAO.save(logueoMapper.toEntity(creation));
         if (creation.getId() == null) {
             logueoModel.setCreada(Helper.getNow(""));
-            logueoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            logueoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             logueoModel.setModificada(Helper.getNow(""));
-            logueoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            logueoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return logueoDAO.save(logueoModel);
@@ -113,7 +113,7 @@ public class LogueoServiceImpl implements LogueoService {
         log.info("Eliminando la entidad Visita con id: {}.", id);
         LogueoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Visita con id: " + id + ", fue eliminada correctamente.");
         return logueoDAO.save(objeto);
     }
@@ -127,7 +127,7 @@ public class LogueoServiceImpl implements LogueoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Visita con id: " + id + ", fue reciclada correctamente.");
         return logueoDAO.save(objeto);
     }

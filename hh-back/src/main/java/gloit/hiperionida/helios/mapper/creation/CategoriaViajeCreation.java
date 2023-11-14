@@ -1,6 +1,7 @@
 package gloit.hiperionida.helios.mapper.creation;
 
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class CategoriaViajeCreation extends AbsAuditoriaCreation {
     private String id;
     private String categoria;
+    private String notas;
 }

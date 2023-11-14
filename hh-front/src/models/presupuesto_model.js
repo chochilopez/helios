@@ -13,6 +13,11 @@ export class PresupuestoModel {
     this.validez = ''
     this.valorKm = ''
 
+    this.categoriaViajeId = ''
+    this.origenId = ''
+    this.destinoId = ''
+    this.compradorId = ''
+
     this.creada = ''
     this.creador = ''
     this.modificada = ''

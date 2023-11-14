@@ -27,17 +27,18 @@ public class CategoriaViajeMapper {
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
             model.setCategoria(creation.getCategoria());
+            model.setNotas(creation.getNotas());
 
-            if (Helper.getLong(creation.getCreador_id()) != null)
-                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (Helper.getLong(creation.getCreadorId()) != null)
+                model.setCreadorId(Helper.getLong(creation.getCreadorId()));
             if (!Helper.isEmptyString(creation.getCreada()))
                 model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
-            if (Helper.getLong(creation.getModificador_id()) != null)
-                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (Helper.getLong(creation.getModificadorId()) != null)
+                model.setModificadorId(Helper.getLong(creation.getModificadorId()));
             if (!Helper.isEmptyString(creation.getModificada()))
                 model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
-            if (Helper.getLong(creation.getEliminador_id()) != null)
-                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (Helper.getLong(creation.getEliminadorId()) != null)
+                model.setEliminadorId(Helper.getLong(creation.getEliminadorId()));
             if (!Helper.isEmptyString(creation.getEliminada()))
                 model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
@@ -54,21 +55,22 @@ public class CategoriaViajeMapper {
 
             dto.setId(model.getId().toString());
             dto.setCategoria(model.getCategoria());
+            dto.setNotas(model.getNotas());
 
-            if (model.getCreador_id() != null) {
-                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreador_id() + "."));
+            if (model.getCreadorId() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreadorId() + "."));
                 dto.setCreador(usuarioModel.getNombre());
             }
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().toString());
-            if (model.getModificador_id() != null) {
-                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getModificador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el modificador con id: " + model.getModificador_id() + "."));
+            if (model.getModificadorId() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getModificadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el modificador con id: " + model.getModificadorId() + "."));
                 dto.setModificador(usuarioModel.getNombre());
             }
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().toString());
-            if (model.getEliminador_id() != null) {
-                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el eliminador con id: " + model.getEliminador_id() + "."));
+            if (model.getEliminadorId() != null) {
+                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el eliminador con id: " + model.getEliminadorId() + "."));
                 dto.setEliminador(usuarioModel.getNombre());
             }
             if (model.getEliminada() != null)

@@ -79,7 +79,7 @@
                 map-options
                 clearable
                 v-model="ciudad"
-                option-value="id"
+                option-value="ciudad"
                 option-label="ciudad"
                 label="Buscar por ciudad"
                 use-input
@@ -157,17 +157,60 @@
           </div>
         </template>
         <template v-slot:body="props">
-          <q-tr :props="props">
+          <q-tr :props="props" :class="(props.row.eliminada === null) ? '':'bg-red-2'">
             <q-td auto-width class="text-center">
               <q-btn
                 size="sm"
-                class="text-white"
-                :class="props.expand ? 'paleta5-fondo2' : 'paleta5-fondo3'"
+                class="text-white q-mr-xs"
+                :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
                 round
                 dense
                 @click="props.expand = !props.expand"
-                :icon="props.expand ? 'remove' : 'add'"
-              />
+              >
+                <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
+                <q-tooltip>
+                  Expandir
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEditarDireccion(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="edit" />
+                <q-tooltip>
+                  Modificar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEliminarDireccion(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="delete" />
+                <q-tooltip>
+                  Eliminar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada !== null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarReciclarDireccion(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="recycling" />
+                <q-tooltip>
+                  Reciclar
+                </q-tooltip>
+              </q-btn>
             </q-td>
             <q-td>
               {{ props.row.ciudad }}
@@ -226,8 +269,8 @@
                   <div class="row paleta1-color2">Eliminador</div>
                 </div>
                 <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ fFormatoFecha(props.row.elimiando) }}</div>
-                  <div class="row paleta1-color2">Elimiando</div>
+                  <div class="row text-white">{{ fFormatoFecha(props.row.eliminada) }}</div>
+                  <div class="row paleta1-color2">Eliminada</div>
                 </div>
                 <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.notas }}</div>
@@ -254,7 +297,7 @@
       <q-card-section v-if="paso1">
         <q-form v-on:submit.prevent="fGuardarDireccion">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -280,7 +323,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="direccionCreation.direccion"
@@ -293,7 +336,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="direccionCreation.nombre"
@@ -305,7 +350,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 type="textarea"
@@ -319,7 +364,7 @@
               </q-input>
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
               Finalizar
             </q-btn>
@@ -639,6 +684,60 @@ export default {
       }
     }
 
+    async function afEliminarDireccion (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await direccionService.spfBorrar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se borró correctamente el direccion.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afReciclarDireccion (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await direccionService.spfReciclar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se recicló correctamente el direccion.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
     function fFormatoFecha (fecha) {
       return ayuda.getDateWithFormat(fecha)
     }
@@ -704,6 +803,7 @@ export default {
       fLimpiarInputs()
       editNombre.value = true
     }
+
     function fMostrarNotas () {
       fLimpiarInputs()
       editNotas.value = true
@@ -714,6 +814,39 @@ export default {
         fLimpiarFormulario()
         fIrPaso1()
         nuevoDireccionDialog.value = true
+      })
+    }
+
+    function fMostrarEditarDireccion (props) {
+      direccionCreation.id = props.row.id
+      direccionCreation.ciudad = props.row.ciudad
+      direccionCreation.direccion = props.row.direccion
+      direccionCreation.nombre = props.row.nombre
+      direccionCreation.notas = props.row.notas
+
+      direccionCreation.creada = props.row.creada
+      direccionCreation.creadorId = props.row.creadorId
+      direccionCreation.eliminada = props.row.eliminada
+      direccionCreation.eliminadorId = props.row.eliminadorId
+      direccionCreation.modificada = props.row.modificada
+      direccionCreation.modificadorId = props.row.modificadorId
+
+      nuevoDireccionDialog.value = true
+    }
+
+    function fMostrarEliminarDireccion (props) {
+      afEliminarDireccion(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
+
+    function fMostrarReciclarDireccion (props) {
+      afReciclarDireccion(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
       })
     }
 
@@ -741,6 +874,11 @@ export default {
       fMostrarNombre,
       fMostrarNotas,
       fMostrarNuevaDireccion,
+
+      fMostrarEditarDireccion,
+      fMostrarEliminarDireccion,
+      fMostrarReciclarDireccion,
+
       nombre,
       notas,
       nuevaBusqueda,

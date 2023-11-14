@@ -158,6 +158,10 @@ function fFormatearDeDatePicker (texto) {
   return texto.substring(6, 12) + '-' + texto.substring(3, 5) + '-' + texto.substring(0, 2) + ' 00:00:00'
 }
 
+function fFormatearADatePicker (texto) {
+  return texto.substring(8, 10) + '-' + texto.substring(5, 7) + '-' + texto.substring(0, 4)
+}
+
 function fFormatearDeBackend (texto) {
   return texto.substring(0, 10) + ' 00:00:00'
 }
@@ -174,6 +178,7 @@ export const ayuda = {
   getByIdInArray,
   delByIdInArray,
   fFormatearDeDatePicker,
+  fFormatearADatePicker,
   fFormatearDeBackend,
   letterForNumber
 }

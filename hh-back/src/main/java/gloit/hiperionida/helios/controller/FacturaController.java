@@ -138,7 +138,7 @@ public class FacturaController extends AbsBaseController {
         return new ResponseEntity<>(facturaMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<FacturaDTO> reciclar(@PathVariable(name = "id") Long id) {
         FacturaModel objeto = facturaService.reciclar(id);

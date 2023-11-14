@@ -138,7 +138,7 @@ public class NeumaticoController extends AbsBaseController {
         return new ResponseEntity<>(neumaticoMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<NeumaticoDTO> reciclar(@PathVariable(name = "id") Long id) {
         NeumaticoModel objeto = neumaticoService.reciclar(id);

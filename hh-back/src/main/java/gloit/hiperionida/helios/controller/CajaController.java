@@ -138,7 +138,7 @@ public class CajaController extends AbsBaseController {
         return new ResponseEntity<>(cajaMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CajaDTO> reciclar(@PathVariable(name = "id") Long id) {
         CajaModel objeto = cajaService.reciclar(id);

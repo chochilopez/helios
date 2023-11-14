@@ -98,11 +98,11 @@ public class BancoServiceImpl implements BancoService {
         BancoModel bancoModel = bancoDAO.save(bancoMapper.toEntity(creation));
         if (creation.getId() == null) {
             bancoModel.setCreada(Helper.getNow(""));
-            bancoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            bancoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             bancoModel.setModificada(Helper.getNow(""));
-            bancoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            bancoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return bancoDAO.save(bancoModel);
@@ -113,7 +113,7 @@ public class BancoServiceImpl implements BancoService {
         log.info("Eliminando la entidad Banco con id: {}.", id);
         BancoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Banco con id: " + id + ", fue eliminada correctamente.");
         return bancoDAO.save(objeto);
     }
@@ -127,7 +127,7 @@ public class BancoServiceImpl implements BancoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Banco con id: " + id + ", fue reciclada correctamente.");
         return bancoDAO.save(objeto);
     }

@@ -210,7 +210,7 @@ function spfBorrar (id) {
 
 function spfReciclar (id) {
   return new Promise((resolve, reject) => {
-    axios.post(API_URL + 'evento/reciclar/' + id, {
+    axios.get(API_URL + 'evento/reciclar/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }

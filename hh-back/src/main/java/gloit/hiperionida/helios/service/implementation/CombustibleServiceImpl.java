@@ -98,11 +98,11 @@ public class CombustibleServiceImpl implements CombustibleService {
         CombustibleModel combustibleModel = combustibleDAO.save(combustibleMapper.toEntity(creation));
         if (creation.getId() == null) {
             combustibleModel.setCreada(Helper.getNow(""));
-            combustibleModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            combustibleModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             combustibleModel.setModificada(Helper.getNow(""));
-            combustibleModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            combustibleModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return combustibleDAO.save(combustibleModel);
@@ -113,7 +113,7 @@ public class CombustibleServiceImpl implements CombustibleService {
         log.info("Eliminando la entidad Combustible con id: {}.", id);
         CombustibleModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Combustible con id: " + id + ", fue eliminada correctamente.");
         return combustibleDAO.save(objeto);
     }
@@ -127,7 +127,7 @@ public class CombustibleServiceImpl implements CombustibleService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Combustible con id: " + id + ", fue reciclada correctamente.");
         return combustibleDAO.save(objeto);
     }

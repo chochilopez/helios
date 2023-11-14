@@ -64,16 +64,16 @@ public class PresupuestoMapper {
             if (Helper.getDecimal(creation.getValorKm()) != null)
                 model.setValorKm(Helper.getDecimal(creation.getValorKm()));
 
-            if (Helper.getLong(creation.getCreador_id()) != null)
-                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (Helper.getLong(creation.getCreadorId()) != null)
+                model.setCreadorId(Helper.getLong(creation.getCreadorId()));
             if (!Helper.isEmptyString(creation.getCreada()))
                 model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
-            if (Helper.getLong(creation.getModificador_id()) != null)
-                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (Helper.getLong(creation.getModificadorId()) != null)
+                model.setModificadorId(Helper.getLong(creation.getModificadorId()));
             if (!Helper.isEmptyString(creation.getModificada()))
                 model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
-            if (Helper.getLong(creation.getEliminador_id()) != null)
-                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (Helper.getLong(creation.getEliminadorId()) != null)
+                model.setEliminadorId(Helper.getLong(creation.getEliminadorId()));
             if (!Helper.isEmptyString(creation.getEliminada()))
                 model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
@@ -96,14 +96,17 @@ public class PresupuestoMapper {
             if (model.getCategoriaViajeId() != null) {
                 CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(model.getCategoriaViajeId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la categoria id: " + model.getCategoriaViajeId() + "."));
                 dto.setCategoriaViaje(categoriaViajeModel.getCategoria());
+                dto.setCategoriaViajeId(model.getCategoriaViajeId());
             }
             if (model.getCompradorId() != null) {
                 ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getCompradorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el comprador con id: " + model.getCompradorId() + "."));
                 dto.setComprador(clienteModel.getNombre());
+                dto.setCompradorId(model.getCompradorId());
             }
             if (model.getDestinoId() != null) {
                 DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección de destino con id: " + model.getDestinoId() + "."));
                 dto.setDestino(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
+                dto.setDestinoId(model.getDestinoId());
             }
             if (model.getFechaId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de viaje con id: " + model.getFechaId() + "."));
@@ -117,21 +120,28 @@ public class PresupuestoMapper {
             if (model.getOrigenId() != null) {
                 DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección de destino con id: " + model.getOrigenId() + "."));
                 dto.setOrigen(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
+                dto.setOrigenId(model.getOrigenId());
             }
             dto.setValidez(model.getValidez().toString());
             if (model.getValorKm() != null)
                 dto.setValorKm(model.getValorKm().toString());
 
-            if (model.getCreador_id() != null)
-                dto.setCreador(usuarioService.buscarPorId(model.getCreador_id()).getNombre());
+            if (model.getCreadorId() != null) {
+                dto.setCreador(usuarioService.buscarPorId(model.getCreadorId()).getNombre());
+                dto.setCreadorId(model.getCreadorId().toString());
+            }
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().toString());
-            if (model.getModificador_id() != null)
-                dto.setModificador(usuarioService.buscarPorId(model.getModificador_id()).getNombre());
+            if (model.getModificadorId() != null) {
+                dto.setModificador(usuarioService.buscarPorId(model.getModificadorId()).getNombre());
+                dto.setModificadorId(model.getModificadorId().toString());
+            }
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().toString());
-            if (model.getEliminador_id() != null)
-                dto.setEliminador(usuarioService.buscarPorId(model.getEliminador_id()).getNombre());
+            if (model.getEliminadorId() != null) {
+                dto.setEliminador(usuarioService.buscarPorId(model.getEliminadorId()).getNombre());
+                dto.setEliminadorId(model.getEliminadorId().toString());
+            }
             if (model.getEliminada() != null)
                 dto.setEliminada(model.getEliminada().toString());
 

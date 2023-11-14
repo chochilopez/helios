@@ -11,12 +11,18 @@ import lombok.Setter;
 @Setter
 public abstract class AbsViajeDTO extends AbsAuditoriaDTO {
     private String cantidadTransportada;
-    private String categoriaViaje;
-    private String comprador;
-    private String destino;
     private String fecha;
     private String kmCargado;
     private String notas;
-    private String origen;
     private String valorKm;
+
+    private String categoriaViaje;
+    private String comprador;
+    private String destino;
+    private String origen;
+
+    private Long categoriaViajeId;
+    private Long compradorId;
+    private Long destinoId;
+    private Long origenId;
 }

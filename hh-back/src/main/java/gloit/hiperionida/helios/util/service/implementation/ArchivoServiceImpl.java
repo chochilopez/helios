@@ -161,11 +161,11 @@ public class ArchivoServiceImpl implements ArchivoService {
         ArchivoModel archivoModel = archivoDAO.save(archivoMapper.toEntity(creation));
         if (creation.getId() == null) {
             archivoModel.setCreada(Helper.getNow(""));
-            archivoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            archivoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persisitio correctamente la nueva entidad.");
         } else {
             archivoModel.setModificada(Helper.getNow(""));
-            archivoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            archivoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persisitio correctamente la entidad.");
         }
         return archivoDAO.save(archivoModel);
@@ -176,7 +176,7 @@ public class ArchivoServiceImpl implements ArchivoService {
         log.info("Eliminando la entidad Archivo con id: {}.", id);
         ArchivoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Archivo con id: {}, fue eliminada correctamente.", id);
         return archivoDAO.save(objeto);
     }
@@ -190,7 +190,7 @@ public class ArchivoServiceImpl implements ArchivoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Archivo con id: {}, fue reciclada correctamente.", id);
         return archivoDAO.save(objeto);
     }

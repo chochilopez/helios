@@ -159,11 +159,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         UsuarioModel usuarioModel = usuarioDAO.save(usuarioMapper.toEntity(creation));
         if (creation.getId() == null) {
             usuarioModel.setCreada(Helper.getNow(""));
-//            usuarioModel.setCreador_id(this.obtenerUsuario().getId());
+            usuarioModel.setCreadorId(this.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             usuarioModel.setModificada(Helper.getNow(""));
-            usuarioModel.setModificador_id(this.obtenerUsuario().getId());
+            usuarioModel.setModificadorId(this.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return usuarioDAO.save(usuarioModel);
@@ -174,7 +174,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         log.info("Eliminando la entidad Usuario con id: {}.", id);
         UsuarioModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(this.obtenerUsuario().getId());
+        objeto.setEliminadorId(this.obtenerUsuario().getId());
         log.info("La entidad Usuario con id: " + id + ", fue eliminada correctamente.");
         return usuarioDAO.save(objeto);
     }
@@ -188,7 +188,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Usuario con id: " + id + ", fue reciclada correctamente.");
         return usuarioDAO.save(objeto);
     }

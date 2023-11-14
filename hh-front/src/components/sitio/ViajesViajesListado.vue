@@ -746,13 +746,41 @@
             <q-td auto-width class="text-center">
               <q-btn
                 size="sm"
-                class="text-white"
-                :class="props.expand ? 'paleta5-fondo2' : 'paleta5-fondo3'"
+                class="text-white q-mr-xs"
+                :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
                 round
                 dense
                 @click="props.expand = !props.expand"
-                :icon="props.expand ? 'remove' : 'add'"
-              />
+              >
+                <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
+                <q-tooltip>
+                  Expandir
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEditarViaje(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="edit" />
+                <q-tooltip>
+                  Modificar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEliminarViaje(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="delete" />
+                <q-tooltip>
+                  Eliminar
+                </q-tooltip>
+              </q-btn>
             </q-td>
             <q-td class="text-center">
               {{ props.row.id }}
@@ -881,8 +909,8 @@
                   <div class="row paleta1-color2">Eliminador</div>
                 </div>
                 <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.elimiando }}</div>
-                  <div class="row paleta1-color2">Elimiando</div>
+                  <div class="row text-white">{{ props.row.Eliminada }}</div>
+                  <div class="row paleta1-color2">Eliminada</div>
                 </div>
                 <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.notas }}</div>
@@ -911,7 +939,7 @@
       <q-card-section v-if="paso1">
         <q-form v-on:submit.prevent="fIrPaso2">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 mask="##-##-####"
@@ -937,7 +965,7 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -963,7 +991,9 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -990,7 +1020,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="viajeCreation.cantidadTransportada"
@@ -1004,7 +1034,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -1029,7 +1061,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -1055,7 +1087,7 @@
               </q-select>
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple>
               Siguiente
             </q-btn>
@@ -1066,7 +1098,7 @@
       <q-card-section v-if="paso2">
         <q-form v-on:submit.prevent="fIrPaso3">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -1091,7 +1123,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -1119,7 +1151,9 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -1147,7 +1181,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -1172,7 +1206,9 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -1198,7 +1234,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -1225,7 +1261,7 @@
               </q-select>
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple>
               Siguiente
             </q-btn>
@@ -1236,7 +1272,7 @@
       <q-card-section v-if="paso3">
         <q-form v-on:submit.prevent="fGuardarViaje">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 mask="##############"
@@ -1250,7 +1286,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="viajeCreation.guia"
@@ -1262,7 +1298,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 mask="##############"
@@ -1276,7 +1314,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 mask="##############"
@@ -1290,7 +1328,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model.number="viajeCreation.valorKm"
@@ -1305,7 +1345,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 type="textarea"
@@ -1318,7 +1358,7 @@
               />
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple>
               Finalizar
             </q-btn>
@@ -1340,7 +1380,7 @@ import { clienteService } from 'src/services/cliente_service'
 import { direccionService } from 'src/services/direccion_service'
 import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
@@ -1505,6 +1545,12 @@ export default {
     const viajes = ref([])
 
     afBuscarPaginadas()
+
+    onMounted(() => {
+      if (llaveroService.obtenerDeLocal('hhConfirmarPresupuesto') !== null) {
+        console.log(llaveroService.obtenerDeLocal('hhConfirmarPresupuesto'))
+      }
+    })
 
     async function afBuscarAcoplados () {
       $q.loading.show()
@@ -2764,6 +2810,10 @@ export default {
       editNotas.value = true
     }
 
+    function fMostrarEditarViaje (props) {}
+
+    function fMostrarEliminarViaje (props) {}
+
     function fMostrarNuevoViaje () {
       afBuscarConductores().then(() => {
         afBuscarClientes().then(() => {
@@ -2889,6 +2939,8 @@ export default {
       fIrPaso2,
       fIrPaso3,
       fGuardarViaje,
+      fMostrarEditarViaje,
+      fMostrarEliminarViaje,
       fMostrarNuevoViaje,
       nuevoViajeDialog,
       paso1,

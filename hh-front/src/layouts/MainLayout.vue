@@ -559,6 +559,21 @@
           <q-item
             clickable
             v-ripple
+            :active="link === 'categoriaViaje'"
+            @click="link = 'categoriaViaje'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'CategoriaViaje' }"
+            class="q-ml-md paleta1-fondo5"
+          >
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-cow" />
+            </q-item-section>
+            <q-item-section class="white-text">Categoría viaje</q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
             :active="link === 'presupuestos'"
             @click="link = 'presupuestos'"
             active-class="seleccion-activa"

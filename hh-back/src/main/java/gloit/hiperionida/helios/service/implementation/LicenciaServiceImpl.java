@@ -98,11 +98,11 @@ public class LicenciaServiceImpl implements LicenciaService {
         LicenciaModel licenciaModel = licenciaDAO.save(licenciaMapper.toEntity(creation));
         if (creation.getId() == null) {
             licenciaModel.setCreada(Helper.getNow(""));
-            licenciaModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            licenciaModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             licenciaModel.setModificada(Helper.getNow(""));
-            licenciaModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            licenciaModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return licenciaDAO.save(licenciaModel);
@@ -113,7 +113,7 @@ public class LicenciaServiceImpl implements LicenciaService {
         log.info("Eliminando la entidad Licencia con id: {}.", id);
         LicenciaModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Licencia con id: " + id + ", fue eliminada correctamente.");
         return licenciaDAO.save(objeto);
     }
@@ -127,7 +127,7 @@ public class LicenciaServiceImpl implements LicenciaService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Licencia con id: " + id + ", fue reciclada correctamente.");
         return licenciaDAO.save(objeto);
     }

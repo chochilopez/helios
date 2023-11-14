@@ -84,16 +84,16 @@ public class ViajeMapper {
             if (Helper.getLong(creation.getVendedorId()) != null)
                 model.setVendedorId(Helper.getLong(creation.getVendedorId()));
 
-            if (Helper.getLong(creation.getCreador_id()) != null)
-                model.setCreador_id(Helper.getLong(creation.getCreador_id()));
+            if (Helper.getLong(creation.getCreadorId()) != null)
+                model.setCreadorId(Helper.getLong(creation.getCreadorId()));
             if (!Helper.isEmptyString(creation.getCreada()))
                 model.setCreada(Helper.stringToLocalDateTime(creation.getCreada(), ""));
-            if (Helper.getLong(creation.getModificador_id()) != null)
-                model.setModificador_id(Helper.getLong(creation.getModificador_id()));
+            if (Helper.getLong(creation.getModificadorId()) != null)
+                model.setModificadorId(Helper.getLong(creation.getModificadorId()));
             if (!Helper.isEmptyString(creation.getModificada()))
                 model.setModificada(Helper.stringToLocalDateTime(creation.getModificada(), ""));
-            if (Helper.getLong(creation.getEliminador_id()) != null)
-                model.setEliminador_id(Helper.getLong(creation.getEliminador_id()));
+            if (Helper.getLong(creation.getEliminadorId()) != null)
+                model.setEliminadorId(Helper.getLong(creation.getEliminadorId()));
             if (!Helper.isEmptyString(creation.getEliminada()))
                 model.setEliminada(Helper.stringToLocalDateTime(creation.getEliminada(), ""));
 
@@ -169,16 +169,22 @@ public class ViajeMapper {
                 dto.setVendedor(clienteModel.getNombre());
             }
 
-            if (model.getCreador_id() != null)
-                dto.setCreador(usuarioService.buscarPorId(model.getCreador_id()).getNombre());
+            if (model.getCreadorId() != null) {
+                dto.setCreador(usuarioService.buscarPorId(model.getCreadorId()).getNombre());
+                dto.setCreadorId(model.getCreadorId().toString());
+            }
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().toString());
-            if (model.getModificador_id() != null)
-                dto.setModificador(usuarioService.buscarPorId(model.getModificador_id()).getNombre());
+            if (model.getModificadorId() != null) {
+                dto.setModificador(usuarioService.buscarPorId(model.getModificadorId()).getNombre());
+                dto.setModificadorId(model.getCreadorId().toString());
+            }
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().toString());
-            if (model.getEliminador_id() != null)
-                dto.setEliminador(usuarioService.buscarPorId(model.getEliminador_id()).getNombre());
+            if (model.getEliminadorId() != null) {
+                dto.setEliminador(usuarioService.buscarPorId(model.getEliminadorId()).getNombre());
+
+            }
             if (model.getEliminada() != null)
                 dto.setEliminada(model.getEliminada().toString());
 

@@ -138,7 +138,7 @@ public class CombustibleController extends AbsBaseController {
         return new ResponseEntity<>(combustibleMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CombustibleDTO> reciclar(@PathVariable(name = "id") Long id) {
         CombustibleModel objeto = combustibleService.reciclar(id);

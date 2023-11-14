@@ -226,7 +226,7 @@
               <q-btn
                 size="sm"
                 class="text-white"
-                :class="props.expand ? 'paleta5-fondo2' : 'paleta5-fondo3'"
+                :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
                 round
                 dense
                 @click="props.expand = !props.expand"
@@ -290,8 +290,8 @@
                   <div class="row paleta1-color2">Eliminador</div>
                 </div>
                 <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ fFormatoFecha(props.row.elimiando) }}</div>
-                  <div class="row paleta1-color2">Elimiando</div>
+                  <div class="row text-white">{{ fFormatoFecha(props.row.eliminada) }}</div>
+                  <div class="row paleta1-color2">Eliminada</div>
                 </div>
                 <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.notas }}</div>

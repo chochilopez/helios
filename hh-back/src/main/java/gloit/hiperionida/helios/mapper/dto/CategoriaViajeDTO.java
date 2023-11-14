@@ -11,4 +11,5 @@ import java.io.Serializable;
 public class CategoriaViajeDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String categoria;
+    private String notas;
 }

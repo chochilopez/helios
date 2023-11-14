@@ -130,8 +130,8 @@
                 dense
                 clearable
                 v-on:keyup.enter="afBuscarPorIdentificacion()"
-                v-model="identifiacion"
-                label="Buscar por identifiacion"
+                v-model="identificacion"
+                label="Buscar por identificacion"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
                 <template v-slot:no-option>
@@ -224,17 +224,60 @@
           </div>
         </template>
         <template v-slot:body="props">
-          <q-tr :props="props">
+          <q-tr :props="props" :class="(props.row.eliminada === null) ? '':'bg-red-2'">
             <q-td auto-width class="text-center">
               <q-btn
                 size="sm"
-                class="text-white"
-                :class="props.expand ? 'paleta5-fondo2' : 'paleta5-fondo3'"
+                class="text-white q-mr-xs"
+                :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
                 round
                 dense
                 @click="props.expand = !props.expand"
-                :icon="props.expand ? 'remove' : 'add'"
-              />
+              >
+                <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
+                <q-tooltip>
+                  Expandir
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEditarProveedor(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="edit" />
+                <q-tooltip>
+                  Modificar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEliminarProveedor(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="delete" />
+                <q-tooltip>
+                  Eliminar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada !== null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarReciclarProveedor(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="recycling" />
+                <q-tooltip>
+                  Reciclar
+                </q-tooltip>
+              </q-btn>
             </q-td>
             <q-td>
               {{ props.row.nombre }}
@@ -276,7 +319,7 @@
                   <div class="row paleta1-color2">Nombre</div>
                 </div>
                 <div v-if="props.row.telefono != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">props.row.telefono</div>
+                  <div class="row text-white">{{props.row.telefono}}</div>
                   <div class="row paleta1-color2">Telefono</div>
                 </div>
                 <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
@@ -300,8 +343,8 @@
                   <div class="row paleta1-color2">Eliminador</div>
                 </div>
                 <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ fFormatoFecha(props.row.elimiando) }}</div>
-                  <div class="row paleta1-color2">Elimiando</div>
+                  <div class="row text-white">{{ fFormatoFecha(props.row.eliminada) }}</div>
+                  <div class="row paleta1-color2">Eliminada</div>
                 </div>
                 <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.notas }}</div>
@@ -328,7 +371,7 @@
       <q-card-section v-if="paso1">
         <q-form v-on:submit.prevent="fGuardarProveedor">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="proveedorCreation.nombre"
@@ -341,7 +384,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="proveedorCreation.direccion"
@@ -354,7 +397,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="proveedorCreation.email"
@@ -367,7 +412,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="proveedorCreation.telefono"
@@ -380,7 +425,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="proveedorCreation.identificacion"
@@ -393,7 +440,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 type="textarea"
@@ -407,7 +454,7 @@
               </q-input>
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
               Finalizar
             </q-btn>
@@ -771,6 +818,60 @@ export default {
       }
     }
 
+    async function afEliminarProveedor (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await proveedorService.spfBorrar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se borró correctamente el proveedor.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afReciclarProveedor (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await proveedorService.spfReciclar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se recicló correctamente el proveedor.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
     function fFormatoFecha (fecha) {
       return ayuda.getDateWithFormat(fecha)
     }
@@ -817,22 +918,27 @@ export default {
       fLimpiarInputs()
       editDireccion.value = true
     }
+
     function fMostrarEmail () {
       fLimpiarInputs()
       editEmail.value = true
     }
+
     function fMostrarIdentificacion () {
       fLimpiarInputs()
       editIdentifiacion.value = true
     }
+
     function fMostrarNombre () {
       fLimpiarInputs()
       editNombre.value = true
     }
+
     function fMostrarNotas () {
       fLimpiarInputs()
       editNotas.value = true
     }
+
     function fMostrarTelefono () {
       fLimpiarInputs()
       editTelefono.value = true
@@ -841,6 +947,41 @@ export default {
     function fMostrarNuevoProveedor () {
       fIrPaso1()
       nuevoProveedorDialog.value = true
+    }
+
+    function fMostrarEditarProveedor (props) {
+      proveedorCreation.id = props.row.id
+      proveedorCreation.direccion = props.row.direccion
+      proveedorCreation.email = props.row.email
+      proveedorCreation.identificacion = props.row.identificacion
+      proveedorCreation.nombre = props.row.nombre
+      proveedorCreation.telefono = props.row.telefono
+      proveedorCreation.notas = props.row.notas
+
+      proveedorCreation.creada = props.row.creada
+      proveedorCreation.creadorId = props.row.creadorId
+      proveedorCreation.eliminada = props.row.eliminada
+      proveedorCreation.eliminadorId = props.row.eliminadorId
+      proveedorCreation.modificada = props.row.modificada
+      proveedorCreation.modificadorId = props.row.modificadorId
+
+      nuevoProveedorDialog.value = true
+    }
+
+    function fMostrarEliminarProveedor (props) {
+      afEliminarProveedor(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
+
+    function fMostrarReciclarProveedor (props) {
+      afReciclarProveedor(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
     }
 
     return {
@@ -871,6 +1012,11 @@ export default {
       fMostrarNotas,
       fMostrarNuevoProveedor,
       fMostrarTelefono,
+
+      fMostrarEditarProveedor,
+      fMostrarEliminarProveedor,
+      fMostrarReciclarProveedor,
+
       identificacion,
       nombre,
       notas,

@@ -98,11 +98,11 @@ public class RemitoServiceImpl implements RemitoService {
         RemitoModel remitoModel = remitoDAO.save(remitoMapper.toEntity(creation));
         if (creation.getId() == null) {
             remitoModel.setCreada(Helper.getNow(""));
-            remitoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            remitoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             remitoModel.setModificada(Helper.getNow(""));
-            remitoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            remitoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return remitoDAO.save(remitoModel);
@@ -113,7 +113,7 @@ public class RemitoServiceImpl implements RemitoService {
         log.info("Eliminando la entidad Remito con id: {}.", id);
         RemitoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Remito con id: " + id + ", fue eliminada correctamente.");
         return remitoDAO.save(objeto);
     }
@@ -127,7 +127,7 @@ public class RemitoServiceImpl implements RemitoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad Remito con id: " + id + ", fue reciclada correctamente.");
         return remitoDAO.save(objeto);
     }

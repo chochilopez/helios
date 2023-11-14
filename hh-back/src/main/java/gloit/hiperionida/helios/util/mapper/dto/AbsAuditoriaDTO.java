@@ -10,8 +10,11 @@ import lombok.Setter;
 public abstract class AbsAuditoriaDTO {
     private String creada;
     private String creador;
+    private String creadorId;
     private String modificada;
     private String modificador;
+    private String modificadorId;
     private String eliminada;
     private String eliminador;
+    private String eliminadorId;
 }

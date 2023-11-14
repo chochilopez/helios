@@ -98,11 +98,11 @@ public class ConciliacionBancoServiceImpl implements ConciliacionBancoService {
         ConciliacionBancoModel conciliacionBancoModel = conciliacionBancoDAO.save(conciliacionBancoMapper.toEntity(creation));
         if (creation.getId() == null) {
             conciliacionBancoModel.setCreada(Helper.getNow(""));
-            conciliacionBancoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            conciliacionBancoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             conciliacionBancoModel.setModificada(Helper.getNow(""));
-            conciliacionBancoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            conciliacionBancoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return conciliacionBancoDAO.save(conciliacionBancoModel);
@@ -113,7 +113,7 @@ public class ConciliacionBancoServiceImpl implements ConciliacionBancoService {
         log.info("Eliminando la entidad ConciliacionBanco con id: {}.", id);
         ConciliacionBancoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad ConciliacionBanco con id: " + id + ", fue eliminada correctamente.");
         return conciliacionBancoDAO.save(objeto);
     }
@@ -127,7 +127,7 @@ public class ConciliacionBancoServiceImpl implements ConciliacionBancoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad ConciliacionBanco con id: " + id + ", fue reciclada correctamente.");
         return conciliacionBancoDAO.save(objeto);
     }

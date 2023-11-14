@@ -98,11 +98,11 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
         CategoriaGastoModel categoriaGastoModel = categoriaGastoDAO.save(categoriaGastoMapper.toEntity(creation));
         if (creation.getId() == null) {
             categoriaGastoModel.setCreada(Helper.getNow(""));
-            categoriaGastoModel.setCreador_id(usuarioService.obtenerUsuario().getId());
+            categoriaGastoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             categoriaGastoModel.setModificada(Helper.getNow(""));
-            categoriaGastoModel.setModificador_id(usuarioService.obtenerUsuario().getId());
+            categoriaGastoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persistio correctamente la entidad.");
         }
         return categoriaGastoDAO.save(categoriaGastoModel);
@@ -113,7 +113,7 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
         log.info("Eliminando la entidad CategoriaGasto con id: {}.", id);
         CategoriaGastoModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
-        objeto.setEliminador_id(usuarioService.obtenerUsuario().getId());
+        objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad CategoriaGasto con id: " + id + ", fue eliminada correctamente.");
         return categoriaGastoDAO.save(objeto);
     }
@@ -127,7 +127,7 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
         }
         objeto.setEliminada(null);
-        objeto.setEliminador_id(null);
+        objeto.setEliminadorId(null);
         log.info("La entidad CategoriaGasto con id: " + id + ", fue reciclada correctamente.");
         return categoriaGastoDAO.save(objeto);
     }

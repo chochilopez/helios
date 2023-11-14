@@ -105,7 +105,7 @@ public class UsuarioController extends AbsBaseController {
         return new ResponseEntity<>(usuarioMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioDTO> reciclar(@PathVariable(name = "id") Long id) {
         UsuarioModel objeto = usuarioService.reciclar(id);

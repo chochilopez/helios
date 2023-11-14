@@ -419,17 +419,73 @@
           </div>
         </template>
         <template v-slot:body="props">
-          <q-tr :props="props">
+          <q-tr :props="props" :class="(props.row.eliminada === null) ? '':'bg-red-2'">
             <q-td auto-width class="text-center">
               <q-btn
                 size="sm"
-                class="text-white"
-                :class="props.expand ? 'paleta5-fondo2' : 'paleta5-fondo3'"
+                class="text-white q-mr-xs"
+                :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
                 round
                 dense
                 @click="props.expand = !props.expand"
-                :icon="props.expand ? 'remove' : 'add'"
-              />
+              >
+                <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
+                <q-tooltip>
+                  Expandir
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEditarPresupuesto(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="edit" />
+                <q-tooltip>
+                  Modificar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarConfirmarPresupuesto(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="done" />
+                <q-tooltip>
+                  Confirmar presupuesto
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEliminarPresupuesto(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="delete" />
+                <q-tooltip>
+                  Eliminar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada !== null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarReciclarPresupuesto(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="recycling" />
+                <q-tooltip>
+                  Reciclar
+                </q-tooltip>
+              </q-btn>
             </q-td>
             <q-td>
               {{ props.row.comprador}}
@@ -441,19 +497,10 @@
               {{ props.row.cantidadTransportada }}
             </q-td>
             <q-td>
-              {{ props.row.origen }}
-            </q-td>
-            <q-td>
               {{ props.row.destino }}
             </q-td>
             <q-td>
-              {{ fFormatoFecha(props.row.fechaEmision) }}
-            </q-td>
-            <q-td>
               {{ fFormatoFecha(props.row.fecha) }}
-            </q-td>
-            <q-td class="text-center">
-              {{ props.row.validez }}
             </q-td>
             <q-td class="text-center">
               {{ props.row.kmCargado }}
@@ -537,8 +584,8 @@
                   <div class="row paleta1-color2">Eliminador</div>
                 </div>
                 <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.elimiando }}</div>
-                  <div class="row paleta1-color2">Elimiando</div>
+                  <div class="row text-white">{{ props.row.Eeiminada }}</div>
+                  <div class="row paleta1-color2">Eliminada</div>
                 </div>
                 <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.notas }}</div>
@@ -567,7 +614,7 @@
       <q-card-section v-if="paso1">
         <q-form v-on:submit.prevent="fIrPaso2">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 mask="##-##-####"
@@ -593,7 +640,7 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -619,7 +666,9 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -646,7 +695,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="presupuestoCreation.cantidadTransportada"
@@ -661,7 +710,7 @@
               </q-input>
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
               Siguiente
             </q-btn>
@@ -672,7 +721,7 @@
       <q-card-section v-if="paso2">
         <q-form v-on:submit.prevent="fIrPaso3">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -698,7 +747,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -724,7 +773,9 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 mask="##############"
@@ -738,7 +789,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model.number="presupuestoCreation.valorKm"
@@ -754,7 +805,7 @@
               </q-input>
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
               Siguiente
             </q-btn>
@@ -765,7 +816,7 @@
       <q-card-section v-if="paso3">
         <q-form v-on:submit.prevent="fGuardarPresupuesto">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model.number="presupuestoCreation.validez"
@@ -780,7 +831,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 type="textarea"
@@ -793,7 +844,7 @@
               />
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
               Finalizar
             </q-btn>
@@ -818,6 +869,7 @@ import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 import { v4 as uuidv4 } from 'uuid'
 
 const paginacion = {
@@ -828,7 +880,7 @@ const paginacion = {
 
 const columnas = [
   {
-    label: 'Expandir',
+    label: 'Acciones',
     align: 'center'
   },
   {
@@ -853,20 +905,8 @@ const columnas = [
     sortable: true
   },
   {
-    name: 'origen',
-    label: 'Origen',
-    align: 'left',
-    field: ''
-  },
-  {
     name: 'destino',
     label: 'Destino',
-    align: 'left',
-    field: ''
-  },
-  {
-    name: 'fechaEmision',
-    label: 'Fecha emisión',
     align: 'left',
     field: ''
   },
@@ -874,12 +914,6 @@ const columnas = [
     name: 'fecha',
     label: 'Fecha viaje',
     align: 'left',
-    field: ''
-  },
-  {
-    name: 'validez',
-    label: 'Validez en días',
-    align: 'center',
     field: ''
   },
   {
@@ -907,6 +941,7 @@ const columnas = [
 export default {
   setup () {
     const $q = useQuasar()
+    const router = useRouter()
 
     const cantidadTransportada = ref({ min: 0, max: 300 })
     const cantidadTransportadaChip = ref({ izq: false, der: false })
@@ -1464,6 +1499,60 @@ export default {
       }
     }
 
+    async function afEliminarPresupuesto (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await presupuestoService.spfBorrar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se borró correctamente el prespuesto.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afReciclarPresupuesto (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await presupuestoService.spfReciclar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se recicló correctamente el prespuesto.')
+        }
+      } catch (err) {
+        // console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
     function fFiltrarCategoriasViaje (val, update, abort) {
       if (val.length < 3) {
         abort()
@@ -1495,7 +1584,7 @@ export default {
       }
       update(() => {
         direccionesDestino.value = direccionesList.value.filter(
-          (v) => v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1
+          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 }
         )
       })
     }
@@ -1507,7 +1596,7 @@ export default {
       }
       update(() => {
         direccionesOrigen.value = direccionesList.value.filter(
-          (v) => v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1
+          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 }
         )
       })
     }
@@ -1639,6 +1728,12 @@ export default {
       editValorKilomertro.value = true
     }
 
+    function fMostrarConfirmarPresupuesto (props) {
+      llaveroService.borrarDeLocal('hhConfirmarPresupuesto')
+      llaveroService.guardarEnLocalConSesion('hhConfirmarPresupuesto', props.row)
+      router.push({ name: 'Viaje' })
+    }
+
     function fMostrarNuevoPresupuesto () {
       afBuscarClientes().then(() => {
         afBuscarCategoriasViaje().then(() => {
@@ -1646,6 +1741,45 @@ export default {
             fIrPaso1()
             nuevoPresupuestoDialog.value = true
           })
+        })
+      })
+    }
+
+    function fMostrarEditarPresupuesto (props) {
+      presupuestoCreation.id = props.row.id
+      presupuestoCreation.cantidadTransportada = props.row.cantidadTransportada
+      presupuestoCreation.categoriaViajeId = props.row.categoriaViajeId
+      presupuestoCreation.compradorId = props.row.compradorId
+      presupuestoCreation.destinoId = props.row.destinoId
+      presupuestoCreation.fecha = ayuda.fFormatearADatePicker(props.row.fecha.slice(0, 10))
+      presupuestoCreation.kmCargado = props.row.kmCargado
+      presupuestoCreation.notas = props.row.notas
+      presupuestoCreation.origenId = props.row.origenId
+      presupuestoCreation.validez = props.row.validez
+      presupuestoCreation.valorKm = props.row.valorKm
+
+      presupuestoCreation.creada = props.row.creada
+      presupuestoCreation.creadorId = props.row.creadorId
+      presupuestoCreation.eliminada = props.row.eliminada
+      presupuestoCreation.eliminadorId = props.row.eliminadorId
+      presupuestoCreation.modificada = props.row.modificada
+      presupuestoCreation.modificadorId = props.row.modificadorId
+
+      nuevoPresupuestoDialog.value = true
+    }
+
+    function fMostrarEliminarPresupuesto (props) {
+      afEliminarPresupuesto(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
+
+    function fMostrarReciclarPresupuesto (props) {
+      afReciclarPresupuesto(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
         })
       })
     }
@@ -1698,7 +1832,11 @@ export default {
       fMostrarFechaViaje,
       fMostrarKilometrosCargado,
       fMostrarNotas,
+      fMostrarConfirmarPresupuesto,
       fMostrarNuevoPresupuesto,
+      fMostrarEditarPresupuesto,
+      fMostrarEliminarPresupuesto,
+      fMostrarReciclarPresupuesto,
       fMostrarValorKilomertro,
       kmCargado,
       kmCargadoChip,

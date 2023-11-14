@@ -414,7 +414,7 @@ public class PresupuestoController extends AbsBaseController {
         return new ResponseEntity<>(presupuestoMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<PresupuestoDTO> reciclar(@PathVariable(name = "id") Long id) {
         PresupuestoModel objeto = presupuestoService.reciclar(id);

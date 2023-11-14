@@ -138,7 +138,7 @@ public class CategoriaViajeController extends AbsBaseController {
         return new ResponseEntity<>(categoriaViajeMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CategoriaViajeDTO> reciclar(@PathVariable(name = "id") Long id) {
         CategoriaViajeModel objeto = categoriaViajeService.reciclar(id);

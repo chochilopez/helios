@@ -33,6 +33,14 @@ const routes = [
         }
       },
       {
+        path: '/agenda-viaje',
+        name: 'AgendaViaje',
+        component: () => import('pages/sitio/AgendaViaje.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
         path: '/banco',
         name: 'Banco',
         component: () => import('pages/sitio/Banco.vue'),
@@ -65,6 +73,14 @@ const routes = [
         }
       },
       {
+        path: '/categoria-viaje',
+        name: 'CategoriaViaje',
+        component: () => import('pages/sitio/CategoriaViaje.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
         path: '/chofer',
         name: 'Chofer',
         component: () => import('pages/sitio/Chofer.vue'),
@@ -76,6 +92,14 @@ const routes = [
         path: '/cliente',
         name: 'Cliente',
         component: () => import('src/pages/sitio/Cliente.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/colocado',
+        name: 'Colocado',
+        component: () => import('pages/sitio/Colocado.vue'),
         meta: {
           rol: rolEnum.CARGA
         }
@@ -193,14 +217,6 @@ const routes = [
         }
       },
       {
-        path: '/colocado',
-        name: 'Colocado',
-        component: () => import('pages/sitio/Colocado.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
-      {
         path: '/plan-cuenta',
         name: 'PlanCuenta',
         component: () => import('pages/sitio/PlanCuenta.vue'),
@@ -212,14 +228,6 @@ const routes = [
         path: '/presupuesto',
         name: 'Presupuesto',
         component: () => import('pages/sitio/Presupuesto.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
-      {
-        path: '/agenda-viaje',
-        name: 'AgendaViaje',
-        component: () => import('pages/sitio/AgendaViaje.vue'),
         meta: {
           rol: rolEnum.CARGA
         }

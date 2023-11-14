@@ -138,7 +138,7 @@ public class AdelantoController extends AbsBaseController {
         return new ResponseEntity<>(adelantoMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<AdelantoDTO> reciclar(@PathVariable(name = "id") Long id) {
         AdelantoModel objeto = adelantoService.reciclar(id);

@@ -138,7 +138,7 @@ public class PagoController extends AbsBaseController {
         return new ResponseEntity<>(pagoMapper.toDto(objeto), Helper.httpHeaders("Se elimino correctamente la entidad con id: " + id + "."), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reciclar/{id}")
+    @GetMapping(value = "/reciclar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<PagoDTO> reciclar(@PathVariable(name = "id") Long id) {
         PagoModel objeto = pagoService.reciclar(id);
