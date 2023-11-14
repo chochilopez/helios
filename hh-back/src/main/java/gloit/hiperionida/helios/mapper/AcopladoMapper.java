@@ -37,12 +37,11 @@ public class AcopladoMapper {
             if (Helper.getInteger(creation.getCantidadNeumaticos()) != null)
                 model.setCantidadNeumaticos(Helper.getInteger(creation.getCantidadNeumaticos()));
             model.setMarcaModelo(creation.getMarcaModelo());
+            model.setNotas(creation.getNotas());
             if (Helper.getInteger(creation.getAnio()) != null)
                 model.setAnio(Helper.getInteger(creation.getAnio()));
             model.setPatente(creation.getPatente());
             model.setPeso(creation.getPeso());
-            if (Helper.getLong(creation.getSeguroId()) != null)
-                model.setSeguroId(Helper.getLong(creation.getSeguroId()));
 
             if (Helper.getLong(creation.getCreador_id()) != null)
                 model.setCreador_id(Helper.getLong(creation.getCreador_id()));
@@ -69,18 +68,12 @@ public class AcopladoMapper {
             AcopladoDTO dto = new AcopladoDTO();
 
             dto.setId(model.getId().toString());
+            dto.setAnio(model.getAnio().toString());
             dto.setCantidadNeumaticos(model.getCantidadNeumaticos().toString());
             dto.setMarcaModelo(model.getMarcaModelo());
-            dto.setAnio(model.getAnio().toString());
+            dto.setNotas(model.getNotas());
             dto.setPatente(model.getPatente());
             dto.setPeso(model.getPeso());
-            if (model.getSeguroId() != null) {
-                SeguroModel seguroModel = seguroDAO.findByIdAndEliminadaIsNull(model.getSeguroId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el seguro con id: " + model.getSeguroId()));
-                ProveedorModel proveedorModel = proveedorDAO.findByIdAndEliminadaIsNull(seguroModel.getAseguradoraId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el asegurador con id: " + seguroModel.getAseguradoraId()));
-                EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(seguroModel.getVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vencimiento con id: " + seguroModel.getVencimientoId()));
-                dto.setAseguradora(proveedorModel.getNombre());
-                dto.setVencimiento(eventoModel.getFecha().toString());
-            }
 
             if (model.getCreador_id() != null) {
                 UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreador_id()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreador_id() + "."));

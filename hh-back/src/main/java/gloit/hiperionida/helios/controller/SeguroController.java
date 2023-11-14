@@ -4,8 +4,10 @@ import gloit.hiperionida.helios.mapper.SeguroMapper;
 import gloit.hiperionida.helios.mapper.creation.SeguroCreation;
 import gloit.hiperionida.helios.mapper.dto.SeguroDTO;
 import gloit.hiperionida.helios.mapper.dto.SeguroDTO;
+import gloit.hiperionida.helios.mapper.dto.ViajeDTO;
 import gloit.hiperionida.helios.model.SeguroModel;
 import gloit.hiperionida.helios.model.SeguroModel;
+import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.service.implementation.SeguroServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.controller.AbsBaseController;
@@ -42,32 +44,120 @@ public class SeguroController extends AbsBaseController {
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
     }
 
-    @GetMapping(value = "/buscar-por-aseguradora-id/{id}")
+    @GetMapping(value = "/buscar-todas-por-acoplado-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<SeguroDTO> buscarPorAseguradoraId(@PathVariable(name = "id") Long id) {
-        SeguroModel objeto = seguroService.buscarPorAseguradoraId(id);
-        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id aseguradora :" + id + "."), HttpStatus.OK);
+    public ResponseEntity<ArrayList<SeguroDTO>> buscarTodasPorAcopladoId(@PathVariable(name = "id") Long id) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorAcopladoId(id);
+        ArrayList<SeguroDTO> seguroDTOS = new ArrayList<>();
+        for (SeguroModel viaje:listado) {
+            seguroDTOS.add(seguroMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(seguroDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-por-aseguradora-id-con-eliminadas/{id}")
+    @GetMapping(value = "/buscar-todas-por-acoplado-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<SeguroDTO> buscarPorAseguradoraIdConEliminadas(@PathVariable(name = "id") Long id) {
-        SeguroModel objeto = seguroService.buscarPorAseguradoraIdConEliminadas(id);
-        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id aseguradora :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+    public ResponseEntity<ArrayList<SeguroDTO>> buscarTodasPorAcopladoIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorAcopladoIdConEliminadas(id);
+        ArrayList<SeguroDTO> seguroDTOS = new ArrayList<>();
+        for (SeguroModel viaje:listado) {
+            seguroDTOS.add(seguroMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(seguroDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-por-vencimiento-id/{id}")
+    @GetMapping(value = "/buscar-todas-por-aseguradora-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<SeguroDTO> buscarPorVencimientoId(@PathVariable(name = "id") Long id) {
-        SeguroModel objeto = seguroService.buscarPorVencimientoId(id);
-        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con vencimiento id :" + id + "."), HttpStatus.OK);
+    public ResponseEntity<ArrayList<SeguroDTO>> buscarTodasPorAseguradoraId(@PathVariable(name = "id") Long id) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorAseguradoraId(id);
+        ArrayList<SeguroDTO> seguroDTOS = new ArrayList<>();
+        for (SeguroModel viaje:listado) {
+            seguroDTOS.add(seguroMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(seguroDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-por-vencimiento-id-con-eliminadas/{id}")
+    @GetMapping(value = "/buscar-todas-por-aseguradora-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<SeguroDTO> buscarPorVencimientoIdConEliminadas(@PathVariable(name = "id") Long id) {
-        SeguroModel objeto = seguroService.buscarPorVencimientoIdConEliminadas(id);
-        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con vencimiento id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+    public ResponseEntity<ArrayList<SeguroDTO>> buscarTodasPorAseguradoraIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorAseguradoraIdConEliminadas(id);
+        ArrayList<SeguroDTO> seguroDTOS = new ArrayList<>();
+        for (SeguroModel viaje:listado) {
+            seguroDTOS.add(seguroMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(seguroDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-camion-id/{id}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<SeguroDTO>> buscarTodasPorCamionId(@PathVariable(name = "id") Long id) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorCamionId(id);
+        ArrayList<SeguroDTO> seguroDTOS = new ArrayList<>();
+        for (SeguroModel viaje:listado) {
+            seguroDTOS.add(seguroMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(seguroDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-camion-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<SeguroDTO>> buscarTodasPorCamionIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorCamionIdConEliminadas(id);
+        ArrayList<SeguroDTO> seguroDTOS = new ArrayList<>();
+        for (SeguroModel viaje:listado) {
+            seguroDTOS.add(seguroMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(seguroDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-vencimiento-id/{id}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<SeguroDTO>> buscarTodasPorVencimientoId(@PathVariable(name = "id") Long id) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorVencimientoId(id);
+        ArrayList<SeguroDTO> seguroDTOS = new ArrayList<>();
+        for (SeguroModel viaje:listado) {
+            seguroDTOS.add(seguroMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(seguroDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-vencimiento-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<SeguroDTO>> buscarTodasPorVencimientoIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorVencimientoIdConEliminadas(id);
+        ArrayList<SeguroDTO> seguroDTOS = new ArrayList<>();
+        for (SeguroModel viaje:listado) {
+            seguroDTOS.add(seguroMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(seguroDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-vencimiento-entre-fechas/{inicio}/{fin}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<SeguroDTO>> buscarTodasPorFechaEntreFechas(
+            @PathVariable(name = "inicio") String inicio,
+            @PathVariable(name = "fin") String fin
+    ) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorVencimientoBetween(inicio, fin);
+        ArrayList<SeguroDTO> viajes = new ArrayList<>();
+        for (SeguroModel seguro:listado) {
+            viajes.add(seguroMapper.toDto(seguro));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-vencimiento-entre-fechas-con-eliminadas/{inicio}/{fin}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<SeguroDTO>> buscarTodasPorFechaEntreFechasConEliminadas(
+            @PathVariable(name = "inicio") String inicio,
+            @PathVariable(name = "fin") String fin
+    ) {
+        List<SeguroModel> listado = seguroService.buscarTodasPorVencimientoBetweenConEliminadas(inicio, fin);
+        ArrayList<SeguroDTO> viajes = new ArrayList<>();
+        for (SeguroModel seguro:listado) {
+            viajes.add(seguroMapper.toDto(seguro));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-notas/{notas}")

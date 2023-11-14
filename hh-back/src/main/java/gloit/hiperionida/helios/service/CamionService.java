@@ -9,16 +9,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CamionService extends GenericService<CamionModel, CamionCreation> {
-    CamionModel buscarPorSeguroId(Long id);
-    CamionModel buscarPorSeguroIdConEliminadas(Long id);
+    List<CamionModel> buscarTodasPorAnio(Integer anio);
+    List<CamionModel> buscarTodasPorAnioConEliminadas(Integer anio);
     List<CamionModel> buscarTodasPorMarcaModelo(String marcaModelo);
     List<CamionModel> buscarTodasPorMarcaModeloConEliminadas(String marcaModelo);
-    List<CamionModel> buscarTodasPorRangoAnio(Integer min, Integer max);
-    List<CamionModel> buscarTodasPorRangoAnioConEliminadas(Integer min, Integer max);
-    List<CamionModel> buscarTodasPorRangoCantidadNeumaticos(Integer min, Integer max);
-    List<CamionModel> buscarTodasPorRangoCantidadNeumaticosConEliminadas(Integer min, Integer max);
     List<CamionModel> buscarTodasPorNotas(String notas);
-    List<CamionModel> buscarTodasPorNotasConEliminadas(String notas);
+    List<CamionModel> buscarTodasPorNotasConEliminadas(String notas);;
+    List<CamionModel> buscarTodasPorPatente(String patente);
+    List<CamionModel> buscarTodasPorPatenteConEliminadas(String patente);
 
     List<CamionModel> buscarTodasPorNumeroChasis(String numeroChasis);
     List<CamionModel> buscarTodasPorNumeroChasisConEliminadas(String numeroChasis);

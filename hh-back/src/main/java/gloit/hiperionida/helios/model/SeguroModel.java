@@ -24,4 +24,8 @@ public class SeguroModel extends AbsAuditoriaModel {
     private Long aseguradoraId;
     // Evento
     private Long vencimientoId;
+
+    private Long camionId;
+
+    private Long acopladoId;
 }

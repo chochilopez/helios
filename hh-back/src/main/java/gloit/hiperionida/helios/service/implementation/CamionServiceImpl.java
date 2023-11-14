@@ -31,19 +31,21 @@ public class CamionServiceImpl implements CamionService {
     private final UsuarioServiceImpl usuarioService;
 
     @Override
-    public CamionModel buscarPorSeguroId(Long id) {
-        log.info("Buscando la entidad Camion con id de seguro: {}.", id);
-        CamionModel camionModel = camionDAO.findBySeguroIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Camion con id de seguro: " + id + "."));
-        log.info("Se encontro una entidad Camion con id: " + id + ".");
-        return camionModel;
+    public List<CamionModel> buscarTodasPorAnio(Integer anio) {
+        log.info("Buscando todas las entidades Camion por año: {}.", anio);
+        List<CamionModel> listado = camionDAO.findAllByAnioAndEliminadaIsNull(anio);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Camion por año: " + anio + ".");
+        return listado;
     }
 
     @Override
-    public CamionModel buscarPorSeguroIdConEliminadas(Long id) {
-        log.info("Buscando la entidad Camion con id de seguro: {}, incluidas las eliminadas.", id);
-        CamionModel camionModel = camionDAO.findBySeguroId(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Camion con id de seguro: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Camion con id: " + id + ", incluidas las eliminadas.");
-        return camionModel;
+    public List<CamionModel> buscarTodasPorAnioConEliminadas(Integer anio) {
+        log.info("Buscando todas las entidades Camion por año: {}, incluidas las eliminadas.", anio);
+        List<CamionModel> listado = camionDAO.findAllByAnio(anio);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Camion por año: " + anio + ", incluidas las eliminadas.");
+        return listado;
     }
 
     @Override
@@ -61,42 +63,6 @@ public class CamionServiceImpl implements CamionService {
         List<CamionModel> listado = camionDAO.findAllByMarcaModeloContainingIgnoreCase(marcaModelo);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Camion con marca/modelo: " + marcaModelo + ", incluidas las eliminadas.");
-        return listado;
-    }
-
-    @Override
-    public List<CamionModel> buscarTodasPorRangoAnio(Integer min, Integer max) {
-        log.info("Buscando todas las entidades Camion con un rango de años entre: {} y {}.", min, max);
-        List<CamionModel> listado = camionDAO.findAllByAnioBetweenAndEliminadaIsNull(min, max);
-        if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Camion con un rango de años entre: " + min + " y " + max + ".");
-        return listado;
-    }
-
-    @Override
-    public List<CamionModel> buscarTodasPorRangoAnioConEliminadas(Integer min, Integer max) {
-        log.info("Buscando todas las entidades Camion con un rango de años entre: {} y {}, incluidas las eliminadas.", min, max);
-        List<CamionModel> listado = camionDAO.findAllByAnioBetween(min, max);
-        if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Camion con un rango de años entre: " + min + " y " + max + ", incluidas las eliminadas.");
-        return listado;
-    }
-
-    @Override
-    public List<CamionModel> buscarTodasPorRangoCantidadNeumaticos(Integer min, Integer max) {
-        log.info("Buscando todas las entidades Camion con un rango de cantidad de neumaticos entre: {} y {}.", min, max);
-        List<CamionModel> listado = camionDAO.findAllByCantidadNeumaticosBetweenAndEliminadaIsNull(min, max);
-        if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Camion con un rango de cantidad de neumaticos entre: " + min + " y " + max + ".");
-        return listado;
-    }
-
-    @Override
-    public List<CamionModel> buscarTodasPorRangoCantidadNeumaticosConEliminadas(Integer min, Integer max) {
-        log.info("Buscando todas las entidades Camion con un rango de cantidad de neumaticos entre: {} y {}, incluidas las eliminadas.", min, max);
-        List<CamionModel> listado = camionDAO.findAllByCantidadNeumaticosBetween(min, max);
-        if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Camion con un rango de cantidad de neumaticos entre: " + min + " y " + max + ", incluidas las eliminadas.");
         return listado;
     }
 
@@ -151,6 +117,24 @@ public class CamionServiceImpl implements CamionService {
         List<CamionModel> listado = camionDAO.findAllByNotasContainingIgnoreCase(notas);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Camion con notas: " + notas + ", incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<CamionModel> buscarTodasPorPatente(String patente) {
+        log.info("Buscando todas las entidades Camion con patente: {}.", patente);
+        List<CamionModel> listado = camionDAO.findAllByPatenteContainingIgnoreCaseAndEliminadaIsNull(patente);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Camion con patente: " + patente + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CamionModel> buscarTodasPorPatenteConEliminadas(String patente) {
+        log.info("Buscando todas las entidades Camion con patente: {}, incluidas las eliminadas.", patente);
+        List<CamionModel> listado = camionDAO.findAllByPatenteContainingIgnoreCase(patente);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Camion con patente: " + patente + ", incluidas las eliminadas.");
         return listado;
     }
 

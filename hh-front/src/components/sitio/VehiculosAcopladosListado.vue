@@ -24,39 +24,23 @@
             <div class="q-my-md">
               <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar acoplados por" dropdown-icon="fa-solid fa-magnifying-glass">
                 <q-list>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccion">
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAnio">
                     <q-item-section avatar>
-                      <q-icon name="home" />
+                      <q-icon name="update" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label>Dirección</q-item-label>
+                      <q-item-label>Año</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarEmail">
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarMarcaModelo">
                     <q-item-section avatar>
-                      <q-icon name="alternate_email" />
+                      <q-icon name="stream" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label>Email</q-item-label>
+                      <q-item-label>Marca y modelo</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarIdentificacion">
-                    <q-item-section avatar>
-                      <q-icon name="badge" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Identificacion</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNombre">
-                    <q-item-section avatar>
-                      <q-icon name="account_circle" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Nombre</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
+                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-pen-to-square" />
                     </q-item-section>
@@ -64,12 +48,12 @@
                       <q-item-label>Notas</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarTelefono">
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarPatente">
                     <q-item-section avatar>
-                      <q-icon name="phone_iphone" />
+                      <q-icon name="local_parking" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label>Teléfono</q-item-label>
+                      <q-item-label>Patente</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -77,13 +61,13 @@
             </div>
             <div class="col">
               <q-input
-                v-if="editDireccion"
+                v-if="editMarcaModelo"
                 outlined
                 dense
                 clearable
-                v-on:keyup.enter="afBuscarPorDireccion()"
-                v-model="direccion"
-                label="Buscar por direccion"
+                v-on:keyup.enter="afBuscarPorMarcaModelo()"
+                v-model="marcaModelo"
+                label="Buscar por marca/modelo"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
                 <template v-slot:no-option>
@@ -95,19 +79,19 @@
                   <q-icon
                     name="fa-solid fa-magnifying-glass"
                     class="q-mx-xs"
-                    v-on:click="afBuscarPorDireccion()"
+                    v-on:click="afBuscarPorMarcaModelo()"
                     style="cursor: pointer"
                   />
                 </template>
               </q-input>
               <q-input
-                v-if="editEmail"
+                v-if="editAnio"
                 outlined
                 dense
                 clearable
-                v-on:keyup.enter="afBuscarPorEmail()"
-                v-model="email"
-                label="Buscar por email"
+                v-on:keyup.enter="afBuscarPorAnio()"
+                v-model.number="anio"
+                label="Buscar por año"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
                 <template v-slot:no-option>
@@ -119,55 +103,7 @@
                   <q-icon
                     name="fa-solid fa-magnifying-glass"
                     class="q-mx-xs"
-                    v-on:click="afBuscarPorEmail()"
-                    style="cursor: pointer"
-                  />
-                </template>
-              </q-input>
-              <q-input
-                v-if="editIdentifiacion"
-                outlined
-                dense
-                clearable
-                v-on:keyup.enter="afBuscarPorIdentificacion()"
-                v-model="identifiacion"
-                label="Buscar por identifiacion"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-                <template v-slot:after>
-                  <q-icon
-                    name="fa-solid fa-magnifying-glass"
-                    class="q-mx-xs"
-                    v-on:click="afBuscarPorIdentificacion()"
-                    style="cursor: pointer"
-                  />
-                </template>
-              </q-input>
-              <q-input
-                v-if="editNombre"
-                outlined
-                dense
-                clearable
-                v-on:keyup.enter="afBuscarPorNombre()"
-                v-model="nombre"
-                label="Buscar por nombre"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-                <template v-slot:after>
-                  <q-icon
-                    name="fa-solid fa-magnifying-glass"
-                    class="q-mx-xs"
-                    v-on:click="afBuscarPorNombre()"
+                    v-on:click="afBuscarPorAnio()"
                     style="cursor: pointer"
                   />
                 </template>
@@ -197,13 +133,13 @@
                 </template>
               </q-input>
               <q-input
-                v-if="editTelefono"
+                v-if="editPatente"
                 outlined
                 dense
                 clearable
-                v-on:keyup.enter="afBuscarPorTelefono()"
-                v-model="telefono"
-                label="Buscar por telefono"
+                v-on:keyup.enter="afBuscarPorPatente()"
+                v-model="patente"
+                label="Buscar por patente"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
                 <template v-slot:no-option>
@@ -215,7 +151,7 @@
                   <q-icon
                     name="fa-solid fa-magnifying-glass"
                     class="q-mx-xs"
-                    v-on:click="afBuscarPorTelefono()"
+                    v-on:click="afBuscarPorPatente()"
                     style="cursor: pointer"
                   />
                 </template>
@@ -237,19 +173,19 @@
               />
             </q-td>
             <q-td>
-              {{ props.row.nombre }}
+              {{ props.row.marcaModelo}}
             </q-td>
-            <q-td>
-              {{ props.row.direccion}}
+            <q-td class="text-center">
+              {{ props.row.anio }}
             </q-td>
-            <q-td>
-              {{ props.row.email }}
+            <q-td class="text-center">
+              {{ props.row.cantidadNeumaticos }}
             </q-td>
-            <q-td>
-              {{ props.row.identificacion }}
+            <q-td class="text-center">
+              {{ props.row.patente }}
             </q-td>
-            <q-td>
-              {{ props.row.telefono }}
+            <q-td class="text-center">
+              {{ props.row.peso }}
             </q-td>
           </q-tr>
           <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
@@ -259,25 +195,33 @@
                   <div class="row text-white">{{ props.row.id }}</div>
                   <div class="row paleta1-color2">Id</div>
                 </div>
-                <div v-if="props.row.direccion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.direccion }}</div>
-                  <div class="row paleta1-color2">Direccion</div>
+                <div v-if="props.row.anio != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.anio }}</div>
+                  <div class="row paleta1-color2">Año modelo</div>
                 </div>
-                <div v-if="props.row.email != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.email }}</div>
-                  <div class="row paleta1-color2">Email</div>
+                <div v-if="props.row.cantidadNeumaticos != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.cantidadNeumaticos }}</div>
+                  <div class="row paleta1-color2">Cantidad neumaticos</div>
                 </div>
-                <div v-if="props.row.identificacion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.identificacion }}</div>
-                  <div class="row paleta1-color2">Identificacion</div>
+                <div v-if="props.row.marcaModelo != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                  <div class="row text-white">{{ props.row.marcaModelo }}</div>
+                  <div class="row paleta1-color2">Marca/modelo</div>
                 </div>
-                <div v-if="props.row.nombre != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.nombre }}</div>
-                  <div class="row paleta1-color2">Nombre</div>
+                <div v-if="props.row.patente != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.patente }}</div>
+                  <div class="row paleta1-color2">Patente</div>
                 </div>
-                <div v-if="props.row.telefono != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">props.row.telefono</div>
-                  <div class="row paleta1-color2">Telefono</div>
+                <div v-if="props.row.peso != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                  <div class="row text-white">{{ props.row.peso }}</div>
+                  <div class="row paleta1-color2">Peso</div>
+                </div>
+                <div v-if="props.row.aseguradora != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.aseguradora }}</div>
+                  <div class="row paleta1-color2">Aseguradora</div>
+                </div>
+                <div v-if="props.row.vencimiento != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                  <div class="row text-white">props.row.vencimiento</div>
+                  <div class="row paleta1-color2">Vencimiento</div>
                 </div>
                 <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.creador }}</div>
@@ -331,65 +275,60 @@
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-input"
-                v-model="acopladoCreation.nombre"
-                :rules="[reglas.requerido, reglas.min8, reglas.max50]"
+                v-model.number="acopladoCreation.anio"
+                :rules="[reglas.requerido]"
                 outlined
                 dense
                 clearable
-                label="Nombre"
-                hint="Apellido y nombre"
+                label="Año modelo"
               >
               </q-input>
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-input"
-                v-model="acopladoCreation.direccion"
-                :rules="[reglas.requerido, reglas.min8, reglas.max50]"
+                v-model.number="acopladoCreation.cantidadNeumaticos"
+                :rules="[reglas.requerido]"
                 outlined
                 dense
                 clearable
-                label="Dirección"
-                hint="Dirección del acoplado"
+                label="Cantidad neumaticos"
               >
               </q-input>
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-input"
-                v-model="acopladoCreation.email"
-                :rules="[reglas.requerido, reglas.min8, reglas.max50, reglas.email]"
+                v-model="acopladoCreation.marcaModelo"
+                :rules="[reglas.requerido]"
                 outlined
                 dense
                 clearable
-                label="Email"
-                hint="Dirección de email"
+                label="Marca y modelo"
               >
               </q-input>
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-input"
-                v-model="acopladoCreation.telefono"
-                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
+                v-model="acopladoCreation.patente"
+                :rules="[reglas.requerido]"
                 outlined
                 dense
                 clearable
-                label="Teléfono"
-                hint="Número de teléfono"
+                label="Número de patente"
               >
               </q-input>
             </div>
             <div class="col-xs-5 q-mx-xs q-my-md">
               <q-input
                 class="nuevo-input"
-                v-model="acopladoCreation.identificacion"
-                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
+                v-model.number="acopladoCreation.peso"
+                :rules="[reglas.requerido]"
                 outlined
                 dense
                 clearable
-                label="Identificacion"
-                hint="Documento/Pasaporte"
+                label="Peso del equipo"
               >
               </q-input>
             </div>
@@ -441,38 +380,38 @@ const columnas = [
     align: 'center'
   },
   {
-    name: 'nombre',
-    label: 'Nombre',
+    name: 'marcaModelo',
+    label: 'Marca/modelo',
     align: 'left',
-    field: 'nombre',
+    field: 'marcaModelo',
     sortable: true
   },
   {
-    name: 'direccion',
-    label: 'Direccion',
-    align: 'left',
-    field: 'direccion',
+    name: 'anio',
+    label: 'Año modelo',
+    align: 'center',
+    field: 'anio',
     sortable: true
   },
   {
-    name: 'email',
-    label: 'Email',
-    align: 'left',
-    field: 'email',
+    name: 'cantidadNeumaticos',
+    label: 'Neumaticos',
+    align: 'center',
+    field: 'cantidadNeumaticos',
     sortable: true
   },
   {
-    name: 'identificacion',
-    label: 'Identificacion',
-    align: 'left',
-    field: 'identificacion',
+    name: 'patente',
+    label: 'Patente',
+    align: 'center',
+    field: 'patente',
     sortable: true
   },
   {
-    name: 'telefono',
-    label: 'telefono',
-    align: 'left',
-    field: 'telefono'
+    name: 'peso',
+    label: 'Peso',
+    align: 'center',
+    field: 'peso'
   }
 ]
 
@@ -480,25 +419,21 @@ export default {
   setup () {
     const $q = useQuasar()
 
-    const direccion = ref(null)
-    const editDireccion = ref(false)
-    const editEmail = ref(false)
-    const editIdentifiacion = ref(false)
-    const editNombre = ref(true)
-    const editNotas = ref(false)
-    const editTelefono = ref(false)
-    const email = ref(null)
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
-    const identificacion = ref(null)
-    const nombre = ref(null)
-    const notas = ref(null)
-    const nuevaBusqueda = ref(false)
-    const nuevoAcopladoDialog = ref(false)
-    const paso1 = ref(true)
     const acopladoCreation = reactive(new AcopladoCreation())
     const acoplados = ref([])
+    const anio = ref(null)
+    const editAnio = ref(false)
+    const editMarcaModelo = ref(false)
+    const editNotas = ref(false)
+    const editPatente = ref(false)
+    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
+    const marcaModelo = ref(null)
+    const notas = ref(null)
+    const nuevoAcopladoDialog = ref(false)
+    const nuevaBusqueda = ref(false)
+    const paso1 = ref(true)
+    const patente = ref(null)
     const reglas = reactive(reglasValidacion.reglas)
-    const telefono = ref(null)
 
     afBuscarPaginadas()
 
@@ -540,15 +475,15 @@ export default {
       }
     }
 
-    async function afBuscarPorDireccion () {
-      if (direccion.value != null) {
+    async function afBuscarPorAnio () {
+      if (anio.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await acopladoService.spfBuscarTodasPorDireccionConEliminadas(direccion.value)
+            resultado = await acopladoService.spfBuscarTodasPorAnioConEliminadas(anio.value)
           } else {
-            resultado = await acopladoService.spfBuscarTodasPorDireccion(direccion.value)
+            resultado = await acopladoService.spfBuscarTodasPorAnio(anio.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -574,83 +509,15 @@ export default {
       }
     }
 
-    async function afBuscarPorEmail () {
-      if (email.value != null) {
+    async function afBuscarPorMarcaModelo () {
+      if (marcaModelo.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await acopladoService.spfBuscarTodasPorEmailConEliminadas(email.value)
+            resultado = await acopladoService.spfBuscarTodasPorMarcaModeloConEliminadas(marcaModelo.value)
           } else {
-            resultado = await acopladoService.spfBuscarTodasPorEmail(email.value)
-          }
-          if (resultado.status === 200) {
-            console.log(resultado.headers.mensaje)
-            acoplados.value = resultado.data
-          }
-          $q.loading.hide()
-        } catch (err) {
-          console.clear()
-          if (err.response.status === 404) {
-            acoplados.value = []
-            console.info(err.response.headers.mensaje)
-            notificarService.infoAlerta(err.response.headers.mensaje)
-          } else if (err.response.headers.mensaje) {
-            console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-          } else {
-            const mensaje = 'Hubo un error al intentar obtener el listado.'
-            notificarService.notificarError(mensaje)
-            console.error(mensaje)
-          }
-          $q.loading.hide()
-        }
-      }
-    }
-
-    async function afBuscarPorIdentificacion () {
-      if (identificacion.value != null) {
-        $q.loading.show()
-        try {
-          let resultado = null
-          if (esAdmin.value) {
-            resultado = await acopladoService.spfBuscarTodasPorIdentificacionConEliminadas(identificacion.value)
-          } else {
-            resultado = await acopladoService.spfBuscarTodasPorIdentificacion(identificacion.value)
-          }
-          if (resultado.status === 200) {
-            console.log(resultado.headers.mensaje)
-            acoplados.value = resultado.data
-          }
-          $q.loading.hide()
-        } catch (err) {
-          console.clear()
-          if (err.response.status === 404) {
-            acoplados.value = []
-            console.info(err.response.headers.mensaje)
-            notificarService.infoAlerta(err.response.headers.mensaje)
-          } else if (err.response.headers.mensaje) {
-            console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-          } else {
-            const mensaje = 'Hubo un error al intentar obtener el listado.'
-            notificarService.notificarError(mensaje)
-            console.error(mensaje)
-          }
-          $q.loading.hide()
-        }
-      }
-    }
-
-    async function afBuscarPorNombre () {
-      if (nombre.value != null) {
-        $q.loading.show()
-        try {
-          let resultado = null
-          if (esAdmin.value) {
-            resultado = await acopladoService.spfBuscarTodasPorNombreConEliminadas(nombre.value)
-          } else {
-            resultado = await acopladoService.spfBuscarTodasPorNombre(nombre.value)
+            resultado = await acopladoService.spfBuscarTodasPorMarcaModelo(marcaModelo.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -710,15 +577,15 @@ export default {
       }
     }
 
-    async function afBuscarPorTelefono () {
-      if (telefono.value != null) {
+    async function afBuscarPorPatente () {
+      if (patente.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await acopladoService.spfBuscarTodasPorTelefonoConEliminadas(telefono.value)
+            resultado = await acopladoService.spfBuscarTodasPorPatenteConEliminadas(patente.value)
           } else {
-            resultado = await acopladoService.spfBuscarTodasPorTelefono(telefono.value)
+            resultado = await acopladoService.spfBuscarTodasPorPatente(patente.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -790,95 +657,79 @@ export default {
     }
 
     function fLimpiarFormulario () {
-      acopladoCreation.direccion = null
-      acopladoCreation.email = null
-      acopladoCreation.identificacion = null
-      acopladoCreation.nombre = null
+      acopladoCreation.anio = null
+      acopladoCreation.cantidadNeumaticos = null
+      acopladoCreation.marcaModelo = null
       acopladoCreation.notas = null
-      acopladoCreation.telefono = null
+      acopladoCreation.patente = null
+      acopladoCreation.peso = null
     }
 
     function fLimpiarInputs (actual) {
-      direccion.value = null
-      editDireccion.value = null
-      editEmail.value = null
-      editIdentifiacion.value = null
-      editNombre.value = null
+      anio.value = null
+      editAnio.value = null
+      editMarcaModelo.value = null
       editNotas.value = null
-      editTelefono.value = null
-      email.value = null
-      identificacion.value = null
-      nombre.value = null
+      editPatente.value = null
+      marcaModelo.value = null
       notas.value = null
-      telefono.value = null
+      patente.value = null
     }
 
-    function fMostrarDireccion () {
+    function fMostrarAnio () {
       fLimpiarInputs()
-      editDireccion.value = true
+      editAnio.value = true
     }
-    function fMostrarEmail () {
+
+    function fMostrarMarcaModelo () {
       fLimpiarInputs()
-      editEmail.value = true
+      editMarcaModelo.value = true
     }
-    function fMostrarIdentificacion () {
-      fLimpiarInputs()
-      editIdentifiacion.value = true
-    }
-    function fMostrarNombre () {
-      fLimpiarInputs()
-      editNombre.value = true
-    }
+
     function fMostrarNotas () {
       fLimpiarInputs()
       editNotas.value = true
     }
-    function fMostrarTelefono () {
-      fLimpiarInputs()
-      editTelefono.value = true
-    }
 
     function fMostrarNuevoAcoplado () {
+      fLimpiarFormulario()
       fIrPaso1()
       nuevoAcopladoDialog.value = true
     }
 
+    function fMostrarPatente () {
+      fLimpiarInputs()
+      editPatente.value = true
+    }
+
     return {
-      afBuscarPorDireccion,
-      afBuscarPorEmail,
-      afBuscarPorIdentificacion,
-      afBuscarPorNombre,
-      afBuscarPorNotas,
-      afBuscarPorTelefono,
       acopladoCreation,
       acoplados,
+      afBuscarPorAnio,
+      afBuscarPorMarcaModelo,
+      afBuscarPorNotas,
+      afBuscarPorPatente,
+      anio,
       columnas,
-      direccion,
-      editDireccion,
-      editEmail,
-      editIdentifiacion,
-      editNombre,
+      marcaModelo,
+      editAnio,
+      editMarcaModelo,
       editNotas,
-      editTelefono,
-      email,
+      editPatente,
       esAdmin,
       fFormatoFecha,
       fGuardarAcoplado,
-      fMostrarDireccion,
-      fMostrarEmail,
-      fMostrarIdentificacion,
-      fMostrarNombre,
+      fMostrarAnio,
+      fMostrarMarcaModelo,
+      fMostrarPatente,
       fMostrarNotas,
       fMostrarNuevoAcoplado,
-      fMostrarTelefono,
-      identificacion,
-      nombre,
       notas,
       nuevaBusqueda,
       nuevoAcopladoDialog,
       paginacion,
       paso1,
-      telefono,
+      patente,
       reglas
     }
   }

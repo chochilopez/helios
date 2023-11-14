@@ -6,6 +6,5 @@ export class AcopladoCreation {
     this.anio = ''
     this.patente = ''
     this.peso = ''
-    this.seguroId = ''
   }
 }

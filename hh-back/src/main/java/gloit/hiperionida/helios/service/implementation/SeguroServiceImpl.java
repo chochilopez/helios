@@ -4,11 +4,13 @@ import gloit.hiperionida.helios.mapper.SeguroMapper;
 import gloit.hiperionida.helios.mapper.creation.SeguroCreation;
 import gloit.hiperionida.helios.model.AcopladoModel;
 import gloit.hiperionida.helios.model.SeguroModel;
+import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.repository.SeguroDAO;
 import gloit.hiperionida.helios.service.SeguroService;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
+import gloit.hiperionida.helios.util.exception.ParametroInvalidoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,35 +31,75 @@ public class SeguroServiceImpl implements SeguroService {
     private final UsuarioServiceImpl usuarioService;
 
     @Override
-    public SeguroModel buscarPorAseguradoraId(Long id) {
-        log.info("Buscando la entidad Seguro con id de aseguradora: {}.", id);
-        SeguroModel seguroModel = seguroDAO.findByAseguradoraIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id de aseguradora: " + id + "."));
-        log.info("Se encontro una entidad Seguro con id de aseguradora: " + id + ".");
-        return seguroModel;
+    public List<SeguroModel> buscarTodasPorAcopladoId(Long id) {
+        log.info("Buscando todas las entidades Acoplado con acoplado id: {}.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByAcopladoId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con acoplado id: " + id + ".");
+        return listado;
     }
 
     @Override
-    public SeguroModel buscarPorAseguradoraIdConEliminadas(Long id) {
-        log.info("Buscando la entidad Seguro con id de aseguradora: {}, incluidas las eliminadas.", id);
-        SeguroModel seguroModel = seguroDAO.findByAseguradoraId(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id de aseguradora: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Seguro con id de aseguradora: " + id + ", incluidas las eliminadas.");
-        return seguroModel;
+    public List<SeguroModel> buscarTodasPorAcopladoIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Acoplado con acoplado id: {}, incluidas las eliminadas.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByAcopladoIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con acoplado id: " + id + ", incluidas las eliminadas.");
+        return listado;
     }
 
     @Override
-    public SeguroModel buscarPorVencimientoId(Long id) {
-        log.info("Buscando la entidad Seguro con id de vencimiento: {}.", id);
-        SeguroModel seguroModel = seguroDAO.findByVencimientoIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id de vencimiento: " + id + "."));
-        log.info("Se encontro una entidad Seguro con id de vencimiento: " + id + ".");
-        return seguroModel;
+    public List<SeguroModel> buscarTodasPorAseguradoraId(Long id) {
+        log.info("Buscando todas las entidades Acoplado con aseguradora id: {}.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByAseguradoraId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con aseguradora id: " + id + ".");
+        return listado;
     }
 
     @Override
-    public SeguroModel buscarPorVencimientoIdConEliminadas(Long id) {
-        log.info("Buscando la entidad Seguro con id de vencimiento: {}, incluidas las eliminadas.", id);
-        SeguroModel seguroModel = seguroDAO.findByVencimientoId(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id de vencimiento: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Seguro con id de vencimiento: " + id + ", incluidas las eliminadas.");
-        return seguroModel;
+    public List<SeguroModel> buscarTodasPorAseguradoraIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Acoplado con aseguradora id: {}, incluidas las eliminadas.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByAseguradoraIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con aseguradora id: " + id + ", incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<SeguroModel> buscarTodasPorCamionId(Long id) {
+        log.info("Buscando todas las entidades Acoplado con camión id: {}.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByCamionId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con camión id: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<SeguroModel> buscarTodasPorCamionIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Acoplado con camión id: {}, incluidas las eliminadas.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByCamionIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con camión id: " + id + ", incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<SeguroModel> buscarTodasPorVencimientoId(Long id) {
+        log.info("Buscando todas las entidades Acoplado con vencimiento id: {}.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByVencimientoId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con vencimiento id: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<SeguroModel> buscarTodasPorVencimientoIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Acoplado con vencimiento id: {}, incluidas las eliminadas.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByVencimientoIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con vencimiento id: " + id + ", incluidas las eliminadas.");
+        return listado;
     }
 
     @Override
@@ -74,6 +117,32 @@ public class SeguroServiceImpl implements SeguroService {
         List<SeguroModel> listado = seguroDAO.findAllByNotasContainingIgnoreCase(notas);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Acoplado con notas: " + notas + ", incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<SeguroModel> buscarTodasPorVencimientoBetween(String inicio, String fin) {
+        log.info("Buscando todas las entidades Seguro entre las fechas: {} y {}.", inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+        List<SeguroModel> listado = seguroDAO.findAllByVencimientoBetweenAndEliminadaIsNull( fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Seguro entre las fechas: " + inicio + " y " + fin + ".");
+        return listado;
+    }
+
+    @Override
+    public List<SeguroModel> buscarTodasPorVencimientoBetweenConEliminadas(String inicio, String fin) {
+        log.info("Buscando todas las entidades Seguro entre las fechas: {} y {}, con eliminadas.", inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+        List<SeguroModel> listado = seguroDAO.findAllByVencimientoBetween(fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Seguro entre las fechas: " + inicio + " y " + fin + ", con eliminadas.");
         return listado;
     }
 

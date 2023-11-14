@@ -1,6 +1,8 @@
 export class SeguroCreation {
   constructor () {
     this.aseguradoraId = ''
-    this.vencimientoId = ''
+    this.acopladoId = ''
+    this.camionId = ''
+    this.vencimiento = ''
   }
 }

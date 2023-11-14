@@ -7,8 +7,6 @@ export class AcopladoModel {
     this.anio = ''
     this.patente = ''
     this.peso = ''
-    this.aseguradora = ''
-    this.vencimiento = ''
 
     this.creada = ''
     this.creador = ''

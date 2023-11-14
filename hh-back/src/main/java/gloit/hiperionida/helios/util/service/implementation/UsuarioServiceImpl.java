@@ -159,7 +159,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         UsuarioModel usuarioModel = usuarioDAO.save(usuarioMapper.toEntity(creation));
         if (creation.getId() == null) {
             usuarioModel.setCreada(Helper.getNow(""));
-            usuarioModel.setCreador_id(this.obtenerUsuario().getId());
+//            usuarioModel.setCreador_id(this.obtenerUsuario().getId());
             log.info("Se persistio correctamente la nueva entidad.");
         } else {
             usuarioModel.setModificada(Helper.getNow(""));

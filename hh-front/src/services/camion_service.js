@@ -3,6 +3,205 @@ const API_URL = process.env.API_URL
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { llaveroService } from 'src/helpers/llavero_service'
 
+/*
+s -> servicio
+p -> promesa
+f -> funcion
+l -> local
+*/
+
+function spfBuscarTodasPorAnio (anio) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-anio/' + anio, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorAnioConEliminadas (anio) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-anio-con-eliminadas/' + anio, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorMarcaModelo (marcaModelo) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-marca-modelo/' + marcaModelo, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorMarcaModeloConEliminadas (marcaModelo) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-marca-modelo-con-eliminadas/' + marcaModelo, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-notas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotasConEliminadas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-notas-con-eliminadas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNumeroChasis (numeroChasis) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-numero-chasis/' + numeroChasis, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNumeroChasisConEliminadas (numeroChasis) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-numero-chasis-con-eliminadas/' + numeroChasis, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNumeroMotor (numeroMotor) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-numero-motor/' + numeroMotor, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNumeroMotorConEliminadas (numeroMotor) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-numero-motor-con-eliminadas/' + numeroMotor, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorPatente (patente) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-patente/' + patente, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorPatenteConEliminadas (patente) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'camion/buscar-todas-por-patente-con-eliminadas/' + patente, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'camion/buscar-todas', {
@@ -234,6 +433,19 @@ function spfDestruir (id) {
 }
 
 export const camionService = {
+  spfBuscarTodasPorAnio,
+  spfBuscarTodasPorAnioConEliminadas,
+  spfBuscarTodasPorMarcaModelo,
+  spfBuscarTodasPorMarcaModeloConEliminadas,
+  spfBuscarTodasPorNotas,
+  spfBuscarTodasPorNotasConEliminadas,
+  spfBuscarTodasPorNumeroChasis,
+  spfBuscarTodasPorNumeroChasisConEliminadas,
+  spfBuscarTodasPorNumeroMotor,
+  spfBuscarTodasPorNumeroMotorConEliminadas,
+  spfBuscarTodasPorPatente,
+  spfBuscarTodasPorPatenteConEliminadas,
+
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
   spfBuscarTodasConSesion,

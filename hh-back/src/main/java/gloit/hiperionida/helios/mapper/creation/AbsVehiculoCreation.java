@@ -10,11 +10,10 @@ import lombok.Setter;
 @MappedSuperclass
 @Setter
 public abstract class AbsVehiculoCreation extends AbsAuditoriaCreation {
+    private String anio;
     private	String cantidadNeumaticos;
     private	String marcaModelo;
-    private String anio;
+    private String notas;
     private String patente;
     private String peso;
-
-    private String seguroId;
 }

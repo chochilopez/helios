@@ -10,6 +10,134 @@ f -> funcion
 l -> local
 */
 
+function spfBuscarTodasPorAnio (anio) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'acoplado/buscar-todas-por-anio/' + anio, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorAnioConEliminadas (anio) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'acoplado/buscar-todas-por-anio-con-eliminadas/' + anio, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorMarcaModelo (marcaModelo) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'acoplado/buscar-todas-por-marca-modelo/' + marcaModelo, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorMarcaModeloConEliminadas (marcaModelo) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'acoplado/buscar-todas-por-marca-modelo-con-eliminadas/' + marcaModelo, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'acoplado/buscar-todas-por-notas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotasConEliminadas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'acoplado/buscar-todas-por-notas-con-eliminadas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorPatente (patente) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'acoplado/buscar-todas-por-patente/' + patente, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorPatenteConEliminadas (patente) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'acoplado/buscar-todas-por-patente-con-eliminadas/' + patente, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'acoplado/buscar-todas', {
@@ -241,6 +369,15 @@ function spfDestruir (id) {
 }
 
 export const acopladoService = {
+  spfBuscarTodasPorAnio,
+  spfBuscarTodasPorAnioConEliminadas,
+  spfBuscarTodasPorMarcaModelo,
+  spfBuscarTodasPorMarcaModeloConEliminadas,
+  spfBuscarTodasPorNotas,
+  spfBuscarTodasPorNotasConEliminadas,
+  spfBuscarTodasPorPatente,
+  spfBuscarTodasPorPatenteConEliminadas,
+
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
   spfBuscarTodasConSesion,

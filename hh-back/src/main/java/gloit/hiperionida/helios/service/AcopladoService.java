@@ -9,15 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AcopladoService extends GenericService<AcopladoModel, AcopladoCreation> {
-    AcopladoModel buscarPorSeguroId(Long id);
-    AcopladoModel buscarPorSeguroIdConEliminadas(Long id);
+    List<AcopladoModel> buscarTodasPorAnio(Integer anio);
+    List<AcopladoModel> buscarTodasPorAnioConEliminadas(Integer anio);
     List<AcopladoModel> buscarTodasPorMarcaModelo(String marcaModelo);
     List<AcopladoModel> buscarTodasPorMarcaModeloConEliminadas(String marcaModelo);
-    List<AcopladoModel> buscarTodasPorRangoAnio(Integer min, Integer max);
-    List<AcopladoModel> buscarTodasPorRangoAnioConEliminadas(Integer min, Integer max);
-    List<AcopladoModel> buscarTodasPorRangoCantidadNeumaticos(Integer min, Integer max);
-    List<AcopladoModel> buscarTodasPorRangoCantidadNeumaticosConEliminadas(Integer min, Integer max);
     List<AcopladoModel> buscarTodasPorNotas(String notas);
     List<AcopladoModel> buscarTodasPorNotasConEliminadas(String notas);
+    List<AcopladoModel> buscarTodasPorPatente(String patente);
+    List<AcopladoModel> buscarTodasPorPatenteConEliminadas(String patente);
 }
 

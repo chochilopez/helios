@@ -29,22 +29,6 @@ public class AcopladoServiceImpl implements AcopladoService {
     private final UsuarioServiceImpl usuarioService;
 
     @Override
-    public AcopladoModel buscarPorSeguroId(Long id) {
-        log.info("Buscando la entidad Acoplado con id de seguro: {}.", id);
-        AcopladoModel acopladoModel = acopladoDAO.findBySeguroIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Acoplado con id de seguro: " + id + "."));
-        log.info("Se encontro una entidad Acoplado con id: " + id + ".");
-        return acopladoModel;
-    }
-
-    @Override
-    public AcopladoModel buscarPorSeguroIdConEliminadas(Long id) {
-        log.info("Buscando la entidad Acoplado con id de seguro: {}, incluidas las eliminadas.", id);
-        AcopladoModel acopladoModel = acopladoDAO.findBySeguroId(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Acoplado con id de seguro: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Acoplado con id: " + id + ", incluidas las eliminadas.");
-        return acopladoModel;
-    }
-
-    @Override
     public List<AcopladoModel> buscarTodasPorMarcaModelo(String marcaModelo) {
         log.info("Buscando todas las entidades Acoplado con marca/modelo: {}.", marcaModelo);
         List<AcopladoModel> listado = acopladoDAO.findAllByMarcaModeloContainingIgnoreCaseAndEliminadaIsNull(marcaModelo);
@@ -81,38 +65,38 @@ public class AcopladoServiceImpl implements AcopladoService {
     }
 
     @Override
-    public List<AcopladoModel> buscarTodasPorRangoAnio(Integer min, Integer max) {
-        log.info("Buscando todas las entidades Acoplado con un rango de años entre: {} y {}.", min, max);
-        List<AcopladoModel> listado = acopladoDAO.findAllByAnioBetweenAndEliminadaIsNull(min, max);
+    public List<AcopladoModel> buscarTodasPorPatente(String patente) {
+        log.info("Buscando todas las entidades Acoplado con patente: {}.", patente);
+        List<AcopladoModel> listado = acopladoDAO.findAllByPatenteContainingIgnoreCaseAndEliminadaIsNull(patente);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con un rango de años entre: " + min + " y " + max + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con patente: " + patente + ".");
         return listado;
     }
 
     @Override
-    public List<AcopladoModel> buscarTodasPorRangoAnioConEliminadas(Integer min, Integer max) {
-        log.info("Buscando todas las entidades Acoplado con un rango de años entre: {} y {}, incluidas las eliminadas.", min, max);
-        List<AcopladoModel> listado = acopladoDAO.findAllByAnioBetween(min, max);
+    public List<AcopladoModel> buscarTodasPorPatenteConEliminadas(String patente) {
+        log.info("Buscando todas las entidades Acoplado con patente: {}, incluidas las eliminadas.", patente);
+        List<AcopladoModel> listado = acopladoDAO.findAllByPatenteContainingIgnoreCase(patente);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con un rango de años entre: " + min + " y " + max + ", incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con patente: " + patente + ", incluidas las eliminadas.");
         return listado;
     }
 
     @Override
-    public List<AcopladoModel> buscarTodasPorRangoCantidadNeumaticos(Integer min, Integer max) {
-        log.info("Buscando todas las entidades Acoplado con un rango de cantidad de neumaticos entre: {} y {}.", min, max);
-        List<AcopladoModel> listado = acopladoDAO.findAllByCantidadNeumaticosBetweenAndEliminadaIsNull(min, max);
+    public List<AcopladoModel> buscarTodasPorAnio(Integer anio) {
+        log.info("Buscando todas las entidades Acoplado con año: {}.", anio);
+        List<AcopladoModel> listado = acopladoDAO.findAllByAnioAndEliminadaIsNull(anio);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con un rango de cantidad de neumaticos entre: " + min + " y " + max + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con año: " + anio + ".");
         return listado;
     }
 
     @Override
-    public List<AcopladoModel> buscarTodasPorRangoCantidadNeumaticosConEliminadas(Integer min, Integer max) {
-        log.info("Buscando todas las entidades Acoplado con un rango de cantidad de neumaticos entre: {} y {}, incluidas las eliminadas.", min, max);
-        List<AcopladoModel> listado = acopladoDAO.findAllByCantidadNeumaticosBetween(min, max);
+    public List<AcopladoModel> buscarTodasPorAnioConEliminadas(Integer anio) {
+        log.info("Buscando todas las entidades Acoplado con año: {}, inlcuidas las eliminadas.", anio);
+        List<AcopladoModel> listado = acopladoDAO.findAllByAnio(anio);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con un rango de cantidad de neumaticos entre: " + min + " y " + max + ", incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Acoplado con año: " + anio + ", inlcuidas las eliminadas.");
         return listado;
     }
 

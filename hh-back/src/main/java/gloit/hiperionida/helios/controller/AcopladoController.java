@@ -41,18 +41,26 @@ public class AcopladoController extends AbsBaseController {
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
     }
 
-    @GetMapping(value = "/buscar-por-seguro-id/{id}")
+    @GetMapping(value = "/buscar-todas-por-anio/{anio}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<AcopladoDTO> buscarPorSeguroId(@PathVariable(name = "id") Long id) {
-        AcopladoModel objeto = acopladoService.buscarPorSeguroId(id);
-        return new ResponseEntity<>(acopladoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con seguro id :" + id + "."), HttpStatus.OK);
+    public ResponseEntity<List<AcopladoDTO>> buscarTodasPorAnio(@PathVariable(name = "anio") Integer anio) {
+        List<AcopladoModel> listado = acopladoService.buscarTodasPorAnio(anio);
+        ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
+        for (AcopladoModel viaje:listado) {
+            acopladoDTOS.add(acopladoMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-por-seguro-id-con-eliminadas/{id}")
+    @GetMapping(value = "/buscar-todas-por-anio-con-eliminadas/{anio}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<AcopladoDTO> buscarPorSeguroIdConEliminadas(@PathVariable(name = "id") Long id) {
-        AcopladoModel objeto = acopladoService.buscarPorSeguroIdConEliminadas(id);
-        return new ResponseEntity<>(acopladoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con seguro id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+    public ResponseEntity<List<AcopladoDTO>> buscarTodasPorRangoAnioConEliminadas(@PathVariable(name = "anio") Integer anio) {
+        List<AcopladoModel> listado = acopladoService.buscarTodasPorAnioConEliminadas(anio);
+        ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
+        for (AcopladoModel viaje:listado) {
+            acopladoDTOS.add(acopladoMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-marca-modelo/{marcaModelo}")
@@ -60,10 +68,10 @@ public class AcopladoController extends AbsBaseController {
     public ResponseEntity<List<AcopladoDTO>> buscarTodasPorMarcaModelo(@PathVariable(name = "marcaModelo") String marcaModelo) {
         List<AcopladoModel> listado = acopladoService.buscarTodasPorMarcaModelo(marcaModelo);
         ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
-        for (AcopladoModel acoplado:listado) {
-            acopladoDTOS.add(acopladoMapper.toDto(acoplado));
+        for (AcopladoModel viaje:listado) {
+            acopladoDTOS.add(acopladoMapper.toDto(viaje));
         }
-        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "."), HttpStatus.OK);
+        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-marca-modelo-con-eliminadas/{marcaModelo}")
@@ -71,54 +79,10 @@ public class AcopladoController extends AbsBaseController {
     public ResponseEntity<List<AcopladoDTO>> buscarTodasPorMarcaModeloConEliminadas(@PathVariable(name = "marcaModelo") String marcaModelo) {
         List<AcopladoModel> listado = acopladoService.buscarTodasPorMarcaModeloConEliminadas(marcaModelo);
         ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
-        for (AcopladoModel acoplado:listado) {
-            acopladoDTOS.add(acopladoMapper.toDto(acoplado));
-        }
-        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-rango-anio/{min}/{max}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<AcopladoDTO>> buscarTodasPorRangoAnio(@PathVariable(name = "min") Integer min, @PathVariable(name = "max") Integer max) {
-        List<AcopladoModel> listado = acopladoService.buscarTodasPorRangoAnio(min, max);
-        ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
         for (AcopladoModel viaje:listado) {
             acopladoDTOS.add(acopladoMapper.toDto(viaje));
         }
-        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-rango-anio-con-eliminadas/{min}/{max}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<AcopladoDTO>> buscarTodasPorRangoAnioConEliminadas(@PathVariable(name = "min") Integer min, @PathVariable(name = "max") Integer max) {
-        List<AcopladoModel> listado = acopladoService.buscarTodasPorRangoAnioConEliminadas(min, max);
-        ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
-        for (AcopladoModel viaje:listado) {
-            acopladoDTOS.add(acopladoMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-rango-cantidad-neumaticos/{min}/{max}")
-    @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<AcopladoDTO>> buscarTodasPorRangoCantidadNeumaticos(@PathVariable(name = "min") Integer min, @PathVariable(name = "max") Integer max) {
-        List<AcopladoModel> listado = acopladoService.buscarTodasPorRangoCantidadNeumaticos(min, max);
-        ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
-        for (AcopladoModel viaje:listado) {
-            acopladoDTOS.add(acopladoMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscar-todas-por-rango-cantidad-neumaticos-con-eliminadas/{min}/{max}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<AcopladoDTO>> buscarTodasPorRangoCantidadNeumaticosConEliminadas(@PathVariable(name = "min") Integer min, @PathVariable(name = "max") Integer max) {
-        List<AcopladoModel> listado = acopladoService.buscarTodasPorRangoCantidadNeumaticosConEliminadas(min, max);
-        ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
-        for (AcopladoModel viaje:listado) {
-            acopladoDTOS.add(acopladoMapper.toDto(viaje));
-        }
-        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-notas/{notas}")
@@ -136,6 +100,28 @@ public class AcopladoController extends AbsBaseController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<AcopladoDTO>> buscarTodasPorNotasConEliminadas(@PathVariable(name = "notas") String notas) {
         List<AcopladoModel> listado = acopladoService.buscarTodasPorNotasConEliminadas(notas);
+        ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
+        for (AcopladoModel viaje:listado) {
+            acopladoDTOS.add(acopladoMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-patente/{patente}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<AcopladoDTO>> buscarTodasPorPatente(@PathVariable(name = "patente") String patente) {
+        List<AcopladoModel> listado = acopladoService.buscarTodasPorPatente(patente);
+        ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
+        for (AcopladoModel viaje:listado) {
+            acopladoDTOS.add(acopladoMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(acopladoDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-patente-con-eliminadas/{patente}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<AcopladoDTO>> buscarTodasPorPatenteConEliminadas(@PathVariable(name = "patente") String patente) {
+        List<AcopladoModel> listado = acopladoService.buscarTodasPorPatenteConEliminadas(patente);
         ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
         for (AcopladoModel viaje:listado) {
             acopladoDTOS.add(acopladoMapper.toDto(viaje));

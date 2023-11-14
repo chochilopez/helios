@@ -11,6 +11,9 @@ import java.io.Serializable;
 public class SeguroDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String notas;
+
+    private String acoplado;
     private String aseguradora;
+    private String camion;
     private String vencimiento;
 }

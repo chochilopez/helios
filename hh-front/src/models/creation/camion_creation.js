@@ -9,6 +9,5 @@ export class CamionCreation {
     this.anio = ''
     this.patente = ''
     this.peso = ''
-    this.seguroId = ''
   }
 }
