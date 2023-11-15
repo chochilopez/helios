@@ -11,7 +11,8 @@ INSERT INTO `acoplado` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_i
 (1,	'2023-11-14 21:34:21.684209',	3,	NULL,	NULL,	NULL,	NULL,	2009,	8,	'Sola y Brusa 2 ejes',	'Acoplado Jaula Hacienda\nMarca Sola Y Brusa\nAño 2009\n2 Ejes\n10.50mts. De Largo\nCarrozado De Fibra',	'1225445',	'10.5'),
 (2,	'2023-11-14 21:35:20.941201',	3,	NULL,	NULL,	NULL,	NULL,	2004,	16,	'Herman Artillero',	'Acoplado Mixto\nAño 2004\nMarca Hermann\nEje Artillero\nLlanta Sin Cámara\nPiso Liso Con Boquillas Y Rejillas Para Hacienda\nLanza Telescópica',	'556565',	'9.3'),
 (3,	'2023-11-14 21:37:05.755389',	3,	NULL,	NULL,	NULL,	NULL,	2023,	16,	'Gross Jaula',	'Longitud 10,50 mt. x 2,60 mt. de ancho.\n-Con sistema de frenos ABS\n-Rodado Disco S/C.\n-Puerta trasera guillotina (apertura lat.).\n-Piso 4,00 mm dec. con rejilla.\n-Separador Tranquera.\n-Caminante superior.\n-Descarga tras. con tubos.\n-Escalera del. y tras.\n-Revestimiento de Fibra de vidrio.\n-Incluye Guarda Ciclistas',	'sdas',	'10.5'),
-(4,	'2023-11-14 23:16:53.045390',	2,	NULL,	NULL,	'2023-11-14 21:42:28.997198',	3,	2023,	16,	'Gross semi jaula',	'SEMIRREMOLQUE JAULA HACIENDA 2 EJES EN TANDEM 0KM ENTREGA INMEDIATA.\r\nMARCA MONTENEGRO.\r\n1 AÑO DE GARANTIA DE FABRICA.\r\nLONGITUD: 16.20MTS',	'15451',	'16.2');
+(4,	'2023-11-14 23:16:53.045390',	2,	NULL,	NULL,	'2023-11-14 21:42:28.997198',	3,	2023,	16,	'Gross semi jaula',	'SEMIRREMOLQUE JAULA HACIENDA 2 EJES EN TANDEM 0KM ENTREGA INMEDIATA.\r\nMARCA MONTENEGRO.\r\n1 AÑO DE GARANTIA DE FABRICA.\r\nLONGITUD: 16.20MTS',	'15451',	'16.2')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `anio` = VALUES(`anio`), `cantidad_neumaticos` = VALUES(`cantidad_neumaticos`), `marca_modelo` = VALUES(`marca_modelo`), `notas` = VALUES(`notas`), `patente` = VALUES(`patente`), `peso` = VALUES(`peso`);
 
 
 
@@ -22,7 +23,8 @@ INSERT INTO `camion` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`
 (2,	'2023-11-14 23:16:53.045390',	3,	NULL,	NULL,	'2023-11-14 23:20:22.669172',	3,	2018,	8,	'Mercedes-Benz ACTROS 2636',	'Marca	\r\nMercedes-Benz\r\nModelo	\r\nACTROS 2636\r\nAño	\r\n201',	'ddd222',	'1022',	'dfasf43qtge34',	'tewrgweg1232'),
 (3,	'2023-11-14 23:16:53.045390',	3,	NULL,	NULL,	'2023-11-14 23:23:14.576729',	3,	2023,	6,	'Mercedes-Benz Atego 1729 36/s',	'Marca	\r\nMercedes-Benz\r\nModelo	\r\nAtego 1729 36/s\r\nAño	\r\n2023',	'dsds23',	'3123',	'dfasf43qtge34',	'tewrgweg1232'),
 (4,	'2023-11-14 23:16:53.045390',	3,	NULL,	NULL,	'2023-11-14 23:21:29.346659',	3,	1978,	6,	'Mercedes-Benz 1518 TURBO 180hp.',	'Marca	\r\nMercedes-Benz\r\nModelo	\r\n1518 TURBO 180hp.\r\nAño	\r\n1978\r\nColor	\r\nRojo',	'ff2133',	'1123123',	'fd334',	'dfff3324'),
-(5,	'2023-11-14 21:53:04.184861',	3,	NULL,	NULL,	'2023-11-14 21:55:21.689196',	3,	2015,	6,	'Iveco Tector Attack',	'Marca	\r\nIveco\r\nModelo	\r\nTector Attack\r\nAño	\r\n2015\r\nColor	\r\nBlanco\r\nKilómetros	\r\n79000 km\r\nTransmisión	\r\n',	'sdasd1515',	'13123',	'aaa1',	'dfff3324');
+(5,	'2023-11-14 21:53:04.184861',	3,	NULL,	NULL,	'2023-11-14 21:55:21.689196',	3,	2015,	6,	'Iveco Tector Attack',	'Marca	\r\nIveco\r\nModelo	\r\nTector Attack\r\nAño	\r\n2015\r\nColor	\r\nBlanco\r\nKilómetros	\r\n79000 km\r\nTransmisión	\r\n',	'sdasd1515',	'13123',	'aaa1',	'dfff3324')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `anio` = VALUES(`anio`), `cantidad_neumaticos` = VALUES(`cantidad_neumaticos`), `marca_modelo` = VALUES(`marca_modelo`), `notas` = VALUES(`notas`), `patente` = VALUES(`patente`), `peso` = VALUES(`peso`), `numero_chasis` = VALUES(`numero_chasis`), `numero_motor` = VALUES(`numero_motor`);
 
 
 INSERT INTO `categoria_viaje` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`, `modificada`, `modificador_id`, `categoria`, `notas`) VALUES
@@ -34,7 +36,8 @@ INSERT INTO `categoria_viaje` (`id`, `creada`, `creador_id`, `eliminada`, `elimi
 (6,	'2023-11-14 08:43:06.410203',	3,	NULL,	NULL,	NULL,	NULL,	'Novillo',	'Bovino macho castrado de mas de 2 años'),
 (7,	'2023-11-14 08:43:42.471059',	3,	NULL,	NULL,	NULL,	NULL,	'Vaquillona',	'Bovino hembra destetada hasta su parición'),
 (8,	'2023-11-14 08:44:09.195982',	3,	NULL,	NULL,	NULL,	NULL,	'Novillito',	'Bovino macho destetado castrado hasta los 2 años'),
-(9,	'2023-11-14 08:44:34.168730',	3,	NULL,	NULL,	NULL,	NULL,	'Ternero/a',	'Cría bovino al pie de la madre');
+(9,	'2023-11-14 08:44:34.168730',	3,	NULL,	NULL,	NULL,	NULL,	'Ternero/a',	'Cría bovino al pie de la madre')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `categoria` = VALUES(`categoria`), `notas` = VALUES(`notas`);
 
 
 INSERT INTO `ciudad` (`id`, `ciudad`) VALUES
@@ -1538,17 +1541,25 @@ INSERT INTO `ciudad` (`id`, `ciudad`) VALUES
 (1498,	'RINCON DE MORAES'),
 (1499,	'PARADA MEDINA'),
 (1500,	'CERRO SOLITO'),
-(1501,	'OTRA CIUDAD');
+(1501,	'OTRA CIUDAD')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `ciudad` = VALUES(`ciudad`);
 
 INSERT INTO `cliente` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`, `modificada`, `modificador_id`, `direccion`, `email`, `identificacion`, `nombre`, `notas`, `telefono`) VALUES
 (1,	'2023-11-14 08:28:02.732760',	3,	NULL,	NULL,	NULL,	NULL,	'Su casa 1234',	'javier@milei.com',	'Loco123',	'Milei Javier',	'Candidato a presidente y comprador de vaquillonas',	'789789789'),
 (2,	'2023-11-14 08:29:07.618737',	3,	NULL,	NULL,	NULL,	NULL,	'Siempre Viva 5678',	'roberto@massa.com',	'Trucho1234',	'Massa Roberto',	'Candidato a presidente y comprador de vacas',	'456456456'),
 (3,	'2023-11-14 23:16:53.045390',	2,	NULL,	NULL,	'2023-11-14 14:54:26.772135',	3,	'Perdio 6546',	'pato@bullrich.com',	'Facha654',	'Bullrich Patricia',	'Candidata a presidente y compradora de novillo',	'951753123'),
-(4,	'2023-11-14 08:30:59.707658',	3,	NULL,	NULL,	NULL,	NULL,	'Cordoba 555',	'juan@schiaretti.com',	'Fernet1222',	'Schiaretti Juan',	'Candidato a presidente y comprador de ovejas',	'9996665555');
+(4,	'2023-11-14 08:30:59.707658',	3,	NULL,	NULL,	NULL,	NULL,	'Cordoba 555',	'juan@schiaretti.com',	'Fernet1222',	'Schiaretti Juan',	'Candidato a presidente y comprador de ovejas',	'9996665555')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `direccion` = VALUES(`direccion`), `email` = VALUES(`email`), `identificacion` = VALUES(`identificacion`), `nombre` = VALUES(`nombre`), `notas` = VALUES(`notas`), `telefono` = VALUES(`telefono`);
 
 
 
 
+INSERT INTO `conductor` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`, `modificada`, `modificador_id`, `direccion`, `email`, `identificacion`, `nombre`, `notas`, `telefono`, `licencia_id`) VALUES
+(1,	'2023-11-15 10:23:59.000000',	3,	NULL,	NULL,	'2023-11-15 10:38:27.403484',	3,	'Brasil 123',	'ayr@sen.com',	'as123',	'Senna Ayrton',	'Se hizo pelota corriendo',	'12344443',	NULL),
+(2,	'2023-11-15 10:39:16.484393',	3,	NULL,	NULL,	NULL,	NULL,	'Alemania 123',	'schumy@err.com',	'scu123',	'Schumacher Mikhael',	'Se hizo pelota boludenado',	'123123123',	NULL),
+(3,	'2023-11-15 10:39:56.000000',	3,	NULL,	NULL,	'2023-11-15 10:40:06.443937',	3,	'Argentina 123',	'fan@gio.com',	'juan123',	'Fangio Juan Manuel',	'No se hizo pelota nunca',	'111443242342',	NULL),
+(4,	'2023-11-15 10:41:10.518262',	3,	NULL,	NULL,	NULL,	NULL,	'Escocia 123',	'col@nac.com',	'asfa213',	'Mcrae Colin',	'No se si manejaba algo, hicieron un juego con su nombre',	'1231254',	NULL)
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `direccion` = VALUES(`direccion`), `email` = VALUES(`email`), `identificacion` = VALUES(`identificacion`), `nombre` = VALUES(`nombre`), `notas` = VALUES(`notas`), `telefono` = VALUES(`telefono`), `licencia_id` = VALUES(`licencia_id`);
 
 INSERT INTO `direccion` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`, `modificada`, `modificador_id`, `ciudad`, `direccion`, `nombre`, `notas`) VALUES
 (1,	'2023-11-14 08:33:30.375281',	3,	NULL,	NULL,	NULL,	NULL,	'Faro Jose Ignacio',	'Las dunas 1234',	'Deposito 1 de Massa',	'Aca le llevamos las vacas'),
@@ -1557,7 +1568,8 @@ INSERT INTO `direccion` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_
 (4,	'2023-11-14 08:35:49.683547',	3,	NULL,	NULL,	NULL,	NULL,	'Chileno Grande (aguero)',	'Oroño 3333',	'Granja 2 de Milei',	'Aca le llevamos los corderos'),
 (5,	'2023-11-14 08:36:56.960443',	3,	NULL,	NULL,	NULL,	NULL,	'Montevideo Chico',	'Montevideo????',	'Casa 1 de Bullrich',	'Aca le dejamos las vacas a Patricia en el centro de montevideo '),
 (6,	'2023-11-14 08:37:40.212399',	3,	NULL,	NULL,	NULL,	NULL,	'Paysandu',	'Es el nuevo o el viejo',	'Casa 2 de Bullrich',	'Aca le dejamos los toros a Patricia en el centro de Paysandu '),
-(7,	NULL,	NULL,	NULL,	NULL,	'2023-11-14 15:28:17.488996',	3,	'Otra Ciudad',	'Sin direccion 1234',	'Matadero de Schiaretti',	'Aca le llevamos los animales al cordobes p');
+(7,	NULL,	NULL,	NULL,	NULL,	'2023-11-14 15:28:17.488996',	3,	'Otra Ciudad',	'Sin direccion 1234',	'Matadero de Schiaretti',	'Aca le llevamos los animales al cordobes p')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `ciudad` = VALUES(`ciudad`), `direccion` = VALUES(`direccion`), `nombre` = VALUES(`nombre`), `notas` = VALUES(`notas`);
 
 
 INSERT INTO `evento` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`, `modificada`, `modificador_id`, `descripcion`, `fecha`, `habilitada`, `nombre`, `recordatorio`) VALUES
@@ -1575,7 +1587,12 @@ INSERT INTO `evento` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`
 (12,	'2023-11-14 23:51:10.552529',	3,	NULL,	NULL,	NULL,	NULL,	'Seguro para MERCEDES BENZ AXOR 1933',	'2024-01-25 00:00:00.000000',	NULL,	'Presupuesto',	NULL),
 (13,	'2023-11-15 00:09:04.085048',	3,	NULL,	NULL,	NULL,	NULL,	'Seguro para Sola y Brusa 2 ejes',	'2025-01-16 00:00:00.000000',	NULL,	'Presupuesto',	NULL),
 (14,	'2023-11-15 00:09:36.865797',	3,	NULL,	NULL,	NULL,	NULL,	'Seguro para Gross Jaula',	'2023-11-01 00:00:00.000000',	NULL,	'Presupuesto',	NULL),
-(15,	'2023-11-15 00:10:12.064963',	3,	NULL,	NULL,	NULL,	NULL,	'Seguro para Mercedes-Benz 1518 TURBO 180hp.',	'2000-11-01 00:00:00.000000',	NULL,	'Presupuesto',	NULL);
+(15,	'2023-11-15 00:10:12.064963',	3,	NULL,	NULL,	NULL,	NULL,	'Seguro para Mercedes-Benz 1518 TURBO 180hp.',	'2000-11-01 00:00:00.000000',	NULL,	'Presupuesto',	NULL),
+(16,	'2023-11-15 12:07:31.124225',	3,	NULL,	NULL,	NULL,	NULL,	'Viaje para Massa Roberto',	'2023-11-10 00:00:00.000000',	NULL,	'Viaje',	NULL),
+(17,	'2023-11-15 12:08:13.946210',	3,	NULL,	NULL,	NULL,	NULL,	'Viaje para Massa Roberto',	'2023-11-10 00:00:00.000000',	NULL,	'Viaje',	NULL),
+(18,	'2023-11-15 12:14:53.542743',	3,	NULL,	NULL,	NULL,	NULL,	'Viaje para Milei Javier',	'2023-11-17 00:00:00.000000',	NULL,	'Viaje',	NULL),
+(19,	'2023-11-15 12:25:17.774200',	3,	NULL,	NULL,	NULL,	NULL,	'Viaje para Bullrich Patricia',	'2022-11-01 00:00:00.000000',	NULL,	'Viaje',	NULL)
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `descripcion` = VALUES(`descripcion`), `fecha` = VALUES(`fecha`), `habilitada` = VALUES(`habilitada`), `nombre` = VALUES(`nombre`), `recordatorio` = VALUES(`recordatorio`);
 
 
 
@@ -1584,7 +1601,10 @@ INSERT INTO `ingreso` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id
 (2,	'2023-11-14 14:10:40.205989',	3,	NULL,	NULL,	NULL,	NULL,	NULL,	'Buenos Aires City',	'https://ipgeolocation.io/static/flags/ar_64.png',	'Argentina',	'',	NULL,	'190.183.171.64',	'Gigared S.A.',	CONV('1', 2, 10) + 0,	'Gigared S.A.',	'Buenos Aires Autonomous City',	'admin@helios.com',	'1427'),
 (3,	'2023-11-14 21:13:44.905646',	3,	NULL,	NULL,	NULL,	NULL,	NULL,	'Buenos Aires City',	'https://ipgeolocation.io/static/flags/ar_64.png',	'Argentina',	'',	NULL,	'190.183.171.64',	'Gigared S.A.',	CONV('1', 2, 10) + 0,	'Gigared S.A.',	'Buenos Aires Autonomous City',	'admin@helios.com',	'1427'),
 (4,	'2023-11-14 21:22:21.804547',	3,	NULL,	NULL,	NULL,	NULL,	NULL,	'Buenos Aires City',	'https://ipgeolocation.io/static/flags/ar_64.png',	'Argentina',	'',	NULL,	'190.183.171.64',	'Gigared S.A.',	CONV('1', 2, 10) + 0,	'Gigared S.A.',	'Buenos Aires Autonomous City',	'admin@helios.com',	'1427'),
-(5,	'2023-11-14 22:50:55.921388',	3,	NULL,	NULL,	NULL,	NULL,	NULL,	'Buenos Aires City',	'https://ipgeolocation.io/static/flags/ar_64.png',	'Argentina',	'',	NULL,	'190.183.171.64',	'Gigared S.A.',	CONV('1', 2, 10) + 0,	'Gigared S.A.',	'Buenos Aires Autonomous City',	'admin@helios.com',	'1427');
+(5,	'2023-11-14 22:50:55.921388',	3,	NULL,	NULL,	NULL,	NULL,	NULL,	'Buenos Aires City',	'https://ipgeolocation.io/static/flags/ar_64.png',	'Argentina',	'',	NULL,	'190.183.171.64',	'Gigared S.A.',	CONV('1', 2, 10) + 0,	'Gigared S.A.',	'Buenos Aires Autonomous City',	'admin@helios.com',	'1427'),
+(6,	'2023-11-15 08:54:47.651345',	3,	NULL,	NULL,	NULL,	NULL,	NULL,	'Buenos Aires City',	'https://ipgeolocation.io/static/flags/ar_64.png',	'Argentina',	'',	NULL,	'190.183.212.66',	'Municipalidad de Crespo',	CONV('1', 2, 10) + 0,	'Gigared S.A.',	'Buenos Aires Autonomous City',	'admin@helios.com',	'1427'),
+(7,	'2023-11-15 10:14:08.862288',	3,	NULL,	NULL,	NULL,	NULL,	NULL,	'Buenos Aires City',	'https://ipgeolocation.io/static/flags/ar_64.png',	'Argentina',	'',	NULL,	'190.183.212.66',	'Municipalidad de Crespo',	CONV('1', 2, 10) + 0,	'Gigared S.A.',	'Buenos Aires Autonomous City',	'admin@helios.com',	'1427')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `asn` = VALUES(`asn`), `city` = VALUES(`city`), `country_flag` = VALUES(`country_flag`), `country_name` = VALUES(`country_name`), `district` = VALUES(`district`), `hostname` = VALUES(`hostname`), `ip` = VALUES(`ip`), `isp` = VALUES(`isp`), `logueado` = VALUES(`logueado`), `organization` = VALUES(`organization`), `state_prov` = VALUES(`state_prov`), `username` = VALUES(`username`), `zipcode` = VALUES(`zipcode`);
 
 
 
@@ -1595,7 +1615,8 @@ INSERT INTO `presupuesto` (`id`, `creada`, `creador_id`, `eliminada`, `eliminado
 (1,	'2023-11-14 23:16:53.045390',	3,	NULL,	NULL,	'2023-11-14 15:52:35.976705',	3,	4417,	4,	3,	7,	10,	3333,	'Un presupuesto',	1,	1200,	12),
 (2,	'2023-11-14 11:13:38.211066',	3,	NULL,	NULL,	'2023-11-14 11:13:38.211066',	3,	122,	8,	1,	3,	5,	222,	'Otro presepuesto',	6,	1211,	12),
 (3,	'2023-11-14 09:53:52.174036',	3,	NULL,	NULL,	NULL,	NULL,	111,	2,	2,	2,	3,	422,	'Y ahora',	1,	1121,	21),
-(4,	'2023-11-14 23:16:53.045390',	3,	NULL,	NULL,	'2023-11-14 15:57:29.418685',	3,	111,	2,	2,	2,	11,	422,	'Y ahora copia',	1,	1121,	21);
+(4,	'2023-11-14 23:16:53.045390',	3,	NULL,	NULL,	'2023-11-14 15:57:29.418685',	3,	111,	2,	2,	2,	11,	422,	'Y ahora copia',	1,	1121,	21)
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `cantidad_transportada` = VALUES(`cantidad_transportada`), `categoria_viaje_id` = VALUES(`categoria_viaje_id`), `comprador_id` = VALUES(`comprador_id`), `destino_id` = VALUES(`destino_id`), `fecha_id` = VALUES(`fecha_id`), `km_cargado` = VALUES(`km_cargado`), `notas` = VALUES(`notas`), `origen_id` = VALUES(`origen_id`), `valor_km` = VALUES(`valor_km`), `validez` = VALUES(`validez`);
 
 INSERT INTO `proveedor` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`, `modificada`, `modificador_id`, `direccion`, `email`, `identificacion`, `nombre`, `notas`, `telefono`) VALUES
 (1,	'2023-11-14 23:16:53.045390',	2,	NULL,	NULL,	'2023-11-14 15:38:14.049626',	3,	'Concepcion del Uruguay - Alamos 1234',	'rus@seguros.com',	'rusrus1234',	'Rio Uruguay Seguros',	'Seguros en Argentina',	'123456789'),
@@ -1603,14 +1624,16 @@ INSERT INTO `proveedor` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_
 (3,	'2023-11-14 08:51:06.748368',	3,	NULL,	NULL,	NULL,	NULL,	'China 88854',	'lachonchi@chichina.com',	'con123',	'Neumaticos La Conchinchina',	'Compra de neumaticos en Argentina',	'885555411'),
 (4,	'2023-11-14 08:52:01.843870',	3,	NULL,	NULL,	NULL,	NULL,	'Paysandu, Calle s/n',	'fure@stone.com',	'urugoma1234',	'Neumaticos Firestone',	'Neumaticos en Uruguay',	'555222155'),
 (5,	'2023-11-14 08:53:23.745191',	3,	NULL,	NULL,	NULL,	NULL,	'Paysandu, Montevideo y Colonia',	'la@pocho.com',	'cadena1234',	'Estaciones de Servicios La Pochola',	'Cadena de estacion de servicio para cargar combustible en uruguay',	'99988855554'),
-(6,	'2023-11-14 23:16:53.045390',	3,	NULL,	NULL,	'2023-11-14 15:37:35.528916',	3,	'Colon y gualeguychu',	'esso@shell.com',	'ess222',	'Estaciones argentinas',	'Estaciones de servicio en Argentina a color',	'1231233333');
+(6,	'2023-11-14 23:16:53.045390',	3,	NULL,	NULL,	'2023-11-14 15:37:35.528916',	3,	'Colon y gualeguychu',	'esso@shell.com',	'ess222',	'Estaciones argentinas',	'Estaciones de servicio en Argentina a color',	'1231233333')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `direccion` = VALUES(`direccion`), `email` = VALUES(`email`), `identificacion` = VALUES(`identificacion`), `nombre` = VALUES(`nombre`), `notas` = VALUES(`notas`), `telefono` = VALUES(`telefono`);
 
 
 
 INSERT INTO `rol` (`id`, `rol`) VALUES
 (1,	0),
 (2,	1),
-(3,	2);
+(3,	2)
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `rol` = VALUES(`rol`);
 
 INSERT INTO `rol_usuario` (`usuario_id`, `rol_id`) VALUES
 (1,	1),
@@ -1621,13 +1644,15 @@ INSERT INTO `rol_usuario` (`usuario_id`, `rol_id`) VALUES
 (3,	2),
 (4,	2),
 (3,	3),
-(4,	3);
+(4,	3)
+ON DUPLICATE KEY UPDATE `usuario_id` = VALUES(`usuario_id`), `rol_id` = VALUES(`rol_id`);
 
 INSERT INTO `seguro` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`, `modificada`, `modificador_id`, `acoplado_id`, `aseguradora_id`, `camion_id`, `notas`, `vencimiento_id`) VALUES
 (1,	'2023-11-14 23:51:10.581382',	3,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	1,	NULL,	12),
 (2,	'2023-11-15 00:09:04.154034',	3,	NULL,	NULL,	NULL,	NULL,	1,	3,	NULL,	NULL,	13),
 (3,	'2023-11-15 00:09:36.892035',	3,	NULL,	NULL,	NULL,	NULL,	3,	5,	NULL,	NULL,	14),
-(4,	'2023-11-15 00:10:12.099194',	3,	NULL,	NULL,	NULL,	NULL,	NULL,	4,	4,	NULL,	15);
+(4,	'2023-11-15 00:10:12.099194',	3,	NULL,	NULL,	NULL,	NULL,	NULL,	4,	4,	NULL,	15)
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `acoplado_id` = VALUES(`acoplado_id`), `aseguradora_id` = VALUES(`aseguradora_id`), `camion_id` = VALUES(`camion_id`), `notas` = VALUES(`notas`), `vencimiento_id` = VALUES(`vencimiento_id`);
 
 
 INSERT INTO `token` (`id`, `expirado`, `revocado`, `tipo_token`, `token`, `usuario_id`) VALUES
@@ -1637,13 +1662,22 @@ INSERT INTO `token` (`id`, `expirado`, `revocado`, `tipo_token`, `token`, `usuar
 (4,	CONV('1', 2, 10) + 0,	CONV('1', 2, 10) + 0,	'BEARER',	'eyJhbGciOiJIUzI1NiJ9.eyJDQVJHQSI6dHJ1ZSwiQURNSU4iOnRydWUsIlVTVUFSSU8iOnRydWUsInN1YiI6ImFkbWluQGhlbGlvcy5jb20iLCJpYXQiOjE3MDAwMDcyMjQsImV4cCI6MTcwMDYxMjAyNH0.tG9K-4PbQeKs5wDFlXz6PD2sIoCXgZYITLJUrK6lYZM',	3),
 (5,	CONV('1', 2, 10) + 0,	CONV('1', 2, 10) + 0,	'BEARER',	'eyJhbGciOiJIUzI1NiJ9.eyJDQVJHQSI6dHJ1ZSwiQURNSU4iOnRydWUsIlVTVUFSSU8iOnRydWUsInN1YiI6ImFkbWluQGhlbGlvcy5jb20iLCJpYXQiOjE3MDAwMDc3NDEsImV4cCI6MTcwMDYxMjU0MX0.KRyu_wVIB-dcYF59pLaU2orUzoAjRrXh9WNSnwdv29Y',	3),
 (6,	CONV('0', 2, 10) + 0,	CONV('0', 2, 10) + 0,	'BEARER',	'eyJhbGciOiJIUzI1NiJ9.eyJDQVJHQSI6dHJ1ZSwiQURNSU4iOnRydWUsIlVTVUFSSU8iOnRydWUsInN1YiI6InBvc3RtYW5AaGVsaW9zLmNvbSIsImlhdCI6MTcwMDAxMDE5MSwiZXhwIjoxNzAwNjE0OTkxfQ.40rRA3cS_Oyxt9ZFzwccBI7-TsHmhzXKkQ-xB-pMtHI',	4),
-(7,	CONV('0', 2, 10) + 0,	CONV('0', 2, 10) + 0,	'BEARER',	'eyJhbGciOiJIUzI1NiJ9.eyJDQVJHQSI6dHJ1ZSwiQURNSU4iOnRydWUsIlVTVUFSSU8iOnRydWUsInN1YiI6ImFkbWluQGhlbGlvcy5jb20iLCJpYXQiOjE3MDAwMTMwNTUsImV4cCI6MTcwMDYxNzg1NX0.LQeIwV1202PM6emjS5UTCtIUv1M_15FoNQiNLhrhEAE',	3);
+(7,	CONV('1', 2, 10) + 0,	CONV('1', 2, 10) + 0,	'BEARER',	'eyJhbGciOiJIUzI1NiJ9.eyJDQVJHQSI6dHJ1ZSwiQURNSU4iOnRydWUsIlVTVUFSSU8iOnRydWUsInN1YiI6ImFkbWluQGhlbGlvcy5jb20iLCJpYXQiOjE3MDAwMTMwNTUsImV4cCI6MTcwMDYxNzg1NX0.LQeIwV1202PM6emjS5UTCtIUv1M_15FoNQiNLhrhEAE',	3),
+(8,	CONV('1', 2, 10) + 0,	CONV('1', 2, 10) + 0,	'BEARER',	'eyJhbGciOiJIUzI1NiJ9.eyJDQVJHQSI6dHJ1ZSwiQURNSU4iOnRydWUsIlVTVUFSSU8iOnRydWUsInN1YiI6ImFkbWluQGhlbGlvcy5jb20iLCJpYXQiOjE3MDAwNDkyODcsImV4cCI6MTcwMDY1NDA4N30.1QmRf2ZJh3Qty45EyMY0YE5idaVGhlxvFhfKoELqqtY',	3),
+(9,	CONV('0', 2, 10) + 0,	CONV('0', 2, 10) + 0,	'BEARER',	'eyJhbGciOiJIUzI1NiJ9.eyJDQVJHQSI6dHJ1ZSwiQURNSU4iOnRydWUsIlVTVUFSSU8iOnRydWUsInN1YiI6ImFkbWluQGhlbGlvcy5jb20iLCJpYXQiOjE3MDAwNTQwNDgsImV4cCI6MTcwMDY1ODg0OH0.zQRycsBywvddHH8vHpZNhKHIMIS1DTlZkKZRqSZe0lo',	3)
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `expirado` = VALUES(`expirado`), `revocado` = VALUES(`revocado`), `tipo_token` = VALUES(`tipo_token`), `token` = VALUES(`token`), `usuario_id` = VALUES(`usuario_id`);
 
 INSERT INTO `usuario` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`, `modificada`, `modificador_id`, `direccion`, `dni`, `habilitada`, `nombre`, `password`, `telefono`, `token`, `username`) VALUES
 (1,	'2023-11-14 07:58:57.790945',	NULL,	NULL,	NULL,	NULL,	NULL,	'Su Casa 1234',	'12123123',	CONV('1', 2, 10) + 0,	'carga',	'$2a$10$mGKqrbVIgZJFH8cuZTkCIuFnHYJa8lr7TsoCDj4FbF1zbetk0ihPy',	'111 111 111',	NULL,	'carga@helios.com'),
 (2,	'2023-11-14 07:58:57.906629',	NULL,	NULL,	NULL,	NULL,	NULL,	'Su trabajo 2345',	'45456456',	CONV('1', 2, 10) + 0,	'usuario',	'$2a$10$ZexJZVf7aE/TFH9ujWKnA.hNMJMQPlzbsUMG9NpYchAEzolLq2RC.',	'222 222 222',	NULL,	'usuario@helios.com'),
 (3,	'2023-11-14 07:58:58.004314',	NULL,	NULL,	NULL,	NULL,	NULL,	'Su oficina 3456',	'78789789',	CONV('1', 2, 10) + 0,	'admin',	'$2a$10$pPvRmPIpZbf8KDssBp6bE.Tc9hUyDVghXR5WhtZZZxQqBluE90Wju',	'333 333 333',	NULL,	'admin@helios.com'),
-(4,	'2023-11-14 07:58:58.096410',	NULL,	NULL,	NULL,	NULL,	NULL,	'Su Casa 1234',	'12123123',	CONV('1', 2, 10) + 0,	'postman',	'$2a$10$Qz.EePMFPwh.68Twz5nw4.v7XkeRrXJXFcspZz9DW3LCtVjHBa4Xi',	'111 111 111',	NULL,	'postman@helios.com');
+(4,	'2023-11-14 07:58:58.096410',	NULL,	NULL,	NULL,	NULL,	NULL,	'Su Casa 1234',	'12123123',	CONV('1', 2, 10) + 0,	'postman',	'$2a$10$Qz.EePMFPwh.68Twz5nw4.v7XkeRrXJXFcspZz9DW3LCtVjHBa4Xi',	'111 111 111',	NULL,	'postman@helios.com')
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `direccion` = VALUES(`direccion`), `dni` = VALUES(`dni`), `habilitada` = VALUES(`habilitada`), `nombre` = VALUES(`nombre`), `password` = VALUES(`password`), `telefono` = VALUES(`telefono`), `token` = VALUES(`token`), `username` = VALUES(`username`);
 
+INSERT INTO `viaje` (`id`, `creada`, `creador_id`, `eliminada`, `eliminador_id`, `modificada`, `modificador_id`, `cantidad_transportada`, `categoria_viaje_id`, `comprador_id`, `destino_id`, `fecha_id`, `km_cargado`, `notas`, `origen_id`, `valor_km`, `acoplado_id`, `camion_id`, `carga_id`, `conductor_id`, `guia`, `intermediario_id`, `km_vacio`, `neto`, `vendedor_id`) VALUES
+(1,	'2023-11-15 12:07:31.000000',	3,	NULL,	NULL,	'2023-11-15 12:08:13.962518',	3,	44,	6,	2,	6,	17,	443,	'Primer viaje',	1,	1412,	4,	3,	5,	1,	'fdasf23rfwwef',	NULL,	433,	3233,	NULL),
+(2,	'2023-11-15 12:14:53.555791',	3,	NULL,	NULL,	NULL,	NULL,	55,	4,	1,	1,	18,	11112,	'Lejisssimo',	2,	312,	1,	5,	NULL,	2,	'3321 q23r123',	NULL,	3432,	4441,	NULL),
+(3,	'2023-11-15 12:25:17.785896',	3,	NULL,	NULL,	NULL,	NULL,	55,	7,	3,	1,	19,	333,	'Ua fangio',	5,	1112,	1,	2,	6,	3,	'dsd123',	NULL,	123,	2322,	2)
+ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `creada` = VALUES(`creada`), `creador_id` = VALUES(`creador_id`), `eliminada` = VALUES(`eliminada`), `eliminador_id` = VALUES(`eliminador_id`), `modificada` = VALUES(`modificada`), `modificador_id` = VALUES(`modificador_id`), `cantidad_transportada` = VALUES(`cantidad_transportada`), `categoria_viaje_id` = VALUES(`categoria_viaje_id`), `comprador_id` = VALUES(`comprador_id`), `destino_id` = VALUES(`destino_id`), `fecha_id` = VALUES(`fecha_id`), `km_cargado` = VALUES(`km_cargado`), `notas` = VALUES(`notas`), `origen_id` = VALUES(`origen_id`), `valor_km` = VALUES(`valor_km`), `acoplado_id` = VALUES(`acoplado_id`), `camion_id` = VALUES(`camion_id`), `carga_id` = VALUES(`carga_id`), `conductor_id` = VALUES(`conductor_id`), `guia` = VALUES(`guia`), `intermediario_id` = VALUES(`intermediario_id`), `km_vacio` = VALUES(`km_vacio`), `neto` = VALUES(`neto`), `vendedor_id` = VALUES(`vendedor_id`);
 
--- 2023-11-15 03:12:34
+-- 2023-11-15 19:03:40
