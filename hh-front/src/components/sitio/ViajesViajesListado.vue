@@ -223,7 +223,7 @@
                 clearable
                 v-model="acoplado"
                 option-value="id"
-                option-label="modelo"
+                option-label="marcaModelo"
                 label="Buscar por modelo acoplado"
                 use-input
                 hide-selected
@@ -248,7 +248,7 @@
                 clearable
                 v-model="camion"
                 option-value="id"
-                option-label="modelo"
+                option-label="marcaModelo"
                 label="Buscar por modelo camion"
                 use-input
                 hide-selected
@@ -742,7 +742,7 @@
           </div>
         </template>
         <template v-slot:body="props">
-          <q-tr :props="props">
+          <q-tr :props="props" :class="(props.row.eliminada === null) ? '':'bg-red-2'">
             <q-td auto-width class="text-center">
               <q-btn
                 size="sm"
@@ -758,6 +758,7 @@
                 </q-tooltip>
               </q-btn>
               <q-btn
+                v-if="props.row.eliminada === null"
                 size="sm"
                 class="text-white paleta5-fondo2 q-mr-xs"
                 round
@@ -770,6 +771,20 @@
                 </q-tooltip>
               </q-btn>
               <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarFacturarViaje(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="fa-solid fa-file-invoice-dollar" />
+                <q-tooltip>
+                  Facturar viaje
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
                 size="sm"
                 class="text-white paleta5-fondo2 q-mr-xs"
                 round
@@ -779,6 +794,19 @@
                 <q-icon size="2em" class="q-pa-xs" name="delete" />
                 <q-tooltip>
                   Eliminar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada !== null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarReciclarViaje(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="recycling" />
+                <q-tooltip>
+                  Reciclar
                 </q-tooltip>
               </q-btn>
             </q-td>
@@ -909,7 +937,7 @@
                   <div class="row paleta1-color2">Eliminador</div>
                 </div>
                 <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.Eliminada }}</div>
+                  <div class="row text-white">{{ props.row.eliminada }}</div>
                   <div class="row paleta1-color2">Eliminada</div>
                 </div>
                 <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
@@ -1135,7 +1163,7 @@
                 :rules="[reglas.requerido]"
                 :options="camiones"
                 option-value="id"
-                option-label="modelo"
+                option-label="marcaModelo"
                 label="Camión"
                 use-input
                 input-debounce="0"
@@ -1167,7 +1195,7 @@
                 :rules="[reglas.requerido]"
                 :options="acoplados"
                 option-value="id"
-                option-label="modelo"
+                option-label="marcaModelo"
                 label="Acoplado"
                 use-input
                 input-debounce="0"
@@ -1384,6 +1412,7 @@ import { onMounted, reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 import { v4 as uuidv4 } from 'uuid'
 import { ViajeCreation } from 'src/models/creation/viaje_creation'
 import { viajeService } from 'src/services/viaje_service'
@@ -1475,6 +1504,7 @@ export default {
     const esAdmin = ref(
       autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)
     )
+    const router = useRouter()
 
     const editAcoplado = ref(false)
     const editCamion = ref(false)
@@ -2497,6 +2527,60 @@ export default {
       }
     }
 
+    async function afEliminarViaje (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await viajeService.spfBorrar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se borró correctamente el viaje.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afReciclarViaje (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await viajeService.spfReciclar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se recicló correctamente el viaje.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
     function fFiltrarAcoplados (val, update, abort) {
       if (val.length < 3) {
         abort()
@@ -2504,7 +2588,7 @@ export default {
       }
       update(() => {
         acoplados.value = acopladosList.value.filter(
-          (v) => v.modelo.toLowerCase().indexOf(val.toLowerCase()) > -1
+          (v) => v.marcaModelo.toLowerCase().indexOf(val.toLowerCase()) > -1
         )
       })
     }
@@ -2516,7 +2600,7 @@ export default {
       }
       update(() => {
         camiones.value = camionesList.value.filter(
-          (v) => v.modelo.toLowerCase().indexOf(val.toLowerCase()) > -1
+          (v) => v.marcaModelo.toLowerCase().indexOf(val.toLowerCase()) > -1
         )
       })
     }
@@ -2564,7 +2648,7 @@ export default {
       }
       update(() => {
         direccionesCarga.value = direccionesList.value.filter(
-          (v) => v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1
+          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 }
         )
       })
     }
@@ -2576,7 +2660,7 @@ export default {
       }
       update(() => {
         direccionesDestino.value = direccionesList.value.filter(
-          (v) => v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1
+          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 }
         )
       })
     }
@@ -2588,7 +2672,7 @@ export default {
       }
       update(() => {
         direccionesOrigen.value = direccionesList.value.filter(
-          (v) => v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1
+          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 }
         )
       })
     }
@@ -2665,6 +2749,17 @@ export default {
       viajeCreation.origenId = null
       viajeCreation.valorKm = null
       viajeCreation.vendedorId = null
+
+      viajeCreation.id = null
+      viajeCreation.creadorId = null
+      viajeCreation.creador = null
+      viajeCreation.creada = null
+      viajeCreation.modificadorId = null
+      viajeCreation.modificador = null
+      viajeCreation.modificada = null
+      viajeCreation.eliminadorId = null
+      viajeCreation.eliminador = null
+      viajeCreation.eliminada = null
     }
 
     function fLimpiarInputs (actual) {
@@ -2810,9 +2905,60 @@ export default {
       editNotas.value = true
     }
 
-    function fMostrarEditarViaje (props) {}
+    function fMostrarEditarViaje (props) {
+      console.log(props.row)
+      viajeCreation.acopladoId = props.row.acopladoId
+      viajeCreation.camionId = props.row.camionId
+      viajeCreation.cantidadTransportada = props.row.cantidadTransportada
+      viajeCreation.cargaId = props.row.cargaId
+      viajeCreation.compradorId = props.row.compradorId
+      viajeCreation.categoriaViajeId = props.row.categoriaViajeId
+      viajeCreation.conductorId = props.row.conductorId
+      viajeCreation.destinoId = props.row.destinoId
+      viajeCreation.fechaId = props.row.fechaId
+      viajeCreation.guia = props.row.guia
+      viajeCreation.intermediarioId = props.row.intermediarioId
+      viajeCreation.kmCargado = props.row.kmCargado
+      viajeCreation.kmVacio = props.row.kmVacio
+      viajeCreation.neto = props.row.neto
+      viajeCreation.notas = props.row.notas
+      viajeCreation.origenId = props.row.origenId
+      viajeCreation.valorKm = props.row.valorKm
+      viajeCreation.vendedorId = props.row.vendedorId
 
-    function fMostrarEliminarViaje (props) {}
+
+      viajeCreation.creada = props.row.creada
+      viajeCreation.creadorId = props.row.creadorId
+      viajeCreation.eliminada = props.row.eliminada
+      viajeCreation.eliminadorId = props.row.eliminadorId
+      viajeCreation.modificada = props.row.modificada
+      viajeCreation.modificadorId = props.row.modificadorId
+
+      nuevoViajeDialog.value = true
+    }
+
+    function fMostrarEliminarViaje (props) {
+      afEliminarViaje(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
+
+    function fMostrarFacturarViaje (props) {
+      llaveroService.borrarDeLocal('hhFacturarViaje')
+      llaveroService.guardarEnLocalConSesion('hhFacturarViaje', props.row)
+      console.log(props.row)
+      // router.push({ name: 'Factura' })
+    }
+
+    function fMostrarReciclarViaje (props) {
+      afReciclarViaje(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
 
     function fMostrarNuevoViaje () {
       afBuscarConductores().then(() => {
@@ -2939,9 +3085,11 @@ export default {
       fIrPaso2,
       fIrPaso3,
       fGuardarViaje,
+      fMostrarNuevoViaje,
       fMostrarEditarViaje,
       fMostrarEliminarViaje,
-      fMostrarNuevoViaje,
+      fMostrarFacturarViaje,
+      fMostrarReciclarViaje,
       nuevoViajeDialog,
       paso1,
       paso2,

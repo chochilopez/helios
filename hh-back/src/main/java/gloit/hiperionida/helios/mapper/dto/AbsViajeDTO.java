@@ -21,8 +21,9 @@ public abstract class AbsViajeDTO extends AbsAuditoriaDTO {
     private String destino;
     private String origen;
 
-    private Long categoriaViajeId;
-    private Long compradorId;
-    private Long destinoId;
-    private Long origenId;
+    private String fechaId;
+    private String categoriaViajeId;
+    private String compradorId;
+    private String destinoId;
+    private String origenId;
 }

@@ -242,6 +242,17 @@ export default {
     function fLimpiarFormulario () {
       categoriaViajeCreation.categoria = null
       categoriaViajeCreation.notas = null
+
+      categoriasViajeCreation.id = null
+      categoriasViajeCreation.creadorId = null
+      categoriasViajeCreation.creador = null
+      categoriasViajeCreation.creada = null
+      categoriasViajeCreation.modificadorId = null
+      categoriasViajeCreation.modificador = null
+      categoriasViajeCreation.modificada = null
+      categoriasViajeCreation.eliminadorId = null
+      categoriasViajeCreation.eliminador = null
+      categoriasViajeCreation.eliminada = null
     }
 
     function fMostrarNuevaCategoriaViaje () {

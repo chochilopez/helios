@@ -55,18 +55,22 @@ public class ViajeMapper {
                 model.setConductorId(Helper.getLong(creation.getConductorId()));
             if (Helper.getLong(creation.getDestinoId()) != null)
                 model.setDestinoId(Helper.getLong(creation.getDestinoId()));
-            if (creation.getFecha() != null) {
-                Optional<ClienteModel> clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId()));
-                EventoModel evento = eventoDAO.save(new EventoModel(
-                        Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
-                        "Viaje para " + clienteModel.get().getNombre(),
-                        null,
-                        null,
-                        "Viaje",
-                        Helper.getNow(""),
-                        usuarioService.obtenerUsuario().getId()
-                ));
-                model.setFechaId(evento.getId());
+            if (Helper.getLong(creation.getFechaId()) != null) {
+                model.setFechaId(Helper.getLong(creation.getFechaId()));
+            } else {
+                if (creation.getFecha() != null) {
+                    Optional<ClienteModel> clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId()));
+                    EventoModel evento = eventoDAO.save(new EventoModel(
+                            Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
+                            "Viaje para " + clienteModel.get().getNombre(),
+                            null,
+                            null,
+                            "Viaje",
+                            Helper.getNow(""),
+                            usuarioService.obtenerUsuario().getId()
+                    ));
+                    model.setFechaId(evento.getId());
+                }
             }
             model.setGuia(creation.getGuia());
             if (Helper.getLong(creation.getIntermediarioId()) != null)
@@ -112,45 +116,53 @@ public class ViajeMapper {
 
             dto.setId(model.getId().toString());
 
-
             if (model.getAcopladoId() != null) {
                 AcopladoModel acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(model.getAcopladoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el acoplado con id: " + model.getAcopladoId() + "."));
                 dto.setAcoplado(acopladoModel.getMarcaModelo());
+                dto.setAcopladoId(model.getAcopladoId().toString());
             }
             if (model.getCamionId() != null) {
                 CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(model.getCamionId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el camion con id: " + model.getCamionId() + "."));
                 dto.setCamion(camionModel.getMarcaModelo());
+                dto.setCamionId(model.getCamionId().toString());
             }
             if (model.getCantidadTransportada() != null)
                 dto.setCantidadTransportada(model.getCantidadTransportada().toString());
             if (model.getCargaId() != null) {
                 DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getCargaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la dirección de carga con id: " + model.getCargaId() + "."));
                 dto.setCarga(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
+                dto.setCargaId(model.getCargaId().toString());
             }
             if (model.getCategoriaViajeId() != null) {
                 CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(model.getCategoriaViajeId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la categoria id: " + model.getCategoriaViajeId() + "."));
                 dto.setCategoriaViaje(categoriaViajeModel.getCategoria());
+                dto.setCategoriaViajeId(model.getCategoriaViajeId().toString());
             }
             if (model.getCompradorId() != null) {
                 ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getCompradorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el comprador con id: " + model.getCompradorId() + "."));
                 dto.setComprador(clienteModel.getNombre());
+                dto.setCompradorId(model.getCompradorId().toString());
             }
             if (model.getConductorId() != null) {
                 ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor con id: " + model.getConductorId() + "."));
                 dto.setConductor(conductorModel.getNombre());
+                dto.setConductorId(model.getConductorId().toString());
             }
             if (model.getDestinoId() != null) {
                 DireccionModel destinoModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la dirección destino con id: " + model.getDestinoId() + "."));
                 dto.setDestino(destinoModel.getCiudad() + " - " + destinoModel.getDireccion());
+                dto.setDestinoId(model.getDestinoId().toString());
             }
             if (model.getFechaId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de viaje con id: " + model.getFechaId() + "."));
                 dto.setFecha(eventoModel.getFecha().toString());
+                dto.setFechaId(model.getFechaId().toString());
             }
             dto.setGuia(model.getGuia());
             if (model.getIntermediarioId() != null) {
                 ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getIntermediarioId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el intermediario con id: " + model.getIntermediarioId() + "."));
                 dto.setIntermediario(clienteModel.getNombre());
+                dto.setIntermediarioId(model.getIntermediarioId().toString());
             }
             if (model.getKmCargado() != null)
                 dto.setKmCargado(model.getKmCargado().toString());
@@ -162,12 +174,14 @@ public class ViajeMapper {
             if (model.getOrigenId() != null) {
                 DireccionModel origenModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la dirección origen con id: " + model.getOrigenId() + "."));
                 dto.setOrigen(origenModel.getCiudad() + " - " + origenModel.getDireccion());
+                dto.setOrigenId(model.getOrigenId().toString());
             }
             if (model.getValorKm() != null)
                 dto.setValorKm(model.getValorKm().toString());
             if (model.getVendedorId() != null) {
                 ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getVendedorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vendedor con id: " + model.getVendedorId() + "."));
                 dto.setVendedor(clienteModel.getNombre());
+                dto.setVendedorId(model.getVendedorId().toString());
             }
 
             if (model.getCreadorId() != null) {

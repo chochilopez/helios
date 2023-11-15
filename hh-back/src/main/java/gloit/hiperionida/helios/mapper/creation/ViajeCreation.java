@@ -11,13 +11,14 @@ import java.util.List;
 @NoArgsConstructor
 public class ViajeCreation extends AbsViajeCreation {
     private String id;
+    private String guia;
+    private String kmVacio;
+    private String neto;
+
     private String acopladoId;
     private String camionId;
     private String cargaId;
     private String conductorId;
-    private String guia;
     private String intermediarioId;
-    private String kmVacio;
-    private String neto;
     private String vendedorId;
 }

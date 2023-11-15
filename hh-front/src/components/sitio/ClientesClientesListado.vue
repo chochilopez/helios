@@ -319,7 +319,7 @@
                   <div class="row paleta1-color2">Nombre</div>
                 </div>
                 <div v-if="props.row.telefono != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">props.row.telefono</div>
+                  <div class="row text-white">{{ props.row.telefono }}</div>
                   <div class="row paleta1-color2">Telefono</div>
                 </div>
                 <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
@@ -897,6 +897,17 @@ export default {
       clienteCreation.nombre = null
       clienteCreation.notas = null
       clienteCreation.telefono = null
+
+      clienteCreation.id = null
+      clienteCreation.creadorId = null
+      clienteCreation.creador = null
+      clienteCreation.creada = null
+      clienteCreation.modificadorId = null
+      clienteCreation.modificador = null
+      clienteCreation.modificada = null
+      clienteCreation.eliminadorId = null
+      clienteCreation.eliminador = null
+      clienteCreation.eliminada = null
     }
 
     function fLimpiarInputs (actual) {

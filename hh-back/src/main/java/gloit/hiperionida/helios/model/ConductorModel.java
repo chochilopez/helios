@@ -16,7 +16,5 @@ public class ConductorModel extends AbsPersonaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long licenciaId;
 }
 

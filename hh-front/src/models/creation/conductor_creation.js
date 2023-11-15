@@ -5,7 +5,7 @@ export class ConductorCreation {
     this.nombre = ''
     this.notas = ''
     this.telefono = ''
-    this.direccionId = ''
+    this.direccion = ''
     this.licenciaId = ''
   }
 }

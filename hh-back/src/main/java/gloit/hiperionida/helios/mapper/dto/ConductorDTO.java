@@ -10,6 +10,4 @@ import java.util.List;
 @NoArgsConstructor
 public class ConductorDTO extends AbsPersonaDTO implements Serializable {
     private String id;
-    private String categotiaLicencia;
-    private String vencimiento;
 }

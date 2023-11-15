@@ -897,6 +897,17 @@ export default {
       proveedorCreation.nombre = null
       proveedorCreation.notas = null
       proveedorCreation.telefono = null
+
+      proveedorCreation.id = null
+      proveedorCreation.creadorId = null
+      proveedorCreation.creador = null
+      proveedorCreation.creada = null
+      proveedorCreation.modificadorId = null
+      proveedorCreation.modificador = null
+      proveedorCreation.modificada = null
+      proveedorCreation.eliminadorId = null
+      proveedorCreation.eliminador = null
+      proveedorCreation.eliminada = null
     }
 
     function fLimpiarInputs (actual) {

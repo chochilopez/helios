@@ -3,6 +3,8 @@ package gloit.hiperionida.helios.controller;
 import gloit.hiperionida.helios.mapper.ConductorMapper;
 import gloit.hiperionida.helios.mapper.creation.ConductorCreation;
 import gloit.hiperionida.helios.mapper.dto.ConductorDTO;
+import gloit.hiperionida.helios.mapper.dto.ConductorDTO;
+import gloit.hiperionida.helios.model.ConductorModel;
 import gloit.hiperionida.helios.model.ConductorModel;
 import gloit.hiperionida.helios.service.implementation.ConductorServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
@@ -38,6 +40,138 @@ public class ConductorController extends AbsBaseController {
         String mensaje = "Ocurrio un error al guardar el conductor. " + e.getMessage();
 
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-direccion/{direccion}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorDireccion(@PathVariable(name = "direccion") String direccion) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorDireccion(direccion);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-direccion-con-eliminadas/{direccion}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorDireccionConEliminadas(@PathVariable(name = "direccion") String direccion) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorDireccionConEliminadas(direccion);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-email/{email}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorEmail(@PathVariable(name = "email") String email) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorEmail(email);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-email-con-eliminadas/{email}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorEmailConEliminadas(@PathVariable(name = "email") String email) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorEmailConEliminadas(email);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-identificacion/{identificacion}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorIdentificacion(@PathVariable(name = "identificacion") String identificacion) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorIdentificacion(identificacion);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-identificacion-con-eliminadas/{identificacion}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorIdentificacionConEliminadas(@PathVariable(name = "identificacion") String identificacion) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorIdentificacionConEliminadas(identificacion);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-nombre/{nombre}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorNombre(@PathVariable(name = "nombre") String nombre) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorNombre(nombre);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-nombre-con-eliminadas/{nombre}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorNombreConEliminadas(@PathVariable(name = "nombre") String nombre) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorNombreConEliminadas(nombre);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas/{notas}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorNotas(notas);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas-con-eliminadas/{notas}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorNotasConEliminadas(@PathVariable(name = "notas") String notas) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorNotasConEliminadas(notas);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-telefono/{telefono}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorTelefono(@PathVariable(name = "telefono") String telefono) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorTelefono(telefono);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-telefono-con-eliminadas/{telefono}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorTelefonoConEliminadas(@PathVariable(name = "telefono") String telefono) {
+        List<ConductorModel> listado = conductorService.buscarTodasPorTelefonoConEliminadas(telefono);
+        ArrayList<ConductorDTO> conductores = new ArrayList<>();
+        for (ConductorModel conductor:listado) {
+            conductores.add(conductorMapper.toDto(conductor));
+        }
+        return new ResponseEntity<>(conductores, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")

@@ -42,18 +42,22 @@ public class PresupuestoMapper {
                 model.setCompradorId(Helper.getLong(creation.getCompradorId()));
             if (Helper.getLong(creation.getDestinoId()) != null)
                 model.setDestinoId(Helper.getLong(creation.getDestinoId()));
-            if (creation.getFecha() != null) {
-                Optional<ClienteModel> clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId()));
-                EventoModel evento = eventoDAO.save(new EventoModel(
-                        Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
-                        "Presupuesto para " + clienteModel.get().getNombre(),
-                        null,
-                        null,
-                        "Presupuesto",
-                        Helper.getNow(""),
-                        usuarioService.obtenerUsuario().getId()
-                ));
-                model.setFechaId(evento.getId());
+            if (Helper.getLong(creation.getFechaId()) != null) {
+                model.setFechaId(Helper.getLong(creation.getFechaId()));
+            } else {
+                if (creation.getFecha() != null) {
+                    Optional<ClienteModel> clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId()));
+                    EventoModel evento = eventoDAO.save(new EventoModel(
+                            Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
+                            "Presupuesto para " + clienteModel.get().getNombre(),
+                            null,
+                            null,
+                            "Presupuesto",
+                            Helper.getNow(""),
+                            usuarioService.obtenerUsuario().getId()
+                    ));
+                    model.setFechaId(evento.getId());
+                }
             }
             if (Helper.getDecimal(creation.getKmCargado()) != null)
                 model.setKmCargado(Helper.getDecimal(creation.getKmCargado()));
@@ -97,21 +101,22 @@ public class PresupuestoMapper {
             if (model.getCategoriaViajeId() != null) {
                 CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(model.getCategoriaViajeId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la categoria id: " + model.getCategoriaViajeId() + "."));
                 dto.setCategoriaViaje(categoriaViajeModel.getCategoria());
-                dto.setCategoriaViajeId(model.getCategoriaViajeId());
+                dto.setCategoriaViajeId(model.getCategoriaViajeId().toString());
             }
             if (model.getCompradorId() != null) {
                 ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getCompradorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el comprador con id: " + model.getCompradorId() + "."));
                 dto.setComprador(clienteModel.getNombre());
-                dto.setCompradorId(model.getCompradorId());
+                dto.setCompradorId(model.getCompradorId().toString());
             }
             if (model.getDestinoId() != null) {
                 DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección de destino con id: " + model.getDestinoId() + "."));
                 dto.setDestino(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
-                dto.setDestinoId(model.getDestinoId());
+                dto.setDestinoId(model.getDestinoId().toString());
             }
             if (model.getFechaId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de viaje con id: " + model.getFechaId() + "."));
                 dto.setFecha(eventoModel.getFecha().toString());
+                dto.setFechaId(model.getFechaId().toString());
             }
             if (model.getCreada() != null)
                 dto.setFechaEmision(model.getCreada().toString());
@@ -121,7 +126,7 @@ public class PresupuestoMapper {
             if (model.getOrigenId() != null) {
                 DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección de destino con id: " + model.getOrigenId() + "."));
                 dto.setOrigen(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
-                dto.setOrigenId(model.getOrigenId());
+                dto.setOrigenId(model.getOrigenId().toString());
             }
             dto.setValidez(model.getValidez().toString());
             if (model.getValorKm() != null)

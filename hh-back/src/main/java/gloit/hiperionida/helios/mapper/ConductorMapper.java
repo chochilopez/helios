@@ -37,8 +37,6 @@ public class ConductorMapper {
             model.setNombre(creation.getNombre());
             model.setNotas(creation.getNotas());
             model.setTelefono(creation.getTelefono());
-            if (Helper.getLong(creation.getLicenciaId()) != null)
-                model.setLicenciaId(Helper.getLong(creation.getLicenciaId()));
 
             if (Helper.getLong(creation.getCreadorId()) != null)
                 model.setCreadorId(Helper.getLong(creation.getCreadorId()));
@@ -71,12 +69,12 @@ public class ConductorMapper {
             dto.setNombre(model.getNombre());
             dto.setNotas(model.getNotas());
             dto.setTelefono(model.getTelefono());
-            if (model.getLicenciaId() != null) {
-                LicenciaModel licenciaModel = licenciaDAO.findByIdAndEliminadaIsNull(model.getLicenciaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la licencia con id: " + model.getLicenciaId() + "."));
-                EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(licenciaModel.getVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vencimiento con id: " + licenciaModel.getVencimientoId() + "."));
-                dto.setCategotiaLicencia(licenciaModel.getCategoria());
-                dto.setVencimiento(eventoModel.getFecha().toString());
-            }
+//            if (model.getLicenciaId() != null) {
+//                LicenciaModel licenciaModel = licenciaDAO.findByIdAndEliminadaIsNull(model.getLicenciaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la licencia con id: " + model.getLicenciaId() + "."));
+//                EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(licenciaModel.getVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vencimiento con id: " + licenciaModel.getVencimientoId() + "."));
+//                dto.setCategotiaLicencia(licenciaModel.getCategoria());
+//                dto.setVencimiento(eventoModel.getFecha().toString());
+//            }
 
             if (model.getCreadorId() != null) {
                 UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreadorId() + "."));

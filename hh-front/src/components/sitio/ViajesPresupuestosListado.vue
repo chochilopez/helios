@@ -1642,6 +1642,17 @@ export default {
       presupuestoCreation.origenId = null
       presupuestoCreation.validez = null
       presupuestoCreation.valorKm = null
+
+      presupuestoCreation.id = null
+      presupuestoCreation.creadorId = null
+      presupuestoCreation.creador = null
+      presupuestoCreation.creada = null
+      presupuestoCreation.modificadorId = null
+      presupuestoCreation.modificador = null
+      presupuestoCreation.modificada = null
+      presupuestoCreation.eliminadorId = null
+      presupuestoCreation.eliminador = null
+      presupuestoCreation.eliminada = null
     }
 
     function fLimpiarInputs (actual) {

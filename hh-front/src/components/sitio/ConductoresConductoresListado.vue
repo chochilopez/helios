@@ -4,43 +4,59 @@
   <div class="row q-pa-md">
     <div class="col">
       <q-table
-        title="Camiones"
+        title="Conductores"
         :columns="columnas"
         rows-per-page-label="Registros por pagina"
         no-data-label="Sin datos para mostrar"
         :pagination="paginacion"
         hide-no-data
-        :rows="camiones"
+        :rows="conductores"
         row-key="id"
       >
         <template v-slot:top-left>
           <div class="column">
-            <p class="text-h5">Camiones</p>
-            <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo camion" @click="fMostrarNuevoCamion" />
+            <p class="text-h5">Conductores</p>
+            <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo conductor" @click="fMostrarNuevoCliente" />
           </div>
         </template>
         <template v-slot:top-right>
           <div class="column items-end">
             <div class="q-my-md">
-              <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar camiones por" dropdown-icon="fa-solid fa-magnifying-glass">
+              <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar conductores por" dropdown-icon="fa-solid fa-magnifying-glass">
                 <q-list>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAnio">
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccion">
                     <q-item-section avatar>
-                      <q-icon name="update" />
+                      <q-icon name="home" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label>Año</q-item-label>
+                      <q-item-label>Dirección</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarMarcaModelo">
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarEmail">
                     <q-item-section avatar>
-                      <q-icon name="stream" />
+                      <q-icon name="alternate_email" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label>Marca y modelo</q-item-label>
+                      <q-item-label>Email</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarIdentificacion">
+                    <q-item-section avatar>
+                      <q-icon name="badge" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Identificacion</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNombre">
+                    <q-item-section avatar>
+                      <q-icon name="account_circle" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Nombre</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
                     <q-item-section avatar>
                       <q-icon name="fa-solid fa-pen-to-square" />
                     </q-item-section>
@@ -48,12 +64,12 @@
                       <q-item-label>Notas</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarPatente">
+                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarTelefono">
                     <q-item-section avatar>
-                      <q-icon name="local_parking" />
+                      <q-icon name="phone_iphone" />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label>Patente</q-item-label>
+                      <q-item-label>Teléfono</q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -61,13 +77,13 @@
             </div>
             <div class="col">
               <q-input
-                v-if="editMarcaModelo"
+                v-if="editDireccion"
                 outlined
                 dense
                 clearable
-                v-on:keyup.enter="afBuscarPorMarcaModelo()"
-                v-model="marcaModelo"
-                label="Buscar por marca/modelo"
+                v-on:keyup.enter="afBuscarPorDireccion()"
+                v-model="direccion"
+                label="Buscar por direccion"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
                 <template v-slot:no-option>
@@ -79,19 +95,19 @@
                   <q-icon
                     name="fa-solid fa-magnifying-glass"
                     class="q-mx-xs"
-                    v-on:click="afBuscarPorMarcaModelo()"
+                    v-on:click="afBuscarPorDireccion()"
                     style="cursor: pointer"
                   />
                 </template>
               </q-input>
               <q-input
-                v-if="editAnio"
+                v-if="editEmail"
                 outlined
                 dense
                 clearable
-                v-on:keyup.enter="afBuscarPorAnio()"
-                v-model.number="anio"
-                label="Buscar por año"
+                v-on:keyup.enter="afBuscarPorEmail()"
+                v-model="email"
+                label="Buscar por email"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
                 <template v-slot:no-option>
@@ -103,7 +119,55 @@
                   <q-icon
                     name="fa-solid fa-magnifying-glass"
                     class="q-mx-xs"
-                    v-on:click="afBuscarPorAnio()"
+                    v-on:click="afBuscarPorEmail()"
+                    style="cursor: pointer"
+                  />
+                </template>
+              </q-input>
+              <q-input
+                v-if="editIdentifiacion"
+                outlined
+                dense
+                clearable
+                v-on:keyup.enter="afBuscarPorIdentificacion()"
+                v-model="identificacion"
+                label="Buscar por identificacion"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+                <template v-slot:after>
+                  <q-icon
+                    name="fa-solid fa-magnifying-glass"
+                    class="q-mx-xs"
+                    v-on:click="afBuscarPorIdentificacion()"
+                    style="cursor: pointer"
+                  />
+                </template>
+              </q-input>
+              <q-input
+                v-if="editNombre"
+                outlined
+                dense
+                clearable
+                v-on:keyup.enter="afBuscarPorNombre()"
+                v-model="nombre"
+                label="Buscar por nombre"
+                hint="Tenés que escribir al menos 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+                <template v-slot:after>
+                  <q-icon
+                    name="fa-solid fa-magnifying-glass"
+                    class="q-mx-xs"
+                    v-on:click="afBuscarPorNombre()"
                     style="cursor: pointer"
                   />
                 </template>
@@ -133,13 +197,13 @@
                 </template>
               </q-input>
               <q-input
-                v-if="editPatente"
+                v-if="editTelefono"
                 outlined
                 dense
                 clearable
-                v-on:keyup.enter="afBuscarPorPatente()"
-                v-model="patente"
-                label="Buscar por patente"
+                v-on:keyup.enter="afBuscarPorTelefono()"
+                v-model="telefono"
+                label="Buscar por telefono"
                 hint="Tenés que escribir al menos 3 caracteres para buscar."
               >
                 <template v-slot:no-option>
@@ -151,7 +215,7 @@
                   <q-icon
                     name="fa-solid fa-magnifying-glass"
                     class="q-mx-xs"
-                    v-on:click="afBuscarPorPatente()"
+                    v-on:click="afBuscarPorTelefono()"
                     style="cursor: pointer"
                   />
                 </template>
@@ -181,7 +245,7 @@
                 class="text-white paleta5-fondo2 q-mr-xs"
                 round
                 dense
-                @click="fMostrarEditarCamion(props)"
+                @click="fMostrarEditarConductor(props)"
               >
                 <q-icon size="2em" class="q-pa-xs" name="edit" />
                 <q-tooltip>
@@ -194,7 +258,7 @@
                 class="text-white paleta5-fondo2 q-mr-xs"
                 round
                 dense
-                @click="fMostrarEliminarCamion(props)"
+                @click="fMostrarEliminarConductor(props)"
               >
                 <q-icon size="2em" class="q-pa-xs" name="delete" />
                 <q-tooltip>
@@ -207,7 +271,7 @@
                 class="text-white paleta5-fondo2 q-mr-xs"
                 round
                 dense
-                @click="fMostrarReciclarCamion(props)"
+                @click="fMostrarReciclarConductor(props)"
               >
                 <q-icon size="2em" class="q-pa-xs" name="recycling" />
                 <q-tooltip>
@@ -216,19 +280,19 @@
               </q-btn>
             </q-td>
             <q-td>
-              {{ props.row.marcaModelo}}
+              {{ props.row.nombre }}
             </q-td>
-            <q-td class="text-center">
-              {{ props.row.anio }}
+            <q-td>
+              {{ props.row.direccion}}
             </q-td>
-            <q-td class="text-center">
-              {{ props.row.cantidadNeumaticos }}
+            <q-td>
+              {{ props.row.email }}
             </q-td>
-            <q-td class="text-center">
-              {{ props.row.patente }}
+            <q-td>
+              {{ props.row.identificacion }}
             </q-td>
-            <q-td class="text-center">
-              {{ props.row.peso }}
+            <q-td>
+              {{ props.row.telefono }}
             </q-td>
           </q-tr>
           <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
@@ -238,41 +302,25 @@
                   <div class="row text-white">{{ props.row.id }}</div>
                   <div class="row paleta1-color2">Id</div>
                 </div>
-                <div v-if="props.row.anio != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.anio }}</div>
-                  <div class="row paleta1-color2">Año modelo</div>
+                <div v-if="props.row.direccion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                  <div class="row text-white">{{ props.row.direccion }}</div>
+                  <div class="row paleta1-color2">Direccion</div>
                 </div>
-                <div v-if="props.row.cantidadNeumaticos != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.cantidadNeumaticos }}</div>
-                  <div class="row paleta1-color2">Cantidad neumaticos</div>
+                <div v-if="props.row.email != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.email }}</div>
+                  <div class="row paleta1-color2">Email</div>
                 </div>
-                <div v-if="props.row.marcaModelo != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.marcaModelo }}</div>
-                  <div class="row paleta1-color2">Marca/modelo</div>
+                <div v-if="props.row.identificacion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.identificacion }}</div>
+                  <div class="row paleta1-color2">Identificacion</div>
                 </div>
-                <div v-if="props.row.numeroChasis != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.numeroChasis }}</div>
-                  <div class="row paleta1-color2">Número chasis</div>
+                <div v-if="props.row.nombre != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div class="row text-white">{{ props.row.nombre }}</div>
+                  <div class="row paleta1-color2">Nombre</div>
                 </div>
-                <div v-if="props.row.numeroMotor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.numeroMotor }}</div>
-                  <div class="row paleta1-color2">Número motor</div>
-                </div>
-                <div v-if="props.row.patente != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.patente }}</div>
-                  <div class="row paleta1-color2">Patente</div>
-                </div>
-                <div v-if="props.row.peso != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.peso }}</div>
-                  <div class="row paleta1-color2">Peso</div>
-                </div>
-                <div v-if="props.row.aseguradora != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.aseguradora }}</div>
-                  <div class="row paleta1-color2">Aseguradora</div>
-                </div>
-                <div v-if="props.row.vencimiento != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">props.row.vencimiento</div>
-                  <div class="row paleta1-color2">Vencimiento</div>
+                <div v-if="props.row.telefono != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                  <div class="row text-white">{{ props.row.telefono }}</div>
+                  <div class="row paleta1-color2">Telefono</div>
                 </div>
                 <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                   <div class="row text-white">{{ props.row.creador }}</div>
@@ -310,10 +358,10 @@
     </div>
   </div>
 
-  <q-dialog v-model="nuevoCamionDialog" persistent transition-show="fade" transition-hide="fade">
+  <q-dialog v-model="nuevoConductorDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
-        <div class="text-h6 text-grey-8">Nuevo camion</div>
+        <div class="text-h6 text-grey-8">Nuevo conductor</div>
         <q-space />
         <q-btn class="text-grey-8" icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -321,29 +369,31 @@
         <q-icon name="img:/icons/numeros/number1.svg" size="3em" class="svg-primary" :class="{ 'svg-accent': paso1 }" />
       </div>
       <q-card-section v-if="paso1">
-        <q-form v-on:submit.prevent="fGuardarCamion">
+        <q-form v-on:submit.prevent="fGuardarCliente">
           <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="camionCreation.anio"
-                :rules="[reglas.requerido]"
+                v-model="conductorCreation.nombre"
+                :rules="[reglas.requerido, reglas.min8, reglas.max50]"
                 outlined
                 dense
                 clearable
-                label="Año modelo"
+                label="Nombre"
+                hint="Apellido y nombre"
               >
               </q-input>
             </div>
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="camionCreation.cantidadNeumaticos"
-                :rules="[reglas.requerido]"
+                v-model="conductorCreation.direccion"
+                :rules="[reglas.requerido, reglas.min8, reglas.max50]"
                 outlined
                 dense
                 clearable
-                label="Cantidad neumaticos"
+                label="Dirección"
+                hint="Dirección del conductor"
               >
               </q-input>
             </div>
@@ -352,50 +402,26 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model="camionCreation.marcaModelo"
-                :rules="[reglas.requerido]"
+                v-model="conductorCreation.email"
+                :rules="[reglas.requerido, reglas.min8, reglas.max50, reglas.email]"
                 outlined
                 dense
                 clearable
-                label="Marca y modelo"
+                label="Email"
+                hint="Dirección de email"
               >
               </q-input>
             </div>
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model="camionCreation.patente"
-                :rules="[reglas.requerido]"
+                v-model="conductorCreation.telefono"
+                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
                 outlined
                 dense
                 clearable
-                label="Número de patente"
-              >
-              </q-input>
-            </div>
-          </div>
-          <div class="row justify-around">
-            <div class="col-xs-6 q-pa-md">
-              <q-input
-                class="nuevo-input"
-                v-model="camionCreation.numeroChasis"
-                :rules="[reglas.requerido]"
-                outlined
-                dense
-                clearable
-                label="Número del chasis"
-              >
-              </q-input>
-            </div>
-            <div class="col-xs-6 q-pa-md">
-              <q-input
-                class="nuevo-input"
-                v-model="camionCreation.numeroMotor"
-                :rules="[reglas.requerido]"
-                outlined
-                dense
-                clearable
-                label="Número del motor"
+                label="Teléfono"
+                hint="Número de teléfono"
               >
               </q-input>
             </div>
@@ -404,12 +430,13 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="camionCreation.peso"
-                :rules="[reglas.requerido]"
+                v-model="conductorCreation.identificacion"
+                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
                 outlined
                 dense
                 clearable
-                label="Peso del equipo"
+                label="Identificacion"
+                hint="Documento/Pasaporte"
               >
               </q-input>
             </div>
@@ -417,7 +444,7 @@
               <q-input
                 class="nuevo-input"
                 type="textarea"
-                v-model="camionCreation.notas"
+                v-model="conductorCreation.notas"
                 autogrow
                 outlined
                 dense
@@ -441,8 +468,8 @@
 <script>
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
-import { CamionCreation } from 'src/models/creation/camion_creation'
-import { camionService } from 'src/services/camion_service'
+import { ConductorCreation } from 'src/models/creation/conductor_creation'
+import { conductorService } from 'src/services/conductor_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
@@ -461,38 +488,38 @@ const columnas = [
     align: 'center'
   },
   {
-    name: 'marcaModelo',
-    label: 'Marca/modelo',
+    name: 'nombre',
+    label: 'Nombre',
     align: 'left',
-    field: 'marcaModelo',
+    field: 'nombre',
     sortable: true
   },
   {
-    name: 'anio',
-    label: 'Año modelo',
-    align: 'center',
-    field: 'anio',
+    name: 'direccion',
+    label: 'Direccion',
+    align: 'left',
+    field: 'direccion',
     sortable: true
   },
   {
-    name: 'cantidadNeumaticos',
-    label: 'Neumaticos',
-    align: 'center',
-    field: 'cantidadNeumaticos',
+    name: 'email',
+    label: 'Email',
+    align: 'left',
+    field: 'email',
     sortable: true
   },
   {
-    name: 'patente',
-    label: 'Patente',
-    align: 'center',
-    field: 'patente',
+    name: 'identificacion',
+    label: 'Identificacion',
+    align: 'left',
+    field: 'identificacion',
     sortable: true
   },
   {
-    name: 'peso',
-    label: 'Peso',
-    align: 'center',
-    field: 'peso'
+    name: 'telefono',
+    label: 'telefono',
+    align: 'left',
+    field: 'telefono'
   }
 ]
 
@@ -500,21 +527,25 @@ export default {
   setup () {
     const $q = useQuasar()
 
-    const anio = ref(null)
-    const camionCreation = reactive(new CamionCreation())
-    const camiones = ref([])
-    const editAnio = ref(false)
-    const editMarcaModelo = ref(false)
+    const conductorCreation = reactive(new ConductorCreation())
+    const conductores = ref([])
+    const direccion = ref(null)
+    const editDireccion = ref(false)
+    const editEmail = ref(false)
+    const editIdentifiacion = ref(false)
+    const editNombre = ref(true)
     const editNotas = ref(false)
-    const editPatente = ref(false)
+    const editTelefono = ref(false)
+    const email = ref(null)
     const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
-    const marcaModelo = ref(null)
+    const identificacion = ref(null)
+    const nombre = ref(null)
     const notas = ref(null)
-    const nuevoCamionDialog = ref(false)
     const nuevaBusqueda = ref(false)
+    const nuevoConductorDialog = ref(false)
     const paso1 = ref(true)
-    const patente = ref(null)
     const reglas = reactive(reglasValidacion.reglas)
+    const telefono = ref(null)
 
     afBuscarPaginadas()
 
@@ -529,19 +560,19 @@ export default {
         }
         let resultado = null
         if (esAdmin.value) {
-          resultado = await camionService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
+          resultado = await conductorService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
-          resultado = await camionService.spfBuscarTodasPaginadas(paginadoDTO)
+          resultado = await conductorService.spfBuscarTodasPaginadas(paginadoDTO)
         }
         if (resultado.status === 200) {
-          camiones.value = resultado.data.content
+          conductores.value = resultado.data.content
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
         }
       } catch (err) {
         console.clear()
         if (err.response.status === 404) {
-          camiones.value = []
+          conductores.value = []
           console.info(err.response.headers.mensaje)
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
@@ -556,25 +587,25 @@ export default {
       }
     }
 
-    async function afBuscarPorAnio () {
-      if (anio.value != null) {
+    async function afBuscarPorDireccion () {
+      if (direccion.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await camionService.spfBuscarTodasPorAnioConEliminadas(anio.value)
+            resultado = await conductorService.spfBuscarTodasPorDireccionConEliminadas(direccion.value)
           } else {
-            resultado = await camionService.spfBuscarTodasPorAnio(anio.value)
+            resultado = await conductorService.spfBuscarTodasPorDireccion(direccion.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            camiones.value = resultado.data
+            conductores.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            camiones.value = []
+            conductores.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -590,25 +621,93 @@ export default {
       }
     }
 
-    async function afBuscarPorMarcaModelo () {
-      if (marcaModelo.value != null) {
+    async function afBuscarPorEmail () {
+      if (email.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await camionService.spfBuscarTodasPorMarcaModeloConEliminadas(marcaModelo.value)
+            resultado = await conductorService.spfBuscarTodasPorEmailConEliminadas(email.value)
           } else {
-            resultado = await camionService.spfBuscarTodasPorMarcaModelo(marcaModelo.value)
+            resultado = await conductorService.spfBuscarTodasPorEmail(email.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            camiones.value = resultado.data
+            conductores.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            camiones.value = []
+            conductores.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
+    async function afBuscarPorIdentificacion () {
+      if (identificacion.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (esAdmin.value) {
+            resultado = await conductorService.spfBuscarTodasPorIdentificacionConEliminadas(identificacion.value)
+          } else {
+            resultado = await conductorService.spfBuscarTodasPorIdentificacion(identificacion.value)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            conductores.value = resultado.data
+          }
+          $q.loading.hide()
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            conductores.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
+    async function afBuscarPorNombre () {
+      if (nombre.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (esAdmin.value) {
+            resultado = await conductorService.spfBuscarTodasPorNombreConEliminadas(nombre.value)
+          } else {
+            resultado = await conductorService.spfBuscarTodasPorNombre(nombre.value)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            conductores.value = resultado.data
+          }
+          $q.loading.hide()
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            conductores.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -630,19 +729,19 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await camionService.spfBuscarTodasPorNotasConEliminadas(notas.value)
+            resultado = await conductorService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
-            resultado = await camionService.spfBuscarTodasPorNotas(notas.value)
+            resultado = await conductorService.spfBuscarTodasPorNotas(notas.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            camiones.value = resultado.data
+            conductores.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            camiones.value = []
+            conductores.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -658,25 +757,25 @@ export default {
       }
     }
 
-    async function afBuscarPorPatente () {
-      if (patente.value != null) {
+    async function afBuscarPorTelefono () {
+      if (telefono.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await camionService.spfBuscarTodasPorPatenteConEliminadas(patente.value)
+            resultado = await conductorService.spfBuscarTodasPorTelefonoConEliminadas(telefono.value)
           } else {
-            resultado = await camionService.spfBuscarTodasPorPatente(patente.value)
+            resultado = await conductorService.spfBuscarTodasPorTelefono(telefono.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            camiones.value = resultado.data
+            conductores.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            camiones.value = []
+            conductores.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -692,69 +791,15 @@ export default {
       }
     }
 
-    async function afGuardarCamion () {
+    async function afGuardarCliente () {
       $q.loading.show()
       try {
         let resultado = null
-        resultado = await camionService.spfGuardar(camionCreation)
+        resultado = await conductorService.spfGuardar(conductorCreation)
         if (resultado.status === 201) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
-          notificarService.notificarExito('Se creó correctamente el camion.')
-        }
-      } catch (err) {
-        console.clear()
-        if (err.response.status === 404) {
-          console.info(err.response.headers.mensaje)
-          notificarService.infoAlerta(err.response.headers.mensaje)
-        } else if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
-      }
-    }
-
-    async function afEliminarCamion (id) {
-      $q.loading.show()
-      try {
-        let resultado = null
-        resultado = await camionService.spfBorrar(id)
-        if (resultado.status === 200) {
-          console.log(resultado.headers.mensaje)
-          $q.loading.hide()
-          notificarService.notificarExito('Se borró correctamente el camion.')
-        }
-      } catch (err) {
-        console.clear()
-        if (err.response.status === 404) {
-          console.info(err.response.headers.mensaje)
-          notificarService.infoAlerta(err.response.headers.mensaje)
-        } else if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
-      }
-    }
-
-    async function afReciclarCamion (id) {
-      $q.loading.show()
-      try {
-        let resultado = null
-        resultado = await camionService.spfReciclar(id)
-        if (resultado.status === 200) {
-          console.log(resultado.headers.mensaje)
-          $q.loading.hide()
-          notificarService.notificarExito('Se recicló correctamente el camion.')
+          notificarService.notificarExito('Se creó correctamente el conductor.')
         }
       } catch (err) {
         console.clear()
@@ -777,13 +822,67 @@ export default {
       return ayuda.getDateWithFormat(fecha)
     }
 
-    function fGuardarCamion () {
-      afGuardarCamion().then(() => {
+    function fGuardarCliente () {
+      afGuardarCliente().then(() => {
         afBuscarPaginadas().then(() => {
-          nuevoCamionDialog.value = false
+          nuevoConductorDialog.value = false
           fIrPaso1()
         })
       })
+    }
+
+    async function afEliminarCliente (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await conductorService.spfBorrar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se borró correctamente el conductor.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afReciclarCliente (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await conductorService.spfReciclar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se recicló correctamente el conductor.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
     }
 
     function fIrPaso1 () {
@@ -792,44 +891,58 @@ export default {
     }
 
     function fLimpiarFormulario () {
-      camionCreation.anio = null
-      camionCreation.cantidadNeumaticos = null
-      camionCreation.marcaModelo = null
-      camionCreation.notas = null
-      camionCreation.patente = null
-      camionCreation.peso = null
+      conductorCreation.direccion = null
+      conductorCreation.email = null
+      conductorCreation.identificacion = null
+      conductorCreation.nombre = null
+      conductorCreation.notas = null
+      conductorCreation.telefono = null
 
-      camionCreation.id = null
-      camionCreation.creadorId = null
-      camionCreation.creador = null
-      camionCreation.creada = null
-      camionCreation.modificadorId = null
-      camionCreation.modificador = null
-      camionCreation.modificada = null
-      camionCreation.eliminadorId = null
-      camionCreation.eliminador = null
-      camionCreation.eliminada = null
+      conductorCreation.id = null
+      conductorCreation.creadorId = null
+      conductorCreation.creador = null
+      conductorCreation.creada = null
+      conductorCreation.modificadorId = null
+      conductorCreation.modificador = null
+      conductorCreation.modificada = null
+      conductorCreation.eliminadorId = null
+      conductorCreation.eliminador = null
+      conductorCreation.eliminada = null
     }
 
     function fLimpiarInputs (actual) {
-      anio.value = null
-      editAnio.value = null
-      editMarcaModelo.value = null
+      direccion.value = null
+      editDireccion.value = null
+      editEmail.value = null
+      editIdentifiacion.value = null
+      editNombre.value = null
       editNotas.value = null
-      editPatente.value = null
-      marcaModelo.value = null
+      editTelefono.value = null
+      email.value = null
+      identificacion.value = null
+      nombre.value = null
       notas.value = null
-      patente.value = null
+      telefono.value = null
     }
 
-    function fMostrarAnio () {
+    function fMostrarDireccion () {
       fLimpiarInputs()
-      editAnio.value = true
+      editDireccion.value = true
     }
 
-    function fMostrarMarcaModelo () {
+    function fMostrarEmail () {
       fLimpiarInputs()
-      editMarcaModelo.value = true
+      editEmail.value = true
+    }
+
+    function fMostrarIdentificacion () {
+      fLimpiarInputs()
+      editIdentifiacion.value = true
+    }
+
+    function fMostrarNombre () {
+      fLimpiarInputs()
+      editNombre.value = true
     }
 
     function fMostrarNotas () {
@@ -837,48 +950,45 @@ export default {
       editNotas.value = true
     }
 
-    function fMostrarPatente () {
+    function fMostrarTelefono () {
       fLimpiarInputs()
-      editPatente.value = true
+      editTelefono.value = true
     }
 
-    function fMostrarNuevoCamion () {
-      fLimpiarFormulario()
+    function fMostrarNuevoCliente () {
       fIrPaso1()
-      nuevoCamionDialog.value = true
+      nuevoConductorDialog.value = true
     }
 
-    function fMostrarEditarCamion (props) {
-      camionCreation.id = props.row.id
-      camionCreation.anio = props.row.anio
-      camionCreation.cantidadNeumaticos = props.row.cantidadNeumaticos
-      camionCreation.marcaModelo = props.row.marcaModelo
-      camionCreation.patente = props.row.patente
-      camionCreation.peso = props.row.peso
-      camionCreation.notas = props.row.notas
-      camionCreation.numeroChasis = props.row.numeroChasis
-      camionCreation.numeroMotor = props.row.numeroMotor
+    function fMostrarEditarConductor (props) {
+      conductorCreation.id = props.row.id
+      conductorCreation.nombre = props.row.nombre
+      conductorCreation.direccion = props.row.direccion
+      conductorCreation.email = props.row.email
+      conductorCreation.telefono = props.row.telefono
+      conductorCreation.identificacion = props.row.identificacion
+      conductorCreation.notas = props.row.notas
 
-      camionCreation.creada = props.row.creada
-      camionCreation.creadorId = props.row.creadorId
-      camionCreation.eliminada = props.row.eliminada
-      camionCreation.eliminadorId = props.row.eliminadorId
-      camionCreation.modificada = props.row.modificada
-      camionCreation.modificadorId = props.row.modificadorId
+      conductorCreation.creada = props.row.creada
+      conductorCreation.creadorId = props.row.creadorId
+      conductorCreation.eliminada = props.row.eliminada
+      conductorCreation.eliminadorId = props.row.eliminadorId
+      conductorCreation.modificada = props.row.modificada
+      conductorCreation.modificadorId = props.row.modificadorId
 
-      nuevoCamionDialog.value = true
+      nuevoConductorDialog.value = true
     }
 
-    function fMostrarEliminarCamion (props) {
-      afEliminarCamion(props.row.id).then(() => {
+    function fMostrarEliminarConductor (props) {
+      afEliminarCliente(props.row.id).then(() => {
         afBuscarPaginadas().then(() => {
 
         })
       })
     }
 
-    function fMostrarReciclarCamion (props) {
-      afReciclarCamion(props.row.id).then(() => {
+    function fMostrarReciclarConductor (props) {
+      afReciclarCliente(props.row.id).then(() => {
         afBuscarPaginadas().then(() => {
 
         })
@@ -886,36 +996,46 @@ export default {
     }
 
     return {
-      camionCreation,
-      camiones,
-      afBuscarPorAnio,
-      afBuscarPorMarcaModelo,
+      afBuscarPorDireccion,
+      afBuscarPorEmail,
+      afBuscarPorIdentificacion,
+      afBuscarPorNombre,
       afBuscarPorNotas,
-      afBuscarPorPatente,
-      anio,
+      afBuscarPorTelefono,
+      conductorCreation,
+      conductores,
       columnas,
-      marcaModelo,
-      editAnio,
-      editMarcaModelo,
+      direccion,
+      editDireccion,
+      editEmail,
+      editIdentifiacion,
+      editNombre,
       editNotas,
-      editPatente,
+      editTelefono,
+      email,
       esAdmin,
       fFormatoFecha,
-      fGuardarCamion,
-      fMostrarAnio,
-      fMostrarMarcaModelo,
-      fMostrarPatente,
+      fGuardarCliente,
+      fMostrarDireccion,
+      fMostrarEmail,
+      fMostrarIdentificacion,
+      fMostrarNombre,
       fMostrarNotas,
-      fMostrarNuevoCamion,
-      fMostrarEditarCamion,
-      fMostrarEliminarCamion,
-      fMostrarReciclarCamion,
+      fMostrarNuevoCliente,
+      fMostrarTelefono,
+
+      fMostrarEditarConductor,
+      fMostrarEliminarConductor,
+      fMostrarReciclarConductor,
+
+      identificacion,
+      nombre,
       notas,
       nuevaBusqueda,
-      nuevoCamionDialog,
+      nuevoConductorDialog,
       paginacion,
       paso1,
-      patente,
+      telefono,
       reglas
     }
   }
@@ -930,7 +1050,7 @@ export default {
   color: #9e9e9e;
 }
 .q-btn-dropdown {
-  width: 250px;
+  width: 280px;
 }
 .item-lista {
   border-bottom: 2px solid white;

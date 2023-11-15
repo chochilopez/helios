@@ -22,5 +22,6 @@ public class LicenciaModel extends AbsAuditoriaModel {
     @Column(columnDefinition = "TEXT")
     private String notas;
 
+    private Long conductorId;
     private Long vencimientoId;
 }

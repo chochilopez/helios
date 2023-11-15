@@ -318,8 +318,8 @@ const columnas = [
     sortable: true
   },
   {
-    name: 'chofer',
-    label: 'Chofer',
+    name: 'conductor',
+    label: 'Conductor',
     align: 'center',
     field: ''
   },

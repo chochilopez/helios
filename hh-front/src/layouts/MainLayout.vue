@@ -188,7 +188,7 @@
             <q-item-section class="white-text">Vencimientos</q-item-section>
           </q-item>
         </q-expansion-item>
-        <q-expansion-item icon="airline_seat_recline_extra" label="Choferes">
+        <q-expansion-item icon="airline_seat_recline_extra" label="Conductores">
           <q-item
             clickable
             v-ripple
@@ -222,32 +222,47 @@
           <q-item
             clickable
             v-ripple
-            :active="link === 'choferes'"
-            @click="link = 'choferes'"
+            :active="link === 'conductores'"
+            @click="link = 'conductores'"
             active-class="seleccion-activa"
             exact
-            :to="{ name: 'Chofer' }"
+            :to="{ name: 'Conductor' }"
             class="q-ml-md paleta1-fondo5"
           >
             <q-item-section avatar>
               <q-icon name="airline_seat_recline_extra" />
             </q-item-section>
-            <q-item-section class="white-text">Choferes</q-item-section>
+            <q-item-section class="white-text">Conductores</q-item-section>
           </q-item>
           <q-item
             clickable
             v-ripple
-            :active="link === 'resumenChofer'"
-            @click="link = 'resumenChofer'"
+            :active="link === 'licencias'"
+            @click="link = 'licencias'"
             active-class="seleccion-activa"
             exact
-            :to="{ name: 'ResumenChofer' }"
+            :to="{ name: 'Licencia' }"
+            class="q-ml-md paleta1-fondo5"
+          >
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-id-card" />
+            </q-item-section>
+            <q-item-section class="white-text">Licencias</q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'resumenConductor'"
+            @click="link = 'resumenConductor'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'ResumenConductor' }"
             class="q-ml-md paleta1-fondo5"
           >
             <q-item-section avatar>
               <q-icon name="follow_the_signs" />
             </q-item-section>
-            <q-item-section class="white-text">Resumen por chofer</q-item-section>
+            <q-item-section class="white-text">Resumen por conductor</q-item-section>
           </q-item>
         </q-expansion-item>
         <q-expansion-item icon="groups" label="Clientes">

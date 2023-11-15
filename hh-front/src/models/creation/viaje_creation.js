@@ -9,6 +9,7 @@ export class ViajeCreation {
     this.conductorId = ''
     this.destinoId = ''
     this.fecha = ''
+    this.fechaId = ''
     this.guia = ''
     this.intermediarioId = ''
     this.kmCargado = ''

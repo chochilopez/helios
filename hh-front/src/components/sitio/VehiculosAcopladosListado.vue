@@ -710,6 +710,17 @@ export default {
       acopladoCreation.notas = null
       acopladoCreation.patente = null
       acopladoCreation.peso = null
+
+      acopladoCreation.id = null
+      acopladoCreation.creadorId = null
+      acopladoCreation.creador = null
+      acopladoCreation.creada = null
+      acopladoCreation.modificadorId = null
+      acopladoCreation.modificador = null
+      acopladoCreation.modificada = null
+      acopladoCreation.eliminadorId = null
+      acopladoCreation.eliminador = null
+      acopladoCreation.eliminada = null
     }
 
     function fLimpiarInputs (actual) {

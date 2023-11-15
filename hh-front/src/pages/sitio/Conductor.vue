@@ -1,13 +1,15 @@
 <template>
-  <h1>Chofer</h1>
+  <ConductoresConductoresListado />
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import ConductoresConductoresListado from 'src/components/sitio/ConductoresConductoresListado.vue'
 
 export default {
+  components: { ConductoresConductoresListado },
   setup () {
     const $q = useQuasar()
 

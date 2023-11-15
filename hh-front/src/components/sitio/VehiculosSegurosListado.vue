@@ -1083,6 +1083,17 @@ export default {
       seguroCreation.camionId = null
       seguroCreation.vencimiento = null
       seguroCreation.notas = null
+
+      seguroCreation.id = null
+      seguroCreation.creadorId = null
+      seguroCreation.creador = null
+      seguroCreation.creada = null
+      seguroCreation.modificadorId = null
+      seguroCreation.modificador = null
+      seguroCreation.modificada = null
+      seguroCreation.eliminadorId = null
+      seguroCreation.eliminador = null
+      seguroCreation.eliminada = null
     }
 
     function fLimpiarInputs (actual) {

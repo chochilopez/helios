@@ -10,14 +10,15 @@ import lombok.Setter;
 @Setter
 public abstract class AbsViajeModel extends AbsAuditoriaModel {
     private Integer cantidadTransportada;
-    private Long categoriaViajeId;
-    private Long compradorId;
-    private Long destinoId;
-    private Long fechaId;
     private Double kmCargado;
     private Double valorKm;
     @Column(columnDefinition = "TEXT")
     private String notas;
+
+    private Long categoriaViajeId;
+    private Long compradorId;
+    private Long destinoId;
+    private Long fechaId;
     private Long origenId;
 }
 

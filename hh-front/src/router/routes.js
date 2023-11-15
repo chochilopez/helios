@@ -81,9 +81,9 @@ const routes = [
         }
       },
       {
-        path: '/chofer',
-        name: 'Chofer',
-        component: () => import('pages/sitio/Chofer.vue'),
+        path: '/conductor',
+        name: 'Conductor',
+        component: () => import('pages/sitio/Conductor.vue'),
         meta: {
           rol: rolEnum.CARGA
         }
@@ -164,6 +164,14 @@ const routes = [
         path: '/facturacion',
         name: 'Facturacion',
         component: () => import('pages/sitio/Facturacion.vue'),
+        meta: {
+          rol: rolEnum.CARGA
+        }
+      },
+      {
+        path: '/licencia',
+        name: 'Licencia',
+        component: () => import('pages/sitio/Licencia.vue'),
         meta: {
           rol: rolEnum.CARGA
         }
@@ -249,9 +257,9 @@ const routes = [
         }
       },
       {
-        path: '/resumen-chofer',
-        name: 'ResumenChofer',
-        component: () => import('pages/sitio/ResumenChofer.vue'),
+        path: '/resumen-conductor',
+        name: 'ResumenConductor',
+        component: () => import('pages/sitio/ResumenConductor.vue'),
         meta: {
           rol: rolEnum.CARGA
         }

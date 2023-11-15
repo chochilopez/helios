@@ -1,5 +1,5 @@
 <template>
-  <h1>Resumen Conductor</h1>
+  <h1>MovimientoCaja</h1>
 </template>
 
 <script>
