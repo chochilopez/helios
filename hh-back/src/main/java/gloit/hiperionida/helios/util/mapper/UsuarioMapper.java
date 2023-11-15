@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
@@ -105,21 +106,24 @@ public class UsuarioMapper {
             if (model.getCreadorId() != null) {
                 UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreadorId() + "."));
                 dto.setCreador(usuarioModel.getNombre());
+                dto.setCreadorId(model.getCreadorId().toString());
             }
             if (model.getCreada() != null)
-                dto.setCreada(model.getCreada().toString());
+                dto.setCreada(model.getCreada().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             if (model.getModificadorId() != null) {
                 UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getModificadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el modificador con id: " + model.getModificadorId() + "."));
                 dto.setModificador(usuarioModel.getNombre());
+                dto.setModificadorId(model.getModificadorId().toString());
             }
             if (model.getModificada() != null)
-                dto.setModificada(model.getModificada().toString());
+                dto.setModificada(model.getModificada().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             if (model.getEliminadorId() != null) {
                 UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el eliminador con id: " + model.getEliminadorId() + "."));
                 dto.setEliminador(usuarioModel.getNombre());
+                dto.setEliminadorId(model.getEliminadorId().toString());
             }
             if (model.getEliminada() != null)
-                dto.setEliminada(model.getEliminada().toString());
+                dto.setEliminada(model.getEliminada().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
             return dto;
         } catch (Exception e) {

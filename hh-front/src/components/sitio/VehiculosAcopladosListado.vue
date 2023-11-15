@@ -160,17 +160,60 @@
           </div>
         </template>
         <template v-slot:body="props">
-          <q-tr :props="props">
+          <q-tr :props="props" :class="(props.row.eliminada === null) ? '':'bg-red-2'">
             <q-td auto-width class="text-center">
               <q-btn
                 size="sm"
-                class="text-white"
+                class="text-white q-mr-xs"
                 :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
                 round
                 dense
                 @click="props.expand = !props.expand"
-                :icon="props.expand ? 'remove' : 'add'"
-              />
+              >
+                <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
+                <q-tooltip>
+                  Expandir
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEditarAcoplado(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="edit" />
+                <q-tooltip>
+                  Modificar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEliminarAcoplado(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="delete" />
+                <q-tooltip>
+                  Eliminar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada !== null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarReciclarAcoplado(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="recycling" />
+                <q-tooltip>
+                  Reciclar
+                </q-tooltip>
+              </q-btn>
             </q-td>
             <q-td>
               {{ props.row.marcaModelo}}
@@ -272,7 +315,7 @@
       <q-card-section v-if="paso1">
         <q-form v-on:submit.prevent="fGuardarAcoplado">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model.number="acopladoCreation.anio"
@@ -284,7 +327,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model.number="acopladoCreation.cantidadNeumaticos"
@@ -296,7 +339,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="acopladoCreation.marcaModelo"
@@ -308,7 +353,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="acopladoCreation.patente"
@@ -320,7 +365,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model.number="acopladoCreation.peso"
@@ -332,7 +379,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 type="textarea"
@@ -346,7 +393,7 @@
               </q-input>
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
               Finalizar
             </q-btn>
@@ -697,6 +744,95 @@ export default {
       nuevoAcopladoDialog.value = true
     }
 
+    async function afEliminarAcoplado (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await acopladoService.spfBorrar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se borró correctamente el acoplado.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afReciclarAcoplado (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await acopladoService.spfReciclar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se recicló correctamente el acoplado.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    function fMostrarEditarAcoplado (props) {
+      acopladoCreation.id = props.row.id
+      acopladoCreation.anio = props.row.anio
+      acopladoCreation.cantidadNeumaticos = props.row.cantidadNeumaticos
+      acopladoCreation.marcaModelo = props.row.marcaModelo
+      acopladoCreation.patente = props.row.patente
+      acopladoCreation.peso = props.row.peso
+      acopladoCreation.notas = props.row.notas
+
+      acopladoCreation.creada = props.row.creada
+      acopladoCreation.creadorId = props.row.creadorId
+      acopladoCreation.eliminada = props.row.eliminada
+      acopladoCreation.eliminadorId = props.row.eliminadorId
+      acopladoCreation.modificada = props.row.modificada
+      acopladoCreation.modificadorId = props.row.modificadorId
+
+      nuevoAcopladoDialog.value = true
+    }
+
+    function fMostrarEliminarAcoplado (props) {
+      afEliminarAcoplado(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
+
+    function fMostrarReciclarAcoplado (props) {
+      afReciclarAcoplado(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
+
     function fMostrarPatente () {
       fLimpiarInputs()
       editPatente.value = true
@@ -723,7 +859,12 @@ export default {
       fMostrarMarcaModelo,
       fMostrarPatente,
       fMostrarNotas,
+
       fMostrarNuevoAcoplado,
+      fMostrarEditarAcoplado,
+      fMostrarEliminarAcoplado,
+      fMostrarReciclarAcoplado,
+
       notas,
       nuevaBusqueda,
       nuevoAcopladoDialog,

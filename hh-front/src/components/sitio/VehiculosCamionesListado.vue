@@ -160,17 +160,60 @@
           </div>
         </template>
         <template v-slot:body="props">
-          <q-tr :props="props">
+          <q-tr :props="props" :class="(props.row.eliminada === null) ? '':'bg-red-2'">
             <q-td auto-width class="text-center">
               <q-btn
                 size="sm"
-                class="text-white"
+                class="text-white q-mr-xs"
                 :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
                 round
                 dense
                 @click="props.expand = !props.expand"
-                :icon="props.expand ? 'remove' : 'add'"
-              />
+              >
+                <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
+                <q-tooltip>
+                  Expandir
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEditarCamion(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="edit" />
+                <q-tooltip>
+                  Modificar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEliminarCamion(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="delete" />
+                <q-tooltip>
+                  Eliminar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada !== null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarReciclarCamion(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="recycling" />
+                <q-tooltip>
+                  Reciclar
+                </q-tooltip>
+              </q-btn>
             </q-td>
             <q-td>
               {{ props.row.marcaModelo}}
@@ -280,7 +323,7 @@
       <q-card-section v-if="paso1">
         <q-form v-on:submit.prevent="fGuardarCamion">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model.number="camionCreation.anio"
@@ -292,7 +335,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model.number="camionCreation.cantidadNeumaticos"
@@ -304,7 +347,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="camionCreation.marcaModelo"
@@ -316,7 +361,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="camionCreation.patente"
@@ -328,7 +373,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="camionCreation.numeroChasis"
@@ -340,7 +387,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model="camionCreation.numeroMotor"
@@ -352,7 +399,9 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 v-model.number="camionCreation.peso"
@@ -364,7 +413,7 @@
               >
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 type="textarea"
@@ -378,7 +427,7 @@
               </q-input>
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
               Finalizar
             </q-btn>
@@ -670,6 +719,60 @@ export default {
       }
     }
 
+    async function afEliminarCamion (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await camionService.spfBorrar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se borró correctamente el camion.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afReciclarCamion (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await camionService.spfReciclar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se recicló correctamente el camion.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
     function fFormatoFecha (fecha) {
       return ayuda.getDateWithFormat(fecha)
     }
@@ -723,15 +826,52 @@ export default {
       editNotas.value = true
     }
 
+    function fMostrarPatente () {
+      fLimpiarInputs()
+      editPatente.value = true
+    }
+
     function fMostrarNuevoCamion () {
       fLimpiarFormulario()
       fIrPaso1()
       nuevoCamionDialog.value = true
     }
 
-    function fMostrarPatente () {
-      fLimpiarInputs()
-      editPatente.value = true
+    function fMostrarEditarCamion (props) {
+      camionCreation.id = props.row.id
+      camionCreation.anio = props.row.anio
+      camionCreation.cantidadNeumaticos = props.row.cantidadNeumaticos
+      camionCreation.marcaModelo = props.row.marcaModelo
+      camionCreation.patente = props.row.patente
+      camionCreation.peso = props.row.peso
+      camionCreation.notas = props.row.notas
+      camionCreation.numeroChasis = props.row.numeroChasis
+      camionCreation.numeroMotor = props.row.numeroMotor
+
+      camionCreation.creada = props.row.creada
+      camionCreation.creadorId = props.row.creadorId
+      camionCreation.eliminada = props.row.eliminada
+      camionCreation.eliminadorId = props.row.eliminadorId
+      camionCreation.modificada = props.row.modificada
+      camionCreation.modificadorId = props.row.modificadorId
+
+      nuevoCamionDialog.value = true
+    }
+
+    function fMostrarEliminarCamion (props) {
+      afEliminarCamion(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
+
+    function fMostrarReciclarCamion (props) {
+      afReciclarCamion(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
     }
 
     return {
@@ -756,6 +896,9 @@ export default {
       fMostrarPatente,
       fMostrarNotas,
       fMostrarNuevoCamion,
+      fMostrarEditarCamion,
+      fMostrarEliminarCamion,
+      fMostrarReciclarCamion,
       notas,
       nuevaBusqueda,
       nuevoCamionDialog,

@@ -221,17 +221,60 @@
           </div>
         </template>
         <template v-slot:body="props">
-          <q-tr :props="props">
+          <q-tr :props="props" :class="(props.row.eliminada === null) ? '':'bg-red-2'">
             <q-td auto-width class="text-center">
               <q-btn
                 size="sm"
-                class="text-white"
+                class="text-white q-mr-xs"
                 :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
                 round
                 dense
                 @click="props.expand = !props.expand"
-                :icon="props.expand ? 'remove' : 'add'"
-              />
+              >
+                <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
+                <q-tooltip>
+                  Expandir
+                </q-tooltip>
+              </q-btn>
+              <!--q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEditarSeguro(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="edit" />
+                <q-tooltip>
+                  Modificar
+                </q-tooltip>
+              </!--q-btn-->
+              <q-btn
+                v-if="props.row.eliminada === null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarEliminarSeguro(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="delete" />
+                <q-tooltip>
+                  Eliminar
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                v-if="props.row.eliminada !== null"
+                size="sm"
+                class="text-white paleta5-fondo2 q-mr-xs"
+                round
+                dense
+                @click="fMostrarReciclarSeguro(props)"
+              >
+                <q-icon size="2em" class="q-pa-xs" name="recycling" />
+                <q-tooltip>
+                  Reciclar
+                </q-tooltip>
+              </q-btn>
             </q-td>
             <q-td v-if="props.row.acoplado !== null">
               Acoplado: {{ props.row.acoplado }}
@@ -266,7 +309,7 @@
                   <div class="row paleta1-color2">Camión</div>
                 </div>
                 <div v-if="props.row.vencimiento != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.vencimiento }}</div>
+                  <div class="row text-white">{{ fFormatoFecha(props.row.vencimiento) }}</div>
                   <div class="row paleta1-color2">Vencimiento</div>
                 </div>
                 <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
@@ -318,7 +361,7 @@
       <q-card-section v-if="paso1">
         <q-form v-on:submit.prevent="fGuardarSeguro">
           <div class="row justify-around">
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -336,7 +379,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 v-if="tipoVehiculo === 'Acoplado'"
                 class="nuevo-input"
@@ -361,7 +404,8 @@
                   </q-item>
                 </template>
               </q-select>
-
+            <div class="row justify-around">
+            </div>
               <q-select
                 v-if="tipoVehiculo === 'Camión'"
                 class="nuevo-input"
@@ -387,7 +431,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
@@ -412,7 +456,9 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="row justify-around">
+            </div>
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 mask="##-##-####"
@@ -438,7 +484,7 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-xs-5 q-mx-xs q-my-md">
+            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 type="textarea"
@@ -452,7 +498,7 @@
               </q-input>
             </div>
           </div>
-          <div class="row justify-end q-mr-xl q-my-md">
+          <div class="row justify-end q-pa-md">
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
               Finalizar
             </q-btn>
@@ -469,7 +515,6 @@ import { acopladoService } from 'src/services/acoplado_service'
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
 import { camionService } from 'src/services/camion_service'
-import { eventoService } from 'src/services/evento_service'
 import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { proveedorService } from 'src/services/proveedor_service'
@@ -549,12 +594,6 @@ export default {
     const seguros = ref([])
 
     afBuscarPaginadas()
-
-    seguroCreation.aseguradoraId = 14
-    seguroCreation.acopladoId = 7
-    seguroCreation.vencimiento = '23-12-2023'
-    seguroCreation.aseguradoraId = 12
-    seguroCreation.notas = 'Seguro para lo que sea'
 
     async function afBuscarAcoplados () {
       $q.loading.show()
@@ -943,6 +982,60 @@ export default {
       })
     }
 
+    async function afEliminarSeguro (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await seguroService.spfBorrar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se borró correctamente el seguro.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afReciclarSeguro (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await seguroService.spfReciclar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se recicló correctamente el seguro.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
     function fFiltrarAcoplados (val, update, abort) {
       if (val.length < 3) {
         abort()
@@ -981,7 +1074,7 @@ export default {
 
     function fIrPaso1 () {
       paso1.value = true
-      // fLimpiarFormulario()
+      fLimpiarFormulario()
     }
 
     function fLimpiarFormulario () {
@@ -1044,6 +1137,40 @@ export default {
       })
     }
 
+    function fMostrarEditarSeguro (props) {
+      seguroCreation.id = props.row.id
+      seguroCreation.notas = props.row.notas
+      seguroCreation.acopladoId = props.row.acopladoId
+      seguroCreation.camionId = props.row.camionId
+      seguroCreation.aseguradoraId = props.row.aseguradoraId
+      seguroCreation.vencimientoId = props.row.vencimientoId
+
+      seguroCreation.creada = props.row.creada
+      seguroCreation.creadorId = props.row.creadorId
+      seguroCreation.eliminada = props.row.eliminada
+      seguroCreation.eliminadorId = props.row.eliminadorId
+      seguroCreation.modificada = props.row.modificada
+      seguroCreation.modificadorId = props.row.modificadorId
+
+      nuevoSeguroDialog.value = true
+    }
+
+    function fMostrarEliminarSeguro (props) {
+      afEliminarSeguro(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
+
+    function fMostrarReciclarSeguro (props) {
+      afReciclarSeguro(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
+
     function fMostrarVencimiento () {
       fLimpiarInputs()
       editVencimiento.value = true
@@ -1092,7 +1219,11 @@ export default {
       fMostrarCamion,
       fMostrarNotas,
       fMostrarVencimiento,
+
       fMostrarNuevoSeguro,
+      fMostrarEditarSeguro,
+      fMostrarEliminarSeguro,
+      fMostrarReciclarSeguro,
 
       afBuscarPorAcopladoId,
       afBuscarPorAseguradoraId,
