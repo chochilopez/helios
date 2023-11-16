@@ -742,7 +742,7 @@
           </div>
         </template>
         <template v-slot:body="props">
-          <q-tr :props="props" :class="(props.row.eliminada === null) ? '':'bg-red-2'">
+          <q-tr :props="props" :class="{ 'bg-teal-2': props.row.pagada, 'bg-amber-2': !props.row.numeroComprobante && !props.row.eliminada, 'bg-red-2': props.row.eliminada } ">
             <q-td auto-width class="text-center">
               <q-btn
                 size="sm"
@@ -771,7 +771,7 @@
                 </q-tooltip>
               </q-btn>
               <q-btn
-                v-if="props.row.eliminada === null"
+                v-if="props.row.eliminada === null && props.row.numeroComprobante === null"
                 size="sm"
                 class="text-white paleta5-fondo2 q-mr-xs"
                 round
@@ -811,9 +811,6 @@
               </q-btn>
             </q-td>
             <q-td class="text-center">
-              {{ props.row.id }}
-            </q-td>
-            <q-td>
               {{ fFormatoFecha(props.row.fecha) }}
             </q-td>
             <q-td>
@@ -1425,21 +1422,13 @@ const paginacion = {
 
 const columnas = [
   {
-    label: 'Expandir',
+    label: 'Acciones',
     align: 'center'
-  },
-  {
-    name: 'id',
-    label: 'Id',
-    align: 'center',
-    field: 'id',
-    sortOrder: 'da',
-    sortable: true
   },
   {
     name: 'fecha',
     label: 'Fecha',
-    align: 'left',
+    align: 'center',
     field: 'fecha',
     sortOrder: 'da',
     sortable: true
@@ -2978,7 +2967,7 @@ export default {
       llaveroService.borrarDeLocal('hhFacturarViaje')
       llaveroService.guardarEnLocalConSesion('hhFacturarViaje', props.row)
       console.log(props.row)
-      router.push({ name: 'Factura' })
+      router.push({ name: 'Facturacion' })
     }
 
     function fMostrarReciclarViaje (props) {

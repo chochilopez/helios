@@ -20,6 +20,10 @@ export class ViajeModel {
     this.valorKm = ''
     this.vendedor = ''
 
+    this.tipoComprobante = ''
+    this.numeroComprobante = ''
+    this.pagada = ''
+
     this.creada = ''
     this.creador = ''
     this.modificada = ''

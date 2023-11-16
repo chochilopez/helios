@@ -21,6 +21,8 @@ public class FacturaModel extends AbsAuditoriaModel {
     private Double descuento;
     private LocalDateTime fecha;
     private Double iva;
+    @Column(columnDefinition = "TEXT")
+    private String notas;
     private String numeroComprobante;
     private Double recarga;
     private Double subTotal;

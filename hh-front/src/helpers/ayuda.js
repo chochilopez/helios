@@ -33,6 +33,11 @@ function getToday () {
 }
 
 function getDateWithFormat (fechaSql) {
+  const f = new Date(fechaSql)
+  return f.getDate() + '/' + f.getMonth() + '/' + f.getFullYear()
+}
+
+function getDateWithMonthFormat (fechaSql) {
   const MESES = [
     'Enero',
     'Febrero',
@@ -175,6 +180,7 @@ export const ayuda = {
   getSize,
   getToday,
   getDateWithFormat,
+  getDateWithMonthFormat,
   getByIdInArray,
   delByIdInArray,
   fFormatearDeDatePicker,

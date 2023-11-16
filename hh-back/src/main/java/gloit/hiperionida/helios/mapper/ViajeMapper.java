@@ -31,6 +31,7 @@ public class ViajeMapper {
     private final DireccionDAO direccionDAO;
     private final EventoDAO eventoDAO;
     private final UsuarioServiceImpl usuarioService;
+    private final FacturaDAO facturaDAO;
 
 
     public ViajeModel toEntity(ViajeCreation creation) {
@@ -182,6 +183,12 @@ public class ViajeMapper {
                 ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getVendedorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vendedor con id: " + model.getVendedorId() + "."));
                 dto.setVendedor(clienteModel.getNombre());
                 dto.setVendedorId(model.getVendedorId().toString());
+            }
+            Optional<FacturaModel> facturaModel = facturaDAO.findByViajeIdAndEliminadaIsNull(model.getId());
+            if (facturaModel.isPresent()) {
+                dto.setTipoComprobante(facturaModel.get().getTipoComprobante().toString());
+                dto.setNumeroComprobante(facturaModel.get().getNumeroComprobante());
+                dto.setPagada(facturaModel.get().getPagada().toString());
             }
 
             if (model.getCreadorId() != null) {

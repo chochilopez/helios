@@ -19,6 +19,7 @@ public class FacturaCreation extends AbsAuditoriaCreation {
     private String descuento;
     private String fecha;
     private String iva;
+    private String notas;
     private String numeroComprobante;
     private String recarga;
     private String subTotal;

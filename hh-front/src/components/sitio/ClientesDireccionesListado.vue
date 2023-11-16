@@ -396,7 +396,7 @@ const paginacion = {
 
 const columnas = [
   {
-    label: 'Expandir',
+    label: 'Acciones',
     align: 'center'
   },
   {

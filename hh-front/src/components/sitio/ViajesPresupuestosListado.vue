@@ -499,7 +499,7 @@
             <q-td>
               {{ props.row.destino }}
             </q-td>
-            <q-td>
+            <q-td class="text-center">
               {{ fFormatoFecha(props.row.fecha) }}
             </q-td>
             <q-td class="text-center">

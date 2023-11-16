@@ -44,6 +44,7 @@ public class FacturaMapper {
                 model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
             if (Helper.getDecimal(creation.getIva()) != null)
                 model.setIva(Helper.getDecimal(creation.getIva()));
+            model.setNotas(creation.getNotas());
             model.setNumeroComprobante(creation.getNumeroComprobante());
             if (Helper.getDecimal(creation.getRecarga()) != null)
                 model.setRecarga(Helper.getDecimal(creation.getRecarga()));
@@ -87,6 +88,7 @@ public class FacturaMapper {
             dto.setDescuento(model.getDescuento().toString());
             dto.setFecha(model.getFecha().toString());
             dto.setIva(model.getIva().toString());
+            dto.setNotas(model.getNotas());
             dto.setNumeroComprobante(model.getNumeroComprobante());
             dto.setRecarga(model.getRecarga().toString());
             dto.setSubTotal(model.getSubTotal().toString());

@@ -26,5 +26,9 @@ public class ViajeDTO extends AbsViajeDTO implements Serializable {
     private String intermediarioId;
     private String vendedor;
     private String vendedorId;
+
+    private String tipoComprobante;
+    private String numeroComprobante;
+    private String pagada;
 }
 

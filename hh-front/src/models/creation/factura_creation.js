@@ -3,6 +3,7 @@ export class FacturaCreation {
     this.descuento = ''
     this.fecha = ''
     this.iva = ''
+    this.notas = ''
     this.numeroComprobante = ''
     this.recarga = ''
     this.subTotal = ''
