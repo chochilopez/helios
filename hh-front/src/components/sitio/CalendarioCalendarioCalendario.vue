@@ -1,6 +1,11 @@
 <template>
   <div class="subcontent">
-    <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" />
+    <CalendarioCalendarioCalendarioNavbar
+      @today="onToday"
+      @prev="onPrev"
+      @next="onNext"
+    />
+
     <div class="row justify-center">
       <div style="display: flex; max-width: 800px; width: 100%;">
         <q-calendar-month
@@ -22,9 +27,18 @@
           @click-head-day="onClickHeadDay"
         >
           <template #week="{ scope: { week, weekdays } }">
-            <template v-for="(computedEvent, index) in getWeekEvents(week, weekdays)" :key="index">
-              <div :class="badgeClasses(computedEvent)" :style="badgeStyles(computedEvent, week.length)">
-                <div v-if="computedEvent.event && computedEvent.event.details" class="title q-calendar__ellipsis">
+            <template
+              v-for="(computedEvent, index) in getWeekEvents(week, weekdays)"
+              :key="index"
+            >
+              <div
+                :class="badgeClasses(computedEvent)"
+                :style="badgeStyles(computedEvent, week.length)"
+              >
+                <div
+                  v-if="computedEvent.event && computedEvent.event.details"
+                  class="title q-calendar__ellipsis"
+                >
                   {{ computedEvent.event.title + (computedEvent.event.time ? ' - ' + computedEvent.event.time : '') }}
                   <q-tooltip>{{ computedEvent.event.details }}</q-tooltip>
                 </div>
@@ -52,7 +66,7 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
 import { defineComponent } from 'vue'
-import NavigationBar from './ViajesAgendaNavigationBar.vue'
+import CalendarioCalendarioCalendarioNavbar from './CalendarioCalendarioCalendarioNavbar.vue'
 
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
@@ -66,12 +80,11 @@ function getCurrentDay (day) {
 export default defineComponent({
   name: 'MonthSlotWeek',
   components: {
-    NavigationBar,
+    CalendarioCalendarioCalendarioNavbar,
     QCalendarMonth
   },
-  data () {
+  setup () {
     return {
-      selectedDate: today(),
       events: [
         {
           id: 1,
@@ -175,6 +188,11 @@ export default defineComponent({
       ]
     }
   },
+  data () {
+    return {
+      selectedDate: today()
+    }
+  },
   methods: {
     getWeekEvents (week, weekdays) {
       const firstDay = parsed(week[0].date + ' 00:00')
@@ -270,11 +288,7 @@ export default defineComponent({
     },
 
     isBetweenDatesWeek (dateStart, dateEnd, weekStart, weekEnd) {
-      return (
-        (dateEnd < weekEnd && dateEnd >= weekStart) ||
-          dateEnd === weekEnd ||
-          (dateEnd > weekEnd && dateStart <= weekEnd)
-      )
+      return ((dateEnd < weekEnd && dateEnd >= weekStart) || dateEnd === weekEnd || (dateEnd > weekEnd && dateStart <= weekEnd))
     },
 
     onToday () {

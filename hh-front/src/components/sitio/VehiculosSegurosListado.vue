@@ -1155,6 +1155,7 @@ export default {
       seguroCreation.camionId = props.row.camionId
       seguroCreation.aseguradoraId = props.row.aseguradoraId
       seguroCreation.vencimientoId = props.row.vencimientoId
+      seguroCreation.vencimiento = ayuda.fFormatearADatePicker(props.row.vencimiento.slice(0, 10))
 
       seguroCreation.creada = props.row.creada
       seguroCreation.creadorId = props.row.creadorId

@@ -243,16 +243,16 @@ export default {
       categoriaViajeCreation.categoria = null
       categoriaViajeCreation.notas = null
 
-      categoriasViajeCreation.id = null
-      categoriasViajeCreation.creadorId = null
-      categoriasViajeCreation.creador = null
-      categoriasViajeCreation.creada = null
-      categoriasViajeCreation.modificadorId = null
-      categoriasViajeCreation.modificador = null
-      categoriasViajeCreation.modificada = null
-      categoriasViajeCreation.eliminadorId = null
-      categoriasViajeCreation.eliminador = null
-      categoriasViajeCreation.eliminada = null
+      categoriaViajeCreation.id = null
+      categoriaViajeCreation.creadorId = null
+      categoriaViajeCreation.creador = null
+      categoriaViajeCreation.creada = null
+      categoriaViajeCreation.modificadorId = null
+      categoriaViajeCreation.modificador = null
+      categoriaViajeCreation.modificada = null
+      categoriaViajeCreation.eliminadorId = null
+      categoriaViajeCreation.eliminador = null
+      categoriaViajeCreation.eliminada = null
     }
 
     function fMostrarNuevaCategoriaViaje () {

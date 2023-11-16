@@ -33,14 +33,6 @@ const routes = [
         }
       },
       {
-        path: '/agenda-viaje',
-        name: 'AgendaViaje',
-        component: () => import('pages/sitio/AgendaViaje.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
-      {
         path: '/banco',
         name: 'Banco',
         component: () => import('pages/sitio/Banco.vue'),

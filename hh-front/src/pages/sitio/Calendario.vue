@@ -1,13 +1,15 @@
 <template>
-  <h1>Calendario</h1>
+  <CalendarioCalendarioCalendario class="q-ma-lg" />
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import CalendarioCalendarioCalendario from 'src/components/sitio/CalendarioCalendarioCalendario.vue'
 
 export default {
+  components: { CalendarioCalendarioCalendario },
   setup () {
     const $q = useQuasar()
 

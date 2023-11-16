@@ -955,7 +955,7 @@
   <q-dialog v-model="nuevoViajeDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
-        <div class="text-h6 text-grey-8">Nuevo viaje</div>
+        <div class="text-h6 text-grey-8">{{ titulo }}</div>
         <q-space />
         <q-btn class="text-grey-8" icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -1505,6 +1505,7 @@ export default {
       autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)
     )
     const router = useRouter()
+    const titulo = ref(null)
 
     const editAcoplado = ref(false)
     const editCamion = ref(false)
@@ -1578,7 +1579,34 @@ export default {
 
     onMounted(() => {
       if (llaveroService.obtenerDeLocal('hhConfirmarPresupuesto') !== null) {
-        console.log(llaveroService.obtenerDeLocal('hhConfirmarPresupuesto'))
+        const resultado = llaveroService.obtenerDeLocal('hhConfirmarPresupuesto')
+        viajeCreation.id = null
+        viajeCreation.cantidadTransportada = resultado.value.cantidadTransportada
+        viajeCreation.categoriaViajeId = resultado.value.categoriaViajeId
+        viajeCreation.compradorId = resultado.value.compradorId
+        viajeCreation.destinoId = resultado.value.destinoId
+        viajeCreation.fecha = resultado.value.fecha
+        viajeCreation.fechaId = resultado.value.fechaId
+        viajeCreation.kmCargado = resultado.value.kmCargado
+        viajeCreation.notas = resultado.value.notas
+        viajeCreation.origenId = resultado.value.origenId
+        viajeCreation.valorKm = resultado.value.editValorKilomertro
+        afBuscarConductores().then(() => {
+          afBuscarClientes().then(() => {
+            afBuscarAcoplados().then(() => {
+              afBuscarCamiones().then(() => {
+                afBuscarCategoriasViaje().then(() => {
+                  afBuscarDirecciones().then(() => {
+                    titulo.value = 'Confirmar presupuesto de viaje para ' + resultado.value.comprador
+                    fIrPaso1()
+                    llaveroService.borrarDeLocal('hhConfirmarPresupuesto')
+                    nuevoViajeDialog.value = true
+                  })
+                })
+              })
+            })
+          })
+        })
       }
     })
 
@@ -2906,7 +2934,7 @@ export default {
     }
 
     function fMostrarEditarViaje (props) {
-      console.log(props.row)
+      titulo.value = 'Editar viaje'
       viajeCreation.acopladoId = props.row.acopladoId
       viajeCreation.camionId = props.row.camionId
       viajeCreation.cantidadTransportada = props.row.cantidadTransportada
@@ -2916,6 +2944,8 @@ export default {
       viajeCreation.conductorId = props.row.conductorId
       viajeCreation.destinoId = props.row.destinoId
       viajeCreation.fechaId = props.row.fechaId
+
+      viajeCreation.fecha = ayuda.fFormatearADatePicker(props.row.fecha.slice(0, 10))
       viajeCreation.guia = props.row.guia
       viajeCreation.intermediarioId = props.row.intermediarioId
       viajeCreation.kmCargado = props.row.kmCargado
@@ -2925,7 +2955,6 @@ export default {
       viajeCreation.origenId = props.row.origenId
       viajeCreation.valorKm = props.row.valorKm
       viajeCreation.vendedorId = props.row.vendedorId
-
 
       viajeCreation.creada = props.row.creada
       viajeCreation.creadorId = props.row.creadorId
@@ -2949,7 +2978,7 @@ export default {
       llaveroService.borrarDeLocal('hhFacturarViaje')
       llaveroService.guardarEnLocalConSesion('hhFacturarViaje', props.row)
       console.log(props.row)
-      // router.push({ name: 'Factura' })
+      router.push({ name: 'Factura' })
     }
 
     function fMostrarReciclarViaje (props) {
@@ -2967,6 +2996,7 @@ export default {
             afBuscarCamiones().then(() => {
               afBuscarCategoriasViaje().then(() => {
                 afBuscarDirecciones().then(() => {
+                  titulo.value = 'Nuevo viaje'
                   fLimpiarFormulario()
                   fIrPaso1()
                   nuevoViajeDialog.value = true
@@ -3080,6 +3110,7 @@ export default {
       nuevaBusqueda,
       paginacion,
       reglas,
+      titulo,
       viajes,
 
       fIrPaso2,

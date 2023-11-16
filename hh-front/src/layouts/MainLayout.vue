@@ -559,21 +559,6 @@
           <q-item
             clickable
             v-ripple
-            :active="link === 'agendaViaje'"
-            @click="link = 'agendaViaje'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'AgendaViaje' }"
-            class="q-ml-md paleta1-fondo5"
-          >
-            <q-item-section avatar>
-              <q-icon name="departure_board" />
-            </q-item-section>
-            <q-item-section class="white-text">Agenda viaje</q-item-section>
-          </q-item>
-          <q-item
-            clickable
-            v-ripple
             :active="link === 'categoriaViaje'"
             @click="link = 'categoriaViaje'"
             active-class="seleccion-activa"
