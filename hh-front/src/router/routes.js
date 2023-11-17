@@ -32,22 +32,22 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/banco',
-        name: 'Banco',
-        component: () => import('pages/sitio/Banco.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
-      {
-        path: '/caja',
-        name: 'Caja',
-        component: () => import('pages/sitio/Caja.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/banco',
+      //   name: 'Banco',
+      //   component: () => import('pages/sitio/Banco.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
+      // {
+      //   path: '/caja',
+      //   name: 'Caja',
+      //   component: () => import('pages/sitio/Caja.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/calendario',
         name: 'Calendario',
@@ -88,14 +88,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/colocado',
-        name: 'Colocado',
-        component: () => import('pages/sitio/Colocado.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/colocado',
+      //   name: 'Colocado',
+      //   component: () => import('pages/sitio/Colocado.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/combustible',
         name: 'Combustible',
@@ -128,22 +128,22 @@ const routes = [
       //     rol: rolEnum.CARGA
       //   }
       // },
-      {
-        path: '/conciliacion',
-        name: 'Conciliacion',
-        component: () => import('pages/sitio/Conciliacion.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
-      {
-        path: '/detalle-cuenta-corriente',
-        name: 'DetalleCtaCte',
-        component: () => import('pages/sitio/DetalleCtaCte.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/conciliacion',
+      //   name: 'Conciliacion',
+      //   component: () => import('pages/sitio/Conciliacion.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
+      // {
+      //   path: '/detalle-cuenta-corriente',
+      //   name: 'DetalleCtaCte',
+      //   component: () => import('pages/sitio/DetalleCtaCte.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/direccion',
         name: 'Direccion',
@@ -192,22 +192,22 @@ const routes = [
       //     rol: rolEnum.CARGA
       //   }
       // },
-      {
-        path: '/movimiento-caja',
-        name: 'MovimientoCaja',
-        component: () => import('pages/sitio/MovimientoCaja.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
-      {
-        path: '/movimiento-cuenta-corriente',
-        name: 'MovimientoCtaCte',
-        component: () => import('pages/sitio/MovimientoCtaCte.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/movimiento-caja',
+      //   name: 'MovimientoCaja',
+      //   component: () => import('pages/sitio/MovimientoCaja.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
+      // {
+      //   path: '/movimiento-cuenta-corriente',
+      //   name: 'MovimientoCtaCte',
+      //   component: () => import('pages/sitio/MovimientoCtaCte.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/neumatico',
         name: 'Neumatico',
@@ -216,14 +216,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/plan-cuenta',
-        name: 'PlanCuenta',
-        component: () => import('pages/sitio/PlanCuenta.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/plan-cuenta',
+      //   name: 'PlanCuenta',
+      //   component: () => import('pages/sitio/PlanCuenta.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/presupuesto',
         name: 'Presupuesto',
@@ -248,14 +248,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/resumen-conductor',
-        name: 'ResumenConductor',
-        component: () => import('pages/sitio/ResumenConductor.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/resumen-conductor',
+      //   name: 'ResumenConductor',
+      //   component: () => import('pages/sitio/ResumenConductor.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/saldo-cuenta-corriente',
         name: 'SaldoCtaCte',
@@ -280,14 +280,14 @@ const routes = [
           rol: rolEnum.CARGA
         }
       },
-      {
-        path: '/vehiculo',
-        name: 'Vehiculo',
-        component: () => import('pages/sitio/Vehiculo.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
+      // {
+      //   path: '/vehiculo',
+      //   name: 'Vehiculo',
+      //   component: () => import('pages/sitio/Vehiculo.vue'),
+      //   meta: {
+      //     rol: rolEnum.CARGA
+      //   }
+      // },
       {
         path: '/vencimiento',
         name: 'Vencimiento',
