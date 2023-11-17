@@ -1,14 +1,27 @@
 export class FacturaCreation {
   constructor () {
-    this.descuento = ''
-    this.fecha = ''
-    this.iva = ''
-    this.notas = ''
-    this.numeroComprobante = ''
-    this.recarga = ''
-    this.subTotal = ''
+    this.id = ''
+
+    this.razonSocial = ''
+    this.domicilioComercial = ''
     this.tipoComprobante = ''
+    this.numeroComprobante = ''
+    this.fechaEmision = ''
+    this.fechaVencimiento = ''
+    this.fechaVencimientoId = ''
+
+    this.codigo = ''
+    this.concepto = ''
+    this.cantidad = ''
+    this.precioUnitario = ''
+    this.condicionPagoEnum = ''
+
+    this.bonificacion = ''
+    this.otrosImpuestos = ''
+    this.iva = ''
     this.pagada = ''
+    this.notas = ''
+
     this.remitoId = ''
     this.viajeId = ''
   }

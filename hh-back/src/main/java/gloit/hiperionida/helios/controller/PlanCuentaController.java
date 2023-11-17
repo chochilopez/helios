@@ -44,14 +44,14 @@ public class PlanCuentaController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<PlanCuentaDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         PlanCuentaModel objeto = planCuentaService.buscarPorId(id);
-        return new ResponseEntity<>(planCuentaMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(planCuentaMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<PlanCuentaDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         PlanCuentaModel objeto = planCuentaService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(planCuentaMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(planCuentaMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

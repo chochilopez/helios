@@ -45,14 +45,14 @@ public class IngresoController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<IngresoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         IngresoModel objeto = ingresoService.buscarPorId(id);
-        return new ResponseEntity<>(ingresoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(ingresoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<IngresoDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         IngresoModel objeto = ingresoService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(ingresoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(ingresoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

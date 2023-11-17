@@ -252,7 +252,7 @@
 import { ref, reactive } from 'vue'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
-import { v4 as uuidv4 } from 'uuid'
+
 
 import { ayuda } from 'app/src/helpers/ayuda'
 import { llaveroService } from 'src/helpers/llavero_service'

@@ -44,14 +44,14 @@ public class CombustibleController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<CombustibleDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         CombustibleModel objeto = combustibleService.buscarPorId(id);
-        return new ResponseEntity<>(combustibleMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(combustibleMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CombustibleDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         CombustibleModel objeto = combustibleService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(combustibleMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(combustibleMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

@@ -178,14 +178,14 @@ public class ConductorController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<ConductorDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         ConductorModel objeto = conductorService.buscarPorId(id);
-        return new ResponseEntity<>(conductorMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(conductorMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ConductorDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         ConductorModel objeto = conductorService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(conductorMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(conductorMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

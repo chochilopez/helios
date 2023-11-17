@@ -93,7 +93,7 @@ public class ArchivoServiceImpl implements ArchivoService {
     public ArchivoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Archivo con id: {}.", id);
         ArchivoModel archivoModel = archivoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Archivo con id: " + id + "."));
-        log.info("Se encontro una entidad Archivo con id: {}.", id);
+        log.info("Se encontró una entidad Archivo con id: {}.", id);
         return archivoModel;
     }
 
@@ -101,7 +101,7 @@ public class ArchivoServiceImpl implements ArchivoService {
     public ArchivoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Archivo con id: {}, incluidas las eliminadas.", id);
         ArchivoModel archivoModel = archivoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Archivo con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Archivo con id: {} , incluidas las eliminadas.", id);
+        log.info("Se encontró una entidad Archivo con id: {} , incluidas las eliminadas.", id);
         return archivoModel;
     }
 

@@ -44,14 +44,14 @@ public class CajaController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<CajaDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         CajaModel objeto = cajaService.buscarPorId(id);
-        return new ResponseEntity<>(cajaMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(cajaMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CajaDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         CajaModel objeto = cajaService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(cajaMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(cajaMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

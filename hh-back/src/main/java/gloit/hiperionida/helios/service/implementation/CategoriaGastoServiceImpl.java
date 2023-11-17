@@ -30,7 +30,7 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
     public CategoriaGastoModel buscarPorId(Long id) {
         log.info("Buscando la entidad CategoriaGasto con id: {}.", id);
         CategoriaGastoModel categoriaGastoModel = categoriaGastoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad CategoriaGasto con id: " + id + "."));
-        log.info("Se encontro una entidad CategoriaGasto con id: " + id + ".");
+        log.info("Se encontró una entidad CategoriaGasto con id: " + id + ".");
         return categoriaGastoModel;
     }
 
@@ -38,7 +38,7 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
     public CategoriaGastoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad CategoriaGasto con id: {}, incluidas las eliminadas.", id);
         CategoriaGastoModel categoriaGastoModel = categoriaGastoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad CategoriaGasto con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad CategoriaGasto con id: " + id + ", incluidas las eliminadas.");
+        log.info("Se encontró una entidad CategoriaGasto con id: " + id + ", incluidas las eliminadas.");
         return categoriaGastoModel;
     }
 

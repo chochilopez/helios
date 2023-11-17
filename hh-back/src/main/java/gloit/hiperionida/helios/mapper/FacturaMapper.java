@@ -3,6 +3,7 @@ package gloit.hiperionida.helios.mapper;
 import gloit.hiperionida.helios.mapper.creation.FacturaCreation;
 import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.*;
+import gloit.hiperionida.helios.model.enums.CondicionPagoEnum;
 import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
 import gloit.hiperionida.helios.repository.*;
 import gloit.hiperionida.helios.util.Helper;
@@ -10,6 +11,7 @@ import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
+import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.parameters.P;
@@ -30,7 +32,7 @@ public class FacturaMapper {
     private final EventoDAO eventoDAO;
     private final RemitoDAO remitoDAO;
     private final ViajeDAO viajeDAO;
-    private final UsuarioDAO usuarioDAO;
+    private final UsuarioServiceImpl usuarioService;
 
     public FacturaModel toEntity(FacturaCreation creation) {
         try {
@@ -38,23 +40,43 @@ public class FacturaMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
-            if (Helper.getDecimal(creation.getDescuento()) != null)
-                model.setDescuento(Helper.getDecimal(creation.getDescuento()));
-            if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
-                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
+            if (Helper.getDecimal(creation.getBonificacion()) != null)
+                model.setBonificacion(Helper.getDecimal(creation.getBonificacion()));
+            if (Helper.getInteger(creation.getCantidad()) != null)
+                model.setCantidad(Helper.getInteger(creation.getCantidad()));
+            model.setCodigo(creation.getCodigo());
+            if (creation.getCondicionPagoEnum() != null)
+                model.setCondicionPagoEnum(CondicionPagoEnum.valueOf(creation.getCondicionPagoEnum()));
+            model.setDomicilioComercial(creation.getDomicilioComercial());
+            if (!Helper.isEmptyString(creation.getFechaEmision()))
+                model.setFechaEmision(Helper.stringToLocalDateTime(creation.getFechaEmision(), "yyyy-MM-dd HH:mm:ss"));
+            if (Helper.getLong(creation.getFechaVencimientoId()) != null) {
+                model.setFechaVencimientoId(Helper.getLong(creation.getFechaVencimientoId()));
+            } else {
+                EventoModel evento = eventoDAO.save(new EventoModel(
+                        Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaVencimiento(), ""),
+                        "Vencimiento de " + creation.getTipoComprobante() + " - " + creation.getNumeroComprobante(),
+                        null,
+                        null,
+                        "Vencimiento",
+                        Helper.getNow(""),
+                        usuarioService.obtenerUsuario().getId()
+                ));
+                model.setFechaVencimientoId(evento.getId());
+            }
             if (Helper.getDecimal(creation.getIva()) != null)
                 model.setIva(Helper.getDecimal(creation.getIva()));
             model.setNotas(creation.getNotas());
             model.setNumeroComprobante(creation.getNumeroComprobante());
-            if (Helper.getDecimal(creation.getRecarga()) != null)
-                model.setRecarga(Helper.getDecimal(creation.getRecarga()));
-            if (Helper.getDecimal(creation.getSubTotal()) != null)
-                model.setSubTotal(Helper.getDecimal(creation.getSubTotal()));
-            if (creation.getTipoComprobante() != null)
-                model.setTipoComprobante(TipoComprobanteEnum.valueOf(creation.getTipoComprobante()));
+            if (Helper.getDecimal(creation.getOtrosImpuestos()) != null)
+                model.setOtrosImpuestos(Helper.getDecimal(creation.getOtrosImpuestos()));
             if (Helper.getBoolean(creation.getPagada()) != null)
                 model.setPagada(Helper.getBoolean(creation.getPagada()));
-
+            if (Helper.getDecimal(creation.getPrecioUnitario()) != null)
+                model.setPrecioUnitario(Helper.getDecimal(creation.getPrecioUnitario()));
+            model.setRazonSocial(creation.getRazonSocial());
+            if (creation.getTipoComprobante() != null)
+                model.setTipoComprobante(TipoComprobanteEnum.valueOf(creation.getTipoComprobante()));
             if (Helper.getLong(creation.getRemitoId()) != null)
                 model.setRemitoId(Helper.getLong(creation.getRemitoId()));
             if (Helper.getLong(creation.getViajeId()) != null)
@@ -85,19 +107,38 @@ public class FacturaMapper {
             FacturaDTO dto = new FacturaDTO();
 
             dto.setId(model.getId().toString());
-            dto.setDescuento(model.getDescuento().toString());
-            dto.setFecha(model.getFecha().toString());
-            dto.setIva(model.getIva().toString());
+            if (model.getBonificacion() != null)
+                dto.setBonificacion(model.getBonificacion().toString());
+            if (model.getCantidad() != null)
+                dto.setCantidad(model.getCantidad().toString());
+            dto.setCodigo(model.getCodigo());
+            dto.setConcepto(model.getConcepto());
+            if (model.getCondicionPagoEnum() != null)
+                dto.setCondicionPagoEnum(model.getCondicionPagoEnum().toString());
+            dto.setDomicilioComercial(model.getDomicilioComercial());
+            if (model.getFechaEmision() != null)
+                dto.setFechaEmision(model.getFechaEmision().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            if (model.getFechaVencimientoId() != null) {
+                EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de vencimiento con id: " + model.getFechaVencimientoId() + "."));
+                dto.setFechaVencimiento(eventoModel.getFecha().toString());
+                dto.setFechaVencimientoId(model.getFechaVencimientoId().toString());
+            }
+            if (model.getIva() != null)
+                dto.setIva(model.getIva().toString());
             dto.setNotas(model.getNotas());
             dto.setNumeroComprobante(model.getNumeroComprobante());
-            dto.setRecarga(model.getRecarga().toString());
-            dto.setSubTotal(model.getSubTotal().toString());
-            dto.setTipoComprobante(model.getTipoComprobante().name());
-            dto.setPagada(model.getPagada().toString());
-
+            if (model.getOtrosImpuestos() != null)
+                dto.setOtrosImpuestos(model.getOtrosImpuestos().toString());
+            if (model.getPagada() != null)
+                dto.setPagada(model.getPagada().toString());
+            if (model.getPrecioUnitario() != null)
+                dto.setPrecioUnitario(model.getPrecioUnitario().toString());
+            dto.setRazonSocial(model.getRazonSocial());
+            if (model.getTipoComprobante() != null)
+                dto.setTipoComprobante(model.getTipoComprobante().toString());
             if (model.getRemitoId() != null) {
                 RemitoModel remitoModel = remitoDAO.findByIdAndEliminadaIsNull(model.getRemitoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el remito con id: " + model.getRemitoId() + "."));
-                dto.setRemito(remitoModel.getNumero());
+                dto.setNumeroRemito(remitoModel.getNumero());
             }
             if (model.getViajeId() != null) {
                 ViajeModel viajeModel = viajeDAO.findByIdAndEliminadaIsNull(model.getViajeId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el viaje id: " + model.getViajeId() + "."));
@@ -105,6 +146,8 @@ public class FacturaMapper {
                     CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(viajeModel.getCamionId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el camion con id: " + viajeModel.getCamionId() + "."));
                     dto.setCamion(camionModel.getMarcaModelo());
                 }
+                if (viajeModel.getCantidadTransportada() != null)
+                    dto.setCantidadTransportada(viajeModel.getCantidadTransportada().toString());
                 if (viajeModel.getCategoriaViajeId() != null) {
                     CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(viajeModel.getCategoriaViajeId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la categoria id: " + viajeModel.getCategoriaViajeId() + "."));
                     dto.setCategoriaViaje(categoriaViajeModel.getCategoria());
@@ -125,30 +168,31 @@ public class FacturaMapper {
                     EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(viajeModel.getFechaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de viaje con id: " + viajeModel.getFechaId() + "."));
                     dto.setFechaViaje(eventoModel.getFecha().toString());
                 }
+                if (viajeModel.getKmCargado() != null)
+                    dto.setKmCargado(viajeModel.getKmCargado().toString());
                 dto.setNumeroGuia(viajeModel.getGuia());
                 if (viajeModel.getOrigenId() != null) {
                     DireccionModel origenModel = direccionDAO.findByIdAndEliminadaIsNull(viajeModel.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la dirección origen con id: " + viajeModel.getOrigenId() + "."));
                     dto.setOrigen(origenModel.getCiudad() + " - " + origenModel.getDireccion());
                 }
+                if (viajeModel.getValorKm() != null)
+                    dto.setValorKm(viajeModel.getValorKm().toString());
             }
 
             if (model.getCreadorId() != null) {
-                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreadorId() + "."));
-                dto.setCreador(usuarioModel.getNombre());
+                dto.setCreador(usuarioService.buscarPorId(model.getCreadorId()).getNombre());
                 dto.setCreadorId(model.getCreadorId().toString());
             }
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             if (model.getModificadorId() != null) {
-                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getModificadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el modificador con id: " + model.getModificadorId() + "."));
-                dto.setModificador(usuarioModel.getNombre());
+                dto.setModificador(usuarioService.buscarPorId(model.getModificadorId()).getNombre());
                 dto.setModificadorId(model.getModificadorId().toString());
             }
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             if (model.getEliminadorId() != null) {
-                UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getEliminadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el eliminador con id: " + model.getEliminadorId() + "."));
-                dto.setEliminador(usuarioModel.getNombre());
+                dto.setEliminador(usuarioService.buscarPorId(model.getEliminadorId()).getNombre());
                 dto.setEliminadorId(model.getEliminadorId().toString());
             }
             if (model.getEliminada() != null)

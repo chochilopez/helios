@@ -126,7 +126,7 @@ public class SeguroServiceImpl implements SeguroService {
         LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
         LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
         if (fInicio == null || fFin == null)
-            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son válidas.");
         List<SeguroModel> listado = seguroDAO.findAllByVencimientoBetweenAndEliminadaIsNull( fInicio, fFin);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Seguro entre las fechas: " + inicio + " y " + fin + ".");
@@ -139,7 +139,7 @@ public class SeguroServiceImpl implements SeguroService {
         LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
         LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
         if (fInicio == null || fFin == null)
-            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son válidas.");
         List<SeguroModel> listado = seguroDAO.findAllByVencimientoBetween(fInicio, fFin);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Seguro entre las fechas: " + inicio + " y " + fin + ", con eliminadas.");
@@ -150,7 +150,7 @@ public class SeguroServiceImpl implements SeguroService {
     public SeguroModel buscarPorId(Long id) {
         log.info("Buscando la entidad Seguro con id: {}.", id);
         SeguroModel seguroModel = seguroDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id: " + id + "."));
-        log.info("Se encontro una entidad Seguro con id: " + id + ".");
+        log.info("Se encontró una entidad Seguro con id: " + id + ".");
         return seguroModel;
     }
 
@@ -158,7 +158,7 @@ public class SeguroServiceImpl implements SeguroService {
     public SeguroModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Seguro con id: {}, incluidas las eliminadas.", id);
         SeguroModel seguroModel = seguroDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Seguro con id: " + id + ", incluidas las eliminadas.");
+        log.info("Se encontró una entidad Seguro con id: " + id + ", incluidas las eliminadas.");
         return seguroModel;
     }
 

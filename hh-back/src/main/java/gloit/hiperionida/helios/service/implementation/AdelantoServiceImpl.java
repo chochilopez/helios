@@ -30,7 +30,7 @@ public class AdelantoServiceImpl implements AdelantoService {
     public AdelantoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Adelanto con id: {}.", id);
         AdelantoModel adelantoModel = adelantoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Adelanto con id: " + id + "."));
-        log.info("Se encontro una entidad Adelanto con id: " + id + ".");
+        log.info("Se encontró una entidad Adelanto con id: " + id + ".");
         return adelantoModel;
     }
 
@@ -38,7 +38,7 @@ public class AdelantoServiceImpl implements AdelantoService {
     public AdelantoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Adelanto con id: {}, incluidas las eliminadas.", id);
         AdelantoModel adelantoModel = adelantoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Adelanto con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Adelanto con id: " + id + ", incluidas las eliminadas.");
+        log.info("Se encontró una entidad Adelanto con id: " + id + ", incluidas las eliminadas.");
         return adelantoModel;
     }
 

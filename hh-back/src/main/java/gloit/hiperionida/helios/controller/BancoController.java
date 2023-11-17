@@ -44,14 +44,14 @@ public class BancoController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<BancoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         BancoModel objeto = bancoService.buscarPorId(id);
-        return new ResponseEntity<>(bancoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(bancoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BancoDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         BancoModel objeto = bancoService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(bancoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(bancoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

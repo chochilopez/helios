@@ -1,6 +1,8 @@
 package gloit.hiperionida.helios.model;
 
+import gloit.hiperionida.helios.model.enums.CondicionPagoEnum;
 import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
+import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,18 +20,25 @@ public class FacturaModel extends AbsAuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double descuento;
-    private LocalDateTime fecha;
-    private Double iva;
+    private Double bonificacion;
+    private Integer cantidad;
+    private String codigo;
     @Column(columnDefinition = "TEXT")
+    private String concepto;
+    @Enumerated(EnumType.STRING)
+    private CondicionPagoEnum condicionPagoEnum;
+    private String domicilioComercial;
+    private LocalDateTime fechaEmision;
+    private Long fechaVencimientoId;
+    private Double iva;
     private String notas;
     private String numeroComprobante;
-    private Double recarga;
-    private Double subTotal;
+    private Double otrosImpuestos;
+    private Boolean pagada;
+    private Double precioUnitario;
+    private String razonSocial;
+    private Long remitoId;
     @Enumerated(EnumType.STRING)
     private TipoComprobanteEnum tipoComprobante;
-    private Boolean pagada;
-
-    private Long remitoId;
     private Long viajeId;
 }

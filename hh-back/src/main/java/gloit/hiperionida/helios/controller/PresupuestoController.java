@@ -320,14 +320,14 @@ public class PresupuestoController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<PresupuestoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         PresupuestoModel objeto = presupuestoService.buscarPorId(id);
-        return new ResponseEntity<>(presupuestoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(presupuestoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<PresupuestoDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         PresupuestoModel objeto = presupuestoService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(presupuestoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(presupuestoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

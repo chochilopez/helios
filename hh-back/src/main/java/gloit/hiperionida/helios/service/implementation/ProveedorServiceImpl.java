@@ -139,7 +139,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     public ProveedorModel buscarPorId(Long id) {
         log.info("Buscando la entidad Proveedor con id: {}.", id);
         ProveedorModel proveedorModel = proveedorDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Proveedor con id: " + id + "."));
-        log.info("Se encontro una entidad Proveedor con id: " + id + ".");
+        log.info("Se encontró una entidad Proveedor con id: " + id + ".");
         return proveedorModel;
     }
 
@@ -147,7 +147,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     public ProveedorModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Proveedor con id: {}, incluidas las eliminadas.", id);
         ProveedorModel proveedorModel = proveedorDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Proveedor con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Proveedor con id: " + id + ", incluidas las eliminadas.");
+        log.info("Se encontró una entidad Proveedor con id: " + id + ", incluidas las eliminadas.");
         return proveedorModel;
     }
 

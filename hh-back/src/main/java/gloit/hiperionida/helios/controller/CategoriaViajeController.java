@@ -44,14 +44,14 @@ public class CategoriaViajeController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<CategoriaViajeDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         CategoriaViajeModel objeto = categoriaViajeService.buscarPorId(id);
-        return new ResponseEntity<>(categoriaViajeMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(categoriaViajeMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CategoriaViajeDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         CategoriaViajeModel objeto = categoriaViajeService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(categoriaViajeMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(categoriaViajeMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

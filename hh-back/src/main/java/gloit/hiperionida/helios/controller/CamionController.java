@@ -178,14 +178,14 @@ public class CamionController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<CamionDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         CamionModel objeto = camionService.buscarPorId(id);
-        return new ResponseEntity<>(camionMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(camionMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CamionDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         CamionModel objeto = camionService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(camionMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(camionMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

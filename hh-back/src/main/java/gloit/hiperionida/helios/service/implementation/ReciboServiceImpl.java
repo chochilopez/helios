@@ -30,7 +30,7 @@ public class ReciboServiceImpl implements ReciboService {
     public ReciboModel buscarPorId(Long id) {
         log.info("Buscando la entidad Recibo con id: {}.", id);
         ReciboModel reciboModel = reciboDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Recibo con id: " + id + "."));
-        log.info("Se encontro una entidad Recibo con id: " + id + ".");
+        log.info("Se encontró una entidad Recibo con id: " + id + ".");
         return reciboModel;
     }
 
@@ -38,7 +38,7 @@ public class ReciboServiceImpl implements ReciboService {
     public ReciboModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Recibo con id: {}, incluidas las eliminadas.", id);
         ReciboModel reciboModel = reciboDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Recibo con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Recibo con id: " + id + ", incluidas las eliminadas.");
+        log.info("Se encontró una entidad Recibo con id: " + id + ", incluidas las eliminadas.");
         return reciboModel;
     }
 

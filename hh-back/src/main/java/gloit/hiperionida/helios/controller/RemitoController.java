@@ -44,14 +44,14 @@ public class RemitoController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<RemitoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         RemitoModel objeto = remitoService.buscarPorId(id);
-        return new ResponseEntity<>(remitoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(remitoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<RemitoDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         RemitoModel objeto = remitoService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(remitoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(remitoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

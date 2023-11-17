@@ -186,14 +186,14 @@ public class SeguroController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<SeguroDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         SeguroModel objeto = seguroService.buscarPorId(id);
-        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<SeguroDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         SeguroModel objeto = seguroService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(seguroMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

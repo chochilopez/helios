@@ -69,7 +69,7 @@ public class ViajeServiceImpl implements ViajeService {
         LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
         LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
         if (fInicio == null || fFin == null)
-            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son válidas.");
         List<ViajeModel> listado = viajeDAO.findAllByFechaFechaBetweenAndEliminadaIsNull( fInicio, fFin);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Viaje entre las fechas: " + inicio + " y " + fin + ".");
@@ -82,7 +82,7 @@ public class ViajeServiceImpl implements ViajeService {
         LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
         LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
         if (fInicio == null || fFin == null)
-            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son válidas.");
         List<ViajeModel> listado = viajeDAO.findAllByFechaFechaBetween(fInicio, fFin);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades entre las fechas: " + inicio + " y " + fin + ", con eliminadas.");
@@ -471,7 +471,7 @@ public class ViajeServiceImpl implements ViajeService {
     public ViajeModel buscarPorId(Long id) {
         log.info("Buscando la entidad Viaje con id: {}.", id);
         ViajeModel viajeModel = viajeDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Viaje con id: " + id + "."));
-        log.info("Se encontro una entidad Viaje con id: " + id + ".");
+        log.info("Se encontró una entidad Viaje con id: " + id + ".");
         return viajeModel;
     }
 
@@ -479,7 +479,7 @@ public class ViajeServiceImpl implements ViajeService {
     public ViajeModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Viaje con id: {}, incluidas las eliminadas.", id);
         ViajeModel viajeModel = viajeDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Viaje con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Viaje con id: " + id + ", incluidas las eliminadas.");
+        log.info("Se encontró una entidad Viaje con id: " + id + ", incluidas las eliminadas.");
         return viajeModel;
     }
 

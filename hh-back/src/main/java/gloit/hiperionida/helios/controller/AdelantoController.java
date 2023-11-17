@@ -44,14 +44,14 @@ public class AdelantoController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<AdelantoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         AdelantoModel objeto = adelantoService.buscarPorId(id);
-        return new ResponseEntity<>(adelantoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(adelantoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<AdelantoDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         AdelantoModel objeto = adelantoService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(adelantoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(adelantoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

@@ -1410,7 +1410,7 @@ import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
-import { v4 as uuidv4 } from 'uuid'
+
 import { ViajeCreation } from 'src/models/creation/viaje_creation'
 import { viajeService } from 'src/services/viaje_service'
 
@@ -1488,11 +1488,9 @@ const columnas = [
 export default {
   setup () {
     const $q = useQuasar()
-    const sesion = ref(uuidv4())
+    const sesion = ref(ayuda.getUid)
     const reglas = reactive(reglasValidacion.reglas)
-    const esAdmin = ref(
-      autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)
-    )
+    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const router = useRouter()
     const titulo = ref(null)
 

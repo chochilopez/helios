@@ -133,14 +133,14 @@ public class AcopladoController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<AcopladoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         AcopladoModel objeto = acopladoService.buscarPorId(id);
-        return new ResponseEntity<>(acopladoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(acopladoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<AcopladoDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         AcopladoModel objeto = acopladoService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(acopladoMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(acopladoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

@@ -30,7 +30,7 @@ public class ServicioServiceImpl implements ServicioService {
     public ServicioModel buscarPorId(Long id) {
         log.info("Buscando la entidad Servicio con id: {}.", id);
         ServicioModel servicioModel = servicioDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Servicio con id: " + id + "."));
-        log.info("Se encontro una entidad Servicio con id: " + id + ".");
+        log.info("Se encontró una entidad Servicio con id: " + id + ".");
         return servicioModel;
     }
 
@@ -38,7 +38,7 @@ public class ServicioServiceImpl implements ServicioService {
     public ServicioModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Servicio con id: {}, incluidas las eliminadas.", id);
         ServicioModel servicioModel = servicioDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Servicio con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Servicio con id: " + id + ", incluidas las eliminadas.");
+        log.info("Se encontró una entidad Servicio con id: " + id + ", incluidas las eliminadas.");
         return servicioModel;
     }
 

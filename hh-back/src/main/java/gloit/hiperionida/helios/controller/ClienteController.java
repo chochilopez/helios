@@ -176,14 +176,14 @@ public class ClienteController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<ClienteDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         ClienteModel objeto = clienteService.buscarPorId(id);
-        return new ResponseEntity<>(clienteMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(clienteMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ClienteDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         ClienteModel objeto = clienteService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(clienteMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(clienteMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

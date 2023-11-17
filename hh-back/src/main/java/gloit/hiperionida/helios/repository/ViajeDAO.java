@@ -25,6 +25,8 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByConductorIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByCompradorId(Long id);
     List<ViajeModel> findAllByCompradorIdAndEliminadaIsNull(Long id);
+    List<ViajeModel> findAllByDestinoId(Long id);
+    List<ViajeModel> findAllByDestinoIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByIntermediarioId(Long id);
     List<ViajeModel> findAllByIntermediarioIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByKmCargadoBetween(Double min, Double max);
@@ -43,8 +45,6 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByVendedorIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByOrigenId(Long id);
     List<ViajeModel> findAllByOrigenIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByDestinoId(Long id);
-    List<ViajeModel> findAllByDestinoIdAndEliminadaIsNull(Long id);
 
     @Query(value = "SELECT v FROM ViajeModel v " +
             "JOIN EventoModel e ON v.fechaId = e.id " +

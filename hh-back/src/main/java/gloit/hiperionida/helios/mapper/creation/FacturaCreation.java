@@ -16,16 +16,23 @@ import java.util.List;
 @NoArgsConstructor
 public class FacturaCreation extends AbsAuditoriaCreation {
     private String id;
-    private String descuento;
-    private String fecha;
+    private String bonificacion;
+    private String cantidad;
+    private String codigo;
+    private String concepto;
+    private String condicionPagoEnum;
+    private String domicilioComercial;
+    private String fechaEmision;
+    private String fechaVencimiento;
+    private String fechaVencimientoId;
     private String iva;
     private String notas;
     private String numeroComprobante;
-    private String recarga;
-    private String subTotal;
-    private String tipoComprobante;
+    private String otrosImpuestos;
     private String pagada;
-
+    private String precioUnitario;
+    private String razonSocial;
     private String remitoId;
+    private String tipoComprobante;
     private String viajeId;
 }

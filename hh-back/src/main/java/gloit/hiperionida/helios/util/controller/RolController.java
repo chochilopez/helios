@@ -31,14 +31,14 @@ public class RolController extends AbsBaseController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<RolDTO> buscarTodasPorRol(@PathVariable(name = "rol")  String rol) {
         RolModel objeto = rolService.buscarPorRol(rol);
-        return new ResponseEntity<>(rolMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con rol :" + rol + "."), HttpStatus.OK);
+        return new ResponseEntity<>(rolMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con rol :" + rol + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<RolDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         RolModel objeto = rolService.buscarPorId(id);
-        return new ResponseEntity<>(rolMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(rolMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

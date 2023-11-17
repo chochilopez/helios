@@ -30,7 +30,7 @@ public class CompraServiceImpl implements CompraService {
     public CompraModel buscarPorId(Long id) {
         log.info("Buscando la entidad Compra con id: {}.", id);
         CompraModel compraModel = compraDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Compra con id: " + id + "."));
-        log.info("Se encontro una entidad Compra con id: " + id + ".");
+        log.info("Se encontró una entidad Compra con id: " + id + ".");
         return compraModel;
     }
 
@@ -38,7 +38,7 @@ public class CompraServiceImpl implements CompraService {
     public CompraModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Compra con id: {}, incluidas las eliminadas.", id);
         CompraModel compraModel = compraDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Compra con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Compra con id: " + id + ", incluidas las eliminadas.");
+        log.info("Se encontró una entidad Compra con id: " + id + ", incluidas las eliminadas.");
         return compraModel;
     }
 

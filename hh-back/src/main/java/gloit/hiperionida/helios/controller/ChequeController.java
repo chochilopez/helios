@@ -44,14 +44,14 @@ public class ChequeController extends AbsBaseController {
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<ChequeDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         ChequeModel objeto = chequeService.buscarPorId(id);
-        return new ResponseEntity<>(chequeMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(chequeMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ChequeDTO> buscarPorIdConEliminadas(@PathVariable(name = "id") Long id) {
         ChequeModel objeto = chequeService.buscarPorIdConEliminadas(id);
-        return new ResponseEntity<>(chequeMapper.toDto(objeto), Helper.httpHeaders("Se encontro una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(chequeMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas")

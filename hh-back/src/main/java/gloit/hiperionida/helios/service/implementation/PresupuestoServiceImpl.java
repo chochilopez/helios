@@ -88,7 +88,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
         LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
         if (fInicio == null || fFin == null)
-            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas.");
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son válidas.");
         List<PresupuestoModel> listado = presupuestoDAO.findAllByFechaFechaBetweenAndEliminadaIsNull( fInicio, fFin);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Presupuesto entre las fechas: " + inicio + " y " + fin + ".");
@@ -101,7 +101,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
         LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
         LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
         if (fInicio == null || fFin == null)
-            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son validas, incluidas las eliminadas.");
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son válidas, incluidas las eliminadas.");
         List<PresupuestoModel> listado = presupuestoDAO.findAllByFechaFechaBetween( fInicio, fFin);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Presupuesto entre las fechas: " + inicio + " y " + fin + ", incluidas las eliminadas.");
@@ -263,7 +263,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     public PresupuestoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Presupuesto con id: {}.", id);
         PresupuestoModel presupuestoModel = presupuestoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Presupuesto con id: " + id + "."));
-        log.info("Se encontro una entidad Presupuesto con id: " + id + ".");
+        log.info("Se encontró una entidad Presupuesto con id: " + id + ".");
         return presupuestoModel;
     }
 
@@ -271,7 +271,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     public PresupuestoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Presupuesto con id: {}, incluidas las eliminadas.", id);
         PresupuestoModel presupuestoModel = presupuestoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Presupuesto con id: " + id +", incluidas las eliminadas."));
-        log.info("Se encontro una entidad Presupuesto con id: " + id + ", incluidas las eliminadas.");
+        log.info("Se encontró una entidad Presupuesto con id: " + id + ", incluidas las eliminadas.");
         return presupuestoModel;
     }
 

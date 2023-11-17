@@ -21,21 +21,3 @@ export class ViajeCreation {
     this.vendedorId = ''
   }
 }
-/*
-    private String cantidadTransportada;
-    private String fecha;
-    private String kmCargado;
-    private String notas;
-    private String valorKm;
-
-    private String categoriaViaje;
-    private String comprador;
-    private String destino;
-    private String origen;
-
-    private String fechaId;
-    private String categoriaViajeId;
-    private String compradorId;
-    private String destinoId;
-    private String origenId;
-    */

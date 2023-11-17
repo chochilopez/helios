@@ -870,7 +870,7 @@ import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
-import { v4 as uuidv4 } from 'uuid'
+
 
 const paginacion = {
   rowsPerPage: 50,

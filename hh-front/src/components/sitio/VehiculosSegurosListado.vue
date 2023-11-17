@@ -524,7 +524,7 @@ import { SeguroCreation } from 'src/models/creation/seguro_creation'
 import { seguroService } from 'src/services/seguro_service'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
-import { v4 as uuidv4 } from 'uuid'
+
 
 const paginacion = {
   rowsPerPage: 50,
