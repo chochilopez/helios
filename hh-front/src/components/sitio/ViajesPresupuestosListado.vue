@@ -871,7 +871,6 @@ import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 
-
 const paginacion = {
   rowsPerPage: 50,
   sortBy: 'id',
@@ -978,7 +977,7 @@ export default {
     const presupuestos = ref([])
     const presupuestoCreation = reactive(new PresupuestoCreation())
     const reglas = reactive(reglasValidacion.reglas)
-    const sesion = ref(uuidv4())
+    const sesion = ref(ayuda.getUid())
     const valorKm = ref({ min: 0, max: 2000 })
     const valorKmChip = ref({ izq: false, der: false })
 

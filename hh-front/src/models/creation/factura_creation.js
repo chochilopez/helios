@@ -14,9 +14,9 @@ export class FacturaCreation {
     this.concepto = ''
     this.cantidad = ''
     this.precioUnitario = ''
-    this.condicionPagoEnum = ''
-
+    this.condicionPago = ''
     this.bonificacion = ''
+
     this.otrosImpuestos = ''
     this.iva = ''
     this.pagada = ''

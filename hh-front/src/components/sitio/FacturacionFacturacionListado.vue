@@ -409,48 +409,28 @@
         <q-form v-on:submit.prevent="fIrPaso2">
           <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
-            </div>
-          </div>
-          <div class="row justify-around">
-            <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model="facturaCreation.cantidadTransportada"
-                :rules="[reglas.requerido]"
-                mask="###################"
+                v-model="facturaCreation.razonSocial"
+                :rules="[reglas.requerido, reglas.min3]"
                 outlined
                 dense
                 clearable
-                label="Cantidad transportada"
-                hint="Ingresá un número."
+                label="Nombre/Razón social"
               >
               </q-input>
             </div>
             <div class="col-xs-6 q-pa-md">
-              <q-select
+              <q-input
                 class="nuevo-input"
+                v-model="facturaCreation.domicilioComercial"
+                :rules="[reglas.requerido, reglas.min3]"
                 outlined
                 dense
-                emit-value
-                map-options
                 clearable
-                v-model="facturaCreation.compradorId"
-                :rules="[reglas.requerido]"
-                :options="compradores"
-                option-value="id"
-                option-label="nombre"
-                label="Comprador"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarCompradores"
-                hint="Ingresá 3 caracteres para buscar."
+                label="Domicilio/Dirección"
               >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
+              </q-input>
             </div>
           </div>
           <div class="row justify-around">
@@ -459,20 +439,13 @@
                 class="nuevo-input"
                 outlined
                 dense
-                emit-value
-                map-options
                 clearable
-                v-model="facturaCreation.categoriaViajeId"
+                v-model="facturaCreation.tipoComprobante"
                 :rules="[reglas.requerido]"
-                option-value="id"
-                option-label="categoria"
-                label="Categoria de factura"
-                use-input
-                hide-selected
-                fill-input
-                :options="categoriasViaje"
-                @filter="fFiltrarCategoriasViaje"
-                hint="Ingresá 3 caracteres para buscar."
+                :options="comprobantes"
+                label="Tipo comprobante"
+                hint="Seleccioná el tipo de comprobante."
+                @update:model-value="fObtenerNumeroComprobante()"
               >
                 <template v-slot:no-option>
                   <q-item>
@@ -484,68 +457,68 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model="facturaCreation.cantidadTransportada"
+                v-model="facturaCreation.numeroComprobante"
                 :rules="[reglas.requerido]"
                 mask="###################"
                 outlined
                 dense
                 clearable
-                label="Cantidad transportada"
-                hint="Ingresá un número."
+                label="Número comprobante"
+                hint="Si SC, usar autogenerado."
               >
               </q-input>
             </div>
           </div>
           <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
-              <q-select
+              <q-input
                 class="nuevo-input"
+                mask="##-##-####"
+                v-model="fechaEmision"
+                :rules="[reglas.requerido]"
                 outlined
                 dense
-                emit-value
-                map-options
+                readonly
                 clearable
-                v-model="facturaCreation.vendedorId"
-                :options="vendedores"
-                option-value="id"
-                option-label="nombre"
-                label="Vendedor"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarVendedores"
-                hint="Ingresá 3 caracteres para buscar."
+                label="Fecha de emisión"
               >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
+                <template v-slot:prepend>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-date v-model="fechaEmision" mask="DD-MM-YYYY" :locale="myLocale">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="OK" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
                 </template>
-              </q-select>
+              </q-input>
             </div>
             <div class="col-xs-6 q-pa-md">
-              <q-select
+              <q-input
                 class="nuevo-input"
+                mask="##-##-####"
+                v-model="fechaVencimiento"
+                :rules="[reglas.requerido]"
                 outlined
                 dense
-                emit-value
-                map-options
+                readonly
                 clearable
-                v-model="facturaCreation.intermediarioId"
-                :options="intermediarios"
-                option-value="id"
-                option-label="nombre"
-                label="Intermediario"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarIntermediarios"
-                hint="Ingresá 3 caracteres para buscar."
+                label="Fecha de vencimiento"
               >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
+                <template v-slot:prepend>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-date v-model="fechaVencimiento" mask="DD-MM-YYYY" :locale="myLocale">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="OK" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
                 </template>
-              </q-select>
+              </q-input>
             </div>
           </div>
           <div class="row justify-end q-pa-md">
@@ -560,57 +533,56 @@
         <q-form v-on:submit.prevent="fIrPaso3">
           <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
-              <q-select
+              <q-input
                 class="nuevo-input"
+                v-model="facturaCreation.codigo"
+                :rules="[reglas.requerido]"
                 outlined
                 dense
-                emit-value
-                map-options
                 clearable
-                v-model="facturaCreation.conductorId"
-                :options="conductores"
-                option-value="id"
-                option-label="nombre"
-                label="Buscar por conductor"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarConductores"
-                hint="Ingresá 3 caracteres para buscar."
+                label="Código identificatorio"
               >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
+              </q-input>
             </div>
             <div class="col-xs-6 q-pa-md">
-              <q-select
+              <q-input
                 class="nuevo-input"
+                v-model="facturaCreation.concepto"
+                :rules="[reglas.requerido]"
                 outlined
                 dense
-                emit-value
-                map-options
                 clearable
-                v-model="facturaCreation.camionId"
-                :rules="[reglas.requerido]"
-                :options="camiones"
-                option-value="id"
-                option-label="marcaModelo"
-                label="Camión"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarCamiones"
-                hint="Ingresá 3 caracteres para buscar."
-                hide-selected
-                fill-input
+                label="Concepto/Descripción"
               >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
+              </q-input>
+            </div>
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
+              <q-input
+                class="nuevo-input"
+                v-model="facturaCreation.cantidad"
+                :rules="[reglas.requerido]"
+                mask="###################"
+                outlined
+                dense
+                clearable
+                label="Cantidad transportada"
+              >
+              </q-input>
+            </div>
+            <div class="col-xs-6 q-pa-md">
+              <q-input
+                class="nuevo-input"
+                v-model.number="facturaCreation.precioUnitario"
+                :rules="[reglas.requerido]"
+                type="number"
+                outlined
+                dense
+                clearable
+                label="Valor kilometro"
+              >
+              </q-input>
             </div>
           </div>
           <div class="row justify-around">
@@ -619,21 +591,12 @@
                 class="nuevo-input"
                 outlined
                 dense
-                emit-value
-                map-options
                 clearable
-                hide-selected
-                fill-input
-                v-model="facturaCreation.acopladoId"
+                v-model="facturaCreation.condicionPago"
                 :rules="[reglas.requerido]"
-                :options="acoplados"
-                option-value="id"
-                option-label="marcaModelo"
-                label="Acoplado"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarAcoplados"
-                hint="Ingresá 3 caracteres para buscar."
+                :options="condicionPago"
+                label="Condición venta"
+                @update:model-value="fObtenerPagada()"
               >
                 <template v-slot:no-option>
                   <q-item>
@@ -643,83 +606,16 @@
               </q-select>
             </div>
             <div class="col-xs-6 q-pa-md">
-              <q-select
+              <q-input
                 class="nuevo-input"
+                v-model.number="facturaCreation.bonificacion"
+                type="number"
                 outlined
                 dense
-                emit-value
-                map-options
                 clearable
-                v-model="facturaCreation.cargaId"
-                :options="direccionesCarga"
-                option-value="id"
-                option-label="direccion"
-                label="Direccion de carga"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarDireccionesCarga"
-                hint="Ingresá 3 caracteres para buscar."
+                label="Bonificación/Descuento"
               >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
-          </div>
-          <div class="row justify-around">
-            <div class="col-xs-6 q-pa-md">
-              <q-select
-                class="nuevo-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="facturaCreation.origenId"
-                :rules="[reglas.requerido]"
-                :options="direccionesOrigen"
-                option-value="id"
-                option-label="direccion"
-                label="Direccion de origen"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarDireccionesOrigen"
-                hint="Ingresá 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-xs-6 q-pa-md">
-              <q-select
-                class="nuevo-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="facturaCreation.destinoId"
-                :rules="[reglas.requerido]"
-                :options="direccionesDestino"
-                option-value="id"
-                option-label="direccion"
-                label="Direccion de destino"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarDireccionesDestino"
-                hint="Ingresá 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
+              </q-input>
             </div>
           </div>
           <div class="row justify-end q-pa-md">
@@ -736,75 +632,32 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                mask="##############"
-                v-model.number="facturaCreation.neto"
-                :rules="[reglas.requerido]"
-                outlined
-                dense
-                clearable
-                label="Peso neto aprox"
-                hint="Ingresá un número."
-              >
-              </q-input>
-            </div>
-            <div class="col-xs-6 q-pa-md">
-              <q-input
-                class="nuevo-input"
-                v-model="facturaCreation.guia"
-                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
-                outlined
-                dense
-                clearable
-                label="Número de guía"
-              >
-              </q-input>
-            </div>
-          </div>
-          <div class="row justify-around">
-            <div class="col-xs-6 q-pa-md">
-              <q-input
-                class="nuevo-input"
-                mask="##############"
-                v-model.number="facturaCreation.kmVacio"
-                :rules="[reglas.requerido]"
-                outlined
-                dense
-                clearable
-                label="Kilometros vacio"
-                hint="Ingresá un número."
-              >
-              </q-input>
-            </div>
-            <div class="col-xs-6 q-pa-md">
-              <q-input
-                class="nuevo-input"
-                mask="##############"
-                v-model.number="facturaCreation.kmCargado"
-                :rules="[reglas.requerido]"
-                outlined
-                dense
-                clearable
-                label="Kilometros cargado"
-                hint="Ingresá un número."
-              >
-              </q-input>
-            </div>
-          </div>
-          <div class="row justify-around">
-            <div class="col-xs-6 q-pa-md">
-              <q-input
-                class="nuevo-input"
-                v-model.number="facturaCreation.valorKm"
-                :rules="[reglas.requerido]"
-                :max-decimals="2"
+                v-model.number="facturaCreation.otrosImpuestos"
                 type="number"
                 outlined
                 dense
                 clearable
-                label="Valor kilometro"
-                hint="Ingresá un número."
+                label="Otros impuestos"
               >
               </q-input>
+            </div>
+            <div class="col-xs-6 q-pa-md">
+              <q-input
+                class="nuevo-input"
+                v-model.number="facturaCreation.iva"
+                :rules="[reglas.requerido]"
+                type="number"
+                outlined
+                dense
+                clearable
+                label="IVA"
+              >
+              </q-input>
+            </div>
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
+              <q-checkbox v-model="facturaCreation.pagada" label="Pagada"  />
             </div>
             <div class="col-xs-6 q-pa-md">
               <q-input
@@ -833,6 +686,7 @@
 <script>
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
+import { clienteService } from 'src/services/cliente_service'
 import { FacturaCreation } from 'src/models/creation/factura_creation'
 import { facturaService } from 'src/services/factura_service'
 import { llaveroService } from 'src/helpers/llavero_service'
@@ -918,10 +772,10 @@ export default {
     const $q = useQuasar()
     const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const reglas = reactive(reglasValidacion.reglas)
-    const sesion = ayuda.getUid()
 
     const editComprador = ref(true)
     const comprador = ref(null)
+    const compradores = ref(null)
     const editFechaFacturacion = ref(false)
     const fechaFacturacion = ref({ from: null, to: null })
     const editFechaViaje = ref(false)
@@ -935,8 +789,12 @@ export default {
     const editTipoComprobante = ref(false)
     const tipoComprobante = ref(null)
 
+    const facturasCount = ref(null)
     const facturaCreation = reactive(new FacturaCreation())
     const facturas = ref([])
+    const fechaEmision = ref({ from: null, to: null })
+    const fechaVencimiento = ref({ from: null, to: null })
+    const nombreComprador = ref(null)
     const nuevaFacturaDialog = ref(false)
     const paso1 = ref(true)
     const paso2 = ref(false)
@@ -947,29 +805,34 @@ export default {
 
     onMounted(() => {
       if (llaveroService.obtenerDeLocal('hhFacturarViaje') !== null) {
-        const resultado = llaveroService.obtenerDeLocal('hhFacturarViaje')
-        facturaCreation.viajeId = resultado.value.id
-        facturaCreation.razonSocial = resultado.value.comprador
-        facturaCreation.domicilioComercial = resultado.value.direccion
-        facturaCreation.identificacion = resultado.value.identificacion
-        facturaCreation.tipoComprobante = null
-        facturaCreation.numeroComprobante = null
-        facturaCreation.fechaEmision = null
-        facturaCreation.fechaVencimiento = null
-        facturaCreation.codigo = null
-        facturaCreation.concepto = 'Transporte de ' + resultado.value.cantidadTransportada + ' ' + resultado.value.categoriaViaje
-        facturaCreation.cantidad = resultado.value.kmCargado
-        facturaCreation.precioUnitario = resultado.value.valorKm
-        facturaCreation.condicionPagoEnum = null
-        facturaCreation.otrosImpuestos = null
-        facturaCreation.iva = null
-        facturaCreation.pagada = null
-        facturaCreation.notas = null
+        afContarFacturas().then(() => {
+          const resultado = llaveroService.obtenerDeLocal('hhFacturarViaje')
+          afBuscarPorCompradorId(resultado.value.compradorId).then(() => {
+            facturaCreation.viajeId = resultado.value.id
+            facturaCreation.razonSocial = resultado.value.comprador
+            facturaCreation.domicilioComercial = nombreComprador.value.direccion
+            facturaCreation.identificacion = nombreComprador.value.identificacion
+            facturaCreation.tipoComprobante = null
+            facturaCreation.numeroComprobante = null
+            facturaCreation.fechaEmision = null
+            facturaCreation.fechaVencimiento = null
+            facturaCreation.codigo = null
+            facturaCreation.concepto = 'Transporte de ' + resultado.value.cantidadTransportada + ' ' + resultado.value.categoriaViaje
+            facturaCreation.cantidad = resultado.value.cantidadTransportada
+            facturaCreation.precioUnitario = resultado.value.valorKm
+            facturaCreation.condicionPago = null
+            facturaCreation.bonificacion = null
+            facturaCreation.otrosImpuestos = null
+            facturaCreation.iva = null
+            facturaCreation.pagada = false
+            facturaCreation.notas = null
 
-        titulo.value = 'Facturar viaje de ' + resultado.value.comprador
-        fIrPaso1()
-        llaveroService.borrarDeLocal('hhFacturarViaje')
-        nuevaFacturaDialog.value = true
+            titulo.value = 'Facturar viaje de ' + resultado.value.comprador
+            fIrPaso1()
+            llaveroService.borrarDeLocal('hhFacturarViaje')
+            nuevaFacturaDialog.value = true
+          })
+        })
       }
     })
 
@@ -1012,36 +875,29 @@ export default {
     }
 
     async function afBuscarPorCompradorId (id) {
-      if (comprador.value != null) {
-        $q.loading.show()
-        try {
-          let resultado = null
-          if (esAdmin.value) {
-            resultado = await facturaService.spfBuscarTodasPorCompradorIdConEliminadas(comprador.value)
-          } else {
-            resultado = await facturaService.spfBuscarTodasPorCompradorId(comprador.value)
-          }
-          if (resultado.status === 200) {
-            console.log(resultado.headers.mensaje)
-            facturas.value = resultado.data
-            $q.loading.hide()
-          }
-        } catch (err) {
-          console.clear()
-          if (err.response.status === 404) {
-            facturas.value = []
-            console.info(err.response.headers.mensaje)
-            notificarService.infoAlerta(err.response.headers.mensaje)
-          } else if (err.response.headers.mensaje) {
-            console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-          } else {
-            const mensaje = 'Hubo un error al intentar obtener el listado.'
-            notificarService.notificarError(mensaje)
-            console.error(mensaje)
-          }
+      nombreComprador.value = null
+      $q.loading.show()
+      try {
+        const resultado = await clienteService.spfBuscarPorId(id)
+        if (resultado.status === 200) {
+          nombreComprador.value = resultado.data
           $q.loading.hide()
         }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          facturas.value = []
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
       }
     }
 
@@ -1076,6 +932,33 @@ export default {
           }
           $q.loading.hide()
         }
+      }
+    }
+
+    async function afContarFacturas () {
+      facturasCount.value = null
+      $q.loading.show()
+      try {
+        const resultado = await facturaService.spfContarTodasConEliminadas()
+        if (resultado.status === 200) {
+          facturasCount.value = resultado.data + 1
+          $q.loading.hide()
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          facturas.value = []
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
       }
     }
 
@@ -1160,6 +1043,8 @@ export default {
       }
     }
 
+    function fFiltrarCompradores () {}
+
     function fFormatoFecha (fecha) {
       return ayuda.getDateWithFormat(fecha)
     }
@@ -1218,7 +1103,7 @@ export default {
       fechaViaje.value.to = null
       numeroComprobante.value = null
       numeroGuia.value = null
-      editNumeroRemito.value = null
+      numeroRemito.value = null
       tipoComprobante.value = null
     }
 
@@ -1271,6 +1156,13 @@ export default {
       })
     }
 
+    function fMostrarComprador () {}
+    function fMostrarFechaFacturacion () {}
+    function fMostrarFechaViaje () {}
+    function fMostrarNumeroComprobante () {}
+    function fMostrarNumeroRemito () {}
+    function fMostrarTipoComprobante () {}
+
     function fMostrarNumeroGuia () {
       fLimpiarInputs()
       editNumeroGuia.value = true
@@ -1278,6 +1170,18 @@ export default {
 
     function fMostrarTotal (datos) {
       return ((datos.kmCargado * datos.valorKm) + datos.recarga - datos.descuento) * (datos.iva / 100)
+    }
+
+    function fObtenerNumeroComprobante () {
+      if (facturaCreation.tipoComprobante === 'SC') {
+        facturaCreation.numeroComprobante = facturasCount.value
+      }
+    }
+
+    function fObtenerPagada () {
+      if (facturaCreation.condicionPago === 'CONTADO') {
+        facturaCreation.pagada = true
+      }
     }
 
     return {
@@ -1290,15 +1194,51 @@ export default {
       titulo,
       facturas,
 
+      editComprador,
+      editFechaFacturacion,
+      editFechaViaje,
+      editNumeroComprobante,
+      editNumeroGuia,
+      editNumeroRemito,
+      editTipoComprobante,
+
+      comprador,
+      compradores,
+      fechaFacturacion,
+      fechaViaje,
+      fechaEmision,
+      fechaVencimiento,
+      nuevaFacturaDialog,
+      numeroComprobante,
+      numeroGuia,
+      numeroRemito,
+      tipoComprobante,
+
+      facturasCount,
       fIrPaso2,
       fIrPaso3,
       fGuardarFactura,
+      fFiltrarCompradores,
       fMostrarEditarFactura,
       fMostrarEliminarFactura,
+      fMostrarComprador,
+      fMostrarFechaFacturacion,
+      fMostrarFechaViaje,
+      fMostrarNumeroComprobante,
+      fMostrarNumeroGuia,
+      fMostrarNumeroRemito,
+      fMostrarTipoComprobante,
+      fObtenerNumeroComprobante,
+      fObtenerPagada,
+      paso1,
+      paso2,
       paso3,
       facturaCreation,
 
       fFormatoFecha,
+
+      comprobantes: ['SC', 'A', 'B', 'C'],
+      condicionPago: ['CONTADO', 'CTA_CTE'],
 
       myLocale: {
         /* starting with Sunday */
