@@ -1,5 +1,5 @@
 <template>
-  <h1>Combustible</h1>
+<div class="q-ma-md"></div>
 </template>
 
 <script>

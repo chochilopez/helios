@@ -1,13 +1,19 @@
 <template>
-  <h1>Saldo CtaCte</h1>
+  <div class="q-ma-md">
+    <ClientesSaldosCtasCtesContador />
+    <ClientesSaldosCtasCtesListado />
+  </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import ClientesSaldosCtasCtesContador from 'src/components/sitio/ClientesSaldosCtasCtesContador.vue'
+import ClientesSaldosCtasCtesListado from 'src/components/sitio/ClientesSaldosCtasCtesListado.vue'
 
 export default {
+  components: { ClientesSaldosCtasCtesContador, ClientesSaldosCtasCtesListado },
   setup () {
     const $q = useQuasar()
 

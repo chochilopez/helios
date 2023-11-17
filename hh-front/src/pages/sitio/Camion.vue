@@ -1,5 +1,7 @@
 <template>
-  <VehiculosCamionesListado />
+  <div class="q-ma-md">
+    <VehiculosCamionesListado />
+  </div>
 </template>
 
 <script>

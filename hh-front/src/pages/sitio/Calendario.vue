@@ -1,5 +1,7 @@
 <template>
-  <CalendarioCalendarioCalendario class="q-ma-lg" />
+  <div class="q-ma-md">
+    <CalendarioCalendarioCalendario class="q-ma-lg" />
+  </div>
 </template>
 
 <script>

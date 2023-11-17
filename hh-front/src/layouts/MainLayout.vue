@@ -7,7 +7,7 @@
           <span class="q-ml-sm text-bold">Helios</span>
         </q-toolbar-title>
         <q-space />
-        <q-btn-dropdown :label="username" class="q-ml-xs paleta1-fondo4 paleta1-color1" no-caps dropdown-icon="brightness_high">
+        <q-btn-dropdown :label="username" class="q-ml-xs paleta2-fondo2 paleta1-color1" no-caps dropdown-icon="brightness_high">
           <q-item clickable v-close-popup @click="cerrarSesion">
             <q-item-section>
               <q-item-label>Cerrar sesión</q-item-label>
@@ -32,7 +32,7 @@
           </q-item-section>
           <q-item-section class="white-text">Panel Principal</q-item-section>
         </q-item>
-        <q-expansion-item icon="account_balance" label="Banco">
+        <!-- <q-expansion-item icon="account_balance" label="Banco">
           <q-item
             clickable
             v-ripple
@@ -63,8 +63,8 @@
             </q-item-section>
             <q-item-section class="white-text">Movimientos conciliaciones</q-item-section>
           </q-item>
-        </q-expansion-item>
-        <q-expansion-item icon="paid" label="Caja">
+        </q-expansion-item> -->
+        <!-- <q-expansion-item icon="paid" label="Caja">
           <q-item
             clickable
             v-ripple
@@ -140,7 +140,7 @@
             </q-item-section>
             <q-item-section class="white-text">Planes de cuenta</q-item-section>
           </q-item>
-        </q-expansion-item>
+        </q-expansion-item> -->
         <q-expansion-item icon="calendar_month" label="Calendario">
           <q-item
             clickable
@@ -249,7 +249,7 @@
             </q-item-section>
             <q-item-section class="white-text">Licencias</q-item-section>
           </q-item>
-          <q-item
+          <!-- <q-item
             clickable
             v-ripple
             :active="link === 'resumenConductor'"
@@ -263,7 +263,7 @@
               <q-icon name="follow_the_signs" />
             </q-item-section>
             <q-item-section class="white-text">Resumen por conductor</q-item-section>
-          </q-item>
+          </q-item> -->
         </q-expansion-item>
         <q-expansion-item icon="groups" label="Clientes">
           <q-item
@@ -281,7 +281,7 @@
             </q-item-section>
             <q-item-section class="white-text">Clientes</q-item-section>
           </q-item>
-          <q-item
+          <!-- <q-item
             clickable
             v-ripple
             :active="link === 'detallesCtaCte'"
@@ -297,7 +297,7 @@
             <q-item-section class="white-text"
               >Detalles cuentas corrientes</q-item-section
             >
-          </q-item>
+          </q-item> -->
           <q-item
             clickable
             v-ripple
@@ -315,7 +315,7 @@
               >Direcciones</q-item-section
             >
           </q-item>
-          <q-item
+          <!-- <q-item
             clickable
             v-ripple
             :active="link === 'moviemientoCtaCte'"
@@ -331,6 +331,21 @@
             <q-item-section class="white-text"
               >Movimientos cuentas corrientes</q-item-section
             >
+          </q-item> -->
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'proveedores'"
+            @click="link = 'proveedores'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'Proveedor' }"
+            class="q-ml-md paleta1-fondo5"
+          >
+            <q-item-section avatar>
+              <q-icon name="storefront" />
+            </q-item-section>
+            <q-item-section class="white-text">Proveedores</q-item-section>
           </q-item>
           <q-item
             clickable
@@ -474,7 +489,7 @@
             <q-item-section class="white-text">Neumaticos colocados</q-item-section>
           </q-item>
         </q-expansion-item>
-        <q-expansion-item icon="storefront" label="Proveedores">
+        <!-- <q-expansion-item icon="storefront" label="Proveedores">
           <q-item
             clickable
             v-ripple
@@ -507,7 +522,7 @@
             </q-item-section>
             <q-item-section class="white-text">Proveedores</q-item-section>
           </q-item>
-        </q-expansion-item>
+        </q-expansion-item> -->
         <q-expansion-item icon="local_shipping" label="Vehiculos">
           <q-item
             clickable
@@ -647,7 +662,7 @@ export default {
 <style scoped>
 .seleccion-activa {
   color: #fefcfd;
-  background-color: #526d82;
+  background-color: #2A9D8F;
 }
 a {
   color: #fefcfd !important;

@@ -1,54 +1,56 @@
 <template>
-  <div class="subcontent">
-    <CalendarioCalendarioCalendarioNavbar
-      @today="onToday"
-      @prev="onPrev"
-      @next="onNext"
-    />
+  <q-card class="font-5 no-shadow no-border">
+    <div class="subcontent">
+      <CalendarioCalendarioCalendarioNavbar
+        @today="onToday"
+        @prev="onPrev"
+        @next="onNext"
+      />
 
-    <div class="row justify-center">
-      <div style="display: flex; max-width: 800px; width: 100%;">
-        <q-calendar-month
-          ref="calendar"
-          v-model="selectedDate"
-          animated
-          bordered
-          focusable
-          hoverable
-          no-active-date
-          :day-min-height="60"
-          :day-height="0"
-          @change="onChange"
-          @moved="onMoved"
-          @click-date="onClickDate"
-          @click-day="onClickDay"
-          @click-workweek="onClickWorkweek"
-          @click-head-workweek="onClickHeadWorkweek"
-          @click-head-day="onClickHeadDay"
-        >
-          <template #week="{ scope: { week, weekdays } }">
-            <template
-              v-for="(computedEvent, index) in getWeekEvents(week, weekdays)"
-              :key="index"
-            >
-              <div
-                :class="badgeClasses(computedEvent)"
-                :style="badgeStyles(computedEvent, week.length)"
+      <div class="row justify-center">
+        <div style="display: flex; max-width: 800px; width: 100%;">
+          <q-calendar-month
+            ref="calendar"
+            v-model="selectedDate"
+            animated
+            bordered
+            focusable
+            hoverable
+            no-active-date
+            :day-min-height="60"
+            :day-height="0"
+            @change="onChange"
+            @moved="onMoved"
+            @click-date="onClickDate"
+            @click-day="onClickDay"
+            @click-workweek="onClickWorkweek"
+            @click-head-workweek="onClickHeadWorkweek"
+            @click-head-day="onClickHeadDay"
+          >
+            <template #week="{ scope: { week, weekdays } }">
+              <template
+                v-for="(computedEvent, index) in getWeekEvents(week, weekdays)"
+                :key="index"
               >
                 <div
-                  v-if="computedEvent.event && computedEvent.event.details"
-                  class="title q-calendar__ellipsis"
+                  :class="badgeClasses(computedEvent)"
+                  :style="badgeStyles(computedEvent, week.length)"
                 >
-                  {{ computedEvent.event.title + (computedEvent.event.time ? ' - ' + computedEvent.event.time : '') }}
-                  <q-tooltip>{{ computedEvent.event.details }}</q-tooltip>
+                  <div
+                    v-if="computedEvent.event && computedEvent.event.details"
+                    class="title q-calendar__ellipsis"
+                  >
+                    {{ computedEvent.event.title + (computedEvent.event.time ? ' - ' + computedEvent.event.time : '') }}
+                    <q-tooltip>{{ computedEvent.event.details }}</q-tooltip>
+                  </div>
                 </div>
-              </div>
+              </template>
             </template>
-          </template>
-        </q-calendar-month>
+          </q-calendar-month>
+        </div>
       </div>
     </div>
-  </div>
+  </q-card>
 </template>
 
 <script>

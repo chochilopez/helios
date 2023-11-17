@@ -1,6 +1,5 @@
 <template>
-  <h1>Banco</h1>
-</template>
+  <h1>Banco</h1><div class="q-ma-md"></div></template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'

@@ -1,397 +1,452 @@
 <template>
-  <q-card class="font-5 no-shadow no-border"> </q-card>
-  <div class="row q-pa-md">
-    <div class="col">
-      <q-table title="Facturas"
-        :columns="columnas"
-        rows-per-page-label="Registros por pagina"
-        no-data-label="Sin datos para mostrar"
-        :pagination="paginacion"
-        hide-no-data
-        :rows="facturas"
-        row-key="id"
-      >
-        <!--template v-slot:top-left>
-          <div class="column">
-            <p class="text-h5">Facturas</p>
-            <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo factura" @click="fMostrarNuevoFactura" />
-          </div>
-        </!template-->
-        <template v-slot:top-right>
-          <div class="column items-end">
-            <div class="q-my-md">
-              <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar facturas por" dropdown-icon="fa-solid fa-magnifying-glass">
-                <q-list>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarComprador">
-                    <q-item-section avatar>
-                      <q-icon name="monetization_on" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Comprador</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarFechaFacturacion">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-calendar-days" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Fecha facturación</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarFechaViaje">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-truck-arrow-right" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Fecha viaje</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNumeroComprobante">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-file-invoice" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Número comprobante</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNumeroGuia">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-shuffle" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Numero guía</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNumeroRemito">
-                    <q-item-section avatar>
-                      <q-icon name="pin" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Número remito</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarTipoComprobante">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-file-lines" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Tipo comprobante</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
+  <q-card class="font-5 no-shadow no-border">
+    <div class="row q-pa-md">
+      <div class="col">
+        <q-table title="Facturas"
+          :columns="columnas"
+          rows-per-page-label="Registros por pagina"
+          no-data-label="Sin datos para mostrar"
+          :pagination="paginacion"
+          hide-no-data
+          :rows="facturas"
+          row-key="id"
+        >
+          <!--template v-slot:top-left>
+            <div class="column">
+              <p class="text-h5">Facturas</p>
+              <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo factura" @click="fMostrarNuevoFactura" />
             </div>
-            <div class="col-md-4">
-              <q-select
-                v-if="editComprador"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="comprador"
-                :options="compradores"
-                option-value="id"
-                option-label="nombre"
-                label="Buscar por comprador"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarCompradores"
-                @update:model-value="afBuscarPorCompradorId()"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:before>
-                  <q-icon name="monetization_on" class="q-mx-xs" />
-                </template>
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-              <div class="column" v-if="editFechaFacturacion">
-                <div class="row justify-around">
-                  <q-input
-                    mask="##-##-####"
-                    style="width: 180px"
-                    v-model="fechaFacturacion.from"
-                    outlined
-                    dense
-                    clearable
-                    label="Facturacion fin"
-                    hint="20-01-2020"
-                  >
-                    <template v-slot:before>
-                      <q-icon name="event" class="cursor-pointer">
-                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                          <q-date v-model="fechaFacturacion.from" mask="DD-MM-YYYY">
-                            <div class="row items-center justify-end">
-                              <q-btn v-close-popup label="OK" color="primary" flat />
-                            </div>
-                          </q-date>
-                        </q-popup-proxy>
-                      </q-icon>
-                    </template>
-                  </q-input>
-                  <q-input
-                    class="q-ml-md"
-                    mask="##-##-####"
-                    style="width: 180px"
-                    v-model="fechaFacturacion.to"
-                    outlined
-                    dense
-                    clearable
-                    label="Facturacion inicio"
-                    hint="30-01-2020"
-                  >
-                    <template v-slot:before>
-                      <q-icon name="event" class="cursor-pointer">
-                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                          <q-date v-model="fechaFacturacion.to" mask="DD-MM-YYYY">
-                            <div class="row items-center justify-end">
-                              <q-btn v-close-popup label="OK" color="primary" flat />
-                            </div>
-                          </q-date>
-                        </q-popup-proxy>
-                      </q-icon>
-                    </template>
-                  </q-input>
-                  <div class="col">
-                    <q-icon name="fa-solid fa-magnifying-glass" size="24px" class="cursor-pointer q-pa-sm edits" v-on:click="afBuscarPorFechaViaje()" />
+          </!template-->
+          <template v-slot:top-right>
+            <div class="column items-end">
+              <div class="q-my-md">
+                <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar facturas por" dropdown-icon="fa-solid fa-magnifying-glass">
+                  <q-list>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarComprador">
+                      <q-item-section avatar>
+                        <q-icon name="monetization_on" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Comprador</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarFechaFacturacion">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-calendar-days" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Fecha facturación</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarFechaViaje">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-truck-arrow-right" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Fecha viaje</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNumeroComprobante">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-file-invoice" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Número comprobante</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNumeroGuia">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-shuffle" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Numero guía</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNumeroRemito">
+                      <q-item-section avatar>
+                        <q-icon name="pin" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Número remito</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarTipoComprobante">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-file-lines" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Tipo comprobante</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+              </div>
+              <div class="col-md-4">
+                <q-select
+                  v-if="editComprador"
+                  outlined
+                  dense
+                  emit-value
+                  map-options
+                  clearable
+                  v-model="comprador"
+                  :options="compradores"
+                  option-value="id"
+                  option-label="nombre"
+                  label="Buscar por comprador"
+                  use-input
+                  input-debounce="0"
+                  @filter="fFiltrarCompradores"
+                  @update:model-value="afBuscarPorCompradorId()"
+                  hint="Tenés que escribir al menos 3 caracteres para buscar."
+                >
+                  <template v-slot:before>
+                    <q-icon name="monetization_on" class="q-mx-xs" />
+                  </template>
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+                <div class="column" v-if="editFechaFacturacion">
+                  <div class="row justify-around">
+                    <q-input
+                      mask="##-##-####"
+                      style="width: 180px"
+                      v-model="fechaFacturacion.from"
+                      outlined
+                      dense
+                      clearable
+                      label="Facturacion fin"
+                      hint="20-01-2020"
+                    >
+                      <template v-slot:before>
+                        <q-icon name="event" class="cursor-pointer">
+                          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                            <q-date v-model="fechaFacturacion.from" mask="DD-MM-YYYY">
+                              <div class="row items-center justify-end">
+                                <q-btn v-close-popup label="OK" color="primary" flat />
+                              </div>
+                            </q-date>
+                          </q-popup-proxy>
+                        </q-icon>
+                      </template>
+                    </q-input>
+                    <q-input
+                      class="q-ml-md"
+                      mask="##-##-####"
+                      style="width: 180px"
+                      v-model="fechaFacturacion.to"
+                      outlined
+                      dense
+                      clearable
+                      label="Facturacion inicio"
+                      hint="30-01-2020"
+                    >
+                      <template v-slot:before>
+                        <q-icon name="event" class="cursor-pointer">
+                          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                            <q-date v-model="fechaFacturacion.to" mask="DD-MM-YYYY">
+                              <div class="row items-center justify-end">
+                                <q-btn v-close-popup label="OK" color="primary" flat />
+                              </div>
+                            </q-date>
+                          </q-popup-proxy>
+                        </q-icon>
+                      </template>
+                    </q-input>
+                    <div class="col">
+                      <q-icon name="fa-solid fa-magnifying-glass" size="24px" class="cursor-pointer q-pa-sm edits" v-on:click="afBuscarPorFechaViaje()" />
+                    </div>
                   </div>
                 </div>
+                <q-input
+                  v-if="editNumeroGuia"
+                  outlined
+                  dense
+                  clearable
+                  v-on:keyup.enter="afBuscarPorTipoComprobante()"
+                  v-model="numeroGuia"
+                  label="Buscar por número guía"
+                  hint="Tenés que escribir al menos 3 caracteres para buscar."
+                >
+                  <template v-slot:before>
+                    <q-icon name="fa-solid fa-shuffle" class="q-mx-xs" />
+                  </template>
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                    </q-item>
+                  </template>
+                  <template v-slot:after>
+                    <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorTipoComprobante()" style="cursor: pointer" />
+                  </template>
+                </q-input>
               </div>
-              <q-input
-                v-if="editNumeroGuia"
-                outlined
-                dense
-                clearable
-                v-on:keyup.enter="afBuscarPorTipoComprobante()"
-                v-model="numeroGuia"
-                label="Buscar por número guía"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:before>
-                  <q-icon name="fa-solid fa-shuffle" class="q-mx-xs" />
-                </template>
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-                <template v-slot:after>
-                  <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorTipoComprobante()" style="cursor: pointer" />
-                </template>
-              </q-input>
             </div>
-          </div>
-        </template>
-        <template v-slot:body="props">
-          <q-tr :props="props" :class="{ 'bg-teal-2': props.row.pagada, 'bg-red-2': props.row.eliminada } ">
-            <q-td auto-width class="text-center">
-              <q-btn
-                size="sm"
-                class="text-white q-mr-xs"
-                :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
-                round
-                dense
-                @click="props.expand = !props.expand"
-              >
-                <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
-                <q-tooltip>
-                  Expandir
-                </q-tooltip>
-              </q-btn>
-              <q-btn
-                v-if="props.row.eliminada === null"
-                size="sm"
-                class="text-white paleta5-fondo2 q-mr-xs"
-                round
-                dense
-                @click="fMostrarEditarFactura(props)"
-              >
-                <q-icon size="2em" class="q-pa-xs" name="edit" />
-                <q-tooltip>
-                  Modificar
-                </q-tooltip>
-              </q-btn>
-              <q-btn
-                v-if="props.row.eliminada === null"
-                size="sm"
-                class="text-white paleta5-fondo2 q-mr-xs"
-                round
-                dense
-                @click="fMostrarEliminarFactura(props)"
-              >
-                <q-icon size="2em" class="q-pa-xs" name="delete" />
-                <q-tooltip>
-                  Eliminar
-                </q-tooltip>
-              </q-btn>
-              <q-btn
-                v-if="props.row.eliminada !== null"
-                size="sm"
-                class="text-white paleta5-fondo2 q-mr-xs"
-                round
-                dense
-                @click="fMostrarReciclarFactura(props)"
-              >
-                <q-icon size="2em" class="q-pa-xs" name="recycling" />
-                <q-tooltip>
-                  Reciclar
-                </q-tooltip>
-              </q-btn>
-            </q-td>
-            <q-td class="text-center">
-              {{ props.row.tipoComprobante }}
-            </q-td>
-            <q-td class="text-center">
-              {{ fFormatoFecha(props.row.numeroComprobante) }}
-            </q-td>
-            <q-td class="text-center">
-              {{ props.row.fechaFacturacion }}
-            </q-td>
-            <q-td>
-              {{ props.row.destino }}
-            </q-td>
-            <q-td>
-              {{ props.row.conductor }}
-            </q-td>
-            <q-td>
-              {{ props.row.camion }}
-            </q-td>
-            <q-td>
-              {{ props.row.categoriaViaje }}
-            </q-td>
-            <q-td class="text-center">
-              {{ props.row.cantidadTransportada }}
-            </q-td>
-            <q-td class="text-center">
-              {{ fMostrarTotal(props.row) }}
-            </q-td>
-          </q-tr>
-          <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
-            <q-td colspan="100%">
-              <div class="row">
-                <div v-if="props.row.id != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.id }}</div>
-                  <div class="row paleta1-color2">Id</div>
+          </template>
+          <template v-slot:body="props">
+            <q-tr :props="props" :class="{ 'bg-teal-2': props.row.pagada === true, 'bg-red-2': props.row.eliminada } ">
+              <q-td auto-width class="text-center">
+                <q-btn
+                  size="sm"
+                  class="text-white q-mr-xs"
+                  :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
+                  round
+                  dense
+                  @click="props.expand = !props.expand"
+                >
+                  <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
+                  <q-tooltip>
+                    Expandir
+                  </q-tooltip>
+                </q-btn>
+                <q-btn
+                  v-if="props.row.eliminada === null"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarEditarFactura(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="edit" />
+                  <q-tooltip>
+                    Modificar
+                  </q-tooltip>
+                </q-btn>
+                <q-btn
+                  v-if="props.row.eliminada === null"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarIngresarPago(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="payments" />
+                  <q-tooltip>
+                    Ingresar pago
+                  </q-tooltip>
+                </q-btn>
+                <q-btn
+                  v-if="props.row.eliminada === null"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarImprimirFactura(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="print" />
+                  <q-tooltip>
+                    Imprimir
+                  </q-tooltip>
+                </q-btn>
+                <!-- <q-btn
+                  v-if="props.row.eliminada === null"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarEliminarFactura(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="delete" />
+                  <q-tooltip>
+                    Eliminar
+                  </q-tooltip>
+                </q-btn> -->
+                <q-btn
+                  v-if="props.row.eliminada !== null"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarReciclarFactura(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="recycling" />
+                  <q-tooltip>
+                    Reciclar
+                  </q-tooltip>
+                </q-btn>
+              </q-td>
+              <q-td class="text-center">
+                {{ props.row.tipoComprobante }}
+              </q-td>
+              <q-td class="text-center">
+                {{ props.row.numeroComprobante }}
+              </q-td>
+              <q-td class="text-center">
+                {{ fFormatoFecha(props.row.fechaEmision) }}
+              </q-td>
+              <q-td>
+                {{ props.row.destino }}
+              </q-td>
+              <q-td>
+                {{ props.row.conductor }}
+              </q-td>
+              <q-td>
+                {{ props.row.camion }}
+              </q-td>
+              <q-td>
+                {{ props.row.categoriaViaje }}
+              </q-td>
+              <q-td class="text-center">
+                {{ props.row.cantidadTransportada }}
+              </q-td>
+              <q-td class="text-center">
+                {{ fMostrarTotal(props.row) }}
+              </q-td>
+            </q-tr>
+            <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
+              <q-td colspan="100%">
+                <div class="row">
+                  <div v-if="props.row.id != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.id }}</div>
+                    <div class="row paleta1-color2">Id</div>
+                  </div>
+                  <div v-if="props.row.bonificacion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.bonificacion }}</div>
+                    <div class="row paleta1-color2">Bonificacion</div>
+                  </div>
+                  <div v-if="props.row.camion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.camion }}</div>
+                    <div class="row paleta1-color2">Camion</div>
+                  </div>
+                  <div v-if="props.row.cantidad != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.cantidad }}</div>
+                    <div class="row paleta1-color2">Cantidad</div>
+                  </div>
+                  <div v-if="props.row.cantidadTransportada != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.cantidadTransportada }}</div>
+                    <div class="row paleta1-color2">Cantidad transportada</div>
+                  </div>
+                  <div v-if="props.row.categoriaViaje != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.categoriaViaje }}</div>
+                    <div class="row paleta1-color2">Categoria viaje</div>
+                  </div>
+                  <div v-if="props.row.codigo != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.codigo }}</div>
+                    <div class="row paleta1-color2">Código</div>
+                  </div>
+                  <div v-if="props.row.comprador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.comprador }}</div>
+                    <div class="row paleta1-color2">Comprador</div>
+                  </div>
+                  <div v-if="props.row.concepto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.concepto }}</div>
+                    <div class="row paleta1-color2">Concepto</div>
+                  </div>
+                  <div v-if="props.row.condicionPagoEnum != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.condicionPagoEnum }}</div>
+                    <div class="row paleta1-color2">Condición de pago</div>
+                  </div>
+                  <div v-if="props.row.conductor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.conductor }}</div>
+                    <div class="row paleta1-color2">Conductor</div>
+                  </div>
+                  <div v-if="props.row.destino != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.destino }}</div>
+                    <div class="row paleta1-color2">Destino</div>
+                  </div>
+                  <div v-if="props.row.domicilioComercial != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.domicilioComercial }}</div>
+                    <div class="row paleta1-color2">Domicilio comercial</div>
+                  </div>
+                  <div v-if="props.row.fechaEmision != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.fechaEmision }}</div>
+                    <div class="row paleta1-color2">Fecha emisión</div>
+                  </div>
+                  <div v-if="props.row.fechaViaje != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.fechaViaje }}</div>
+                    <div class="row paleta1-color2">Fecha viaje</div>
+                  </div>
+                  <div v-if="props.row.fechaVencimiento != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.fechaVencimiento }}</div>
+                    <div class="row paleta1-color2">Fecha vencimiento</div>
+                  </div>
+                  <div v-if="props.row.iva != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.iva }}</div>
+                    <div class="row paleta1-color2">IVA</div>
+                  </div>
+                  <div v-if="props.row.kmCargado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.kmCargado }}</div>
+                    <div class="row paleta1-color2">Kilometro cargado</div>
+                  </div>
+                  <div v-if="props.row.numeroComprobante != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.numeroComprobante }}</div>
+                    <div class="row paleta1-color2">Número comprobante</div>
+                  </div>
+                  <div v-if="props.row.numeroGuia != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.numeroGuia }}</div>
+                    <div class="row paleta1-color2">Número guía</div>
+                  </div>
+                  <div v-if="props.row.numeroRemito != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.numeroRemito }}</div>
+                    <div class="row paleta1-color2">Número remito</div>
+                  </div>
+                  <div v-if="props.row.origen != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.origen }}</div>
+                    <div class="row paleta1-color2">Origen</div>
+                  </div>
+                  <div v-if="props.row.otrosImpuestos != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.otrosImpuestos }}</div>
+                    <div class="row paleta1-color2">Otros impuestos</div>
+                  </div>
+                  <div v-if="props.row.pagada != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.pagada }}</div>
+                    <div class="row paleta1-color2">Pagada</div>
+                  </div>
+                  <div v-if="props.row.precioUnitario != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.precioUnitario }}</div>
+                    <div class="row paleta1-color2">Precio unitario</div>
+                  </div>
+                  <div v-if="props.row.razonSocial != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.razonSocial }}</div>
+                    <div class="row paleta1-color2">Razón social</div>
+                  </div>
+                  <div v-if="props.row.tipoComprobante != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.tipoComprobante }}</div>
+                    <div class="row paleta1-color2">Tipo comprobante</div>
+                  </div>
+                  <div v-if="props.row.valorKm != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.valorKm }}</div>
+                    <div class="row paleta1-color2">Valor kilometro</div>
+                  </div>
+                  <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.creador }}</div>
+                    <div class="row paleta1-color2">Creador</div>
+                  </div>
+                  <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.creada }}</div>
+                    <div class="row paleta1-color2">Creado</div>
+                  </div>
+                  <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.modificador }}</div>
+                    <div class="row paleta1-color2">Modificador</div>
+                  </div>
+                  <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.modificada }}</div>
+                    <div class="row paleta1-color2">Modificado</div>
+                  </div>
+                  <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.eliminador }}</div>
+                    <div class="row paleta1-color2">Eliminador</div>
+                  </div>
+                  <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.eliminada }}</div>
+                    <div class="row paleta1-color2">Eliminada</div>
+                  </div>
+                  <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.notas }}</div>
+                    <div class="row paleta1-color2">Notas</div>
+                  </div>
                 </div>
-                <div v-if="props.row.camion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.camion }}</div>
-                  <div class="row paleta1-color2">camion</div>
-                </div>
-                <div v-if="props.row.cantidadTransportada != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.cantidadTransportada }}</div>
-                  <div class="row paleta1-color2">cantidadTransportada</div>
-                </div>
-                <div v-if="props.row.categoriaViaje != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.categoriaViaje }}</div>
-                  <div class="row paleta1-color2">Categoria viaje</div>
-                </div>
-                <div v-if="props.row.comprador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.comprador }}</div>
-                  <div class="row paleta1-color2">Comprador</div>
-                </div>
-                <div v-if="props.row.conductor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.conductor }}</div>
-                  <div class="row paleta1-color2">conductor</div>
-                </div>
-                <div v-if="props.row.descuento != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.descuento }}</div>
-                  <div class="row paleta1-color2">descuento</div>
-                </div>
-                <div v-if="props.row.destino != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.destino }}</div>
-                  <div class="row paleta1-color2">destino</div>
-                </div>
-                <div v-if="props.row.fecha != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.fecha }}</div>
-                  <div class="row paleta1-color2">Fecha del factura</div>
-                </div>
-                <div v-if="props.row.fechaViaje != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.fechaViaje }}</div>
-                  <div class="row paleta1-color2">fechaViaje</div>
-                </div>
-                <div v-if="props.row.iva != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.iva }}</div>
-                  <div class="row paleta1-color2">iva</div>
-                </div>
-                <div v-if="props.row.kmCargado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.kmCargado }}</div>
-                  <div class="row paleta1-color2">kmCargado</div>
-                </div>
-                <div v-if="props.row.numeroComprobante != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.numeroComprobante }}</div>
-                  <div class="row paleta1-color2">numeroComprobante</div>
-                </div>
-                <div v-if="props.row.numeroGuia != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.numeroGuia }}</div>
-                  <div class="row paleta1-color2">numeroGuia</div>
-                </div>
-                <div v-if="props.row.origen != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.origen }}</div>
-                  <div class="row paleta1-color2">origen</div>
-                </div>
-                <div v-if="props.row.pagada != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.pagada }}</div>
-                  <div class="row paleta1-color2">pagada</div>
-                </div>
-                <div v-if="props.row.recarga != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.recarga }}</div>
-                  <div class="row paleta1-color2">recarga</div>
-                </div>
-                <div v-if="props.row.remito != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.remito }}</div>
-                  <div class="row paleta1-color2">remito</div>
-                </div>
-                <div v-if="props.row.subTotal != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.subTotal }}</div>
-                  <div class="row paleta1-color2">subTotal</div>
-                </div>
-                <div v-if="props.row.tipoComprobante != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.tipoComprobante }}</div>
-                  <div class="row paleta1-color2">tipoComprobante</div>
-                </div>
-                <div v-if="props.row.valorKm != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.valorKm }}</div>
-                  <div class="row paleta1-color2">valorKm</div>
-                </div>
-                <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.creador }}</div>
-                  <div class="row paleta1-color2">Creador</div>
-                </div>
-                <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.creada }}</div>
-                  <div class="row paleta1-color2">Creado</div>
-                </div>
-                <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.modificador }}</div>
-                  <div class="row paleta1-color2">Modificador</div>
-                </div>
-                <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.modificada }}</div>
-                  <div class="row paleta1-color2">Modificado</div>
-                </div>
-                <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.eliminador }}</div>
-                  <div class="row paleta1-color2">Eliminador</div>
-                </div>
-                <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.eliminada }}</div>
-                  <div class="row paleta1-color2">Eliminada</div>
-                </div>
-                <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.notas }}</div>
-                  <div class="row paleta1-color2">Notas</div>
-                </div>
-              </div>
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
+      </div>
     </div>
-  </div>
+  </q-card>
 
   <q-dialog v-model="nuevaFacturaDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
@@ -808,6 +863,7 @@ export default {
         afContarFacturas().then(() => {
           const resultado = llaveroService.obtenerDeLocal('hhFacturarViaje')
           afBuscarPorCompradorId(resultado.value.compradorId).then(() => {
+            facturaCreation.id = null
             facturaCreation.viajeId = resultado.value.id
             facturaCreation.razonSocial = resultado.value.comprador
             facturaCreation.domicilioComercial = nombreComprador.value.direccion
@@ -824,7 +880,6 @@ export default {
             facturaCreation.bonificacion = null
             facturaCreation.otrosImpuestos = null
             facturaCreation.iva = null
-            facturaCreation.pagada = false
             facturaCreation.notas = null
 
             titulo.value = 'Facturar viaje de ' + resultado.value.comprador
@@ -963,8 +1018,12 @@ export default {
     }
 
     async function afGuardarFactura () {
+      facturaCreation.fechaEmision = fechaEmision.value
+      facturaCreation.fechaVencimiento = fechaVencimiento.value
       $q.loading.show()
       try {
+        facturaCreation.fechaVencimiento = fechaVencimiento.value
+        facturaCreation.fechaEmision = fechaEmision.value
         let resultado = null
         resultado = await facturaService.spfGuardar(facturaCreation)
         if (resultado.status === 201) {
@@ -1159,6 +1218,8 @@ export default {
     function fMostrarComprador () {}
     function fMostrarFechaFacturacion () {}
     function fMostrarFechaViaje () {}
+    function fMostrarImprimirFactura () {}
+    function fMostrarIngresarPago () {}
     function fMostrarNumeroComprobante () {}
     function fMostrarNumeroRemito () {}
     function fMostrarTipoComprobante () {}
@@ -1169,7 +1230,8 @@ export default {
     }
 
     function fMostrarTotal (datos) {
-      return ((datos.kmCargado * datos.valorKm) + datos.recarga - datos.descuento) * (datos.iva / 100)
+      // return ((datos.kmCargado * datos.valorKm) + datos.recarga - datos.descuento) * (datos.iva / 100)
+      return datos.kmCargado * datos.valorKm
     }
 
     function fObtenerNumeroComprobante () {
@@ -1224,10 +1286,14 @@ export default {
       fMostrarComprador,
       fMostrarFechaFacturacion,
       fMostrarFechaViaje,
+      fMostrarImprimirFactura,
+      fMostrarIngresarPago,
       fMostrarNumeroComprobante,
       fMostrarNumeroGuia,
       fMostrarNumeroRemito,
+      fMostrarReciclarFactura,
       fMostrarTipoComprobante,
+      fMostrarTotal,
       fObtenerNumeroComprobante,
       fObtenerPagada,
       paso1,

@@ -1,5 +1,5 @@
 <template>
-  <h1>Recibo</h1>
+<div class="q-ma-md"></div>
 </template>
 
 <script>

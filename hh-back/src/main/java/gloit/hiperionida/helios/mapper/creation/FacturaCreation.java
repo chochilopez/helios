@@ -20,7 +20,7 @@ public class FacturaCreation extends AbsAuditoriaCreation {
     private String cantidad;
     private String codigo;
     private String concepto;
-    private String condicionPagoEnum;
+    private String condicionPago;
     private String domicilioComercial;
     private String fechaEmision;
     private String fechaVencimiento;

@@ -1,5 +1,7 @@
 <template>
-  <ClientesClientesListado />
+  <div class="q-ma-md">
+    <ClientesClientesListado />
+  </div>
 </template>
 
 <script>

@@ -1,5 +1,7 @@
 <template>
-  <ViajesCategoriasViajeListado />
+  <div class="q-ma-md">
+    <ViajesCategoriasViajeListado />
+  </div>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <h1>Conciliacion</h1>
+<div class="q-ma-md"></div>
 </template>
 
 <script>

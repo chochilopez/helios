@@ -45,8 +45,9 @@ public class FacturaMapper {
             if (Helper.getInteger(creation.getCantidad()) != null)
                 model.setCantidad(Helper.getInteger(creation.getCantidad()));
             model.setCodigo(creation.getCodigo());
-            if (creation.getCondicionPagoEnum() != null)
-                model.setCondicionPagoEnum(CondicionPagoEnum.valueOf(creation.getCondicionPagoEnum()));
+            model.setConcepto(creation.getConcepto());
+            if (creation.getCondicionPago() != null)
+                model.setCondicionPago(CondicionPagoEnum.valueOf(creation.getCondicionPago()));
             model.setDomicilioComercial(creation.getDomicilioComercial());
             if (!Helper.isEmptyString(creation.getFechaEmision()))
                 model.setFechaEmision(Helper.stringToLocalDateTime(creation.getFechaEmision(), "yyyy-MM-dd HH:mm:ss"));
@@ -113,8 +114,8 @@ public class FacturaMapper {
                 dto.setCantidad(model.getCantidad().toString());
             dto.setCodigo(model.getCodigo());
             dto.setConcepto(model.getConcepto());
-            if (model.getCondicionPagoEnum() != null)
-                dto.setCondicionPagoEnum(model.getCondicionPagoEnum().toString());
+            if (model.getCondicionPago() != null)
+                dto.setCondicionPago(model.getCondicionPago().toString());
             dto.setDomicilioComercial(model.getDomicilioComercial());
             if (model.getFechaEmision() != null)
                 dto.setFechaEmision(model.getFechaEmision().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));

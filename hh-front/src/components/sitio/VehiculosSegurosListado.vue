@@ -1,352 +1,352 @@
 <template>
   <q-card class="font-5 no-shadow no-border">
-  </q-card>
-  <div class="row q-pa-md">
-    <div class="col">
-      <q-table
-        title="Seguros"
-        :columns="columnas"
-        rows-per-page-label="Registros por pagina"
-        no-data-label="Sin datos para mostrar"
-        :pagination="paginacion"
-        hide-no-data
-        :rows="seguros"
-        row-key="id"
-      >
-        <template v-slot:top-left>
-          <div class="column">
-            <p class="text-h5">Seguros</p>
-            <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo seguro" @click="fMostrarNuevoSeguro" />
-          </div>
-        </template>
-        <template v-slot:top-right>
-          <div class="column items-end">
-            <div class="q-my-md">
-              <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar seguros por" dropdown-icon="fa-solid fa-magnifying-glass">
-                <q-list>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAcoplado">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-trailer" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Acoplado</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAseguradora">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-car-burst" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Aseguradora</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCamion">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-truck" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Camion</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-pen-to-square" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Notas</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarVencimiento">
-                    <q-item-section avatar>
-                      <q-icon name="fa-solid fa-calendar-days" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Vencimiento</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
+    <div class="row q-pa-md">
+      <div class="col">
+        <q-table
+          title="Seguros"
+          :columns="columnas"
+          rows-per-page-label="Registros por pagina"
+          no-data-label="Sin datos para mostrar"
+          :pagination="paginacion"
+          hide-no-data
+          :rows="seguros"
+          row-key="id"
+        >
+          <template v-slot:top-left>
+            <div class="column">
+              <p class="text-h5">Seguros</p>
+              <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo seguro" @click="fMostrarNuevoSeguro" />
             </div>
-            <div class="col">
-              <q-select
-                v-if="editAcoplado"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="acoplado"
-                option-value="id"
-                option-label="marcaModelo"
-                label="Buscar por modelo acoplado"
-                use-input
-                hide-selected
-                fill-input
-                :options="acoplados"
-                @filter="fFiltrarAcoplados"
-                @update:model-value="afBuscarPorAcopladoId()"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-              <q-select
-                v-if="editAseguradora"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="aseguradora"
-                :options="aseguradoras"
-                option-value="id"
-                option-label="nombre"
-                label="Buscar por aseguradora"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarAseguradoras"
-                @update:model-value="afBuscarPorAseguradoraId()"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-              <q-select
-                v-if="editCamion"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="camion"
-                :options="camiones"
-                option-value="id"
-                option-label="marcaModelo"
-                label="Buscar por camión"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarCamiones"
-                @update:model-value="afBuscarPorCamionId()"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-              <q-input
-                v-if="editNotas"
-                outlined
-                dense
-                clearable
-                v-on:keyup.enter="afBuscarPorNotas()"
-                v-model="notas"
-                label="Buscar por notas"
-                hint="Tenés que escribir al menos 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-                <template v-slot:after>
-                  <q-icon
-                    name="fa-solid fa-magnifying-glass"
-                    class="q-mx-xs"
-                    v-on:click="afBuscarPorNotas()"
-                    style="cursor: pointer"
-                  />
-                </template>
-              </q-input>
-              <div class="column" v-if="editVencimiento">
-                <div class="row justify-around">
-                    <q-input
-                      mask="##-##-####"
-                      style="width: 180px"
-                      v-model="vencimiento.from"
-                      outlined
-                      dense
-                      clearable
-                      label="Vencimiento inicio"
-                      hint="20-01-2020"
-                    >
-                      <template v-slot:before>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                            <q-date v-model="vencimiento.from" mask="DD-MM-YYYY">
-                              <div class="row items-center justify-end">
-                                <q-btn v-close-popup label="OK" color="primary" flat />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                    <q-input
-                      class="q-ml-md"
-                      mask="##-##-####"
-                      style="width: 180px"
-                      v-model="vencimiento.to"
-                      outlined
-                      dense
-                      clearable
-                      label="Vencimiento fin"
-                      hint="30-01-2020"
-                    >
-                      <template v-slot:before>
-                        <q-icon name="event" class="cursor-pointer">
-                          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                            <q-date v-model="vencimiento.to" mask="DD-MM-YYYY">
-                              <div class="row items-center justify-end">
-                                <q-btn v-close-popup label="OK" color="primary" flat />
-                              </div>
-                            </q-date>
-                          </q-popup-proxy>
-                        </q-icon>
-                      </template>
-                    </q-input>
-                  <div class="col">
-                    <q-icon name="fa-solid fa-magnifying-glass" size="24px" class="cursor-pointer q-pa-sm edits" v-on:click="afBuscarPorVencimiento()" />
+          </template>
+          <template v-slot:top-right>
+            <div class="column items-end">
+              <div class="q-my-md">
+                <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar seguros por" dropdown-icon="fa-solid fa-magnifying-glass">
+                  <q-list>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAcoplado">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-trailer" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Acoplado</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAseguradora">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-car-burst" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Aseguradora</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCamion">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-truck" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Camion</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-pen-to-square" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Notas</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarVencimiento">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-calendar-days" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Vencimiento</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+              </div>
+              <div class="col">
+                <q-select
+                  v-if="editAcoplado"
+                  outlined
+                  dense
+                  emit-value
+                  map-options
+                  clearable
+                  v-model="acoplado"
+                  option-value="id"
+                  option-label="marcaModelo"
+                  label="Buscar por modelo acoplado"
+                  use-input
+                  hide-selected
+                  fill-input
+                  :options="acoplados"
+                  @filter="fFiltrarAcoplados"
+                  @update:model-value="afBuscarPorAcopladoId()"
+                  hint="Tenés que escribir al menos 3 caracteres para buscar."
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+                <q-select
+                  v-if="editAseguradora"
+                  outlined
+                  dense
+                  emit-value
+                  map-options
+                  clearable
+                  v-model="aseguradora"
+                  :options="aseguradoras"
+                  option-value="id"
+                  option-label="nombre"
+                  label="Buscar por aseguradora"
+                  use-input
+                  input-debounce="0"
+                  @filter="fFiltrarAseguradoras"
+                  @update:model-value="afBuscarPorAseguradoraId()"
+                  hint="Tenés que escribir al menos 3 caracteres para buscar."
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+                <q-select
+                  v-if="editCamion"
+                  outlined
+                  dense
+                  emit-value
+                  map-options
+                  clearable
+                  v-model="camion"
+                  :options="camiones"
+                  option-value="id"
+                  option-label="marcaModelo"
+                  label="Buscar por camión"
+                  use-input
+                  input-debounce="0"
+                  @filter="fFiltrarCamiones"
+                  @update:model-value="afBuscarPorCamionId()"
+                  hint="Tenés que escribir al menos 3 caracteres para buscar."
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+                <q-input
+                  v-if="editNotas"
+                  outlined
+                  dense
+                  clearable
+                  v-on:keyup.enter="afBuscarPorNotas()"
+                  v-model="notas"
+                  label="Buscar por notas"
+                  hint="Tenés que escribir al menos 3 caracteres para buscar."
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                    </q-item>
+                  </template>
+                  <template v-slot:after>
+                    <q-icon
+                      name="fa-solid fa-magnifying-glass"
+                      class="q-mx-xs"
+                      v-on:click="afBuscarPorNotas()"
+                      style="cursor: pointer"
+                    />
+                  </template>
+                </q-input>
+                <div class="column" v-if="editVencimiento">
+                  <div class="row justify-around">
+                      <q-input
+                        mask="##-##-####"
+                        style="width: 180px"
+                        v-model="vencimiento.from"
+                        outlined
+                        dense
+                        clearable
+                        label="Vencimiento inicio"
+                        hint="20-01-2020"
+                      >
+                        <template v-slot:before>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                              <q-date v-model="vencimiento.from" mask="DD-MM-YYYY">
+                                <div class="row items-center justify-end">
+                                  <q-btn v-close-popup label="OK" color="primary" flat />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                      <q-input
+                        class="q-ml-md"
+                        mask="##-##-####"
+                        style="width: 180px"
+                        v-model="vencimiento.to"
+                        outlined
+                        dense
+                        clearable
+                        label="Vencimiento fin"
+                        hint="30-01-2020"
+                      >
+                        <template v-slot:before>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                              <q-date v-model="vencimiento.to" mask="DD-MM-YYYY">
+                                <div class="row items-center justify-end">
+                                  <q-btn v-close-popup label="OK" color="primary" flat />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    <div class="col">
+                      <q-icon name="fa-solid fa-magnifying-glass" size="24px" class="cursor-pointer q-pa-sm edits" v-on:click="afBuscarPorVencimiento()" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </template>
-        <template v-slot:body="props">
-          <q-tr :props="props" :class="(props.row.eliminada === null) ? '':'bg-red-2'">
-            <q-td auto-width class="text-center">
-              <q-btn
-                size="sm"
-                class="text-white q-mr-xs"
-                :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
-                round
-                dense
-                @click="props.expand = !props.expand"
-              >
-                <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
-                <q-tooltip>
-                  Expandir
-                </q-tooltip>
-              </q-btn>
-              <!--q-btn
-                v-if="props.row.eliminada === null"
-                size="sm"
-                class="text-white paleta5-fondo2 q-mr-xs"
-                round
-                dense
-                @click="fMostrarEditarSeguro(props)"
-              >
-                <q-icon size="2em" class="q-pa-xs" name="edit" />
-                <q-tooltip>
-                  Modificar
-                </q-tooltip>
-              </!--q-btn-->
-              <q-btn
-                v-if="props.row.eliminada === null"
-                size="sm"
-                class="text-white paleta5-fondo2 q-mr-xs"
-                round
-                dense
-                @click="fMostrarEliminarSeguro(props)"
-              >
-                <q-icon size="2em" class="q-pa-xs" name="delete" />
-                <q-tooltip>
-                  Eliminar
-                </q-tooltip>
-              </q-btn>
-              <q-btn
-                v-if="props.row.eliminada !== null"
-                size="sm"
-                class="text-white paleta5-fondo2 q-mr-xs"
-                round
-                dense
-                @click="fMostrarReciclarSeguro(props)"
-              >
-                <q-icon size="2em" class="q-pa-xs" name="recycling" />
-                <q-tooltip>
-                  Reciclar
-                </q-tooltip>
-              </q-btn>
-            </q-td>
-            <q-td v-if="props.row.acoplado !== null">
-              Acoplado: {{ props.row.acoplado }}
-            </q-td>
-            <q-td v-if="props.row.camion !== null">
-              Camión: {{ props.row.camion }}
-            </q-td>
-            <q-td>
-              {{ props.row.aseguradora }}
-            </q-td>
-            <q-td>
-              {{ fFormatoFecha(props.row.vencimiento) }}
-            </q-td>
-          </q-tr>
-          <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
-            <q-td colspan="100%">
-              <div class="row">
-                <div v-if="props.row.id != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.id }}</div>
-                  <div class="row paleta1-color2">Id</div>
+          </template>
+          <template v-slot:body="props">
+            <q-tr :props="props" :class="(props.row.eliminada === null) ? '':'bg-red-2'">
+              <q-td auto-width class="text-center">
+                <q-btn
+                  size="sm"
+                  class="text-white q-mr-xs"
+                  :class="props.expand ? 'paleta5-fondo3' : 'paleta5-fondo2'"
+                  round
+                  dense
+                  @click="props.expand = !props.expand"
+                >
+                  <q-icon size="2em" class="q-pa-xs" :name="props.expand ? 'zoom_out' : 'zoom_in'" />
+                  <q-tooltip>
+                    Expandir
+                  </q-tooltip>
+                </q-btn>
+                <!--q-btn
+                  v-if="props.row.eliminada === null"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarEditarSeguro(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="edit" />
+                  <q-tooltip>
+                    Modificar
+                  </q-tooltip>
+                </!--q-btn-->
+                <q-btn
+                  v-if="props.row.eliminada === null"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarEliminarSeguro(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="delete" />
+                  <q-tooltip>
+                    Eliminar
+                  </q-tooltip>
+                </q-btn>
+                <q-btn
+                  v-if="props.row.eliminada !== null"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarReciclarSeguro(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="recycling" />
+                  <q-tooltip>
+                    Reciclar
+                  </q-tooltip>
+                </q-btn>
+              </q-td>
+              <q-td v-if="props.row.acoplado !== null">
+                Acoplado: {{ props.row.acoplado }}
+              </q-td>
+              <q-td v-if="props.row.camion !== null">
+                Camión: {{ props.row.camion }}
+              </q-td>
+              <q-td>
+                {{ props.row.aseguradora }}
+              </q-td>
+              <q-td>
+                {{ fFormatoFecha(props.row.vencimiento) }}
+              </q-td>
+            </q-tr>
+            <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
+              <q-td colspan="100%">
+                <div class="row">
+                  <div v-if="props.row.id != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.id }}</div>
+                    <div class="row paleta1-color2">Id</div>
+                  </div>
+                  <div v-if="props.row.acoplado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.acoplado }}</div>
+                    <div class="row paleta1-color2">Acoplado</div>
+                  </div>
+                  <div v-if="props.row.aseguradora != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.aseguradora }}</div>
+                    <div class="row paleta1-color2">Aseguradora</div>
+                  </div>
+                  <div v-if="props.row.camion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.camion }}</div>
+                    <div class="row paleta1-color2">Camión</div>
+                  </div>
+                  <div v-if="props.row.vencimiento != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ fFormatoFecha(props.row.vencimiento) }}</div>
+                    <div class="row paleta1-color2">Vencimiento</div>
+                  </div>
+                  <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.creador }}</div>
+                    <div class="row paleta1-color2">Creador</div>
+                  </div>
+                  <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ fFormatoFecha(props.row.creada) }}</div>
+                    <div class="row paleta1-color2">Creado</div>
+                  </div>
+                  <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.modificador }}</div>
+                    <div class="row paleta1-color2">Modificador</div>
+                  </div>
+                  <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ fFormatoFecha(props.row.modificada) }}</div>
+                    <div class="row paleta1-color2">Modificado</div>
+                  </div>
+                  <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.eliminador }}</div>
+                    <div class="row paleta1-color2">Eliminador</div>
+                  </div>
+                  <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ fFormatoFecha(props.row.eliminada) }}</div>
+                    <div class="row paleta1-color2">Eliminada</div>
+                  </div>
+                  <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.notas }}</div>
+                    <div class="row paleta1-color2">Notas</div>
+                  </div>
                 </div>
-                <div v-if="props.row.acoplado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.acoplado }}</div>
-                  <div class="row paleta1-color2">Acoplado</div>
-                </div>
-                <div v-if="props.row.aseguradora != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                  <div class="row text-white">{{ props.row.aseguradora }}</div>
-                  <div class="row paleta1-color2">Aseguradora</div>
-                </div>
-                <div v-if="props.row.camion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.camion }}</div>
-                  <div class="row paleta1-color2">Camión</div>
-                </div>
-                <div v-if="props.row.vencimiento != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ fFormatoFecha(props.row.vencimiento) }}</div>
-                  <div class="row paleta1-color2">Vencimiento</div>
-                </div>
-                <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.creador }}</div>
-                  <div class="row paleta1-color2">Creador</div>
-                </div>
-                <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ fFormatoFecha(props.row.creada) }}</div>
-                  <div class="row paleta1-color2">Creado</div>
-                </div>
-                <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.modificador }}</div>
-                  <div class="row paleta1-color2">Modificador</div>
-                </div>
-                <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ fFormatoFecha(props.row.modificada) }}</div>
-                  <div class="row paleta1-color2">Modificado</div>
-                </div>
-                <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.eliminador }}</div>
-                  <div class="row paleta1-color2">Eliminador</div>
-                </div>
-                <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ fFormatoFecha(props.row.eliminada) }}</div>
-                  <div class="row paleta1-color2">Eliminada</div>
-                </div>
-                <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                  <div class="row text-white">{{ props.row.notas }}</div>
-                  <div class="row paleta1-color2">Notas</div>
-                </div>
-              </div>
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
+      </div>
     </div>
-  </div>
+  </q-card>
 
   <q-dialog v-model="nuevoSeguroDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
@@ -525,7 +525,6 @@ import { seguroService } from 'src/services/seguro_service'
 import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 
-
 const paginacion = {
   rowsPerPage: 50,
   sortBy: 'id',
@@ -565,7 +564,7 @@ export default {
     const $q = useQuasar()
     const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const reglas = reactive(reglasValidacion.reglas)
-    const sesion = ref(uuidv4())
+    const sesion = ref(ayuda.getUid())
 
     const acoplado = ref(null)
     const acoplados = ref([])

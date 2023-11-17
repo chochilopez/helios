@@ -1,5 +1,7 @@
 <template>
-  <ConductoresConductoresListado />
+  <div class="q-ma-md">
+    <ConductoresConductoresListado />
+  </div>
 </template>
 
 <script>

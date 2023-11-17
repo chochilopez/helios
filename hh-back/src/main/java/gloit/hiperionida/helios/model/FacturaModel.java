@@ -26,7 +26,7 @@ public class FacturaModel extends AbsAuditoriaModel {
     @Column(columnDefinition = "TEXT")
     private String concepto;
     @Enumerated(EnumType.STRING)
-    private CondicionPagoEnum condicionPagoEnum;
+    private CondicionPagoEnum condicionPago;
     private String domicilioComercial;
     private LocalDateTime fechaEmision;
     private Long fechaVencimientoId;

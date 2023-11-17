@@ -1,48 +1,48 @@
 <template>
   <q-card class="font-5 no-shadow no-border">
-  </q-card>
-  <div class="row q-pa-md">
-    <div class="col">
-      <q-table
-        title="Categorías de viaje"
-        :columns="columnas"
-        rows-per-page-label="Registros por pagina"
-        no-data-label="Sin datos para mostrar"
-        :pagination="paginacion"
-        hide-no-data
-        :rows="categoriasViaje"
-        row-key="id"
-      >
-        <template v-slot:top-left>
-          <div class="column">
-            <p class="text-h5">Categorías de viaje</p>
-            <q-btn
-              class="paleta2-fondo2 paleta1-color1 q-mb-lg"
-              icon="add_circle"
-              label="Nueva categoría de viaje"
-              @click="fMostrarNuevaCategoriaViaje"
-            />
-          </div>
-        </template>
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td auto-width class="text-center">
-              {{ props.row.categoria }}
-            </q-td>
-            <q-td>
-              {{ props.row.notas }}
-            </q-td>
-            <q-td>
-              {{ props.row.creador }}
-            </q-td>
-            <q-td>
-              {{ fFormatoFecha(props.row.creada) }}
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
+    <div class="row q-pa-md">
+      <div class="col">
+        <q-table
+          title="Categorías de viaje"
+          :columns="columnas"
+          rows-per-page-label="Registros por pagina"
+          no-data-label="Sin datos para mostrar"
+          :pagination="paginacion"
+          hide-no-data
+          :rows="categoriasViaje"
+          row-key="id"
+        >
+          <template v-slot:top-left>
+            <div class="column">
+              <p class="text-h5">Categorías de viaje</p>
+              <q-btn
+                class="paleta2-fondo2 paleta1-color1 q-mb-lg"
+                icon="add_circle"
+                label="Nueva categoría de viaje"
+                @click="fMostrarNuevaCategoriaViaje"
+              />
+            </div>
+          </template>
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td auto-width class="text-center">
+                {{ props.row.categoria }}
+              </q-td>
+              <q-td>
+                {{ props.row.notas }}
+              </q-td>
+              <q-td>
+                {{ props.row.creador }}
+              </q-td>
+              <q-td>
+                {{ fFormatoFecha(props.row.creada) }}
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
+      </div>
     </div>
-  </div>
+  </q-card>
 
   <q-dialog v-model="nuevoCategoriaViajeDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
