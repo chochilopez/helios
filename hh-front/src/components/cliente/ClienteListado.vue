@@ -239,12 +239,12 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada === null"
+                  v-if="props.row.eliminada === null && (autoridad === 'admin' || autoridad === 'usuario')"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
                   dense
-                  @click="fMostrarEditarCliente(props)"
+                  @click="fMostrarEditarDireccion(props)"
                 >
                   <q-icon size="2em" class="q-pa-xs" name="edit" />
                   <q-tooltip>
@@ -252,12 +252,12 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada === null"
+                  v-if="props.row.eliminada === null && autoridad === 'admin'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
                   dense
-                  @click="fMostrarEliminarCliente(props)"
+                  @click="fMostrarEliminarDireccion(props)"
                 >
                   <q-icon size="2em" class="q-pa-xs" name="delete" />
                   <q-tooltip>
@@ -265,12 +265,12 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada !== null"
+                  v-if="props.row.eliminada !== null && autoridad === 'admin'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
                   dense
-                  @click="fMostrarReciclarCliente(props)"
+                  @click="fMostrarReciclarDireccion(props)"
                 >
                   <q-icon size="2em" class="q-pa-xs" name="recycling" />
                   <q-tooltip>
@@ -496,7 +496,7 @@ const columnas = [
   },
   {
     name: 'direccion',
-    label: 'Direccion',
+    label: 'Dirección',
     align: 'left',
     field: 'direccion',
     sortable: true
@@ -510,14 +510,14 @@ const columnas = [
   },
   {
     name: 'identificacion',
-    label: 'Identificacion',
+    label: 'Identificación',
     align: 'left',
     field: 'identificacion',
     sortable: true
   },
   {
     name: 'telefono',
-    label: 'telefono',
+    label: 'Teléfono',
     align: 'left',
     field: 'telefono'
   }
@@ -527,6 +527,7 @@ export default {
   setup () {
     const $q = useQuasar()
 
+    const autoridad = ref(null)
     const clienteCreation = reactive(new ClienteCreation())
     const clientes = ref([])
     const direccion = ref(null)
@@ -548,6 +549,18 @@ export default {
     const telefono = ref(null)
 
     afBuscarPaginadas()
+
+    verAutoridad()
+
+    function verAutoridad () {
+      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        autoridad.value = 'admin'
+      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
+        autoridad.value = 'usuario'
+      } else {
+        autoridad.value = 'carga'
+      }
+    }
 
     async function afBuscarPaginadas () {
       $q.loading.show()
@@ -996,6 +1009,7 @@ export default {
     }
 
     return {
+      autoridad,
       afBuscarPorDireccion,
       afBuscarPorEmail,
       afBuscarPorIdentificacion,

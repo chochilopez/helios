@@ -43,7 +43,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-direccion/{direccion}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorDireccion(@PathVariable(name = "direccion") String direccion) {
         List<ProveedorModel> listado = proveedorService.buscarTodasPorDireccion(direccion);
         ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
@@ -65,7 +65,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-email/{email}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorEmail(@PathVariable(name = "email") String email) {
         List<ProveedorModel> listado = proveedorService.buscarTodasPorEmail(email);
         ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
@@ -87,7 +87,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-identificacion/{identificacion}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorIdentificacion(@PathVariable(name = "identificacion") String identificacion) {
         List<ProveedorModel> listado = proveedorService.buscarTodasPorIdentificacion(identificacion);
         ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
@@ -109,7 +109,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-nombre/{nombre}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorNombre(@PathVariable(name = "nombre") String nombre) {
         List<ProveedorModel> listado = proveedorService.buscarTodasPorNombre(nombre);
         ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
@@ -131,7 +131,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-notas/{notas}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
         List<ProveedorModel> listado = proveedorService.buscarTodasPorNotas(notas);
         ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
@@ -153,7 +153,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-telefono/{telefono}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ProveedorDTO>> buscarTodasPorTelefono(@PathVariable(name = "telefono") String telefono) {
         List<ProveedorModel> listado = proveedorService.buscarTodasPorTelefono(telefono);
         ArrayList<ProveedorDTO> proveedores = new ArrayList<>();
@@ -175,7 +175,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ProveedorDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         ProveedorModel objeto = proveedorService.buscarPorId(id);
         return new ResponseEntity<>(proveedorMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
@@ -189,7 +189,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<ProveedorDTO>> buscarTodas() {
         List<ProveedorModel> listado = proveedorService.buscarTodas();
         ArrayList<ProveedorDTO> proveedors = new ArrayList<>();
@@ -211,7 +211,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Slice<ProveedorDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<ProveedorModel> listado = proveedorService.buscarTodasPorOrdenPorPagina(
                 paginadoDTO.getDireccion(),
@@ -245,7 +245,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= proveedorService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -259,7 +259,7 @@ public class ProveedorController extends AbsBaseController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ProveedorDTO> guardar(@Valid @RequestBody ProveedorCreation proveedorCreation) {
         ProveedorModel objeto = proveedorService.guardar(proveedorCreation);
         return new ResponseEntity<>(proveedorMapper.toDto(objeto), Helper.httpHeaders("Se persistio correctamente la entidad."), HttpStatus.CREATED);

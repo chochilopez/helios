@@ -175,7 +175,7 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada === null"
+                  v-if="props.row.eliminada === null && (autoridad === 'admin' || autoridad === 'usuario')"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
@@ -188,7 +188,7 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada === null"
+                  v-if="props.row.eliminada === null && autoridad === 'admin'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
@@ -201,7 +201,7 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada !== null"
+                  v-if="props.row.eliminada !== null && autoridad === 'admin'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
@@ -466,6 +466,7 @@ export default {
   setup () {
     const $q = useQuasar()
 
+    const autoridad = ref(null)
     const acopladoCreation = reactive(new AcopladoCreation())
     const acoplados = ref([])
     const anio = ref(null)
@@ -483,6 +484,18 @@ export default {
     const reglas = reactive(reglasValidacion.reglas)
 
     afBuscarPaginadas()
+
+    verAutoridad()
+
+    function verAutoridad () {
+      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        autoridad.value = 'admin'
+      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
+        autoridad.value = 'usuario'
+      } else {
+        autoridad.value = 'carga'
+      }
+    }
 
     async function afBuscarPaginadas () {
       $q.loading.show()
@@ -850,6 +863,7 @@ export default {
     }
 
     return {
+      autoridad,
       acopladoCreation,
       acoplados,
       afBuscarPorAnio,

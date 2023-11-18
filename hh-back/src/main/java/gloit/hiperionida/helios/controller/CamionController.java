@@ -43,7 +43,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-anio/{anio}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<CamionDTO>> buscarTodasPorAnio(@PathVariable(name = "anio") Integer anio) {
         List<CamionModel> listado = camionService.buscarTodasPorAnio(anio);
         ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
@@ -65,7 +65,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-marca-modelo/{marcaModelo}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<CamionDTO>> buscarTodasPorMarcaModelo(@PathVariable(name = "marcaModelo") String marcaModelo) {
         List<CamionModel> listado = camionService.buscarTodasPorMarcaModelo(marcaModelo);
         ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
@@ -87,7 +87,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-numero-chasis/{numeroChasis}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<CamionDTO>> buscarTodasPorNumeroChasis(@PathVariable(name = "numeroChasis") String numeroChasis) {
         List<CamionModel> listado = camionService.buscarTodasPorNumeroChasis(numeroChasis);
         ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
@@ -109,7 +109,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-numero-motor/{numeroMotor}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<CamionDTO>> buscarTodasPorNumeroMotor(@PathVariable(name = "numeroMotor") String numeroMotor) {
         List<CamionModel> listado = camionService.buscarTodasPorNumeroMotor(numeroMotor);
         ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
@@ -131,7 +131,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-notas/{notas}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<CamionDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
         List<CamionModel> listado = camionService.buscarTodasPorNotas(notas);
         ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
@@ -153,7 +153,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-patente/{patente}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<CamionDTO>> buscarTodasPorPatente(@PathVariable(name = "patente") String patente) {
         List<CamionModel> listado = camionService.buscarTodasPorPatente(patente);
         ArrayList<CamionDTO> camionDTOS = new ArrayList<>();
@@ -175,7 +175,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<CamionDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         CamionModel objeto = camionService.buscarPorId(id);
         return new ResponseEntity<>(camionMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
@@ -189,7 +189,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<CamionDTO>> buscarTodas() {
         List<CamionModel> listado = camionService.buscarTodas();
         ArrayList<CamionDTO> camions = new ArrayList<>();
@@ -211,7 +211,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Slice<CamionDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<CamionModel> listado = camionService.buscarTodasPorOrdenPorPagina(
                 paginadoDTO.getDireccion(),
@@ -245,7 +245,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= camionService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -259,7 +259,7 @@ public class CamionController extends AbsBaseController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<CamionDTO> guardar(@Valid @RequestBody CamionCreation camionCreation) {
         CamionModel objeto = camionService.guardar(camionCreation);
         return new ResponseEntity<>(camionMapper.toDto(objeto), Helper.httpHeaders("Se persistio correctamente la entidad."), HttpStatus.CREATED);

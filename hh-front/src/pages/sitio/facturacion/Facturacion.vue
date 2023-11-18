@@ -1,10 +1,15 @@
 <template>
-  <h1>Vencimiento</h1>
+  <div class="q-ma-md">
+    <FacturacionContador />
+    <FacturacionListado />
+  </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
+import FacturacionContador from 'src/components/facturacion/FacturacionContador.vue'
+import FacturacionListado from 'src/components/facturacion/FacturacionListado.vue'
 import { onMounted } from 'vue'
 
 export default {
@@ -25,6 +30,10 @@ export default {
       next()
     })
     return {}
+  },
+  components: {
+    FacturacionContador,
+    FacturacionListado
   }
 }
 </script>

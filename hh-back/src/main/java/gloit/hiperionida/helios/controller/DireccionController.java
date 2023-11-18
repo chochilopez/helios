@@ -42,7 +42,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-ciudades")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<CiudadModel>> buscarTodasCiudades() {
         List<CiudadModel> listado = direccionService.buscarTodasCiudad();
 
@@ -50,7 +50,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-ciudad/{ciudad}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<DireccionDTO>> buscarTodasPorCiudad(@PathVariable(name = "ciudad") String ciudad) {
         List<DireccionModel> listado = direccionService.buscarTodasPorCiudad(ciudad);
         ArrayList<DireccionDTO> direccions = new ArrayList<>();
@@ -72,7 +72,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-direccion/{direcion}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<DireccionDTO>> buscarTodasPorDireccion(@PathVariable(name = "direcion") String direcion) {
         List<DireccionModel> listado = direccionService.buscarTodasPorDireccion(direcion);
         ArrayList<DireccionDTO> direccions = new ArrayList<>();
@@ -94,7 +94,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-nombre/{nombre}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<DireccionDTO>> buscarTodasPorNombre(@PathVariable(name = "nombre") String nombre) {
         List<DireccionModel> listado = direccionService.buscarTodasPorNombre(nombre);
         ArrayList<DireccionDTO> direccions = new ArrayList<>();
@@ -116,7 +116,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-notas/{notas}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<DireccionDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
         List<DireccionModel> listado = direccionService.buscarTodasPorNotas(notas);
         ArrayList<DireccionDTO> direccions = new ArrayList<>();
@@ -138,7 +138,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<DireccionDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         DireccionModel objeto = direccionService.buscarPorId(id);
         return new ResponseEntity<>(direccionMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
@@ -152,7 +152,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<DireccionDTO>> buscarTodas() {
         List<DireccionModel> listado = direccionService.buscarTodas();
         ArrayList<DireccionDTO> direccions = new ArrayList<>();
@@ -174,7 +174,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Slice<DireccionDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<DireccionModel> listado = direccionService.buscarTodasPorOrdenPorPagina(
                 paginadoDTO.getDireccion(),
@@ -208,7 +208,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= direccionService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -222,7 +222,7 @@ public class DireccionController extends AbsBaseController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<DireccionDTO> guardar(@Valid @RequestBody DireccionCreation direccionCreation) {
         DireccionModel objeto = direccionService.guardar(direccionCreation);
         return new ResponseEntity<>(direccionMapper.toDto(objeto), Helper.httpHeaders("Se persistio correctamente la entidad."), HttpStatus.CREATED);

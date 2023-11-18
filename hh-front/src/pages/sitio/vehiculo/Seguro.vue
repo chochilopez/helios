@@ -1,17 +1,17 @@
 <template>
-  <div class="q-ma-md">
-    <ConductoresConductoresListado />
-  </div>
+    <div class="q-ma-md">
+      <SegurosListado />
+    </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import ConductoresConductoresListado from 'src/components/sitio/ConductoresConductoresListado.vue'
+import SegurosListado from 'src/components/vehiculo/SegurosListado.vue'
 
 export default {
-  components: { ConductoresConductoresListado },
+  components: { SegurosListado },
   setup () {
     const $q = useQuasar()
 

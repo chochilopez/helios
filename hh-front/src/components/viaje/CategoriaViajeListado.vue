@@ -146,6 +146,7 @@ export default {
   setup () {
     const $q = useQuasar()
 
+    const autoridad = ref(null)
     const categoriaViajeCreation = reactive(new CategoriaViajeCreation())
     const categoriasViaje = ref([])
     const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
@@ -155,6 +156,18 @@ export default {
     const reglas = reactive(reglasValidacion.reglas)
 
     afBuscarPaginadas()
+
+    verAutoridad()
+
+    function verAutoridad () {
+      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        autoridad.value = 'admin'
+      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
+        autoridad.value = 'usuario'
+      } else {
+        autoridad.value = 'carga'
+      }
+    }
 
     async function afBuscarPaginadas () {
       $q.loading.show()
@@ -262,6 +275,7 @@ export default {
     }
 
     return {
+      autoridad,
       columnas,
       categoriaViajeCreation,
       categoriasViaje,

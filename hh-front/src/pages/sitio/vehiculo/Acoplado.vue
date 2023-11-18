@@ -1,6 +1,6 @@
 <template>
   <div class="q-ma-md">
-    <ProveedoresProveedoresListado />
+    <AcopladoListado />
   </div>
 </template>
 
@@ -8,10 +8,10 @@
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import ProveedoresProveedoresListado from 'src/components/sitio/ProveedoresProveedoresListado.vue'
+import AcopladoListado from 'src/components/vehiculo/AcopladoListado.vue'
 
 export default {
-  components: { ProveedoresProveedoresListado },
+  components: { AcopladoListado },
   setup () {
     const $q = useQuasar()
 

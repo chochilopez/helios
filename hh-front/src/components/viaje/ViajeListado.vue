@@ -758,7 +758,7 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada === null"
+                  v-if="props.row.eliminada === null && (autoridad === 'admin' || autoridad === 'usuario')"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
@@ -771,20 +771,7 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada === null && props.row.numeroComprobante === null"
-                  size="sm"
-                  class="text-white paleta5-fondo2 q-mr-xs"
-                  round
-                  dense
-                  @click="fMostrarFacturarViaje(props)"
-                >
-                  <q-icon size="2em" class="q-pa-xs" name="fa-solid fa-file-invoice-dollar" />
-                  <q-tooltip>
-                    Facturar viaje
-                  </q-tooltip>
-                </q-btn>
-                <q-btn
-                  v-if="props.row.eliminada === null"
+                  v-if="props.row.eliminada === null && autoridad === 'admin'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
@@ -797,7 +784,7 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada !== null"
+                  v-if="props.row.eliminada !== null && autoridad === 'admin'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
@@ -1495,6 +1482,7 @@ export default {
     const router = useRouter()
     const titulo = ref(null)
 
+    const autoridad = ref(null)
     const editAcoplado = ref(false)
     const editCamion = ref(false)
     const editCategoriaViaje = ref(false)
@@ -1564,6 +1552,18 @@ export default {
     const viajes = ref([])
 
     afBuscarPaginadas()
+
+    verAutoridad()
+
+    function verAutoridad () {
+      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        autoridad.value = 'admin'
+      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
+        autoridad.value = 'usuario'
+      } else {
+        autoridad.value = 'carga'
+      }
+    }
 
     onMounted(() => {
       if (llaveroService.obtenerDeLocal('hhConfirmarPresupuesto') !== null) {
@@ -3019,7 +3019,7 @@ export default {
     }
 
     return {
-      step: ref(1),
+      autoridad,
 
       afBuscarPorAcopladoId,
       afBuscarPorCamionId,

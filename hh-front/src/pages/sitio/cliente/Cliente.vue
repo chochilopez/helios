@@ -1,6 +1,6 @@
 <template>
   <div class="q-ma-md">
-    <CalendarioCalendarioCalendario class="q-ma-lg" />
+    <ClienteListado />
   </div>
 </template>
 
@@ -8,10 +8,10 @@
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import CalendarioCalendarioCalendario from 'src/components/sitio/CalendarioCalendarioCalendario.vue'
+import ClienteListado from 'src/components/cliente/ClienteListado.vue'
 
 export default {
-  components: { CalendarioCalendarioCalendario },
+  components: { ClienteListado },
   setup () {
     const $q = useQuasar()
 

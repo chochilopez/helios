@@ -1,12 +1,19 @@
 <template>
-  <h1>Banco</h1><div class="q-ma-md"></div></template>
+  <div class="q-ma-md">
+    <CuentaCorrienteContador />
+    <CuentaCorrienteListado />
+  </div>
+</template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import CuentaCorrienteContador from 'src/components/cliente/CuentaCorrienteContador.vue'
+import CuentaCorrienteListado from 'src/components/cliente/CuentaCorrienteListado.vue'
 
 export default {
+  components: { CuentaCorrienteContador, CuentaCorrienteListado },
   setup () {
     const $q = useQuasar()
 

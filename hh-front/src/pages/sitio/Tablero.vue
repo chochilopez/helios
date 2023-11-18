@@ -7,8 +7,8 @@
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import TableroContador from '../../components/sitio/TableroContador.vue'
-import TableroGrafico from '../../components/sitio/TableroGrafico.vue'
+import TableroContador from 'src/components/TableroContador.vue'
+import TableroGrafico from 'src/components/TableroGrafico.vue'
 
 export default {
   setup () {

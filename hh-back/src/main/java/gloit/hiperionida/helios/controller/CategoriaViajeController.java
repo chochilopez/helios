@@ -41,7 +41,7 @@ public class CategoriaViajeController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<CategoriaViajeDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         CategoriaViajeModel objeto = categoriaViajeService.buscarPorId(id);
         return new ResponseEntity<>(categoriaViajeMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
@@ -55,7 +55,7 @@ public class CategoriaViajeController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<CategoriaViajeDTO>> buscarTodas() {
         List<CategoriaViajeModel> listado = categoriaViajeService.buscarTodas();
         ArrayList<CategoriaViajeDTO> categoriaViajes = new ArrayList<>();
@@ -77,7 +77,7 @@ public class CategoriaViajeController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Slice<CategoriaViajeDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<CategoriaViajeModel> listado = categoriaViajeService.buscarTodasPorOrdenPorPagina(
                 paginadoDTO.getDireccion(),
@@ -111,7 +111,7 @@ public class CategoriaViajeController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= categoriaViajeService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -125,7 +125,7 @@ public class CategoriaViajeController extends AbsBaseController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<CategoriaViajeDTO> guardar(@Valid @RequestBody CategoriaViajeCreation categoriaViajeCreation) {
         CategoriaViajeModel objeto = categoriaViajeService.guardar(categoriaViajeCreation);
         return new ResponseEntity<>(categoriaViajeMapper.toDto(objeto), Helper.httpHeaders("Se persistio correctamente la entidad."), HttpStatus.CREATED);

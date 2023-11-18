@@ -1,7 +1,7 @@
 <template>
   <q-card class="font-5 no-shadow no-border">
     <div class="subcontent">
-      <CalendarioCalendarioCalendarioNavbar
+      <CalendarioNavbar
         @today="onToday"
         @prev="onPrev"
         @next="onNext"
@@ -68,7 +68,7 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
 import { defineComponent } from 'vue'
-import CalendarioCalendarioCalendarioNavbar from './CalendarioCalendarioCalendarioNavbar.vue'
+import CalendarioNavbar from 'src/components/calendario/CalendarioNavbar.vue'
 
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
@@ -82,7 +82,7 @@ function getCurrentDay (day) {
 export default defineComponent({
   name: 'MonthSlotWeek',
   components: {
-    CalendarioCalendarioCalendarioNavbar,
+    CalendarioNavbar,
     QCalendarMonth
   },
   setup () {

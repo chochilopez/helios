@@ -1,18 +1,17 @@
 <template>
   <div class="q-ma-md">
-    <ViajesViajesContador />
-    <ViajesViajesListado />
+    <CalendarioCalendario class="q-ma-lg" />
   </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
-import ViajesViajesContador from '../../components/sitio/ViajesViajesContador.vue'
-import ViajesViajesListado from '../../components/sitio/ViajesViajesListado.vue'
 import { onMounted } from 'vue'
+import CalendarioCalendario from 'src/components/calendario/CalendarioCalendario.vue'
 
 export default {
+  components: { CalendarioCalendario },
   setup () {
     const $q = useQuasar()
 
@@ -30,10 +29,6 @@ export default {
       next()
     })
     return {}
-  },
-  components: {
-    ViajesViajesContador,
-    ViajesViajesListado
   }
 }
 </script>

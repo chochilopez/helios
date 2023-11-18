@@ -3,40 +3,25 @@
     <div class="row q-pa-md">
       <div class="col">
         <q-table
-          title="Direcciones"
+          title="Proveedores"
           :columns="columnas"
           rows-per-page-label="Registros por pagina"
           no-data-label="Sin datos para mostrar"
           :pagination="paginacion"
           hide-no-data
-          :rows="direcciones"
+          :rows="proveedores"
           row-key="id"
         >
           <template v-slot:top-left>
             <div class="column">
-              <p class="text-h5">Direcciones</p>
-              <q-btn
-                class="paleta2-fondo2 paleta1-color1 q-mb-lg"
-                icon="add_circle"
-                label="Nueva direccion"
-                @click="fMostrarNuevaDireccion"
-              />
+              <p class="text-h5">Proveedores</p>
+              <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo proveedor" @click="fMostrarNuevoProveedor" />
             </div>
           </template>
           <template v-slot:top-right>
             <div class="column items-end">
               <div class="q-my-md">
-                <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar direcciones por" dropdown-icon="fa-solid fa-magnifying-glass">
-                  <q-list>
-                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCiudad">
-                      <q-item-section avatar>
-                        <q-icon name="location_city" />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label>Ciudad</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
+                <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar proveedores por" dropdown-icon="fa-solid fa-magnifying-glass">
                   <q-list>
                     <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccion">
                       <q-item-section avatar>
@@ -46,18 +31,30 @@
                         <q-item-label>Dirección</q-item-label>
                       </q-item-section>
                     </q-item>
-                  </q-list>
-                  <q-list>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarEmail">
+                      <q-item-section avatar>
+                        <q-icon name="alternate_email" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Email</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarIdentificacion">
+                      <q-item-section avatar>
+                        <q-icon name="badge" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Identificacion</q-item-label>
+                      </q-item-section>
+                    </q-item>
                     <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNombre">
                       <q-item-section avatar>
-                        <q-icon name="contact_mail" />
+                        <q-icon name="account_circle" />
                       </q-item-section>
                       <q-item-section>
                         <q-item-label>Nombre</q-item-label>
                       </q-item-section>
                     </q-item>
-                  </q-list>
-                  <q-list>
                     <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
                       <q-item-section avatar>
                         <q-icon name="fa-solid fa-pen-to-square" />
@@ -66,35 +63,18 @@
                         <q-item-label>Notas</q-item-label>
                       </q-item-section>
                     </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarTelefono">
+                      <q-item-section avatar>
+                        <q-icon name="phone_iphone" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Teléfono</q-item-label>
+                      </q-item-section>
+                    </q-item>
                   </q-list>
                 </q-btn-dropdown>
               </div>
               <div class="col">
-                <q-select
-                  v-if="editCiudad"
-                  outlined
-                  dense
-                  emit-value
-                  map-options
-                  clearable
-                  v-model="ciudad"
-                  option-value="ciudad"
-                  option-label="ciudad"
-                  label="Buscar por ciudad"
-                  use-input
-                  hide-selected
-                  fill-input
-                  :options="ciudades"
-                  @filter="fFiltrarCiudades"
-                  @update:model-value="afBuscarPorCiudad()"
-                  hint="Tenés que escribir al menos 3 caracteres para buscar."
-                >
-                  <template v-slot:no-option>
-                    <q-item>
-                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                    </q-item>
-                  </template>
-                </q-select>
                 <q-input
                   v-if="editDireccion"
                   outlined
@@ -111,7 +91,60 @@
                     </q-item>
                   </template>
                   <template v-slot:after>
-                    <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorDireccion()" style="cursor: pointer" />
+                    <q-icon
+                      name="fa-solid fa-magnifying-glass"
+                      class="q-mx-xs"
+                      v-on:click="afBuscarPorDireccion()"
+                      style="cursor: pointer"
+                    />
+                  </template>
+                </q-input>
+                <q-input
+                  v-if="editEmail"
+                  outlined
+                  dense
+                  clearable
+                  v-on:keyup.enter="afBuscarPorEmail()"
+                  v-model="email"
+                  label="Buscar por email"
+                  hint="Tenés que escribir al menos 3 caracteres para buscar."
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                    </q-item>
+                  </template>
+                  <template v-slot:after>
+                    <q-icon
+                      name="fa-solid fa-magnifying-glass"
+                      class="q-mx-xs"
+                      v-on:click="afBuscarPorEmail()"
+                      style="cursor: pointer"
+                    />
+                  </template>
+                </q-input>
+                <q-input
+                  v-if="editIdentifiacion"
+                  outlined
+                  dense
+                  clearable
+                  v-on:keyup.enter="afBuscarPorIdentificacion()"
+                  v-model="identificacion"
+                  label="Buscar por identificacion"
+                  hint="Tenés que escribir al menos 3 caracteres para buscar."
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                    </q-item>
+                  </template>
+                  <template v-slot:after>
+                    <q-icon
+                      name="fa-solid fa-magnifying-glass"
+                      class="q-mx-xs"
+                      v-on:click="afBuscarPorIdentificacion()"
+                      style="cursor: pointer"
+                    />
                   </template>
                 </q-input>
                 <q-input
@@ -130,7 +163,12 @@
                     </q-item>
                   </template>
                   <template v-slot:after>
-                    <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorNombre()" style="cursor: pointer" />
+                    <q-icon
+                      name="fa-solid fa-magnifying-glass"
+                      class="q-mx-xs"
+                      v-on:click="afBuscarPorNombre()"
+                      style="cursor: pointer"
+                    />
                   </template>
                 </q-input>
                 <q-input
@@ -149,7 +187,36 @@
                     </q-item>
                   </template>
                   <template v-slot:after>
-                    <q-icon name="fa-solid fa-magnifying-glass" class="q-mx-xs" v-on:click="afBuscarPorNotas()" style="cursor: pointer" />
+                    <q-icon
+                      name="fa-solid fa-magnifying-glass"
+                      class="q-mx-xs"
+                      v-on:click="afBuscarPorNotas()"
+                      style="cursor: pointer"
+                    />
+                  </template>
+                </q-input>
+                <q-input
+                  v-if="editTelefono"
+                  outlined
+                  dense
+                  clearable
+                  v-on:keyup.enter="afBuscarPorTelefono()"
+                  v-model="telefono"
+                  label="Buscar por telefono"
+                  hint="Tenés que escribir al menos 3 caracteres para buscar."
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                    </q-item>
+                  </template>
+                  <template v-slot:after>
+                    <q-icon
+                      name="fa-solid fa-magnifying-glass"
+                      class="q-mx-xs"
+                      v-on:click="afBuscarPorTelefono()"
+                      style="cursor: pointer"
+                    />
                   </template>
                 </q-input>
               </div>
@@ -172,12 +239,12 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada === null"
+                  v-if="props.row.eliminada === null && (autoridad === 'admin' || autoridad === 'usuario')"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
                   dense
-                  @click="fMostrarEditarDireccion(props)"
+                  @click="fMostrarEditarProveedor(props)"
                 >
                   <q-icon size="2em" class="q-pa-xs" name="edit" />
                   <q-tooltip>
@@ -185,12 +252,12 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada === null"
+                  v-if="props.row.eliminada === null && autoridad === 'admin'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
                   dense
-                  @click="fMostrarEliminarDireccion(props)"
+                  @click="fMostrarEliminarProveedor(props)"
                 >
                   <q-icon size="2em" class="q-pa-xs" name="delete" />
                   <q-tooltip>
@@ -198,12 +265,12 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada !== null"
+                  v-if="props.row.eliminada !== null && autoridad === 'admin'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
                   dense
-                  @click="fMostrarReciclarDireccion(props)"
+                  @click="fMostrarReciclarProveedor(props)"
                 >
                   <q-icon size="2em" class="q-pa-xs" name="recycling" />
                   <q-tooltip>
@@ -212,16 +279,19 @@
                 </q-btn>
               </q-td>
               <q-td>
-                {{ props.row.ciudad }}
+                {{ props.row.nombre }}
               </q-td>
               <q-td>
                 {{ props.row.direccion}}
               </q-td>
               <q-td>
-                {{ props.row.nombre }}
+                {{ props.row.email }}
               </q-td>
               <q-td>
-                {{ props.row.notas }}
+                {{ props.row.identificacion }}
+              </q-td>
+              <q-td>
+                {{ props.row.telefono }}
               </q-td>
             </q-tr>
             <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
@@ -231,21 +301,25 @@
                     <div class="row text-white">{{ props.row.id }}</div>
                     <div class="row paleta1-color2">Id</div>
                   </div>
-                  <div v-if="props.row.ciudad != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                    <div class="row text-white">{{ props.row.ciudad }}</div>
-                    <div class="row paleta1-color2">Ciudad</div>
-                  </div>
-                  <div v-if="props.row.direccion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.direccion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
                     <div class="row text-white">{{ props.row.direccion }}</div>
                     <div class="row paleta1-color2">Direccion</div>
+                  </div>
+                  <div v-if="props.row.email != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.email }}</div>
+                    <div class="row paleta1-color2">Email</div>
+                  </div>
+                  <div v-if="props.row.identificacion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.identificacion }}</div>
+                    <div class="row paleta1-color2">Identificacion</div>
                   </div>
                   <div v-if="props.row.nombre != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.nombre }}</div>
                     <div class="row paleta1-color2">Nombre</div>
                   </div>
-                  <div v-if="props.row.notas != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                    <div class="row text-white">{{ props.row.notas }}</div>
-                    <div class="row paleta1-color2">Notas</div>
+                  <div v-if="props.row.telefono != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{props.row.telefono}}</div>
+                    <div class="row paleta1-color2">Telefono</div>
                   </div>
                   <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creador }}</div>
@@ -284,10 +358,10 @@
     </div>
   </q-card>
 
-  <q-dialog v-model="nuevoDireccionDialog" persistent transition-show="fade" transition-hide="fade">
+  <q-dialog v-model="nuevoProveedorDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
-        <div class="text-h6 text-grey-8">Nueva direccion</div>
+        <div class="text-h6 text-grey-8">Nuevo proveedor</div>
         <q-space />
         <q-btn class="text-grey-8" icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -295,44 +369,31 @@
         <q-icon name="img:/icons/numeros/number1.svg" size="3em" class="svg-primary" :class="{ 'svg-accent': paso1 }" />
       </div>
       <q-card-section v-if="paso1">
-        <q-form v-on:submit.prevent="fGuardarDireccion">
+        <q-form v-on:submit.prevent="fGuardarProveedor">
           <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
-              <q-select
+              <q-input
                 class="nuevo-input"
+                v-model="proveedorCreation.nombre"
+                :rules="[reglas.requerido, reglas.min8, reglas.max50]"
                 outlined
                 dense
-                emit-value
-                map-options
                 clearable
-                v-model="direccionCreation.ciudad"
-                :rules="[reglas.requerido]"
-                :options="ciudades"
-                option-value="ciudad"
-                option-label="ciudad"
-                label="Ciudad"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarCiudades"
-                hint="Ingresá 3 caracteres para buscar."
+                label="Nombre"
+                hint="Apellido y nombre"
               >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
+              </q-input>
             </div>
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model="direccionCreation.direccion"
-                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
+                v-model="proveedorCreation.direccion"
+                :rules="[reglas.requerido, reglas.min8, reglas.max50]"
                 outlined
                 dense
                 clearable
                 label="Dirección"
-                hint="Dirección del direccion"
+                hint="Dirección del proveedor"
               >
               </q-input>
             </div>
@@ -341,12 +402,41 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model="direccionCreation.nombre"
+                v-model="proveedorCreation.email"
+                :rules="[reglas.requerido, reglas.min8, reglas.max50, reglas.email]"
+                outlined
+                dense
+                clearable
+                label="Email"
+                hint="Dirección de email"
+              >
+              </q-input>
+            </div>
+            <div class="col-xs-6 q-pa-md">
+              <q-input
+                class="nuevo-input"
+                v-model="proveedorCreation.telefono"
                 :rules="[reglas.requerido, reglas.min3, reglas.max50]"
                 outlined
                 dense
                 clearable
-                label="Nombre dirección"
+                label="Teléfono"
+                hint="Número de teléfono"
+              >
+              </q-input>
+            </div>
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
+              <q-input
+                class="nuevo-input"
+                v-model="proveedorCreation.identificacion"
+                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
+                outlined
+                dense
+                clearable
+                label="Identificacion"
+                hint="Documento/Pasaporte"
               >
               </q-input>
             </div>
@@ -354,7 +444,7 @@
               <q-input
                 class="nuevo-input"
                 type="textarea"
-                v-model="direccionCreation.notas"
+                v-model="proveedorCreation.notas"
                 autogrow
                 outlined
                 dense
@@ -378,9 +468,8 @@
 <script>
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
-import { DireccionCreation } from 'src/models/creation/direccion_creation'
-import { direccionService } from 'src/services/direccion_service'
-import { llaveroService } from 'src/helpers/llavero_service'
+import { ProveedorCreation } from 'src/models/creation/proveedor_creation'
+import { proveedorService } from 'src/services/proveedor_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
@@ -399,10 +488,10 @@ const columnas = [
     align: 'center'
   },
   {
-    name: 'ciudad',
-    label: 'Ciudad',
+    name: 'nombre',
+    label: 'Nombre',
     align: 'left',
-    field: 'ciudad',
+    field: 'nombre',
     sortable: true
   },
   {
@@ -413,18 +502,24 @@ const columnas = [
     sortable: true
   },
   {
-    name: 'nombre',
-    label: 'Nombre',
+    name: 'email',
+    label: 'Email',
     align: 'left',
-    field: 'nombre',
+    field: 'email',
     sortable: true
   },
   {
-    name: 'notas',
-    label: 'Notas',
+    name: 'identificacion',
+    label: 'Identificacion',
     align: 'left',
-    field: 'notas',
+    field: 'identificacion',
     sortable: true
+  },
+  {
+    name: 'telefono',
+    label: 'telefono',
+    align: 'left',
+    field: 'telefono'
   }
 ]
 
@@ -432,53 +527,38 @@ export default {
   setup () {
     const $q = useQuasar()
 
-    const ciudad = ref(null)
-    const ciudades = ref([])
-    const ciudadesList = ref([])
-    const direccionCreation = reactive(new DireccionCreation())
+    const autoridad = ref(null)
     const direccion = ref(null)
-    const direcciones = ref([])
-    const editCiudad = ref(false)
     const editDireccion = ref(false)
+    const editEmail = ref(false)
+    const editIdentifiacion = ref(false)
     const editNombre = ref(true)
     const editNotas = ref(false)
+    const editTelefono = ref(false)
+    const email = ref(null)
     const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
+    const identificacion = ref(null)
     const nombre = ref(null)
     const notas = ref(null)
     const nuevaBusqueda = ref(false)
-    const nuevoDireccionDialog = ref(false)
+    const nuevoProveedorDialog = ref(false)
     const paso1 = ref(true)
+    const proveedorCreation = reactive(new ProveedorCreation())
+    const proveedores = ref([])
     const reglas = reactive(reglasValidacion.reglas)
-    const sesion = ref(ayuda.getUid())
+    const telefono = ref(null)
 
     afBuscarPaginadas()
 
-    async function afBuscarCiudades () {
-      $q.loading.show()
-      try {
-        let resultado = null
-        if (llaveroService.obtenerDeLocalConSesion('hhCiudadesTodasConSesion', sesion.value) !== null) {
-          ciudadesList.value = llaveroService.obtenerDeLocalConSesion('hhCiudadesTodasConSesion', sesion.value).value
-          console.log('DireccionService: Sesion recargada, con eliminadas.')
-        } else {
-          resultado = await direccionService.spfBuscarTodasCiudadesConSesion()
-          if (resultado.status === 200) {
-            ciudadesList.value = resultado.data
-            console.log('DireccionService: ' + resultado.headers.mensaje)
-          }
-        }
-        $q.loading.hide()
-      } catch (err) {
-        console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
+    verAutoridad()
+
+    function verAutoridad () {
+      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        autoridad.value = 'admin'
+      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
+        autoridad.value = 'usuario'
+      } else {
+        autoridad.value = 'carga'
       }
     }
 
@@ -493,19 +573,19 @@ export default {
         }
         let resultado = null
         if (esAdmin.value) {
-          resultado = await direccionService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
+          resultado = await proveedorService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
-          resultado = await direccionService.spfBuscarTodasPaginadas(paginadoDTO)
+          resultado = await proveedorService.spfBuscarTodasPaginadas(paginadoDTO)
         }
         if (resultado.status === 200) {
-          direcciones.value = resultado.data.content
+          proveedores.value = resultado.data.content
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
         }
       } catch (err) {
         console.clear()
         if (err.response.status === 404) {
-          direcciones.value = []
+          proveedores.value = []
           console.info(err.response.headers.mensaje)
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
@@ -520,25 +600,25 @@ export default {
       }
     }
 
-    async function afBuscarPorCiudad () {
-      if (ciudad.value != null) {
+    async function afBuscarPorDireccion () {
+      if (direccion.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await direccionService.spfBuscarTodasPorCiudadConEliminadas(ciudad.value)
+            resultado = await proveedorService.spfBuscarTodasPorDireccionConEliminadas(direccion.value)
           } else {
-            resultado = await direccionService.spfBuscarTodasPorCiudad(ciudad.value)
+            resultado = await proveedorService.spfBuscarTodasPorDireccion(direccion.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            direcciones.value = resultado.data
+            proveedores.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            direcciones.value = []
+            proveedores.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -554,25 +634,59 @@ export default {
       }
     }
 
-    async function afBuscarPorDireccion () {
-      if (direccion.value != null) {
+    async function afBuscarPorEmail () {
+      if (email.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await direccionService.spfBuscarTodasPorDireccionConEliminadas(direccion.value)
+            resultado = await proveedorService.spfBuscarTodasPorEmailConEliminadas(email.value)
           } else {
-            resultado = await direccionService.spfBuscarTodasPorDireccion(direccion.value)
+            resultado = await proveedorService.spfBuscarTodasPorEmail(email.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            direcciones.value = resultado.data
+            proveedores.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            direcciones.value = []
+            proveedores.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
+    async function afBuscarPorIdentificacion () {
+      if (identificacion.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (esAdmin.value) {
+            resultado = await proveedorService.spfBuscarTodasPorIdentificacionConEliminadas(identificacion.value)
+          } else {
+            resultado = await proveedorService.spfBuscarTodasPorIdentificacion(identificacion.value)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            proveedores.value = resultado.data
+          }
+          $q.loading.hide()
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            proveedores.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -594,19 +708,19 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await direccionService.spfBuscarTodasPorNombreConEliminadas(nombre.value)
+            resultado = await proveedorService.spfBuscarTodasPorNombreConEliminadas(nombre.value)
           } else {
-            resultado = await direccionService.spfBuscarTodasPorNombre(nombre.value)
+            resultado = await proveedorService.spfBuscarTodasPorNombre(nombre.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            direcciones.value = resultado.data
+            proveedores.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            direcciones.value = []
+            proveedores.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -628,19 +742,19 @@ export default {
         try {
           let resultado = null
           if (esAdmin.value) {
-            resultado = await direccionService.spfBuscarTodasPorNotasConEliminadas(notas.value)
+            resultado = await proveedorService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
-            resultado = await direccionService.spfBuscarTodasPorNotas(notas.value)
+            resultado = await proveedorService.spfBuscarTodasPorNotas(notas.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            direcciones.value = resultado.data
+            proveedores.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            direcciones.value = []
+            proveedores.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -656,15 +770,49 @@ export default {
       }
     }
 
-    async function afGuardarDireccion () {
+    async function afBuscarPorTelefono () {
+      if (telefono.value != null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (esAdmin.value) {
+            resultado = await proveedorService.spfBuscarTodasPorTelefonoConEliminadas(telefono.value)
+          } else {
+            resultado = await proveedorService.spfBuscarTodasPorTelefono(telefono.value)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            proveedores.value = resultado.data
+          }
+          $q.loading.hide()
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            proveedores.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
+    async function afGuardarProveedor () {
       $q.loading.show()
       try {
         let resultado = null
-        resultado = await direccionService.spfGuardar(direccionCreation)
+        resultado = await proveedorService.spfGuardar(proveedorCreation)
         if (resultado.status === 201) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
-          notificarService.notificarExito('Se creó correctamente la direccion.')
+          notificarService.notificarExito('Se creó correctamente el proveedor.')
         }
       } catch (err) {
         console.clear()
@@ -683,15 +831,15 @@ export default {
       }
     }
 
-    async function afEliminarDireccion (id) {
+    async function afEliminarProveedor (id) {
       $q.loading.show()
       try {
         let resultado = null
-        resultado = await direccionService.spfBorrar(id)
+        resultado = await proveedorService.spfBorrar(id)
         if (resultado.status === 200) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
-          notificarService.notificarExito('Se borró correctamente el direccion.')
+          notificarService.notificarExito('Se borró correctamente el proveedor.')
         }
       } catch (err) {
         console.clear()
@@ -710,15 +858,15 @@ export default {
       }
     }
 
-    async function afReciclarDireccion (id) {
+    async function afReciclarProveedor (id) {
       $q.loading.show()
       try {
         let resultado = null
-        resultado = await direccionService.spfReciclar(id)
+        resultado = await proveedorService.spfReciclar(id)
         if (resultado.status === 200) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
-          notificarService.notificarExito('Se recicló correctamente el direccion.')
+          notificarService.notificarExito('Se recicló correctamente el proveedor.')
         }
       } catch (err) {
         console.clear()
@@ -741,22 +889,10 @@ export default {
       return ayuda.getDateWithFormat(fecha)
     }
 
-    function fFiltrarCiudades (val, update, abort) {
-      if (val.length < 3) {
-        abort()
-        return
-      }
-      update(() => {
-        ciudades.value = ciudadesList.value.filter(
-          (v) => v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1
-        )
-      })
-    }
-
-    function fGuardarDireccion () {
-      afGuardarDireccion().then(() => {
+    function fGuardarProveedor () {
+      afGuardarProveedor().then(() => {
         afBuscarPaginadas().then(() => {
-          nuevoDireccionDialog.value = false
+          nuevoProveedorDialog.value = false
           fIrPaso1()
         })
       })
@@ -768,45 +904,53 @@ export default {
     }
 
     function fLimpiarFormulario () {
-      direccionCreation.ciudad = null
-      direccionCreation.direccion = null
-      direccionCreation.nombre = null
-      direccionCreation.notas = null
+      proveedorCreation.direccion = null
+      proveedorCreation.email = null
+      proveedorCreation.identificacion = null
+      proveedorCreation.nombre = null
+      proveedorCreation.notas = null
+      proveedorCreation.telefono = null
 
-      direccionCreation.id = null
-      direccionCreation.creadorId = null
-      direccionCreation.creador = null
-      direccionCreation.creada = null
-      direccionCreation.modificadorId = null
-      direccionCreation.modificador = null
-      direccionCreation.modificada = null
-      direccionCreation.eliminadorId = null
-      direccionCreation.eliminador = null
-      direccionCreation.eliminada = null
+      proveedorCreation.id = null
+      proveedorCreation.creadorId = null
+      proveedorCreation.creador = null
+      proveedorCreation.creada = null
+      proveedorCreation.modificadorId = null
+      proveedorCreation.modificador = null
+      proveedorCreation.modificada = null
+      proveedorCreation.eliminadorId = null
+      proveedorCreation.eliminador = null
+      proveedorCreation.eliminada = null
     }
 
     function fLimpiarInputs (actual) {
-      editCiudad.value = null
-      ciudad.value = null
-      ciudades.value = null
-      editDireccion.value = null
       direccion.value = null
+      editDireccion.value = null
+      editEmail.value = null
+      editIdentifiacion.value = null
       editNombre.value = null
-      nombre.value = null
       editNotas.value = null
+      editTelefono.value = null
+      email.value = null
+      identificacion.value = null
+      nombre.value = null
       notas.value = null
-    }
-
-    function fMostrarCiudad () {
-      afBuscarCiudades().then(() => {
-        fLimpiarInputs()
-        editCiudad.value = true
-      })
+      telefono.value = null
     }
 
     function fMostrarDireccion () {
       fLimpiarInputs()
       editDireccion.value = true
+    }
+
+    function fMostrarEmail () {
+      fLimpiarInputs()
+      editEmail.value = true
+    }
+
+    function fMostrarIdentificacion () {
+      fLimpiarInputs()
+      editIdentifiacion.value = true
     }
 
     function fMostrarNombre () {
@@ -819,41 +963,45 @@ export default {
       editNotas.value = true
     }
 
-    function fMostrarNuevaDireccion () {
-      afBuscarCiudades().then(() => {
-        fLimpiarFormulario()
-        fIrPaso1()
-        nuevoDireccionDialog.value = true
-      })
+    function fMostrarTelefono () {
+      fLimpiarInputs()
+      editTelefono.value = true
     }
 
-    function fMostrarEditarDireccion (props) {
-      direccionCreation.id = props.row.id
-      direccionCreation.ciudad = props.row.ciudad
-      direccionCreation.direccion = props.row.direccion
-      direccionCreation.nombre = props.row.nombre
-      direccionCreation.notas = props.row.notas
-
-      direccionCreation.creada = props.row.creada
-      direccionCreation.creadorId = props.row.creadorId
-      direccionCreation.eliminada = props.row.eliminada
-      direccionCreation.eliminadorId = props.row.eliminadorId
-      direccionCreation.modificada = props.row.modificada
-      direccionCreation.modificadorId = props.row.modificadorId
-
-      nuevoDireccionDialog.value = true
+    function fMostrarNuevoProveedor () {
+      fIrPaso1()
+      nuevoProveedorDialog.value = true
     }
 
-    function fMostrarEliminarDireccion (props) {
-      afEliminarDireccion(props.row.id).then(() => {
+    function fMostrarEditarProveedor (props) {
+      proveedorCreation.id = props.row.id
+      proveedorCreation.direccion = props.row.direccion
+      proveedorCreation.email = props.row.email
+      proveedorCreation.identificacion = props.row.identificacion
+      proveedorCreation.nombre = props.row.nombre
+      proveedorCreation.telefono = props.row.telefono
+      proveedorCreation.notas = props.row.notas
+
+      proveedorCreation.creada = props.row.creada
+      proveedorCreation.creadorId = props.row.creadorId
+      proveedorCreation.eliminada = props.row.eliminada
+      proveedorCreation.eliminadorId = props.row.eliminadorId
+      proveedorCreation.modificada = props.row.modificada
+      proveedorCreation.modificadorId = props.row.modificadorId
+
+      nuevoProveedorDialog.value = true
+    }
+
+    function fMostrarEliminarProveedor (props) {
+      afEliminarProveedor(props.row.id).then(() => {
         afBuscarPaginadas().then(() => {
 
         })
       })
     }
 
-    function fMostrarReciclarDireccion (props) {
-      afReciclarDireccion(props.row.id).then(() => {
+    function fMostrarReciclarProveedor (props) {
+      afReciclarProveedor(props.row.id).then(() => {
         afBuscarPaginadas().then(() => {
 
         })
@@ -861,40 +1009,47 @@ export default {
     }
 
     return {
-      afBuscarPorCiudad,
+      autoridad,
       afBuscarPorDireccion,
+      afBuscarPorEmail,
+      afBuscarPorIdentificacion,
       afBuscarPorNombre,
       afBuscarPorNotas,
-      ciudad,
-      ciudades,
+      afBuscarPorTelefono,
+      proveedorCreation,
+      proveedores,
       columnas,
       direccion,
-      direccionCreation,
-      direcciones,
-      editCiudad,
       editDireccion,
+      editEmail,
+      editIdentifiacion,
       editNombre,
       editNotas,
+      editTelefono,
+      email,
       esAdmin,
-      fFiltrarCiudades,
       fFormatoFecha,
-      fGuardarDireccion,
-      fMostrarCiudad,
+      fGuardarProveedor,
       fMostrarDireccion,
+      fMostrarEmail,
+      fMostrarIdentificacion,
       fMostrarNombre,
       fMostrarNotas,
-      fMostrarNuevaDireccion,
+      fMostrarNuevoProveedor,
+      fMostrarTelefono,
 
-      fMostrarEditarDireccion,
-      fMostrarEliminarDireccion,
-      fMostrarReciclarDireccion,
+      fMostrarEditarProveedor,
+      fMostrarEliminarProveedor,
+      fMostrarReciclarProveedor,
 
+      identificacion,
       nombre,
       notas,
       nuevaBusqueda,
-      nuevoDireccionDialog,
+      nuevoProveedorDialog,
       paginacion,
       paso1,
+      telefono,
       reglas
     }
   }
@@ -909,7 +1064,7 @@ export default {
   color: #9e9e9e;
 }
 .q-btn-dropdown {
-  width: 260px;
+  width: 290px;
 }
 .item-lista {
   border-bottom: 2px solid white;

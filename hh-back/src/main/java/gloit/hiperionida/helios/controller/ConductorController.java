@@ -43,7 +43,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-direccion/{direccion}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorDireccion(@PathVariable(name = "direccion") String direccion) {
         List<ConductorModel> listado = conductorService.buscarTodasPorDireccion(direccion);
         ArrayList<ConductorDTO> conductores = new ArrayList<>();
@@ -65,7 +65,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-email/{email}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorEmail(@PathVariable(name = "email") String email) {
         List<ConductorModel> listado = conductorService.buscarTodasPorEmail(email);
         ArrayList<ConductorDTO> conductores = new ArrayList<>();
@@ -87,7 +87,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-identificacion/{identificacion}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorIdentificacion(@PathVariable(name = "identificacion") String identificacion) {
         List<ConductorModel> listado = conductorService.buscarTodasPorIdentificacion(identificacion);
         ArrayList<ConductorDTO> conductores = new ArrayList<>();
@@ -109,7 +109,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-nombre/{nombre}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorNombre(@PathVariable(name = "nombre") String nombre) {
         List<ConductorModel> listado = conductorService.buscarTodasPorNombre(nombre);
         ArrayList<ConductorDTO> conductores = new ArrayList<>();
@@ -131,7 +131,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-notas/{notas}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
         List<ConductorModel> listado = conductorService.buscarTodasPorNotas(notas);
         ArrayList<ConductorDTO> conductores = new ArrayList<>();
@@ -153,7 +153,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-telefono/{telefono}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ArrayList<ConductorDTO>> buscarTodasPorTelefono(@PathVariable(name = "telefono") String telefono) {
         List<ConductorModel> listado = conductorService.buscarTodasPorTelefono(telefono);
         ArrayList<ConductorDTO> conductores = new ArrayList<>();
@@ -175,7 +175,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ConductorDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         ConductorModel objeto = conductorService.buscarPorId(id);
         return new ResponseEntity<>(conductorMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
@@ -189,7 +189,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<ConductorDTO>> buscarTodas() {
         List<ConductorModel> listado = conductorService.buscarTodas();
         ArrayList<ConductorDTO> conductors = new ArrayList<>();
@@ -211,7 +211,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Slice<ConductorDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<ConductorModel> listado = conductorService.buscarTodasPorOrdenPorPagina(
                 paginadoDTO.getDireccion(),
@@ -245,7 +245,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= conductorService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -259,7 +259,7 @@ public class ConductorController extends AbsBaseController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<ConductorDTO> guardar(@Valid @RequestBody ConductorCreation conductorCreation) {
         ConductorModel objeto = conductorService.guardar(conductorCreation);
         return new ResponseEntity<>(conductorMapper.toDto(objeto), Helper.httpHeaders("Se persistio correctamente la entidad."), HttpStatus.CREATED);

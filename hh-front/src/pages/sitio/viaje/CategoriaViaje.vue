@@ -1,6 +1,6 @@
 <template>
   <div class="q-ma-md">
-    <ClientesDireccionesListado />
+    <CategoriaViajeListado />
   </div>
 </template>
 
@@ -8,10 +8,10 @@
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import ClientesDireccionesListado from 'src/components/sitio/ClientesDireccionesListado.vue'
+import CategoriaViajeListado from 'src/components/viaje/CategoriaViajeListado.vue'
 
 export default {
-  components: { ClientesDireccionesListado },
+  components: { CategoriaViajeListado },
   setup () {
     const $q = useQuasar()
 

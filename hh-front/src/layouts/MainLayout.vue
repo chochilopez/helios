@@ -32,7 +32,7 @@
           </q-item-section>
           <q-item-section class="white-text">Panel Principal</q-item-section>
         </q-item>
-        <!-- <q-expansion-item icon="account_balance" label="Banco">
+        <q-expansion-item icon="account_balance" label="Banco" v-if="autoridad === 'admin'">
           <q-item
             clickable
             v-ripple
@@ -63,8 +63,8 @@
             </q-item-section>
             <q-item-section class="white-text">Movimientos conciliaciones</q-item-section>
           </q-item>
-        </q-expansion-item> -->
-        <!-- <q-expansion-item icon="paid" label="Caja">
+        </q-expansion-item>
+        <q-expansion-item icon="paid" label="Caja" v-if="autoridad === 'admin' || autoridad === 'usuario'">
           <q-item
             clickable
             v-ripple
@@ -74,6 +74,7 @@
             exact
             :to="{ name: 'Adelanto' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="fa-solid fa-comments-dollar" />
@@ -89,6 +90,7 @@
             exact
             :to="{ name: 'Caja' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="paid" />
@@ -104,6 +106,7 @@
             exact
             :to="{ name: 'ConceptoAdelanto' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="request_quote" />
@@ -119,6 +122,7 @@
             exact
             :to="{ name: 'MovimientoCaja' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="currency_exchange" />
@@ -134,14 +138,15 @@
             exact
             :to="{ name: 'PlanCuenta' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="local_atm" />
             </q-item-section>
             <q-item-section class="white-text">Planes de cuenta</q-item-section>
           </q-item>
-        </q-expansion-item> -->
-        <q-expansion-item icon="calendar_month" label="Calendario">
+        </q-expansion-item>
+        <q-expansion-item icon="calendar_month" label="Calendario" v-if="autoridad === 'admin' || autoridad === 'usuario'">
           <q-item
             clickable
             v-ripple
@@ -198,6 +203,7 @@
             exact
             :to="{ name: 'Adelanto' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="fa-solid fa-money-check-dollar" />
@@ -213,6 +219,7 @@
             exact
             :to="{ name: 'Combustible' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="local_gas_station" />
@@ -243,13 +250,14 @@
             exact
             :to="{ name: 'Licencia' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="fa-solid fa-id-card" />
             </q-item-section>
             <q-item-section class="white-text">Licencias</q-item-section>
           </q-item>
-          <!-- <q-item
+          <q-item
             clickable
             v-ripple
             :active="link === 'resumenConductor'"
@@ -258,12 +266,13 @@
             exact
             :to="{ name: 'ResumenConductor' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="follow_the_signs" />
             </q-item-section>
             <q-item-section class="white-text">Resumen por conductor</q-item-section>
-          </q-item> -->
+          </q-item>
         </q-expansion-item>
         <q-expansion-item icon="groups" label="Clientes">
           <q-item
@@ -281,7 +290,23 @@
             </q-item-section>
             <q-item-section class="white-text">Clientes</q-item-section>
           </q-item>
-          <!-- <q-item
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'saldos'"
+            @click="link = 'saldos'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'CuentaCorriente' }"
+            class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
+          >
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-money-bill-trend-up" />
+            </q-item-section>
+            <q-item-section class="white-text">Cuentas corrientes</q-item-section>
+          </q-item>
+          <q-item
             clickable
             v-ripple
             :active="link === 'detallesCtaCte'"
@@ -290,6 +315,7 @@
             exact
             :to="{ name: 'DetalleCtaCte' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="folder_shared" />
@@ -297,7 +323,7 @@
             <q-item-section class="white-text"
               >Detalles cuentas corrientes</q-item-section
             >
-          </q-item> -->
+          </q-item>
           <q-item
             clickable
             v-ripple
@@ -315,7 +341,7 @@
               >Direcciones</q-item-section
             >
           </q-item>
-          <!-- <q-item
+          <q-item
             clickable
             v-ripple
             :active="link === 'moviemientoCtaCte'"
@@ -324,6 +350,7 @@
             exact
             :to="{ name: 'MovimientoCtaCte' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="social_distance" />
@@ -331,7 +358,7 @@
             <q-item-section class="white-text"
               >Movimientos cuentas corrientes</q-item-section
             >
-          </q-item> -->
+          </q-item>
           <q-item
             clickable
             v-ripple
@@ -347,23 +374,8 @@
             </q-item-section>
             <q-item-section class="white-text">Proveedores</q-item-section>
           </q-item>
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'saldos'"
-            @click="link = 'saldos'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'SaldoCtaCte' }"
-            class="q-ml-md paleta1-fondo5"
-          >
-            <q-item-section avatar>
-              <q-icon name="fa-solid fa-money-bill-trend-up" />
-            </q-item-section>
-            <q-item-section class="white-text">Saldos cuentas corrientes</q-item-section>
-          </q-item>
         </q-expansion-item>
-        <!-- <q-expansion-item icon="shopping_cart" label="Compras">
+        <q-expansion-item icon="shopping_cart" label="Compras" v-if="autoridad === 'admin' || autoridad === 'usuario'">
           <q-item
             clickable
             v-ripple
@@ -373,6 +385,7 @@
             exact
             :to="{ name: 'Compra' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="shopping_cart" />
@@ -388,15 +401,16 @@
             exact
             :to="{ name: 'ConceptoCompra' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="local_mall" />
             </q-item-section>
             <q-item-section class="white-text">Concepto compras</q-item-section>
           </q-item>
-        </q-expansion-item> -->
-        <q-expansion-item icon="receipt_long" label="Facturacion">
-          <!-- <q-item
+        </q-expansion-item>
+        <q-expansion-item icon="receipt_long" label="Facturacion" v-if="autoridad === 'admin' || autoridad === 'usuario'">
+          <q-item
             clickable
             v-ripple
             :active="link === 'facturar'"
@@ -405,12 +419,13 @@
             exact
             :to="{ name: 'Facturar' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="fa-solid fa-file-invoice-dollar" />
             </q-item-section>
             <q-item-section class="white-text">Facturar</q-item-section>
-          </q-item> -->
+          </q-item>
           <q-item
             clickable
             v-ripple
@@ -420,6 +435,7 @@
             exact
             :to="{ name: 'Facturacion' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="receipt_long" />
@@ -435,6 +451,7 @@
             exact
             :to="{ name: 'Recibo' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="receipt" />
@@ -442,7 +459,7 @@
             <q-item-section class="white-text">Recibos</q-item-section>
           </q-item>
         </q-expansion-item>
-        <q-expansion-item icon="fa-solid fa-ring" label="Neumaticos">
+        <q-expansion-item icon="fa-solid fa-ring" label="Neumaticos" v-if="autoridad === 'admin' || autoridad === 'usuario'">
           <q-item
             clickable
             v-ripple
@@ -452,6 +469,7 @@
             exact
             :to="{ name: 'Marca' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="fa-solid fa-copyright" />
@@ -467,29 +485,15 @@
             exact
             :to="{ name: 'Neumatico' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="fa-solid fa-ring" />
             </q-item-section>
             <q-item-section class="white-text">Neumaticos</q-item-section>
           </q-item>
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'colocados'"
-            @click="link = 'colocados'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'Colocado' }"
-            class="q-ml-md paleta1-fondo5"
-          >
-            <q-item-section avatar>
-              <q-icon name="tire_repair" />
-            </q-item-section>
-            <q-item-section class="white-text">Neumaticos colocados</q-item-section>
-          </q-item>
         </q-expansion-item>
-        <!-- <q-expansion-item icon="storefront" label="Proveedores">
+        <q-expansion-item icon="storefront" label="Proveedores">
           <q-item
             clickable
             v-ripple
@@ -499,6 +503,7 @@
             exact
             :to="{ name: 'MovCtaCteProveedor' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="fa-solid fa-money-bill-transfer" />
@@ -522,7 +527,7 @@
             </q-item-section>
             <q-item-section class="white-text">Proveedores</q-item-section>
           </q-item>
-        </q-expansion-item> -->
+        </q-expansion-item>
         <q-expansion-item icon="local_shipping" label="Vehiculos">
           <q-item
             clickable
@@ -563,6 +568,7 @@
             exact
             :to="{ name: 'Seguro' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="fa-solid fa-car-burst" />
@@ -595,6 +601,7 @@
             exact
             :to="{ name: 'Presupuesto' }"
             class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
               <q-icon name="fa-solid fa-road-circle-check" />
@@ -626,18 +633,32 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import { autenticacionService } from 'src/services/autenticacion_service'
-import { useRouter } from 'vue-router'
 import { notificarService } from 'src/helpers/notificar_service'
+import { ref } from 'vue'
+import { rolEnum } from 'src/models/enums/rol_enum'
+import { useRouter } from 'vue-router'
 
 export default {
   setup () {
+    const autoridad = ref(null)
     const layout = ref([])
     const leftDrawerOpen = ref(false)
     const link = ref('dashboard')
     const username = ref(autenticacionService.obtenerNombreUsuario())
     const router = useRouter()
+
+    verAutoridad()
+
+    function verAutoridad () {
+      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+        autoridad.value = 'admin'
+      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
+        autoridad.value = 'usuario'
+      } else {
+        autoridad.value = 'carga'
+      }
+    }
 
     const cerrarSesion = () => {
       autenticacionService.spfSalir()
@@ -646,6 +667,7 @@ export default {
     }
 
     return {
+      autoridad,
       link,
       leftDrawerOpen,
       username,

@@ -1,16 +1,16 @@
 <template>
   <div class="q-ma-md">
-    <FacturacionFacturacionContador />
-    <FacturacionFacturacionListado />
+    <ViajeContador />
+    <PresupuestoListado />
   </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
-import FacturacionFacturacionContador from '../../components/sitio/FacturacionFacturacionContador.vue'
-import FacturacionFacturacionListado from '../../components/sitio/FacturacionFacturacionListado.vue'
+import PresupuestoListado from 'src/components/viaje/PresupuestoListado.vue'
 import { onMounted } from 'vue'
+import ViajeContador from 'src/components/viaje/ViajeContador.vue'
 
 export default {
   setup () {
@@ -32,8 +32,8 @@ export default {
     return {}
   },
   components: {
-    FacturacionFacturacionContador,
-    FacturacionFacturacionListado
+    PresupuestoListado,
+    ViajeContador
   }
 }
 </script>

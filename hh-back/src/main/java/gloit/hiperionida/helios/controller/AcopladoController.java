@@ -42,7 +42,7 @@ public class AcopladoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-anio/{anio}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<AcopladoDTO>> buscarTodasPorAnio(@PathVariable(name = "anio") Integer anio) {
         List<AcopladoModel> listado = acopladoService.buscarTodasPorAnio(anio);
         ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
@@ -64,7 +64,7 @@ public class AcopladoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-marca-modelo/{marcaModelo}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<AcopladoDTO>> buscarTodasPorMarcaModelo(@PathVariable(name = "marcaModelo") String marcaModelo) {
         List<AcopladoModel> listado = acopladoService.buscarTodasPorMarcaModelo(marcaModelo);
         ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
@@ -86,7 +86,7 @@ public class AcopladoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-notas/{notas}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<AcopladoDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
         List<AcopladoModel> listado = acopladoService.buscarTodasPorNotas(notas);
         ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
@@ -108,7 +108,7 @@ public class AcopladoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas-por-patente/{patente}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<AcopladoDTO>> buscarTodasPorPatente(@PathVariable(name = "patente") String patente) {
         List<AcopladoModel> listado = acopladoService.buscarTodasPorPatente(patente);
         ArrayList<AcopladoDTO> acopladoDTOS = new ArrayList<>();
@@ -130,7 +130,7 @@ public class AcopladoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<AcopladoDTO> buscarPorId(@PathVariable(name = "id") Long id) {
         AcopladoModel objeto = acopladoService.buscarPorId(id);
         return new ResponseEntity<>(acopladoMapper.toDto(objeto), Helper.httpHeaders("Se encontró una entidad con id :" + id + "."), HttpStatus.OK);
@@ -144,7 +144,7 @@ public class AcopladoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/buscar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<AcopladoDTO>> buscarTodas() {
         List<AcopladoModel> listado = acopladoService.buscarTodas();
         ArrayList<AcopladoDTO> acoplados = new ArrayList<>();
@@ -166,7 +166,7 @@ public class AcopladoController extends AbsBaseController {
     }
 
     @PostMapping(value = "/buscar-todas-paginadas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Slice<AcopladoDTO>> buscarTodas(@Valid @RequestBody PaginadoDTO paginadoDTO) {
         Slice<AcopladoModel> listado = acopladoService.buscarTodasPorOrdenPorPagina(
                 paginadoDTO.getDireccion(),
@@ -200,7 +200,7 @@ public class AcopladoController extends AbsBaseController {
     }
 
     @GetMapping(value = "/contar-todas")
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<Long> contarTodas() {
         Long cantidad= acopladoService.contarTodas();
         return new ResponseEntity<>(cantidad, Helper.httpHeaders(String.valueOf(cantidad)), HttpStatus.OK);
@@ -214,7 +214,7 @@ public class AcopladoController extends AbsBaseController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('USUARIO')")
+    @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<AcopladoDTO> guardar(@Valid @RequestBody AcopladoCreation acopladoCreation) {
         AcopladoModel objeto = acopladoService.guardar(acopladoCreation);
         return new ResponseEntity<>(acopladoMapper.toDto(objeto), Helper.httpHeaders("Se persistio correctamente la entidad."), HttpStatus.CREATED);
