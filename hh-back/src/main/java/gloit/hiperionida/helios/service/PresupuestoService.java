@@ -34,6 +34,7 @@ public interface PresupuestoService extends GenericService<PresupuestoModel, Pre
     List<PresupuestoModel> buscarTodasPorDestinoDireccion(String direccion);
     List<PresupuestoModel> buscarTodasPorDestinoDireccionConEliminadas(String direccion);
 
-    PresupuestoModel buscarUltimoPresupuesto();
+    PresupuestoModel buscarProximo();
+    PresupuestoModel buscarUltimo();
 }
 

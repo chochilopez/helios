@@ -54,11 +54,11 @@
 <script>
 import { ref } from 'vue'
 import { viajeService } from 'src/services/viaje_service'
-import { autenticacionService } from 'src/services/autenticacion_service'
-import { rolEnum } from 'src/models/enums/rol_enum'
+import { ayuda } from 'src/helpers/ayuda'
 
 export default {
   setup () {
+    const autoridad = ref(ayuda.getAutoridad())
     const cantidadViajes = ref()
     const cantidadTransportada = ref()
     const kmCargado = ref()
@@ -73,7 +73,7 @@ export default {
 
     async function afBuscarCantidadViajes () {
       let resultado = null
-      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+      if (autoridad.value === 'admin') {
         resultado = await viajeService.spfContarTodasConEliminadas()
       } else {
         resultado = await viajeService.spfContarTodas()
@@ -105,7 +105,7 @@ export default {
     }
 
     async function afBuscarPrecioUltimoViaje () {
-      const resultado = await viajeService.spfBuscarUltimoViaje()
+      const resultado = await viajeService.spfBuscarUltimo()
       if (resultado.status === 200) {
         ultimoPrecio.value = resultado.data.valorKm
       }

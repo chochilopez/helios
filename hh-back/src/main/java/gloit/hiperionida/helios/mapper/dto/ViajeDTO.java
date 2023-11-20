@@ -30,5 +30,6 @@ public class ViajeDTO extends AbsViajeDTO implements Serializable {
     private String tipoComprobante;
     private String numeroComprobante;
     private String pagada;
+    private String vencida;
 }
 

@@ -42,16 +42,19 @@ public class PresupuestoMapper {
                 model.setCompradorId(Helper.getLong(creation.getCompradorId()));
             if (Helper.getLong(creation.getDestinoId()) != null)
                 model.setDestinoId(Helper.getLong(creation.getDestinoId()));
-            if (Helper.getLong(creation.getFechaId()) != null) {
-                model.setFechaId(Helper.getLong(creation.getFechaId()));
-            } else {
-                if (creation.getFecha() != null) {
-                    Optional<ClienteModel> clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId()));
+            if (creation.getFecha() != null) {
+                if (Helper.getLong(creation.getFechaId()) != null) {
+                    EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getFechaId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el evento."));
+                    eventoModel.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
+                    eventoDAO.save(eventoModel);
+                    model.setFechaId(Helper.getLong(creation.getFechaId()));
+                } else {
+                    ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el cliente."));
                     EventoModel evento = eventoDAO.save(new EventoModel(
                             Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
-                            "Presupuesto para " + clienteModel.get().getNombre(),
-                            null,
-                            null,
+                            "Presupuesto para " + clienteModel.getNombre(),
+                            true,
+                            true,
                             "Presupuesto",
                             Helper.getNow(""),
                             usuarioService.obtenerUsuario().getId()

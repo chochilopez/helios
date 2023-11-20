@@ -265,27 +265,27 @@
                     <div class="row text-white">props.row.vencimiento</div>
                     <div class="row paleta1-color2">Vencimiento</div>
                   </div>
-                  <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creador }}</div>
                     <div class="row paleta1-color2">Creador</div>
                   </div>
-                  <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.creada) }}</div>
                     <div class="row paleta1-color2">Creado</div>
                   </div>
-                  <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.modificador }}</div>
                     <div class="row paleta1-color2">Modificador</div>
                   </div>
-                  <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.modificada) }}</div>
                     <div class="row paleta1-color2">Modificado</div>
                   </div>
-                  <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.eliminador }}</div>
                     <div class="row paleta1-color2">Eliminador</div>
                   </div>
-                  <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.eliminada) }}</div>
                     <div class="row paleta1-color2">Eliminada</div>
                   </div>
@@ -405,14 +405,12 @@
 </template>
 
 <script>
-import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
 import { AcopladoCreation } from 'src/models/creation/acoplado_creation'
 import { acopladoService } from 'src/services/acoplado_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
-import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 
 const paginacion = {
@@ -465,8 +463,8 @@ const columnas = [
 export default {
   setup () {
     const $q = useQuasar()
+    const autoridad = ref(ayuda.getAutoridad())
 
-    const autoridad = ref(null)
     const acopladoCreation = reactive(new AcopladoCreation())
     const acoplados = ref([])
     const anio = ref(null)
@@ -474,7 +472,6 @@ export default {
     const editMarcaModelo = ref(false)
     const editNotas = ref(false)
     const editPatente = ref(false)
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const marcaModelo = ref(null)
     const notas = ref(null)
     const nuevoAcopladoDialog = ref(false)
@@ -484,18 +481,6 @@ export default {
     const reglas = reactive(reglasValidacion.reglas)
 
     afBuscarPaginadas()
-
-    verAutoridad()
-
-    function verAutoridad () {
-      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
-        autoridad.value = 'admin'
-      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
-        autoridad.value = 'usuario'
-      } else {
-        autoridad.value = 'carga'
-      }
-    }
 
     async function afBuscarPaginadas () {
       $q.loading.show()
@@ -507,7 +492,7 @@ export default {
           elementos: '50'
         }
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           resultado = await acopladoService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
           resultado = await acopladoService.spfBuscarTodasPaginadas(paginadoDTO)
@@ -540,7 +525,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await acopladoService.spfBuscarTodasPorAnioConEliminadas(anio.value)
           } else {
             resultado = await acopladoService.spfBuscarTodasPorAnio(anio.value)
@@ -574,7 +559,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await acopladoService.spfBuscarTodasPorMarcaModeloConEliminadas(marcaModelo.value)
           } else {
             resultado = await acopladoService.spfBuscarTodasPorMarcaModelo(marcaModelo.value)
@@ -608,7 +593,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await acopladoService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
             resultado = await acopladoService.spfBuscarTodasPorNotas(notas.value)
@@ -642,7 +627,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await acopladoService.spfBuscarTodasPorPatenteConEliminadas(patente.value)
           } else {
             resultado = await acopladoService.spfBuscarTodasPorPatente(patente.value)
@@ -877,7 +862,6 @@ export default {
       editMarcaModelo,
       editNotas,
       editPatente,
-      esAdmin,
       fFormatoFecha,
       fGuardarAcoplado,
       fMostrarAnio,

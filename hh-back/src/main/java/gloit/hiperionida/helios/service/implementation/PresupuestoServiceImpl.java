@@ -199,7 +199,14 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     }
 
     @Override
-    public PresupuestoModel buscarUltimoPresupuesto() {
+    public PresupuestoModel buscarProximo() {
+        log.info("Buscando la proxima entidad Presupuesto.");
+
+        return presupuestoDAO.findNextDate(Helper.getNow("")).orElseThrow(() -> new DatosInexistentesException("No se encontro el proximo Presupuesto"));
+    }
+
+    @Override
+    public PresupuestoModel buscarUltimo() {
         log.info("Buscando la ultima entidad Presupuesto.");
 
         return presupuestoDAO.findFirstByOrderByIdDesc().orElseThrow(() -> new DatosInexistentesException("No se encontro el ultimo Presupuesto"));

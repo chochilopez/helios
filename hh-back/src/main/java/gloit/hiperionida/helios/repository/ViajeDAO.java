@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ViajeDAO extends GenericDTO<ViajeModel> {
@@ -102,4 +103,9 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     Double sumarKmCargado();
     @Query("select SUM (kmVacio) from ViajeModel")
     Double sumarKmVacio();
+
+    @Query(value = "Select v FROM ViajeModel v " +
+            "JOIN EventoModel e ON v.fechaId = e.id " +
+            "where e.fecha >= :fecha order by e.fecha ASC limit 1")
+    Optional<ViajeModel> findNextDate(LocalDateTime fecha);
 }

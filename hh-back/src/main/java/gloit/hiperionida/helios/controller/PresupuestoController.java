@@ -247,7 +247,13 @@ public class PresupuestoController extends AbsBaseController {
     @GetMapping(value = "/buscar-ultimo")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<PresupuestoDTO> buscarUltimoPresupuesto() {
-        return new ResponseEntity<>(presupuestoMapper.toDto(presupuestoService.buscarUltimoPresupuesto()), Helper.httpHeaders("Se devolvio el ultimo Presupuesto."), HttpStatus.OK);
+        return new ResponseEntity<>(presupuestoMapper.toDto(presupuestoService.buscarUltimo()), Helper.httpHeaders("Se devolvio el ultimo Presupuesto."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-proximo")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<PresupuestoDTO> buscarProximoPresupuesto() {
+        return new ResponseEntity<>(presupuestoMapper.toDto(presupuestoService.buscarProximo()), Helper.httpHeaders("Se devolvio el proximo Presupuesto."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-comprador-nombre/{nombre}")

@@ -359,21 +359,6 @@
               >Movimientos cuentas corrientes</q-item-section
             >
           </q-item>
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'proveedores'"
-            @click="link = 'proveedores'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'Proveedor' }"
-            class="q-ml-md paleta1-fondo5"
-          >
-            <q-item-section avatar>
-              <q-icon name="storefront" />
-            </q-item-section>
-            <q-item-section class="white-text">Proveedores</q-item-section>
-          </q-item>
         </q-expansion-item>
         <q-expansion-item icon="shopping_cart" label="Compras" v-if="autoridad === 'admin' || autoridad === 'usuario'">
           <q-item
@@ -636,29 +621,17 @@
 import { autenticacionService } from 'src/services/autenticacion_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { ref } from 'vue'
-import { rolEnum } from 'src/models/enums/rol_enum'
 import { useRouter } from 'vue-router'
+import { ayuda } from 'src/helpers/ayuda'
 
 export default {
   setup () {
-    const autoridad = ref(null)
+    const autoridad = ref(ayuda.getAutoridad())
     const layout = ref([])
     const leftDrawerOpen = ref(false)
     const link = ref('dashboard')
     const username = ref(autenticacionService.obtenerNombreUsuario())
     const router = useRouter()
-
-    verAutoridad()
-
-    function verAutoridad () {
-      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
-        autoridad.value = 'admin'
-      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
-        autoridad.value = 'usuario'
-      } else {
-        autoridad.value = 'carga'
-      }
-    }
 
     const cerrarSesion = () => {
       autenticacionService.spfSalir()

@@ -139,7 +139,7 @@ const routes = [
       {
         path: '/detalle-cuenta-corriente',
         name: 'DetalleCtaCte',
-        component: () => import('pages/sitio/cliente/DetalleCtaCte'),
+        component: () => import('pages/sitio/cliente/DetalleCtaCte.vue'),
         meta: {
           rol: rolEnum.USUARIO
         }

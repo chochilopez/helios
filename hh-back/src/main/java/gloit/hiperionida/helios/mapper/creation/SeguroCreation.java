@@ -16,4 +16,5 @@ public class SeguroCreation extends AbsAuditoriaCreation {
     private String aseguradoraId;
     private String camionId;
     private String vencimiento;
+    private String vencimientoId;
 }

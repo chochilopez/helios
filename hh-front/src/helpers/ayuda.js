@@ -1,7 +1,19 @@
 import { uid, format, colors, date } from 'quasar'
-const { humanStorageSize } = format
-const { getPaletteColor } = colors
-const timeStamp = Date.now()
+import { autenticacionService } from 'src/services/autenticacion_service'
+import { rolEnum } from 'src/models/enums/rol_enum'
+
+function getAutoridad () {
+  if (autenticacionService.obtenerAutoridades() !== null) {
+    if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
+      return 'admin'
+    } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
+      return 'usuario'
+    } else {
+      return 'carga'
+    }
+  }
+  return null
+}
 
 function difBetweenDates (fecha1, fecha2, unidad) {
   // seconds - minutes - hours - days - months - years
@@ -13,7 +25,7 @@ function isValidDate (fecha) {
 }
 
 function getColor (color) {
-  return getPaletteColor(color)
+  return colors.getPaletteColor(color)
 }
 
 function getAsset (image) {
@@ -25,16 +37,16 @@ function getUid () {
 }
 
 function getSize (number) {
-  return humanStorageSize(number)
+  return format.humanStorageSize(number)
 }
 
 function getToday () {
-  return date.formatDate(timeStamp, 'dddd-DD-MMMM-YYYY')
+  return date.formatDate(Date.now(), 'dddd-DD-MMMM-YYYY')
 }
 
 function getDateWithFormat (fechaSql) {
   const f = new Date(fechaSql)
-  return f.getDate() + '/' + f.getMonth() + '/' + f.getFullYear()
+  return f.getDate() + '/' + (f.getMonth() + 1) + '/' + f.getFullYear()
 }
 
 function getDateWithMonthFormat (fechaSql) {
@@ -172,6 +184,7 @@ function fFormatearDeBackend (texto) {
 }
 
 export const ayuda = {
+  getAutoridad,
   difBetweenDates,
   isValidDate,
   getAsset,

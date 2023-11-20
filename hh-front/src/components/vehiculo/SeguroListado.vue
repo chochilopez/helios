@@ -235,8 +235,8 @@
                     Expandir
                   </q-tooltip>
                 </q-btn>
-                <!--q-btn
-                  v-if="props.row.eliminada === null"
+                <q-btn
+                  v-if="props.row.eliminada === null && (autoridad === 'admin' || autoridad === 'usuario')"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
@@ -247,9 +247,9 @@
                   <q-tooltip>
                     Modificar
                   </q-tooltip>
-                </!--q-btn-->
+                </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada === null"
+                  v-if="props.row.eliminada === null && autoridad === 'admin'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
@@ -262,7 +262,7 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada !== null"
+                  v-if="props.row.eliminada !== null && autoridad === 'admin'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
@@ -311,27 +311,27 @@
                     <div class="row text-white">{{ fFormatoFecha(props.row.vencimiento) }}</div>
                     <div class="row paleta1-color2">Vencimiento</div>
                   </div>
-                  <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creador }}</div>
                     <div class="row paleta1-color2">Creador</div>
                   </div>
-                  <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.creada) }}</div>
                     <div class="row paleta1-color2">Creado</div>
                   </div>
-                  <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.modificador }}</div>
                     <div class="row paleta1-color2">Modificador</div>
                   </div>
-                  <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.modificada) }}</div>
                     <div class="row paleta1-color2">Modificado</div>
                   </div>
-                  <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.eliminador }}</div>
                     <div class="row paleta1-color2">Eliminador</div>
                   </div>
-                  <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.eliminada) }}</div>
                     <div class="row paleta1-color2">Eliminada</div>
                   </div>
@@ -351,7 +351,7 @@
   <q-dialog v-model="nuevoSeguroDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
-        <div class="text-h6 text-grey-8">Nuevo seguro</div>
+        <div class="text-h6 text-grey-8">{{ titulo }}</div>
         <q-space />
         <q-btn class="text-grey-8" icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -512,7 +512,6 @@
 <script>
 
 import { acopladoService } from 'src/services/acoplado_service'
-import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
 import { camionService } from 'src/services/camion_service'
 import { llaveroService } from 'src/helpers/llavero_service'
@@ -522,7 +521,6 @@ import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { SeguroCreation } from 'src/models/creation/seguro_creation'
 import { seguroService } from 'src/services/seguro_service'
-import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 
 const paginacion = {
@@ -562,9 +560,9 @@ const columnas = [
 export default {
   setup () {
     const $q = useQuasar()
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const reglas = reactive(reglasValidacion.reglas)
     const sesion = ref(ayuda.getUid())
+    const autoridad = ref(ayuda.getAutoridad())
 
     const acoplado = ref(null)
     const acoplados = ref([])
@@ -591,6 +589,7 @@ export default {
     const paso1 = ref(true)
     const seguroCreation = reactive(new SeguroCreation())
     const seguros = ref([])
+    const titulo = ref(null)
 
     afBuscarPaginadas()
 
@@ -598,7 +597,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConEliminadasConSesion', sesion.value) !== null) {
             acopladosList.value = llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConEliminadasConSesion', sesion.value).value
             console.log('AcopladoService: Sesion recargada, con eliminadas.')
@@ -640,7 +639,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhProveedorTodasConEliminadasConSesion', sesion.value) !== null) {
             aseguradorasList.value = llaveroService.obtenerDeLocalConSesion('hhProveedorTodasConEliminadasConSesion', sesion.value).value
             console.log('ProveedorService: Sesion recargada, con eliminadas.')
@@ -682,7 +681,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhCamionTodasConEliminadasConSesion', sesion.value) !== null) {
             camionesList.value = llaveroService.obtenerDeLocalConSesion('hhCamionTodasConEliminadasConSesion', sesion.value).value
             console.log('CamionService: Sesion recargada, con eliminadas.')
@@ -730,7 +729,7 @@ export default {
           elementos: '50'
         }
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           resultado = await seguroService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
           resultado = await seguroService.spfBuscarTodasPaginadas(paginadoDTO)
@@ -763,7 +762,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await seguroService.spfBuscarTodasPorAcopladoIdConEliminadas(acoplado.value)
           } else {
             resultado = await seguroService.spfBuscarTodasPorAcopladoId(acoplado.value)
@@ -797,7 +796,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await seguroService.spfBuscarTodasPorAseguradoraIdConEliminadas(aseguradora.value)
           } else {
             resultado = await seguroService.spfBuscarTodasPorAseguradoraId(aseguradora.value)
@@ -831,7 +830,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await seguroService.spfBuscarTodasPorCamionIdConEliminadas(camion.value)
           } else {
             resultado = await seguroService.spfBuscarTodasPorCamionId(camion.value)
@@ -865,7 +864,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await seguroService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
             resultado = await seguroService.spfBuscarTodasPorNotas(notas.value)
@@ -905,7 +904,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await seguroService.spfBuscarTodasPorVencimientoEntreFechasConEliminadas(
               ayuda.fFormatearDeDatePicker(vencimiento.value.from),
               ayuda.fFormatearDeDatePicker(vencimiento.value.to)
@@ -943,7 +942,6 @@ export default {
     async function afGuardarSeguro () {
       $q.loading.show()
       try {
-        console.log(seguroCreation)
         let resultado = null
         resultado = await seguroService.spfGuardar(seguroCreation)
         if (resultado.status === 201) {
@@ -952,7 +950,6 @@ export default {
           notificarService.notificarExito('Se creó correctamente el seguro.')
         }
       } catch (err) {
-        // console.clear()
         if (err.response.status === 404) {
           console.info(err.response.headers.mensaje)
           notificarService.infoAlerta(err.response.headers.mensaje)
@@ -1140,6 +1137,9 @@ export default {
       afBuscarAcoplados().then(() => {
         afBuscarAseguradoras().then(() => {
           afBuscarCamiones().then(() => {
+            titulo.value = 'Nuevo seguro'
+            fLimpiarFormulario()
+            tipoVehiculo.value =
             fIrPaso1()
             nuevoSeguroDialog.value = true
           })
@@ -1148,6 +1148,12 @@ export default {
     }
 
     function fMostrarEditarSeguro (props) {
+      titulo.value = 'Modificar seguro'
+      if (props.row.acopladoId !== null) {
+        tipoVehiculo.value = 'Acoplado'
+      } else {
+        tipoVehiculo.value = 'Camión'
+      }
       seguroCreation.id = props.row.id
       seguroCreation.notas = props.row.notas
       seguroCreation.acopladoId = props.row.acopladoId
@@ -1188,6 +1194,7 @@ export default {
     }
 
     return {
+      autoridad,
 
       aseguradora,
       aseguradoras,
@@ -1203,13 +1210,13 @@ export default {
       vencimientos,
 
       columnas,
-      esAdmin,
       nuevaBusqueda,
       nuevoSeguroDialog,
       paginacion,
       paso1,
       reglas,
       tipoVehiculo,
+      titulo,
       seguroCreation,
       seguros,
       vehiculos: ['Acoplado', 'Camión'],

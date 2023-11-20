@@ -95,14 +95,12 @@
 </template>
 
 <script>
-import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
 import { CategoriaViajeCreation } from 'src/models/creation/categoria_viaje_creation'
 import { categoriaViajeService } from 'src/services/categoria_viaje_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
-import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 
 const paginacion = {
@@ -145,29 +143,16 @@ const columnas = [
 export default {
   setup () {
     const $q = useQuasar()
+    const autoridad = ref(ayuda.getAutoridad())
 
-    const autoridad = ref(null)
     const categoriaViajeCreation = reactive(new CategoriaViajeCreation())
     const categoriasViaje = ref([])
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const notas = ref(null)
     const nuevoCategoriaViajeDialog = ref(false)
     const paso1 = ref(true)
     const reglas = reactive(reglasValidacion.reglas)
 
     afBuscarPaginadas()
-
-    verAutoridad()
-
-    function verAutoridad () {
-      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
-        autoridad.value = 'admin'
-      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
-        autoridad.value = 'usuario'
-      } else {
-        autoridad.value = 'carga'
-      }
-    }
 
     async function afBuscarPaginadas () {
       $q.loading.show()
@@ -179,7 +164,7 @@ export default {
           elementos: '50'
         }
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           resultado = await categoriaViajeService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
           resultado = await categoriaViajeService.spfBuscarTodasPaginadas(paginadoDTO)
@@ -279,7 +264,6 @@ export default {
       columnas,
       categoriaViajeCreation,
       categoriasViaje,
-      esAdmin,
       fFormatoFecha,
       fGuardarCategoriaViaje,
       fMostrarNuevaCategoriaViaje,

@@ -130,27 +130,27 @@
                     <div class="row text-white">{{ (props.row.valorKm * props.row.kmCargado).toFixed(2) }}</div>
                     <div class="row paleta1-color2">Total</div>
                   </div>
-                  <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creador }}</div>
                     <div class="row paleta1-color2">Creador</div>
                   </div>
-                  <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creada }}</div>
                     <div class="row paleta1-color2">Creado</div>
                   </div>
-                  <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.modificador }}</div>
                     <div class="row paleta1-color2">Modificador</div>
                   </div>
-                  <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.modificada }}</div>
                     <div class="row paleta1-color2">Modificado</div>
                   </div>
-                  <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.eliminador }}</div>
                     <div class="row paleta1-color2">Eliminador</div>
                   </div>
-                  <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.Eeiminada }}</div>
                     <div class="row paleta1-color2">Eliminada</div>
                   </div>
@@ -424,7 +424,6 @@
 </template>
 
 <script>
-import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
 import { categoriaViajeService } from 'src/services/categoria_viaje_service'
 import { clienteService } from 'src/services/cliente_service'
@@ -435,7 +434,6 @@ import { cuentaCorrienteService } from 'src/services/cuentaCorriente_service'
 import { CuentaCorrienteCreation } from 'src/models/creation/cuentaCorriente_creation'
 import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
-import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 
@@ -509,6 +507,7 @@ export default {
   setup () {
     const $q = useQuasar()
     const router = useRouter()
+    const autoridad = ref(ayuda.getAutoridad())
 
     const cantidadTransportada = ref({ min: 0, max: 300 })
     const cantidadTransportadaChip = ref({ izq: false, der: false })
@@ -533,7 +532,6 @@ export default {
     const editKilometrosCargado = ref(false)
     const editNotas = ref(false)
     const editValorKilomertro = ref(false)
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const fecha = ref({ from: null, to: null })
     const kmCargado = ref({ min: 0, max: 1000 })
     const kmCargadoChip = ref({ izq: false, der: false })
@@ -556,7 +554,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConEliminadasConSesion', sesion.value) !== null) {
             categoriasViajeList.value = llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConEliminadasConSesion', sesion.value).value
             console.log('CategoriaViajeService: Sesion recargada, con eliminadas.')
@@ -598,7 +596,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value) !== null) {
             clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value).value
             console.log('ClienteService: Sesion recargada, con eliminadas.')
@@ -640,7 +638,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConEliminadasConSesion', sesion.value) !== null) {
             direccionesList.value = llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConEliminadasConSesion', sesion.value).value
             console.log('DireccionService: Sesion recargada, con eliminadas.')
@@ -688,7 +686,7 @@ export default {
           elementos: '50'
         }
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           resultado = await cuentaCorrienteService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
           resultado = await cuentaCorrienteService.spfBuscarTodasPaginadas(paginadoDTO)
@@ -721,7 +719,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorRangoCantidadTransportadaConEliminadas(cantidadTransportada.value.min, cantidadTransportada.value.max)
           } else {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorRangoCantidadTransportada(cantidadTransportada.value.min, cantidadTransportada.value.max)
@@ -757,7 +755,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorCategoriaViajeIdConEliminadas(categoriaViaje.value)
           } else {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorCategoriaViajeId(categoriaViaje.value)
@@ -791,7 +789,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorCompradorIdConEliminadas(comprador.value)
           } else {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorCompradorId(comprador.value)
@@ -825,7 +823,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorDireccionDestinoIdConEliminadas(direccionDestino.value)
           } else {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorDireccionDestinoId(direccionDestino.value)
@@ -859,7 +857,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorDireccionOrigenIdConEliminadas(direccionOrigen.value)
           } else {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorDireccionOrigenId(direccionOrigen.value)
@@ -899,7 +897,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorFechaViajeEntreFechasConEliminadas(
               ayuda.fFormatearDeDatePicker(fecha.value.from),
               ayuda.fFormatearDeDatePicker(fecha.value.to)
@@ -939,7 +937,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorRangoKmCargadoConEliminadas(kmCargado.value.min, kmCargado.value.max)
           } else {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorRangoKmCargado(kmCargado.value.min, kmCargado.value.max)
@@ -975,7 +973,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorNotas(notas.value)
@@ -1009,7 +1007,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorRangoValorKmConEliminadas(valorKm.value.min, valorKm.value.max)
           } else {
             resultado = await cuentaCorrienteService.spfBuscarTodasPorRangoValorKm(valorKm.value.min, valorKm.value.max)
@@ -1105,7 +1103,7 @@ export default {
           notificarService.notificarExito('Se recicló correctamente el prespuesto.')
         }
       } catch (err) {
-        // console.clear()
+
         if (err.response.status === 404) {
           console.info(err.response.headers.mensaje)
           notificarService.infoAlerta(err.response.headers.mensaje)
@@ -1394,7 +1392,6 @@ export default {
       editKilometrosCargado,
       editNotas,
       editValorKilomertro,
-      esAdmin,
       fecha,
       fFiltrarCategoriasViaje,
       fFiltrarCompradores,

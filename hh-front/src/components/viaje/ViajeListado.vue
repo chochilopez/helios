@@ -1,5 +1,21 @@
 <template>
   <q-card class="font-5 no-shadow no-border">
+    <div class="row q-px-md q-pt-md">
+      <div class="col-md-3 col-sm-6 col-xs-12 bg-amber-2 text-blue-grey-9 q-pa-sm text-center">
+        No facturado
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-12 bg-indigo-2 text-blue-grey-9 q-pa-sm text-center">
+        Facturado-No pagado
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-12 bg-teal-2 text-blue-grey-9 q-pa-sm text-center">
+        Facturado-Pagado
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-12 bg-pink-2 text-blue-grey-9 q-pa-sm text-center">
+        Facturado-Vencido
+      </div>
+    </div>
+  </q-card>
+  <q-card class="font-5 no-shadow no-border">
     <div class="row q-pa-md">
       <div class="col">
         <q-table title="Viajes"
@@ -742,7 +758,14 @@
             </div>
           </template>
           <template v-slot:body="props">
-            <q-tr :props="props" :class="{ 'bg-teal-2': props.row.pagada, 'bg-amber-2': !props.row.numeroComprobante && !props.row.eliminada, 'bg-red-2': props.row.eliminada } ">
+            <q-tr :props="props"
+                :class="{
+                  'bg-teal-2': props.row.pagada === 'true',
+                  'bg-indigo-2': props.row.pagada === 'false' && props.row.vencida  === 'false',
+                  'bg-pink-2': props.row.vencida  === 'true',
+                  'bg-amber-2': !props.row.numeroComprobante && !props.row.eliminada,
+                  'bg-red-2': props.row.eliminada
+                } ">
               <q-td auto-width class="text-center">
                 <q-btn
                   size="sm"
@@ -768,6 +791,19 @@
                   <q-icon size="2em" class="q-pa-xs" name="edit" />
                   <q-tooltip>
                     Modificar
+                  </q-tooltip>
+                </q-btn>
+                <q-btn
+                  v-if="props.row.eliminada === null && props.row.numeroComprobante === null"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarFacturarViaje(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="fa-solid fa-file-invoice-dollar" />
+                  <q-tooltip>
+                    Facturar viaje
                   </q-tooltip>
                 </q-btn>
                 <q-btn
@@ -900,27 +936,27 @@
                     <div class="row text-white">{{ props.row.valorKm }}</div>
                     <div class="row paleta1-color2">Valor del kilometro</div>
                   </div>
-                  <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creador }}</div>
                     <div class="row paleta1-color2">Creador</div>
                   </div>
-                  <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creada }}</div>
                     <div class="row paleta1-color2">Creado</div>
                   </div>
-                  <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.modificador }}</div>
                     <div class="row paleta1-color2">Modificador</div>
                   </div>
-                  <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.modificada }}</div>
                     <div class="row paleta1-color2">Modificado</div>
                   </div>
-                  <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.eliminador }}</div>
                     <div class="row paleta1-color2">Eliminador</div>
                   </div>
-                  <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.eliminada }}</div>
                     <div class="row paleta1-color2">Eliminada</div>
                   </div>
@@ -1384,7 +1420,6 @@
 
 <script>
 import { acopladoService } from 'src/services/acoplado_service'
-import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
 import { camionService } from 'src/services/camion_service'
 import { categoriaViajeService } from 'src/services/categoria_viaje_service'
@@ -1395,7 +1430,6 @@ import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { onMounted, reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
-import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 
@@ -1478,11 +1512,10 @@ export default {
     const $q = useQuasar()
     const sesion = ref(ayuda.getUid)
     const reglas = reactive(reglasValidacion.reglas)
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const router = useRouter()
     const titulo = ref(null)
+    const autoridad = ref(ayuda.getAutoridad())
 
-    const autoridad = ref(null)
     const editAcoplado = ref(false)
     const editCamion = ref(false)
     const editCategoriaViaje = ref(false)
@@ -1553,28 +1586,16 @@ export default {
 
     afBuscarPaginadas()
 
-    verAutoridad()
-
-    function verAutoridad () {
-      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
-        autoridad.value = 'admin'
-      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
-        autoridad.value = 'usuario'
-      } else {
-        autoridad.value = 'carga'
-      }
-    }
-
     onMounted(() => {
       if (llaveroService.obtenerDeLocal('hhConfirmarPresupuesto') !== null) {
         const resultado = llaveroService.obtenerDeLocal('hhConfirmarPresupuesto')
         viajeCreation.id = null
+        viajeCreation.fechaId = null
         viajeCreation.cantidadTransportada = resultado.value.cantidadTransportada
         viajeCreation.categoriaViajeId = resultado.value.categoriaViajeId
         viajeCreation.compradorId = resultado.value.compradorId
         viajeCreation.destinoId = resultado.value.destinoId
-        viajeCreation.fecha = resultado.value.fecha
-        viajeCreation.fechaId = resultado.value.fechaId
+        viajeCreation.fecha = fFormatoFecha(resultado.value.fecha)
         viajeCreation.kmCargado = resultado.value.kmCargado
         viajeCreation.notas = resultado.value.notas
         viajeCreation.origenId = resultado.value.origenId
@@ -1602,7 +1623,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConEliminadasConSesion', sesion.value) !== null) {
             acopladosList.value = llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConEliminadasConSesion', sesion.value).value
             console.log('AcopladoService: Sesion recargada, con eliminadas.')
@@ -1644,7 +1665,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhCamionTodasConEliminadasConSesion', sesion.value) !== null) {
             camionesList.value = llaveroService.obtenerDeLocalConSesion('hhCamionTodasConEliminadasConSesion', sesion.value).value
             console.log('CamionService: Sesion recargada, con eliminadas.')
@@ -1686,7 +1707,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConEliminadasConSesion', sesion.value) !== null) {
             categoriasViajeList.value = llaveroService.obtenerDeLocalConSesion('hhCategoriaViajeTodasConEliminadasConSesion', sesion.value).value
             console.log('CategoriaViajeService: Sesion recargada, con eliminadas.')
@@ -1728,7 +1749,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value) !== null) {
             clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value).value
             console.log('ClienteService: Sesion recargada, con eliminadas.')
@@ -1770,7 +1791,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhConductorTodasConEliminadasConSesion', sesion.value) !== null) {
             conductoresList.value = llaveroService.obtenerDeLocalConSesion('hhConductorTodasConEliminadasConSesion', sesion.value).value
             console.log('ConductorService: Sesion recargada, con eliminadas.')
@@ -1812,7 +1833,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConEliminadasConSesion', sesion.value) !== null) {
             direccionesList.value = llaveroService.obtenerDeLocalConSesion('hhDireccionTodasConEliminadasConSesion', sesion.value).value
             console.log('DireccionService: Sesion recargada, con eliminadas.')
@@ -1860,7 +1881,7 @@ export default {
           elementos: '50'
         }
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           resultado = await viajeService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
           resultado = await viajeService.spfBuscarTodasPaginadas(paginadoDTO)
@@ -1893,7 +1914,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorAcopladoIdConEliminadas(acoplado.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorAcopladoId(acoplado.value)
@@ -1927,7 +1948,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorCamionIdConEliminadas(camion.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorCamionId(camion.value)
@@ -1961,7 +1982,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorRangoCantidadTransportadaConEliminadas(cantidadTransportada.value.min, cantidadTransportada.value.max)
           } else {
             resultado = await viajeService.spfBuscarTodasPorRangoCantidadTransportada(cantidadTransportada.value.min, cantidadTransportada.value.max)
@@ -1997,7 +2018,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorCategoriaViajeIdConEliminadas(categoriaViaje.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorCategoriaViajeId(categoriaViaje.value)
@@ -2031,7 +2052,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorCompradorIdConEliminadas(comprador.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorCompradorId(comprador.value)
@@ -2065,7 +2086,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorConductorIdConEliminadas(conductor.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorConductorId(conductor.value)
@@ -2099,7 +2120,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorDireccionCargaIdConEliminadas(direccionCarga.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorDireccionCargaId(direccionCarga.value)
@@ -2133,7 +2154,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorDireccionDestinoIdConEliminadas(direccionDestino.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorDireccionDestinoId(direccionDestino.value)
@@ -2167,7 +2188,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorDireccionOrigenIdConEliminadas(direccionOrigen.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorDireccionOrigenId(direccionOrigen.value)
@@ -2201,7 +2222,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorIntermediarioIdConEliminadas(intermediario.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorIntermediarioId(intermediario.value)
@@ -2241,7 +2262,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechasConEliminadas(ayuda.fFormatearDeDatePicker(fecha.value.from), ayuda.fFormatearDeDatePicker(fecha.value.to))
           } else {
             resultado = await viajeService.spfBuscarTodasPorFechaViajeEntreFechas(ayuda.fFormatearDeDatePicker(fecha.value.from), ayuda.fFormatearDeDatePicker(fecha.value.to))
@@ -2275,7 +2296,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorRangoKmCargadoConEliminadas(kmCargado.value.min, kmCargado.value.max)
           } else {
             resultado = await viajeService.spfBuscarTodasPorRangoKmCargado(kmCargado.value.min, kmCargado.value.max)
@@ -2311,7 +2332,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorRangoKmVacioConEliminadas(kmVacio.value.min, kmVacio.value.max)
           } else {
             resultado = await viajeService.spfBuscarTodasPorRangoKmVacio(kmVacio.value.min, kmVacio.value.max)
@@ -2347,7 +2368,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorNotas(notas.value)
@@ -2381,7 +2402,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorGuiaConEliminadas(numeroGuia.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorGuia(numeroGuia.value)
@@ -2415,7 +2436,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorRangoNetoConEliminadas(pesoNeto.value.min, pesoNeto.value.max)
           } else {
             resultado = await viajeService.spfBuscarTodasPorRangoNeto(pesoNeto.value.min, pesoNeto.value.max)
@@ -2451,7 +2472,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorRangoValorKmConEliminadas(valorKm.value.min, valorKm.value.max)
           } else {
             resultado = await viajeService.spfBuscarTodasPorRangoValorKm(valorKm.value.min, valorKm.value.max)
@@ -2487,7 +2508,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await viajeService.spfBuscarTodasPorVendedorIdConEliminadas(vendedor.value)
           } else {
             resultado = await viajeService.spfBuscarTodasPorVendedorId(vendedor.value)
@@ -2944,6 +2965,7 @@ export default {
       viajeCreation.valorKm = props.row.valorKm
       viajeCreation.vendedorId = props.row.vendedorId
 
+      viajeCreation.id = props.row.id
       viajeCreation.creada = props.row.creada
       viajeCreation.creadorId = props.row.creadorId
       viajeCreation.eliminada = props.row.eliminada
@@ -2955,11 +2977,12 @@ export default {
     }
 
     function fMostrarEliminarViaje (props) {
-      afEliminarViaje(props.row.id).then(() => {
-        afBuscarPaginadas().then(() => {
+      notificarService.infoAlerta('No se puede eliminar el recurso.')
+      // afEliminarViaje(props.row.id).then(() => {
+      //   afBuscarPaginadas().then(() => {
 
-        })
-      })
+      //   })
+      // })
     }
 
     function fMostrarFacturarViaje (props) {
@@ -3094,7 +3117,6 @@ export default {
       vendedores,
 
       columnas,
-      esAdmin,
       nuevaBusqueda,
       paginacion,
       reglas,

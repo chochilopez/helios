@@ -19,6 +19,7 @@ public class ViajeModel extends AbsViajeModel {
     private Double kmVacio;
     private Double neto;
 
+
     private Long acopladoId;
     private Long camionId;
     private Long cargaId;

@@ -40,10 +40,16 @@ public class    ViajeController extends AbsBaseController {
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
     }
 
+    @GetMapping(value = "/buscar-proximo")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<ViajeDTO> buscarProximo() {
+        return new ResponseEntity<>(viajeMapper.toDto(viajeService.buscarProximo()), Helper.httpHeaders("Se devolvio el proximo viaje."), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/buscar-ultimo")
     @PreAuthorize("hasAuthority('CARGA')")
-    public ResponseEntity<ViajeDTO> buscarUltimoViaje() {
-        return new ResponseEntity<>(viajeMapper.toDto(viajeService.buscarUltimoViaje()), Helper.httpHeaders("Se devolvio el ultimo viaje."), HttpStatus.OK);
+    public ResponseEntity<ViajeDTO> buscarUltimo() {
+        return new ResponseEntity<>(viajeMapper.toDto(viajeService.buscarUltimo()), Helper.httpHeaders("Se devolvio el ultimo viaje."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/sumar-cantidad-transportada")

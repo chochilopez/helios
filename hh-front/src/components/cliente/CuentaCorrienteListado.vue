@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
 import { ClienteModel } from 'src/models/cliente_model'
 import { clienteService } from 'src/services/cliente_service'
@@ -71,14 +70,13 @@ import { cuentaCorrienteService } from 'src/services/cuenta_corriente_service'
 import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { onMounted, reactive, ref } from 'vue'
-import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 
 export default {
   setup () {
     const $q = useQuasar()
     const sesion = ref(ayuda.getUid)
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
+    const autoridad = ref(ayuda.getAutoridad())
 
     const cliente = reactive(new ClienteModel())
     const clienteSelect = ref(null)
@@ -98,7 +96,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           if (llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value) !== null) {
             clientesList.value = llaveroService.obtenerDeLocalConSesion('hhClienteTodasConEliminadasConSesion', sesion.value).value
             console.log('ClienteService: Sesion recargada, con eliminadas.')
@@ -141,7 +139,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await clienteService.spfBuscarPorIdConEliminadas(clienteSelect.value)
           } else {
             resultado = await clienteService.spfBuscarPorId(clienteSelect.value)
@@ -175,7 +173,7 @@ export default {
       movimientos.value = []
       try {
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           resultado = await cuentaCorrienteService.spfBuscarTodasPorClienteIdConEliminadas(clienteSelect.value)
         } else {
           resultado = await cuentaCorrienteService.spfBuscarTodasPorClienteId(clienteSelect.value)

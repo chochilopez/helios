@@ -1,6 +1,6 @@
 <template>
   <div class="q-ma-md">
-    <ViajeContador />
+    <PresupuestoContador v-if="autoridad === 'admin' || autoridad === 'usuario' "/>
     <PresupuestoListado />
   </div>
 </template>
@@ -9,12 +9,14 @@
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import PresupuestoListado from 'src/components/viaje/PresupuestoListado.vue'
-import { onMounted } from 'vue'
-import ViajeContador from 'src/components/viaje/ViajeContador.vue'
+import { ref, onMounted } from 'vue'
+import PresupuestoContador from 'src/components/viaje/PresupuestoContador.vue'
+import { ayuda } from 'src/helpers/ayuda'
 
 export default {
   setup () {
     const $q = useQuasar()
+    const autoridad = ref(ayuda.getAutoridad())
 
     onMounted(() => {
       $q.loading.hide()
@@ -29,11 +31,13 @@ export default {
       })
       next()
     })
-    return {}
+    return {
+      autoridad
+    }
   },
   components: {
     PresupuestoListado,
-    ViajeContador
+    PresupuestoContador
   }
 }
 </script>

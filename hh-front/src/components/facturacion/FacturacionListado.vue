@@ -1,5 +1,18 @@
 <template>
   <q-card class="font-5 no-shadow no-border">
+    <div class="row q-px-md q-pt-md">
+      <div class="col-md-4 col-sm-6 col-xs-12 bg-indigo-2 text-blue-grey-9 q-pa-sm text-center">
+        Facturado-No pagado
+      </div>
+      <div class="col-md-4 col-sm-6 col-xs-12 bg-teal-2 text-blue-grey-9 q-pa-sm text-center">
+        Facturado-Pagado
+      </div>
+      <div class="col-md-4 col-sm-6 col-xs-12 bg-pink-2 text-blue-grey-9 q-pa-sm text-center">
+        Facturado-Vencido
+      </div>
+    </div>
+  </q-card>
+  <q-card class="font-5 no-shadow no-border">
     <div class="row q-pa-md">
       <div class="col">
         <q-table title="Facturas"
@@ -187,7 +200,13 @@
             </div>
           </template>
           <template v-slot:body="props">
-            <q-tr :props="props" :class="{ 'bg-teal-2': props.row.pagada === true, 'bg-red-2': props.row.eliminada } ">
+            <q-tr :props="props"
+                :class="{
+                  'bg-teal-2': props.row.pagada === 'true',
+                  'bg-indigo-2': props.row.pagada === 'false' && props.row.vencida  === 'false',
+                  'bg-pink-2': props.row.vencida  === 'true',
+                  'bg-red-2': props.row.eliminada
+                } ">
               <q-td auto-width class="text-center">
                 <q-btn
                   size="sm"
@@ -411,27 +430,27 @@
                     <div class="row text-white">{{ props.row.valorKm }}</div>
                     <div class="row paleta1-color2">Valor kilometro</div>
                   </div>
-                  <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creador }}</div>
                     <div class="row paleta1-color2">Creador</div>
                   </div>
-                  <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creada }}</div>
                     <div class="row paleta1-color2">Creado</div>
                   </div>
-                  <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.modificador }}</div>
                     <div class="row paleta1-color2">Modificador</div>
                   </div>
-                  <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.modificada }}</div>
                     <div class="row paleta1-color2">Modificado</div>
                   </div>
-                  <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.eliminador }}</div>
                     <div class="row paleta1-color2">Eliminador</div>
                   </div>
-                  <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.eliminada }}</div>
                     <div class="row paleta1-color2">Eliminada</div>
                   </div>
@@ -739,7 +758,6 @@
 </template>
 
 <script>
-import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
 import { clienteService } from 'src/services/cliente_service'
 import { FacturaCreation } from 'src/models/creation/factura_creation'
@@ -748,7 +766,6 @@ import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { onMounted, reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
-import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 
 const paginacion = {
@@ -825,8 +842,8 @@ const columnas = [
 export default {
   setup () {
     const $q = useQuasar()
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const reglas = reactive(reglasValidacion.reglas)
+    const autoridad = ref(ayuda.getAutoridad())
 
     const editComprador = ref(true)
     const comprador = ref(null)
@@ -901,7 +918,7 @@ export default {
           elementos: '50'
         }
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           resultado = await facturaService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
           resultado = await facturaService.spfBuscarTodasPaginadas(paginadoDTO)
@@ -961,7 +978,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await facturaService.spfBuscarTodasPorGuiaConEliminadas(numeroGuia.value)
           } else {
             resultado = await facturaService.spfBuscarTodasPorGuia(numeroGuia.value)
@@ -1144,6 +1161,29 @@ export default {
       facturaCreation.eliminadorId = null
       facturaCreation.eliminador = null
       facturaCreation.eliminada = null
+
+      facturaCreation.razonSocial = null
+      facturaCreation.domicilioComercial = null
+      facturaCreation.tipoComprobante = null
+      facturaCreation.numeroComprobante = null
+      facturaCreation.fechaEmision = null
+      facturaCreation.fechaVencimiento = null
+      facturaCreation.fechaVencimientoId = null
+
+      facturaCreation.codigo = null
+      facturaCreation.concepto = null
+      facturaCreation.cantidad = null
+      facturaCreation.precioUnitario = null
+      facturaCreation.condicionPago = null
+      facturaCreation.bonificacion = null
+
+      facturaCreation.otrosImpuestos = null
+      facturaCreation.iva = null
+      facturaCreation.pagada = null
+      facturaCreation.notas = null
+
+      facturaCreation.remitoId = null
+      facturaCreation.viajeId = null
     }
 
     function fLimpiarInputs (actual) {
@@ -1167,44 +1207,46 @@ export default {
     }
 
     function fMostrarEditarFactura (props) {
-      titulo.value = 'Editar factura'
-      facturaCreation.acopladoId = props.row.acopladoId
-      facturaCreation.camionId = props.row.camionId
-      facturaCreation.cantidadTransportada = props.row.cantidadTransportada
-      facturaCreation.cargaId = props.row.cargaId
-      facturaCreation.compradorId = props.row.compradorId
-      facturaCreation.categoriaViajeId = props.row.categoriaViajeId
-      facturaCreation.conductorId = props.row.conductorId
-      facturaCreation.destinoId = props.row.destinoId
-      facturaCreation.fechaId = props.row.fechaId
+      // titulo.value = 'Editar factura'
+      // facturaCreation.acopladoId = props.row.acopladoId
+      // facturaCreation.camionId = props.row.camionId
+      // facturaCreation.cantidadTransportada = props.row.cantidadTransportada
+      // facturaCreation.cargaId = props.row.cargaId
+      // facturaCreation.compradorId = props.row.compradorId
+      // facturaCreation.categoriaViajeId = props.row.categoriaViajeId
+      // facturaCreation.conductorId = props.row.conductorId
+      // facturaCreation.destinoId = props.row.destinoId
+      // facturaCreation.fechaId = props.row.fechaId
 
-      facturaCreation.fecha = ayuda.fFormatearADatePicker(props.row.fecha.slice(0, 10))
-      facturaCreation.guia = props.row.guia
-      facturaCreation.intermediarioId = props.row.intermediarioId
-      facturaCreation.kmCargado = props.row.kmCargado
-      facturaCreation.kmVacio = props.row.kmVacio
-      facturaCreation.neto = props.row.neto
-      facturaCreation.notas = props.row.notas
-      facturaCreation.origenId = props.row.origenId
-      facturaCreation.valorKm = props.row.valorKm
-      facturaCreation.vendedorId = props.row.vendedorId
+      // facturaCreation.fecha = ayuda.fFormatearADatePicker(props.row.fecha.slice(0, 10))
+      // facturaCreation.guia = props.row.guia
+      // facturaCreation.intermediarioId = props.row.intermediarioId
+      // facturaCreation.kmCargado = props.row.kmCargado
+      // facturaCreation.kmVacio = props.row.kmVacio
+      // facturaCreation.neto = props.row.neto
+      // facturaCreation.notas = props.row.notas
+      // facturaCreation.origenId = props.row.origenId
+      // facturaCreation.valorKm = props.row.valorKm
+      // facturaCreation.vendedorId = props.row.vendedorId
 
-      facturaCreation.creada = props.row.creada
-      facturaCreation.creadorId = props.row.creadorId
-      facturaCreation.eliminada = props.row.eliminada
-      facturaCreation.eliminadorId = props.row.eliminadorId
-      facturaCreation.modificada = props.row.modificada
-      facturaCreation.modificadorId = props.row.modificadorId
+      // facturaCreation.id = props.row.id
+      // facturaCreation.creada = props.row.creada
+      // facturaCreation.creadorId = props.row.creadorId
+      // facturaCreation.eliminada = props.row.eliminada
+      // facturaCreation.eliminadorId = props.row.eliminadorId
+      // facturaCreation.modificada = props.row.modificada
+      // facturaCreation.modificadorId = props.row.modificadorId
 
-      nuevaFacturaDialog.value = true
+      // nuevaFacturaDialog.value = true
     }
 
     function fMostrarEliminarFactura (props) {
-      afEliminarFactura(props.row.id).then(() => {
-        afBuscarPaginadas().then(() => {
+      notificarService.infoAlerta('No se puede eliminar el recurso.')
+      // afEliminarFactura(props.row.id).then(() => {
+      //   afBuscarPaginadas().then(() => {
 
-        })
-      })
+      //   })
+      // })
     }
 
     function fMostrarReciclarFactura (props) {
@@ -1243,14 +1285,16 @@ export default {
     function fObtenerPagada () {
       if (facturaCreation.condicionPago === 'CONTADO') {
         facturaCreation.pagada = true
+      } else if (facturaCreation.condicionPago === 'CTA_CTE') {
+        facturaCreation.pagada = false
       }
     }
 
     return {
+      autoridad,
       afBuscarPorCompradorId,
 
       columnas,
-      esAdmin,
       paginacion,
       reglas,
       titulo,

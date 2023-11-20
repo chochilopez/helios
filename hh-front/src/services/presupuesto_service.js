@@ -394,6 +394,38 @@ function spfBuscarTodasPorVendedorIdConEliminadas (id) {
   })
 }
 
+function spfBuscarProximo () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'presupuesto/buscar-proximo', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarUltimo () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'presupuesto/buscar-ultimo', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarPorId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'presupuesto/buscar-por-id/' + id, {
@@ -649,6 +681,8 @@ export const presupuestoService = {
   spfBuscarTodasPorRangoValorKmConEliminadas,
   spfBuscarTodasPorVendedorId,
   spfBuscarTodasPorVendedorIdConEliminadas,
+  spfBuscarProximo,
+  spfBuscarUltimo,
 
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,

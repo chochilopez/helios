@@ -57,8 +57,15 @@ public class ViajeServiceImpl implements ViajeService {
     }
 
     @Override
-    public ViajeModel buscarUltimoViaje() {
-        log.info("Buscando la ultima entidad Viaje.");
+    public ViajeModel buscarProximo() {
+        log.info("Buscando la proxima entidad Presupuesto.");
+
+        return viajeDAO.findNextDate(Helper.getNow("")).orElseThrow(() -> new DatosInexistentesException("No se encontro el proximo Viaje"));
+    }
+
+    @Override
+    public ViajeModel buscarUltimo() {
+        log.info("Buscando la ultima entidad Presupuesto.");
 
         return viajeDAO.findFirstByOrderByIdDesc().orElseThrow(() -> new DatosInexistentesException("No se encontro el ultimo Viaje"));
     }

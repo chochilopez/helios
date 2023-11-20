@@ -56,16 +56,19 @@ public class ViajeMapper {
                 model.setConductorId(Helper.getLong(creation.getConductorId()));
             if (Helper.getLong(creation.getDestinoId()) != null)
                 model.setDestinoId(Helper.getLong(creation.getDestinoId()));
-            if (Helper.getLong(creation.getFechaId()) != null) {
-                model.setFechaId(Helper.getLong(creation.getFechaId()));
-            } else {
-                if (creation.getFecha() != null) {
-                    Optional<ClienteModel> clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId()));
+            if (creation.getFecha() != null) {
+                if (Helper.getLong(creation.getFechaId()) != null) {
+                    EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getFechaId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el evento."));
+                    eventoModel.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
+                    eventoDAO.save(eventoModel);
+                    model.setFechaId(Helper.getLong(creation.getFechaId()));
+                } else {
+                    ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el cliente."));
                     EventoModel evento = eventoDAO.save(new EventoModel(
                             Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
-                            "Viaje para " + clienteModel.get().getNombre(),
-                            null,
-                            null,
+                            "Viaje para " + clienteModel.getNombre(),
+                            true,
+                            true,
                             "Viaje",
                             Helper.getNow(""),
                             usuarioService.obtenerUsuario().getId()
@@ -189,6 +192,11 @@ public class ViajeMapper {
                 dto.setTipoComprobante(facturaModel.get().getTipoComprobante().toString());
                 dto.setNumeroComprobante(facturaModel.get().getNumeroComprobante());
                 dto.setPagada(facturaModel.get().getPagada().toString());
+                if (facturaModel.get().getFechaVencimientoId() != null) {
+                    EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(facturaModel.get().getFechaVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No existe el evento vencimeinto"));
+                    Boolean esVencida = Helper.getNow("").isAfter(eventoModel.getFecha()) && !facturaModel.get().getPagada();
+                    dto.setVencida(esVencida.toString());
+                }
             }
 
             if (model.getCreadorId() != null) {

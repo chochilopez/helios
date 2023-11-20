@@ -44,25 +44,33 @@ public class SeguroMapper {
                 model.setAseguradoraId(Helper.getLong(creation.getAseguradoraId()));
             if (Helper.getLong(creation.getCamionId()) != null)
                 model.setCamionId(Helper.getLong(creation.getCamionId()));
+            model.setNotas(creation.getNotas());
             if (creation.getVencimiento() != null) {
-                String marcaModelo = "";
-                if (model.getCamionId() != null) {
-                    CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCamionId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el camión."));
-                    marcaModelo = marcaModelo + camionModel.getMarcaModelo();
+                if (Helper.getLong(creation.getVencimientoId()) != null) {
+                    EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getVencimientoId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el evento."));
+                    eventoModel.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""));
+                    eventoDAO.save(eventoModel);
+                    model.setVencimientoId(Helper.getLong(creation.getVencimientoId()));
                 } else {
-                    AcopladoModel acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getAcopladoId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el acoplado."));
-                    marcaModelo = marcaModelo + acopladoModel.getMarcaModelo();
+                    String marcaModelo = "";
+                    if (Helper.getLong(creation.getCamionId()) != null) {
+                        CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCamionId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el camión."));
+                        marcaModelo = marcaModelo + camionModel.getMarcaModelo();
+                    } else {
+                        AcopladoModel acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getAcopladoId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el acoplado."));
+                        marcaModelo = marcaModelo + acopladoModel.getMarcaModelo();
+                    }
+                    EventoModel evento = eventoDAO.save(new EventoModel(
+                            Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""),
+                            "Seguro para " + marcaModelo,
+                            true,
+                            true,
+                            "Seguro",
+                            Helper.getNow(""),
+                            usuarioService.obtenerUsuario().getId()
+                    ));
+                    model.setVencimientoId(evento.getId());
                 }
-                EventoModel evento = eventoDAO.save(new EventoModel(
-                        Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""),
-                        "Seguro para " + marcaModelo,
-                        null,
-                        null,
-                        "Presupuesto",
-                        Helper.getNow(""),
-                        usuarioService.obtenerUsuario().getId()
-                ));
-                model.setVencimientoId(evento.getId());
             }
 
             if (Helper.getLong(creation.getCreadorId()) != null)
@@ -112,16 +120,22 @@ public class SeguroMapper {
                 dto.setVencimientoId(model.getVencimientoId().toString());
             }
 
-            if (model.getCreadorId() != null)
+            if (model.getCreadorId() != null) {
                 dto.setCreador(usuarioService.buscarPorId(model.getCreadorId()).getNombre());
+                dto.setCreadorId(model.getCreadorId().toString());
+            }
             if (model.getCreada() != null)
                 dto.setCreada(model.getCreada().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            if (model.getModificadorId() != null)
+            if (model.getModificadorId() != null) {
                 dto.setModificador(usuarioService.buscarPorId(model.getModificadorId()).getNombre());
+                dto.setModificadorId(model.getCreadorId().toString());
+            }
             if (model.getModificada() != null)
                 dto.setModificada(model.getModificada().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            if (model.getEliminadorId() != null)
+            if (model.getEliminadorId() != null) {
                 dto.setEliminador(usuarioService.buscarPorId(model.getEliminadorId()).getNombre());
+
+            }
             if (model.getEliminada() != null)
                 dto.setEliminada(model.getEliminada().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 

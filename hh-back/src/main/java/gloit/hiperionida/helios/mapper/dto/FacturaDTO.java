@@ -44,4 +44,5 @@ public class FacturaDTO extends AbsAuditoriaDTO implements Serializable {
     private String razonSocial;
     private String tipoComprobante;
     private String valorKm;
+    private String vencida;
 }

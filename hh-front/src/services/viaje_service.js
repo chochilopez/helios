@@ -586,7 +586,23 @@ function spfBuscarTodasPorVendedorIdConEliminadas (id) {
   })
 }
 
-function spfBuscarUltimoViaje () {
+function spfBuscarProximo () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'viaje/buscar-proximo', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarUltimo () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'viaje/buscar-ultimo', {
       headers: {
@@ -909,6 +925,8 @@ export const viajeService = {
   spfBuscarTodasPorGuiaConEliminadas,
   spfBuscarTodasPorRangoCantidadTransportada,
   spfBuscarTodasPorRangoCantidadTransportadaConEliminadas,
+  spfBuscarProximo,
+  spfBuscarUltimo,
 
   spfBuscarTodasPorRangoNeto,
   spfBuscarTodasPorRangoNetoConEliminadas,
@@ -928,7 +946,6 @@ export const viajeService = {
   spfBuscarTodasConEliminadasConSesion,
   spfBuscarTodasPaginadas,
   spfBuscarTodasConEliminadasPaginadas,
-  spfBuscarUltimoViaje,
   spfContarTodas,
   spfContarTodasConEliminadas,
   spfSumarCantidadTransportada,

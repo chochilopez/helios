@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
@@ -36,8 +37,6 @@ public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
     List<PresupuestoModel> findAllByOrigenIdAndEliminadaIsNull(Long id);
     List<PresupuestoModel> findAllByValorKmBetween(Double min, Double max);
     List<PresupuestoModel> findAllByValorKmBetweenAndEliminadaIsNull(Double min, Double max);
-
-
 
     @Query(value = "SELECT p FROM PresupuestoModel p " +
             "JOIN ClienteModel c ON p.compradorId = c.id " +
@@ -68,4 +67,10 @@ public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
             "JOIN DireccionModel d ON p.destinoId = d.id " +
             "where lower(d.ciudad) like lower(concat('%',:direccion,'%')) or lower(d.direccion) like lower(concat('%',:direccion,'%')) and p.eliminada is null")
     List<PresupuestoModel> findAllByDestinoDireccionContainingIgnoreCaseAndEliminadaIsNull(String direccion);
+
+    @Query(value = "Select p FROM PresupuestoModel p " +
+            "JOIN EventoModel e ON p.fechaId = e.id " +
+            "where e.fecha >= :fecha order by e.fecha ASC limit 1")
+    Optional<PresupuestoModel> findNextDate(LocalDateTime fecha);
+
 }

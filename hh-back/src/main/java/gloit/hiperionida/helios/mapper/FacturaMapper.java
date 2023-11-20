@@ -50,15 +50,15 @@ public class FacturaMapper {
                 model.setCondicionPago(CondicionPagoEnum.valueOf(creation.getCondicionPago()));
             model.setDomicilioComercial(creation.getDomicilioComercial());
             if (!Helper.isEmptyString(creation.getFechaEmision()))
-                model.setFechaEmision(Helper.stringToLocalDateTime(creation.getFechaEmision(), "yyyy-MM-dd HH:mm:ss"));
+                model.setFechaEmision(Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaEmision(), ""));
             if (Helper.getLong(creation.getFechaVencimientoId()) != null) {
                 model.setFechaVencimientoId(Helper.getLong(creation.getFechaVencimientoId()));
             } else {
                 EventoModel evento = eventoDAO.save(new EventoModel(
                         Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaVencimiento(), ""),
                         "Vencimiento de " + creation.getTipoComprobante() + " - " + creation.getNumeroComprobante(),
-                        null,
-                        null,
+                        true,
+                        true,
                         "Vencimiento",
                         Helper.getNow(""),
                         usuarioService.obtenerUsuario().getId()
@@ -123,6 +123,8 @@ public class FacturaMapper {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de vencimiento con id: " + model.getFechaVencimientoId() + "."));
                 dto.setFechaVencimiento(eventoModel.getFecha().toString());
                 dto.setFechaVencimientoId(model.getFechaVencimientoId().toString());
+                Boolean esVencida = Helper.getNow("").isAfter(eventoModel.getFecha()) && !model.getPagada();
+                dto.setVencida(esVencida.toString());
             }
             if (model.getIva() != null)
                 dto.setIva(model.getIva().toString());

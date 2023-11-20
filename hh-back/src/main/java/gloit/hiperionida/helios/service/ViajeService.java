@@ -59,6 +59,7 @@ public interface ViajeService extends GenericService<ViajeModel, ViajeCreation> 
     Double sumarTodasCantidadTrasnportada();
     Double sumarTodasKmCargado();
     Double sumarTodasKmVacio();
-    ViajeModel buscarUltimoViaje();
+    ViajeModel buscarProximo();
+    ViajeModel buscarUltimo();
 }
 

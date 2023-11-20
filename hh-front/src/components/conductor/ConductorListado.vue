@@ -321,27 +321,27 @@
                     <div class="row text-white">{{ props.row.telefono }}</div>
                     <div class="row paleta1-color2">Telefono</div>
                   </div>
-                  <div v-if="props.row.creador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creador }}</div>
                     <div class="row paleta1-color2">Creador</div>
                   </div>
-                  <div v-if="props.row.creada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.creada) }}</div>
                     <div class="row paleta1-color2">Creado</div>
                   </div>
-                  <div v-if="props.row.modificador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.modificador }}</div>
                     <div class="row paleta1-color2">Modificador</div>
                   </div>
-                  <div v-if="props.row.modificada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.modificada) }}</div>
                     <div class="row paleta1-color2">Modificado</div>
                   </div>
-                  <div v-if="props.row.eliminador != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.eliminador }}</div>
                     <div class="row paleta1-color2">Eliminador</div>
                   </div>
-                  <div v-if="props.row.eliminada != null && esAdmin" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.eliminada) }}</div>
                     <div class="row paleta1-color2">Eliminada</div>
                   </div>
@@ -466,14 +466,12 @@
 </template>
 
 <script>
-import { autenticacionService } from 'src/services/autenticacion_service'
 import { ayuda } from 'app/src/helpers/ayuda'
 import { ConductorCreation } from 'src/models/creation/conductor_creation'
 import { conductorService } from 'src/services/conductor_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
-import { rolEnum } from 'src/models/enums/rol_enum'
 import { useQuasar } from 'quasar'
 
 const paginacion = {
@@ -526,8 +524,8 @@ const columnas = [
 export default {
   setup () {
     const $q = useQuasar()
+    const autoridad = ref(ayuda.getAutoridad())
 
-    const autoridad = ref(null)
     const conductorCreation = reactive(new ConductorCreation())
     const conductores = ref([])
     const direccion = ref(null)
@@ -538,7 +536,6 @@ export default {
     const editNotas = ref(false)
     const editTelefono = ref(false)
     const email = ref(null)
-    const esAdmin = ref(autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN))
     const identificacion = ref(null)
     const nombre = ref(null)
     const notas = ref(null)
@@ -550,18 +547,6 @@ export default {
 
     afBuscarPaginadas()
 
-    verAutoridad()
-
-    function verAutoridad () {
-      if (autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN)) {
-        autoridad.value = 'admin'
-      } else if (!autenticacionService.obtenerAutoridades().includes(rolEnum.ADMIN) && autenticacionService.obtenerAutoridades().includes(rolEnum.USUARIO)) {
-        autoridad.value = 'usuario'
-      } else {
-        autoridad.value = 'carga'
-      }
-    }
-
     async function afBuscarPaginadas () {
       $q.loading.show()
       try {
@@ -572,7 +557,7 @@ export default {
           elementos: '50'
         }
         let resultado = null
-        if (esAdmin.value) {
+        if (autoridad.value === 'admin') {
           resultado = await conductorService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
           resultado = await conductorService.spfBuscarTodasPaginadas(paginadoDTO)
@@ -605,7 +590,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await conductorService.spfBuscarTodasPorDireccionConEliminadas(direccion.value)
           } else {
             resultado = await conductorService.spfBuscarTodasPorDireccion(direccion.value)
@@ -639,7 +624,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await conductorService.spfBuscarTodasPorEmailConEliminadas(email.value)
           } else {
             resultado = await conductorService.spfBuscarTodasPorEmail(email.value)
@@ -673,7 +658,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await conductorService.spfBuscarTodasPorIdentificacionConEliminadas(identificacion.value)
           } else {
             resultado = await conductorService.spfBuscarTodasPorIdentificacion(identificacion.value)
@@ -707,7 +692,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await conductorService.spfBuscarTodasPorNombreConEliminadas(nombre.value)
           } else {
             resultado = await conductorService.spfBuscarTodasPorNombre(nombre.value)
@@ -741,7 +726,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await conductorService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
             resultado = await conductorService.spfBuscarTodasPorNotas(notas.value)
@@ -775,7 +760,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          if (esAdmin.value) {
+          if (autoridad.value === 'admin') {
             resultado = await conductorService.spfBuscarTodasPorTelefonoConEliminadas(telefono.value)
           } else {
             resultado = await conductorService.spfBuscarTodasPorTelefono(telefono.value)
@@ -1027,7 +1012,6 @@ export default {
       editNotas,
       editTelefono,
       email,
-      esAdmin,
       fFormatoFecha,
       fGuardarCliente,
       fMostrarDireccion,
