@@ -58,8 +58,8 @@ module.exports = configure(function (ctx) {
 
       vueRouterMode: 'history', // available values: 'hash', 'history'
       env: {
-        API_URL: ctx.dev ? 'http://localhost:9088/api/' : 'https://helios.com.ar:9088/api/',
-        APP_URL: ctx.dev ? 'http://localhost:8080' : 'https://helios.com.ar',
+        API_URL: ctx.dev ? 'http://localhost:9088/api/' : 'https://helios-hiperionida.cloud:9088/api/',
+        APP_URL: ctx.dev ? 'http://localhost:8080' : 'https://helios-hiperionida.cloud',
         APP_MULTIMEDIA_URL: ctx.dev ? 'http://localhost:8080/media/' : 'https://helios.com.ar/media/',
         APP_USERNAME_ADMIN: ctx.dev ? 'admin@helios.com' : '',
         APP_PASSWORD_ADMIN: ctx.dev ? 'contraseña' : '',
@@ -67,7 +67,7 @@ module.exports = configure(function (ctx) {
         APP_PASSWORD_USUARIO: ctx.dev ? 'contraseña' : '',
         APP_USERNAME_CARGA: ctx.dev ? 'carga@helios.com' : '',
         APP_PASSWORD_CARGA: ctx.dev ? 'contraseña' : '',
-        JSREPORT_URL: ctx.dev ? 'https://localhost:9094' : 'https://helios.com.ar:9094'
+        JSREPORT_URL: ctx.dev ? 'https://localhost:9094' : 'https://helios-hiperionida.cloud:9094'
       }
     },
 

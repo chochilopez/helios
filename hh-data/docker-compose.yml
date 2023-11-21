@@ -1,0 +1,82 @@
+version: '3.7'
+
+services:
+  mysql-sitio:
+    image: mysql:8.0.28-oracle
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: djsfgjskLKLJHFGSSFHJg32423847328456324vhgv
+      MYSQL_DATABASE: hiperionida
+      MYSQL_USER: helios
+      MYSQL_PASSWORD: djsfgjskLKLJHFGSSFHJg32423847328456324vhgv
+    ports:
+      - "4406:3306"
+    volumes:
+      - ./data:/var/lib/hiperionida
+
+  adminer-sitio:
+    image: adminer:latest
+    depends_on:
+      - mysql-sitio
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql-sitio
+      ADMINER_DEFAULT_DB_DRIVER: mysql
+      ADMINER_DEFAULT_DB_HOST: mysql-sitio
+      ADMINER_DEFAULT_DB_NAME: hiperionida
+    ports:
+      - 9090:8080
+
+#  jsreport:
+#    image: jsreport/jsreport:3.5.0
+#    build:
+#      context: /home/chochi/GIT/epione/report
+#      dockerfile: Dockerfile
+#    container_name: jsreport
+#    restart: always
+#    ports:
+#      - "9064:9092"
+#      - "9066:9094"
+
+
+  #jsreport:
+  #  image: jsreport/jsreport:lastest
+  #  container_name: jsreport
+  #  restart: always
+  #  ports:
+  #    - "5488:5488" 
+  #    - "5489:5489" 
+  #  volumes:
+  #    - ./report/jsreport.config.json:/app/jsreport.config.json
+  #    - ./report:/jsreport
+      
+
+  # springboot:
+  #   image: openjdk:17-alpine
+  #   container_name: epione_backend
+  #   build:
+  #     context: /home/mgloit/GIT/epione_backend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "9088:9088"
+  #   restart: always
+  #   depends_on:
+  #     - mysql
+  #   environment:
+  #     SPRING_DATASOURCE_URL: jdbc:mysql://mysql:4406/helionida
+  #     SPRING_DATASOURCE_USERNAME: helionida
+  #     SPRING_DATASOURCE_PASSWORD: KJfdf/7895)77
+
+  # frontend:
+  #   container_name: epione_frontend
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - .:/home/node/app:rw
+  #   restart: "yes"
+  #   command: sh
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
