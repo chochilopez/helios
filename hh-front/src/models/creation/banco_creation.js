@@ -1,6 +1,7 @@
 export class BancoCreation {
   constructor () {
-    this.banco = ''
-    this.notas = ''
+    this.id = null
+    this.banco = null
+    this.notas = null
   }
 }

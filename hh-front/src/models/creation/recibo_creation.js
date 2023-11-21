@@ -1,6 +1,7 @@
 export class ReciboCreation {
   constructor () {
-    this.monto = ''
-    this.fecha = ''
+    this.id = null
+    this.monto = null
+    this.fecha = null
   }
 }

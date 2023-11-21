@@ -978,11 +978,12 @@ export default {
     }
 
     function fMostrarEliminarProveedor (props) {
-      afEliminarProveedor(props.row.id).then(() => {
-        afBuscarPaginadas().then(() => {
+      notificarService.infoAlerta('No se puede eliminar el recurso.')
+      // afEliminarProveedor(props.row.id).then(() => {
+      //   afBuscarPaginadas().then(() => {
 
-        })
-      })
+      //   })
+      // })
     }
 
     function fMostrarReciclarProveedor (props) {

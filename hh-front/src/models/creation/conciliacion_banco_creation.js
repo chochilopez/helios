@@ -1,9 +1,10 @@
 export class ConciliacionBancoCreation {
   constructor () {
-    this.movimiento = ''
-    this.fecha = ''
-    this.concepto = ''
-    this.monto = ''
-    this.bancoId = ''
+    this.id = null
+    this.movimiento = null
+    this.fecha = null
+    this.concepto = null
+    this.monto = null
+    this.bancoId = null
   }
 }

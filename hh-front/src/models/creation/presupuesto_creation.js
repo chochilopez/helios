@@ -1,14 +1,15 @@
 export class PresupuestoCreation {
   constructor () {
-    this.cantidadTransportada = ''
-    this.categoriaViajeId = ''
-    this.compradorId = ''
-    this.destinoId = ''
-    this.fecha = ''
-    this.kmCargado = ''
-    this.notas = ''
-    this.origenId = ''
-    this.validez = ''
-    this.valorKm = ''
+    this.id = null
+    this.cantidadTransportada = null
+    this.categoriaViajeId = null
+    this.compradorId = null
+    this.destinoId = null
+    this.fecha = null
+    this.kmCargado = null
+    this.notas = null
+    this.origenId = null
+    this.validez = null
+    this.valorKm = null
   }
 }

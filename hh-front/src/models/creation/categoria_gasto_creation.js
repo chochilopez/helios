@@ -1,5 +1,6 @@
 export class CategoriaGastoCreation {
   constructor () {
-    this.categoria = ''
+    this.id = null
+    this.categoria = null
   }
 }

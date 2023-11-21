@@ -870,11 +870,12 @@ export default {
     }
 
     function fMostrarEliminarCamion (props) {
-      afEliminarCamion(props.row.id).then(() => {
-        afBuscarPaginadas().then(() => {
+      notificarService.infoAlerta('No se puede eliminar el recurso.')
+      // afEliminarCamion(props.row.id).then(() => {
+      //   afBuscarPaginadas().then(() => {
 
-        })
-      })
+      //   })
+      // })
     }
 
     function fMostrarReciclarCamion (props) {

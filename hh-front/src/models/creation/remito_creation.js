@@ -1,7 +1,8 @@
 export class RemitoCreation {
   constructor () {
-    this.descripcion = ''
-    this.fecha = ''
-    this.numero = ''
+    this.id = null
+    this.descripcion = null
+    this.fecha = null
+    this.numero = null
   }
 }

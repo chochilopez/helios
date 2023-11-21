@@ -1,12 +1,13 @@
 export class CombustibleCreation {
   constructor () {
-    this.fecha = ''
-    this.kilometros = ''
-    this.litros = ''
-    this.precio = ''
-    this.notas = ''
-    this.camionId = ''
-    this.conductorId = ''
-    this.proveedorId = ''
+    this.id = null
+    this.fecha = null
+    this.kilometros = null
+    this.litros = null
+    this.precio = null
+    this.notas = null
+    this.camionId = null
+    this.conductorId = null
+    this.proveedorId = null
   }
 }

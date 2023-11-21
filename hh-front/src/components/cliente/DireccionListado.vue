@@ -843,11 +843,12 @@ export default {
     }
 
     function fMostrarEliminarDireccion (props) {
-      afEliminarDireccion(props.row.id).then(() => {
-        afBuscarPaginadas().then(() => {
+      notificarService.infoAlerta('No se puede eliminar el recurso.')
+      // afEliminarDireccion(props.row.id).then(() => {
+      //   afBuscarPaginadas().then(() => {
 
-        })
-      })
+      //   })
+      // })
     }
 
     function fMostrarReciclarDireccion (props) {

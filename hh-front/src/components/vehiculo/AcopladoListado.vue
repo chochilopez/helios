@@ -827,11 +827,12 @@ export default {
     }
 
     function fMostrarEliminarAcoplado (props) {
-      afEliminarAcoplado(props.row.id).then(() => {
-        afBuscarPaginadas().then(() => {
+      notificarService.infoAlerta('No se puede eliminar el recurso.')
+      // afEliminarAcoplado(props.row.id).then(() => {
+      //   afBuscarPaginadas().then(() => {
 
-        })
-      })
+      //   })
+      // })
     }
 
     function fMostrarReciclarAcoplado (props) {

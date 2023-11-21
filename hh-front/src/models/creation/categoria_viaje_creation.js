@@ -1,6 +1,7 @@
 export class CategoriaViajeCreation {
   constructor () {
-    this.categoria = ''
-    this.notas = ''
+    this.id = null
+    this.categoria = null
+    this.notas = null
   }
 }

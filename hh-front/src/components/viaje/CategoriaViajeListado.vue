@@ -26,6 +26,47 @@
           <template v-slot:body="props">
             <q-tr :props="props">
               <q-td auto-width class="text-center">
+                <q-btn
+                  v-if="props.row.eliminada === null && (autoridad === 'admin' || autoridad === 'usuario')"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarEditarCategoria(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="edit" />
+                  <q-tooltip>
+                    Modificar
+                  </q-tooltip>
+                </q-btn>
+                <q-btn
+                  v-if="props.row.eliminada === null && autoridad === 'admin'"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarEliminarCategoria(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="delete" />
+                  <q-tooltip>
+                    Eliminar
+                  </q-tooltip>
+                </q-btn>
+                <q-btn
+                  v-if="props.row.eliminada !== null && autoridad === 'admin'"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarReciclarCategoria(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="recycling" />
+                  <q-tooltip>
+                    Reciclar
+                  </q-tooltip>
+                </q-btn>
+              </q-td>
+              <q-td auto-width class="text-center">
                 {{ props.row.categoria }}
               </q-td>
               <q-td>
@@ -110,6 +151,10 @@ const paginacion = {
 }
 
 const columnas = [
+  {
+    label: 'Acciones',
+    align: 'center'
+  },
   {
     name: 'categoria',
     label: 'Categoría del viaje',
@@ -219,6 +264,60 @@ export default {
       }
     }
 
+    async function afEliminarCategoriaViaje (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await categoriaViajeService.spfBorrar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se borró correctamente el acoplado.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afReciclarCategoriaViaje (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await categoriaViajeService.spfReciclar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se recicló correctamente el acoplado.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
     function fFormatoFecha (fecha) {
       return ayuda.getDateWithFormat(fecha)
     }
@@ -259,6 +358,38 @@ export default {
       nuevoCategoriaViajeDialog.value = true
     }
 
+    function fMostrarEditarCategoria (props) {
+      categoriaViajeCreation.categoria = props.row.categoria
+      categoriaViajeCreation.notas = props.row.notas
+
+      categoriaViajeCreation.id = props.row.id
+      categoriaViajeCreation.creada = props.row.creada
+      categoriaViajeCreation.creadorId = props.row.creadorId
+      categoriaViajeCreation.eliminada = props.row.eliminada
+      categoriaViajeCreation.eliminadorId = props.row.eliminadorId
+      categoriaViajeCreation.modificada = props.row.modificada
+      categoriaViajeCreation.modificadorId = props.row.modificadorId
+
+      nuevoCategoriaViajeDialog.value = true
+    }
+
+    function fMostrarEliminarCategoria (props) {
+      notificarService.infoAlerta('No se puede eliminar el recurso.')
+      // afEliminarCategoriaViaje(props.row.id).then(() => {
+      //   afBuscarPaginadas().then(() => {
+
+      //   })
+      // })
+    }
+
+    function fMostrarReciclarCategoria (props) {
+      afReciclarCategoriaViaje(props.row.id).then(() => {
+        afBuscarPaginadas().then(() => {
+
+        })
+      })
+    }
+
     return {
       autoridad,
       columnas,
@@ -267,6 +398,9 @@ export default {
       fFormatoFecha,
       fGuardarCategoriaViaje,
       fMostrarNuevaCategoriaViaje,
+      fMostrarEditarCategoria,
+      fMostrarEliminarCategoria,
+      fMostrarReciclarCategoria,
       notas,
       nuevoCategoriaViajeDialog,
       paginacion,

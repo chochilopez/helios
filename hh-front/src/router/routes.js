@@ -177,14 +177,6 @@ const routes = [
         }
       },
       {
-        path: '/marca',
-        name: 'Marca',
-        component: () => import('pages/sitio/proveedor/Marca.vue'),
-        meta: {
-          rol: rolEnum.USUARIO
-        }
-      },
-      {
         path: '/movimiento-cuenta-corriente-proveedor',
         name: 'MovCtaCteProveedor',
         component: () => import('pages/sitio/proveedor/MovCtaCteProveedor.vue'),

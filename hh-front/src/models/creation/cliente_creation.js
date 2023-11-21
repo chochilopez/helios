@@ -1,10 +1,11 @@
 export class ClienteCreation {
   constructor () {
-    this.direccion = ''
-    this.email = ''
-    this.identificacion = ''
-    this.nombre = ''
-    this.notas = ''
-    this.telefono = ''
+    this.id = null
+    this.direccion = null
+    this.email = null
+    this.identificacion = null
+    this.nombre = null
+    this.notas = null
+    this.telefono = null
   }
 }

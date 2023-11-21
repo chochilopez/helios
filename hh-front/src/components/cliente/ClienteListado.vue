@@ -978,11 +978,12 @@ export default {
     }
 
     function fMostrarEliminarCliente (props) {
-      afEliminarCliente(props.row.id).then(() => {
-        afBuscarPaginadas().then(() => {
+      notificarService.infoAlerta('No se puede eliminar el recurso.')
+      // afEliminarCliente(props.row.id).then(() => {
+      //   afBuscarPaginadas().then(() => {
 
-        })
-      })
+      //   })
+      // })
     }
 
     function fMostrarReciclarCliente (props) {

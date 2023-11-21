@@ -235,7 +235,7 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
-                  v-if="props.row.eliminada === null"
+                  v-if="props.row.eliminada === null && props.row.pagada === 'false'"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round

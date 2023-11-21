@@ -1,17 +1,18 @@
 export class IngresoCreation {
   constructor () {
-    this.ip = ''
-    this.hostname = ''
-    this.country_name = ''
-    this.state_prov = ''
-    this.district = ''
-    this.city = ''
-    this.zipcode = ''
-    this.country_flag = ''
-    this.isp = ''
-    this.organization = ''
-    this.asn = ''
-    this.username = ''
-    this.logueado = ''
+    this.id = null
+    this.ip = null
+    this.hostname = null
+    this.country_name = null
+    this.state_prov = null
+    this.district = null
+    this.city = null
+    this.zipcode = null
+    this.country_flag = null
+    this.isp = null
+    this.organization = null
+    this.asn = null
+    this.username = null
+    this.logueado = null
   }
 }

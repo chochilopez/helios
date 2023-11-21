@@ -1,5 +1,6 @@
 export class SeguroCreation {
   constructor () {
+    this.id = null
     this.aseguradoraId = null
     this.vencimientoId = null
     this.acopladoId = null

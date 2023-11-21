@@ -1173,11 +1173,12 @@ export default {
     }
 
     function fMostrarEliminarSeguro (props) {
-      afEliminarSeguro(props.row.id).then(() => {
-        afBuscarPaginadas().then(() => {
+      notificarService.infoAlerta('No se puede eliminar el recurso.')
+      // afEliminarSeguro(props.row.id).then(() => {
+      //   afBuscarPaginadas().then(() => {
 
-        })
-      })
+      //   })
+      // })
     }
 
     function fMostrarReciclarSeguro (props) {

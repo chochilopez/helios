@@ -1,10 +1,11 @@
 export class PagoCreation {
   constructor () {
-    this.monto = ''
-    this.notas = ''
-    this.tipoPago = ''
-    this.compraId = ''
-    this.facturaId = ''
-    this.reciboId = ''
+    this.id = null
+    this.monto = null
+    this.notas = null
+    this.tipoPago = null
+    this.compraId = null
+    this.facturaId = null
+    this.reciboId = null
   }
 }

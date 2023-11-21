@@ -1,6 +1,7 @@
 export class CajaCreation {
   constructor () {
-    this.nombre = ''
-    this.notas = ''
+    this.id = null
+    this.nombre = null
+    this.notas = null
   }
 }

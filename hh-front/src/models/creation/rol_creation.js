@@ -1,5 +1,6 @@
 export class RolCreation {
   constructor () {
-    this.rol = ''
+    this.id = null
+    this.rol = null
   }
 }

@@ -1,9 +1,10 @@
 export class ArchivoCreation {
   constructor () {
-    this.descripcion = ''
-    this.nombre = ''
-    this.path = ''
-    this.tamanio = ''
-    this.tipo = ''
+    this.id = null
+    this.descripcion = null
+    this.nombre = null
+    this.path = null
+    this.tamanio = null
+    this.tipo = null
   }
 }

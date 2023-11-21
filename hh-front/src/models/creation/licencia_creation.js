@@ -1,7 +1,8 @@
 export class LicenciaCreation {
   constructor () {
-    this.numero = ''
-    this.categoria = ''
-    this.vencimientoId = ''
+    this.id = null
+    this.numero = null
+    this.categoria = null
+    this.vencimientoId = null
   }
 }

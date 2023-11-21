@@ -1,18 +1,18 @@
 export class AcopladoModel {
   constructor () {
-    this.id = ''
-    this.cantidadNeumaticos = ''
-    this.marca = ''
-    this.modelo = ''
-    this.anio = ''
-    this.patente = ''
-    this.peso = ''
+    this.id = null
+    this.cantidadNeumaticos = null
+    this.marca = null
+    this.modelo = null
+    this.anio = null
+    this.patente = null
+    this.peso = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

@@ -1,15 +1,16 @@
 export class ChequeCreation {
   constructor () {
-    this.cuitEmisor = ''
-    this.destinatario = ''
-    this.emisor = ''
-    this.estado = ''
-    this.fechaCobro = ''
-    this.fechaEmision = ''
-    this.monto = ''
-    this.numeroCheque = ''
-    this.banco = ''
-    this.entregadoA = ''
-    this.recibidoDe = ''
+    this.id = null
+    this.cuitEmisor = null
+    this.destinatario = null
+    this.emisor = null
+    this.estado = null
+    this.fechaCobro = null
+    this.fechaEmision = null
+    this.monto = null
+    this.numeroCheque = null
+    this.banco = null
+    this.entregadoA = null
+    this.recibidoDe = null
   }
 }

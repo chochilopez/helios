@@ -1,8 +1,9 @@
 export class GastoCreation {
   constructor () {
-    this.monto = ''
-    this.notas = ''
-    this.categoriaGastoId = ''
-    this.viajeId = ''
+    this.id = null
+    this.monto = null
+    this.notas = null
+    this.categoriaGastoId = null
+    this.viajeId = null
   }
 }
