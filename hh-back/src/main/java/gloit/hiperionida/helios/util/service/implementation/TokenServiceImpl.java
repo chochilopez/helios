@@ -39,7 +39,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public TokenModel buscarPorId(Long id) {
         log.info("Buscando la entidad Token con id: {}.", id);
-        TokenModel tokenModel = tokenDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Token con id " + id + "."));
+        TokenModel tokenModel = tokenDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Token con id " + id + "."));
         log.info("Se encontró una entidad Token con id: {}.");
         return tokenModel;
     }

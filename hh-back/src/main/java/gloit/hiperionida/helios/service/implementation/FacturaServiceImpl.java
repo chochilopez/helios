@@ -33,7 +33,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     public FacturaModel buscarPorViajeId(Long id) {
         log.info("Buscando la entidad Factura con id de viaje: {}.", id);
-        FacturaModel facturaModel = facturaDAO.findByViajeIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Factura con id de viaje: " + id + "."));
+        FacturaModel facturaModel = facturaDAO.findByViajeIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Factura con id de viaje: " + id + "."));
         log.info("Se encontró una entidad Factura con id de viaje: " + id + ".");
         return facturaModel;
     }
@@ -41,7 +41,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     public FacturaModel buscarPorViajeIdConEliminadas(Long id) {
         log.info("Buscando la entidad Factura con id de viaje: {}, incluidas las eliminadas.", id);
-        FacturaModel facturaModel = facturaDAO.findByViajeId(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Factura con id de viaje: " + id +", incluidas las eliminadas."));
+        FacturaModel facturaModel = facturaDAO.findByViajeId(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Factura con id de viaje: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Factura con id de viaje: " + id + ", incluidas las eliminadas.");
         return facturaModel;
     }
@@ -49,7 +49,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     public FacturaModel buscarPorRemitoId(Long id) {
         log.info("Buscando la entidad Factura con id de remito: {}.", id);
-        FacturaModel facturaModel = facturaDAO.findByRemitoIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Factura con id de remito: " + id + "."));
+        FacturaModel facturaModel = facturaDAO.findByRemitoIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Factura con id de remito: " + id + "."));
         log.info("Se encontró una entidad Factura con id de remito: " + id + ".");
         return facturaModel;
     }
@@ -57,7 +57,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     public FacturaModel buscarPorRemitoIdConEliminadas(Long id) {
         log.info("Buscando la entidad Factura con id de remito: {}, incluidas las eliminadas.", id);
-        FacturaModel facturaModel = facturaDAO.findByRemitoId(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Factura con id de remito: " + id +", incluidas las eliminadas."));
+        FacturaModel facturaModel = facturaDAO.findByRemitoId(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Factura con id de remito: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Factura con id de remito: " + id + ", incluidas las eliminadas.");
         return facturaModel;
     }
@@ -243,7 +243,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     public FacturaModel buscarPorId(Long id) {
         log.info("Buscando la entidad Factura con id: {}.", id);
-        FacturaModel facturaModel = facturaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Factura con id: " + id + "."));
+        FacturaModel facturaModel = facturaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Factura con id: " + id + "."));
         log.info("Se encontró una entidad Factura con id: " + id + ".");
         return facturaModel;
     }
@@ -251,7 +251,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     public FacturaModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Factura con id: {}, incluidas las eliminadas.", id);
-        FacturaModel facturaModel = facturaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Factura con id: " + id +", incluidas las eliminadas."));
+        FacturaModel facturaModel = facturaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Factura con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Factura con id: " + id + ", incluidas las eliminadas.");
         return facturaModel;
     }

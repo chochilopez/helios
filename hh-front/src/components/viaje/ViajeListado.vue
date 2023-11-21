@@ -1137,7 +1137,7 @@
             </div>
           </div>
           <div class="row justify-end q-pa-md">
-            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple>
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="fa-solid fa-arrow-right" ripple>
               Siguiente
             </q-btn>
           </div>
@@ -1311,7 +1311,10 @@
             </div>
           </div>
           <div class="row justify-end q-pa-md">
-            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple>
+            <q-btn class="paleta2-color2 bg-white" @click="fIrPaso1()" icon="fa-solid fa-arrow-left" ripple>
+              Atras
+            </q-btn>
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="fa-solid fa-arrow-right" ripple>
               Siguiente
             </q-btn>
           </div>
@@ -1408,6 +1411,9 @@
             </div>
           </div>
           <div class="row justify-end q-pa-md">
+            <q-btn class="paleta2-color2 bg-white" @click="fIrPaso2()" icon="fa-solid fa-arrow-left" ripple>
+              Atras
+            </q-btn>
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple>
               Finalizar
             </q-btn>
@@ -2760,9 +2766,11 @@ export default {
     function fIrPaso2 () {
       paso1.value = false
       paso2.value = true
+      paso3.value = false
     }
 
     function fIrPaso3 () {
+      paso1.value = false
       paso2.value = false
       paso3.value = true
     }
@@ -3123,6 +3131,7 @@ export default {
       titulo,
       viajes,
 
+      fIrPaso1,
       fIrPaso2,
       fIrPaso3,
       fGuardarViaje,

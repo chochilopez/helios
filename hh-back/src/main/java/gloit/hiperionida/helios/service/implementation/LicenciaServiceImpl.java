@@ -29,7 +29,7 @@ public class LicenciaServiceImpl implements LicenciaService {
     @Override
     public LicenciaModel buscarPorId(Long id) {
         log.info("Buscando la entidad Licencia con id: {}.", id);
-        LicenciaModel licenciaModel = licenciaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Licencia con id: " + id + "."));
+        LicenciaModel licenciaModel = licenciaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Licencia con id: " + id + "."));
         log.info("Se encontró una entidad Licencia con id: " + id + ".");
         return licenciaModel;
     }
@@ -37,7 +37,7 @@ public class LicenciaServiceImpl implements LicenciaService {
     @Override
     public LicenciaModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Licencia con id: {}, incluidas las eliminadas.", id);
-        LicenciaModel licenciaModel = licenciaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Licencia con id: " + id +", incluidas las eliminadas."));
+        LicenciaModel licenciaModel = licenciaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Licencia con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Licencia con id: " + id + ", incluidas las eliminadas.");
         return licenciaModel;
     }

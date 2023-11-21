@@ -29,7 +29,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
     @Override
     public CategoriaViajeModel buscarPorId(Long id) {
         log.info("Buscando la entidad CategoriaViaje con id: {}.", id);
-        CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad CategoriaViaje con id: " + id + "."));
+        CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad CategoriaViaje con id: " + id + "."));
         log.info("Se encontró una entidad CategoriaViaje con id: " + id + ".");
         return categoriaViajeModel;
     }
@@ -37,7 +37,7 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
     @Override
     public CategoriaViajeModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad CategoriaViaje con id: {}, incluidas las eliminadas.", id);
-        CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad CategoriaViaje con id: " + id +", incluidas las eliminadas."));
+        CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad CategoriaViaje con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad CategoriaViaje con id: " + id + ", incluidas las eliminadas.");
         return categoriaViajeModel;
     }

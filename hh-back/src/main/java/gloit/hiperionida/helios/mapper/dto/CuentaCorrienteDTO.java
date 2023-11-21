@@ -17,6 +17,8 @@ public class CuentaCorrienteDTO extends AbsAuditoriaDTO implements Serializable 
     private String tipoPago;
     private String tipoMovimiento;
     private String fecha;
+    private String comprobante;
+    private String saldo;
 
     private String clienteId;
     private String cliente;

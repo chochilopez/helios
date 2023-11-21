@@ -29,7 +29,7 @@ public class GastoServiceImpl implements GastoService {
     @Override
     public GastoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Gasto con id: {}.", id);
-        GastoModel gastoModel = gastoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Gasto con id: " + id + "."));
+        GastoModel gastoModel = gastoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Gasto con id: " + id + "."));
         log.info("Se encontró una entidad Gasto con id: " + id + ".");
         return gastoModel;
     }
@@ -37,7 +37,7 @@ public class GastoServiceImpl implements GastoService {
     @Override
     public GastoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Gasto con id: {}, incluidas las eliminadas.", id);
-        GastoModel gastoModel = gastoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Gasto con id: " + id +", incluidas las eliminadas."));
+        GastoModel gastoModel = gastoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Gasto con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Gasto con id: " + id + ", incluidas las eliminadas.");
         return gastoModel;
     }

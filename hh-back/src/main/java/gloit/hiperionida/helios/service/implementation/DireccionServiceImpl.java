@@ -113,7 +113,7 @@ public class DireccionServiceImpl implements DireccionService {
     @Override
     public DireccionModel buscarPorId(Long id) {
         log.info("Buscando la entidad Direccion con id: {}.", id);
-        DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Direccion con id: " + id + "."));
+        DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Direccion con id: " + id + "."));
         log.info("Se encontró una entidad Direccion con id: " + id + ".");
         return direccionModel;
     }
@@ -121,7 +121,7 @@ public class DireccionServiceImpl implements DireccionService {
     @Override
     public DireccionModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Direccion con id: {}, incluidas las eliminadas.", id);
-        DireccionModel direccionModel = direccionDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Direccion con id: " + id +", incluidas las eliminadas."));
+        DireccionModel direccionModel = direccionDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Direccion con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Direccion con id: " + id + ", incluidas las eliminadas.");
         return direccionModel;
     }

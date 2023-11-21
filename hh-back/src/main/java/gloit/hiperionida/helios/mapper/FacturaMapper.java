@@ -4,7 +4,9 @@ import gloit.hiperionida.helios.mapper.creation.FacturaCreation;
 import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.*;
 import gloit.hiperionida.helios.model.enums.CondicionPagoEnum;
+import gloit.hiperionida.helios.model.enums.MovimientoEnum;
 import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
+import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.repository.*;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
@@ -28,8 +30,10 @@ public class FacturaMapper {
     private final CategoriaViajeDAO categoriaViajeDAO;
     private final ClienteDAO clienteDAO;
     private final ConductorDAO conductorDAO;
+    private final CuentaCorrienteDAO cuentaCorrienteDAO;
     private final DireccionDAO direccionDAO;
     private final EventoDAO eventoDAO;
+    private final ReciboDAO reciboDAO;
     private final RemitoDAO remitoDAO;
     private final ViajeDAO viajeDAO;
     private final UsuarioServiceImpl usuarioService;
@@ -40,8 +44,6 @@ public class FacturaMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
-            if (Helper.getDecimal(creation.getBonificacion()) != null)
-                model.setBonificacion(Helper.getDecimal(creation.getBonificacion()));
             if (Helper.getInteger(creation.getCantidad()) != null)
                 model.setCantidad(Helper.getInteger(creation.getCantidad()));
             model.setCodigo(creation.getCodigo());
@@ -51,28 +53,8 @@ public class FacturaMapper {
             model.setDomicilioComercial(creation.getDomicilioComercial());
             if (!Helper.isEmptyString(creation.getFechaEmision()))
                 model.setFechaEmision(Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaEmision(), ""));
-            if (Helper.getLong(creation.getFechaVencimientoId()) != null) {
-                model.setFechaVencimientoId(Helper.getLong(creation.getFechaVencimientoId()));
-            } else {
-                EventoModel evento = eventoDAO.save(new EventoModel(
-                        Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaVencimiento(), ""),
-                        "Vencimiento de " + creation.getTipoComprobante() + " - " + creation.getNumeroComprobante(),
-                        true,
-                        true,
-                        "Vencimiento",
-                        Helper.getNow(""),
-                        usuarioService.obtenerUsuario().getId()
-                ));
-                model.setFechaVencimientoId(evento.getId());
-            }
-            if (Helper.getDecimal(creation.getIva()) != null)
-                model.setIva(Helper.getDecimal(creation.getIva()));
             model.setNotas(creation.getNotas());
             model.setNumeroComprobante(creation.getNumeroComprobante());
-            if (Helper.getDecimal(creation.getOtrosImpuestos()) != null)
-                model.setOtrosImpuestos(Helper.getDecimal(creation.getOtrosImpuestos()));
-            if (Helper.getBoolean(creation.getPagada()) != null)
-                model.setPagada(Helper.getBoolean(creation.getPagada()));
             if (Helper.getDecimal(creation.getPrecioUnitario()) != null)
                 model.setPrecioUnitario(Helper.getDecimal(creation.getPrecioUnitario()));
             model.setRazonSocial(creation.getRazonSocial());
@@ -80,8 +62,76 @@ public class FacturaMapper {
                 model.setTipoComprobante(TipoComprobanteEnum.valueOf(creation.getTipoComprobante()));
             if (Helper.getLong(creation.getRemitoId()) != null)
                 model.setRemitoId(Helper.getLong(creation.getRemitoId()));
-            if (Helper.getLong(creation.getViajeId()) != null)
-                model.setViajeId(Helper.getLong(creation.getViajeId()));
+            ViajeModel viajeModel = viajeDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getViajeId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el viaje."));
+            model.setViajeId(viajeModel.getId());
+
+            model.setSubTotal(Helper.getNDecimal(model.getPrecioUnitario() * viajeModel.getKmCargado(), 2));
+            model.setTotal(Helper.getNDecimal(model.getSubTotal(), 2));
+            if (Helper.getDecimal(creation.getBonificacionPercentil()) != null) {
+                model.setBonificacionPercentil(Helper.getDecimal(creation.getBonificacionPercentil()));
+                model.setBonificacionMonto(Helper.getNDecimal((model.getBonificacionPercentil() * model.getTotal()) / 100, 2));
+                model.setTotal(Helper.getNDecimal(model.getTotal() - model.getBonificacionMonto(), 2));
+            }
+            if (Helper.getDecimal(creation.getOtrosImpuestosPercentil()) != null) {
+                model.setOtrosImpuestosPercentil(Helper.getDecimal(creation.getOtrosImpuestosPercentil()));
+                model.setOtrosImpuestosMonto(Helper.getNDecimal((model.getOtrosImpuestosPercentil() * model.getTotal()) / 100, 2));
+                model.setTotal(Helper.getNDecimal(model.getTotal() + model.getOtrosImpuestosMonto(), 2));
+            }
+            if (Helper.getDecimal(creation.getIvaPercentil()) != null) {
+                model.setIvaPercentil(Helper.getDecimal(creation.getIvaPercentil()));
+                model.setIvaMonto(Helper.getNDecimal((model.getIvaPercentil() * model.getTotal()) / 100, 2));
+                model.setTotal(Helper.getNDecimal(model.getTotal() + model.getIvaMonto(), 2));
+            }
+
+            CuentaCorrienteModel cuentaCorrienteModel = new CuentaCorrienteModel(
+                    null,
+                    model.getTotal(),
+                    "Comprobante " + model.getTipoComprobante().toString() + "-" + model.getNumeroComprobante(),
+                    null,
+                    MovimientoEnum.DEBITO,
+                    Helper.getNow(""),
+                    viajeModel.getCompradorId(),
+                    null,
+                    model.getId()
+            );
+            cuentaCorrienteDAO.save(cuentaCorrienteModel);
+            model.setPagada(Helper.getBoolean(creation.getPagada()));
+            if (Helper.getBoolean(creation.getPagada())) {
+                CuentaCorrienteModel ctaCte = new CuentaCorrienteModel(
+                        null,
+                        model.getTotal(),
+                        "Comprobante " + model.getTipoComprobante().toString() + "-" + model.getNumeroComprobante(),
+                        TipoPagoEnum.EFECTIVO,
+                        MovimientoEnum.CREDITO,
+                        Helper.getNow(""),
+                        viajeModel.getCompradorId(),
+                        null,
+                        model.getId()
+                        );
+                ReciboModel reciboModel = new ReciboModel(
+                    null,
+                        model.getTotal(),
+                        Helper.getNow("")
+                );
+                reciboDAO.save(reciboModel);
+                ctaCte.setReciboId(reciboModel.getId());
+                cuentaCorrienteDAO.save(ctaCte);
+            } else {
+                if (Helper.getLong(creation.getFechaVencimientoId()) != null) {
+                    model.setFechaVencimientoId(Helper.getLong(creation.getFechaVencimientoId()));
+                } else {
+                    EventoModel evento = eventoDAO.save(new EventoModel(
+                            Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaVencimiento(), ""),
+                            "Vencimiento de " + creation.getTipoComprobante() + " - " + creation.getNumeroComprobante(),
+                            true,
+                            true,
+                            "Vencimiento",
+                            Helper.getNow(""),
+                            usuarioService.obtenerUsuario().getId()
+                    ));
+                    model.setFechaVencimientoId(evento.getId());
+                }
+            }
 
             if (Helper.getLong(creation.getCreadorId()) != null)
                 model.setCreadorId(Helper.getLong(creation.getCreadorId()));
@@ -108,8 +158,10 @@ public class FacturaMapper {
             FacturaDTO dto = new FacturaDTO();
 
             dto.setId(model.getId().toString());
-            if (model.getBonificacion() != null)
-                dto.setBonificacion(model.getBonificacion().toString());
+            if (model.getBonificacionPercentil() != null)
+                dto.setBonificacionPercentil(model.getBonificacionPercentil().toString());
+            if (model.getBonificacionMonto() != null)
+                dto.setBonificacionMonto(model.getBonificacionMonto().toString());
             if (model.getCantidad() != null)
                 dto.setCantidad(model.getCantidad().toString());
             dto.setCodigo(model.getCodigo());
@@ -126,13 +178,17 @@ public class FacturaMapper {
                 Boolean esVencida = Helper.getNow("").isAfter(eventoModel.getFecha()) && !model.getPagada();
                 dto.setVencida(esVencida.toString());
             }
-            if (model.getIva() != null)
-                dto.setIva(model.getIva().toString());
+            if (model.getIvaMonto() != null)
+                dto.setIvaMonto(model.getIvaMonto().toString());
+            if (model.getIvaPercentil() != null)
+                dto.setIvaPercentil(model.getIvaPercentil().toString());
             dto.setNotas(model.getNotas());
             dto.setNumeroComprobante(model.getNumeroComprobante());
-            if (model.getOtrosImpuestos() != null)
-                dto.setOtrosImpuestos(model.getOtrosImpuestos().toString());
-            if (model.getPagada() != null)
+            if (model.getOtrosImpuestosMonto() != null)
+                dto.setOtrosImpuestosMonto(model.getOtrosImpuestosMonto().toString());
+            if (model.getOtrosImpuestosPercentil() != null)
+                dto.setOtrosImpuestosPercentil(model.getOtrosImpuestosPercentil().toString());
+            if (model.getPagada() != null) {}
                 dto.setPagada(model.getPagada().toString());
             if (model.getPrecioUnitario() != null)
                 dto.setPrecioUnitario(model.getPrecioUnitario().toString());
@@ -143,6 +199,10 @@ public class FacturaMapper {
                 RemitoModel remitoModel = remitoDAO.findByIdAndEliminadaIsNull(model.getRemitoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el remito con id: " + model.getRemitoId() + "."));
                 dto.setNumeroRemito(remitoModel.getNumero());
             }
+            if (model.getSubTotal() != null)
+                dto.setSubTotal(model.getSubTotal().toString());
+            if (model.getTotal() != null)
+                dto.setTotal(model.getTotal().toString());
             if (model.getViajeId() != null) {
                 ViajeModel viajeModel = viajeDAO.findByIdAndEliminadaIsNull(model.getViajeId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el viaje id: " + model.getViajeId() + "."));
                 if (viajeModel.getCamionId() != null) {

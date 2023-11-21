@@ -98,6 +98,11 @@ public class CuentaCorrienteMapper {
                 dto.setRecibo(reciboModel.getId().toString());
                 dto.setReciboId(model.getReciboId().toString());
             }
+            if (model.getFacturaId() != null) {
+                dto.setFacturaId(model.getFacturaId().toString());
+                FacturaModel facturaModel = facturaDAO.findByIdAndEliminadaIsNull(model.getFacturaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la factura"));
+                dto.setComprobante(facturaModel.getTipoComprobante().toString() + "-" + facturaModel.getNumeroComprobante());
+            }
 
             if (model.getCreadorId() != null) {
                 UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreadorId() + "."));

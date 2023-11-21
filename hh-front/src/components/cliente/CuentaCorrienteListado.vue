@@ -36,24 +36,24 @@
       <q-markup-table >
         <thead>
           <tr>
-            <th class="text-left">Número de movimiento</th>
-            <th class="text-left">Fecha</th>
-            <th class="text-left">Tipo comprobante</th>
-            <th class="text-left">Número comprobante</th>
+            <th class="text-center">Número de movimiento</th>
+            <th class="text-center">Fecha</th>
+            <th class="text-center">Comprobante</th>
             <th class="text-left">Debe</th>
             <th class="text-left">Haber</th>
             <th class="text-left">Saldo</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(index, movimiento) in movimientos" :key="index">
-            <td class="text-left">{{ index }}</td>
-            <td class="text-left">{{ fMostrarFecha(movimiento) }}</td>
-            <td class="text-left">{{ fMostrarTipoComprobante(movimiento.tipoComprobante) }}</td>
-            <td class="text-left">{{ fMostrarNumeroComprobante(movimiento.numeroComprobante) }}</td>
-            <td class="text-left">{{ fMostrarDebe(movimiento.debe) }}</td>
-            <td class="text-left">{{ fMostrarHaber(movimiento.haber) }}</td>
-            <td class="text-left">{{ fMostrarSaldo(movimiento.saldo) }}</td>
+          <tr v-for="(movimiento, index) in movimientos" :key="index">
+            <td class="text-center">{{ index + 1 }}</td>
+            <td class="text-center">{{ fMostrarFecha(movimiento.fecha) }}</td>
+            <td class="text-center">{{ movimiento.comprobante }}</td>
+            <td class="text-left" v-if="movimiento.tipoMovimiento === 'DEBITO'">{{ movimiento.monto }}</td>
+            <td class="text-left" v-if="movimiento.tipoMovimiento === 'CREDITO'"></td>
+            <td class="text-left" v-if="movimiento.tipoMovimiento === 'CREDITO'">{{ movimiento.monto }}</td>
+            <td class="text-left" v-if="movimiento.tipoMovimiento === 'DEBITO'"></td>
+            <td class="text-left">{{ movimiento.saldo }}</td>
           </tr>
         </tbody>
       </q-markup-table>
@@ -212,24 +212,17 @@ export default {
       })
     }
 
-    function fMostrarDebe (datos) {}
-    function fMostrarFecha (datos) {}
-    function fMostrarHaber (datos) {}
+    function fMostrarFecha (datos) {
+      return ayuda.getDateWithFormat(datos)
+    }
+
     function fMostrarNuevoPago () {}
-    function fMostrarNumeroComprobante (datos) {}
-    function fMostrarSaldo (datos) {}
-    function fMostrarTipoComprobante (datos) {}
 
     return {
       afBuscarEstados,
       fFiltrarClientes,
-      fMostrarDebe,
       fMostrarFecha,
-      fMostrarHaber,
       fMostrarNuevoPago,
-      fMostrarNumeroComprobante,
-      fMostrarSaldo,
-      fMostrarTipoComprobante,
 
       cliente,
       clienteSelect,

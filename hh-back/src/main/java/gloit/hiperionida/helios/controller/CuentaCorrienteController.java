@@ -48,7 +48,7 @@ public class CuentaCorrienteController extends AbsBaseController {
         for (CuentaCorrienteModel cuentaCorriente:listado) {
             cuentaCorrientes.add(cuentaCorrienteMapper.toDto(cuentaCorriente));
         }
-        return new ResponseEntity<>(cuentaCorrientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades con cliente id: " + id + "."), HttpStatus.OK);
+        return new ResponseEntity<>(cuentaCorrienteService.calcularSaldo(cuentaCorrientes), Helper.httpHeaders("Se encontraron " + listado.size() + " entidades con cliente id: " + id + "."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-cliente-id-con-eliminadas/{id}")
@@ -59,7 +59,7 @@ public class CuentaCorrienteController extends AbsBaseController {
         for (CuentaCorrienteModel cuentaCorriente:listado) {
             cuentaCorrientes.add(cuentaCorrienteMapper.toDto(cuentaCorriente));
         }
-        return new ResponseEntity<>(cuentaCorrientes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades con cliente id: " + id + ", incluidas las eliminadas."), HttpStatus.OK);
+        return new ResponseEntity<>(cuentaCorrienteService.calcularSaldo(cuentaCorrientes), Helper.httpHeaders("Se encontraron " + listado.size() + " entidades con cliente id: " + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")

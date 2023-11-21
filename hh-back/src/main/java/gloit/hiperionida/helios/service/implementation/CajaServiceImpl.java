@@ -29,7 +29,7 @@ public class CajaServiceImpl implements CajaService {
     @Override
     public CajaModel buscarPorId(Long id) {
         log.info("Buscando la entidad Caja con id: {}.", id);
-        CajaModel cajaModel = cajaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Caja con id: " + id + "."));
+        CajaModel cajaModel = cajaDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Caja con id: " + id + "."));
         log.info("Se encontró una entidad Caja con id: " + id + ".");
         return cajaModel;
     }
@@ -37,7 +37,7 @@ public class CajaServiceImpl implements CajaService {
     @Override
     public CajaModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Caja con id: {}, incluidas las eliminadas.", id);
-        CajaModel cajaModel = cajaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Caja con id: " + id +", incluidas las eliminadas."));
+        CajaModel cajaModel = cajaDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Caja con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Caja con id: " + id + ", incluidas las eliminadas.");
         return cajaModel;
     }

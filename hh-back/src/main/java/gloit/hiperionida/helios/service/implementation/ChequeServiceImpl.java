@@ -29,7 +29,7 @@ public class ChequeServiceImpl implements ChequeService {
     @Override
     public ChequeModel buscarPorId(Long id) {
         log.info("Buscando la entidad Cheque con id: {}.", id);
-        ChequeModel chequeModel = chequeDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Cheque con id: " + id + "."));
+        ChequeModel chequeModel = chequeDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Cheque con id: " + id + "."));
         log.info("Se encontró una entidad Cheque con id: " + id + ".");
         return chequeModel;
     }
@@ -37,7 +37,7 @@ public class ChequeServiceImpl implements ChequeService {
     @Override
     public ChequeModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Cheque con id: {}, incluidas las eliminadas.", id);
-        ChequeModel chequeModel = chequeDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Cheque con id: " + id +", incluidas las eliminadas."));
+        ChequeModel chequeModel = chequeDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Cheque con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Cheque con id: " + id + ", incluidas las eliminadas.");
         return chequeModel;
     }

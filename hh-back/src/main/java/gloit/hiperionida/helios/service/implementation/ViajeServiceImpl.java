@@ -60,14 +60,14 @@ public class ViajeServiceImpl implements ViajeService {
     public ViajeModel buscarProximo() {
         log.info("Buscando la proxima entidad Presupuesto.");
 
-        return viajeDAO.findNextDate(Helper.getNow("")).orElseThrow(() -> new DatosInexistentesException("No se encontro el proximo Viaje"));
+        return viajeDAO.findNextDate(Helper.getNow("")).orElseThrow(() -> new DatosInexistentesException("No se encontró el proximo Viaje"));
     }
 
     @Override
     public ViajeModel buscarUltimo() {
         log.info("Buscando la ultima entidad Presupuesto.");
 
-        return viajeDAO.findFirstByOrderByIdDesc().orElseThrow(() -> new DatosInexistentesException("No se encontro el ultimo Viaje"));
+        return viajeDAO.findFirstByOrderByIdDesc().orElseThrow(() -> new DatosInexistentesException("No se encontró el ultimo Viaje"));
     }
 
     @Override
@@ -477,7 +477,7 @@ public class ViajeServiceImpl implements ViajeService {
     @Override
     public ViajeModel buscarPorId(Long id) {
         log.info("Buscando la entidad Viaje con id: {}.", id);
-        ViajeModel viajeModel = viajeDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Viaje con id: " + id + "."));
+        ViajeModel viajeModel = viajeDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Viaje con id: " + id + "."));
         log.info("Se encontró una entidad Viaje con id: " + id + ".");
         return viajeModel;
     }
@@ -485,7 +485,7 @@ public class ViajeServiceImpl implements ViajeService {
     @Override
     public ViajeModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Viaje con id: {}, incluidas las eliminadas.", id);
-        ViajeModel viajeModel = viajeDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Viaje con id: " + id +", incluidas las eliminadas."));
+        ViajeModel viajeModel = viajeDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Viaje con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Viaje con id: " + id + ", incluidas las eliminadas.");
         return viajeModel;
     }

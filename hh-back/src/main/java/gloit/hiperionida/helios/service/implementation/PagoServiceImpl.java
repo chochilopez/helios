@@ -29,7 +29,7 @@ public class PagoServiceImpl implements PagoService {
     @Override
     public PagoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Pago con id: {}.", id);
-        PagoModel pagoModel = pagoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Pago con id: " + id + "."));
+        PagoModel pagoModel = pagoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Pago con id: " + id + "."));
         log.info("Se encontró una entidad Pago con id: " + id + ".");
         return pagoModel;
     }
@@ -37,7 +37,7 @@ public class PagoServiceImpl implements PagoService {
     @Override
     public PagoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Pago con id: {}, incluidas las eliminadas.", id);
-        PagoModel pagoModel = pagoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Pago con id: " + id +", incluidas las eliminadas."));
+        PagoModel pagoModel = pagoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Pago con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Pago con id: " + id + ", incluidas las eliminadas.");
         return pagoModel;
     }

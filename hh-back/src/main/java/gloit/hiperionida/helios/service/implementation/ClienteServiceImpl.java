@@ -137,7 +137,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteModel buscarPorId(Long id) {
         log.info("Buscando la entidad Cliente con id: {}.", id);
-        ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Cliente con id: " + id + "."));
+        ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Cliente con id: " + id + "."));
         log.info("Se encontró una entidad Cliente con id: " + id + ".");
         return clienteModel;
     }
@@ -145,7 +145,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Cliente con id: {}, incluidas las eliminadas.", id);
-        ClienteModel clienteModel = clienteDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Cliente con id: " + id +", incluidas las eliminadas."));
+        ClienteModel clienteModel = clienteDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Cliente con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Cliente con id: " + id + ", incluidas las eliminadas.");
         return clienteModel;
     }

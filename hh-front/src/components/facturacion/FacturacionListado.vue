@@ -1,13 +1,13 @@
 <template>
   <q-card class="font-5 no-shadow no-border">
     <div class="row q-px-md q-pt-md">
-      <div class="col-md-4 col-sm-6 col-xs-12 bg-indigo-2 text-blue-grey-9 q-pa-sm text-center">
+      <div class="col-md-4 col-sm-4 col-xs-12 bg-indigo-2 text-blue-grey-9 q-pa-sm text-center">
         Facturado-No pagado
       </div>
-      <div class="col-md-4 col-sm-6 col-xs-12 bg-teal-2 text-blue-grey-9 q-pa-sm text-center">
+      <div class="col-md-4 col-sm-4 col-xs-12 bg-teal-2 text-blue-grey-9 q-pa-sm text-center">
         Facturado-Pagado
       </div>
-      <div class="col-md-4 col-sm-6 col-xs-12 bg-pink-2 text-blue-grey-9 q-pa-sm text-center">
+      <div class="col-md-4 col-sm-4 col-xs-12 bg-pink-2 text-blue-grey-9 q-pa-sm text-center">
         Facturado-Vencido
       </div>
     </div>
@@ -312,7 +312,7 @@
                 {{ props.row.cantidadTransportada }}
               </q-td>
               <q-td class="text-center">
-                {{ fMostrarTotal(props.row) }}
+                {{ props.row.total }}
               </q-td>
             </q-tr>
             <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
@@ -322,9 +322,13 @@
                     <div class="row text-white">{{ props.row.id }}</div>
                     <div class="row paleta1-color2">Id</div>
                   </div>
-                  <div v-if="props.row.bonificacion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                    <div class="row text-white">{{ props.row.bonificacion }}</div>
-                    <div class="row paleta1-color2">Bonificacion</div>
+                  <div v-if="props.row.bonificacionMonto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.bonificacionMonto }}</div>
+                    <div class="row paleta1-color2">Bonificacion monto</div>
+                  </div>
+                  <div v-if="props.row.bonificacionPercentil != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.bonificacionPercentil }}</div>
+                    <div class="row paleta1-color2">Bonificacion percentil</div>
                   </div>
                   <div v-if="props.row.camion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.camion }}</div>
@@ -382,9 +386,13 @@
                     <div class="row text-white">{{ props.row.fechaVencimiento }}</div>
                     <div class="row paleta1-color2">Fecha vencimiento</div>
                   </div>
-                  <div v-if="props.row.iva != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                    <div class="row text-white">{{ props.row.iva }}</div>
-                    <div class="row paleta1-color2">IVA</div>
+                  <div v-if="props.row.ivaMonto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.ivaMonto }}</div>
+                    <div class="row paleta1-color2">IVA monto</div>
+                  </div>
+                  <div v-if="props.row.ivaPercentil != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.ivaPercentil }}</div>
+                    <div class="row paleta1-color2">IVA percentil</div>
                   </div>
                   <div v-if="props.row.kmCargado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.kmCargado }}</div>
@@ -406,9 +414,13 @@
                     <div class="row text-white">{{ props.row.origen }}</div>
                     <div class="row paleta1-color2">Origen</div>
                   </div>
-                  <div v-if="props.row.otrosImpuestos != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                    <div class="row text-white">{{ props.row.otrosImpuestos }}</div>
-                    <div class="row paleta1-color2">Otros impuestos</div>
+                  <div v-if="props.row.otrosImpuestosPercentilMonto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.otrosImpuestosPercentilMonto }}</div>
+                    <div class="row paleta1-color2">Otros impuestos monto</div>
+                  </div>
+                  <div v-if="props.row.otrosImpuestosPercentilPercentil != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.otrosImpuestosPercentilPercentil }}</div>
+                    <div class="row paleta1-color2">Otros impuestos percentil</div>
                   </div>
                   <div v-if="props.row.pagada != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.pagada }}</div>
@@ -422,9 +434,17 @@
                     <div class="row text-white">{{ props.row.razonSocial }}</div>
                     <div class="row paleta1-color2">Razón social</div>
                   </div>
+                  <div v-if="props.row.subTotal != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.subTotal }}</div>
+                    <div class="row paleta1-color2">Sub total</div>
+                  </div>
                   <div v-if="props.row.tipoComprobante != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.tipoComprobante }}</div>
                     <div class="row paleta1-color2">Tipo comprobante</div>
+                  </div>
+                  <div v-if="props.row.total != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.total }}</div>
+                    <div class="row paleta1-color2">Total</div>
                   </div>
                   <div v-if="props.row.valorKm != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.valorKm }}</div>
@@ -596,7 +616,7 @@
             </div>
           </div>
           <div class="row justify-end q-pa-md">
-            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple>
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="fa-solid fa-arrow-right" ripple>
               Siguiente
             </q-btn>
           </div>
@@ -682,7 +702,7 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="facturaCreation.bonificacion"
+                v-model.number="facturaCreation.bonificacionPercentil"
                 type="number"
                 outlined
                 dense
@@ -692,8 +712,11 @@
               </q-input>
             </div>
           </div>
-          <div class="row justify-end q-pa-md">
-            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple>
+          <div class="row justify-between q-pa-md">
+            <q-btn class="paleta2-color2 bg-white" @click="fIrPaso1()" icon="fa-solid fa-arrow-left" ripple>
+              Atras
+            </q-btn>
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="fa-solid fa-arrow-right" ripple>
               Siguiente
             </q-btn>
           </div>
@@ -706,7 +729,7 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="facturaCreation.otrosImpuestos"
+                v-model.number="facturaCreation.otrosImpuestosPercentil"
                 type="number"
                 outlined
                 dense
@@ -718,8 +741,7 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="facturaCreation.iva"
-                :rules="[reglas.requerido]"
+                v-model.number="facturaCreation.ivaPercentil"
                 type="number"
                 outlined
                 dense
@@ -731,7 +753,7 @@
           </div>
           <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
-              <q-checkbox v-model="facturaCreation.pagada" label="Pagada"  />
+              <q-checkbox v-model="facturaCreation.pagada" label="Pagada" disable />
             </div>
             <div class="col-xs-6 q-pa-md">
               <q-input
@@ -746,7 +768,10 @@
               />
             </div>
           </div>
-          <div class="row justify-end q-pa-md">
+          <div class="row justify-between q-pa-md">
+            <q-btn class="paleta2-color2 bg-white" @click="fIrPaso2" icon-right="undo" ripple>
+              Atras
+            </q-btn>
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple>
               Finalizar
             </q-btn>
@@ -894,10 +919,15 @@ export default {
             facturaCreation.cantidad = resultado.value.cantidadTransportada
             facturaCreation.precioUnitario = resultado.value.valorKm
             facturaCreation.condicionPago = null
-            facturaCreation.bonificacion = null
-            facturaCreation.otrosImpuestos = null
-            facturaCreation.iva = null
+            facturaCreation.bonificacionMonto = null
+            facturaCreation.bonificacionPercentil = null
+            facturaCreation.otrosImpuestosMonto = null
+            facturaCreation.otrosImpuestosPercentil = null
+            facturaCreation.ivaMonto = null
+            facturaCreation.ivaPercentil = null
             facturaCreation.notas = null
+            facturaCreation.subTotal = null
+            facturaCreation.total = null
 
             titulo.value = 'Facturar viaje de ' + resultado.value.comprador
             fIrPaso1()
@@ -1035,12 +1065,10 @@ export default {
     }
 
     async function afGuardarFactura () {
-      facturaCreation.fechaEmision = fechaEmision.value
-      facturaCreation.fechaVencimiento = fechaVencimiento.value
       $q.loading.show()
       try {
-        facturaCreation.fechaVencimiento = fechaVencimiento.value
         facturaCreation.fechaEmision = fechaEmision.value
+        facturaCreation.fechaVencimiento = fechaVencimiento.value
         let resultado = null
         resultado = await facturaService.spfGuardar(facturaCreation)
         if (resultado.status === 201) {
@@ -1143,9 +1171,11 @@ export default {
     function fIrPaso2 () {
       paso1.value = false
       paso2.value = true
+      paso3.value = false
     }
 
     function fIrPaso3 () {
+      paso1.value = false
       paso2.value = false
       paso3.value = true
     }
@@ -1162,27 +1192,29 @@ export default {
       facturaCreation.eliminador = null
       facturaCreation.eliminada = null
 
-      facturaCreation.razonSocial = null
+      facturaCreation.bonificacionPercentil = null
+      facturaCreation.bonificacionMonto = null
+      facturaCreation.cantidad = null
+      facturaCreation.codigo = null
+      facturaCreation.concepto = null
+      facturaCreation.condicionPago = null
       facturaCreation.domicilioComercial = null
-      facturaCreation.tipoComprobante = null
-      facturaCreation.numeroComprobante = null
       facturaCreation.fechaEmision = null
       facturaCreation.fechaVencimiento = null
       facturaCreation.fechaVencimientoId = null
-
-      facturaCreation.codigo = null
-      facturaCreation.concepto = null
-      facturaCreation.cantidad = null
-      facturaCreation.precioUnitario = null
-      facturaCreation.condicionPago = null
-      facturaCreation.bonificacion = null
-
-      facturaCreation.otrosImpuestos = null
-      facturaCreation.iva = null
-      facturaCreation.pagada = null
+      facturaCreation.ivaPercentil = null
+      facturaCreation.ivaMonto = null
       facturaCreation.notas = null
-
+      facturaCreation.numeroComprobante = null
+      facturaCreation.otrosImpuestosPercentil = null
+      facturaCreation.otrosImpuestosMonto = null
+      facturaCreation.pagada = null
+      facturaCreation.precioUnitario = null
+      facturaCreation.razonSocial = null
       facturaCreation.remitoId = null
+      facturaCreation.subTotal = null
+      facturaCreation.tipoComprobante = null
+      facturaCreation.total = null
       facturaCreation.viajeId = null
     }
 
@@ -1271,11 +1303,6 @@ export default {
       editNumeroGuia.value = true
     }
 
-    function fMostrarTotal (datos) {
-      // return ((datos.kmCargado * datos.valorKm) + datos.recarga - datos.descuento) * (datos.iva / 100)
-      return datos.kmCargado * datos.valorKm
-    }
-
     function fObtenerNumeroComprobante () {
       if (facturaCreation.tipoComprobante === 'SC') {
         facturaCreation.numeroComprobante = facturasCount.value
@@ -1321,6 +1348,7 @@ export default {
       tipoComprobante,
 
       facturasCount,
+      fIrPaso1,
       fIrPaso2,
       fIrPaso3,
       fGuardarFactura,
@@ -1337,7 +1365,6 @@ export default {
       fMostrarNumeroRemito,
       fMostrarReciclarFactura,
       fMostrarTipoComprobante,
-      fMostrarTotal,
       fObtenerNumeroComprobante,
       fObtenerPagada,
       paso1,

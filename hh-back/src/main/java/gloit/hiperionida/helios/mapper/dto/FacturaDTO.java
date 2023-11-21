@@ -15,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class FacturaDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
-    private String bonificacion;
+    private String bonificacionPercentil;
+    private String bonificacionMonto;
     private String camion;
     private String cantidad;
     private String cantidadTransportada;
@@ -31,18 +32,22 @@ public class FacturaDTO extends AbsAuditoriaDTO implements Serializable {
     private String fechaViaje;
     private String fechaVencimiento;
     private String fechaVencimientoId;
-    private String iva;
+    private String ivaPercentil;
+    private String ivaMonto;
     private String kmCargado;
     private String notas;
     private String numeroComprobante;
     private String numeroGuia;
     private String numeroRemito;
     private String origen;
-    private String otrosImpuestos;
+    private String otrosImpuestosPercentil;
+    private String otrosImpuestosMonto;
     private String pagada;
     private String precioUnitario;
     private String razonSocial;
+    private String subTotal;
     private String tipoComprobante;
+    private String total;
     private String valorKm;
     private String vencida;
 }

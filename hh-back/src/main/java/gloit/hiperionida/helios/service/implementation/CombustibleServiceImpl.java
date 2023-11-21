@@ -29,7 +29,7 @@ public class CombustibleServiceImpl implements CombustibleService {
     @Override
     public CombustibleModel buscarPorId(Long id) {
         log.info("Buscando la entidad Combustible con id: {}.", id);
-        CombustibleModel combustibleModel = combustibleDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Combustible con id: " + id + "."));
+        CombustibleModel combustibleModel = combustibleDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Combustible con id: " + id + "."));
         log.info("Se encontró una entidad Combustible con id: " + id + ".");
         return combustibleModel;
     }
@@ -37,7 +37,7 @@ public class CombustibleServiceImpl implements CombustibleService {
     @Override
     public CombustibleModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Combustible con id: {}, incluidas las eliminadas.", id);
-        CombustibleModel combustibleModel = combustibleDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Combustible con id: " + id +", incluidas las eliminadas."));
+        CombustibleModel combustibleModel = combustibleDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Combustible con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Combustible con id: " + id + ", incluidas las eliminadas.");
         return combustibleModel;
     }

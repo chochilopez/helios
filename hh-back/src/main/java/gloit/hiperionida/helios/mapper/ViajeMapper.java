@@ -193,7 +193,7 @@ public class ViajeMapper {
                 dto.setNumeroComprobante(facturaModel.get().getNumeroComprobante());
                 dto.setPagada(facturaModel.get().getPagada().toString());
                 if (facturaModel.get().getFechaVencimientoId() != null) {
-                    EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(facturaModel.get().getFechaVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No existe el evento vencimeinto"));
+                    EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(facturaModel.get().getFechaVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el evento vencimiento"));
                     Boolean esVencida = Helper.getNow("").isAfter(eventoModel.getFecha()) && !facturaModel.get().getPagada();
                     dto.setVencida(esVencida.toString());
                 }

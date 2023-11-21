@@ -103,7 +103,7 @@ public class AcopladoServiceImpl implements AcopladoService {
     @Override
     public AcopladoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Acoplado con id: {}.", id);
-        AcopladoModel acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Acoplado con id: " + id + "."));
+        AcopladoModel acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Acoplado con id: " + id + "."));
         log.info("Se encontró una entidad Acoplado con id: {}.", id);
         return acopladoModel;
     }
@@ -111,7 +111,7 @@ public class AcopladoServiceImpl implements AcopladoService {
     @Override
     public AcopladoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Acoplado con id: {}, incluidas las eliminadas.", id);
-        AcopladoModel acopladoModel = acopladoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Acoplado con id: " + id +", incluidas las eliminadas."));
+        AcopladoModel acopladoModel = acopladoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Acoplado con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Acoplado con id: {}, incluidas las eliminadas.", id);
         return acopladoModel;
     }

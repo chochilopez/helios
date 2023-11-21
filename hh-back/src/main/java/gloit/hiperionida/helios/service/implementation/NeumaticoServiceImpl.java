@@ -29,7 +29,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
     @Override
     public NeumaticoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Neumatico con id: {}.", id);
-        NeumaticoModel neumaticoModel = neumaticoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Neumatico con id: " + id + "."));
+        NeumaticoModel neumaticoModel = neumaticoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Neumatico con id: " + id + "."));
         log.info("Se encontró una entidad Neumatico con id: " + id + ".");
         return neumaticoModel;
     }
@@ -37,7 +37,7 @@ public class NeumaticoServiceImpl implements NeumaticoService {
     @Override
     public NeumaticoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Neumatico con id: {}, incluidas las eliminadas.", id);
-        NeumaticoModel neumaticoModel = neumaticoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Neumatico con id: " + id +", incluidas las eliminadas."));
+        NeumaticoModel neumaticoModel = neumaticoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Neumatico con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Neumatico con id: " + id + ", incluidas las eliminadas.");
         return neumaticoModel;
     }

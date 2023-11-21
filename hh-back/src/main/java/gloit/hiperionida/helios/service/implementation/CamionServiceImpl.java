@@ -141,7 +141,7 @@ public class CamionServiceImpl implements CamionService {
     @Override
     public CamionModel buscarPorId(Long id) {
         log.info("Buscando la entidad Camion con id: {}.", id);
-        CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Camion con id: " + id + "."));
+        CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Camion con id: " + id + "."));
         log.info("Se encontró una entidad Camion con id: " + id + ".");
         return camionModel;
     }
@@ -149,7 +149,7 @@ public class CamionServiceImpl implements CamionService {
     @Override
     public CamionModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Camion con id: {}, incluidas las eliminadas.", id);
-        CamionModel camionModel = camionDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Camion con id: " + id +", incluidas las eliminadas."));
+        CamionModel camionModel = camionDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Camion con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Camion con id: " + id + ", incluidas las eliminadas.");
         return camionModel;
     }

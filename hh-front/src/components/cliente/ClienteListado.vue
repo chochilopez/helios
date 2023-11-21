@@ -282,7 +282,7 @@
                 {{ props.row.nombre }}
               </q-td>
               <q-td>
-                {{ props.row.direccion}}
+                {{ props.row.direccion }}
               </q-td>
               <q-td>
                 {{ props.row.email }}

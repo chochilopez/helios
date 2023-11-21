@@ -2,6 +2,7 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.CuentaCorrienteMapper;
 import gloit.hiperionida.helios.mapper.creation.CuentaCorrienteCreation;
+import gloit.hiperionida.helios.mapper.dto.CuentaCorrienteDTO;
 import gloit.hiperionida.helios.model.CuentaCorrienteModel;
 import gloit.hiperionida.helios.repository.CuentaCorrienteDAO;
 import gloit.hiperionida.helios.service.CuentaCorrienteService;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -25,6 +27,45 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
     private final CuentaCorrienteDAO cuentaCorrienteDAO;
     private final CuentaCorrienteMapper cuentaCorrienteMapper;
     private final UsuarioServiceImpl usuarioService;
+
+    public List<CuentaCorrienteDTO> calcularSaldo(List<CuentaCorrienteDTO> listado) {
+        for (int a = 0; a < listado.size(); a++ ) {
+            if (a == 0) {
+                if (Objects.equals(listado.get(a).getTipoMovimiento(), "DEBITO")) {
+                    Double valor = Helper.getDecimal(listado.get(a).getMonto()) * -1;
+                    valor = Helper.getNDecimal(valor, 2);
+                    listado.get(a).setSaldo(valor.toString());
+                } else if (Objects.equals(listado.get(a).getTipoMovimiento(), "CREDITO")) {
+                    Double valor = Helper.getDecimal(listado.get(a).getMonto());
+                    valor = Helper.getNDecimal(valor, 2);
+                    listado.get(a).setSaldo(valor.toString());
+                }
+            } else if (a > 0) {
+                if (Objects.equals(listado.get(a - 1).getTipoMovimiento(), "DEBITO")) {
+                    Double valor1 = Helper.getDecimal(listado.get(a - 1).getSaldo());
+                    Double valor2 = Helper.getDecimal(listado.get(a).getMonto()) * -1;
+                    Double valor3 = 0.0;
+                    if (Objects.equals(listado.get(a).getTipoMovimiento(), "DEBITO")) {
+                        valor3 = valor1 - valor2;
+                    } else if (Objects.equals(listado.get(a).getTipoMovimiento(), "CREDITO")) {
+                        valor3 = valor1 + valor2;
+                    }
+                    listado.get(a).setSaldo(valor3.toString());
+                } else if (Objects.equals(listado.get(a - 1).getTipoMovimiento(), "CREDITO")) {
+                    Double valor1 = Helper.getDecimal(listado.get(a - 1).getSaldo());
+                    Double valor2 = Helper.getDecimal(listado.get(a).getMonto());
+                    Double valor3 = 0.0;
+                    if (Objects.equals(listado.get(a).getTipoMovimiento(), "DEBITO")) {
+                        valor3 = valor1 - valor2;
+                    } else if (Objects.equals(listado.get(a).getTipoMovimiento(), "CREDITO")) {
+                        valor3 = valor1 + valor2;
+                    }
+                    listado.get(a).setSaldo(valor3.toString());
+                }
+            }
+        }
+        return listado;
+    }
 
     @Override
     public List<CuentaCorrienteModel> buscarTodasPorClienteId(Long id) {
@@ -47,7 +88,7 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
     @Override
     public CuentaCorrienteModel buscarPorId(Long id) {
         log.info("Buscando la entidad CuentaCorriente con id: {}.", id);
-        CuentaCorrienteModel cuentaCorrienteModel = cuentaCorrienteDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad CuentaCorriente con id: " + id + "."));
+        CuentaCorrienteModel cuentaCorrienteModel = cuentaCorrienteDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad CuentaCorriente con id: " + id + "."));
         log.info("Se encontró una entidad CuentaCorriente con id: " + id + ".");
         return cuentaCorrienteModel;
     }
@@ -55,7 +96,7 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
     @Override
     public CuentaCorrienteModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad CuentaCorriente con id: {}, incluidas las eliminadas.", id);
-        CuentaCorrienteModel cuentaCorrienteModel = cuentaCorrienteDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad CuentaCorriente con id: " + id +", incluidas las eliminadas."));
+        CuentaCorrienteModel cuentaCorrienteModel = cuentaCorrienteDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad CuentaCorriente con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad CuentaCorriente con id: " + id + ", incluidas las eliminadas.");
         return cuentaCorrienteModel;
     }

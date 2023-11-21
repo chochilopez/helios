@@ -32,7 +32,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioModel buscarPorNombreDeUsuarioHabilitado(String nombreUsuario) {
         log.info("Buscando la entidad Usuario con nombre de usuario: {}, y habilitada.", nombreUsuario);
-        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCaseAndHabilitadaIsTrueAndEliminadaIsNull(nombreUsuario).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con Usuario con nombre de usuario: " + nombreUsuario + ", y habilitada."));
+        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCaseAndHabilitadaIsTrueAndEliminadaIsNull(nombreUsuario).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad con Usuario con nombre de usuario: " + nombreUsuario + ", y habilitada."));
         log.info("Se encontró una entidad usuario habilitada con nombre de usuario: " + nombreUsuario + ".");
         return usuarioModel;
     }
@@ -45,7 +45,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioModel buscarPorNombreDeUsuario(String nombreUsuario) {
         log.info("Buscando la entidad Usuario con nombre de usuario: {}.", nombreUsuario);
-        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCaseAndEliminadaIsNull(nombreUsuario).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con nombre de usuario: " + nombreUsuario + "."));
+        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCaseAndEliminadaIsNull(nombreUsuario).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad con nombre de usuario: " + nombreUsuario + "."));
         String mensaje = "Se encontró una entidad Usuario con nombre de usuario: " + nombreUsuario + ".";
         log.info(mensaje);
         return usuarioModel;
@@ -54,7 +54,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioModel buscarPorNombreDeUsuarioConEliminadas(String nombreUsuario) {
         log.info("Buscando la entidad Usuario con nombre de usuario: {}, incluidas las eliminadas.", nombreUsuario);
-        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCase(nombreUsuario).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con nombre de usuario: " + nombreUsuario + ", incluidas las eliminadas."));
+        UsuarioModel usuarioModel = usuarioDAO.findByUsernameContainingIgnoreCase(nombreUsuario).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad con nombre de usuario: " + nombreUsuario + ", incluidas las eliminadas."));
         String mensaje = "Se encontró una entidad Usuario con nombre de usuario: " + nombreUsuario + ", incluidas las eliminadas.";
         log.info(mensaje);
         return usuarioModel;
@@ -89,7 +89,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioModel buscarPorId(Long id) {
         log.info("Buscando la entidad Usuario con id: {}.", id);
-        UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con id " + id + "."));
+        UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad con id " + id + "."));
         String mensaje = "Se encontró una entidad Usuario.";
         log.info(mensaje);
         return usuarioModel;
@@ -98,7 +98,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Usuario con id: {}, incluidas las eliminadas.", id);
-        UsuarioModel usuarioModel = usuarioDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad con id: " + id +", incluidas las eliminadas."));
+        UsuarioModel usuarioModel = usuarioDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Usuario con id: " + id + ".");
         return usuarioModel;
     }

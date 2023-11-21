@@ -32,7 +32,7 @@ public class IngresoServiceImpl implements IngresoService {
     @Override
     public IngresoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Ingreso con id: {}.", id);
-        IngresoModel IngresoModel = IngresoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Ingreso con id: " + id + "."));
+        IngresoModel IngresoModel = IngresoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Ingreso con id: " + id + "."));
         log.info("Se encontró una entidad Ingreso con id: " + id + ".");
         return IngresoModel;
     }
@@ -40,7 +40,7 @@ public class IngresoServiceImpl implements IngresoService {
     @Override
     public IngresoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Ingreso con id: {}, incluidas las eliminadas.", id);
-        IngresoModel IngresoModel = IngresoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Ingreso con id: " + id +", incluidas las eliminadas."));
+        IngresoModel IngresoModel = IngresoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Ingreso con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Ingreso con id: " + id + ", incluidas las eliminadas.");
         return IngresoModel;
     }

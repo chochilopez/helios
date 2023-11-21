@@ -202,14 +202,14 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     public PresupuestoModel buscarProximo() {
         log.info("Buscando la proxima entidad Presupuesto.");
 
-        return presupuestoDAO.findNextDate(Helper.getNow("")).orElseThrow(() -> new DatosInexistentesException("No se encontro el proximo Presupuesto"));
+        return presupuestoDAO.findNextDate(Helper.getNow("")).orElseThrow(() -> new DatosInexistentesException("No se encontró el proximo Presupuesto"));
     }
 
     @Override
     public PresupuestoModel buscarUltimo() {
         log.info("Buscando la ultima entidad Presupuesto.");
 
-        return presupuestoDAO.findFirstByOrderByIdDesc().orElseThrow(() -> new DatosInexistentesException("No se encontro el ultimo Presupuesto"));
+        return presupuestoDAO.findFirstByOrderByIdDesc().orElseThrow(() -> new DatosInexistentesException("No se encontró el ultimo Presupuesto"));
     }
 
     @Override
@@ -269,7 +269,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     @Override
     public PresupuestoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Presupuesto con id: {}.", id);
-        PresupuestoModel presupuestoModel = presupuestoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Presupuesto con id: " + id + "."));
+        PresupuestoModel presupuestoModel = presupuestoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Presupuesto con id: " + id + "."));
         log.info("Se encontró una entidad Presupuesto con id: " + id + ".");
         return presupuestoModel;
     }
@@ -277,7 +277,7 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     @Override
     public PresupuestoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Presupuesto con id: {}, incluidas las eliminadas.", id);
-        PresupuestoModel presupuestoModel = presupuestoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Presupuesto con id: " + id +", incluidas las eliminadas."));
+        PresupuestoModel presupuestoModel = presupuestoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Presupuesto con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Presupuesto con id: " + id + ", incluidas las eliminadas.");
         return presupuestoModel;
     }

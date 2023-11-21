@@ -138,7 +138,7 @@ public class ConductorServiceImpl implements ConductorService {
     @Override
     public ConductorModel buscarPorId(Long id) {
         log.info("Buscando la entidad Conductor con id: {}.", id);
-        ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Conductor con id: " + id + "."));
+        ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Conductor con id: " + id + "."));
         log.info("Se encontró una entidad Conductor con id: " + id + ".");
         return conductorModel;
     }
@@ -146,7 +146,7 @@ public class ConductorServiceImpl implements ConductorService {
     @Override
     public ConductorModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Conductor con id: {}, incluidas las eliminadas.", id);
-        ConductorModel conductorModel = conductorDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Conductor con id: " + id +", incluidas las eliminadas."));
+        ConductorModel conductorModel = conductorDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Conductor con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Conductor con id: " + id + ", incluidas las eliminadas.");
         return conductorModel;
     }

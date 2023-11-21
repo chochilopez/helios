@@ -149,7 +149,7 @@ public class SeguroServiceImpl implements SeguroService {
     @Override
     public SeguroModel buscarPorId(Long id) {
         log.info("Buscando la entidad Seguro con id: {}.", id);
-        SeguroModel seguroModel = seguroDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id: " + id + "."));
+        SeguroModel seguroModel = seguroDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Seguro con id: " + id + "."));
         log.info("Se encontró una entidad Seguro con id: " + id + ".");
         return seguroModel;
     }
@@ -157,7 +157,7 @@ public class SeguroServiceImpl implements SeguroService {
     @Override
     public SeguroModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Seguro con id: {}, incluidas las eliminadas.", id);
-        SeguroModel seguroModel = seguroDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Seguro con id: " + id +", incluidas las eliminadas."));
+        SeguroModel seguroModel = seguroDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Seguro con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Seguro con id: " + id + ", incluidas las eliminadas.");
         return seguroModel;
     }

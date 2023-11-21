@@ -112,7 +112,7 @@ public class PresupuestoMapper {
                 dto.setCompradorId(model.getCompradorId().toString());
             }
             if (model.getDestinoId() != null) {
-                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección de destino con id: " + model.getDestinoId() + "."));
+                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getDestinoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la dirección de destino con id: " + model.getDestinoId() + "."));
                 dto.setDestino(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
                 dto.setDestinoId(model.getDestinoId().toString());
             }
@@ -127,7 +127,7 @@ public class PresupuestoMapper {
                 dto.setKmCargado(model.getKmCargado().toString());
             dto.setNotas(model.getNotas());
             if (model.getOrigenId() != null) {
-                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontro la dirección de destino con id: " + model.getOrigenId() + "."));
+                DireccionModel direccionModel = direccionDAO.findByIdAndEliminadaIsNull(model.getOrigenId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la dirección de destino con id: " + model.getOrigenId() + "."));
                 dto.setOrigen(direccionModel.getCiudad() + " - " + direccionModel.getDireccion());
                 dto.setOrigenId(model.getOrigenId().toString());
             }

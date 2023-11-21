@@ -28,7 +28,7 @@ public class LogueoServiceImpl implements LogueoService {
     @Override
     public LogueoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Visita con id: {}.", id);
-        LogueoModel logueoModel = logueoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Visita con id: " + id + "."));
+        LogueoModel logueoModel = logueoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Visita con id: " + id + "."));
         String mensaje = "Se encontró una entidad Visita.";
         log.info(mensaje);
         return logueoModel;
@@ -37,7 +37,7 @@ public class LogueoServiceImpl implements LogueoService {
     @Override
     public LogueoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Visita con id: {}, incluidas las eliminadas.", id);
-        LogueoModel logueoModel = logueoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Visita con id: " + id +", incluidas las eliminadas."));
+        LogueoModel logueoModel = logueoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Visita con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Visita con id: " + id + ".");
         return logueoModel;
     }

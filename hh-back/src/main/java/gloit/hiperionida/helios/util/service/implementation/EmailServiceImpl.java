@@ -44,7 +44,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public EmailModel buscarPorId(Long id) {
         log.info("Buscando la entidad Email con id: {}.", id);
-        EmailModel emailModel = emailDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Email con id: " + id + "."));
+        EmailModel emailModel = emailDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Email con id: " + id + "."));
         String mensaje = "Se encontró una entidad Email.";
         log.info(mensaje);
         return emailModel;
@@ -53,7 +53,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public EmailModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Email con id: {}, incluidas las eliminadas.", id);
-        EmailModel emailModel = emailDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontro la entidad Email con id: " + id +", incluidas las eliminadas."));
+        EmailModel emailModel = emailDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Email con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Email con id: " + id + ".");
         return emailModel;
     }

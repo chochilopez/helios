@@ -279,7 +279,7 @@
             </div>
           </div>
           <div class="row justify-end q-pa-md">
-            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="fa-solid fa-arrow-right" ripple >
               Siguiente
             </q-btn>
           </div>
@@ -374,7 +374,7 @@
             </div>
           </div>
           <div class="row justify-end q-pa-md">
-            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="arrow_right_alt" ripple >
+            <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="fa-solid fa-arrow-right" ripple >
               Siguiente
             </q-btn>
           </div>
