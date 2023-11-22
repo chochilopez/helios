@@ -10,6 +10,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class CajaDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
-    private String nombre;
+    private String caja;
     private String notas;
 }

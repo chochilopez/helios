@@ -64,28 +64,26 @@ public class FacturaMapper {
                 model.setRemitoId(Helper.getLong(creation.getRemitoId()));
             ViajeModel viajeModel = viajeDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getViajeId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el viaje."));
             model.setViajeId(viajeModel.getId());
-
             model.setSubTotal(Helper.getNDecimal(model.getPrecioUnitario() * viajeModel.getKmCargado(), 2));
-            model.setTotal(Helper.getNDecimal(model.getSubTotal(), 2));
-            if (Helper.getDecimal(creation.getBonificacionPercentil()) != null) {
-                model.setBonificacionPercentil(Helper.getDecimal(creation.getBonificacionPercentil()));
-                model.setBonificacionMonto(Helper.getNDecimal((model.getBonificacionPercentil() * model.getTotal()) / 100, 2));
-                model.setTotal(Helper.getNDecimal(model.getTotal() - model.getBonificacionMonto(), 2));
+            Double total = model.getSubTotal();
+            if (Helper.getDecimal(creation.getBonificacion()) != null) {
+                model.setBonificacion(Helper.getDecimal(creation.getBonificacion()));
+                Double bonificacion = Helper.getNDecimal((model.getBonificacion() * total) / 100, 2);
+                total = Helper.getNDecimal(total - bonificacion, 2);
             }
-            if (Helper.getDecimal(creation.getOtrosImpuestosPercentil()) != null) {
-                model.setOtrosImpuestosPercentil(Helper.getDecimal(creation.getOtrosImpuestosPercentil()));
-                model.setOtrosImpuestosMonto(Helper.getNDecimal((model.getOtrosImpuestosPercentil() * model.getTotal()) / 100, 2));
-                model.setTotal(Helper.getNDecimal(model.getTotal() + model.getOtrosImpuestosMonto(), 2));
+            if (Helper.getDecimal(creation.getOtrosImpuestos()) != null) {
+                model.setOtrosImpuestos(Helper.getDecimal(creation.getOtrosImpuestos()));
+                Double otrosImpuestos = Helper.getNDecimal((model.getOtrosImpuestos() * total) / 100, 2);
+                total = Helper.getNDecimal(total + otrosImpuestos, 2);
             }
-            if (Helper.getDecimal(creation.getIvaPercentil()) != null) {
-                model.setIvaPercentil(Helper.getDecimal(creation.getIvaPercentil()));
-                model.setIvaMonto(Helper.getNDecimal((model.getIvaPercentil() * model.getTotal()) / 100, 2));
-                model.setTotal(Helper.getNDecimal(model.getTotal() + model.getIvaMonto(), 2));
+            if (Helper.getDecimal(creation.getIva()) != null) {
+                model.setIva(Helper.getDecimal(creation.getIva()));
+                Double iva = Helper.getNDecimal((model.getIva() * total) / 100, 2);
+                total = Helper.getNDecimal(total + iva, 2);
             }
-
             CuentaCorrienteModel cuentaCorrienteModel = new CuentaCorrienteModel(
                     null,
-                    model.getTotal(),
+                    total,
                     "Comprobante " + model.getTipoComprobante().toString() + "-" + model.getNumeroComprobante(),
                     null,
                     MovimientoEnum.DEBITO,
@@ -99,7 +97,7 @@ public class FacturaMapper {
             if (Helper.getBoolean(creation.getPagada())) {
                 CuentaCorrienteModel ctaCte = new CuentaCorrienteModel(
                         null,
-                        model.getTotal(),
+                        total,
                         "Comprobante " + model.getTipoComprobante().toString() + "-" + model.getNumeroComprobante(),
                         TipoPagoEnum.EFECTIVO,
                         MovimientoEnum.CREDITO,
@@ -110,7 +108,7 @@ public class FacturaMapper {
                         );
                 ReciboModel reciboModel = new ReciboModel(
                     null,
-                        model.getTotal(),
+                        total,
                         Helper.getNow("")
                 );
                 reciboDAO.save(reciboModel);
@@ -158,10 +156,6 @@ public class FacturaMapper {
             FacturaDTO dto = new FacturaDTO();
 
             dto.setId(model.getId().toString());
-            if (model.getBonificacionPercentil() != null)
-                dto.setBonificacionPercentil(model.getBonificacionPercentil().toString());
-            if (model.getBonificacionMonto() != null)
-                dto.setBonificacionMonto(model.getBonificacionMonto().toString());
             if (model.getCantidad() != null)
                 dto.setCantidad(model.getCantidad().toString());
             dto.setCodigo(model.getCodigo());
@@ -178,16 +172,30 @@ public class FacturaMapper {
                 Boolean esVencida = Helper.getNow("").isAfter(eventoModel.getFecha()) && !model.getPagada();
                 dto.setVencida(esVencida.toString());
             }
-            if (model.getIvaMonto() != null)
-                dto.setIvaMonto(model.getIvaMonto().toString());
-            if (model.getIvaPercentil() != null)
-                dto.setIvaPercentil(model.getIvaPercentil().toString());
+            Double total = model.getSubTotal();
+            if (model.getBonificacion() != null) {
+                dto.setBonificacionPercentil(model.getBonificacion().toString());
+                Double bonificacion = Helper.getNDecimal(((model.getBonificacion() * model.getSubTotal()) / 100), 2);
+                dto.setBonificacionMonto(bonificacion.toString());
+                total = total - bonificacion;
+            }
+            if (model.getOtrosImpuestos() != null) {
+                dto.setOtrosImpuestosPercentil(model.getOtrosImpuestos().toString());
+                Double otrosImpuestos = Helper.getNDecimal(((model.getOtrosImpuestos() * model.getSubTotal()) / 100), 2);
+                dto.setOtrosImpuestosMonto(otrosImpuestos.toString());
+                total = total + otrosImpuestos;
+            }
+            if (model.getIva() != null) {
+                dto.setIvaPercentil(model.getIva().toString());
+                Double iva = Helper.getNDecimal(((model.getIva() * model.getSubTotal()) / 100), 2);
+                dto.setIvaMonto(iva.toString());
+                total = total - iva;
+            }
+            dto.setSubTotal(model.getSubTotal().toString());
+            dto.setTotal(total.toString());
+
             dto.setNotas(model.getNotas());
             dto.setNumeroComprobante(model.getNumeroComprobante());
-            if (model.getOtrosImpuestosMonto() != null)
-                dto.setOtrosImpuestosMonto(model.getOtrosImpuestosMonto().toString());
-            if (model.getOtrosImpuestosPercentil() != null)
-                dto.setOtrosImpuestosPercentil(model.getOtrosImpuestosPercentil().toString());
             if (model.getPagada() != null) {}
                 dto.setPagada(model.getPagada().toString());
             if (model.getPrecioUnitario() != null)
@@ -199,10 +207,6 @@ public class FacturaMapper {
                 RemitoModel remitoModel = remitoDAO.findByIdAndEliminadaIsNull(model.getRemitoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el remito con id: " + model.getRemitoId() + "."));
                 dto.setNumeroRemito(remitoModel.getNumero());
             }
-            if (model.getSubTotal() != null)
-                dto.setSubTotal(model.getSubTotal().toString());
-            if (model.getTotal() != null)
-                dto.setTotal(model.getTotal().toString());
             if (model.getViajeId() != null) {
                 ViajeModel viajeModel = viajeDAO.findByIdAndEliminadaIsNull(model.getViajeId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el viaje id: " + model.getViajeId() + "."));
                 if (viajeModel.getCamionId() != null) {

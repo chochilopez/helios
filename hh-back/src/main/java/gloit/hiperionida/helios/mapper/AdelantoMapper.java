@@ -38,7 +38,7 @@ public class AdelantoMapper {
             if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
                 model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
             if (Helper.getDecimal(creation.getMonto()) != null)
-                model.setMonto(Helper.getDecimal(creation.getMonto()));
+                model.setMonto(Helper.getNDecimal(Helper.getDecimal(creation.getMonto()),2));
             model.setNotas(creation.getNotas());
             model.setRecibo(creation.getRecibo());
             if (Helper.getBoolean(creation.getRendido()) != null)
@@ -83,7 +83,7 @@ public class AdelantoMapper {
 
             if (model.getCajaId() != null) {
                 CajaModel cajaModel = cajaDAO.findByIdAndEliminadaIsNull(model.getCajaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la caja con id: " + model.getCajaId() + "."));
-                dto.setCaja(cajaModel.getNombre());
+                dto.setCaja(cajaModel.getCaja());
             }
             if (model.getConductorId() != null) {
                 ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor con id: " + model.getConductorId() + "."));

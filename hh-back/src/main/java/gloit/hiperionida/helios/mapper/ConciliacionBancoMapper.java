@@ -37,7 +37,7 @@ public class ConciliacionBancoMapper {
                 model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
             model.setConcepto(creation.getConcepto());
             if (Helper.getDecimal(creation.getMonto()) != null)
-                model.setMonto(Helper.getDecimal(creation.getMonto()));
+                model.setMonto(Helper.getNDecimal(Helper.getDecimal(creation.getMonto()), 2));
             if (Helper.getLong(creation.getBancoId()) != null)
                 model.setBancoId(Helper.getLong(creation.getBancoId()));
 

@@ -38,11 +38,11 @@ public class CompraMapper {
                 model.setId(Helper.getLong(creation.getId()));
             if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
                 model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
-            if (Helper.getDecimal(creation.getFecha()) != null)
-                model.setIva(Helper.getDecimal(creation.getFecha()));
+            if (Helper.getDecimal(creation.getIva()) != null)
+                model.setIva(Helper.getDecimal(creation.getIva()));
             model.setNumeroComprobante(creation.getNumeroComprobante());
             if (Helper.getDecimal(creation.getSubTotal()) != null)
-                model.setSubTotal(Helper.getDecimal(creation.getSubTotal()));
+                model.setSubTotal(Helper.getNDecimal(Helper.getDecimal(creation.getSubTotal()), 2));
             if (creation.getTipoComprobante() != null)
                 model.setTipoComprobante(TipoComprobanteEnum.valueOf(creation.getTipoComprobante()));
             model.setNotas(creation.getNotas());

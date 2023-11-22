@@ -50,6 +50,7 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
                     } else if (Objects.equals(listado.get(a).getTipoMovimiento(), "CREDITO")) {
                         valor3 = valor1 + valor2;
                     }
+                    valor3 = Helper.getNDecimal(valor3, 2);
                     listado.get(a).setSaldo(valor3.toString());
                 } else if (Objects.equals(listado.get(a - 1).getTipoMovimiento(), "CREDITO")) {
                     Double valor1 = Helper.getDecimal(listado.get(a - 1).getSaldo());
@@ -60,6 +61,7 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
                     } else if (Objects.equals(listado.get(a).getTipoMovimiento(), "CREDITO")) {
                         valor3 = valor1 + valor2;
                     }
+                    valor3 = Helper.getNDecimal(valor3, 2);
                     listado.get(a).setSaldo(valor3.toString());
                 }
             }

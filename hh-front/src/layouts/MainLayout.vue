@@ -347,22 +347,6 @@
           <q-item
             clickable
             v-ripple
-            :active="link === 'conceptoAdelantos'"
-            @click="link = 'conceptoAdelantos'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'ConceptoAdelanto' }"
-            class="q-ml-md paleta1-fondo5"
-            v-if="autoridad === 'admin' || autoridad === 'usuario'"
-          >
-            <q-item-section avatar>
-              <q-icon name="request_quote" />
-            </q-item-section>
-            <q-item-section class="white-text">Conceptos adelantos</q-item-section>
-          </q-item>
-          <q-item
-            clickable
-            v-ripple
             :active="link === 'movimientoCaja'"
             @click="link = 'movimientoCaja'"
             active-class="seleccion-activa"
@@ -428,38 +412,6 @@
           <q-item
             clickable
             v-ripple
-            :active="link === 'conceptosCompras'"
-            @click="link = 'conceptosCompras'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'ConceptoCompra' }"
-            class="q-ml-md paleta1-fondo5"
-            v-if="autoridad === 'admin' || autoridad === 'usuario'"
-          >
-            <q-item-section avatar>
-              <q-icon name="local_mall" />
-            </q-item-section>
-            <q-item-section class="white-text">Concepto compras</q-item-section>
-          </q-item>
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'marcas'"
-            @click="link = 'marcas'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'Marca' }"
-            class="q-ml-md paleta1-fondo5"
-            v-if="autoridad === 'admin' || autoridad === 'usuario'"
-          >
-            <q-item-section avatar>
-              <q-icon name="fa-solid fa-copyright" />
-            </q-item-section>
-            <q-item-section class="white-text">Marcas</q-item-section>
-          </q-item>
-          <q-item
-            clickable
-            v-ripple
             :active="link === 'movimientosCtaCtePro'"
             @click="link = 'movimientosCtaCtePro'"
             active-class="seleccion-activa"
@@ -474,22 +426,6 @@
             <q-item-section class="white-text"
               >Movimientos cuentas corrientes proveedores</q-item-section
             >
-          </q-item>
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'neumaticos'"
-            @click="link = 'neumaticos'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'Neumatico' }"
-            class="q-ml-md paleta1-fondo5"
-            v-if="autoridad === 'admin' || autoridad === 'usuario'"
-          >
-            <q-item-section avatar>
-              <q-icon name="fa-solid fa-ring" />
-            </q-item-section>
-            <q-item-section class="white-text">Neumaticos</q-item-section>
           </q-item>
           <q-item
             clickable
@@ -537,6 +473,22 @@
               <q-icon name="fa-solid fa-truck-fast" />
             </q-item-section>
             <q-item-section class="white-text">Camiones</q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'neumaticos'"
+            @click="link = 'neumaticos'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'Neumatico' }"
+            class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
+          >
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-ring" />
+            </q-item-section>
+            <q-item-section class="white-text">Neumaticos</q-item-section>
           </q-item>
           <q-item
             clickable

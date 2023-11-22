@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CajaCreation extends AbsAuditoriaCreation {
     private String id;
-    private String nombre;
+    private String caja;
     private String notas;
 }

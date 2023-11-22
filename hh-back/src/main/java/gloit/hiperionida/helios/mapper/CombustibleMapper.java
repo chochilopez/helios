@@ -43,7 +43,7 @@ public class CombustibleMapper {
             if (Helper.getDecimal(creation.getLitros()) != null)
                 model.setLitros(Helper.getDecimal(creation.getLitros()));
             if (Helper.getDecimal(creation.getPrecio()) != null)
-                model.setPrecio(Helper.getDecimal(creation.getPrecio()));
+                model.setPrecio(Helper.getNDecimal(Helper.getDecimal(creation.getPrecio()), 2));
             model.setNotas(creation.getNotas());
 
             if (Helper.getLong(creation.getCamionId()) != null)

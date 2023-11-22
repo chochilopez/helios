@@ -41,7 +41,7 @@ public class ChequeMapper {
             if (creation.getFechaEmision() != null && Helper.stringToLocalDateTime(creation.getFechaEmision(), "") != null)
                 model.setFechaEmision(Helper.stringToLocalDateTime(creation.getFechaEmision(), ""));
             if (Helper.getDecimal(creation.getMonto()) != null)
-                model.setMonto(Helper.getDecimal(creation.getMonto()));
+                model.setMonto(Helper.getNDecimal(Helper.getDecimal(creation.getMonto()), 2));
             model.setNumeroCheque(creation.getNumeroCheque());
 
             if (Helper.getLong(creation.getCreadorId()) != null)

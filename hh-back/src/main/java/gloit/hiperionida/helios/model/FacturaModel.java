@@ -20,8 +20,7 @@ public class FacturaModel extends AbsAuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double bonificacionPercentil;
-    private Double bonificacionMonto;
+    private Double bonificacion;
     private Integer cantidad;
     private String codigo;
     @Column(columnDefinition = "TEXT")
@@ -31,12 +30,10 @@ public class FacturaModel extends AbsAuditoriaModel {
     private String domicilioComercial;
     private LocalDateTime fechaEmision;
     private Long fechaVencimientoId;
-    private Double ivaPercentil;
-    private Double ivaMonto;
+    private Double iva;
     private String notas;
     private String numeroComprobante;
-    private Double otrosImpuestosPercentil;
-    private Double otrosImpuestosMonto;
+    private Double otrosImpuestos;
     private Boolean pagada;
     private Double precioUnitario;
     private String razonSocial;
@@ -44,6 +41,5 @@ public class FacturaModel extends AbsAuditoriaModel {
     @Enumerated(EnumType.STRING)
     private TipoComprobanteEnum tipoComprobante;
     private Double subTotal;
-    private Double total;
     private Long viajeId;
 }

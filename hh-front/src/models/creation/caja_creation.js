@@ -1,7 +1,7 @@
 export class CajaCreation {
   constructor () {
     this.id = null
-    this.nombre = null
+    this.caja = null
     this.notas = null
   }
 }

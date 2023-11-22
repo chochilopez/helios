@@ -27,7 +27,7 @@ public class CajaMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
-            model.setNombre(creation.getNombre());
+            model.setCaja(creation.getCaja());
             model.setNotas(creation.getNotas());
 
             if (Helper.getLong(creation.getCreadorId()) != null)
@@ -55,7 +55,7 @@ public class CajaMapper {
             CajaDTO dto = new CajaDTO();
 
             dto.setId(model.getId().toString());
-            dto.setNombre(model.getNombre());
+            dto.setCaja(model.getCaja());
             dto.setNotas(model.getNotas());
 
             if (model.getCreadorId() != null) {

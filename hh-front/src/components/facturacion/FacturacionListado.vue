@@ -414,12 +414,12 @@
                     <div class="row text-white">{{ props.row.origen }}</div>
                     <div class="row paleta1-color2">Origen</div>
                   </div>
-                  <div v-if="props.row.otrosImpuestosPercentilMonto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                    <div class="row text-white">{{ props.row.otrosImpuestosPercentilMonto }}</div>
+                  <div v-if="props.row.otrosImpuestosMonto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.otrosImpuestosMonto }}</div>
                     <div class="row paleta1-color2">Otros impuestos monto</div>
                   </div>
-                  <div v-if="props.row.otrosImpuestosPercentilPercentil != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                    <div class="row text-white">{{ props.row.otrosImpuestosPercentilPercentil }}</div>
+                  <div v-if="props.row.otrosImpuestosPercentil != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.otrosImpuestosPercentil }}</div>
                     <div class="row paleta1-color2">Otros impuestos percentil</div>
                   </div>
                   <div v-if="props.row.pagada != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
@@ -702,7 +702,7 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="facturaCreation.bonificacionPercentil"
+                v-model.number="facturaCreation.bonificacion"
                 type="number"
                 outlined
                 dense
@@ -729,7 +729,7 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="facturaCreation.otrosImpuestosPercentil"
+                v-model.number="facturaCreation.otrosImpuestos"
                 type="number"
                 outlined
                 dense
@@ -741,7 +741,7 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="facturaCreation.ivaPercentil"
+                v-model.number="facturaCreation.iva"
                 type="number"
                 outlined
                 dense
@@ -919,15 +919,11 @@ export default {
             facturaCreation.cantidad = resultado.value.cantidadTransportada
             facturaCreation.precioUnitario = resultado.value.valorKm
             facturaCreation.condicionPago = null
-            facturaCreation.bonificacionMonto = null
-            facturaCreation.bonificacionPercentil = null
-            facturaCreation.otrosImpuestosMonto = null
-            facturaCreation.otrosImpuestosPercentil = null
-            facturaCreation.ivaMonto = null
-            facturaCreation.ivaPercentil = null
+            facturaCreation.bonificacion = null
+            facturaCreation.otrosImpuestos = null
+            facturaCreation.iva = null
             facturaCreation.notas = null
             facturaCreation.subTotal = null
-            facturaCreation.total = null
 
             titulo.value = 'Facturar viaje de ' + resultado.value.comprador
             fIrPaso1()
@@ -1192,8 +1188,7 @@ export default {
       facturaCreation.eliminador = null
       facturaCreation.eliminada = null
 
-      facturaCreation.bonificacionPercentil = null
-      facturaCreation.bonificacionMonto = null
+      facturaCreation.bonificacion = null
       facturaCreation.cantidad = null
       facturaCreation.codigo = null
       facturaCreation.concepto = null
@@ -1202,19 +1197,16 @@ export default {
       facturaCreation.fechaEmision = null
       facturaCreation.fechaVencimiento = null
       facturaCreation.fechaVencimientoId = null
-      facturaCreation.ivaPercentil = null
-      facturaCreation.ivaMonto = null
+      facturaCreation.iva = null
       facturaCreation.notas = null
       facturaCreation.numeroComprobante = null
-      facturaCreation.otrosImpuestosPercentil = null
-      facturaCreation.otrosImpuestosMonto = null
+      facturaCreation.otrosImpuestos = null
       facturaCreation.pagada = null
       facturaCreation.precioUnitario = null
       facturaCreation.razonSocial = null
       facturaCreation.remitoId = null
       facturaCreation.subTotal = null
       facturaCreation.tipoComprobante = null
-      facturaCreation.total = null
       facturaCreation.viajeId = null
     }
 

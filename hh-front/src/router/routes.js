@@ -105,22 +105,6 @@ const routes = [
         }
       },
       {
-        path: '/concepto-adelanto',
-        name: 'ConceptoAdelanto',
-        component: () => import('pages/sitio/conductor/ConceptoAdelanto.vue'),
-        meta: {
-          rol: rolEnum.USUARIO
-        }
-      },
-      {
-        path: '/concepto-compra',
-        name: 'ConceptoCompra',
-        component: () => import('pages/sitio/proveedor/ConceptoCompra.vue'),
-        meta: {
-          rol: rolEnum.USUARIO
-        }
-      },
-      {
         path: '/conciliacion',
         name: 'Conciliacion',
         component: () => import('pages/sitio/flujo/Conciliacion.vue'),
@@ -203,7 +187,7 @@ const routes = [
       {
         path: '/neumatico',
         name: 'Neumatico',
-        component: () => import('pages/sitio/proveedor/Neumatico.vue'),
+        component: () => import('pages/sitio/vehiculo/Neumatico.vue'),
         meta: {
           rol: rolEnum.USUARIO
         }

@@ -16,7 +16,7 @@ public class CajaModel extends AbsAuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
+    private String caja;
     @Column(columnDefinition = "TEXT")
     private String notas;
 }

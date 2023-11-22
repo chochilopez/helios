@@ -1,13 +1,17 @@
 <template>
-  <div class="q-ma-md"></div>
+  <div class="q-ma-md">
+    <BancoListado />
+  </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import BancoListado from 'src/components/flujo/BancoListado.vue'
 
 export default {
+  components: { BancoListado },
   setup () {
     const $q = useQuasar()
 

@@ -34,7 +34,7 @@ public class CuentaCorrienteMapper {
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
             if (Helper.getDecimal(creation.getMonto()) != null)
-                model.setMonto(Helper.getDecimal(creation.getMonto()));
+                model.setMonto(Helper.getNDecimal(Helper.getDecimal(creation.getMonto()), 2));
             model.setNotas(creation.getNotas());
             if (creation.getTipoPago() != null)
                 model.setTipoPago(TipoPagoEnum.valueOf(creation.getTipoPago()));
