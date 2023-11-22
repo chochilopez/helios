@@ -187,20 +187,20 @@ public class ViajeServiceImpl implements ViajeService {
     }
 
     @Override
-    public List<ViajeModel> buscarTodasPorCompradorId(Long id) {
-        log.info("Buscando todas las entidades Viaje con id de Comprador: {}.", id);
-        List<ViajeModel> listado = viajeDAO.findAllByCompradorIdAndEliminadaIsNull(id);
+    public List<ViajeModel> buscarTodasPorClienteId(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Cliente: {}.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByClienteIdAndEliminadaIsNull(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Comprador: " + id + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Cliente: " + id + ".");
         return listado;
     }
 
     @Override
-    public List<ViajeModel> buscarTodasPorCompradorIdConEliminadas(Long id) {
-        log.info("Buscando todas las entidades Viaje con id de Comprador: {}, con eliminadas.", id);
-        List<ViajeModel> listado = viajeDAO.findAllByCompradorId(id);
+    public List<ViajeModel> buscarTodasPorClienteIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Viaje con id de Cliente: {}, con eliminadas.", id);
+        List<ViajeModel> listado = viajeDAO.findAllByClienteId(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Comprador: " + id + ", con eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con id de Cliente: " + id + ", con eliminadas.");
         return listado;
     }
 
@@ -403,20 +403,20 @@ public class ViajeServiceImpl implements ViajeService {
     }
 
     @Override
-    public List<ViajeModel> buscarTodasPorCompradorNombre(String nombre) {
-        log.info("Buscando todas las entidades Viaje con nombre de Comprador: {}.", nombre);
-        List<ViajeModel> listado = viajeDAO.findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
+    public List<ViajeModel> buscarTodasPorClienteNombre(String nombre) {
+        log.info("Buscando todas las entidades Viaje con nombre de Cliente: {}.", nombre);
+        List<ViajeModel> listado = viajeDAO.findAllByClienteNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Viaje con nombre de Comprador: " + nombre + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con nombre de Cliente: " + nombre + ".");
         return listado;
     }
 
     @Override
-    public List<ViajeModel> buscarTodasPorCompradorNombreConEliminadas(String nombre) {
-        log.info("Buscando todas las entidades Viaje con nombre de Comprador: {}, con eliminadas.", nombre);
-        List<ViajeModel> listado = viajeDAO.findAllByCompradorNombreContainingIgnoreCase(nombre);
+    public List<ViajeModel> buscarTodasPorClienteNombreConEliminadas(String nombre) {
+        log.info("Buscando todas las entidades Viaje con nombre de Cliente: {}, con eliminadas.", nombre);
+        List<ViajeModel> listado = viajeDAO.findAllByClienteNombreContainingIgnoreCase(nombre);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Viaje con nombre de Comprador: " + nombre + ", con eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Viaje con nombre de Cliente: " + nombre + ", con eliminadas.");
         return listado;
     }
 

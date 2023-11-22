@@ -1,17 +1,17 @@
 export class ServicioModel {
   constructor () {
-    this.id = ''
-    this.kmServicio = ''
-    this.kmActual = ''
-    this.kmProximo = ''
-    this.tipo = ''
-    this.camionId = ''
+    this.id = null
+    this.kmServicio = null
+    this.kmActual = null
+    this.kmProximo = null
+    this.tipo = null
+    this.camionId = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

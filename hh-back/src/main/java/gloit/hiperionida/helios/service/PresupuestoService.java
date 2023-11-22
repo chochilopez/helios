@@ -10,8 +10,8 @@ import java.util.List;
 public interface PresupuestoService extends GenericService<PresupuestoModel, PresupuestoCreation> {
     List<PresupuestoModel> buscarTodasPorCategoriaViajeId(Long id);
     List<PresupuestoModel> buscarTodasPorCategoriaViajeIdConEliminadas(Long id);
-    List<PresupuestoModel> buscarTodasPorCompradorId(Long id);
-    List<PresupuestoModel> buscarTodasPorCompradorIdConEliminadas(Long id);
+    List<PresupuestoModel> buscarTodasPorClienteId(Long id);
+    List<PresupuestoModel> buscarTodasPorClienteIdConEliminadas(Long id);
     List<PresupuestoModel> buscarTodasPorDestinoId(Long id);
     List<PresupuestoModel> buscarTodasPorDestinoIdConEliminadas(Long id);
     List<PresupuestoModel> buscarTodasPorFechaEntreFechas(String inicio, String fin);
@@ -27,8 +27,8 @@ public interface PresupuestoService extends GenericService<PresupuestoModel, Pre
     List<PresupuestoModel> buscarTodasPorRangoValorKm(Double min, Double max);
     List<PresupuestoModel> buscarTodasPorRangoValorKmConEliminadas(Double min, Double max);
 
-    List<PresupuestoModel> buscarTodasPorCompradorNombre(String nombre);
-    List<PresupuestoModel> buscarTodasPorCompradorNombreConEliminadas(String nombre);
+    List<PresupuestoModel> buscarTodasPorClienteNombre(String nombre);
+    List<PresupuestoModel> buscarTodasPorClienteNombreConEliminadas(String nombre);
     List<PresupuestoModel> buscarTodasPorOrigenDireccion(String direccion);
     List<PresupuestoModel> buscarTodasPorOrigenDireccionConEliminadas(String direccion);
     List<PresupuestoModel> buscarTodasPorDestinoDireccion(String direccion);

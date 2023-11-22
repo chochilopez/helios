@@ -35,12 +35,12 @@
               <div class="q-my-md">
                 <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar facturas por" dropdown-icon="fa-solid fa-magnifying-glass">
                   <q-list>
-                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarComprador">
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCliente">
                       <q-item-section avatar>
                         <q-icon name="monetization_on" />
                       </q-item-section>
                       <q-item-section>
-                        <q-item-label>Comprador</q-item-label>
+                        <q-item-label>Cliente</q-item-label>
                       </q-item-section>
                     </q-item>
                     <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarFechaFacturacion">
@@ -96,21 +96,21 @@
               </div>
               <div class="col-md-4">
                 <q-select
-                  v-if="editComprador"
+                  v-if="editCliente"
                   outlined
                   dense
                   emit-value
                   map-options
                   clearable
-                  v-model="comprador"
-                  :options="compradores"
+                  v-model="cliente"
+                  :options="clientees"
                   option-value="id"
                   option-label="nombre"
-                  label="Buscar por comprador"
+                  label="Buscar por cliente"
                   use-input
                   input-debounce="0"
-                  @filter="fFiltrarCompradores"
-                  @update:model-value="afBuscarPorCompradorId()"
+                  @filter="fFiltrarClientes"
+                  @update:model-value="afBuscarPorClienteId()"
                   hint="Tenés que escribir al menos 3 caracteres para buscar."
                 >
                   <template v-slot:before>
@@ -248,6 +248,19 @@
                   </q-tooltip>
                 </q-btn>
                 <q-btn
+                  v-if="props.row.eliminada === null && props.row.pagada === 'true'"
+                  size="sm"
+                  class="text-white paleta5-fondo2 q-mr-xs"
+                  round
+                  dense
+                  @click="fMostrarPagos(props)"
+                >
+                  <q-icon size="2em" class="q-pa-xs" name="attach_money" />
+                  <q-tooltip>
+                    Ver pagos
+                  </q-tooltip>
+                </q-btn>
+                <q-btn
                   v-if="props.row.eliminada === null"
                   size="sm"
                   class="text-white paleta5-fondo2 q-mr-xs"
@@ -350,9 +363,9 @@
                     <div class="row text-white">{{ props.row.codigo }}</div>
                     <div class="row paleta1-color2">Código</div>
                   </div>
-                  <div v-if="props.row.comprador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                    <div class="row text-white">{{ props.row.comprador }}</div>
-                    <div class="row paleta1-color2">Comprador</div>
+                  <div v-if="props.row.cliente != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.cliente }}</div>
+                    <div class="row paleta1-color2">Cliente</div>
                   </div>
                   <div v-if="props.row.concepto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.concepto }}</div>
@@ -792,6 +805,7 @@ import { notificarService } from 'src/helpers/notificar_service'
 import { onMounted, reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 
 const paginacion = {
   rowsPerPage: 50,
@@ -867,12 +881,13 @@ const columnas = [
 export default {
   setup () {
     const $q = useQuasar()
+    const router = useRouter()
     const reglas = reactive(reglasValidacion.reglas)
     const autoridad = ref(ayuda.getAutoridad())
 
-    const editComprador = ref(true)
-    const comprador = ref(null)
-    const compradores = ref(null)
+    const editCliente = ref(true)
+    const cliente = ref(null)
+    const clientees = ref(null)
     const editFechaFacturacion = ref(false)
     const fechaFacturacion = ref({ from: null, to: null })
     const editFechaViaje = ref(false)
@@ -891,7 +906,7 @@ export default {
     const facturas = ref([])
     const fechaEmision = ref({ from: null, to: null })
     const fechaVencimiento = ref({ from: null, to: null })
-    const nombreComprador = ref(null)
+    const nombreCliente = ref(null)
     const nuevaFacturaDialog = ref(false)
     const paso1 = ref(true)
     const paso2 = ref(false)
@@ -904,12 +919,12 @@ export default {
       if (llaveroService.obtenerDeLocal('hhFacturarViaje') !== null) {
         afContarFacturas().then(() => {
           const resultado = llaveroService.obtenerDeLocal('hhFacturarViaje')
-          afBuscarPorCompradorId(resultado.value.compradorId).then(() => {
+          afBuscarPorClienteId(resultado.value.clienteId).then(() => {
             facturaCreation.id = null
             facturaCreation.viajeId = resultado.value.id
-            facturaCreation.razonSocial = resultado.value.comprador
-            facturaCreation.domicilioComercial = nombreComprador.value.direccion
-            facturaCreation.identificacion = nombreComprador.value.identificacion
+            facturaCreation.razonSocial = resultado.value.cliente
+            facturaCreation.domicilioComercial = nombreCliente.value.direccion
+            facturaCreation.identificacion = nombreCliente.value.identificacion
             facturaCreation.tipoComprobante = null
             facturaCreation.numeroComprobante = null
             facturaCreation.fechaEmision = null
@@ -925,7 +940,7 @@ export default {
             facturaCreation.notas = null
             facturaCreation.subTotal = null
 
-            titulo.value = 'Facturar viaje de ' + resultado.value.comprador
+            titulo.value = 'Facturar viaje de ' + resultado.value.cliente
             fIrPaso1()
             llaveroService.borrarDeLocal('hhFacturarViaje')
             nuevaFacturaDialog.value = true
@@ -972,13 +987,13 @@ export default {
       }
     }
 
-    async function afBuscarPorCompradorId (id) {
-      nombreComprador.value = null
+    async function afBuscarPorClienteId (id) {
+      nombreCliente.value = null
       $q.loading.show()
       try {
         const resultado = await clienteService.spfBuscarPorId(id)
         if (resultado.status === 200) {
-          nombreComprador.value = resultado.data
+          nombreCliente.value = resultado.data
           $q.loading.hide()
         }
       } catch (err) {
@@ -1143,7 +1158,7 @@ export default {
       }
     }
 
-    function fFiltrarCompradores () {}
+    function fFiltrarClientes () {}
 
     function fFormatoFecha (fecha) {
       return ayuda.getDateWithFormat(fecha)
@@ -1211,7 +1226,7 @@ export default {
     }
 
     function fLimpiarInputs (actual) {
-      editComprador.value = false
+      editCliente.value = false
       editFechaFacturacion.value = false
       editFechaViaje.value = false
       editNumeroComprobante.value = false
@@ -1219,7 +1234,7 @@ export default {
       editNumeroRemito.value = false
       editTipoComprobante.value = false
 
-      comprador.value = null
+      cliente.value = null
       fechaFacturacion.value.from = null
       fechaFacturacion.value.to = null
       fechaViaje.value.from = null
@@ -1236,7 +1251,7 @@ export default {
       // facturaCreation.camionId = props.row.camionId
       // facturaCreation.cantidadTransportada = props.row.cantidadTransportada
       // facturaCreation.cargaId = props.row.cargaId
-      // facturaCreation.compradorId = props.row.compradorId
+      // facturaCreation.clienteId = props.row.clienteId
       // facturaCreation.categoriaViajeId = props.row.categoriaViajeId
       // facturaCreation.conductorId = props.row.conductorId
       // facturaCreation.destinoId = props.row.destinoId
@@ -1281,11 +1296,23 @@ export default {
       })
     }
 
-    function fMostrarComprador () {}
+    function fMostrarCliente () {}
     function fMostrarFechaFacturacion () {}
     function fMostrarFechaViaje () {}
     function fMostrarImprimirFactura () {}
-    function fMostrarIngresarPago () {}
+
+    function fMostrarIngresarPago (props) {
+      llaveroService.borrarDeLocal('hhIngresarPagoCtaCte')
+      llaveroService.guardarEnLocalConSesion('hhIngresarPagoCtaCte', props.row)
+      router.push({ name: 'Facturacion' })
+    }
+
+    function fMostrarPagos (props) {
+      llaveroService.borrarDeLocal('hhMostrarPagoCtaCte')
+      llaveroService.guardarEnLocalConSesion('hhMostrarPagoCtaCte', props.row)
+      router.push({ name: 'Facturacion' })
+    }
+
     function fMostrarNumeroComprobante () {}
     function fMostrarNumeroRemito () {}
     function fMostrarTipoComprobante () {}
@@ -1311,7 +1338,7 @@ export default {
 
     return {
       autoridad,
-      afBuscarPorCompradorId,
+      afBuscarPorClienteId,
 
       columnas,
       paginacion,
@@ -1319,7 +1346,7 @@ export default {
       titulo,
       facturas,
 
-      editComprador,
+      editCliente,
       editFechaFacturacion,
       editFechaViaje,
       editNumeroComprobante,
@@ -1327,8 +1354,8 @@ export default {
       editNumeroRemito,
       editTipoComprobante,
 
-      comprador,
-      compradores,
+      cliente,
+      clientees,
       fechaFacturacion,
       fechaViaje,
       fechaEmision,
@@ -1344,14 +1371,15 @@ export default {
       fIrPaso2,
       fIrPaso3,
       fGuardarFactura,
-      fFiltrarCompradores,
+      fFiltrarClientes,
       fMostrarEditarFactura,
       fMostrarEliminarFactura,
-      fMostrarComprador,
+      fMostrarCliente,
       fMostrarFechaFacturacion,
       fMostrarFechaViaje,
       fMostrarImprimirFactura,
       fMostrarIngresarPago,
+      fMostrarPagos,
       fMostrarNumeroComprobante,
       fMostrarNumeroGuia,
       fMostrarNumeroRemito,

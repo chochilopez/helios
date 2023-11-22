@@ -1,15 +1,15 @@
 export class RemitoModel {
   constructor () {
-    this.id = ''
-    this.descripcion = ''
-    this.fecha = ''
-    this.numero = ''
+    this.id = null
+    this.descripcion = null
+    this.fecha = null
+    this.numero = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

@@ -21,5 +21,12 @@ export class FacturaCreation {
     this.subTotal = null
     this.tipoComprobante = null
     this.viajeId = null
+
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

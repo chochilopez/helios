@@ -1,28 +1,28 @@
 export class PresupuestoModel {
   constructor () {
-    this.id = ''
-    this.cantidadTransportada = ''
-    this.categoriaViaje = ''
-    this.comprador = ''
-    this.destino = ''
-    this.fecha = ''
-    this.fechaEmision = ''
-    this.kmCargado = ''
-    this.notas = ''
-    this.origen = ''
-    this.validez = ''
-    this.valorKm = ''
+    this.id = null
+    this.cantidadTransportada = null
+    this.categoriaViaje = null
+    this.cliente = null
+    this.destino = null
+    this.fecha = null
+    this.fechaEmision = null
+    this.kmCargado = null
+    this.notas = null
+    this.origen = null
+    this.validez = null
+    this.valorKm = null
 
-    this.categoriaViajeId = ''
-    this.origenId = ''
-    this.destinoId = ''
-    this.compradorId = ''
+    this.categoriaViajeId = null
+    this.origenId = null
+    this.destinoId = null
+    this.clienteId = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

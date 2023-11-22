@@ -1,20 +1,20 @@
 export class AdelantoModel {
   constructor () {
-    this.id = ''
-    this.descripcion = ''
-    this.fecha = ''
-    this.monto = ''
-    this.notas = ''
-    this.recibo = ''
-    this.rendido = ''
-    this.caja = ''
-    this.conductor = ''
+    this.id = null
+    this.descripcion = null
+    this.fecha = null
+    this.monto = null
+    this.notas = null
+    this.recibo = null
+    this.rendido = null
+    this.caja = null
+    this.conductor = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

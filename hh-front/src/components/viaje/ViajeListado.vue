@@ -70,12 +70,12 @@
                         <q-item-label>Categoria viaje</q-item-label>
                       </q-item-section>
                     </q-item>
-                    <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarComprador">
+                    <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCliente">
                       <q-item-section avatar>
                         <q-icon name="monetization_on" />
                       </q-item-section>
                       <q-item-section>
-                        <q-item-label>Comprador</q-item-label>
+                        <q-item-label>Cliente</q-item-label>
                       </q-item-section>
                     </q-item>
                     <q-item clickable  v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarConductor">
@@ -306,21 +306,21 @@
                   </template>
                 </q-select>
                 <q-select
-                  v-if="editComprador"
+                  v-if="editCliente"
                   outlined
                   dense
                   emit-value
                   map-options
                   clearable
-                  v-model="comprador"
-                  :options="compradores"
+                  v-model="cliente"
+                  :options="clientees"
                   option-value="id"
                   option-label="nombre"
-                  label="Buscar por comprador"
+                  label="Buscar por cliente"
                   use-input
                   input-debounce="0"
-                  @filter="fFiltrarCompradores"
-                  @update:model-value="afBuscarPorCompradorId()"
+                  @filter="fFiltrarClientes"
+                  @update:model-value="afBuscarPorClienteId()"
                   hint="Tenés que escribir al menos 3 caracteres para buscar."
                 >
                   <template v-slot:no-option>
@@ -843,7 +843,7 @@
                 {{ props.row.camion }}
               </q-td>
               <q-td>
-                {{ props.row.comprador }}
+                {{ props.row.cliente }}
               </q-td>
               <q-td>
                 {{ props.row.categoriaViaje }}
@@ -912,9 +912,9 @@
                     <div class="row text-white">{{ props.row.guia }}</div>
                     <div class="row paleta1-color2">N° guia</div>
                   </div>
-                  <div v-if="props.row.comprador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                    <div class="row text-white">{{ props.row.comprador }}</div>
-                    <div class="row paleta1-color2">Nombre comprador</div>
+                  <div v-if="props.row.cliente != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.cliente }}</div>
+                    <div class="row paleta1-color2">Nombre cliente</div>
                   </div>
                   <div v-if="props.row.conductor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.conductor }}</div>
@@ -1022,15 +1022,15 @@
                 emit-value
                 map-options
                 clearable
-                v-model="viajeCreation.compradorId"
+                v-model="viajeCreation.clienteId"
                 :rules="[reglas.requerido]"
-                :options="compradores"
+                :options="clientees"
                 option-value="id"
                 option-label="nombre"
-                label="Comprador"
+                label="Cliente"
                 use-input
                 input-debounce="0"
-                @filter="fFiltrarCompradores"
+                @filter="fFiltrarClientes"
                 hint="Ingresá 3 caracteres para buscar."
               >
                 <template v-slot:no-option>
@@ -1475,10 +1475,10 @@ const columnas = [
     field: ''
   },
   {
-    name: 'comprador',
-    label: 'Comprador',
+    name: 'cliente',
+    label: 'Cliente',
     align: 'left',
-    field: 'comprador',
+    field: 'cliente',
     sortable: true
   },
   {
@@ -1525,7 +1525,7 @@ export default {
     const editAcoplado = ref(false)
     const editCamion = ref(false)
     const editCategoriaViaje = ref(false)
-    const editComprador = ref(true)
+    const editCliente = ref(true)
     const editCantidadTransportada = ref(false)
     const editConductor = ref(false)
     const editDireccionCarga = ref(false)
@@ -1553,8 +1553,8 @@ export default {
     const categoriaViaje = ref(null)
     const categoriasViaje = ref([])
     const categoriasViajeList = ref([])
-    const comprador = ref(null)
-    const compradores = ref([])
+    const cliente = ref(null)
+    const clientees = ref([])
     const conductor = ref(null)
     const conductores = ref([])
     const conductoresList = ref([])
@@ -1599,7 +1599,7 @@ export default {
         viajeCreation.fechaId = null
         viajeCreation.cantidadTransportada = resultado.value.cantidadTransportada
         viajeCreation.categoriaViajeId = resultado.value.categoriaViajeId
-        viajeCreation.compradorId = resultado.value.compradorId
+        viajeCreation.clienteId = resultado.value.clienteId
         viajeCreation.destinoId = resultado.value.destinoId
         viajeCreation.fecha = fFormatoFecha(resultado.value.fecha)
         viajeCreation.kmCargado = resultado.value.kmCargado
@@ -1612,7 +1612,7 @@ export default {
               afBuscarCamiones().then(() => {
                 afBuscarCategoriasViaje().then(() => {
                   afBuscarDirecciones().then(() => {
-                    titulo.value = 'Confirmar presupuesto de viaje para ' + resultado.value.comprador
+                    titulo.value = 'Confirmar presupuesto de viaje para ' + resultado.value.cliente
                     fIrPaso1()
                     llaveroService.borrarDeLocal('hhConfirmarPresupuesto')
                     nuevoViajeDialog.value = true
@@ -2053,15 +2053,15 @@ export default {
       }
     }
 
-    async function afBuscarPorCompradorId () {
-      if (comprador.value != null) {
+    async function afBuscarPorClienteId () {
+      if (cliente.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (autoridad.value === 'admin') {
-            resultado = await viajeService.spfBuscarTodasPorCompradorIdConEliminadas(comprador.value)
+            resultado = await viajeService.spfBuscarTodasPorClienteIdConEliminadas(cliente.value)
           } else {
-            resultado = await viajeService.spfBuscarTodasPorCompradorId(comprador.value)
+            resultado = await viajeService.spfBuscarTodasPorClienteId(cliente.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -2660,13 +2660,13 @@ export default {
       })
     }
 
-    function fFiltrarCompradores (val, update, abort) {
+    function fFiltrarClientes (val, update, abort) {
       if (val.length < 3) {
         abort()
         return
       }
       update(() => {
-        compradores.value = clientesList.value.filter(
+        clientees.value = clientesList.value.filter(
           (v) => v.nombre.toLowerCase().indexOf(val.toLowerCase()) > -1
         )
       })
@@ -2781,7 +2781,7 @@ export default {
       viajeCreation.cantidadTransportada = null
       viajeCreation.cargaId = null
       viajeCreation.categoriaViajeId = null
-      viajeCreation.compradorId = null
+      viajeCreation.clienteId = null
       viajeCreation.conductorId = null
       viajeCreation.destinoId = null
       viajeCreation.fecha = null
@@ -2819,8 +2819,8 @@ export default {
       cantidadTransportadaChip.value.der = false
       editCategoriaViaje.value = false
       categoriaViaje.value = null
-      editComprador.value = false
-      comprador.value = null
+      editCliente.value = false
+      cliente.value = null
       editConductor.value = false
       conductor.value = null
       editDireccionCarga.value = false
@@ -2888,10 +2888,10 @@ export default {
       })
     }
 
-    function fMostrarComprador () {
+    function fMostrarCliente () {
       afBuscarClientes().then(() => {
         fLimpiarInputs()
-        editComprador.value = true
+        editCliente.value = true
       })
     }
 
@@ -2956,7 +2956,7 @@ export default {
       viajeCreation.camionId = props.row.camionId
       viajeCreation.cantidadTransportada = props.row.cantidadTransportada
       viajeCreation.cargaId = props.row.cargaId
-      viajeCreation.compradorId = props.row.compradorId
+      viajeCreation.clienteId = props.row.clienteId
       viajeCreation.categoriaViajeId = props.row.categoriaViajeId
       viajeCreation.conductorId = props.row.conductorId
       viajeCreation.destinoId = props.row.destinoId
@@ -3057,7 +3057,7 @@ export default {
       afBuscarPorCantidadTransportada,
       afBuscarPorCategoriaViajeId,
       afBuscarPorConductorId,
-      afBuscarPorCompradorId,
+      afBuscarPorClienteId,
       afBuscarPorDireccionCargaId,
       afBuscarPorDireccionDestinoId,
       afBuscarPorDireccionOrigenId,
@@ -3083,9 +3083,9 @@ export default {
       editCategoriaViaje,
       categoriaViaje,
       categoriasViaje,
-      editComprador,
-      comprador,
-      compradores,
+      editCliente,
+      cliente,
+      clientees,
       editConductor,
       conductor,
       conductores,
@@ -3150,7 +3150,7 @@ export default {
       fMostrarCamion,
       fMostrarCantidadTransportada,
       fMostrarCategoriaViaje,
-      fMostrarComprador,
+      fMostrarCliente,
       fMostrarConductor,
       fMostrarDireccionCarga,
       fMostrarDireccionDestino,
@@ -3169,7 +3169,7 @@ export default {
       fFiltrarCamiones,
       fFiltrarCategoriasViaje,
       fFiltrarConductores,
-      fFiltrarCompradores,
+      fFiltrarClientes,
       fFiltrarDireccionesCarga,
       fFiltrarDireccionesDestino,
       fFiltrarDireccionesOrigen,

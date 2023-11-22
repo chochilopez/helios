@@ -17,7 +17,7 @@ public abstract class AbsViajeCreation extends AbsAuditoriaCreation {
     private String fecha;
 
     private String categoriaViajeId;
-    private String compradorId;
+    private String clienteId;
     private String fechaId;
     private String destinoId;
     private String origenId;

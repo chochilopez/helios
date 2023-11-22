@@ -16,7 +16,7 @@ public abstract class AbsViajeModel extends AbsAuditoriaModel {
     private String notas;
 
     private Long categoriaViajeId;
-    private Long compradorId;
+    private Long clienteId;
     private Long destinoId;
     private Long fechaId;
     private Long origenId;

@@ -12,5 +12,12 @@ export class ChequeCreation {
     this.banco = null
     this.entregadoA = null
     this.recibidoDe = null
+
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

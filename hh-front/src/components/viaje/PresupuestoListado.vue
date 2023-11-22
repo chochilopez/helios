@@ -1,5 +1,5 @@
 <template>
-    <q-card class="font-5 no-shadow no-border">
+  <q-card class="font-5 no-shadow no-border">
     <div class="row q-pa-md">
       <div class="col">
         <q-table
@@ -39,12 +39,12 @@
                         <q-item-label>Categoria viaje</q-item-label>
                       </q-item-section>
                     </q-item>
-                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarComprador">
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCliente">
                       <q-item-section avatar>
                         <q-icon name="monetization_on" />
                       </q-item-section>
                       <q-item-section>
-                        <q-item-label>Comprador</q-item-label>
+                        <q-item-label>cliente</q-item-label>
                       </q-item-section>
                     </q-item>
                     <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarDireccionDestino">
@@ -172,21 +172,21 @@
                   </template>
                 </q-select>
                 <q-select
-                  v-if="editComprador"
+                  v-if="editCliente"
                   outlined
                   dense
                   emit-value
                   map-options
                   clearable
-                  v-model="comprador"
-                  :options="compradores"
+                  v-model="cliente"
+                  :options="clientees"
                   option-value="id"
                   option-label="nombre"
-                  label="Buscar por comprador"
+                  label="Buscar por cliente"
                   use-input
                   input-debounce="0"
-                  @filter="fFiltrarCompradores"
-                  @update:model-value="afBuscarPorCompradorId()"
+                  @filter="fFiltrarClientes"
+                  @update:model-value="afBuscarPorClienteId()"
                   hint="Tenés que escribir al menos 3 caracteres para buscar."
                 >
                   <template v-slot:before>
@@ -487,7 +487,7 @@
                 </q-btn>
               </q-td>
               <q-td>
-                {{ props.row.comprador}}
+                {{ props.row.cliente}}
               </q-td>
               <q-td>
                 {{ props.row.categoriaViaje }}
@@ -526,9 +526,9 @@
                     <div class="row text-white">{{ props.row.categoriaViaje }}</div>
                     <div class="row paleta1-color2">Categoria viaje</div>
                   </div>
-                  <div v-if="props.row.comprador != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                    <div class="row text-white">{{ props.row.comprador }}</div>
-                    <div class="row paleta1-color2">Comprador</div>
+                  <div v-if="props.row.cliente != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.cliente }}</div>
+                    <div class="row paleta1-color2">cliente</div>
                   </div>
                   <div v-if="props.row.destino != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.destino }}</div>
@@ -648,15 +648,15 @@
                 emit-value
                 map-options
                 clearable
-                v-model="presupuestoCreation.compradorId"
+                v-model="presupuestoCreation.clienteId"
                 :rules="[reglas.requerido]"
-                :options="compradores"
+                :options="clientees"
                 option-value="id"
                 option-label="nombre"
-                label="Comprador"
+                label="cliente"
                 use-input
                 input-debounce="0"
-                @filter="fFiltrarCompradores"
+                @filter="fFiltrarClientes"
                 hint="Ingresá 3 caracteres para buscar."
               >
                 <template v-slot:no-option>
@@ -887,10 +887,10 @@ const columnas = [
     align: 'center'
   },
   {
-    name: 'comprador',
-    label: 'Comprador',
+    name: 'cliente',
+    label: 'cliente',
     align: 'left',
-    field: 'comprador',
+    field: 'cliente',
     sortable: true
   },
   {
@@ -953,8 +953,8 @@ export default {
     const categoriasViaje = ref([])
     const categoriasViajeList = ref([])
     const clientesList = ref([])
-    const comprador = ref(null)
-    const compradores = ref([])
+    const cliente = ref(null)
+    const clientees = ref([])
     const direccionDestino = ref(null)
     const direccionesDestino = ref([])
     const direccionOrigen = ref(null)
@@ -962,7 +962,7 @@ export default {
     const direccionesList = ref([])
     const editCantidadTransportada = ref(false)
     const editCategoriaViaje = ref(false)
-    const editComprador = ref(true)
+    const editCliente = ref(true)
     const editDireccionDestino = ref(false)
     const editDireccionOrigen = ref(false)
     const editFecha = ref(false)
@@ -1221,15 +1221,15 @@ export default {
       }
     }
 
-    async function afBuscarPorCompradorId () {
-      if (comprador.value != null) {
+    async function afBuscarPorClienteId () {
+      if (cliente.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (autoridad.value === 'admin') {
-            resultado = await presupuestoService.spfBuscarTodasPorCompradorIdConEliminadas(comprador.value)
+            resultado = await presupuestoService.spfBuscarTodasPorClienteIdConEliminadas(cliente.value)
           } else {
-            resultado = await presupuestoService.spfBuscarTodasPorCompradorId(comprador.value)
+            resultado = await presupuestoService.spfBuscarTodasPorClienteId(cliente.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
@@ -1567,13 +1567,13 @@ export default {
       })
     }
 
-    function fFiltrarCompradores (val, update, abort) {
+    function fFiltrarClientes (val, update, abort) {
       if (val.length < 3) {
         abort()
         return
       }
       update(() => {
-        compradores.value = clientesList.value.filter(
+        clientees.value = clientesList.value.filter(
           (v) => v.nombre.toLowerCase().indexOf(val.toLowerCase()) > -1
         )
       })
@@ -1637,7 +1637,7 @@ export default {
     function fLimpiarFormulario () {
       presupuestoCreation.cantidadTransportada = null
       presupuestoCreation.categoriaViajeId = null
-      presupuestoCreation.compradorId = null
+      presupuestoCreation.clienteId = null
       presupuestoCreation.destinoId = null
       presupuestoCreation.fecha = null
       presupuestoCreation.kmCargado = null
@@ -1666,8 +1666,8 @@ export default {
       cantidadTransportadaChip.value.der = false
       editCategoriaViaje.value = false
       categoriaViaje.value = null
-      editComprador.value = false
-      comprador.value = null
+      editCliente.value = false
+      cliente.value = null
       editDireccionDestino.value = false
       direccionDestino.value = null
       editDireccionOrigen.value = false
@@ -1701,10 +1701,10 @@ export default {
       })
     }
 
-    function fMostrarComprador () {
+    function fMostrarCliente () {
       afBuscarClientes().then(() => {
         fLimpiarInputs()
-        editComprador.value = true
+        editCliente.value = true
       })
     }
 
@@ -1763,7 +1763,7 @@ export default {
       presupuestoCreation.id = props.row.id
       presupuestoCreation.cantidadTransportada = props.row.cantidadTransportada
       presupuestoCreation.categoriaViajeId = props.row.categoriaViajeId
-      presupuestoCreation.compradorId = props.row.compradorId
+      presupuestoCreation.clienteId = props.row.clienteId
       presupuestoCreation.destinoId = props.row.destinoId
       presupuestoCreation.fecha = ayuda.fFormatearADatePicker(props.row.fecha.slice(0, 10))
       presupuestoCreation.kmCargado = props.row.kmCargado
@@ -1803,15 +1803,15 @@ export default {
       autoridad,
       afBuscarPorCantidadTransportada,
       afBuscarPorCategoriaViajeId,
-      afBuscarPorCompradorId,
+      afBuscarPorClienteId,
       afBuscarPorDireccionDestinoId,
       afBuscarPorDireccionOrigenId,
       afBuscarPorFechaViaje,
       afBuscarPorKilometrosCargado,
       afBuscarPorNotas,
       afBuscarPorValorKm,
-      comprador,
-      compradores,
+      cliente,
+      clientees,
       cantidadTransportada,
       cantidadTransportadaChip,
       categoriaViaje,
@@ -1823,7 +1823,7 @@ export default {
       direccionesOrigen,
       editCantidadTransportada,
       editCategoriaViaje,
-      editComprador,
+      editCliente,
       editDireccionDestino,
       editDireccionOrigen,
       editFecha,
@@ -1832,7 +1832,7 @@ export default {
       editValorKilomertro,
       fecha,
       fFiltrarCategoriasViaje,
-      fFiltrarCompradores,
+      fFiltrarClientes,
       fFiltrarDireccionesDestino,
       fFiltrarDireccionesOrigen,
       fFormatoFecha,
@@ -1842,7 +1842,7 @@ export default {
       fIrPaso3,
       fMostrarCantidadTransportada,
       fMostrarCategoriaViaje,
-      fMostrarComprador,
+      fMostrarCliente,
       fMostrarDireccionDestino,
       fMostrarDireccionOrigen,
       fMostrarFechaViaje,

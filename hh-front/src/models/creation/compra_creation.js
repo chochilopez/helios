@@ -9,5 +9,12 @@ export class CompraCreation {
     this.notas = null
     this.comprobanteId = null
     this.proveedorId = null
+
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

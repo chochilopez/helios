@@ -47,20 +47,20 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     }
 
     @Override
-    public List<PresupuestoModel> buscarTodasPorCompradorId(Long id) {
-        log.info("Buscando todas las entidades Presupuesto con id de Comprador: {}.", id);
-        List<PresupuestoModel> listado = presupuestoDAO.findAllByCompradorIdAndEliminadaIsNull(id);
+    public List<PresupuestoModel> buscarTodasPorClienteId(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Cliente: {}.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByClienteIdAndEliminadaIsNull(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Comprador: " + id + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Cliente: " + id + ".");
         return listado;
     }
 
     @Override
-    public List<PresupuestoModel> buscarTodasPorCompradorIdConEliminadas(Long id) {
-        log.info("Buscando todas las entidades Presupuesto con id de Comprador: {}, con eliminadas.", id);
-        List<PresupuestoModel> listado = presupuestoDAO.findAllByCompradorId(id);
+    public List<PresupuestoModel> buscarTodasPorClienteIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Presupuesto con id de Cliente: {}, con eliminadas.", id);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByClienteId(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Comprador: " + id + ", con eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con id de Cliente: " + id + ", con eliminadas.");
         return listado;
     }
 
@@ -213,20 +213,20 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     }
 
     @Override
-    public List<PresupuestoModel> buscarTodasPorCompradorNombre(String nombre) {
-        log.info("Buscando todas las entidades Presupuesto con nombre de Comprador: {}.", nombre);
-        List<PresupuestoModel> listado = presupuestoDAO.findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
+    public List<PresupuestoModel> buscarTodasPorClienteNombre(String nombre) {
+        log.info("Buscando todas las entidades Presupuesto con nombre de Cliente: {}.", nombre);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByClienteNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con nombre de Comprador: " + nombre + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con nombre de Cliente: " + nombre + ".");
         return listado;
     }
 
     @Override
-    public List<PresupuestoModel> buscarTodasPorCompradorNombreConEliminadas(String nombre) {
-        log.info("Buscando todas las entidades Presupuesto con nombre de Comprador: {}, con eliminadas.", nombre);
-        List<PresupuestoModel> listado = presupuestoDAO.findAllByCompradorNombreContainingIgnoreCase(nombre);
+    public List<PresupuestoModel> buscarTodasPorClienteNombreConEliminadas(String nombre) {
+        log.info("Buscando todas las entidades Presupuesto con nombre de Cliente: {}, con eliminadas.", nombre);
+        List<PresupuestoModel> listado = presupuestoDAO.findAllByClienteNombreContainingIgnoreCase(nombre);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con nombre de Comprador: " + nombre + ", con eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Presupuesto con nombre de Cliente: " + nombre + ", con eliminadas.");
         return listado;
     }
 

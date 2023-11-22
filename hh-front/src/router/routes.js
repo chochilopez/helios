@@ -225,6 +225,14 @@ const routes = [
         }
       },
       {
+        path: '/remito',
+        name: 'Remito',
+        component: () => import('pages/sitio/facturacion/Remito.vue'),
+        meta: {
+          rol: rolEnum.USUARIO
+        }
+      },
+      {
         path: '/resumen-conductor',
         name: 'ResumenConductor',
         component: () => import('pages/sitio/conductor/ResumenConductor.vue'),

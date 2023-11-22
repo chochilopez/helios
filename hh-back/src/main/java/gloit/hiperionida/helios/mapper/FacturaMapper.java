@@ -88,7 +88,7 @@ public class FacturaMapper {
                     null,
                     MovimientoEnum.DEBITO,
                     Helper.getNow(""),
-                    viajeModel.getCompradorId(),
+                    viajeModel.getClienteId(),
                     null,
                     model.getId()
             );
@@ -102,7 +102,7 @@ public class FacturaMapper {
                         TipoPagoEnum.EFECTIVO,
                         MovimientoEnum.CREDITO,
                         Helper.getNow(""),
-                        viajeModel.getCompradorId(),
+                        viajeModel.getClienteId(),
                         null,
                         model.getId()
                         );
@@ -219,9 +219,9 @@ public class FacturaMapper {
                     CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.findByIdAndEliminadaIsNull(viajeModel.getCategoriaViajeId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la categoria id: " + viajeModel.getCategoriaViajeId() + "."));
                     dto.setCategoriaViaje(categoriaViajeModel.getCategoria());
                 }
-                if (viajeModel.getCompradorId() != null) {
-                    ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(viajeModel.getCompradorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el comprador con id: " + viajeModel.getCompradorId() + "."));
-                    dto.setComprador(clienteModel.getNombre());
+                if (viajeModel.getClienteId() != null) {
+                    ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(viajeModel.getClienteId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el cliente con id: " + viajeModel.getClienteId() + "."));
+                    dto.setCliente(clienteModel.getNombre());
                 }
                 if (viajeModel.getConductorId() != null) {
                     ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(viajeModel.getConductorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor con id: " + viajeModel.getConductorId() + "."));

@@ -11,5 +11,12 @@ export class UsuarioCreation {
     this.token = null
     this.tokens_id = []
     this.roles_id = []
+
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

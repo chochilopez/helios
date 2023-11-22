@@ -1,14 +1,14 @@
 export class ReciboModel {
   constructor () {
-    this.id = ''
-    this.monto = ''
-    this.fecha = ''
+    this.id = null
+    this.monto = null
+    this.fecha = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

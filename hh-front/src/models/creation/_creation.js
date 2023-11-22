@@ -1,7 +1,6 @@
-export class PlanCuentaModel {
+export class Creation {
   constructor () {
     this.id = null
-    this.nombre = null
 
     this.creada = null
     this.creador = null

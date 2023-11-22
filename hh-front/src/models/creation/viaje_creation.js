@@ -6,7 +6,7 @@ export class ViajeCreation {
     this.cantidadTransportada = null
     this.cargaId = null
     this.categoriaViajeId = null
-    this.compradorId = null
+    this.clienteId = null
     this.conductorId = null
     this.destinoId = null
     this.fecha = null
@@ -20,5 +20,12 @@ export class ViajeCreation {
     this.origenId = null
     this.valorKm = null
     this.vendedorId = null
+
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

@@ -28,7 +28,7 @@ public class ViajeCreation extends AbsViajeCreation {
     this.cantidadTransportada = ''
     this.cargaId = ''
     this.categoriaViajeId = ''
-    this.compradorId = ''
+    this.clienteId = ''
     this.conductorId = ''
     this.destinoId = ''
     this.fecha = ''

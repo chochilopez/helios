@@ -250,22 +250,6 @@
           <q-item
             clickable
             v-ripple
-            :active="link === 'facturar'"
-            @click="link = 'facturar'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'Facturar' }"
-            class="q-ml-md paleta1-fondo5"
-            v-if="autoridad === 'admin' || autoridad === 'usuario'"
-          >
-            <q-item-section avatar>
-              <q-icon name="fa-solid fa-file-invoice-dollar" />
-            </q-item-section>
-            <q-item-section class="white-text">Facturar</q-item-section>
-          </q-item>
-          <q-item
-            clickable
-            v-ripple
             :active="link === 'facturacion'"
             @click="link = 'facturacion'"
             active-class="seleccion-activa"
@@ -291,9 +275,25 @@
             v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
             <q-item-section avatar>
-              <q-icon name="receipt" />
+              <q-icon name="fa-solid fa-file-invoice-dollar" />
             </q-item-section>
             <q-item-section class="white-text">Recibos</q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'remitos'"
+            @click="link = 'remitos'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'Remito' }"
+            class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
+          >
+            <q-item-section avatar>
+              <q-icon name="receipt" />
+            </q-item-section>
+            <q-item-section class="white-text">Remitos</q-item-section>
           </q-item>
         </q-expansion-item>
         <q-expansion-item icon="paid" label="Flujo" v-if="autoridad === 'admin' || autoridad === 'usuario'">

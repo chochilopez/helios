@@ -1,13 +1,13 @@
 export class CategoriaGastoModel {
   constructor () {
-    this.id = ''
-    this.categoria = ''
+    this.id = null
+    this.categoria = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

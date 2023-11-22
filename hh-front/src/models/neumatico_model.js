@@ -1,25 +1,25 @@
 export class NeumaticoModel {
   constructor () {
-    this.id = ''
-    this.fechaCompra = ''
-    this.kmVida = ''
-    this.kmActuales = ''
-    this.kmRecapado = ''
-    this.marca  = ''
-    this.precioCompra = ''
-    this.recapadosMaximos = ''
-    this.ubicacion = ''
-    this.estado = ''
-    this.baja = ''
-    this.acopladoId = ''
-    this.camionId = ''
-    this.proveedor = ''
+    this.id = null
+    this.fechaCompra = null
+    this.kmVida = null
+    this.kmActuales = null
+    this.kmRecapado = null
+    this.marca  = null
+    this.precioCompra = null
+    this.recapadosMaximos = null
+    this.ubicacion = null
+    this.estado = null
+    this.baja = null
+    this.acopladoId = null
+    this.camionId = null
+    this.proveedor = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

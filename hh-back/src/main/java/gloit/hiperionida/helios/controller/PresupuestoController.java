@@ -178,10 +178,10 @@ public class PresupuestoController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-comprador-id/{id}")
+    @GetMapping(value = "/buscar-todas-por-cliente-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorCompradorId(@PathVariable(name = "id") Long id) {
-        List<PresupuestoModel> listado = presupuestoService.buscarTodasPorCompradorId(id);
+    public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorClienteId(@PathVariable(name = "id") Long id) {
+        List<PresupuestoModel> listado = presupuestoService.buscarTodasPorClienteId(id);
         ArrayList<PresupuestoDTO> viajes = new ArrayList<>();
         for (PresupuestoModel viaje:listado) {
             viajes.add(presupuestoMapper.toDto(viaje));
@@ -189,10 +189,10 @@ public class PresupuestoController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-comprador-id-con-eliminadas/{id}")
+    @GetMapping(value = "/buscar-todas-por-cliente-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorCompradorIdConEliminadas(@PathVariable(name = "id") Long id) {
-        List<PresupuestoModel> listado = presupuestoService.buscarTodasPorCompradorIdConEliminadas(id);
+    public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorClienteIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<PresupuestoModel> listado = presupuestoService.buscarTodasPorClienteIdConEliminadas(id);
         ArrayList<PresupuestoDTO> viajes = new ArrayList<>();
         for (PresupuestoModel viaje:listado) {
             viajes.add(presupuestoMapper.toDto(viaje));
@@ -256,10 +256,10 @@ public class PresupuestoController extends AbsBaseController {
         return new ResponseEntity<>(presupuestoMapper.toDto(presupuestoService.buscarProximo()), Helper.httpHeaders("Se devolvio el proximo Presupuesto."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-comprador-nombre/{nombre}")
+    @GetMapping(value = "/buscar-todas-por-cliente-nombre/{nombre}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorCompradorNombre(@PathVariable(name = "nombre") String nombre) {
-        List<PresupuestoModel> listado = presupuestoService.buscarTodasPorCompradorNombre(nombre);
+    public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorClienteNombre(@PathVariable(name = "nombre") String nombre) {
+        List<PresupuestoModel> listado = presupuestoService.buscarTodasPorClienteNombre(nombre);
         ArrayList<PresupuestoDTO> objetos = new ArrayList<>();
         for (PresupuestoModel presupuesto:listado) {
             objetos.add(presupuestoMapper.toDto(presupuesto));
@@ -267,10 +267,10 @@ public class PresupuestoController extends AbsBaseController {
         return new ResponseEntity<>(objetos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-comprador-nombre-con-eliminadas/{nombre}")
+    @GetMapping(value = "/buscar-todas-por-cliente-nombre-con-eliminadas/{nombre}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorCompradorNombreConEliminadas(@PathVariable(name = "nombre") String nombre) {
-        List<PresupuestoModel> listado = presupuestoService.buscarTodasPorCompradorNombreConEliminadas(nombre);
+    public ResponseEntity<List<PresupuestoDTO>> buscarTodasPorClienteNombreConEliminadas(@PathVariable(name = "nombre") String nombre) {
+        List<PresupuestoModel> listado = presupuestoService.buscarTodasPorClienteNombreConEliminadas(nombre);
         ArrayList<PresupuestoDTO> objetos = new ArrayList<>();
         for (PresupuestoModel presupuesto:listado) {
             objetos.add(presupuestoMapper.toDto(presupuesto));

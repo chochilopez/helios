@@ -3,7 +3,7 @@ export class PresupuestoCreation {
     this.id = null
     this.cantidadTransportada = null
     this.categoriaViajeId = null
-    this.compradorId = null
+    this.clienteId = null
     this.destinoId = null
     this.fecha = null
     this.kmCargado = null
@@ -11,5 +11,12 @@ export class PresupuestoCreation {
     this.origenId = null
     this.validez = null
     this.valorKm = null
+
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

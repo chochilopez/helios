@@ -1,16 +1,16 @@
 export class GastoModel {
   constructor () {
-    this.id = ''
-    this.monto = ''
-    this.notas = ''
-    this.categoriaGasto = ''
-    this.viajeId = ''
+    this.id = null
+    this.monto = null
+    this.notas = null
+    this.categoriaGasto = null
+    this.viajeId = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

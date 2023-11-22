@@ -8,5 +8,12 @@ export class ConductorCreation {
     this.telefono = null
     this.direccion = null
     this.licenciaId = null
+
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

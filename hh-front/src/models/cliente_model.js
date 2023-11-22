@@ -1,18 +1,18 @@
 export class ClienteModel {
   constructor () {
-    this.id = ''
-    this.direccion = ''
-    this.email = ''
-    this.identificacion = ''
-    this.nombre = ''
-    this.notas = ''
-    this.telefono = ''
+    this.id = null
+    this.direccion = null
+    this.email = null
+    this.identificacion = null
+    this.nombre = null
+    this.notas = null
+    this.telefono = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

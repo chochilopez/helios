@@ -1,16 +1,16 @@
 export class SeguroModel {
   constructor () {
-    this.id = ''
-    this.aseguradora = ''
-    this.acoplado = ''
-    this.camion = ''
-    this.vencimiento = ''
+    this.id = null
+    this.aseguradora = null
+    this.acoplado = null
+    this.camion = null
+    this.vencimiento = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }

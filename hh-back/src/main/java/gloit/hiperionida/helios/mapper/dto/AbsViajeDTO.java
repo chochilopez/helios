@@ -17,13 +17,13 @@ public abstract class AbsViajeDTO extends AbsAuditoriaDTO {
     private String valorKm;
 
     private String categoriaViaje;
-    private String comprador;
+    private String cliente;
     private String destino;
     private String origen;
 
     private String fechaId;
     private String categoriaViajeId;
-    private String compradorId;
+    private String clienteId;
     private String destinoId;
     private String origenId;
 }

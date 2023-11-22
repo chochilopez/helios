@@ -24,8 +24,8 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByCategoriaViajeIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByConductorId(Long id);
     List<ViajeModel> findAllByConductorIdAndEliminadaIsNull(Long id);
-    List<ViajeModel> findAllByCompradorId(Long id);
-    List<ViajeModel> findAllByCompradorIdAndEliminadaIsNull(Long id);
+    List<ViajeModel> findAllByClienteId(Long id);
+    List<ViajeModel> findAllByClienteIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByDestinoId(Long id);
     List<ViajeModel> findAllByDestinoIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByIntermediarioId(Long id);
@@ -58,14 +58,14 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
     List<ViajeModel> findAllByFechaFechaBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
 
     @Query(value = "SELECT v FROM ViajeModel v " +
-            "JOIN ClienteModel c ON v.compradorId = c.id " +
+            "JOIN ClienteModel c ON v.clienteId = c.id " +
             "where lower(c.nombre) like lower(concat('%',:nombre,'%'))")
-    List<ViajeModel> findAllByCompradorNombreContainingIgnoreCase(String nombre);
+    List<ViajeModel> findAllByClienteNombreContainingIgnoreCase(String nombre);
 
     @Query(value = "SELECT v FROM ViajeModel v " +
-            "JOIN ClienteModel c ON v.compradorId = c.id " +
+            "JOIN ClienteModel c ON v.clienteId = c.id " +
             "where lower(c.nombre) like lower(concat('%',:nombre,'%')) and v.eliminada is null")
-    List<ViajeModel> findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(String nombre);
+    List<ViajeModel> findAllByClienteNombreContainingIgnoreCaseAndEliminadaIsNull(String nombre);
 
     @Query(value = "SELECT v FROM ViajeModel v " +
             "JOIN ClienteModel c ON v.vendedorId = c.id " +

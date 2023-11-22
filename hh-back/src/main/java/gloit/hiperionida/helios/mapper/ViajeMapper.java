@@ -50,8 +50,8 @@ public class ViajeMapper {
                 model.setCargaId(Helper.getLong(creation.getCargaId()));
             if (Helper.getLong(creation.getCategoriaViajeId()) != null)
                 model.setCategoriaViajeId(Helper.getLong(creation.getCategoriaViajeId()));
-            if (Helper.getLong(creation.getCompradorId()) != null)
-                model.setCompradorId(Helper.getLong(creation.getCompradorId()));
+            if (Helper.getLong(creation.getClienteId()) != null)
+                model.setClienteId(Helper.getLong(creation.getClienteId()));
             if (Helper.getLong(creation.getConductorId()) != null)
                 model.setConductorId(Helper.getLong(creation.getConductorId()));
             if (Helper.getLong(creation.getDestinoId()) != null)
@@ -63,7 +63,7 @@ public class ViajeMapper {
                     eventoDAO.save(eventoModel);
                     model.setFechaId(Helper.getLong(creation.getFechaId()));
                 } else {
-                    ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getCompradorId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el cliente."));
+                    ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getClienteId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el cliente."));
                     EventoModel evento = eventoDAO.save(new EventoModel(
                             Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
                             "Viaje para " + clienteModel.getNombre(),
@@ -142,10 +142,10 @@ public class ViajeMapper {
                 dto.setCategoriaViaje(categoriaViajeModel.getCategoria());
                 dto.setCategoriaViajeId(model.getCategoriaViajeId().toString());
             }
-            if (model.getCompradorId() != null) {
-                ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getCompradorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el comprador con id: " + model.getCompradorId() + "."));
-                dto.setComprador(clienteModel.getNombre());
-                dto.setCompradorId(model.getCompradorId().toString());
+            if (model.getClienteId() != null) {
+                ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(model.getClienteId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el cliente con id: " + model.getClienteId() + "."));
+                dto.setCliente(clienteModel.getNombre());
+                dto.setClienteId(model.getClienteId().toString());
             }
             if (model.getConductorId() != null) {
                 ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor con id: " + model.getConductorId() + "."));

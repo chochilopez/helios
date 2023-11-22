@@ -42,9 +42,9 @@ function spfBuscarTodasPorCategoriaViajeIdConEliminadas (id) {
   })
 }
 
-function spfBuscarTodasPorCompradorId (id) {
+function spfBuscarTodasPorClienteId (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'presupuesto/buscar-todas-por-comprador-id/' + id, {
+    axios.get(API_URL + 'presupuesto/buscar-todas-por-cliente-id/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -58,9 +58,9 @@ function spfBuscarTodasPorCompradorId (id) {
   })
 }
 
-function spfBuscarTodasPorCompradorIdConEliminadas (id) {
+function spfBuscarTodasPorClienteIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'presupuesto/buscar-todas-por-comprador-id-con-eliminadas/' + id, {
+    axios.get(API_URL + 'presupuesto/buscar-todas-por-cliente-id-con-eliminadas/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -659,8 +659,8 @@ function spfDestruir (id) {
 export const presupuestoService = {
   spfBuscarTodasPorCategoriaViajeId,
   spfBuscarTodasPorCategoriaViajeIdConEliminadas,
-  spfBuscarTodasPorCompradorId,
-  spfBuscarTodasPorCompradorIdConEliminadas,
+  spfBuscarTodasPorClienteId,
+  spfBuscarTodasPorClienteIdConEliminadas,
   spfBuscarTodasPorDireccionCargaId,
   spfBuscarTodasPorDireccionCargaIdConEliminadas,
   spfBuscarTodasPorDireccionDestinoId,

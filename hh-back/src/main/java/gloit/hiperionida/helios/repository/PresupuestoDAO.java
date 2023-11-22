@@ -17,8 +17,8 @@ public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
     List<PresupuestoModel> findAllByCantidadTransportadaBetweenAndEliminadaIsNull(Integer min, Integer max);
     List<PresupuestoModel> findAllByCategoriaViajeId(Long id);
     List<PresupuestoModel> findAllByCategoriaViajeIdAndEliminadaIsNull(Long id);
-    List<PresupuestoModel> findAllByCompradorId(Long id);
-    List<PresupuestoModel> findAllByCompradorIdAndEliminadaIsNull(Long id);
+    List<PresupuestoModel> findAllByClienteId(Long id);
+    List<PresupuestoModel> findAllByClienteIdAndEliminadaIsNull(Long id);
     List<PresupuestoModel> findAllByDestinoId(Long id);
     List<PresupuestoModel> findAllByDestinoIdAndEliminadaIsNull(Long id);
     @Query(value = "SELECT p FROM PresupuestoModel p " +
@@ -39,14 +39,14 @@ public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
     List<PresupuestoModel> findAllByValorKmBetweenAndEliminadaIsNull(Double min, Double max);
 
     @Query(value = "SELECT p FROM PresupuestoModel p " +
-            "JOIN ClienteModel c ON p.compradorId = c.id " +
+            "JOIN ClienteModel c ON p.clienteId = c.id " +
             "where lower(c.nombre) like lower(concat('%',:nombre,'%')) ")
-    List<PresupuestoModel> findAllByCompradorNombreContainingIgnoreCase(String nombre);
+    List<PresupuestoModel> findAllByClienteNombreContainingIgnoreCase(String nombre);
 
     @Query(value = "SELECT p FROM PresupuestoModel p " +
-            "JOIN ClienteModel c ON p.compradorId = c.id " +
+            "JOIN ClienteModel c ON p.clienteId = c.id " +
             "where lower(c.nombre) like lower(concat('%',:nombre,'%')) and p.eliminada is null ")
-    List<PresupuestoModel> findAllByCompradorNombreContainingIgnoreCaseAndEliminadaIsNull(String nombre);
+    List<PresupuestoModel> findAllByClienteNombreContainingIgnoreCaseAndEliminadaIsNull(String nombre);
 
     @Query(value = "SELECT p FROM PresupuestoModel p " +
             "JOIN DireccionModel d ON p.origenId = d.id " +

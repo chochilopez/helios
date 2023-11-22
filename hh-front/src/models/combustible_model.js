@@ -1,20 +1,20 @@
 export class CombustibleModel {
   constructor () {
-    this.id = ''
-    this.fecha = ''
-    this.kilometros = ''
-    this.litros = ''
-    this.precio = ''
-    this.notas = ''
-    this.camion = ''
-    this.conductor = ''
-    this.proveedor = ''
+    this.id = null
+    this.fecha = null
+    this.kilometros = null
+    this.litros = null
+    this.precio = null
+    this.notas = null
+    this.camion = null
+    this.conductor = null
+    this.proveedor = null
 
-    this.creada = ''
-    this.creador = ''
-    this.modificada = ''
-    this.modificador = ''
-    this.eliminada = ''
-    this.eliminador = ''
+    this.creada = null
+    this.creador = null
+    this.modificada = null
+    this.modificador = null
+    this.eliminada = null
+    this.eliminador = null
   }
 }
