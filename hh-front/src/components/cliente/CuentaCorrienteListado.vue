@@ -7,7 +7,7 @@
             {{ tituloTabla }}
           </div>
           <div class="row justify-between q-py-md" style="width: 100%">
-            <q-btn :disable="cliente.id !== ''" class="paleta2-fondo2 paleta1-color1 q-mr-lg" icon="add_circle" label="Nuevo pago" @click="fMostrarNuevoPago" />
+            <q-btn :disable="cliente.id === null" class="paleta2-fondo2 paleta1-color1 q-mr-lg" icon="add_circle" label="Nuevo pago" @click="fMostrarNuevoPago" />
             <q-select
               outlined
               dense
@@ -49,7 +49,7 @@
               <tr v-for="(movimiento, index) in movimientos" :key="index">
                 <td class="text-center">{{ index + 1 }}</td>
                 <td class="text-center">{{ fMostrarFecha(movimiento.fecha) }}</td>
-                <td class="text-center">{{ movimiento.comprobante }}</td>
+                <td class="text-center">{{ movimiento.factura }}</td>
                 <td class="text-left" v-if="movimiento.tipoMovimiento === 'DEBITO'">{{ movimiento.monto }}</td>
                 <td class="text-left" v-if="movimiento.tipoMovimiento === 'CREDITO'"></td>
                 <td class="text-left" v-if="movimiento.tipoMovimiento === 'CREDITO'">{{ movimiento.monto }}</td>
@@ -75,46 +75,35 @@
         <q-icon name="img:/icons/numeros/number1.svg" size="3em" class="svg-accent"/>
       </div>
       <q-card-section>
-        <q-form v-on:submit.prevent="fIrPaso2">
+        <q-form v-on:submit.prevent="fGuardarPago()">
           <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model="facturaCreation.razonSocial"
-                :rules="[reglas.requerido, reglas.min3]"
+                v-model="cliente.nombre"
+                disable
                 outlined
                 dense
                 clearable
-                label="Nombre/Razón social"
+                label="Cliente"
               >
               </q-input>
             </div>
-            <div class="col-xs-6 q-pa-md">
-              <q-input
-                class="nuevo-input"
-                v-model="facturaCreation.domicilioComercial"
-                :rules="[reglas.requerido, reglas.min3]"
-                outlined
-                dense
-                clearable
-                label="Domicilio/Dirección"
-              >
-              </q-input>
-            </div>
-          </div>
-          <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
               <q-select
                 class="nuevo-input"
                 outlined
                 dense
+                emit-value
+                map-options
                 clearable
-                v-model="facturaCreation.tipoComprobante"
+                v-model="cuentaCorrienteCreation.facturaId"
                 :rules="[reglas.requerido]"
-                :options="comprobantes"
-                label="Tipo comprobante"
-                hint="Seleccioná el tipo de comprobante."
-                @update:model-value="fObtenerNumeroComprobante()"
+                :options="facturasList"
+                option-value="id"
+                option-label="comprobante"
+                label="Facturas no pagadas"
+                @update:model-value="fObtenerDeuda()"
               >
                 <template v-slot:no-option>
                   <q-item>
@@ -123,70 +112,67 @@
                 </template>
               </q-select>
             </div>
+          </div>
+          <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model="facturaCreation.numeroComprobante"
-                :rules="[reglas.requerido]"
-                mask="###################"
+                disable
+                v-model="montoAdeudado"
                 outlined
                 dense
                 clearable
-                label="Número comprobante"
-                hint="Si SC, usar autogenerado."
+                label="Monto adeudado"
               >
               </q-input>
+            </div>
+            <div class="col-xs-6 q-pa-md">
+              <q-select
+                class="nuevo-input"
+                outlined
+                dense
+                clearable
+                v-model="cuentaCorrienteCreation.tipoPago"
+                :rules="[reglas.requerido]"
+                :options="tiposPagos"
+                label="Tipo de pago"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
             </div>
           </div>
           <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                mask="##-##-####"
-                v-model="fechaEmision"
+                v-model="cuentaCorrienteCreation.monto"
                 :rules="[reglas.requerido]"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 outlined
                 dense
-                readonly
                 clearable
-                label="Fecha de emisión"
+                label="Monto"
+                hint="Ingresá un número."
               >
-                <template v-slot:prepend>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-date v-model="fechaEmision" mask="DD-MM-YYYY" :locale="myLocale">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="OK" color="primary" flat />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
               </q-input>
             </div>
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                mask="##-##-####"
-                v-model="fechaVencimiento"
-                :rules="[reglas.requerido]"
+                type="textarea"
+                v-model="cuentaCorrienteCreation.notas"
+                autogrow
                 outlined
                 dense
-                readonly
                 clearable
-                label="Fecha de vencimiento"
+                label="Notas"
               >
-                <template v-slot:prepend>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-date v-model="fechaVencimiento" mask="DD-MM-YYYY" :locale="myLocale">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="OK" color="primary" flat />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
               </q-input>
             </div>
           </div>
@@ -207,14 +193,17 @@ import { ClienteModel } from 'src/models/cliente_model'
 import { clienteService } from 'src/services/cliente_service'
 import { cuentaCorrienteService } from 'src/services/cuenta_corriente_service'
 import { CuentaCorrienteCreation } from 'src/models/creation/cuenta_corriente_creation'
+import { facturaService } from 'src/services/factura_service'
 import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { onMounted, reactive, ref } from 'vue'
+import { reglasValidacion } from 'src/helpers/reglas_validacion'
 import { useQuasar } from 'quasar'
 
 export default {
   setup () {
     const $q = useQuasar()
+    const reglas = reactive(reglasValidacion.reglas)
     const sesion = ref(ayuda.getUid)
     const autoridad = ref(ayuda.getAutoridad())
 
@@ -223,6 +212,9 @@ export default {
     const clientesSelect = ref([])
     const clientesList = ref([])
     const cuentaCorrienteCreation = reactive(new CuentaCorrienteCreation())
+    const facturasList = ref([])
+    const montoAdeudado = ref(null)
+    const montoAdeudadoList = ref([])
     const movimientos = ref([])
     const nuevoPagoDialog = ref(false)
     const tituloFormulario = ref('Nuevo pago')
@@ -334,26 +326,86 @@ export default {
       }
     }
 
-    async function afBuscarEstados () {
-      if (clienteSelect.value != null) {
+    async function afBuscarPagosPorFactura () {
+      if (cuentaCorrienteCreation.facturaId != null) {
         $q.loading.show()
         try {
           let resultado = null
-          if (autoridad.value === 'admin') {
-            resultado = await clienteService.spfBuscarPorIdConEliminadas(clienteSelect.value)
+          resultado = await cuentaCorrienteService.spfBuscarTodasPorFacturaId(cuentaCorrienteCreation.facturaId)
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            montoAdeudadoList.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
           } else {
-            resultado = await clienteService.spfBuscarPorId(clienteSelect.value)
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
+    async function afBuscarEstados () {
+      if (clienteSelect.value != null) {
+        $q.loading.show()
+        cliente.id = clienteSelect.value
+        try {
+          let resultado = null
+          if (autoridad.value === 'admin') {
+            resultado = await clienteService.spfBuscarPorIdConEliminadas(cliente.id)
+          } else {
+            resultado = await clienteService.spfBuscarPorId(cliente.id)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
             Object.assign(cliente, resultado.data)
             $q.loading.hide()
             tituloTabla.value = 'Estado de cuenta corriente de: ' + resultado.data.nombre
-            afBuscarMovimientosCuentaCorriente(clienteSelect.value)
+            afBuscarMovimientosCuentaCorriente(cliente.id)
           }
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
+    async function afBuscarFacturasNoPagdasPorClienteId () {
+      if (cliente.id !== null) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          resultado = await facturaService.spfBuscarTodasPorNoPagadasClienteId(cliente.id)
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            facturasList.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            facturasList.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -374,15 +426,69 @@ export default {
       movimientos.value = []
       try {
         let resultado = null
-        if (autoridad.value === 'admin') {
-          resultado = await cuentaCorrienteService.spfBuscarTodasPorClienteIdConEliminadas(id)
-        } else {
-          resultado = await cuentaCorrienteService.spfBuscarTodasPorClienteId(id)
-        }
+        resultado = await cuentaCorrienteService.spfBuscarTodasPorClienteId(id)
         if (resultado.status === 200) {
           console.log(resultado.headers.mensaje)
           movimientos.value = resultado.data
           $q.loading.hide()
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afMarcarFacturaComoPagada (id) {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await facturaService.spfMarcarComoPagada(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afGuardarPago () {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await cuentaCorrienteService.spfGuardar(cuentaCorrienteCreation)
+        if (resultado.status === 201) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se creó correctamente el pago.')
+          if (cuentaCorrienteCreation.monto >= montoAdeudado.value) {
+            afMarcarFacturaComoPagada(cuentaCorrienteCreation.facturaId).then(() => {
+              notificarService.notificarExito('La factura fue saldada.')
+            })
+          }
         }
       } catch (err) {
         console.clear()
@@ -434,6 +540,7 @@ export default {
       cuentaCorrienteCreation.modificador = null
       cuentaCorrienteCreation.eliminada = null
       cuentaCorrienteCreation.eliminador = null
+      montoAdeudado.value = null
     }
 
     function fMostrarFecha (datos) {
@@ -441,24 +548,70 @@ export default {
     }
 
     function fMostrarNuevoPago () {
-      tituloFormulario.value = 'Nuevo pago'
-      fLimpiarFormulario()
-      nuevoPagoDialog.value = true
+      afBuscarFacturasNoPagdasPorClienteId().then(() => {
+        tituloFormulario.value = 'Nuevo pago'
+        fLimpiarFormulario()
+        nuevoPagoDialog.value = true
+      })
+    }
+
+    function fGuardarPago () {
+      cuentaCorrienteCreation.clienteId = cliente.id
+      cuentaCorrienteCreation.saldo = montoAdeudado.value - cuentaCorrienteCreation.monto
+      cuentaCorrienteCreation.tipoMovimiento = 'CREDITO'
+      afGuardarPago().then(() => {
+        afBuscarEstados().then(() => {
+          nuevoPagoDialog.value = false
+        })
+      })
+    }
+
+    function fObtenerDeuda () {
+      const resultado = facturasList.value.find((factura) => factura.id === cuentaCorrienteCreation.facturaId)
+      montoAdeudado.value = resultado.total
+      afBuscarPagosPorFactura().then(() => {
+        for (let a = 0; a < montoAdeudadoList.value.length; a++) {
+          if (montoAdeudadoList.value[a].tipoMovimiento === 'CREDITO') {
+            montoAdeudado.value = (Number(montoAdeudado.value) - (montoAdeudadoList.value[a].monto)).toFixed(2)
+            cuentaCorrienteCreation.monto = Number(montoAdeudado.value).toFixed(2)
+          }
+        }
+      })
     }
 
     return {
       afBuscarEstados,
       fFiltrarClientes,
+      fGuardarPago,
       fMostrarFecha,
       fMostrarNuevoPago,
+      fObtenerDeuda,
 
       cliente,
       clienteSelect,
       clientesSelect,
+      cuentaCorrienteCreation,
+      facturasList,
+      montoAdeudado,
       movimientos,
       nuevoPagoDialog,
+      reglas,
+      tiposPagos: ['EFECTIVO', 'TRANSFERENCIA', 'CHEQUE'],
       tituloFormulario,
-      tituloTabla
+      tituloTabla,
+
+      myLocale: {
+        /* starting with Sunday */
+        days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),
+        daysShort: 'Dom_Lun_Mar_Mié_Jue_Vie_Sáb'.split('_'),
+        months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split(
+          '_'
+        ),
+        monthsShort: 'Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dic'.split('_'),
+        firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+        format24h: true,
+        pluralDay: 'dias'
+      }
     }
   }
 }
@@ -468,8 +621,4 @@ export default {
   width: 100%;
 }
 
-.q-select,
-.q-range {
-  width: 300px;
-}
 </style>

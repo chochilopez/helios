@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.PagoMapper;
 import gloit.hiperionida.helios.mapper.creation.PagoCreation;
+import gloit.hiperionida.helios.mapper.creation.PagoCreation;
+import gloit.hiperionida.helios.model.PagoModel;
 import gloit.hiperionida.helios.model.PagoModel;
 import gloit.hiperionida.helios.repository.PagoDAO;
 import gloit.hiperionida.helios.service.PagoService;
@@ -93,17 +95,33 @@ public class PagoServiceImpl implements PagoService {
     }
 
     @Override
+    public PagoModel crear(PagoModel model) {
+        log.info("Insertando la entidad PagoModel: {}.",  model);
+        PagoModel pagoModel = pagoDAO.save(model);
+        if (model.getId() == null) {
+            pagoModel.setCreada(Helper.getNow(""));
+            pagoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad PagoModel.");
+        } else {
+            pagoModel.setModificada(Helper.getNow(""));
+            pagoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad PagoModel.");
+        }
+        return pagoDAO.save(pagoModel);
+    }
+
+    @Override
     public PagoModel guardar(PagoCreation creation) {
-        log.info("Insertando la entidad Pago: {}.",  creation);
+        log.info("Insertando la entidad PagoCreation: {}.",  creation);
         PagoModel pagoModel = pagoDAO.save(pagoMapper.toEntity(creation));
         if (creation.getId() == null) {
             pagoModel.setCreada(Helper.getNow(""));
             pagoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad PagoCreation.");
         } else {
             pagoModel.setModificada(Helper.getNow(""));
             pagoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad PagoCreation.");
         }
         return pagoDAO.save(pagoModel);
     }

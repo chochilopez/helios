@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.EventoMapper;
 import gloit.hiperionida.helios.mapper.creation.EventoCreation;
+import gloit.hiperionida.helios.mapper.creation.EventoCreation;
+import gloit.hiperionida.helios.model.EventoModel;
 import gloit.hiperionida.helios.model.EventoModel;
 import gloit.hiperionida.helios.repository.EventoDAO;
 import gloit.hiperionida.helios.service.EventoService;
@@ -93,17 +95,33 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
+    public EventoModel crear(EventoModel model) {
+        log.info("Insertando la entidad EventoModel: {}.",  model);
+        EventoModel eventoModel = eventoDAO.save(model);
+        if (model.getId() == null) {
+            eventoModel.setCreada(Helper.getNow(""));
+            eventoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad EventoModel.");
+        } else {
+            eventoModel.setModificada(Helper.getNow(""));
+            eventoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad EventoModel.");
+        }
+        return eventoDAO.save(eventoModel);
+    }
+
+    @Override
     public EventoModel guardar(EventoCreation creation) {
-        log.info("Insertando la entidad Evento: {}.",  creation);
+        log.info("Insertando la entidad EventoCreation: {}.",  creation);
         EventoModel eventoModel = eventoDAO.save(eventoMapper.toEntity(creation));
         if (creation.getId() == null) {
             eventoModel.setCreada(Helper.getNow(""));
             eventoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad EventoCreation.");
         } else {
             eventoModel.setModificada(Helper.getNow(""));
             eventoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad EventoCreation.");
         }
         return eventoDAO.save(eventoModel);
     }

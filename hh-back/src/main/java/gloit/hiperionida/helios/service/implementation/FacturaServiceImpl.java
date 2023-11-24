@@ -2,9 +2,11 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.FacturaMapper;
 import gloit.hiperionida.helios.mapper.creation.FacturaCreation;
-import gloit.hiperionida.helios.model.FacturaModel;
-import gloit.hiperionida.helios.model.PresupuestoModel;
+import gloit.hiperionida.helios.mapper.creation.FacturaCreation;
+import gloit.hiperionida.helios.model.*;
+import gloit.hiperionida.helios.model.enums.MovimientoEnum;
 import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
+import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.repository.FacturaDAO;
 import gloit.hiperionida.helios.service.FacturaService;
 import gloit.hiperionida.helios.util.Helper;
@@ -28,7 +30,17 @@ import java.util.List;
 public class FacturaServiceImpl implements FacturaService {
     private final FacturaDAO facturaDAO;
     private final FacturaMapper facturaMapper;
+    private final CuentaCorrienteServiceImpl cuentaCorrienteService;
     private final UsuarioServiceImpl usuarioService;
+
+    @Override
+    public FacturaModel marcarComoPagada(Long id) {
+        log.info("Marcando la factura con id como pagada: {}.", id);
+        FacturaModel facturaModel = this.buscarPorId(id);
+        facturaModel.setPagada(true);
+        log.info("Se marcó una entidad Factura como pagada, id: " + id + ".");
+        return this.crear(facturaModel);
+    }
 
     @Override
     public FacturaModel buscarPorViajeId(Long id) {
@@ -60,6 +72,24 @@ public class FacturaServiceImpl implements FacturaService {
         FacturaModel facturaModel = facturaDAO.findByRemitoId(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Factura con id de remito: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Factura con id de remito: " + id + ", incluidas las eliminadas.");
         return facturaModel;
+    }
+
+    @Override
+    public List<FacturaModel> buscarTodasPorClienteIdNoPagadas(Long id) {
+        log.info("Buscando todas las entidades Factura con id de cliente: {} y no pagadas.", id);
+        List<FacturaModel> listado = facturaDAO.findAllByClienteIdAndPagadaIsFalseAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Factura con id de cliente con id de cliente: " + id + " y no pagadas.");
+        return listado;
+    }
+
+    @Override
+    public List<FacturaModel> buscarTodasPorClienteIdNoPagadasConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Factura con id de cliente: {} y no pagadas, incluidas las eliminadas.", id);
+        List<FacturaModel> listado = facturaDAO.findAllByClienteIdAndPagadaIsFalse(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Factura con id de cliente con id de cliente: " + id + " y no pagadas, incluidas las eliminadas.");
+        return listado;
     }
 
     @Override
@@ -307,17 +337,38 @@ public class FacturaServiceImpl implements FacturaService {
     }
 
     @Override
+    public FacturaModel crear(FacturaModel model) {
+        log.info("Insertando la entidad FacturaModel: {}.",  model);
+        FacturaModel facturaModel = facturaDAO.save(model);
+        if (model.getId() == null) {
+            facturaModel.setCreada(Helper.getNow(""));
+            facturaModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad FacturaModel.");
+        } else {
+            facturaModel.setModificada(Helper.getNow(""));
+            facturaModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad FacturaModel.");
+        }
+
+        return facturaDAO.save(facturaModel);
+    }
+
+    @Override
     public FacturaModel guardar(FacturaCreation creation) {
-        log.info("Insertando la entidad Factura: {}.",  creation);
+        log.info("Insertando la entidad FacturaCreation: {}.",  creation);
         FacturaModel facturaModel = facturaDAO.save(facturaMapper.toEntity(creation));
         if (creation.getId() == null) {
             facturaModel.setCreada(Helper.getNow(""));
             facturaModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad FacturaCreation.");
         } else {
             facturaModel.setModificada(Helper.getNow(""));
             facturaModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad FacturaCreation.");
+        }
+
+        if (Helper.getLong(creation.getClienteId()) != null) {
+            cuentaCorrienteService.crearMovimientosCuentaParaFactura(facturaModel, Helper.getLong(creation.getClienteId()));
         }
         return facturaDAO.save(facturaModel);
     }

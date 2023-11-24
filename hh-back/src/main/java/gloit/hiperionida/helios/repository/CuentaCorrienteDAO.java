@@ -17,4 +17,6 @@ import java.util.List;
 public interface CuentaCorrienteDAO extends GenericDTO<CuentaCorrienteModel> {
     List<CuentaCorrienteModel> findAllByClienteId(Long id);
     List<CuentaCorrienteModel> findAllByClienteIdAndEliminadaIsNull(Long id);
+    List<CuentaCorrienteModel> findAllByFacturaId(Long id);
+    List<CuentaCorrienteModel> findAllByFacturaIdAndEliminadaIsNull(Long id);
 }

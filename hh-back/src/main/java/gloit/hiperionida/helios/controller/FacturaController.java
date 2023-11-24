@@ -42,6 +42,13 @@ public class FacturaController extends AbsBaseController {
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
     }
 
+    @GetMapping(value = "/marcar-factura-como-pagada/{id}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<FacturaDTO> marcarComoPagada(@PathVariable(name = "id") Long id) {
+        FacturaModel objeto = facturaService.marcarComoPagada(id);
+        return new ResponseEntity<>(facturaMapper.toDto(objeto), Helper.httpHeaders("Se marcó una entidad como pagada, id :" + id + "."), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/buscar-por-viaje-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<FacturaDTO> buscarPorViajeId(@PathVariable(name = "id") Long id) {
@@ -85,6 +92,28 @@ public class FacturaController extends AbsBaseController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<FacturaDTO>> buscarTodasPorCodigoConEliminadas(@PathVariable(name = "codigo") String codigo) {
         List<FacturaModel> listado = facturaService.buscarTodasPorCodigoConEliminadas(codigo);
+        ArrayList<FacturaDTO> facturas = new ArrayList<>();
+        for (FacturaModel factura:listado) {
+            facturas.add(facturaMapper.toDto(factura));
+        }
+        return new ResponseEntity<>(facturas, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-no-pagadas-por-cliente-id/{id}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<FacturaDTO>> buscarTodasPorClienteIdNoPagadas(@PathVariable(name = "id") Long id) {
+        List<FacturaModel> listado = facturaService.buscarTodasPorClienteIdNoPagadas(id);
+        ArrayList<FacturaDTO> facturas = new ArrayList<>();
+        for (FacturaModel factura:listado) {
+            facturas.add(facturaMapper.toDto(factura));
+        }
+        return new ResponseEntity<>(facturas, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-no-pagadas-por-cliente-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<FacturaDTO>> buscarTodasPorClienteIdNoPagadasConEliminadas(@PathVariable(name = "id") Long id) {
+        List<FacturaModel> listado = facturaService.buscarTodasPorClienteIdNoPagadasConEliminadas(id);
         ArrayList<FacturaDTO> facturas = new ArrayList<>();
         for (FacturaModel factura:listado) {
             facturas.add(facturaMapper.toDto(factura));

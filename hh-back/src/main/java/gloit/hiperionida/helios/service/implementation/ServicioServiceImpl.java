@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.ServicioMapper;
 import gloit.hiperionida.helios.mapper.creation.ServicioCreation;
+import gloit.hiperionida.helios.mapper.creation.ServicioCreation;
+import gloit.hiperionida.helios.model.ServicioModel;
 import gloit.hiperionida.helios.model.ServicioModel;
 import gloit.hiperionida.helios.repository.ServicioDAO;
 import gloit.hiperionida.helios.service.ServicioService;
@@ -93,17 +95,33 @@ public class ServicioServiceImpl implements ServicioService {
     }
 
     @Override
+    public ServicioModel crear(ServicioModel model) {
+        log.info("Insertando la entidad ServicioModel: {}.",  model);
+        ServicioModel servicioModel = servicioDAO.save(model);
+        if (model.getId() == null) {
+            servicioModel.setCreada(Helper.getNow(""));
+            servicioModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad ServicioModel.");
+        } else {
+            servicioModel.setModificada(Helper.getNow(""));
+            servicioModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad ServicioModel.");
+        }
+        return servicioDAO.save(servicioModel);
+    }
+
+    @Override
     public ServicioModel guardar(ServicioCreation creation) {
-        log.info("Insertando la entidad Servicio: {}.",  creation);
+        log.info("Insertando la entidad ServicioCreation: {}.",  creation);
         ServicioModel servicioModel = servicioDAO.save(servicioMapper.toEntity(creation));
         if (creation.getId() == null) {
             servicioModel.setCreada(Helper.getNow(""));
             servicioModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad ServicioCreation.");
         } else {
             servicioModel.setModificada(Helper.getNow(""));
             servicioModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad ServicioCreation.");
         }
         return servicioDAO.save(servicioModel);
     }

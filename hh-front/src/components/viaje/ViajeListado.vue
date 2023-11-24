@@ -363,7 +363,7 @@
                   v-model="direccionCarga"
                   :options="direccionesCarga"
                   option-value="id"
-                  option-label="direccion"
+                  option-label="completa"
                   label="Buscar por carga"
                   use-input
                   input-debounce="0"
@@ -387,7 +387,7 @@
                   v-model="direccionDestino"
                   :options="direccionesDestino"
                   option-value="id"
-                  option-label="direccion"
+                  option-label="completa"
                   label="Buscar por destino"
                   use-input
                   input-debounce="0"
@@ -411,7 +411,7 @@
                   v-model="direccionOrigen"
                   :options="direccionesOrigen"
                   option-value="id"
-                  option-label="direccion"
+                  option-label="completa"
                   label="Buscar por origen"
                   use-input
                   input-debounce="0"
@@ -1241,7 +1241,7 @@
                 v-model="viajeCreation.cargaId"
                 :options="direccionesCarga"
                 option-value="id"
-                option-label="direccion"
+                option-label="completa"
                 label="Direccion de carga"
                 use-input
                 input-debounce="0"
@@ -1269,7 +1269,7 @@
                 :rules="[reglas.requerido]"
                 :options="direccionesOrigen"
                 option-value="id"
-                option-label="direccion"
+                option-label="completa"
                 label="Direccion de origen"
                 use-input
                 input-debounce="0"
@@ -1295,7 +1295,7 @@
                 :rules="[reglas.requerido]"
                 :options="direccionesDestino"
                 option-value="id"
-                option-label="direccion"
+                option-label="completa"
                 label="Direccion de destino"
                 use-input
                 input-debounce="0"
@@ -1327,9 +1327,11 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                mask="##############"
-                v-model.number="viajeCreation.neto"
+                v-model="viajeCreation.neto"
                 :rules="[reglas.requerido]"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 outlined
                 dense
                 clearable
@@ -1355,9 +1357,11 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                mask="##############"
-                v-model.number="viajeCreation.kmVacio"
+                v-model="viajeCreation.kmVacio"
                 :rules="[reglas.requerido]"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 outlined
                 dense
                 clearable
@@ -1369,8 +1373,10 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                mask="##############"
-                v-model.number="viajeCreation.kmCargado"
+                v-model="viajeCreation.kmCargado"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 :rules="[reglas.requerido]"
                 outlined
                 dense
@@ -1385,10 +1391,11 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="viajeCreation.valorKm"
+                v-model="viajeCreation.valorKm"
                 :rules="[reglas.requerido]"
-                :max-decimals="2"
-                type="number"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 outlined
                 dense
                 clearable
@@ -2691,7 +2698,7 @@ export default {
       }
       update(() => {
         direccionesCarga.value = direccionesList.value.filter(
-          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 }
+          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.nombre.toLowerCase().indexOf(val.toLowerCase()) }
         )
       })
     }
@@ -2703,7 +2710,7 @@ export default {
       }
       update(() => {
         direccionesDestino.value = direccionesList.value.filter(
-          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 }
+          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.nombre.toLowerCase().indexOf(val.toLowerCase()) }
         )
       })
     }
@@ -2715,7 +2722,7 @@ export default {
       }
       update(() => {
         direccionesOrigen.value = direccionesList.value.filter(
-          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 }
+          (v) => { return v.direccion.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.ciudad.toLowerCase().indexOf(val.toLowerCase()) > -1 || v.nombre.toLowerCase().indexOf(val.toLowerCase()) }
         )
       })
     }
@@ -2996,7 +3003,6 @@ export default {
     function fMostrarFacturarViaje (props) {
       llaveroService.borrarDeLocal('hhFacturarViaje')
       llaveroService.guardarEnLocalConSesion('hhFacturarViaje', props.row)
-      console.log(props.row)
       router.push({ name: 'Facturacion' })
     }
 

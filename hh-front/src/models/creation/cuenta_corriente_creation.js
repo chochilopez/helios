@@ -6,7 +6,6 @@ export class CuentaCorrienteCreation {
     this.comprobante = null
     this.factura = null
     this.facturaId = null
-    this.fecha = null
     this.monto = null
     this.notas = null
     this.recibo = null

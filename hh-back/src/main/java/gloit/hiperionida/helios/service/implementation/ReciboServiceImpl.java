@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.ReciboMapper;
 import gloit.hiperionida.helios.mapper.creation.ReciboCreation;
+import gloit.hiperionida.helios.mapper.creation.ReciboCreation;
+import gloit.hiperionida.helios.model.ReciboModel;
 import gloit.hiperionida.helios.model.ReciboModel;
 import gloit.hiperionida.helios.repository.ReciboDAO;
 import gloit.hiperionida.helios.service.ReciboService;
@@ -93,17 +95,33 @@ public class ReciboServiceImpl implements ReciboService {
     }
 
     @Override
+    public ReciboModel crear(ReciboModel model) {
+        log.info("Insertando la entidad ReciboModel: {}.",  model);
+        ReciboModel reciboModel = reciboDAO.save(model);
+        if (model.getId() == null) {
+            reciboModel.setCreada(Helper.getNow(""));
+            reciboModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad ReciboModel.");
+        } else {
+            reciboModel.setModificada(Helper.getNow(""));
+            reciboModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad ReciboModel.");
+        }
+        return reciboDAO.save(reciboModel);
+    }
+
+    @Override
     public ReciboModel guardar(ReciboCreation creation) {
-        log.info("Insertando la entidad Recibo: {}.",  creation);
+        log.info("Insertando la entidad ReciboCreation: {}.",  creation);
         ReciboModel reciboModel = reciboDAO.save(reciboMapper.toEntity(creation));
         if (creation.getId() == null) {
             reciboModel.setCreada(Helper.getNow(""));
             reciboModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad ReciboCreation.");
         } else {
             reciboModel.setModificada(Helper.getNow(""));
             reciboModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad ReciboCreation.");
         }
         return reciboDAO.save(reciboModel);
     }

@@ -40,8 +40,7 @@ public class CuentaCorrienteMapper {
                 model.setTipoPago(TipoPagoEnum.valueOf(creation.getTipoPago()));
             if (creation.getTipoMovimiento() != null)
                 model.setTipoMovimiento(MovimientoEnum.valueOf(creation.getTipoMovimiento()));
-            if (!Helper.isEmptyString(creation.getFecha()))
-                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), "yyyy-MM-dd HH:mm:ss"));
+            model.setFecha(Helper.getNow(""));
             if (Helper.getLong(creation.getClienteId()) != null)
                 model.setClienteId(Helper.getLong(creation.getClienteId()));
             if (Helper.getLong(creation.getFacturaId()) != null)
@@ -97,11 +96,6 @@ public class CuentaCorrienteMapper {
                 ReciboModel reciboModel = reciboDAO.findByIdAndEliminadaIsNull(model.getReciboId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el recibo con id: " + model.getReciboId() + "."));
                 dto.setRecibo(reciboModel.getId().toString());
                 dto.setReciboId(model.getReciboId().toString());
-            }
-            if (model.getFacturaId() != null) {
-                dto.setFacturaId(model.getFacturaId().toString());
-                FacturaModel facturaModel = facturaDAO.findByIdAndEliminadaIsNull(model.getFacturaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la factura"));
-                dto.setComprobante(facturaModel.getTipoComprobante().toString() + "-" + facturaModel.getNumeroComprobante());
             }
 
             if (model.getCreadorId() != null) {

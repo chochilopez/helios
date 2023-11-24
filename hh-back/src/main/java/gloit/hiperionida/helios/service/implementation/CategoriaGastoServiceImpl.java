@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.CategoriaGastoMapper;
 import gloit.hiperionida.helios.mapper.creation.CategoriaGastoCreation;
+import gloit.hiperionida.helios.mapper.creation.CategoriaGastoCreation;
+import gloit.hiperionida.helios.model.CategoriaGastoModel;
 import gloit.hiperionida.helios.model.CategoriaGastoModel;
 import gloit.hiperionida.helios.repository.CategoriaGastoDAO;
 import gloit.hiperionida.helios.service.CategoriaGastoService;
@@ -93,17 +95,33 @@ public class CategoriaGastoServiceImpl implements CategoriaGastoService {
     }
 
     @Override
+    public CategoriaGastoModel crear(CategoriaGastoModel model) {
+        log.info("Insertando la entidad CategoriaGastoModel: {}.",  model);
+        CategoriaGastoModel categoriaGastoModel = categoriaGastoDAO.save(model);
+        if (model.getId() == null) {
+            categoriaGastoModel.setCreada(Helper.getNow(""));
+            categoriaGastoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad CategoriaGastoModel.");
+        } else {
+            categoriaGastoModel.setModificada(Helper.getNow(""));
+            categoriaGastoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad CategoriaGastoModel.");
+        }
+        return categoriaGastoDAO.save(categoriaGastoModel);
+    }
+
+    @Override
     public CategoriaGastoModel guardar(CategoriaGastoCreation creation) {
-        log.info("Insertando la entidad CategoriaGasto: {}.",  creation);
+        log.info("Insertando la entidad CategoriaGastoCreation: {}.",  creation);
         CategoriaGastoModel categoriaGastoModel = categoriaGastoDAO.save(categoriaGastoMapper.toEntity(creation));
         if (creation.getId() == null) {
             categoriaGastoModel.setCreada(Helper.getNow(""));
             categoriaGastoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad CategoriaGastoCreation.");
         } else {
             categoriaGastoModel.setModificada(Helper.getNow(""));
             categoriaGastoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad CategoriaGastoCreation.");
         }
         return categoriaGastoDAO.save(categoriaGastoModel);
     }

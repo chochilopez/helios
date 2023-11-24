@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.CompraMapper;
 import gloit.hiperionida.helios.mapper.creation.CompraCreation;
+import gloit.hiperionida.helios.mapper.creation.CompraCreation;
+import gloit.hiperionida.helios.model.CompraModel;
 import gloit.hiperionida.helios.model.CompraModel;
 import gloit.hiperionida.helios.repository.CompraDAO;
 import gloit.hiperionida.helios.service.CompraService;
@@ -93,17 +95,33 @@ public class CompraServiceImpl implements CompraService {
     }
 
     @Override
+    public CompraModel crear(CompraModel model) {
+        log.info("Insertando la entidad CompraModel: {}.",  model);
+        CompraModel compraModel = compraDAO.save(model);
+        if (model.getId() == null) {
+            compraModel.setCreada(Helper.getNow(""));
+            compraModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad CompraModel.");
+        } else {
+            compraModel.setModificada(Helper.getNow(""));
+            compraModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad CompraModel.");
+        }
+        return compraDAO.save(compraModel);
+    }
+
+    @Override
     public CompraModel guardar(CompraCreation creation) {
-        log.info("Insertando la entidad Compra: {}.",  creation);
+        log.info("Insertando la entidad CompraCreation: {}.",  creation);
         CompraModel compraModel = compraDAO.save(compraMapper.toEntity(creation));
         if (creation.getId() == null) {
             compraModel.setCreada(Helper.getNow(""));
             compraModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad CompraCreation.");
         } else {
             compraModel.setModificada(Helper.getNow(""));
             compraModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad CompraCreation.");
         }
         return compraDAO.save(compraModel);
     }

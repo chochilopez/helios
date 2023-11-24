@@ -4,6 +4,7 @@ export class FacturaModel {
     this.bonificacion = null
     this.cantidad = null
     this.codigo = null
+    this.comprobante = null
     this.concepto = null
     this.condicionPagoEnum = null
     this.domicilioComercial = null

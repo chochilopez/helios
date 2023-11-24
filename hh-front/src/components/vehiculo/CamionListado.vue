@@ -404,7 +404,10 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="camionCreation.peso"
+                v-model="camionCreation.peso"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 :rules="[reglas.requerido]"
                 outlined
                 dense

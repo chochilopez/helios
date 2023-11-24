@@ -5,6 +5,8 @@ import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.mapper.EmailMapper;
 import gloit.hiperionida.helios.util.mapper.creation.EmailCreation;
+import gloit.hiperionida.helios.util.mapper.creation.EmailCreation;
+import gloit.hiperionida.helios.util.model.EmailModel;
 import gloit.hiperionida.helios.util.model.EmailModel;
 import gloit.hiperionida.helios.util.repository.EmailDAO;
 import gloit.hiperionida.helios.util.service.EmailService;
@@ -109,17 +111,33 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    public EmailModel crear(EmailModel model) {
+        log.info("Insertando la entidad EmailModel: {}.",  model);
+        EmailModel emailModel = emailDAO.save(model);
+        if (model.getId() == null) {
+            emailModel.setCreada(Helper.getNow(""));
+            emailModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad EmailModel.");
+        } else {
+            emailModel.setModificada(Helper.getNow(""));
+            emailModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad EmailModel.");
+        }
+        return emailDAO.save(emailModel);
+    }
+
+    @Override
     public EmailModel guardar(EmailCreation creation) {
-        log.info("Insertando la entidad Email: {}.",  creation);
+        log.info("Insertando la entidad EmailCreation: {}.",  creation);
         EmailModel emailModel = emailDAO.save(emailMapper.toEntity(creation));
         if (creation.getId() == null) {
             emailModel.setCreada(Helper.getNow(""));
             emailModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad EmailCreation.");
         } else {
             emailModel.setModificada(Helper.getNow(""));
             emailModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad EmailCreation.");
         }
         return emailDAO.save(emailModel);
     }

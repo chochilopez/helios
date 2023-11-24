@@ -14,7 +14,6 @@ public class CuentaCorrienteCreation extends AbsAuditoriaCreation {
     private String notas;
     private String tipoPago;
     private String tipoMovimiento;
-    private String fecha;
 
     private String clienteId;
     private String reciboId;

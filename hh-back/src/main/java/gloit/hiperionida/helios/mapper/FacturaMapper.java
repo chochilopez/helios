@@ -65,56 +65,17 @@ public class FacturaMapper {
             ViajeModel viajeModel = viajeDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getViajeId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el viaje."));
             model.setViajeId(viajeModel.getId());
             model.setSubTotal(Helper.getNDecimal(model.getPrecioUnitario() * viajeModel.getKmCargado(), 2));
-            Double total = model.getSubTotal();
             if (Helper.getDecimal(creation.getBonificacion()) != null) {
                 model.setBonificacion(Helper.getDecimal(creation.getBonificacion()));
-                Double bonificacion = Helper.getNDecimal((model.getBonificacion() * total) / 100, 2);
-                total = Helper.getNDecimal(total - bonificacion, 2);
             }
             if (Helper.getDecimal(creation.getOtrosImpuestos()) != null) {
                 model.setOtrosImpuestos(Helper.getDecimal(creation.getOtrosImpuestos()));
-                Double otrosImpuestos = Helper.getNDecimal((model.getOtrosImpuestos() * total) / 100, 2);
-                total = Helper.getNDecimal(total + otrosImpuestos, 2);
             }
             if (Helper.getDecimal(creation.getIva()) != null) {
                 model.setIva(Helper.getDecimal(creation.getIva()));
-                Double iva = Helper.getNDecimal((model.getIva() * total) / 100, 2);
-                total = Helper.getNDecimal(total + iva, 2);
             }
-            CuentaCorrienteModel cuentaCorrienteModel = new CuentaCorrienteModel(
-                    null,
-                    total,
-                    "Comprobante " + model.getTipoComprobante().toString() + "-" + model.getNumeroComprobante(),
-                    null,
-                    MovimientoEnum.DEBITO,
-                    Helper.getNow(""),
-                    viajeModel.getClienteId(),
-                    null,
-                    model.getId()
-            );
-            cuentaCorrienteDAO.save(cuentaCorrienteModel);
             model.setPagada(Helper.getBoolean(creation.getPagada()));
-            if (Helper.getBoolean(creation.getPagada())) {
-                CuentaCorrienteModel ctaCte = new CuentaCorrienteModel(
-                        null,
-                        total,
-                        "Comprobante " + model.getTipoComprobante().toString() + "-" + model.getNumeroComprobante(),
-                        TipoPagoEnum.EFECTIVO,
-                        MovimientoEnum.CREDITO,
-                        Helper.getNow(""),
-                        viajeModel.getClienteId(),
-                        null,
-                        model.getId()
-                        );
-                ReciboModel reciboModel = new ReciboModel(
-                    null,
-                        total,
-                        Helper.getNow("")
-                );
-                reciboDAO.save(reciboModel);
-                ctaCte.setReciboId(reciboModel.getId());
-                cuentaCorrienteDAO.save(ctaCte);
-            } else {
+            if (!model.getPagada()) {
                 if (Helper.getLong(creation.getFechaVencimientoId()) != null) {
                     model.setFechaVencimientoId(Helper.getLong(creation.getFechaVencimientoId()));
                 } else {
@@ -159,6 +120,7 @@ public class FacturaMapper {
             if (model.getCantidad() != null)
                 dto.setCantidad(model.getCantidad().toString());
             dto.setCodigo(model.getCodigo());
+            dto.setComprobante(model.getTipoComprobante() + "-" + model.getNumeroComprobante());
             dto.setConcepto(model.getConcepto());
             if (model.getCondicionPago() != null)
                 dto.setCondicionPago(model.getCondicionPago().toString());
@@ -193,7 +155,6 @@ public class FacturaMapper {
             }
             dto.setSubTotal(model.getSubTotal().toString());
             dto.setTotal(total.toString());
-
             dto.setNotas(model.getNotas());
             dto.setNumeroComprobante(model.getNumeroComprobante());
             if (model.getPagada() != null) {}

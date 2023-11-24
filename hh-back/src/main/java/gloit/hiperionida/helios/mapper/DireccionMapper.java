@@ -60,6 +60,7 @@ public class DireccionMapper {
             dto.setDireccion(model.getDireccion());
             dto.setNombre(model.getNombre());
             dto.setNotas(model.getNotas());
+            dto.setCompleta("(" + model.getNombre() + ") " + model.getDireccion() + ", " + model.getCiudad());
 
             if (model.getCreadorId() != null) {
                 UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreadorId() + "."));

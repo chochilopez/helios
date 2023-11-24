@@ -370,7 +370,10 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="acopladoCreation.peso"
+                v-model="acopladoCreation.peso"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 :rules="[reglas.requerido]"
                 outlined
                 dense

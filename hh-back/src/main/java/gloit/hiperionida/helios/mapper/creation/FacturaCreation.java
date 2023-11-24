@@ -18,6 +18,7 @@ public class FacturaCreation extends AbsAuditoriaCreation {
     private String id;
     private String bonificacion;
     private String cantidad;
+    private String clienteId;
     private String codigo;
     private String concepto;
     private String condicionPago;

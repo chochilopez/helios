@@ -42,8 +42,8 @@ public class CuentaCorrienteController extends AbsBaseController {
 
     @GetMapping(value = "/buscar-todas-por-cliente-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
-    public ResponseEntity<List<CuentaCorrienteDTO>> buscarTodas(@PathVariable(name = "id") Long id) {
-        List<CuentaCorrienteModel> listado = cuentaCorrienteService.buscarTodas();
+    public ResponseEntity<List<CuentaCorrienteDTO>> buscarTodasPorClienteId(@PathVariable(name = "id") Long id) {
+        List<CuentaCorrienteModel> listado = cuentaCorrienteService.buscarTodasPorClienteId(id);
         ArrayList<CuentaCorrienteDTO> cuentaCorrientes = new ArrayList<>();
         for (CuentaCorrienteModel cuentaCorriente:listado) {
             cuentaCorrientes.add(cuentaCorrienteMapper.toDto(cuentaCorriente));
@@ -53,13 +53,35 @@ public class CuentaCorrienteController extends AbsBaseController {
 
     @GetMapping(value = "/buscar-todas-por-cliente-id-con-eliminadas/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<CuentaCorrienteDTO>> buscarTodasConEliminadas(@PathVariable(name = "id") Long id) {
-        List<CuentaCorrienteModel> listado = cuentaCorrienteService.buscarTodasConEliminadas();
+    public ResponseEntity<List<CuentaCorrienteDTO>> buscarTodasPorClienteIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<CuentaCorrienteModel> listado = cuentaCorrienteService.buscarTodasPorClienteIdConEliminadas(id);
         ArrayList<CuentaCorrienteDTO> cuentaCorrientes = new ArrayList<>();
         for (CuentaCorrienteModel cuentaCorriente:listado) {
             cuentaCorrientes.add(cuentaCorrienteMapper.toDto(cuentaCorriente));
         }
         return new ResponseEntity<>(cuentaCorrienteService.calcularSaldo(cuentaCorrientes), Helper.httpHeaders("Se encontraron " + listado.size() + " entidades con cliente id: " + id + ", incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-factura-id/{id}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<CuentaCorrienteDTO>> buscarTodasPorFacturaId(@PathVariable(name = "id") Long id) {
+        List<CuentaCorrienteModel> listado = cuentaCorrienteService.buscarTodasPorFacturaId(id);
+        ArrayList<CuentaCorrienteDTO> cuentaCorrientes = new ArrayList<>();
+        for (CuentaCorrienteModel cuentaCorriente:listado) {
+            cuentaCorrientes.add(cuentaCorrienteMapper.toDto(cuentaCorriente));
+        }
+        return new ResponseEntity<>(cuentaCorrienteService.calcularSaldo(cuentaCorrientes), Helper.httpHeaders("Se encontraron " + listado.size() + " entidades con factura id: " + id + "."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-factura-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CuentaCorrienteDTO>> buscarTodasPorFacturaIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<CuentaCorrienteModel> listado = cuentaCorrienteService.buscarTodasPorFacturaIdConEliminadas(id);
+        ArrayList<CuentaCorrienteDTO> cuentaCorrientes = new ArrayList<>();
+        for (CuentaCorrienteModel cuentaCorriente:listado) {
+            cuentaCorrientes.add(cuentaCorrienteMapper.toDto(cuentaCorriente));
+        }
+        return new ResponseEntity<>(cuentaCorrienteService.calcularSaldo(cuentaCorrientes), Helper.httpHeaders("Se encontraron " + listado.size() + " entidades con factura id: " + id + ", incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")

@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.PresupuestoMapper;
 import gloit.hiperionida.helios.mapper.creation.PresupuestoCreation;
+import gloit.hiperionida.helios.mapper.creation.PresupuestoCreation;
+import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.repository.PresupuestoDAO;
 import gloit.hiperionida.helios.service.PresupuestoService;
@@ -333,17 +335,33 @@ public class PresupuestoServiceImpl implements PresupuestoService {
     }
 
     @Override
+    public PresupuestoModel crear(PresupuestoModel model) {
+        log.info("Insertando la entidad PresupuestoModel: {}.",  model);
+        PresupuestoModel presupuestoModel = presupuestoDAO.save(model);
+        if (model.getId() == null) {
+            presupuestoModel.setCreada(Helper.getNow(""));
+            presupuestoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad PresupuestoModel.");
+        } else {
+            presupuestoModel.setModificada(Helper.getNow(""));
+            presupuestoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad PresupuestoModel.");
+        }
+        return presupuestoDAO.save(presupuestoModel);
+    }
+
+    @Override
     public PresupuestoModel guardar(PresupuestoCreation creation) {
-        log.info("Insertando la entidad Presupuesto: {}.",  creation);
+        log.info("Insertando la entidad PresupuestoCreation: {}.",  creation);
         PresupuestoModel presupuestoModel = presupuestoDAO.save(presupuestoMapper.toEntity(creation));
         if (creation.getId() == null) {
             presupuestoModel.setCreada(Helper.getNow(""));
             presupuestoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad PresupuestoCreation.");
         } else {
             presupuestoModel.setModificada(Helper.getNow(""));
             presupuestoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad PresupuestoCreation.");
         }
         return presupuestoDAO.save(presupuestoModel);
     }

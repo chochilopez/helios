@@ -18,6 +18,14 @@ public interface FacturaDAO extends GenericDTO<FacturaModel> {
     Optional<FacturaModel> findByViajeIdAndEliminadaIsNull(Long id);
     Optional<FacturaModel> findByRemitoId(Long id);
     Optional<FacturaModel> findByRemitoIdAndEliminadaIsNull(Long id);
+    @Query(value = "SELECT f FROM FacturaModel f " +
+            "JOIN ViajeModel v ON f.viajeId = v.id " +
+            "where v.clienteId = :id and f.pagada = false")
+    List<FacturaModel> findAllByClienteIdAndPagadaIsFalse(Long id);
+    @Query(value = "SELECT f FROM FacturaModel f " +
+            "JOIN ViajeModel v ON f.viajeId = v.id " +
+            "where v.clienteId = :id and f.pagada = false and f.eliminada is null")
+    List<FacturaModel> findAllByClienteIdAndPagadaIsFalseAndEliminadaIsNull(Long id);
     List<FacturaModel> findAllByCodigoContainingIgnoreCase(String codigo);
     List<FacturaModel> findAllByCodigoContainingIgnoreCaseAndEliminadaIsNull(String codigo);
     List<FacturaModel> findAllByConceptoContainingIgnoreCase(String concepto);

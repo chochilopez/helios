@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.ClienteMapper;
 import gloit.hiperionida.helios.mapper.creation.ClienteCreation;
+import gloit.hiperionida.helios.mapper.creation.ClienteCreation;
+import gloit.hiperionida.helios.model.ClienteModel;
 import gloit.hiperionida.helios.model.ClienteModel;
 import gloit.hiperionida.helios.repository.ClienteDAO;
 import gloit.hiperionida.helios.service.ClienteService;
@@ -201,17 +203,33 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    public ClienteModel crear(ClienteModel model) {
+        log.info("Insertando la entidad ClienteModel: {}.",  model);
+        ClienteModel clienteModel = clienteDAO.save(model);
+        if (model.getId() == null) {
+            clienteModel.setCreada(Helper.getNow(""));
+            clienteModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad ClienteModel.");
+        } else {
+            clienteModel.setModificada(Helper.getNow(""));
+            clienteModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad ClienteModel.");
+        }
+        return clienteDAO.save(clienteModel);
+    }
+
+    @Override
     public ClienteModel guardar(ClienteCreation creation) {
-        log.info("Insertando la entidad Cliente: {}.",  creation);
+        log.info("Insertando la entidad ClienteCreation: {}.",  creation);
         ClienteModel clienteModel = clienteDAO.save(clienteMapper.toEntity(creation));
         if (creation.getId() == null) {
             clienteModel.setCreada(Helper.getNow(""));
             clienteModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad ClienteCreation.");
         } else {
             clienteModel.setModificada(Helper.getNow(""));
             clienteModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad ClienteCreation.");
         }
         return clienteDAO.save(clienteModel);
     }

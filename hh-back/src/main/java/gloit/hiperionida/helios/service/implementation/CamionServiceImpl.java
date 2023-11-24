@@ -2,10 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.CamionMapper;
 import gloit.hiperionida.helios.mapper.creation.CamionCreation;
-import gloit.hiperionida.helios.model.AcopladoModel;
-import gloit.hiperionida.helios.model.CamionModel;
-import gloit.hiperionida.helios.model.ClienteModel;
-import gloit.hiperionida.helios.model.ViajeModel;
+import gloit.hiperionida.helios.mapper.creation.CamionCreation;
+import gloit.hiperionida.helios.model.*;
 import gloit.hiperionida.helios.repository.CamionDAO;
 import gloit.hiperionida.helios.service.CamionService;
 import gloit.hiperionida.helios.util.Helper;
@@ -207,17 +205,33 @@ public class CamionServiceImpl implements CamionService {
     }
 
     @Override
+    public CamionModel crear(CamionModel model) {
+        log.info("Insertando la entidad CamionModel: {}.",  model);
+        CamionModel camionModel = camionDAO.save(model);
+        if (model.getId() == null) {
+            camionModel.setCreada(Helper.getNow(""));
+            camionModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad CamionModel.");
+        } else {
+            camionModel.setModificada(Helper.getNow(""));
+            camionModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad CamionModel.");
+        }
+        return camionDAO.save(camionModel);
+    }
+
+    @Override
     public CamionModel guardar(CamionCreation creation) {
-        log.info("Insertando la entidad Camion: {}.",  creation);
+        log.info("Insertando la entidad CamionCreation: {}.",  creation);
         CamionModel camionModel = camionDAO.save(camionMapper.toEntity(creation));
         if (creation.getId() == null) {
             camionModel.setCreada(Helper.getNow(""));
             camionModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad CamionCreation.");
         } else {
             camionModel.setModificada(Helper.getNow(""));
             camionModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad CamionCreation.");
         }
         return camionDAO.save(camionModel);
     }

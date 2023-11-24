@@ -10,10 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FacturaService extends GenericService<FacturaModel, FacturaCreation> {
+    FacturaModel marcarComoPagada(Long id);
     FacturaModel buscarPorViajeId(Long id);
     FacturaModel buscarPorViajeIdConEliminadas(Long id);
     FacturaModel buscarPorRemitoId(Long id);
     FacturaModel buscarPorRemitoIdConEliminadas(Long id);
+    List<FacturaModel> buscarTodasPorClienteIdNoPagadas(Long id);
+    List<FacturaModel> buscarTodasPorClienteIdNoPagadasConEliminadas(Long id);
     List<FacturaModel> buscarTodasPorCodigo(String codigo);
     List<FacturaModel> buscarTodasPorCodigoConEliminadas(String codigo);
     List<FacturaModel> buscarTodasPorConcepto(String concepto);

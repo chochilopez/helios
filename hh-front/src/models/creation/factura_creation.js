@@ -3,6 +3,7 @@ export class FacturaCreation {
     this.id = null
     this.bonificacion = null
     this.cantidad = null
+    this.clienteId = null
     this.codigo = null
     this.concepto = null
     this.condicionPago = null

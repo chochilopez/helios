@@ -2,6 +2,7 @@ export class DireccionModel {
   constructor () {
     this.id = null
     this.ciudad = null
+    this.completa = null
     this.direccion = null
     this.nombre = null
     this.notas = null

@@ -5,6 +5,8 @@ import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
 import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.mapper.creation.UsuarioCreation;
+import gloit.hiperionida.helios.util.mapper.creation.UsuarioCreation;
+import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.model.RolModel;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
@@ -154,17 +156,33 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public UsuarioModel crear(UsuarioModel model) {
+        log.info("Insertando la entidad UsuarioModel: {}.",  model);
+        UsuarioModel usuarioModel = usuarioDAO.save(model);
+        if (model.getId() == null) {
+            usuarioModel.setCreada(Helper.getNow(""));
+            usuarioModel.setCreadorId(this.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad UsuarioModel.");
+        } else {
+            usuarioModel.setModificada(Helper.getNow(""));
+            usuarioModel.setModificadorId(this.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad UsuarioModel.");
+        }
+        return usuarioDAO.save(usuarioModel);
+    }
+
+    @Override
     public UsuarioModel guardar(UsuarioCreation creation) {
-        log.info("Insertando la entidad Usuario: {}.",  creation);
+        log.info("Insertando la entidad UsuarioCreation: {}.",  creation);
         UsuarioModel usuarioModel = usuarioDAO.save(usuarioMapper.toEntity(creation));
         if (creation.getId() == null) {
             usuarioModel.setCreada(Helper.getNow(""));
             usuarioModel.setCreadorId(this.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad UsuarioCreation.");
         } else {
             usuarioModel.setModificada(Helper.getNow(""));
             usuarioModel.setModificadorId(this.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad UsuarioCreation.");
         }
         return usuarioDAO.save(usuarioModel);
     }

@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.DireccionMapper;
 import gloit.hiperionida.helios.mapper.creation.DireccionCreation;
+import gloit.hiperionida.helios.mapper.creation.DireccionCreation;
+import gloit.hiperionida.helios.model.DireccionModel;
 import gloit.hiperionida.helios.model.CiudadModel;
 import gloit.hiperionida.helios.model.DireccionModel;
 import gloit.hiperionida.helios.repository.CiudadDAO;
@@ -177,17 +179,33 @@ public class DireccionServiceImpl implements DireccionService {
     }
 
     @Override
+    public DireccionModel crear(DireccionModel model) {
+        log.info("Insertando la entidad DireccionModel: {}.",  model);
+        DireccionModel direccionModel = direccionDAO.save(model);
+        if (model.getId() == null) {
+            direccionModel.setCreada(Helper.getNow(""));
+            direccionModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad DireccionModel.");
+        } else {
+            direccionModel.setModificada(Helper.getNow(""));
+            direccionModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad DireccionModel.");
+        }
+        return direccionDAO.save(direccionModel);
+    }
+
+    @Override
     public DireccionModel guardar(DireccionCreation creation) {
-        log.info("Insertando la entidad Direccion: {}.",  creation);
+        log.info("Insertando la entidad DireccionCreation: {}.",  creation);
         DireccionModel direccionModel = direccionDAO.save(direccionMapper.toEntity(creation));
         if (creation.getId() == null) {
             direccionModel.setCreada(Helper.getNow(""));
             direccionModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad DireccionCreation.");
         } else {
             direccionModel.setModificada(Helper.getNow(""));
             direccionModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad DireccionCreation.");
         }
         return direccionDAO.save(direccionModel);
     }

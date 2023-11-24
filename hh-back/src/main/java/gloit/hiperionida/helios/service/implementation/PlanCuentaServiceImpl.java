@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.PlanCuentaMapper;
 import gloit.hiperionida.helios.mapper.creation.PlanCuentaCreation;
+import gloit.hiperionida.helios.mapper.creation.PlanCuentaCreation;
+import gloit.hiperionida.helios.model.PlanCuentaModel;
 import gloit.hiperionida.helios.model.PlanCuentaModel;
 import gloit.hiperionida.helios.repository.PlanCuentaDAO;
 import gloit.hiperionida.helios.service.PlanCuentaService;
@@ -93,17 +95,33 @@ public class PlanCuentaServiceImpl implements PlanCuentaService {
     }
 
     @Override
+    public PlanCuentaModel crear(PlanCuentaModel model) {
+        log.info("Insertando la entidad PlanCuentaModel: {}.",  model);
+        PlanCuentaModel planCuentaModel = planCuentaDAO.save(model);
+        if (model.getId() == null) {
+            planCuentaModel.setCreada(Helper.getNow(""));
+            planCuentaModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad PlanCuentaModel.");
+        } else {
+            planCuentaModel.setModificada(Helper.getNow(""));
+            planCuentaModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad PlanCuentaModel.");
+        }
+        return planCuentaDAO.save(planCuentaModel);
+    }
+
+    @Override
     public PlanCuentaModel guardar(PlanCuentaCreation creation) {
-        log.info("Insertando la entidad PlanCuenta: {}.",  creation);
+        log.info("Insertando la entidad PlanCuentaCreation: {}.",  creation);
         PlanCuentaModel planCuentaModel = planCuentaDAO.save(planCuentaMapper.toEntity(creation));
         if (creation.getId() == null) {
             planCuentaModel.setCreada(Helper.getNow(""));
             planCuentaModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad PlanCuentaCreation.");
         } else {
             planCuentaModel.setModificada(Helper.getNow(""));
             planCuentaModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad PlanCuentaCreation.");
         }
         return planCuentaDAO.save(planCuentaModel);
     }

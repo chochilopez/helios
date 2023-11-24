@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.GastoMapper;
 import gloit.hiperionida.helios.mapper.creation.GastoCreation;
+import gloit.hiperionida.helios.mapper.creation.GastoCreation;
+import gloit.hiperionida.helios.model.GastoModel;
 import gloit.hiperionida.helios.model.GastoModel;
 import gloit.hiperionida.helios.repository.GastoDAO;
 import gloit.hiperionida.helios.service.GastoService;
@@ -93,17 +95,33 @@ public class GastoServiceImpl implements GastoService {
     }
 
     @Override
+    public GastoModel crear(GastoModel model) {
+        log.info("Insertando la entidad GastoModel: {}.",  model);
+        GastoModel gastoModel = gastoDAO.save(model);
+        if (model.getId() == null) {
+            gastoModel.setCreada(Helper.getNow(""));
+            gastoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad GastoModel.");
+        } else {
+            gastoModel.setModificada(Helper.getNow(""));
+            gastoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad GastoModel.");
+        }
+        return gastoDAO.save(gastoModel);
+    }
+
+    @Override
     public GastoModel guardar(GastoCreation creation) {
-        log.info("Insertando la entidad Gasto: {}.",  creation);
+        log.info("Insertando la entidad GastoCreation: {}.",  creation);
         GastoModel gastoModel = gastoDAO.save(gastoMapper.toEntity(creation));
         if (creation.getId() == null) {
             gastoModel.setCreada(Helper.getNow(""));
             gastoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad GastoCreation.");
         } else {
             gastoModel.setModificada(Helper.getNow(""));
             gastoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad GastoCreation.");
         }
         return gastoDAO.save(gastoModel);
     }

@@ -22,6 +22,7 @@ public class FacturaDTO extends AbsAuditoriaDTO implements Serializable {
     private String cantidadTransportada;
     private String categoriaViaje;
     private String codigo;
+    private String comprobante;
     private String cliente;
     private String concepto;
     private String condicionPago;

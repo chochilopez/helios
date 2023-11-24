@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.RemitoMapper;
 import gloit.hiperionida.helios.mapper.creation.RemitoCreation;
+import gloit.hiperionida.helios.mapper.creation.RemitoCreation;
+import gloit.hiperionida.helios.model.RemitoModel;
 import gloit.hiperionida.helios.model.RemitoModel;
 import gloit.hiperionida.helios.repository.RemitoDAO;
 import gloit.hiperionida.helios.service.RemitoService;
@@ -93,17 +95,33 @@ public class RemitoServiceImpl implements RemitoService {
     }
 
     @Override
+    public RemitoModel crear(RemitoModel model) {
+        log.info("Insertando la entidad RemitoModel: {}.",  model);
+        RemitoModel remitoModel = remitoDAO.save(model);
+        if (model.getId() == null) {
+            remitoModel.setCreada(Helper.getNow(""));
+            remitoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad RemitoModel.");
+        } else {
+            remitoModel.setModificada(Helper.getNow(""));
+            remitoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad RemitoModel.");
+        }
+        return remitoDAO.save(remitoModel);
+    }
+
+    @Override
     public RemitoModel guardar(RemitoCreation creation) {
-        log.info("Insertando la entidad Remito: {}.",  creation);
+        log.info("Insertando la entidad RemitoCreation: {}.",  creation);
         RemitoModel remitoModel = remitoDAO.save(remitoMapper.toEntity(creation));
         if (creation.getId() == null) {
             remitoModel.setCreada(Helper.getNow(""));
             remitoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad RemitoCreation.");
         } else {
             remitoModel.setModificada(Helper.getNow(""));
             remitoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad RemitoCreation.");
         }
         return remitoDAO.save(remitoModel);
     }

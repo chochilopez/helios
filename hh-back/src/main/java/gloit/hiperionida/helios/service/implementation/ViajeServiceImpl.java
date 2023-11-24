@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.ViajeMapper;
 import gloit.hiperionida.helios.mapper.creation.ViajeCreation;
+import gloit.hiperionida.helios.mapper.creation.ViajeCreation;
+import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.repository.ViajeDAO;
@@ -541,17 +543,33 @@ public class ViajeServiceImpl implements ViajeService {
     }
 
     @Override
+    public ViajeModel crear(ViajeModel model) {
+        log.info("Insertando la entidad ViajeModel: {}.",  model);
+        ViajeModel viajeModel = viajeDAO.save(model);
+        if (model.getId() == null) {
+            viajeModel.setCreada(Helper.getNow(""));
+            viajeModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad ViajeModel.");
+        } else {
+            viajeModel.setModificada(Helper.getNow(""));
+            viajeModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad ViajeModel.");
+        }
+        return viajeDAO.save(viajeModel);
+    }
+
+    @Override
     public ViajeModel guardar(ViajeCreation creation) {
-        log.info("Insertando la entidad Viaje: {}.",  creation);
+        log.info("Insertando la entidad ViajeCreation: {}.",  creation);
         ViajeModel viajeModel = viajeDAO.save(viajeMapper.toEntity(creation));
         if (creation.getId() == null) {
             viajeModel.setCreada(Helper.getNow(""));
             viajeModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad ViajeCreation.");
         } else {
             viajeModel.setModificada(Helper.getNow(""));
             viajeModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad ViajeCreation.");
         }
         return viajeDAO.save(viajeModel);
     }

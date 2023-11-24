@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.AdelantoMapper;
 import gloit.hiperionida.helios.mapper.creation.AdelantoCreation;
+import gloit.hiperionida.helios.mapper.creation.AdelantoCreation;
+import gloit.hiperionida.helios.model.AdelantoModel;
 import gloit.hiperionida.helios.model.AdelantoModel;
 import gloit.hiperionida.helios.repository.AdelantoDAO;
 import gloit.hiperionida.helios.service.AdelantoService;
@@ -93,17 +95,33 @@ public class AdelantoServiceImpl implements AdelantoService {
     }
 
     @Override
+    public AdelantoModel crear(AdelantoModel model) {
+        log.info("Insertando la entidad AdelantoModel: {}.",  model);
+        AdelantoModel adelantoModel = adelantoDAO.save(model);
+        if (model.getId() == null) {
+            adelantoModel.setCreada(Helper.getNow(""));
+            adelantoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad AdelantoModel.");
+        } else {
+            adelantoModel.setModificada(Helper.getNow(""));
+            adelantoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad AdelantoModel.");
+        }
+        return adelantoDAO.save(adelantoModel);
+    }
+
+    @Override
     public AdelantoModel guardar(AdelantoCreation creation) {
-        log.info("Insertando la entidad Adelanto: {}.",  creation);
+        log.info("Insertando la entidad AdelantoCreation: {}.",  creation);
         AdelantoModel adelantoModel = adelantoDAO.save(adelantoMapper.toEntity(creation));
         if (creation.getId() == null) {
             adelantoModel.setCreada(Helper.getNow(""));
             adelantoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad AdelantoCreation.");
         } else {
             adelantoModel.setModificada(Helper.getNow(""));
             adelantoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad AdelantoCreation.");
         }
         return adelantoDAO.save(adelantoModel);
     }

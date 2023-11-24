@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.CategoriaViajeMapper;
 import gloit.hiperionida.helios.mapper.creation.CategoriaViajeCreation;
+import gloit.hiperionida.helios.mapper.creation.CategoriaViajeCreation;
+import gloit.hiperionida.helios.model.CategoriaViajeModel;
 import gloit.hiperionida.helios.model.CategoriaViajeModel;
 import gloit.hiperionida.helios.repository.CategoriaViajeDAO;
 import gloit.hiperionida.helios.service.CategoriaViajeService;
@@ -93,17 +95,33 @@ public class CategoriaViajeServiceImpl implements CategoriaViajeService {
     }
 
     @Override
+    public CategoriaViajeModel crear(CategoriaViajeModel model) {
+        log.info("Insertando la entidad CategoriaViajeModel: {}.",  model);
+        CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.save(model);
+        if (model.getId() == null) {
+            categoriaViajeModel.setCreada(Helper.getNow(""));
+            categoriaViajeModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad CategoriaViajeModel.");
+        } else {
+            categoriaViajeModel.setModificada(Helper.getNow(""));
+            categoriaViajeModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad CategoriaViajeModel.");
+        }
+        return categoriaViajeDAO.save(categoriaViajeModel);
+    }
+
+    @Override
     public CategoriaViajeModel guardar(CategoriaViajeCreation creation) {
-        log.info("Insertando la entidad CategoriaViaje: {}.",  creation);
+        log.info("Insertando la entidad CategoriaViajeCreation: {}.",  creation);
         CategoriaViajeModel categoriaViajeModel = categoriaViajeDAO.save(categoriaViajeMapper.toEntity(creation));
         if (creation.getId() == null) {
             categoriaViajeModel.setCreada(Helper.getNow(""));
             categoriaViajeModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad CategoriaViajeCreation.");
         } else {
             categoriaViajeModel.setModificada(Helper.getNow(""));
             categoriaViajeModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad CategoriaViajeCreation.");
         }
         return categoriaViajeDAO.save(categoriaViajeModel);
     }

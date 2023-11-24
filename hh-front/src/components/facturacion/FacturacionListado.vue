@@ -681,9 +681,11 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="facturaCreation.precioUnitario"
+                v-model="facturaCreation.precioUnitario"
                 :rules="[reglas.requerido]"
-                type="number"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 outlined
                 dense
                 clearable
@@ -715,8 +717,10 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="facturaCreation.bonificacion"
-                type="number"
+                v-model="facturaCreation.bonificacion"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 outlined
                 dense
                 clearable
@@ -742,8 +746,10 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="facturaCreation.otrosImpuestos"
-                type="number"
+                v-model="facturaCreation.otrosImpuestos"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 outlined
                 dense
                 clearable
@@ -754,8 +760,10 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model.number="facturaCreation.iva"
-                type="number"
+                v-model="facturaCreation.iva"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
                 outlined
                 dense
                 clearable
@@ -930,6 +938,7 @@ export default {
             facturaCreation.fechaEmision = null
             facturaCreation.fechaVencimiento = null
             facturaCreation.codigo = null
+            facturaCreation.clienteId = resultado.value.clienteId
             facturaCreation.concepto = 'Transporte de ' + resultado.value.cantidadTransportada + ' ' + resultado.value.categoriaViaje
             facturaCreation.cantidad = resultado.value.cantidadTransportada
             facturaCreation.precioUnitario = resultado.value.valorKm

@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.CombustibleMapper;
 import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
+import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
+import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.repository.CombustibleDAO;
 import gloit.hiperionida.helios.service.CombustibleService;
@@ -93,17 +95,33 @@ public class CombustibleServiceImpl implements CombustibleService {
     }
 
     @Override
+    public CombustibleModel crear(CombustibleModel model) {
+        log.info("Insertando la entidad CombustibleModel: {}.",  model);
+        CombustibleModel combustibleModel = combustibleDAO.save(model);
+        if (model.getId() == null) {
+            combustibleModel.setCreada(Helper.getNow(""));
+            combustibleModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad CombustibleModel.");
+        } else {
+            combustibleModel.setModificada(Helper.getNow(""));
+            combustibleModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad CombustibleModel.");
+        }
+        return combustibleDAO.save(combustibleModel);
+    }
+
+    @Override
     public CombustibleModel guardar(CombustibleCreation creation) {
-        log.info("Insertando la entidad Combustible: {}.",  creation);
+        log.info("Insertando la entidad CombustibleCreation: {}.",  creation);
         CombustibleModel combustibleModel = combustibleDAO.save(combustibleMapper.toEntity(creation));
         if (creation.getId() == null) {
             combustibleModel.setCreada(Helper.getNow(""));
             combustibleModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad CombustibleCreation.");
         } else {
             combustibleModel.setModificada(Helper.getNow(""));
             combustibleModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad CombustibleCreation.");
         }
         return combustibleDAO.save(combustibleModel);
     }

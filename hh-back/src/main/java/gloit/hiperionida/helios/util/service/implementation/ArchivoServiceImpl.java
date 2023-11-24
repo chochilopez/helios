@@ -156,17 +156,33 @@ public class ArchivoServiceImpl implements ArchivoService {
     }
 
     @Override
+    public ArchivoModel crear(ArchivoModel model) {
+        log.info("Insertando la entidad ArchivoModel: {}.",  model);
+        ArchivoModel archivoModel = archivoDAO.save(model);
+        if (model.getId() == null) {
+            archivoModel.setCreada(Helper.getNow(""));
+            archivoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad ArchivoModel.");
+        } else {
+            archivoModel.setModificada(Helper.getNow(""));
+            archivoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad ArchivoModel.");
+        }
+        return archivoDAO.save(archivoModel);
+    }
+
+    @Override
     public ArchivoModel guardar(ArchivoCreation creation) {
-        log.info("Insertando la entidad Archivo: {}.",  creation);
+        log.info("Insertando la entidad ArchivoCreation: {}.",  creation);
         ArchivoModel archivoModel = archivoDAO.save(archivoMapper.toEntity(creation));
         if (creation.getId() == null) {
             archivoModel.setCreada(Helper.getNow(""));
             archivoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persisitio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad ArchivoCreation.");
         } else {
             archivoModel.setModificada(Helper.getNow(""));
             archivoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persisitio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad ArchivoCreation.");
         }
         return archivoDAO.save(archivoModel);
     }

@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.ConciliacionBancoMapper;
 import gloit.hiperionida.helios.mapper.creation.ConciliacionBancoCreation;
+import gloit.hiperionida.helios.mapper.creation.ConciliacionBancoCreation;
+import gloit.hiperionida.helios.model.ConciliacionBancoModel;
 import gloit.hiperionida.helios.model.ConciliacionBancoModel;
 import gloit.hiperionida.helios.repository.ConciliacionBancoDAO;
 import gloit.hiperionida.helios.service.ConciliacionBancoService;
@@ -93,17 +95,33 @@ public class ConciliacionBancoServiceImpl implements ConciliacionBancoService {
     }
 
     @Override
+    public ConciliacionBancoModel crear(ConciliacionBancoModel model) {
+        log.info("Insertando la entidad ConciliacionBancoModel: {}.",  model);
+        ConciliacionBancoModel conciliacionBancoModel = conciliacionBancoDAO.save(model);
+        if (model.getId() == null) {
+            conciliacionBancoModel.setCreada(Helper.getNow(""));
+            conciliacionBancoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad ConciliacionBancoModel.");
+        } else {
+            conciliacionBancoModel.setModificada(Helper.getNow(""));
+            conciliacionBancoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad ConciliacionBancoModel.");
+        }
+        return conciliacionBancoDAO.save(conciliacionBancoModel);
+    }
+
+    @Override
     public ConciliacionBancoModel guardar(ConciliacionBancoCreation creation) {
-        log.info("Insertando la entidad ConciliacionBanco: {}.",  creation);
+        log.info("Insertando la entidad ConciliacionBancoCreation: {}.",  creation);
         ConciliacionBancoModel conciliacionBancoModel = conciliacionBancoDAO.save(conciliacionBancoMapper.toEntity(creation));
         if (creation.getId() == null) {
             conciliacionBancoModel.setCreada(Helper.getNow(""));
             conciliacionBancoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad ConciliacionBancoCreation.");
         } else {
             conciliacionBancoModel.setModificada(Helper.getNow(""));
             conciliacionBancoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad ConciliacionBancoCreation.");
         }
         return conciliacionBancoDAO.save(conciliacionBancoModel);
     }

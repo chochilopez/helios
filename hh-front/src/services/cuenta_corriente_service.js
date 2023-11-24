@@ -42,6 +42,38 @@ function spfBuscarTodasPorClienteIdConEliminadas (id) {
   })
 }
 
+function spfBuscarTodasPorFacturaId (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cuenta-corriente/buscar-todas-por-factura-id/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorFacturaIdConEliminadas (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cuenta-corriente/buscar-todas-por-factura-id-con-eliminadas/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodasPorNotas (notas) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'cuenta-corriente/buscar-todas-por-notas/' + notas, {
@@ -307,6 +339,8 @@ function spfDestruir (id) {
 export const cuentaCorrienteService = {
   spfBuscarTodasPorClienteId,
   spfBuscarTodasPorClienteIdConEliminadas,
+  spfBuscarTodasPorFacturaId,
+  spfBuscarTodasPorFacturaIdConEliminadas,
   spfBuscarTodasPorNotas,
   spfBuscarTodasPorNotasConEliminadas,
 

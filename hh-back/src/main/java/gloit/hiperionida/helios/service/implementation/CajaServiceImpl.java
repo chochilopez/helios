@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.CajaMapper;
 import gloit.hiperionida.helios.mapper.creation.CajaCreation;
+import gloit.hiperionida.helios.mapper.creation.CajaCreation;
+import gloit.hiperionida.helios.model.CajaModel;
 import gloit.hiperionida.helios.model.CajaModel;
 import gloit.hiperionida.helios.repository.CajaDAO;
 import gloit.hiperionida.helios.service.CajaService;
@@ -94,17 +96,33 @@ public class CajaServiceImpl implements CajaService {
     }
 
     @Override
+    public CajaModel crear(CajaModel model) {
+        log.info("Insertando la entidad CajaModel: {}.",  model);
+        CajaModel cajaModel = cajaDAO.save(model);
+        if (model.getId() == null) {
+            cajaModel.setCreada(Helper.getNow(""));
+            cajaModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad CajaModel.");
+        } else {
+            cajaModel.setModificada(Helper.getNow(""));
+            cajaModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad CajaModel.");
+        }
+        return cajaDAO.save(cajaModel);
+    }
+
+    @Override
     public CajaModel guardar(CajaCreation creation) {
-        log.info("Insertando la entidad Caja: {}.",  creation);
+        log.info("Insertando la entidad CajaCreation: {}.",  creation);
         CajaModel cajaModel = cajaDAO.save(cajaMapper.toEntity(creation));
         if (creation.getId() == null) {
             cajaModel.setCreada(Helper.getNow(""));
             cajaModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad CajaCreation.");
         } else {
             cajaModel.setModificada(Helper.getNow(""));
             cajaModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad CajaCreation.");
         }
         return cajaDAO.save(cajaModel);
     }

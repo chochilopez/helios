@@ -106,6 +106,38 @@ function spfBuscarTodasPorFechaViajeEntreFechasConEliminadas (inicio, fin) {
   })
 }
 
+function spfBuscarTodasPorNoPagadasClienteId (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'factura/buscar-todas-por-no-pagadas-por-cliente-id/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNoPagadasClienteIdConEliminadas (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'factura/buscar-todas-por-no-pagadas-por-cliente-id-con-eliminadas/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodasPorNumeroComprobante (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'factura/buscar-todas-por-carga-id/' + id, {
@@ -221,6 +253,22 @@ function spfBuscarTodasPorTipoComprobante (inicio, fin) {
 function spfBuscarTodasPorTipoComprobanteConEliminadas (inicio, fin) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'factura/buscar-todas-por-rango-km-cargado-con-eliminadas/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfMarcarComoPagada (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'factura/marcar-factura-como-pagada/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -471,6 +519,8 @@ export const facturaService = {
   spfBuscarTodasPorFechaEntreFechasConEliminadas,
   spfBuscarTodasPorFechaViajeEntreFechas,
   spfBuscarTodasPorFechaViajeEntreFechasConEliminadas,
+  spfBuscarTodasPorNoPagadasClienteId,
+  spfBuscarTodasPorNoPagadasClienteIdConEliminadas,
   spfBuscarTodasPorNumeroComprobante,
   spfBuscarTodasPorNumeroComprobanteConEliminadas,
   spfBuscarTodasPorNumeroGuia,
@@ -479,6 +529,7 @@ export const facturaService = {
   spfBuscarTodasPorNumeroRemitoConEliminadas,
   spfBuscarTodasPorTipoComprobante,
   spfBuscarTodasPorTipoComprobanteConEliminadas,
+  spfMarcarComoPagada,
 
   spfBuscarPorId,
   spfBuscarPorIdConEliminadas,

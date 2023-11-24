@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.BancoMapper;
 import gloit.hiperionida.helios.mapper.creation.BancoCreation;
+import gloit.hiperionida.helios.mapper.creation.BancoCreation;
+import gloit.hiperionida.helios.model.BancoModel;
 import gloit.hiperionida.helios.model.BancoModel;
 import gloit.hiperionida.helios.repository.BancoDAO;
 import gloit.hiperionida.helios.service.BancoService;
@@ -93,17 +95,33 @@ public class BancoServiceImpl implements BancoService {
     }
 
     @Override
+    public BancoModel crear(BancoModel model) {
+        log.info("Insertando la entidad BancoModel: {}.",  model);
+        BancoModel bancoModel = bancoDAO.save(model);
+        if (model.getId() == null) {
+            bancoModel.setCreada(Helper.getNow(""));
+            bancoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad BancoModel.");
+        } else {
+            bancoModel.setModificada(Helper.getNow(""));
+            bancoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad BancoModel.");
+        }
+        return bancoDAO.save(bancoModel);
+    }
+
+    @Override
     public BancoModel guardar(BancoCreation creation) {
-        log.info("Insertando la entidad Banco: {}.",  creation);
+        log.info("Insertando la entidad BancoCreation: {}.",  creation);
         BancoModel bancoModel = bancoDAO.save(bancoMapper.toEntity(creation));
         if (creation.getId() == null) {
             bancoModel.setCreada(Helper.getNow(""));
             bancoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad BancoCreation.");
         } else {
             bancoModel.setModificada(Helper.getNow(""));
             bancoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad BancoCreation.");
         }
         return bancoDAO.save(bancoModel);
     }

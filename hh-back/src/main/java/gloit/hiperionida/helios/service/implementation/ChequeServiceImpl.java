@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.ChequeMapper;
 import gloit.hiperionida.helios.mapper.creation.ChequeCreation;
+import gloit.hiperionida.helios.mapper.creation.ChequeCreation;
+import gloit.hiperionida.helios.model.ChequeModel;
 import gloit.hiperionida.helios.model.ChequeModel;
 import gloit.hiperionida.helios.repository.ChequeDAO;
 import gloit.hiperionida.helios.service.ChequeService;
@@ -93,17 +95,33 @@ public class ChequeServiceImpl implements ChequeService {
     }
 
     @Override
+    public ChequeModel crear(ChequeModel model) {
+        log.info("Insertando la entidad ChequeModel: {}.",  model);
+        ChequeModel chequeModel = chequeDAO.save(model);
+        if (model.getId() == null) {
+            chequeModel.setCreada(Helper.getNow(""));
+            chequeModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad ChequeModel.");
+        } else {
+            chequeModel.setModificada(Helper.getNow(""));
+            chequeModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad ChequeModel.");
+        }
+        return chequeDAO.save(chequeModel);
+    }
+
+    @Override
     public ChequeModel guardar(ChequeCreation creation) {
-        log.info("Insertando la entidad Cheque: {}.",  creation);
+        log.info("Insertando la entidad ChequeCreation: {}.",  creation);
         ChequeModel chequeModel = chequeDAO.save(chequeMapper.toEntity(creation));
         if (creation.getId() == null) {
             chequeModel.setCreada(Helper.getNow(""));
             chequeModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad ChequeCreation.");
         } else {
             chequeModel.setModificada(Helper.getNow(""));
             chequeModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad ChequeCreation.");
         }
         return chequeDAO.save(chequeModel);
     }

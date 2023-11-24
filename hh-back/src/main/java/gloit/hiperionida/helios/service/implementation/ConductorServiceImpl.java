@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.ConductorMapper;
 import gloit.hiperionida.helios.mapper.creation.ConductorCreation;
+import gloit.hiperionida.helios.mapper.creation.ConductorCreation;
+import gloit.hiperionida.helios.model.ConductorModel;
 import gloit.hiperionida.helios.model.ConductorModel;
 import gloit.hiperionida.helios.model.ConductorModel;
 import gloit.hiperionida.helios.repository.ConductorDAO;
@@ -202,17 +204,33 @@ public class ConductorServiceImpl implements ConductorService {
     }
 
     @Override
+    public ConductorModel crear(ConductorModel model) {
+        log.info("Insertando la entidad ConductorModel: {}.",  model);
+        ConductorModel conductorModel = conductorDAO.save(model);
+        if (model.getId() == null) {
+            conductorModel.setCreada(Helper.getNow(""));
+            conductorModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad ConductorModel.");
+        } else {
+            conductorModel.setModificada(Helper.getNow(""));
+            conductorModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad ConductorModel.");
+        }
+        return conductorDAO.save(conductorModel);
+    }
+
+    @Override
     public ConductorModel guardar(ConductorCreation creation) {
-        log.info("Insertando la entidad Conductor: {}.",  creation);
+        log.info("Insertando la entidad ConductorCreation: {}.",  creation);
         ConductorModel conductorModel = conductorDAO.save(conductorMapper.toEntity(creation));
         if (creation.getId() == null) {
             conductorModel.setCreada(Helper.getNow(""));
             conductorModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad ConductorCreation.");
         } else {
             conductorModel.setModificada(Helper.getNow(""));
             conductorModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad ConductorCreation.");
         }
         return conductorDAO.save(conductorModel);
     }

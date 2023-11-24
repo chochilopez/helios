@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.NeumaticoMapper;
 import gloit.hiperionida.helios.mapper.creation.NeumaticoCreation;
+import gloit.hiperionida.helios.mapper.creation.NeumaticoCreation;
+import gloit.hiperionida.helios.model.NeumaticoModel;
 import gloit.hiperionida.helios.model.NeumaticoModel;
 import gloit.hiperionida.helios.repository.NeumaticoDAO;
 import gloit.hiperionida.helios.service.NeumaticoService;
@@ -93,17 +95,33 @@ public class NeumaticoServiceImpl implements NeumaticoService {
     }
 
     @Override
+    public NeumaticoModel crear(NeumaticoModel model) {
+        log.info("Insertando la entidad NeumaticoModel: {}.",  model);
+        NeumaticoModel neumaticoModel = neumaticoDAO.save(model);
+        if (model.getId() == null) {
+            neumaticoModel.setCreada(Helper.getNow(""));
+            neumaticoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad NeumaticoModel.");
+        } else {
+            neumaticoModel.setModificada(Helper.getNow(""));
+            neumaticoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad NeumaticoModel.");
+        }
+        return neumaticoDAO.save(neumaticoModel);
+    }
+
+    @Override
     public NeumaticoModel guardar(NeumaticoCreation creation) {
-        log.info("Insertando la entidad Neumatico: {}.",  creation);
+        log.info("Insertando la entidad NeumaticoCreation: {}.",  creation);
         NeumaticoModel neumaticoModel = neumaticoDAO.save(neumaticoMapper.toEntity(creation));
         if (creation.getId() == null) {
             neumaticoModel.setCreada(Helper.getNow(""));
             neumaticoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad NeumaticoCreation.");
         } else {
             neumaticoModel.setModificada(Helper.getNow(""));
             neumaticoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad NeumaticoCreation.");
         }
         return neumaticoDAO.save(neumaticoModel);
     }

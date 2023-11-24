@@ -2,7 +2,9 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.SeguroMapper;
 import gloit.hiperionida.helios.mapper.creation.SeguroCreation;
+import gloit.hiperionida.helios.mapper.creation.SeguroCreation;
 import gloit.hiperionida.helios.model.AcopladoModel;
+import gloit.hiperionida.helios.model.SeguroModel;
 import gloit.hiperionida.helios.model.SeguroModel;
 import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.repository.SeguroDAO;
@@ -213,17 +215,33 @@ public class SeguroServiceImpl implements SeguroService {
     }
 
     @Override
+    public SeguroModel crear(SeguroModel model) {
+        log.info("Insertando la entidad SeguroModel: {}.",  model);
+        SeguroModel seguroModel = seguroDAO.save(model);
+        if (model.getId() == null) {
+            seguroModel.setCreada(Helper.getNow(""));
+            seguroModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad SeguroModel.");
+        } else {
+            seguroModel.setModificada(Helper.getNow(""));
+            seguroModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad SeguroModel.");
+        }
+        return seguroDAO.save(seguroModel);
+    }
+
+    @Override
     public SeguroModel guardar(SeguroCreation creation) {
-        log.info("Insertando la entidad Seguro: {}.",  creation);
+        log.info("Insertando la entidad SeguroCreation: {}.",  creation);
         SeguroModel seguroModel = seguroDAO.save(seguroMapper.toEntity(creation));
         if (creation.getId() == null) {
             seguroModel.setCreada(Helper.getNow(""));
             seguroModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad SeguroCreation.");
         } else {
             seguroModel.setModificada(Helper.getNow(""));
             seguroModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad SeguroCreation.");
         }
         return seguroDAO.save(seguroModel);
     }

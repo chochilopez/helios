@@ -167,17 +167,33 @@ public class AcopladoServiceImpl implements AcopladoService {
     }
 
     @Override
+    public AcopladoModel crear(AcopladoModel model) {
+        log.info("Insertando la entidad AcopladoModel: {}.",  model);
+        AcopladoModel acopladoModel = acopladoDAO.save(model);
+        if (model.getId() == null) {
+            acopladoModel.setCreada(Helper.getNow(""));
+            acopladoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad AcopladoModel.");
+        } else {
+            acopladoModel.setModificada(Helper.getNow(""));
+            acopladoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad AcopladoModel.");
+        }
+        return acopladoDAO.save(acopladoModel);
+    }
+
+    @Override
     public AcopladoModel guardar(AcopladoCreation creation) {
-        log.info("Insertando la entidad Acoplado: {}.",  creation);
+        log.info("Insertando la entidad AcopladoCreation: {}.",  creation);
         AcopladoModel acopladoModel = acopladoDAO.save(acopladoMapper.toEntity(creation));
         if (creation.getId() == null) {
             acopladoModel.setCreada(Helper.getNow(""));
             acopladoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad AcopladoCreation.");
         } else {
             acopladoModel.setModificada(Helper.getNow(""));
             acopladoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad AcopladoCreation.");
         }
         return acopladoDAO.save(acopladoModel);
     }

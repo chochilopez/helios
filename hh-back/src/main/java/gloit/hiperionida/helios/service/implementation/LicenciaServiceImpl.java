@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.LicenciaMapper;
 import gloit.hiperionida.helios.mapper.creation.LicenciaCreation;
+import gloit.hiperionida.helios.mapper.creation.LicenciaCreation;
+import gloit.hiperionida.helios.model.LicenciaModel;
 import gloit.hiperionida.helios.model.LicenciaModel;
 import gloit.hiperionida.helios.repository.LicenciaDAO;
 import gloit.hiperionida.helios.service.LicenciaService;
@@ -93,17 +95,33 @@ public class LicenciaServiceImpl implements LicenciaService {
     }
 
     @Override
+    public LicenciaModel crear(LicenciaModel model) {
+        log.info("Insertando la entidad LicenciaModel: {}.",  model);
+        LicenciaModel licenciaModel = licenciaDAO.save(model);
+        if (model.getId() == null) {
+            licenciaModel.setCreada(Helper.getNow(""));
+            licenciaModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad LicenciaModel.");
+        } else {
+            licenciaModel.setModificada(Helper.getNow(""));
+            licenciaModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad LicenciaModel.");
+        }
+        return licenciaDAO.save(licenciaModel);
+    }
+
+    @Override
     public LicenciaModel guardar(LicenciaCreation creation) {
-        log.info("Insertando la entidad Licencia: {}.",  creation);
+        log.info("Insertando la entidad LicenciaCreation: {}.",  creation);
         LicenciaModel licenciaModel = licenciaDAO.save(licenciaMapper.toEntity(creation));
         if (creation.getId() == null) {
             licenciaModel.setCreada(Helper.getNow(""));
             licenciaModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad LicenciaCreation.");
         } else {
             licenciaModel.setModificada(Helper.getNow(""));
             licenciaModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad LicenciaCreation.");
         }
         return licenciaDAO.save(licenciaModel);
     }

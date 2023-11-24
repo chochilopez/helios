@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.ProveedorMapper;
 import gloit.hiperionida.helios.mapper.creation.ProveedorCreation;
+import gloit.hiperionida.helios.mapper.creation.ProveedorCreation;
+import gloit.hiperionida.helios.model.ProveedorModel;
 import gloit.hiperionida.helios.model.ProveedorModel;
 import gloit.hiperionida.helios.model.ProveedorModel;
 import gloit.hiperionida.helios.repository.ProveedorDAO;
@@ -202,17 +204,33 @@ public class ProveedorServiceImpl implements ProveedorService {
     }
 
     @Override
+    public ProveedorModel crear(ProveedorModel model) {
+        log.info("Insertando la entidad ProveedorModel: {}.",  model);
+        ProveedorModel proveedorModel = proveedorDAO.save(model);
+        if (model.getId() == null) {
+            proveedorModel.setCreada(Helper.getNow(""));
+            proveedorModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad ProveedorModel.");
+        } else {
+            proveedorModel.setModificada(Helper.getNow(""));
+            proveedorModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad ProveedorModel.");
+        }
+        return proveedorDAO.save(proveedorModel);
+    }
+
+    @Override
     public ProveedorModel guardar(ProveedorCreation creation) {
-        log.info("Insertando la entidad Proveedor: {}.",  creation);
+        log.info("Insertando la entidad ProveedorCreation: {}.",  creation);
         ProveedorModel proveedorModel = proveedorDAO.save(proveedorMapper.toEntity(creation));
         if (creation.getId() == null) {
             proveedorModel.setCreada(Helper.getNow(""));
             proveedorModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad ProveedorCreation.");
         } else {
             proveedorModel.setModificada(Helper.getNow(""));
             proveedorModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad ProveedorCreation.");
         }
         return proveedorDAO.save(proveedorModel);
     }

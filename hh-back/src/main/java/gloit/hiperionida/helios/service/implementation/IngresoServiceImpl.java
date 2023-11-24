@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.IngresoMapper;
 import gloit.hiperionida.helios.mapper.creation.IngresoCreation;
+import gloit.hiperionida.helios.mapper.creation.IngresoCreation;
+import gloit.hiperionida.helios.model.IngresoModel;
 import gloit.hiperionida.helios.model.CiudadModel;
 import gloit.hiperionida.helios.model.IngresoModel;
 import gloit.hiperionida.helios.repository.CiudadDAO;
@@ -25,14 +27,14 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class IngresoServiceImpl implements IngresoService {
-    private final IngresoDAO IngresoDAO;
-    private final IngresoMapper IngresoMapper;
+    private final IngresoDAO ingresoDAO;
+    private final IngresoMapper ingresoMapper;
     private final UsuarioServiceImpl usuarioService;
 
     @Override
     public IngresoModel buscarPorId(Long id) {
         log.info("Buscando la entidad Ingreso con id: {}.", id);
-        IngresoModel IngresoModel = IngresoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Ingreso con id: " + id + "."));
+        IngresoModel IngresoModel = ingresoDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Ingreso con id: " + id + "."));
         log.info("Se encontró una entidad Ingreso con id: " + id + ".");
         return IngresoModel;
     }
@@ -40,7 +42,7 @@ public class IngresoServiceImpl implements IngresoService {
     @Override
     public IngresoModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad Ingreso con id: {}, incluidas las eliminadas.", id);
-        IngresoModel IngresoModel = IngresoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Ingreso con id: " + id +", incluidas las eliminadas."));
+        IngresoModel IngresoModel = ingresoDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad Ingreso con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad Ingreso con id: " + id + ", incluidas las eliminadas.");
         return IngresoModel;
     }
@@ -48,7 +50,7 @@ public class IngresoServiceImpl implements IngresoService {
     @Override
     public List<IngresoModel> buscarTodas() {
         log.info("Buscando todas las entidades Ingreso.");
-        List<IngresoModel> listado = IngresoDAO.findAllByEliminadaIsNull();
+        List<IngresoModel> listado = ingresoDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Ingreso.");
         return listado;
@@ -57,7 +59,7 @@ public class IngresoServiceImpl implements IngresoService {
     @Override
     public List<IngresoModel> buscarTodasConEliminadas() {
         log.info("Buscando todas las entidades Ingreso, incluidas las eliminadas.");
-        List<IngresoModel> listado = IngresoDAO.findAll();
+        List<IngresoModel> listado = ingresoDAO.findAll();
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Ingreso, incluidas las eliminadas.");
         return listado;
@@ -66,7 +68,7 @@ public class IngresoServiceImpl implements IngresoService {
     @Override
     public Slice<IngresoModel> buscarTodasPorOrdenPorPagina(String Ingreso, String campo, int pagina, int elementos) {
         log.info("Buscando todas las entidades Ingreso, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, Ingreso);
-        Slice<IngresoModel> slice = IngresoDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(Ingreso.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        Slice<IngresoModel> slice = ingresoDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(Ingreso.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Ingreso.");
         return slice;
@@ -75,7 +77,7 @@ public class IngresoServiceImpl implements IngresoService {
     @Override
     public Slice<IngresoModel> buscarTodasPorOrdenPorPaginaConEliminadas(String Ingreso, String campo, int pagina, int elementos) {
         log.info("Buscando todas las entidades Ingreso, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, Ingreso);
-        Slice<IngresoModel> slice = IngresoDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(Ingreso.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        Slice<IngresoModel> slice = ingresoDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(Ingreso.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Ingreso, incluidas las eliminadas.");
         return slice;
@@ -83,32 +85,48 @@ public class IngresoServiceImpl implements IngresoService {
 
     @Override
     public Long contarTodas() {
-        Long cantidad = IngresoDAO.countAllByEliminadaIsNull();
+        Long cantidad = ingresoDAO.countAllByEliminadaIsNull();
         log.info("Existen {} entidades Ingreso.", cantidad);
         return cantidad;
     }
 
     @Override
     public Long contarTodasConEliminadas() {
-        Long cantidad = IngresoDAO.count();
+        Long cantidad = ingresoDAO.count();
         log.info("Existen {} entidades Ingreso, incluidas las eliminadas.", cantidad);
         return cantidad;
     }
 
     @Override
-    public IngresoModel guardar(IngresoCreation creation) {
-        log.info("Insertando la entidad Ingreso: {}.",  creation);
-        IngresoModel IngresoModel = IngresoDAO.save(IngresoMapper.toEntity(creation));
-        if (creation.getId() == null) {
-            IngresoModel.setCreada(Helper.getNow(""));
-            IngresoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+    public IngresoModel crear(IngresoModel model) {
+        log.info("Insertando la entidad IngresoModel: {}.",  model);
+        IngresoModel ingresoModel = ingresoDAO.save(model);
+        if (model.getId() == null) {
+            ingresoModel.setCreada(Helper.getNow(""));
+            ingresoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad IngresoModel.");
         } else {
-            IngresoModel.setModificada(Helper.getNow(""));
-            IngresoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            ingresoModel.setModificada(Helper.getNow(""));
+            ingresoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad IngresoModel.");
         }
-        return IngresoDAO.save(IngresoModel);
+        return ingresoDAO.save(ingresoModel);
+    }
+
+    @Override
+    public IngresoModel guardar(IngresoCreation creation) {
+        log.info("Insertando la entidad IngresoCreation: {}.",  creation);
+        IngresoModel ingresoModel = ingresoDAO.save(ingresoMapper.toEntity(creation));
+        if (creation.getId() == null) {
+            ingresoModel.setCreada(Helper.getNow(""));
+            ingresoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad IngresoCreation.");
+        } else {
+            ingresoModel.setModificada(Helper.getNow(""));
+            ingresoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad IngresoCreation.");
+        }
+        return ingresoDAO.save(ingresoModel);
     }
 
     @Override
@@ -118,7 +136,7 @@ public class IngresoServiceImpl implements IngresoService {
         objeto.setEliminada(Helper.getNow(""));
         objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad Ingreso con id: " + id + ", fue eliminada correctamente.");
-        return IngresoDAO.save(objeto);
+        return ingresoDAO.save(objeto);
     }
 
     @Override
@@ -132,7 +150,7 @@ public class IngresoServiceImpl implements IngresoService {
         objeto.setEliminada(null);
         objeto.setEliminadorId(null);
         log.info("La entidad Ingreso con id: " + id + ", fue reciclada correctamente.");
-        return IngresoDAO.save(objeto);
+        return ingresoDAO.save(objeto);
     }
 
     @Override
@@ -143,7 +161,7 @@ public class IngresoServiceImpl implements IngresoService {
             log.warn("La entidad Ingreso con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
             throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
-        IngresoDAO.delete(objeto);
+        ingresoDAO.delete(objeto);
         log.info("La entidad fue destruida.");
     }
 }

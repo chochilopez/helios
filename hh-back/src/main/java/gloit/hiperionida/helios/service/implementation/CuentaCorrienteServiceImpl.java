@@ -2,8 +2,12 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.CuentaCorrienteMapper;
 import gloit.hiperionida.helios.mapper.creation.CuentaCorrienteCreation;
+import gloit.hiperionida.helios.mapper.creation.CuentaCorrienteCreation;
+import gloit.hiperionida.helios.mapper.creation.ReciboCreation;
 import gloit.hiperionida.helios.mapper.dto.CuentaCorrienteDTO;
-import gloit.hiperionida.helios.model.CuentaCorrienteModel;
+import gloit.hiperionida.helios.model.*;
+import gloit.hiperionida.helios.model.enums.MovimientoEnum;
+import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.repository.CuentaCorrienteDAO;
 import gloit.hiperionida.helios.service.CuentaCorrienteService;
 import gloit.hiperionida.helios.util.Helper;
@@ -17,6 +21,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,8 +31,52 @@ import java.util.Objects;
 public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
     private final CuentaCorrienteDAO cuentaCorrienteDAO;
     private final CuentaCorrienteMapper cuentaCorrienteMapper;
+    private final ReciboServiceImpl reciboService;
     private final UsuarioServiceImpl usuarioService;
 
+    @Override
+    public void crearMovimientosCuentaParaFactura(FacturaModel facturaModel, Long clienteId) {
+        Double total = facturaModel.getSubTotal();
+        if (facturaModel.getBonificacion() != null) {
+            Double bonificacion = Helper.getNDecimal((facturaModel.getBonificacion() * total) / 100, 2);
+            total = Helper.getNDecimal(total - bonificacion, 2);
+        }
+        if (facturaModel.getOtrosImpuestos() != null) {
+            Double otrosImpuestos = Helper.getNDecimal((facturaModel.getOtrosImpuestos() * total) / 100, 2);
+            total = Helper.getNDecimal(total + otrosImpuestos, 2);
+        }
+        if (facturaModel.getIva() != null) {
+            Double iva = Helper.getNDecimal((facturaModel.getIva() * total) / 100, 2);
+            total = Helper.getNDecimal(total + iva, 2);
+        }
+        this.guardar(new CuentaCorrienteCreation(
+                null,
+                total.toString(),
+                "Comprobante " + facturaModel.getTipoComprobante().toString() + "-" + facturaModel.getNumeroComprobante(),
+                null,
+                MovimientoEnum.DEBITO.toString(),
+                clienteId.toString(),
+                null,
+                facturaModel.getId().toString()
+        ));
+        if (facturaModel.getPagada()) {
+            CuentaCorrienteModel ctaCte = this.guardar(new CuentaCorrienteCreation(
+                    null,
+                    total.toString(),
+                    "Comprobante " + facturaModel.getTipoComprobante().toString() + "-" + facturaModel.getNumeroComprobante(),
+                    TipoPagoEnum.EFECTIVO.toString(),
+                    MovimientoEnum.CREDITO.toString(),
+                    clienteId.toString(),
+                    null,
+                    facturaModel.getId().toString()
+            ));
+            ReciboModel recibo = reciboService.guardar(new ReciboCreation(null, total.toString(), Helper.getNow("").toString()));
+            ctaCte.setReciboId(recibo.getId());
+            cuentaCorrienteDAO.save(ctaCte);
+        }
+    }
+
+    @Override
     public List<CuentaCorrienteDTO> calcularSaldo(List<CuentaCorrienteDTO> listado) {
         for (int a = 0; a < listado.size(); a++ ) {
             if (a == 0) {
@@ -41,26 +90,28 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
                     listado.get(a).setSaldo(valor.toString());
                 }
             } else if (a > 0) {
-                if (Objects.equals(listado.get(a - 1).getTipoMovimiento(), "DEBITO")) {
+                if (Objects.equals(listado.get(a).getTipoMovimiento(), "DEBITO")) {
                     Double valor1 = Helper.getDecimal(listado.get(a - 1).getSaldo());
                     Double valor2 = Helper.getDecimal(listado.get(a).getMonto()) * -1;
                     Double valor3 = 0.0;
-                    if (Objects.equals(listado.get(a).getTipoMovimiento(), "DEBITO")) {
-                        valor3 = valor1 - valor2;
-                    } else if (Objects.equals(listado.get(a).getTipoMovimiento(), "CREDITO")) {
-                        valor3 = valor1 + valor2;
-                    }
+                    valor3 = valor1 + valor2;
+//                    if (Objects.equals(listado.get(a).getTipoMovimiento(), "DEBITO")) {
+//                        valor3 = valor1 - valor2;
+//                    } else if (Objects.equals(listado.get(a).getTipoMovimiento(), "CREDITO")) {
+//                        valor3 = valor1 + valor2;
+//                    }
                     valor3 = Helper.getNDecimal(valor3, 2);
                     listado.get(a).setSaldo(valor3.toString());
-                } else if (Objects.equals(listado.get(a - 1).getTipoMovimiento(), "CREDITO")) {
+                } else if (Objects.equals(listado.get(a).getTipoMovimiento(), "CREDITO")) {
                     Double valor1 = Helper.getDecimal(listado.get(a - 1).getSaldo());
                     Double valor2 = Helper.getDecimal(listado.get(a).getMonto());
                     Double valor3 = 0.0;
-                    if (Objects.equals(listado.get(a).getTipoMovimiento(), "DEBITO")) {
-                        valor3 = valor1 - valor2;
-                    } else if (Objects.equals(listado.get(a).getTipoMovimiento(), "CREDITO")) {
-                        valor3 = valor1 + valor2;
-                    }
+                    valor3 = valor1 + valor2;
+//                    if (Objects.equals(listado.get(a).getTipoMovimiento(), "DEBITO")) {
+//                        valor3 = valor1 - valor2;
+//                    } else if (Objects.equals(listado.get(a).getTipoMovimiento(), "CREDITO")) {
+//                        valor3 = valor1 + valor2;
+//                    }
                     valor3 = Helper.getNDecimal(valor3, 2);
                     listado.get(a).setSaldo(valor3.toString());
                 }
@@ -84,6 +135,24 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
         List<CuentaCorrienteModel> listado = cuentaCorrienteDAO.findAllByClienteId(id);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente con cliente id: " + id + ", incluidas las eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<CuentaCorrienteModel> buscarTodasPorFacturaId(Long id) {
+        log.info("Buscando todas las entidades CuentaCorriente con factura id: {}.", id);
+        List<CuentaCorrienteModel> listado = cuentaCorrienteDAO.findAllByFacturaIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente con factura id: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CuentaCorrienteModel> buscarTodasPorFacturaIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades CuentaCorriente con factura id: {}, incluidas las eliminadas.", id);
+        List<CuentaCorrienteModel> listado = cuentaCorrienteDAO.findAllByFacturaId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente con factura id: " + id + ", incluidas las eliminadas.");
         return listado;
     }
 
@@ -154,17 +223,33 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
     }
 
     @Override
+    public CuentaCorrienteModel crear(CuentaCorrienteModel model) {
+        log.info("Insertando la entidad CuentaCorrienteModel: {}.",  model);
+        CuentaCorrienteModel cuentaCorrienteModel = cuentaCorrienteDAO.save(model);
+        if (model.getId() == null) {
+            cuentaCorrienteModel.setCreada(Helper.getNow(""));
+            cuentaCorrienteModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad CuentaCorrienteModel.");
+        } else {
+            cuentaCorrienteModel.setModificada(Helper.getNow(""));
+            cuentaCorrienteModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad CuentaCorrienteModel.");
+        }
+        return cuentaCorrienteDAO.save(cuentaCorrienteModel);
+    }
+
+    @Override
     public CuentaCorrienteModel guardar(CuentaCorrienteCreation creation) {
-        log.info("Insertando la entidad CuentaCorriente: {}.",  creation);
+        log.info("Insertando la entidad CuentaCorrienteCreation: {}.",  creation);
         CuentaCorrienteModel cuentaCorrienteModel = cuentaCorrienteDAO.save(cuentaCorrienteMapper.toEntity(creation));
         if (creation.getId() == null) {
             cuentaCorrienteModel.setCreada(Helper.getNow(""));
             cuentaCorrienteModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad CuentaCorrienteCreation.");
         } else {
             cuentaCorrienteModel.setModificada(Helper.getNow(""));
             cuentaCorrienteModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad CuentaCorrienteCreation.");
         }
         return cuentaCorrienteDAO.save(cuentaCorrienteModel);
     }

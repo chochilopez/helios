@@ -2,6 +2,8 @@ package gloit.hiperionida.helios.util.service.implementation;
 
 import gloit.hiperionida.helios.util.mapper.LogueoMapper;
 import gloit.hiperionida.helios.util.mapper.creation.LogueoCreation;
+import gloit.hiperionida.helios.util.mapper.creation.LogueoCreation;
+import gloit.hiperionida.helios.util.model.LogueoModel;
 import gloit.hiperionida.helios.util.model.LogueoModel;
 import gloit.hiperionida.helios.util.repository.LogueoDAO;
 import gloit.hiperionida.helios.util.service.LogueoService;
@@ -93,17 +95,33 @@ public class LogueoServiceImpl implements LogueoService {
     }
 
     @Override
+    public LogueoModel crear(LogueoModel model) {
+        log.info("Insertando la entidad LogueoModel: {}.",  model);
+        LogueoModel logueoModel = logueoDAO.save(model);
+        if (model.getId() == null) {
+            logueoModel.setCreada(Helper.getNow(""));
+            logueoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la nueva entidad LogueoModel.");
+        } else {
+            logueoModel.setModificada(Helper.getNow(""));
+            logueoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            log.info("Se persisitio correctamente la entidad LogueoModel.");
+        }
+        return logueoDAO.save(logueoModel);
+    }
+
+    @Override
     public LogueoModel guardar(LogueoCreation creation) {
-        log.info("Insertando la entidad Visita: {}.",  creation);
+        log.info("Insertando la entidad LogueoCreation: {}.",  creation);
         LogueoModel logueoModel = logueoDAO.save(logueoMapper.toEntity(creation));
         if (creation.getId() == null) {
             logueoModel.setCreada(Helper.getNow(""));
             logueoModel.setCreadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la nueva entidad.");
+            log.info("Se persisitio correctamente la nueva entidad LogueoCreation.");
         } else {
             logueoModel.setModificada(Helper.getNow(""));
             logueoModel.setModificadorId(usuarioService.obtenerUsuario().getId());
-            log.info("Se persistio correctamente la entidad.");
+            log.info("Se persisitio correctamente la entidad LogueoCreation.");
         }
         return logueoDAO.save(logueoModel);
     }
