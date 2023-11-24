@@ -62,10 +62,11 @@ public class SeguroMapper {
                     }
                     EventoModel evento = eventoDAO.save(new EventoModel(
                             Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""),
+                            null,
+                            null,
+                            "Seguro",
                             "Seguro para " + marcaModelo,
                             true,
-                            true,
-                            "Seguro",
                             Helper.getNow(""),
                             usuarioService.obtenerUsuario().getId()
                     ));

@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
 public class EventoCreation extends AbsAuditoriaCreation {
     private String id;
     private String fecha;
+    private String inicio;
+    private String fin;
     private String descripcion;
-    private String habilitada;
     private String recordatorio;
     private String nombre;
 }

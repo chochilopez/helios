@@ -19,17 +19,19 @@ public class EventoModel extends AbsAuditoriaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime fecha;
-    private String descripcion;
-    private Boolean habilitada;
-    private Boolean recordatorio;
+    private LocalDateTime inicio;
+    private LocalDateTime fin;
     private String nombre;
+    private String descripcion;
+    private Boolean recordatorio;
 
-    public EventoModel(LocalDateTime fecha, String descripcion, Boolean habilitada, Boolean recordatorio, String nombre, LocalDateTime creada, Long creadorId) {
+    public EventoModel(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String nombre, String descripcion, Boolean recordatorio, LocalDateTime creada, Long creadorId) {
         this.fecha = fecha;
-        this.descripcion = descripcion;
-        this.habilitada = habilitada;
-        this.recordatorio = recordatorio;
+        this.inicio = inicio;
+        this.fin = fin;
         this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.recordatorio = recordatorio;
         this.setCreada(creada);
         this.setCreadorId(creadorId);
     }

@@ -30,11 +30,13 @@ public class EventoMapper {
             if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
                 model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
             model.setDescripcion(creation.getDescripcion());
-            if (creation.getHabilitada() != null)
-                model.setHabilitada(Helper.getBoolean(creation.getHabilitada()));
             if (creation.getRecordatorio() != null)
                 model.setRecordatorio(Helper.getBoolean(creation.getRecordatorio()));
             model.setNombre(creation.getNombre());
+            if (!Helper.isEmptyString(creation.getInicio()))
+                model.setInicio(Helper.stringToLocalDateTime(creation.getInicio(), "yyyy-MM-dd HH:mm:ss"));
+            if (!Helper.isEmptyString(creation.getFin()))
+                model.setFin(Helper.stringToLocalDateTime(creation.getFin(), "yyyy-MM-dd HH:mm:ss"));
 
             if (Helper.getLong(creation.getCreadorId()) != null)
                 model.setCreadorId(Helper.getLong(creation.getCreadorId()));
@@ -63,9 +65,12 @@ public class EventoMapper {
             dto.setId(model.getId().toString());
             dto.setFecha(model.getFecha().toString());
             dto.setDescripcion(model.getDescripcion());
-            dto.setHabilitada(model.getHabilitada().toString());
             dto.setRecordatorio(model.getRecordatorio().toString());
             dto.setNombre(model.getNombre());
+            if (model.getInicio() != null)
+                dto.setInicio(model.getInicio().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            if (model.getFin() != null)
+                dto.setFin(model.getFin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
             if (model.getCreadorId() != null) {
                 UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreadorId() + "."));

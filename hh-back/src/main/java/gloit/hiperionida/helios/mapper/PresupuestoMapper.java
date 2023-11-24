@@ -52,10 +52,11 @@ public class PresupuestoMapper {
                     ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getClienteId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el cliente."));
                     EventoModel evento = eventoDAO.save(new EventoModel(
                             Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
+                            null,
+                            null,
+                            "Presupuesto",
                             "Presupuesto para " + clienteModel.getNombre(),
                             true,
-                            true,
-                            "Presupuesto",
                             Helper.getNow(""),
                             usuarioService.obtenerUsuario().getId()
                     ));

@@ -81,10 +81,11 @@ public class FacturaMapper {
                 } else {
                     EventoModel evento = eventoDAO.save(new EventoModel(
                             Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaVencimiento(), ""),
+                            null,
+                            null,
+                            "Vencimiento",
                             "Vencimiento de " + creation.getTipoComprobante() + " - " + creation.getNumeroComprobante(),
                             true,
-                            true,
-                            "Vencimiento",
                             Helper.getNow(""),
                             usuarioService.obtenerUsuario().getId()
                     ));

@@ -67,8 +67,13 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
-import { defineComponent } from 'vue'
+import { ref, reactive, defineComponent } from 'vue'
 import CalendarioNavbar from 'src/components/calendario/CalendarioNavbar.vue'
+import { eventoService } from 'src/services/evento_service'
+import { EventoCreation } from 'src/models/creation/evento_creation'
+import { useQuasar } from 'quasar'
+import { ayuda } from 'src/helpers/ayuda'
+import { notificarService } from 'src/helpers/notificar_service'
 
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
@@ -80,13 +85,52 @@ function getCurrentDay (day) {
 }
 
 export default defineComponent({
-  name: 'MonthSlotWeek',
+  name: 'Calendario',
   components: {
     CalendarioNavbar,
     QCalendarMonth
   },
   setup () {
+    const $q = useQuasar()
+    const autoridad = ref(ayuda.getAutoridad())
+
+    const eventoCreation = reactive(new EventoCreation())
+    const eventosList = ref([])
+
+    afBuscarEventos()
+
+    async function afBuscarEventos () {
+      $q.loading.show()
+      try {
+        let resultado = null
+        if (autoridad.value === 'admin') {
+          resultado = await eventoService.spfBuscarTodasConEliminadas()
+        } else {
+          resultado = await eventoService.spfBuscarTodas()
+        }
+        if (resultado.status === 200) {
+          eventosList.value = resultado.data
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+        }
+        $q.loading.hide()
+      } catch (err) {
+        console.clear()
+        if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
     return {
+      eventosList,
+
       events: [
         {
           id: 1,

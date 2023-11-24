@@ -12,8 +12,9 @@ import java.time.LocalDateTime;
 public class EventoDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
     private String fecha;
+    private String inicio;
+    private String fin;
     private String descripcion;
-    private String habilitada;
-    private String recordatorio;
     private String nombre;
+    private String recordatorio;
 }
