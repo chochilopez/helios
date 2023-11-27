@@ -27,8 +27,10 @@ public class EventoMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
-            if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
-                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
+            if (creation.getInicio() != null && Helper.stringToLocalDateTime(creation.getInicio(), "") != null)
+                model.setInicio(Helper.stringToLocalDateTime(creation.getInicio(), ""));
+            if (creation.getFin() != null && Helper.stringToLocalDateTime(creation.getFin(), "") != null)
+                model.setInicio(Helper.stringToLocalDateTime(creation.getFin(), ""));
             model.setDescripcion(creation.getDescripcion());
             if (creation.getRecordatorio() != null)
                 model.setRecordatorio(Helper.getBoolean(creation.getRecordatorio()));
@@ -63,7 +65,8 @@ public class EventoMapper {
             EventoDTO dto = new EventoDTO();
 
             dto.setId(model.getId().toString());
-            dto.setFecha(model.getFecha().toString());
+            dto.setInicio(model.getInicio().toString());
+            dto.setFin(model.getFin().toString());
             dto.setDescripcion(model.getDescripcion());
             dto.setRecordatorio(model.getRecordatorio().toString());
             dto.setNombre(model.getNombre());

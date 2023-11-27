@@ -45,15 +45,15 @@ public class PresupuestoMapper {
             if (creation.getFecha() != null) {
                 if (Helper.getLong(creation.getFechaId()) != null) {
                     EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getFechaId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el evento."));
-                    eventoModel.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
+                    eventoModel.setInicio(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
+                    eventoModel.setFin(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
                     eventoDAO.save(eventoModel);
                     model.setFechaId(Helper.getLong(creation.getFechaId()));
                 } else {
                     ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getClienteId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el cliente."));
                     EventoModel evento = eventoDAO.save(new EventoModel(
                             Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
-                            null,
-                            null,
+                            Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
                             "Presupuesto",
                             "Presupuesto para " + clienteModel.getNombre(),
                             true,
@@ -119,7 +119,7 @@ public class PresupuestoMapper {
             }
             if (model.getFechaId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de viaje con id: " + model.getFechaId() + "."));
-                dto.setFecha(eventoModel.getFecha().toString());
+                dto.setFecha(eventoModel.getInicio().toString());
                 dto.setFechaId(model.getFechaId().toString());
             }
             if (model.getCreada() != null)

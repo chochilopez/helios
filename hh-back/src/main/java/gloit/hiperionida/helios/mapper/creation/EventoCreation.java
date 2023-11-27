@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class EventoCreation extends AbsAuditoriaCreation {
     private String id;
-    private String fecha;
     private String inicio;
     private String fin;
     private String descripcion;

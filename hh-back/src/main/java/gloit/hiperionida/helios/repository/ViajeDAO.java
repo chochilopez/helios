@@ -49,12 +49,12 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
 
     @Query(value = "SELECT v FROM ViajeModel v " +
             "JOIN EventoModel e ON v.fechaId = e.id " +
-            "where e.fecha between :inicio and :fin")
+            "where e.inicio between :inicio and :fin")
     List<ViajeModel> findAllByFechaFechaBetween(LocalDateTime inicio, LocalDateTime fin);
 
     @Query(value = "SELECT v FROM ViajeModel v " +
             "JOIN EventoModel e ON v.fechaId = e.id " +
-            "where e.fecha between :inicio and :fin and v.eliminada is null")
+            "where e.inicio between :inicio and :fin and v.eliminada is null")
     List<ViajeModel> findAllByFechaFechaBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
 
     @Query(value = "SELECT v FROM ViajeModel v " +
@@ -106,6 +106,6 @@ public interface ViajeDAO extends GenericDTO<ViajeModel> {
 
     @Query(value = "Select v FROM ViajeModel v " +
             "JOIN EventoModel e ON v.fechaId = e.id " +
-            "where e.fecha >= :fecha order by e.fecha ASC limit 1")
+            "where e.inicio >= :fecha order by e.inicio ASC limit 1")
     Optional<ViajeModel> findNextDate(LocalDateTime fecha);
 }

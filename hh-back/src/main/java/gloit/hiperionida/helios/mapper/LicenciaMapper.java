@@ -66,7 +66,7 @@ public class LicenciaMapper {
 
             if (model.getVencimientoId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vencimiento con id: " + model.getVencimientoId() + "."));
-                dto.setVencimiento(eventoModel.getFecha().toString());
+                dto.setVencimiento(eventoModel.getInicio().toString());
             }
 
             if (model.getCreadorId() != null) {

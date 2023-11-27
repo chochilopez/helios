@@ -48,7 +48,7 @@ public class SeguroMapper {
             if (creation.getVencimiento() != null) {
                 if (Helper.getLong(creation.getVencimientoId()) != null) {
                     EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getVencimientoId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el evento."));
-                    eventoModel.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""));
+                    eventoModel.setInicio(Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""));
                     eventoDAO.save(eventoModel);
                     model.setVencimientoId(Helper.getLong(creation.getVencimientoId()));
                 } else {
@@ -62,8 +62,7 @@ public class SeguroMapper {
                     }
                     EventoModel evento = eventoDAO.save(new EventoModel(
                             Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""),
-                            null,
-                            null,
+                            Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""),
                             "Seguro",
                             "Seguro para " + marcaModelo,
                             true,
@@ -117,7 +116,7 @@ public class SeguroMapper {
             }
             if (model.getVencimientoId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vencimiento con id: " + model.getVencimientoId() + "."));
-                dto.setVencimiento(eventoModel.getFecha().toString());
+                dto.setVencimiento(eventoModel.getInicio().toString());
                 dto.setVencimientoId(model.getVencimientoId().toString());
             }
 

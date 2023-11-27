@@ -81,8 +81,7 @@ public class FacturaMapper {
                 } else {
                     EventoModel evento = eventoDAO.save(new EventoModel(
                             Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaVencimiento(), ""),
-                            null,
-                            null,
+                            Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaVencimiento(), ""),
                             "Vencimiento",
                             "Vencimiento de " + creation.getTipoComprobante() + " - " + creation.getNumeroComprobante(),
                             true,
@@ -130,9 +129,9 @@ public class FacturaMapper {
                 dto.setFechaEmision(model.getFechaEmision().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             if (model.getFechaVencimientoId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de vencimiento con id: " + model.getFechaVencimientoId() + "."));
-                dto.setFechaVencimiento(eventoModel.getFecha().toString());
+                dto.setFechaVencimiento(eventoModel.getInicio().toString());
                 dto.setFechaVencimientoId(model.getFechaVencimientoId().toString());
-                Boolean esVencida = Helper.getNow("").isAfter(eventoModel.getFecha()) && !model.getPagada();
+                Boolean esVencida = Helper.getNow("").isAfter(eventoModel.getInicio()) && !model.getPagada();
                 dto.setVencida(esVencida.toString());
             }
             Double total = model.getSubTotal();
@@ -195,7 +194,7 @@ public class FacturaMapper {
                 }
                 if (viajeModel.getFechaId() != null) {
                     EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(viajeModel.getFechaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de viaje con id: " + viajeModel.getFechaId() + "."));
-                    dto.setFechaViaje(eventoModel.getFecha().toString());
+                    dto.setFechaViaje(eventoModel.getInicio().toString());
                 }
                 if (viajeModel.getKmCargado() != null)
                     dto.setKmCargado(viajeModel.getKmCargado().toString());

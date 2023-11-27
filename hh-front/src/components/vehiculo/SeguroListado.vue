@@ -311,27 +311,27 @@
                     <div class="row text-white">{{ fFormatoFecha(props.row.vencimiento) }}</div>
                     <div class="row paleta1-color2">Vencimiento</div>
                   </div>
-                  <div v-if="props.row.creador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creador != null && autoridad === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creador }}</div>
                     <div class="row paleta1-color2">Creador</div>
                   </div>
-                  <div v-if="props.row.creada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.creada != null && autoridad === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.creada) }}</div>
                     <div class="row paleta1-color2">Creado</div>
                   </div>
-                  <div v-if="props.row.modificador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificador != null && autoridad === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.modificador }}</div>
                     <div class="row paleta1-color2">Modificador</div>
                   </div>
-                  <div v-if="props.row.modificada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.modificada != null && autoridad === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.modificada) }}</div>
                     <div class="row paleta1-color2">Modificado</div>
                   </div>
-                  <div v-if="props.row.eliminador != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminador != null && autoridad === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.eliminador }}</div>
                     <div class="row paleta1-color2">Eliminador</div>
                   </div>
-                  <div v-if="props.row.eliminada != null && autoridad.value === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                  <div v-if="props.row.eliminada != null && autoridad === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ fFormatoFecha(props.row.eliminada) }}</div>
                     <div class="row paleta1-color2">Eliminada</div>
                   </div>

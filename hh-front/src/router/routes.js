@@ -153,14 +153,6 @@ const routes = [
         }
       },
       {
-        path: '/facturar',
-        name: 'Facturar',
-        component: () => import('pages/sitio/facturacion/Facturar.vue'),
-        meta: {
-          rol: rolEnum.USUARIO
-        }
-      },
-      {
         path: '/movimiento-cuenta-corriente-proveedor',
         name: 'MovCtaCteProveedor',
         component: () => import('pages/sitio/proveedor/MovCtaCteProveedor.vue'),

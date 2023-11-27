@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class EventoDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
-    private String fecha;
     private String inicio;
     private String fin;
     private String descripcion;

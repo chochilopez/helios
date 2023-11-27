@@ -26,11 +26,11 @@ public interface SeguroDAO extends GenericDTO<SeguroModel> {
 
     @Query(value = "SELECT s FROM SeguroModel s " +
             "JOIN EventoModel e ON s.vencimientoId = e.id " +
-            "where e.fecha between :inicio and :fin")
+            "where e.inicio between :inicio and :fin")
     List<SeguroModel> findAllByVencimientoBetween(LocalDateTime inicio, LocalDateTime fin);
 
     @Query(value = "SELECT s FROM SeguroModel s " +
             "JOIN EventoModel e ON s.vencimientoId = e.id " +
-            "where e.fecha between :inicio and :fin and s.eliminada is null")
+            "where e.inicio between :inicio and :fin and s.eliminada is null")
     List<SeguroModel> findAllByVencimientoBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
 }

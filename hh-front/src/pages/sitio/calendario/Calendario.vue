@@ -1,6 +1,6 @@
 <template>
   <div class="q-ma-md">
-    <CalendarioCalendario class="q-ma-lg" />
+    <CalendarioCalendario />
   </div>
 </template>
 
