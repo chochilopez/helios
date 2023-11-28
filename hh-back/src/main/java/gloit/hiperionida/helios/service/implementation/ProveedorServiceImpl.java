@@ -41,7 +41,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     @Override
     public List<ProveedorModel> buscarTodasPorDireccionConEliminadas(String direccion) {
         log.info("Buscando todas las entidades Proveedor con direccion: {}, incluidas las eliminadas.", direccion);
-        List<ProveedorModel> listado = proveedorDAO.findAllByDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
+        List<ProveedorModel> listado = proveedorDAO.findAllByDireccionContainingIgnoreCase(direccion);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Proveedor con direccion: " + direccion + ", incluidas las eliminadas.");
         return listado;
@@ -59,7 +59,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     @Override
     public List<ProveedorModel> buscarTodasPorEmailConEliminadas(String email) {
         log.info("Buscando todas las entidades Proveedor con email: {}, incluidas las eliminadas.", email);
-        List<ProveedorModel> listado = proveedorDAO.findAllByEmailContainingIgnoreCaseAndEliminadaIsNull(email);
+        List<ProveedorModel> listado = proveedorDAO.findAllByEmailContainingIgnoreCase(email);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Proveedor con email: " + email + ", incluidas las eliminadas.");
         return listado;
@@ -77,7 +77,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     @Override
     public List<ProveedorModel> buscarTodasPorIdentificacionConEliminadas(String identificacion) {
         log.info("Buscando todas las entidades Proveedor con identificacion: {}, incluidas las eliminadas.", identificacion);
-        List<ProveedorModel> listado = proveedorDAO.findAllByIdentificacionContainingIgnoreCaseAndEliminadaIsNull(identificacion);
+        List<ProveedorModel> listado = proveedorDAO.findAllByIdentificacionContainingIgnoreCase(identificacion);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Proveedor con identificacion: " + identificacion + ", incluidas las eliminadas.");
         return listado;
@@ -95,7 +95,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     @Override
     public List<ProveedorModel> buscarTodasPorNombreConEliminadas(String nombre) {
         log.info("Buscando todas las entidades Proveedor con nombre: {}, incluidas las eliminadas.", nombre);
-        List<ProveedorModel> listado = proveedorDAO.findAllByNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
+        List<ProveedorModel> listado = proveedorDAO.findAllByNombreContainingIgnoreCase(nombre);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Proveedor con nombre: " + nombre + ", incluidas las eliminadas.");
         return listado;
@@ -113,7 +113,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     @Override
     public List<ProveedorModel> buscarTodasPorNotasConEliminadas(String notas) {
         log.info("Buscando todas las entidades Proveedor con notas: {}, incluidas las eliminadas.", notas);
-        List<ProveedorModel> listado = proveedorDAO.findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(notas);
+        List<ProveedorModel> listado = proveedorDAO.findAllByNotasContainingIgnoreCase(notas);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Proveedor con notas: " + notas + ", incluidas las eliminadas.");
         return listado;
@@ -131,7 +131,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     @Override
     public List<ProveedorModel> buscarTodasPorTelefonoConEliminadas(String telefono) {
         log.info("Buscando todas las entidades Proveedor con telefono: {}, incluidas las eliminadas.", telefono);
-        List<ProveedorModel> listado = proveedorDAO.findAllByTelefonoContainingIgnoreCaseAndEliminadaIsNull(telefono);
+        List<ProveedorModel> listado = proveedorDAO.findAllByTelefonoContainingIgnoreCase(telefono);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Proveedor con telefono: " + telefono + ", incluidas las eliminadas.");
         return listado;

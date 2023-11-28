@@ -143,22 +143,6 @@
             </q-item-section>
             <q-item-section class="white-text">Licencias</q-item-section>
           </q-item>
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'resumenConductor'"
-            @click="link = 'resumenConductor'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'ResumenConductor' }"
-            class="q-ml-md paleta1-fondo5"
-            v-if="autoridad === 'admin' || autoridad === 'usuario'"
-          >
-            <q-item-section avatar>
-              <q-icon name="follow_the_signs" />
-            </q-item-section>
-            <q-item-section class="white-text">Resumen por conductor</q-item-section>
-          </q-item>
         </q-expansion-item>
         <q-expansion-item icon="groups" label="Clientes">
           <q-item
@@ -297,22 +281,6 @@
           </q-item>
         </q-expansion-item>
         <q-expansion-item icon="paid" label="Flujo" v-if="autoridad === 'admin' || autoridad === 'usuario'">
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'adelantosCaja'"
-            @click="link = 'adelantosCaja'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'Adelanto' }"
-            class="q-ml-md paleta1-fondo5"
-            v-if="autoridad === 'admin' || autoridad === 'usuario'"
-          >
-            <q-item-section avatar>
-              <q-icon name="fa-solid fa-comments-dollar" />
-            </q-item-section>
-            <q-item-section class="white-text">Adelantos</q-item-section>
-          </q-item>
           <q-item
             clickable
             v-ripple

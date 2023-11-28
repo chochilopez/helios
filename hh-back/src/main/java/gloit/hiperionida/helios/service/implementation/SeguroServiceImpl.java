@@ -2,11 +2,7 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.SeguroMapper;
 import gloit.hiperionida.helios.mapper.creation.SeguroCreation;
-import gloit.hiperionida.helios.mapper.creation.SeguroCreation;
-import gloit.hiperionida.helios.model.AcopladoModel;
 import gloit.hiperionida.helios.model.SeguroModel;
-import gloit.hiperionida.helios.model.SeguroModel;
-import gloit.hiperionida.helios.model.ViajeModel;
 import gloit.hiperionida.helios.repository.SeguroDAO;
 import gloit.hiperionida.helios.service.SeguroService;
 import gloit.hiperionida.helios.util.Helper;
@@ -34,91 +30,91 @@ public class SeguroServiceImpl implements SeguroService {
 
     @Override
     public List<SeguroModel> buscarTodasPorAcopladoId(Long id) {
-        log.info("Buscando todas las entidades Acoplado con acoplado id: {}.", id);
-        List<SeguroModel> listado = seguroDAO.findAllByAcopladoId(id);
+        log.info("Buscando todas las entidades Seguro con acoplado id: {}.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByAcopladoIdAndEliminadaIsNull(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con acoplado id: " + id + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Seguro con acoplado id: " + id + ".");
         return listado;
     }
 
     @Override
     public List<SeguroModel> buscarTodasPorAcopladoIdConEliminadas(Long id) {
-        log.info("Buscando todas las entidades Acoplado con acoplado id: {}, incluidas las eliminadas.", id);
-        List<SeguroModel> listado = seguroDAO.findAllByAcopladoIdAndEliminadaIsNull(id);
+        log.info("Buscando todas las entidades Seguro con acoplado id: {}, incluidas las eliminadas.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByAcopladoId(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con acoplado id: " + id + ", incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Seguro con acoplado id: " + id + ", incluidas las eliminadas.");
         return listado;
     }
 
     @Override
     public List<SeguroModel> buscarTodasPorAseguradoraId(Long id) {
-        log.info("Buscando todas las entidades Acoplado con aseguradora id: {}.", id);
-        List<SeguroModel> listado = seguroDAO.findAllByAseguradoraId(id);
+        log.info("Buscando todas las entidades Seguro con aseguradora id: {}.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByAseguradoraIdAndEliminadaIsNull(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con aseguradora id: " + id + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Seguro con aseguradora id: " + id + ".");
         return listado;
     }
 
     @Override
     public List<SeguroModel> buscarTodasPorAseguradoraIdConEliminadas(Long id) {
-        log.info("Buscando todas las entidades Acoplado con aseguradora id: {}, incluidas las eliminadas.", id);
-        List<SeguroModel> listado = seguroDAO.findAllByAseguradoraIdAndEliminadaIsNull(id);
+        log.info("Buscando todas las entidades Seguro con aseguradora id: {}, incluidas las eliminadas.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByAseguradoraId(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con aseguradora id: " + id + ", incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron Seguro licencia con aseguradora id: " + id + ", incluidas las eliminadas.");
         return listado;
     }
 
     @Override
     public List<SeguroModel> buscarTodasPorCamionId(Long id) {
-        log.info("Buscando todas las entidades Acoplado con camión id: {}.", id);
-        List<SeguroModel> listado = seguroDAO.findAllByCamionId(id);
+        log.info("Buscando todas las entidades Seguro con camión id: {}.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByCamionIdAndEliminadaIsNull(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con camión id: " + id + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Seguro con camión id: " + id + ".");
         return listado;
     }
 
     @Override
     public List<SeguroModel> buscarTodasPorCamionIdConEliminadas(Long id) {
-        log.info("Buscando todas las entidades Acoplado con camión id: {}, incluidas las eliminadas.", id);
-        List<SeguroModel> listado = seguroDAO.findAllByCamionIdAndEliminadaIsNull(id);
+        log.info("Buscando todas las entidades Seguro con camión id: {}, incluidas las eliminadas.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByCamionId(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con camión id: " + id + ", incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Seguro con camión id: " + id + ", incluidas las eliminadas.");
         return listado;
     }
 
     @Override
     public List<SeguroModel> buscarTodasPorVencimientoId(Long id) {
-        log.info("Buscando todas las entidades Acoplado con vencimiento id: {}.", id);
-        List<SeguroModel> listado = seguroDAO.findAllByVencimientoId(id);
+        log.info("Buscando todas las entidades Seguro con vencimiento id: {}.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByVencimientoIdAndEliminadaIsNull(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con vencimiento id: " + id + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Seguro con vencimiento id: " + id + ".");
         return listado;
     }
 
     @Override
     public List<SeguroModel> buscarTodasPorVencimientoIdConEliminadas(Long id) {
-        log.info("Buscando todas las entidades Acoplado con vencimiento id: {}, incluidas las eliminadas.", id);
-        List<SeguroModel> listado = seguroDAO.findAllByVencimientoIdAndEliminadaIsNull(id);
+        log.info("Buscando todas las entidades Seguro con vencimiento id: {}, incluidas las eliminadas.", id);
+        List<SeguroModel> listado = seguroDAO.findAllByVencimientoId(id);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con vencimiento id: " + id + ", incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Seguro con vencimiento id: " + id + ", incluidas las eliminadas.");
         return listado;
     }
 
     @Override
     public List<SeguroModel> buscarTodasPorNotas(String notas) {
-        log.info("Buscando todas las entidades Acoplado con notas: {}.", notas);
+        log.info("Buscando todas las entidades Seguro con notas: {}.", notas);
         List<SeguroModel> listado = seguroDAO.findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(notas);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con notas: " + notas + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Seguro con notas: " + notas + ".");
         return listado;
     }
 
     @Override
     public List<SeguroModel> buscarTodasPorNotasConEliminadas(String notas) {
-        log.info("Buscando todas las entidades Acoplado con notas: {}, incluidas las eliminadas.", notas);
+        log.info("Buscando todas las entidades Seguro con notas: {}, incluidas las eliminadas.", notas);
         List<SeguroModel> listado = seguroDAO.findAllByNotasContainingIgnoreCase(notas);
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Acoplado con notas: " + notas + ", incluidas las eliminadas.");
+            throw new DatosInexistentesException("No se encontraron entidades Seguro con notas: " + notas + ", incluidas las eliminadas.");
         return listado;
     }
 

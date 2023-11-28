@@ -225,14 +225,6 @@ const routes = [
         }
       },
       {
-        path: '/resumen-conductor',
-        name: 'ResumenConductor',
-        component: () => import('pages/sitio/conductor/ResumenConductor.vue'),
-        meta: {
-          rol: rolEnum.USUARIO
-        }
-      },
-      {
         path: '/seguro',
         name: 'Seguro',
         component: () => import('pages/sitio/vehiculo/Seguro.vue'),

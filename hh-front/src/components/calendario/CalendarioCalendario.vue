@@ -1,10 +1,10 @@
 <template>
-  <div class="row q-my-md justify-around">
+  <div class="row q-mt-md justify-around">
     <div class="col-6">
       <div class="row justify-center">
-        <q-btn class="paleta2-fondo2 text-white q-mx-sm" icon="arrow_left" ripple @click="onPrev()" :label="fMesAnterior()" />
+        <q-btn class="paleta2-fondo2 text-white q-mx-sm" icon="arrow_left" ripple @click="onPrev()" />
         <q-btn class="paleta2-fondo2 text-white q-mx-sm" ripple @click="onToday()" label="Hoy" />
-        <q-btn class="paleta2-fondo2 text-white q-mx-sm" icon-right="arrow_right" ripple @click="onNext()" :label="fMesSiguiente()" />
+        <q-btn class="paleta2-fondo2 text-white q-mx-sm" icon-right="arrow_right" ripple @click="onNext()" />
       </div>
     </div>
     <div class="col-6 text-center">
@@ -13,9 +13,6 @@
         <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg q-mx-sm" ripple icon="add_circle" label="Vencimiento" />
       </div>
     </div>
-  </div>
-  <div class="row">
-    <h1>{{ fechaSeleccionada }}</h1>
   </div>
   <q-card class="font-5 no-shadow no-border">
     <div class="subcontent">
@@ -37,11 +34,11 @@
             :day-min-height="60"
             :day-height="0"
             :style="tema"
-            @click-day="fMostrarDialogoEvento"
+            @click-day="fMostrarDialogoEventosDia"
           >
             <template #week="{ scope: { week, weekdays } }">
               <template v-for="evento in fObtenerEventos(week, weekdays)" :key="evento" >
-                <div :class="fClaseEvento(evento)" :style="badgeStyles(evento, week.length)">
+                <div :class="fClaseEvento(evento)" :style="badgeStyles(evento, week.length)" @click="fMostrarDialogoEvento()">
                   <div v-if="evento.event && evento.event.descripcion" class="title q-calendar__ellipsis">
                     {{ evento.event.nombre + (evento.event.time ? ' - ' + evento.event.time : '') }}
                     <q-tooltip style="background: #526D82; font-size: 14px">{{ evento.event.descripcion }}</q-tooltip>
@@ -179,16 +176,12 @@ export default defineComponent({
       }
     }
 
-    function fMesAnterior () {
-      return 'nada'
-    }
-
-    function fMesSiguiente () {
-      return 'nada'
-    }
-
     function fMostrarDialogoEvento (data) {
       console.log('fMostrarDialogoEvento', data)
+      eventoDialogo.value = true
+    }
+
+    function fMostrarDialogoEventosDia () {
       eventoDialogo.value = true
     }
 
@@ -249,9 +242,8 @@ export default defineComponent({
       events,
       fechaSeleccionada,
       fClaseEvento,
-      fMesAnterior,
-      fMesSiguiente,
       fMostrarDialogoEvento,
+      fMostrarDialogoEventosDia,
       fObtenerEventos,
 
       tema: {

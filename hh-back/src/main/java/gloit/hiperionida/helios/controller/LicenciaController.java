@@ -3,6 +3,8 @@ package gloit.hiperionida.helios.controller;
 import gloit.hiperionida.helios.mapper.LicenciaMapper;
 import gloit.hiperionida.helios.mapper.creation.LicenciaCreation;
 import gloit.hiperionida.helios.mapper.dto.LicenciaDTO;
+import gloit.hiperionida.helios.mapper.dto.LicenciaDTO;
+import gloit.hiperionida.helios.model.LicenciaModel;
 import gloit.hiperionida.helios.model.LicenciaModel;
 import gloit.hiperionida.helios.service.implementation.LicenciaServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
@@ -38,6 +40,100 @@ public class LicenciaController extends AbsBaseController {
         String mensaje = "Ocurrio un error al guardar el licencia. " + e.getMessage();
 
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-conductor-id/{id}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<LicenciaDTO>> buscarTodasPorConductorId(@PathVariable(name = "id") Long id) {
+        List<LicenciaModel> listado = licenciaService.buscarTodasPorConductorId(id);
+        ArrayList<LicenciaDTO> licenciasDTOS = new ArrayList<>();
+        for (LicenciaModel viaje:listado) {
+            licenciasDTOS.add(licenciaMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(licenciasDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-conductor-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<LicenciaDTO>> buscarTodasPorConductorIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<LicenciaModel> listado = licenciaService.buscarTodasPorConductorIdConEliminadas(id);
+        ArrayList<LicenciaDTO> licenciasDTOS = new ArrayList<>();
+        for (LicenciaModel viaje:listado) {
+            licenciasDTOS.add(licenciaMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(licenciasDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-vencimiento-id/{id}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<ArrayList<LicenciaDTO>> buscarTodasPorVencimientoId(@PathVariable(name = "id") Long id) {
+        List<LicenciaModel> listado = licenciaService.buscarTodasPorVencimientoId(id);
+        ArrayList<LicenciaDTO> licenciasDTOS = new ArrayList<>();
+        for (LicenciaModel viaje:listado) {
+            licenciasDTOS.add(licenciaMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(licenciasDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-vencimiento-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ArrayList<LicenciaDTO>> buscarTodasPorVencimientoIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<LicenciaModel> listado = licenciaService.buscarTodasPorVencimientoIdConEliminadas(id);
+        ArrayList<LicenciaDTO> licenciasDTOS = new ArrayList<>();
+        for (LicenciaModel viaje:listado) {
+            licenciasDTOS.add(licenciaMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(licenciasDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-vencimiento-entre-fechas/{inicio}/{fin}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<LicenciaDTO>> buscarTodasPorFechaEntreFechas(
+            @PathVariable(name = "inicio") String inicio,
+            @PathVariable(name = "fin") String fin
+    ) {
+        List<LicenciaModel> listado = licenciaService.buscarTodasPorVencimientoBetween(inicio, fin);
+        ArrayList<LicenciaDTO> viajes = new ArrayList<>();
+        for (LicenciaModel seguro:listado) {
+            viajes.add(licenciaMapper.toDto(seguro));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-vencimiento-entre-fechas-con-eliminadas/{inicio}/{fin}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<LicenciaDTO>> buscarTodasPorFechaEntreFechasConEliminadas(
+            @PathVariable(name = "inicio") String inicio,
+            @PathVariable(name = "fin") String fin
+    ) {
+        List<LicenciaModel> listado = licenciaService.buscarTodasPorVencimientoBetweenConEliminadas(inicio, fin);
+        ArrayList<LicenciaDTO> viajes = new ArrayList<>();
+        for (LicenciaModel seguro:listado) {
+            viajes.add(licenciaMapper.toDto(seguro));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas/{notas}")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<LicenciaDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
+        List<LicenciaModel> listado = licenciaService.buscarTodasPorNotas(notas);
+        ArrayList<LicenciaDTO> licenciasDTOS = new ArrayList<>();
+        for (LicenciaModel viaje:listado) {
+            licenciasDTOS.add(licenciaMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(licenciasDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas-con-eliminadas/{notas}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<LicenciaDTO>> buscarTodasPorNotasConEliminadas(@PathVariable(name = "notas") String notas) {
+        List<LicenciaModel> listado = licenciaService.buscarTodasPorNotasConEliminadas(notas);
+        ArrayList<LicenciaDTO> licenciasDTOS = new ArrayList<>();
+        for (LicenciaModel viaje:listado) {
+            licenciasDTOS.add(licenciaMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(licenciasDTOS, Helper.httpHeaders("Se encontraron " + listado.size() + "  entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")

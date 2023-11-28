@@ -1,13 +1,17 @@
 <template>
-<div class="q-ma-md"></div>
+  <div class="q-ma-md">
+    <LicenciaListado />
+  </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import LicenciaListado from 'src/components/conductor/LicenciaListado.vue'
 
 export default {
+  components: { LicenciaListado },
   setup () {
     const $q = useQuasar()
 

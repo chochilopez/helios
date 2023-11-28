@@ -10,9 +10,105 @@ f -> funcion
 l -> local
 */
 
+function spfBuscarTodasPorConductorId (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'licencia/buscar-todas-por-conductor-id/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorConductorIdConEliminadas (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'licencia/buscar-todas-por-conductor-id-con-eliminadas/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'licencia/buscar-todas-por-notas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotasConEliminadas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'licencia/buscar-todas-por-notas-con-eliminadas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorVencimientoEntreFechas (inicio, fin) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'licencia/buscar-todas-por-vencimiento-entre-fechas/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorVencimientoEntreFechasConEliminadas (inicio, fin) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'licencia/buscar-todas-por-vencimiento-entre-fechas-con-eliminadas/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'hhicencia/buscar-todas', {
+    axios.get(API_URL + 'licencia/buscar-todas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -28,7 +124,7 @@ function spfBuscarTodas () {
 
 function spfBuscarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'hhicencia/buscar-todas-con-eliminadas', {
+    axios.get(API_URL + 'licencia/buscar-todas-con-eliminadas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -82,7 +178,7 @@ function spfBuscarTodasConEliminadasConSesion (sesion) {
 
 function spfBuscarTodasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
-    axios.post(API_URL + 'hhicencia/buscar-todas-paginadas', paginadoDTO, {
+    axios.post(API_URL + 'licencia/buscar-todas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -98,7 +194,7 @@ function spfBuscarTodasPaginadas (paginadoDTO) {
 
 function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
-    axios.post(API_URL + 'hhicencia/buscar-todas-con-eliminadas-paginadas', paginadoDTO, {
+    axios.post(API_URL + 'licencia/buscar-todas-con-eliminadas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -114,7 +210,7 @@ function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
 
 function spfBuscarPorId (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'hhicencia/buscar-por-id/' + id, {
+    axios.get(API_URL + 'licencia/buscar-por-id/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -130,7 +226,7 @@ function spfBuscarPorId (id) {
 
 function spfBuscarPorIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'hhicencia/buscar-por-id-con-eliminadas/' + id, {
+    axios.get(API_URL + 'licencia/buscar-por-id-con-eliminadas/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -146,7 +242,7 @@ function spfBuscarPorIdConEliminadas (id) {
 
 function spfContarTodas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'hhicencia/contar-todas', {
+    axios.get(API_URL + 'licencia/contar-todas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -162,7 +258,7 @@ function spfContarTodas () {
 
 function spfContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'hhicencia/contar-todas-con-eliminadas', {
+    axios.get(API_URL + 'licencia/contar-todas-con-eliminadas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -178,7 +274,7 @@ function spfContarTodasConEliminadas () {
 
 function spfGuardar (anObj) {
   return new Promise((resolve, reject) => {
-    axios.put(API_URL + 'hhicencia', anObj, {
+    axios.put(API_URL + 'licencia', anObj, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -194,7 +290,7 @@ function spfGuardar (anObj) {
 
 function spfBorrar (id) {
   return new Promise((resolve, reject) => {
-    axios.delete(API_URL + 'hhicencia/' + id, {
+    axios.delete(API_URL + 'licencia/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -210,7 +306,7 @@ function spfBorrar (id) {
 
 function spfReciclar (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'hhicencia/reciclar/' + id, {
+    axios.get(API_URL + 'licencia/reciclar/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -226,7 +322,7 @@ function spfReciclar (id) {
 
 function spfDestruir (id) {
   return new Promise((resolve, reject) => {
-    axios.delete(API_URL + 'hhicencia/destruir/' + id, {
+    axios.delete(API_URL + 'licencia/destruir/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -241,6 +337,13 @@ function spfDestruir (id) {
 }
 
 export const licenciaService = {
+  spfBuscarTodasPorConductorId,
+  spfBuscarTodasPorConductorIdConEliminadas,
+  spfBuscarTodasPorNotas,
+  spfBuscarTodasPorNotasConEliminadas,
+  spfBuscarTodasPorVencimientoEntreFechas,
+  spfBuscarTodasPorVencimientoEntreFechasConEliminadas,
+
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
   spfBuscarTodasConSesion,

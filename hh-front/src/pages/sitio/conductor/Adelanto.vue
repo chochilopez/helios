@@ -1,15 +1,17 @@
 <template>
-<div class="q-ma-md">
-
-</div>
+  <div class="q-ma-md">
+    <AdelantoListado />
+  </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import AdelantoListado from 'src/components/conductor/AdelantoListado.vue'
 
 export default {
+  components: { AdelantoListado },
   setup () {
     const $q = useQuasar()
 

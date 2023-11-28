@@ -1,13 +1,17 @@
 <template>
-<div class="q-ma-md"></div>
+  <div class="q-ma-md">
+    <CombustibleListado />
+  </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import CombustibleListado from 'src/components/conductor/CombustibleListado.vue'
 
 export default {
+  components: { CombustibleListado },
   setup () {
     const $q = useQuasar()
 

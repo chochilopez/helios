@@ -41,7 +41,7 @@ public class ConductorServiceImpl implements ConductorService {
     @Override
     public List<ConductorModel> buscarTodasPorDireccionConEliminadas(String direccion) {
         log.info("Buscando todas las entidades Conductor con direccion: {}, incluidas las eliminadas.", direccion);
-        List<ConductorModel> listado = conductorDAO.findAllByDireccionContainingIgnoreCaseAndEliminadaIsNull(direccion);
+        List<ConductorModel> listado = conductorDAO.findAllByDireccionContainingIgnoreCase(direccion);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Conductor con direccion: " + direccion + ", incluidas las eliminadas.");
         return listado;
@@ -59,7 +59,7 @@ public class ConductorServiceImpl implements ConductorService {
     @Override
     public List<ConductorModel> buscarTodasPorEmailConEliminadas(String email) {
         log.info("Buscando todas las entidades Conductor con email: {}, incluidas las eliminadas.", email);
-        List<ConductorModel> listado = conductorDAO.findAllByEmailContainingIgnoreCaseAndEliminadaIsNull(email);
+        List<ConductorModel> listado = conductorDAO.findAllByEmailContainingIgnoreCase(email);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Conductor con email: " + email + ", incluidas las eliminadas.");
         return listado;
@@ -77,7 +77,7 @@ public class ConductorServiceImpl implements ConductorService {
     @Override
     public List<ConductorModel> buscarTodasPorIdentificacionConEliminadas(String identificacion) {
         log.info("Buscando todas las entidades Conductor con identificacion: {}, incluidas las eliminadas.", identificacion);
-        List<ConductorModel> listado = conductorDAO.findAllByIdentificacionContainingIgnoreCaseAndEliminadaIsNull(identificacion);
+        List<ConductorModel> listado = conductorDAO.findAllByIdentificacionContainingIgnoreCase(identificacion);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Conductor con identificacion: " + identificacion + ", incluidas las eliminadas.");
         return listado;
@@ -95,7 +95,7 @@ public class ConductorServiceImpl implements ConductorService {
     @Override
     public List<ConductorModel> buscarTodasPorNombreConEliminadas(String nombre) {
         log.info("Buscando todas las entidades Conductor con nombre: {}, incluidas las eliminadas.", nombre);
-        List<ConductorModel> listado = conductorDAO.findAllByNombreContainingIgnoreCaseAndEliminadaIsNull(nombre);
+        List<ConductorModel> listado = conductorDAO.findAllByNombreContainingIgnoreCase(nombre);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Conductor con nombre: " + nombre + ", incluidas las eliminadas.");
         return listado;
@@ -113,7 +113,7 @@ public class ConductorServiceImpl implements ConductorService {
     @Override
     public List<ConductorModel> buscarTodasPorNotasConEliminadas(String notas) {
         log.info("Buscando todas las entidades Conductor con notas: {}, incluidas las eliminadas.", notas);
-        List<ConductorModel> listado = conductorDAO.findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(notas);
+        List<ConductorModel> listado = conductorDAO.findAllByNotasContainingIgnoreCase(notas);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Conductor con notas: " + notas + ", incluidas las eliminadas.");
         return listado;
@@ -131,7 +131,7 @@ public class ConductorServiceImpl implements ConductorService {
     @Override
     public List<ConductorModel> buscarTodasPorTelefonoConEliminadas(String telefono) {
         log.info("Buscando todas las entidades Conductor con telefono: {}, incluidas las eliminadas.", telefono);
-        List<ConductorModel> listado = conductorDAO.findAllByTelefonoContainingIgnoreCaseAndEliminadaIsNull(telefono);
+        List<ConductorModel> listado = conductorDAO.findAllByTelefonoContainingIgnoreCase(telefono);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Conductor con telefono: " + telefono + ", incluidas las eliminadas.");
         return listado;
