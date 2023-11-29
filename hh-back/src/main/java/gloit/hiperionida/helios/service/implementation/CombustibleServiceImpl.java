@@ -5,11 +5,13 @@ import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
 import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
 import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.model.CombustibleModel;
+import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.repository.CombustibleDAO;
 import gloit.hiperionida.helios.service.CombustibleService;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
+import gloit.hiperionida.helios.util.exception.ParametroInvalidoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,6 +30,104 @@ public class CombustibleServiceImpl implements CombustibleService {
     private final CombustibleDAO combustibleDAO;
     private final CombustibleMapper combustibleMapper;
     private final UsuarioServiceImpl usuarioService;
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorCamionId(Long id) {
+        log.info("Buscando todas las entidades Combustible con id de Camion: {}.", id);
+        List<CombustibleModel> listado = combustibleDAO.findAllByCamionIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con id de Camion: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorCamionIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Combustible con id de Camion: {}, con eliminadas.", id);
+        List<CombustibleModel> listado = combustibleDAO.findAllByCamionId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con id de Camion: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorConductorId(Long id) {
+        log.info("Buscando todas las entidades Combustible con id de Conductor: {}.", id);
+        List<CombustibleModel> listado = combustibleDAO.findAllByConductorIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con id de Conductor: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorConductorIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Combustible con id de Conductor: {}, con eliminadas.", id);
+        List<CombustibleModel> listado = combustibleDAO.findAllByConductorId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con id de Conductor: " + id + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorFecha(String inicio, String fin) {
+        log.info("Buscando todas las entidades Combustible entre las fechas: {} y {}.", inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son válidas.");
+        List<CombustibleModel> listado = combustibleDAO.findAllByFechaBetweenAndEliminadaIsNull( fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible entre las fechas: " + inicio + " y " + fin + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorFechaConEliminadas(String inicio, String fin) {
+        log.info("Buscando todas las entidades Combustible entre las fechas: {} y {}, con eliminadas.", inicio, fin);
+        LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son válidas.");
+        List<CombustibleModel> listado = combustibleDAO.findAllByFechaBetween(fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades entre las fechas: " + inicio + " y " + fin + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorNotasContainingIgnoreCase(String notas) {
+        log.info("Buscando todas las entidades Combustible con notas: {}.", notas);
+        List<CombustibleModel> listado = combustibleDAO.findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(notas);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con notas: " + notas + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorNotasContainingIgnoreCaseConEliminadas(String notas) {
+        log.info("Buscando todas las entidades Combustible con notas: {}, con eliminadas.", notas);
+        List<CombustibleModel> listado = combustibleDAO.findAllByNotasContainingIgnoreCase(notas);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con notas: " + notas + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorProveedorId(Long id) {
+        log.info("Buscando todas las entidades Combustible con id de Proveedor: {}.", id);
+        List<CombustibleModel> listado = combustibleDAO.findAllByProveedorIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con id de Proveedor: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorProveedorIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Combustible con id de Proveedor: {}, con eliminadas.", id);
+        List<CombustibleModel> listado = combustibleDAO.findAllByProveedorId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con id de Proveedor: " + id + ", con eliminadas.");
+        return listado;
+    }
 
     @Override
     public CombustibleModel buscarPorId(Long id) {

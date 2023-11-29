@@ -3,6 +3,8 @@ package gloit.hiperionida.helios.controller;
 import gloit.hiperionida.helios.mapper.CombustibleMapper;
 import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
 import gloit.hiperionida.helios.mapper.dto.CombustibleDTO;
+import gloit.hiperionida.helios.mapper.dto.CombustibleDTO;
+import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.service.implementation.CombustibleServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
@@ -38,6 +40,122 @@ public class CombustibleController extends AbsBaseController {
         String mensaje = "Ocurrio un error al guardar el combustible. " + e.getMessage();
 
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-camion-id/{id}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorCamionId(@PathVariable(name = "id") Long id) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorCamionId(id);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-camion-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorCamionIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorCamionIdConEliminadas(id);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-conductor-id/{id}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorConductorId(@PathVariable(name = "id") Long id) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorConductorId(id);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-conductor-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorConductorIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorConductorIdConEliminadas(id);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-fecha-entre-fechas/{inicio}/{fin}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorFecha(
+            @PathVariable(name = "inicio") String inicio,
+            @PathVariable(name = "fin") String fin
+    ) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorFecha(inicio, fin);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-fecha-entre-fechas-con-eliminadas/{inicio}/{fin}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorFechaConEliminadas(
+            @PathVariable(name = "inicio") String inicio,
+            @PathVariable(name = "fin") String fin
+    ) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorFechaConEliminadas(inicio, fin);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas/{notas}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorNotasContainingIgnoreCase(@PathVariable(name = "notas") String notas) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorNotasContainingIgnoreCase(notas);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas-con-eliminadas/{notas}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorNotasContainingIgnoreCaseConEliminadas(@PathVariable(name = "notas") String notas) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorNotasContainingIgnoreCaseConEliminadas(notas);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-proveedor-id/{id}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorProveedorId(@PathVariable(name = "id") Long id) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorProveedorId(id);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-proveedor-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorProveedorIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorProveedorIdConEliminadas(id);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-por-id/{id}")

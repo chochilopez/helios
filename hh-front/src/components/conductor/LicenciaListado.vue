@@ -306,6 +306,7 @@
                 map-options
                 clearable
                 v-model="licenciaCreation.conductorId"
+                :rules="[reglas.requerido]"
                 :options="conductores"
                 option-value="id"
                 option-label="nombre"
@@ -366,7 +367,7 @@
               <q-input
                 class="nuevo-input"
                 v-model="licenciaCreation.numero"
-                :rules="[reglas.requerido, reglas.min3, reglas.max50]"
+                :rules="[reglas.requerido, reglas.max50]"
                 outlined
                 dense
                 clearable

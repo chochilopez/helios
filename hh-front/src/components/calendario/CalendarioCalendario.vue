@@ -201,6 +201,9 @@ export default defineComponent({
           case 'Seguro':
             event.bgcolor = 'seguro'
             break
+          case 'Licencia':
+            event.bgcolor = 'licencia'
+            break
           case 'Vencimiento':
             event.bgcolor = 'vencimiento'
             break
@@ -393,8 +396,11 @@ export default defineComponent({
 .seguro
   background: #ff006e
 
+.licencia
+  background: #ff006e
+
 .vencimiento
-  background: #fb5607
+  background: #ff006e
 
 .evento
   background: #9e0059

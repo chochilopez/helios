@@ -36,20 +36,19 @@ public class CombustibleMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
+            if (Helper.getLong(creation.getCamionId()) != null)
+                model.setCamionId(Helper.getLong(creation.getCamionId()));
+            if (Helper.getLong(creation.getConductorId()) != null)
+                model.setConductorId(Helper.getLong(creation.getConductorId()));
             if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
                 model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
             if (Helper.getDecimal(creation.getKilometros()) != null)
                 model.setKilometros(Helper.getDecimal(creation.getKilometros()));
             if (Helper.getDecimal(creation.getLitros()) != null)
                 model.setLitros(Helper.getDecimal(creation.getLitros()));
+            model.setNotas(creation.getNotas());
             if (Helper.getDecimal(creation.getPrecio()) != null)
                 model.setPrecio(Helper.getNDecimal(Helper.getDecimal(creation.getPrecio()), 2));
-            model.setNotas(creation.getNotas());
-
-            if (Helper.getLong(creation.getCamionId()) != null)
-                model.setCamionId(Helper.getLong(creation.getCamionId()));
-            if (Helper.getLong(creation.getConductorId()) != null)
-                model.setConductorId(Helper.getLong(creation.getConductorId()));
             if (Helper.getLong(creation.getProveedorId()) != null)
                 model.setProveedorId(Helper.getLong(creation.getProveedorId()));
 
@@ -78,23 +77,30 @@ public class CombustibleMapper {
             CombustibleDTO dto = new CombustibleDTO();
 
             dto.setId(model.getId().toString());
-            dto.setFecha(model.getFecha().toString());
-            dto.setKilometros(model.getKilometros().toString());
-            dto.setLitros(model.getLitros().toString());
-            dto.setPrecio(model.getPrecio().toString());
-            dto.setNotas(model.getNotas());
-
             if (model.getCamionId() != null) {
                 CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(model.getCamionId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el camión con id: " + model.getCamionId() + "."));
                 dto.setCamion(camionModel.getMarcaModelo());
+                dto.setCamionId(model.getCamionId().toString());
             }
             if (model.getConductorId() != null) {
                 ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor con id: " + model.getConductorId() + "."));
                 dto.setConductor(conductorModel.getNombre());
+                dto.setConductor(model.getConductorId().toString());
             }
+            if (model.getFecha() != null)
+                dto.setFecha(model.getFecha().toString());
+            if (model.getKilometros() != null)
+                dto.setKilometros(model.getKilometros().toString());
+            if (model.getLitros() != null)
+                dto.setLitros(model.getLitros().toString());
+            if (model.getPrecio() != null)
+                dto.setPrecio(model.getPrecio().toString());
+            dto.setNotas(model.getNotas());
+
             if (model.getProveedorId() != null) {
                 ProveedorModel proveedorModel = proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el proveedor con id: " + model.getProveedorId() + "."));
                 dto.setProveedor(proveedorModel.getNombre());
+                dto.setProveedorId(model.getProveedorId().toString());
             }
 
             if (model.getCreadorId() != null) {

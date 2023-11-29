@@ -11,12 +11,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CombustibleDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
+    private String camion;
+    private String camionId;
+    private String conductor;
+    private String conductorId;
     private String fecha;
     private String kilometros;
     private String litros;
-    private String precio;
     private String notas;
-    private String camion;
-    private String conductor;
+    private String precio;
     private String proveedor;
+    private String proveedorId;
 }

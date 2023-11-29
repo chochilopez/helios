@@ -1,10 +1,10 @@
 export class LicenciaCreation {
   constructor () {
     this.id = null
-    this.numero = null
     this.categoria = null
     this.conductorId = null
     this.notas = null
+    this.numero = null
     this.vencimiento = null
     this.vencimientoId = null
 

@@ -12,13 +12,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CombustibleCreation extends AbsAuditoriaCreation {
     private String id;
+    private String camionId;
+    private String conductorId;
     private String fecha;
     private String kilometros;
     private String litros;
-    private String precio;
     private String notas;
-
-    private String camionId;
-    private String conductorId;
+    private String precio;
     private String proveedorId;
 }
