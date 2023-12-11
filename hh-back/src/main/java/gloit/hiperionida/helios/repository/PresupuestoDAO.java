@@ -23,11 +23,11 @@ public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
     List<PresupuestoModel> findAllByDestinoIdAndEliminadaIsNull(Long id);
     @Query(value = "SELECT p FROM PresupuestoModel p " +
             "JOIN EventoModel e ON p.fechaId = e.id " +
-            "where e.inicio between :inicio and :fin")
+            "where e.fecha between :inicio and :fin")
     List<PresupuestoModel> findAllByFechaFechaBetween(LocalDateTime inicio, LocalDateTime fin);
     @Query(value = "SELECT p FROM PresupuestoModel p " +
             "JOIN EventoModel e ON p.fechaId = e.id " +
-            "where e.inicio between :inicio and :fin and p.eliminada is null")
+            "where e.fecha between :inicio and :fin and p.eliminada is null")
     List<PresupuestoModel> findAllByFechaFechaBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
     List<PresupuestoModel> findAllByKmCargadoBetween(Double min, Double max);
     List<PresupuestoModel> findAllByKmCargadoBetweenAndEliminadaIsNull(Double min, Double max);
@@ -70,7 +70,7 @@ public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
 
     @Query(value = "Select p FROM PresupuestoModel p " +
             "JOIN EventoModel e ON p.fechaId = e.id " +
-            "where e.inicio >= :fecha order by e.inicio ASC limit 1")
+            "where e.fecha >= :fecha order by e.fecha ASC limit 1")
     Optional<PresupuestoModel> findNextDate(LocalDateTime fecha);
 
 }

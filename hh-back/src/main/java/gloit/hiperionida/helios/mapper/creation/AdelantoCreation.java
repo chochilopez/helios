@@ -10,12 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AdelantoCreation extends AbsAuditoriaCreation {
     private String id;
-    private String descripcion;
     private String fecha;
     private String monto;
     private String notas;
-    private String recibo;
     private String rendido;
-    private String caja_id;
+    private String cajaId;
     private String conductorId;
+    private String reciboId;
 }

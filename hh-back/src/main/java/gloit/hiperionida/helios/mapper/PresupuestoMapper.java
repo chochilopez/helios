@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -45,18 +46,19 @@ public class PresupuestoMapper {
             if (creation.getFecha() != null) {
                 if (Helper.getLong(creation.getFechaId()) != null) {
                     EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getFechaId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el evento."));
-                    eventoModel.setInicio(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
-                    eventoModel.setFin(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
+                    eventoModel.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
                     eventoDAO.save(eventoModel);
                     model.setFechaId(Helper.getLong(creation.getFechaId()));
                 } else {
                     ClienteModel clienteModel = clienteDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getClienteId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el cliente."));
+                    LocalDateTime fecha = Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), "");
                     EventoModel evento = eventoDAO.save(new EventoModel(
-                            Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
-                            Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""),
+                            fecha,
+                            true,
                             "Presupuesto",
                             "Presupuesto para " + clienteModel.getNombre(),
-                            true,
+                            Helper.getInteger(creation.getValidez()),
+                            fecha.minusDays(Helper.getInteger(creation.getValidez())),
                             Helper.getNow(""),
                             usuarioService.obtenerUsuario().getId()
                     ));
@@ -119,7 +121,7 @@ public class PresupuestoMapper {
             }
             if (model.getFechaId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de viaje con id: " + model.getFechaId() + "."));
-                dto.setFecha(eventoModel.getInicio().toString());
+                dto.setFecha(eventoModel.getFecha().toString());
                 dto.setFechaId(model.getFechaId().toString());
             }
             if (model.getCreada() != null)

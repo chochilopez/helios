@@ -15,7 +15,10 @@ function getAutoridad () {
   return null
 }
 
-function difBetweenDates (fecha1, fecha2, unidad) {
+function getDiferenciaEntreFechas (fecha1, fecha2, unidad) {
+  if (unidad === null) {
+    unidad = 'days'
+  }
   // seconds - minutes - hours - days - months - years
   return date.getDateDiff(fecha1, fecha2, unidad)
 }
@@ -47,6 +50,11 @@ function getToday () {
 function getDateWithFormat (fechaSql) {
   const f = new Date(fechaSql)
   return f.getDate() + '/' + (f.getMonth() + 1) + '/' + f.getFullYear()
+}
+
+function getFechaRegional () {
+  const fecha = new Date()
+  return date.formatDate(fecha, 'DD-MM-YYYY')
 }
 
 function getDateWithMonthFormat (fechaSql) {
@@ -185,10 +193,11 @@ function fFormatearDeBackend (texto) {
 
 export const ayuda = {
   getAutoridad,
-  difBetweenDates,
+  getDiferenciaEntreFechas,
   isValidDate,
   getAsset,
   getColor,
+  getFechaRegional,
   getUid,
   getSize,
   getToday,

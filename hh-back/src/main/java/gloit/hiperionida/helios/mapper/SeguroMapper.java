@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -48,7 +49,7 @@ public class SeguroMapper {
             if (creation.getVencimiento() != null) {
                 if (Helper.getLong(creation.getVencimientoId()) != null) {
                     EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getVencimientoId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el evento."));
-                    eventoModel.setInicio(Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""));
+                    eventoModel.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""));
                     eventoDAO.save(eventoModel);
                     model.setVencimientoId(Helper.getLong(creation.getVencimientoId()));
                 } else {
@@ -60,12 +61,14 @@ public class SeguroMapper {
                         AcopladoModel acopladoModel = acopladoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getAcopladoId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el acoplado."));
                         marcaModelo = marcaModelo + acopladoModel.getMarcaModelo();
                     }
+                    LocalDateTime fecha = Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), "");
                     EventoModel evento = eventoDAO.save(new EventoModel(
-                            Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""),
-                            Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""),
+                            fecha,
+                            true,
                             "Seguro",
                             "Seguro para " + marcaModelo,
-                            true,
+                            30,
+                            fecha.minusDays(30),
                             Helper.getNow(""),
                             usuarioService.obtenerUsuario().getId()
                     ));
@@ -116,7 +119,7 @@ public class SeguroMapper {
             }
             if (model.getVencimientoId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vencimiento con id: " + model.getVencimientoId() + "."));
-                dto.setVencimiento(eventoModel.getInicio().toString());
+                dto.setVencimiento(eventoModel.getFecha().toString());
                 dto.setVencimientoId(model.getVencimientoId().toString());
             }
 

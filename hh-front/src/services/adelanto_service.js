@@ -9,6 +9,165 @@ p -> promesa
 f -> funcion
 l -> local
 */
+function spfBuscarTodasPorCajaId (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'adelanto/buscar-todas-por-caja-id/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorCajaIdConEliminadas (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'adelanto/buscar-todas-por-caja-id-con-eliminadas/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorConductorId (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'adelanto/buscar-todas-por-conductor-id/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorConductorIdConEliminadas (id) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'adelanto/buscar-todas-por-conductor-id-con-eliminadas/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorFechaEntre (inicio, fin) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'adelanto/buscar-todas-por-fecha-entre/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorFechaEntreConEliminadas (inicio, fin) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'adelanto/buscar-todas-por-fecha-entre-con-eliminadas/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorMontoEntre (inicio, fin) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'adelanto/buscar-todas-por-monto-entre/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorMontoEntreConEliminadas (inicio, fin) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'adelanto/buscar-todas-por-monto-entre-con-eliminadas/' + inicio + '/' + fin, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'adelanto/buscar-todas-por-notas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotasConEliminadas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'adelanto/buscar-todas-por-notas-con-eliminadas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
 
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
@@ -241,6 +400,17 @@ function spfDestruir (id) {
 }
 
 export const adelantoService = {
+  spfBuscarTodasPorCajaId,
+  spfBuscarTodasPorCajaIdConEliminadas,
+  spfBuscarTodasPorConductorId,
+  spfBuscarTodasPorConductorIdConEliminadas,
+  spfBuscarTodasPorFechaEntre,
+  spfBuscarTodasPorFechaEntreConEliminadas,
+  spfBuscarTodasPorMontoEntre,
+  spfBuscarTodasPorMontoEntreConEliminadas,
+  spfBuscarTodasPorNotas,
+  spfBuscarTodasPorNotasConEliminadas,
+
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
   spfBuscarTodasConSesion,

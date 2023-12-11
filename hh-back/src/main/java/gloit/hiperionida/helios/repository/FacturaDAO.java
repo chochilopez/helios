@@ -34,11 +34,11 @@ public interface FacturaDAO extends GenericDTO<FacturaModel> {
     List<FacturaModel> findAllByFechaEmisionBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
     @Query(value = "SELECT f FROM FacturaModel f " +
             "JOIN EventoModel e ON f.fechaVencimientoId = e.id " +
-            "where e.inicio between :inicio and :fin")
+            "where e.fecha between :inicio and :fin")
     List<FacturaModel> findAllByFechaVencimientoBetween(LocalDateTime inicio, LocalDateTime fin);
     @Query(value = "SELECT f FROM FacturaModel f " +
             "JOIN EventoModel e ON f.fechaVencimientoId = e.id " +
-            "where e.inicio between :inicio and :fin and f.eliminada is null")
+            "where e.fecha between :inicio and :fin and f.eliminada is null")
     List<FacturaModel> findAllByFechaVencimientoBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
     List<FacturaModel> findAllByNotasContainingIgnoreCase(String notas);
     List<FacturaModel> findAllByNotasContainingIgnoreCaseAndEliminadaIsNull(String notas);

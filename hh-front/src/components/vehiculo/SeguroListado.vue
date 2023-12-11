@@ -498,7 +498,10 @@
               </q-input>
             </div>
           </div>
-          <div class="row justify-end q-pa-md">
+          <div class="row justify-between q-pa-md">
+            <q-btn class="paleta2-color2 bg-white" v-close-popup icon="close" ripple>
+              Cerrar
+            </q-btn>
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
               Finalizar
             </q-btn>
@@ -1139,7 +1142,7 @@ export default {
           afBuscarCamiones().then(() => {
             titulo.value = 'Nuevo seguro'
             fLimpiarFormulario()
-            tipoVehiculo.value =
+            tipoVehiculo.value = null
             fIrPaso1()
             nuevoSeguroDialog.value = true
           })

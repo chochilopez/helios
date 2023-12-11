@@ -20,11 +20,11 @@ public interface LicenciaDAO extends GenericDTO<LicenciaModel> {
 
     @Query(value = "SELECT l FROM LicenciaModel l " +
             "JOIN EventoModel e ON l.vencimientoId = e.id " +
-            "where e.inicio between :inicio and :fin")
+            "where e.fecha between :inicio and :fin")
     List<LicenciaModel> findAllByVencimientoBetween(LocalDateTime inicio, LocalDateTime fin);
 
     @Query(value = "SELECT l FROM LicenciaModel l " +
             "JOIN EventoModel e ON l.vencimientoId = e.id " +
-            "where e.inicio between :inicio and :fin and l.eliminada is null")
+            "where e.fecha between :inicio and :fin and l.eliminada is null")
     List<LicenciaModel> findAllByVencimientoBetweenAndEliminadaIsNull(LocalDateTime inicio, LocalDateTime fin);
 }

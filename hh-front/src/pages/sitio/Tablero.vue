@@ -1,15 +1,18 @@
 <template>
-  <TableroContador class="q-ma-lg" v-if="autoridad === 'admin' || autoridad === 'usuario' "/>
-  <TableroGrafico class="q-ma-lg" v-if="autoridad === 'admin' || autoridad === 'usuario' "/>
+  <div class="q-ma-md">
+    <CalendarioCalendario v-if="autoridad === 'admin' || autoridad === 'usuario' " />
+    <TableroGraficos />
+    <!-- <TableroGraficos v-if="autoridad === 'admin' || autoridad === 'usuario' "/> -->
+  </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { ref, onMounted } from 'vue'
-import TableroContador from 'src/components/TableroContador.vue'
-import TableroGrafico from 'src/components/TableroGrafico.vue'
 import { ayuda } from 'src/helpers/ayuda'
+import CalendarioCalendario from 'src/components/calendario/CalendarioCalendario.vue'
+import TableroGraficos from 'src/components/tablero/TableroGraficos.vue'
 
 export default {
   setup () {
@@ -34,8 +37,8 @@ export default {
     }
   },
   components: {
-    TableroContador,
-    TableroGrafico
+    TableroGraficos,
+    CalendarioCalendario
   }
 }
 </script>

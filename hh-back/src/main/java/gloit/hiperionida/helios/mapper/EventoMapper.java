@@ -5,7 +5,6 @@ import gloit.hiperionida.helios.mapper.dto.EventoDTO;
 import gloit.hiperionida.helios.model.EventoModel;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
-import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -22,23 +20,26 @@ public class EventoMapper {
     private final UsuarioDAO usuarioDAO;
 
     public EventoModel toEntity(EventoCreation creation) {
+        System.out.println(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
+        System.out.println(creation.getFecha() != null);
         try {
             EventoModel model = new EventoModel();
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
-            if (creation.getInicio() != null && Helper.stringToLocalDateTime(creation.getInicio(), "") != null)
-                model.setInicio(Helper.stringToLocalDateTime(creation.getInicio(), ""));
-            if (creation.getFin() != null && Helper.stringToLocalDateTime(creation.getFin(), "") != null)
-                model.setInicio(Helper.stringToLocalDateTime(creation.getFin(), ""));
             model.setDescripcion(creation.getDescripcion());
-            if (creation.getRecordatorio() != null)
-                model.setRecordatorio(Helper.getBoolean(creation.getRecordatorio()));
+            if (creation.getFecha() != null && Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), "") != null) {
+                model.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
+                if (Helper.getInteger(creation.getRecordatorioDias()) != null) {
+                    model.setRecordatorioDias(Helper.getInteger(creation.getRecordatorioDias()));
+                    model.setRecordatorioFecha(model.getFecha().minusDays(model.getRecordatorioDias()));
+                }
+            }
             model.setNombre(creation.getNombre());
-            if (!Helper.isEmptyString(creation.getInicio()))
-                model.setInicio(Helper.stringToLocalDateTime(creation.getInicio(), "yyyy-MM-dd HH:mm:ss"));
-            if (!Helper.isEmptyString(creation.getFin()))
-                model.setFin(Helper.stringToLocalDateTime(creation.getFin(), "yyyy-MM-dd HH:mm:ss"));
+            if (Helper.getBoolean(creation.getHabilitada()) != null)
+                model.setHabilitada(Helper.getBoolean(creation.getHabilitada()));
+            else
+                model.setHabilitada(true);
 
             if (Helper.getLong(creation.getCreadorId()) != null)
                 model.setCreadorId(Helper.getLong(creation.getCreadorId()));
@@ -65,15 +66,16 @@ public class EventoMapper {
             EventoDTO dto = new EventoDTO();
 
             dto.setId(model.getId().toString());
-            dto.setInicio(model.getInicio().toString());
-            dto.setFin(model.getFin().toString());
             dto.setDescripcion(model.getDescripcion());
-            dto.setRecordatorio(model.getRecordatorio().toString());
             dto.setNombre(model.getNombre());
-            if (model.getInicio() != null)
-                dto.setInicio(model.getInicio().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            if (model.getFin() != null)
-                dto.setFin(model.getFin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            if (model.getFecha() != null)
+                dto.setFecha(model.getFecha().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            if (model.getRecordatorioFecha() != null)
+                dto.setRecordatorioFecha(model.getRecordatorioFecha().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            if (model.getRecordatorioDias() != null)
+                dto.setRecordatorioDias(model.getRecordatorioDias().toString());
+            if (model.getHabilitada() != null)
+                dto.setHabilitada(model.getHabilitada().toString());
 
             if (model.getCreadorId() != null) {
                 UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreadorId() + "."));

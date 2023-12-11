@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -79,12 +80,14 @@ public class FacturaMapper {
                 if (Helper.getLong(creation.getFechaVencimientoId()) != null) {
                     model.setFechaVencimientoId(Helper.getLong(creation.getFechaVencimientoId()));
                 } else {
+                    LocalDateTime fecha = Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaVencimiento(), "");
                     EventoModel evento = eventoDAO.save(new EventoModel(
-                            Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaVencimiento(), ""),
-                            Helper.stringToLocalDateTime("00:00:00 " + creation.getFechaVencimiento(), ""),
+                            fecha,
+                            true,
                             "Vencimiento",
                             "Vencimiento de " + creation.getTipoComprobante() + " - " + creation.getNumeroComprobante(),
-                            true,
+                            15,
+                            fecha.minusDays(15),
                             Helper.getNow(""),
                             usuarioService.obtenerUsuario().getId()
                     ));
@@ -129,9 +132,9 @@ public class FacturaMapper {
                 dto.setFechaEmision(model.getFechaEmision().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             if (model.getFechaVencimientoId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getFechaVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de vencimiento con id: " + model.getFechaVencimientoId() + "."));
-                dto.setFechaVencimiento(eventoModel.getInicio().toString());
+                dto.setFechaVencimiento(eventoModel.getFecha().toString());
                 dto.setFechaVencimientoId(model.getFechaVencimientoId().toString());
-                Boolean esVencida = Helper.getNow("").isAfter(eventoModel.getInicio()) && !model.getPagada();
+                Boolean esVencida = Helper.getNow("").isAfter(eventoModel.getFecha()) && !model.getPagada();
                 dto.setVencida(esVencida.toString());
             }
             Double total = model.getSubTotal();
@@ -194,7 +197,7 @@ public class FacturaMapper {
                 }
                 if (viajeModel.getFechaId() != null) {
                     EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(viajeModel.getFechaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la fecha de viaje con id: " + viajeModel.getFechaId() + "."));
-                    dto.setFechaViaje(eventoModel.getInicio().toString());
+                    dto.setFechaViaje(eventoModel.getFecha().toString());
                 }
                 if (viajeModel.getKmCargado() != null)
                     dto.setKmCargado(viajeModel.getKmCargado().toString());

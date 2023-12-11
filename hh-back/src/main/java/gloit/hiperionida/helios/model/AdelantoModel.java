@@ -18,14 +18,13 @@ public class AdelantoModel extends AbsAuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String descripcion;
     private LocalDateTime fecha;
     private Double monto;
     @Column(columnDefinition = "TEXT")
     private String notas;
-    private String recibo;
     private Boolean rendido;
 
     private Long cajaId;
     private Long conductorId;
+    private Long reciboId;
 }

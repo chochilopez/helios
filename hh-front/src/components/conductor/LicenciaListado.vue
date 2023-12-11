@@ -284,7 +284,7 @@
     </div>
   </q-card>
 
-  <q-dialog v-model="nuevoLicenciaDialog" persistent transition-show="fade" transition-hide="fade">
+  <q-dialog v-model="nuevaLicenciaDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
         <div class="text-h6 text-grey-8">{{ titulo }}</div>
@@ -391,7 +391,10 @@
               </q-input>
             </div>
           </div>
-          <div class="row justify-end q-pa-md">
+          <div class="row justify-between q-pa-md">
+            <q-btn class="paleta2-color2 bg-white" v-close-popup icon="close" ripple>
+              Cerrar
+            </q-btn>
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
               Finalizar
             </q-btn>
@@ -474,7 +477,7 @@ export default {
     const editVencimiento = ref(false)
 
     const nuevaBusqueda = ref(false)
-    const nuevoLicenciaDialog = ref(false)
+    const nuevaLicenciaDialog = ref(false)
     const paso1 = ref(true)
     const licenciaCreation = reactive(new LicenciaCreation())
     const licencias = ref([])
@@ -709,7 +712,7 @@ export default {
     function fGuardarLicencia () {
       afGuardarLicencia().then(() => {
         afBuscarPaginadas().then(() => {
-          nuevoLicenciaDialog.value = false
+          nuevaLicenciaDialog.value = false
           fIrPaso1()
         })
       })
@@ -834,7 +837,7 @@ export default {
         titulo.value = 'Nueva licencia'
         fLimpiarFormulario()
         fIrPaso1()
-        nuevoLicenciaDialog.value = true
+        nuevaLicenciaDialog.value = true
       })
     }
 
@@ -855,7 +858,7 @@ export default {
       licenciaCreation.modificada = props.row.modificada
       licenciaCreation.modificadorId = props.row.modificadorId
 
-      nuevoLicenciaDialog.value = true
+      nuevaLicenciaDialog.value = true
     }
 
     function fMostrarEliminarLicencia (props) {
@@ -892,7 +895,7 @@ export default {
 
       columnas,
       nuevaBusqueda,
-      nuevoLicenciaDialog,
+      nuevaLicenciaDialog,
       paginacion,
       paso1,
       reglas,

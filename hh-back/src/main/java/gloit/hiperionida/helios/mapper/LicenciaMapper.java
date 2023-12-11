@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -42,17 +43,19 @@ public class LicenciaMapper {
             if (creation.getVencimiento() != null) {
                 if (Helper.getLong(creation.getVencimientoId()) != null) {
                     EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getVencimientoId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el evento."));
-                    eventoModel.setInicio(Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""));
+                    eventoModel.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""));
                     eventoDAO.save(eventoModel);
                     model.setVencimientoId(Helper.getLong(creation.getVencimientoId()));
                 } else {
                     ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(Helper.getLong(creation.getConductorId())).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor."));
+                    LocalDateTime fecha = Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), "");
                     EventoModel evento = eventoDAO.save(new EventoModel(
-                            Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""),
-                            Helper.stringToLocalDateTime("00:00:00 " + creation.getVencimiento(), ""),
+                            fecha,
+                            true,
                             "Licencia",
                             "Licencia " + model.getCategoria() + "-" + model.getNumero() + " de " + conductorModel.getNombre(),
-                            true,
+                            30,
+                            fecha.minusDays(30),
                             Helper.getNow(""),
                             usuarioService.obtenerUsuario().getId()
                     ));
@@ -95,7 +98,7 @@ public class LicenciaMapper {
             dto.setNumero(model.getNumero());
             if (model.getVencimientoId() != null) {
                 EventoModel eventoModel = eventoDAO.findByIdAndEliminadaIsNull(model.getVencimientoId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el vencimiento con id: " + model.getVencimientoId() + "."));
-                dto.setVencimiento(eventoModel.getInicio().toString());
+                dto.setVencimiento(eventoModel.getFecha().toString());
                 dto.setVencimientoId(model.getVencimientoId().toString());
             }
 

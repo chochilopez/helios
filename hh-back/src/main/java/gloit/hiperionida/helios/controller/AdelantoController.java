@@ -40,6 +40,122 @@ public class AdelantoController extends AbsBaseController {
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
     }
 
+    @GetMapping(value = "/buscar-todas-por-caja-id/{id}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<AdelantoDTO>> buscarTodasPorCajaId(@PathVariable(name = "id") Long id) {
+        List<AdelantoModel> listado = adelantoService.buscarTodasPorCajaId(id);
+        ArrayList<AdelantoDTO> adelantos = new ArrayList<>();
+        for (AdelantoModel adelanto:listado) {
+            adelantos.add(adelantoMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-caja-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<AdelantoDTO>> buscarTodasPorCajaIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<AdelantoModel> listado = adelantoService.buscarTodasPorCajaIdConEliminadas(id);
+        ArrayList<AdelantoDTO> adelantos = new ArrayList<>();
+        for (AdelantoModel adelanto:listado) {
+            adelantos.add(adelantoMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-conductor-id/{id}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<AdelantoDTO>> buscarTodasPorConductorId(@PathVariable(name = "id") Long id) {
+        List<AdelantoModel> listado = adelantoService.buscarTodasPorConductorId(id);
+        ArrayList<AdelantoDTO> adelantos = new ArrayList<>();
+        for (AdelantoModel adelanto:listado) {
+            adelantos.add(adelantoMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-conductor-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<AdelantoDTO>> buscarTodasPorConductorIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<AdelantoModel> listado = adelantoService.buscarTodasPorConductorIdConEliminadas(id);
+        ArrayList<AdelantoDTO> adelantos = new ArrayList<>();
+        for (AdelantoModel adelanto:listado) {
+            adelantos.add(adelantoMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-fecha-entre/{inicio}/{fin}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<AdelantoDTO>> buscarTodasPorFechaEntre(
+            @PathVariable(name = "inicio") String inicio,
+            @PathVariable(name = "fin") String fin
+    ) {
+        List<AdelantoModel> listado = adelantoService.buscarTodasPorFechaEntre(inicio, fin);
+        ArrayList<AdelantoDTO> adelantos = new ArrayList<>();
+        for (AdelantoModel adelanto:listado) {
+            adelantos.add(adelantoMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-fecha-entre-con-eliminadas/{inicio}/{fin}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<AdelantoDTO>> buscarTodasPorFechaEntreConEliminadas(
+            @PathVariable(name = "inicio") String inicio,
+            @PathVariable(name = "fin") String fin
+    ) {
+        List<AdelantoModel> listado = adelantoService.buscarTodasPorFechaEntreConEliminadas(inicio, fin);
+        ArrayList<AdelantoDTO> adelantos = new ArrayList<>();
+        for (AdelantoModel adelanto:listado) {
+            adelantos.add(adelantoMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-monto-entre/{min}/{max}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<AdelantoDTO>> buscarTodasPorMontoEntre(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {
+        List<AdelantoModel> listado = adelantoService.buscarTodasPorMontoEntre(min, max);
+        ArrayList<AdelantoDTO> adelantos = new ArrayList<>();
+        for (AdelantoModel adelanto:listado) {
+            adelantos.add(adelantoMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-monto-entre-con-eliminadas/{min}/{max}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<AdelantoDTO>> buscarTodasPorMontoEntreConEliminadas(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {
+        List<AdelantoModel> listado = adelantoService.buscarTodasPorMontoEntreConEliminadas(min, max);
+        ArrayList<AdelantoDTO> adelantos = new ArrayList<>();
+        for (AdelantoModel adelanto:listado) {
+            adelantos.add(adelantoMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas/{notas}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<AdelantoDTO>> buscarTodasPorNotas(@PathVariable(name = "notas") String notas) {
+        List<AdelantoModel> listado = adelantoService.buscarTodasPorNotas(notas);
+        ArrayList<AdelantoDTO> adelantos = new ArrayList<>();
+        for (AdelantoModel adelanto:listado) {
+            adelantos.add(adelantoMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-notas-con-eliminadas/{notas}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<AdelantoDTO>> buscarTodasPorNotasConEliminadas(@PathVariable(name = "notas") String notas) {
+        List<AdelantoModel> listado = adelantoService.buscarTodasPorNotasConEliminadas(notas);
+        ArrayList<AdelantoDTO> adelantos = new ArrayList<>();
+        for (AdelantoModel adelanto:listado) {
+            adelantos.add(adelantoMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/buscar-por-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<AdelantoDTO> buscarPorId(@PathVariable(name = "id") Long id) {

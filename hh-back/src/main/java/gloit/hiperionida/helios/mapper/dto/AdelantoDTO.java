@@ -12,12 +12,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AdelantoDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
-    private String descripcion;
     private String fecha;
     private String monto;
     private String notas;
-    private String recibo;
     private String rendido;
     private String caja;
     private String conductor;
+    private String recibo;
 }

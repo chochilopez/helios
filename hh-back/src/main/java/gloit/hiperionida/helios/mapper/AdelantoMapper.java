@@ -2,15 +2,14 @@ package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.AdelantoCreation;
 import gloit.hiperionida.helios.mapper.dto.AdelantoDTO;
-import gloit.hiperionida.helios.mapper.dto.CajaDTO;
 import gloit.hiperionida.helios.model.AdelantoModel;
 import gloit.hiperionida.helios.model.CajaModel;
 import gloit.hiperionida.helios.model.ConductorModel;
 import gloit.hiperionida.helios.repository.CajaDAO;
 import gloit.hiperionida.helios.repository.ConductorDAO;
+import gloit.hiperionida.helios.repository.ReciboDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
-import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +24,7 @@ import java.util.Optional;
 public class AdelantoMapper {
     private final CajaDAO cajaDAO;
     private final ConductorDAO conductorDAO;
+    private final ReciboDAO reciboDAO;
     private final UsuarioDAO usuarioDAO;
 
     public AdelantoModel toEntity(AdelantoCreation creation) {
@@ -34,20 +33,20 @@ public class AdelantoMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
-            model.setDescripcion(creation.getDescripcion());
             if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
                 model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
             if (Helper.getDecimal(creation.getMonto()) != null)
                 model.setMonto(Helper.getNDecimal(Helper.getDecimal(creation.getMonto()),2));
             model.setNotas(creation.getNotas());
-            model.setRecibo(creation.getRecibo());
             if (Helper.getBoolean(creation.getRendido()) != null)
                 model.setRendido(Helper.getBoolean(creation.getRendido()));
 
-            if (Helper.getLong(creation.getCaja_id()) != null)
-                model.setCajaId(Helper.getLong(creation.getCaja_id()));
+            if (Helper.getLong(creation.getCajaId()) != null)
+                model.setCajaId(Helper.getLong(creation.getCajaId()));
             if (Helper.getLong(creation.getConductorId()) != null)
                 model.setConductorId(Helper.getLong(creation.getConductorId()));
+            if (Helper.getLong(creation.getReciboId()) != null)
+                model.setReciboId(Helper.getLong(creation.getReciboId()));
 
             if (Helper.getLong(creation.getCreadorId()) != null)
                 model.setCreadorId(Helper.getLong(creation.getCreadorId()));
@@ -74,11 +73,9 @@ public class AdelantoMapper {
             AdelantoDTO dto = new AdelantoDTO();
 
             dto.setId(model.getId().toString());
-            dto.setDescripcion(model.getDescripcion());
             dto.setFecha(model.getFecha().toString());
             dto.setMonto(model.getMonto().toString());
             dto.setNotas(model.getNotas());
-            dto.setRecibo(model.getRecibo());
             dto.setRendido(model.getRendido().toString());
 
             if (model.getCajaId() != null) {
@@ -89,6 +86,8 @@ public class AdelantoMapper {
                 ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor con id: " + model.getConductorId() + "."));
                 dto.setConductor(conductorModel.getNombre());
             }
+            if (model.getReciboId() != null)
+                dto.setRecibo(model.getReciboId().toString());
 
             if (model.getCreadorId() != null) {
                 UsuarioModel usuarioModel = usuarioDAO.findByIdAndEliminadaIsNull(model.getCreadorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el creador con id: " + model.getCreadorId() + "."));

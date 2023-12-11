@@ -3,48 +3,56 @@
     <div class="row q-pa-md">
       <div class="col">
         <q-table
-          title="Seguros"
+          title="Adelantos"
           :columns="columnas"
           rows-per-page-label="Registros por pagina"
           no-data-label="Sin datos para mostrar"
           :pagination="paginacion"
           hide-no-data
-          :rows="seguros"
+          :rows="adelantos"
           row-key="id"
         >
           <template v-slot:top-left>
             <div class="column">
-              <p class="text-h5">Seguros</p>
-              <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo seguro" @click="fMostrarNuevoSeguro" />
+              <p class="text-h5">Adelantos</p>
+              <q-btn class="paleta2-fondo2 paleta1-color1 q-mb-lg" icon="add_circle" label="Nuevo adelanto" @click="fMostrarNuevoAdelanto" />
             </div>
           </template>
           <template v-slot:top-right>
             <div class="column items-end">
               <div class="q-my-md">
-                <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar seguros por" dropdown-icon="fa-solid fa-magnifying-glass">
+                <q-btn-dropdown class="paleta2-fondo2 paleta1-color1" label="Buscar adelantos por" dropdown-icon="fa-solid fa-magnifying-glass">
                   <q-list>
-                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAcoplado">
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCaja">
                       <q-item-section avatar>
-                        <q-icon name="fa-solid fa-trailer" />
+                        <q-icon name="paid" />
                       </q-item-section>
                       <q-item-section>
-                        <q-item-label>Acoplado</q-item-label>
+                        <q-item-label>Caja</q-item-label>
                       </q-item-section>
                     </q-item>
-                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarAseguradora">
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarConductor">
                       <q-item-section avatar>
-                        <q-icon name="fa-solid fa-car-burst" />
+                        <q-icon name="airline_seat_recline_extra" />
                       </q-item-section>
                       <q-item-section>
-                        <q-item-label>Aseguradora</q-item-label>
+                        <q-item-label>Conductor</q-item-label>
                       </q-item-section>
                     </q-item>
-                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarCamion">
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarFecha">
                       <q-item-section avatar>
-                        <q-icon name="fa-solid fa-truck" />
+                        <q-icon name="fa-solid fa-calendar-days" />
                       </q-item-section>
                       <q-item-section>
-                        <q-item-label>Camion</q-item-label>
+                        <q-item-label>Fecha</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarMonto">
+                      <q-item-section avatar>
+                        <q-icon name="fa-solid fa-money-bill-1-wave" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>Monto</q-item-label>
                       </q-item-section>
                     </q-item>
                     <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarNotas">
@@ -55,35 +63,27 @@
                         <q-item-label>Notas</q-item-label>
                       </q-item-section>
                     </q-item>
-                    <q-item clickable v-close-popup class="desplegable paleta2-fondo2 paleta1-color1" @click="fMostrarVencimiento">
-                      <q-item-section avatar>
-                        <q-icon name="fa-solid fa-calendar-days" />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label>Vencimiento</q-item-label>
-                      </q-item-section>
-                    </q-item>
                   </q-list>
                 </q-btn-dropdown>
               </div>
               <div class="col">
                 <q-select
-                  v-if="editAcoplado"
+                  v-if="editCaja"
                   outlined
                   dense
                   emit-value
                   map-options
                   clearable
-                  v-model="acoplado"
+                  v-model="caja"
                   option-value="id"
-                  option-label="marcaModelo"
-                  label="Buscar por modelo acoplado"
+                  option-label="caja"
+                  label="Buscar por caja"
                   use-input
                   hide-selected
                   fill-input
-                  :options="acoplados"
-                  @filter="fFiltrarAcoplados"
-                  @update:model-value="afBuscarPorAcopladoId()"
+                  :options="cajas"
+                  @filter="fFiltrarCajas"
+                  @update:model-value="afBuscarPorCajaId()"
                   hint="Tenés que escribir al menos 3 caracteres para buscar."
                 >
                   <template v-slot:no-option>
@@ -93,21 +93,21 @@
                   </template>
                 </q-select>
                 <q-select
-                  v-if="editAseguradora"
+                  v-if="editConductor"
                   outlined
                   dense
                   emit-value
                   map-options
                   clearable
-                  v-model="aseguradora"
-                  :options="aseguradoras"
+                  v-model="conductor"
+                  :options="conductores"
                   option-value="id"
                   option-label="nombre"
-                  label="Buscar por aseguradora"
+                  label="Buscar por conductor"
                   use-input
                   input-debounce="0"
-                  @filter="fFiltrarAseguradoras"
-                  @update:model-value="afBuscarPorAseguradoraId()"
+                  @filter="fFiltrarConductores"
+                  @update:model-value="afBuscarPorConductorId()"
                   hint="Tenés que escribir al menos 3 caracteres para buscar."
                 >
                   <template v-slot:no-option>
@@ -116,30 +116,107 @@
                     </q-item>
                   </template>
                 </q-select>
-                <q-select
-                  v-if="editCamion"
-                  outlined
-                  dense
-                  emit-value
-                  map-options
-                  clearable
-                  v-model="camion"
-                  :options="camiones"
-                  option-value="id"
-                  option-label="marcaModelo"
-                  label="Buscar por camión"
-                  use-input
-                  input-debounce="0"
-                  @filter="fFiltrarCamiones"
-                  @update:model-value="afBuscarPorCamionId()"
-                  hint="Tenés que escribir al menos 3 caracteres para buscar."
-                >
-                  <template v-slot:no-option>
-                    <q-item>
-                      <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                    </q-item>
-                  </template>
-                </q-select>
+                <div class="column" v-if="editFecha">
+                  <div class="row justify-around">
+                    <q-input
+                      mask="##-##-####"
+                      style="width: 180px"
+                      v-model="fecha.from"
+                      outlined
+                      dense
+                      clearable
+                      label="Fecha fin"
+                      hint="20-01-2020"
+                    >
+                      <template v-slot:before>
+                        <q-icon name="event" class="cursor-pointer">
+                          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                            <q-date v-model="fecha.from" mask="DD-MM-YYYY" :locale="myLocale">
+                              <div class="row items-center justify-end">
+                                <q-btn v-close-popup label="OK" color="primary" flat />
+                              </div>
+                            </q-date>
+                          </q-popup-proxy>
+                        </q-icon>
+                      </template>
+                    </q-input>
+                    <q-input
+                      class="q-ml-md"
+                      mask="##-##-####"
+                      style="width: 180px"
+                      v-model="fecha.to"
+                      outlined
+                      dense
+                      clearable
+                      label="Fecha inicio"
+                      hint="30-01-2020"
+                    >
+                      <template v-slot:before>
+                        <q-icon name="event" class="cursor-pointer">
+                          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                            <q-date v-model="fecha.to" mask="DD-MM-YYYY" :locale="myLocale">
+                              <div class="row items-center justify-end">
+                                <q-btn v-close-popup label="OK" color="primary" flat />
+                              </div>
+                            </q-date>
+                          </q-popup-proxy>
+                        </q-icon>
+                      </template>
+                    </q-input>
+                    <div class="col">
+                      <q-icon
+                        name="fa-solid fa-magnifying-glass"
+                        size="24px"
+                        class="cursor-pointer q-pa-sm edits"
+                        v-on:click="afBuscarPorFecha()"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="column" v-if="editMonto">
+                  <div class="row justify-between">
+                    <div class="col">
+                      <q-chip
+                        v-model:selected="montoChip.izq"
+                        :class="{ 'paleta2-fondo2': montoChip.izq, 'edits-fondo': !montoChip.izq }"
+                        text-color="white"
+                        size="12px"
+                        icon="fa-solid fa-minus"
+                        @update:selected="afBuscarPorMonto()"
+                      >
+                        Mínimo
+                      </q-chip>
+                    </div>
+                    <div class="edits col text-center">
+                      <span>Buscar por monto</span><br />
+                      <q-icon name="fa-solid fa-plus-minus" />
+                    </div>
+                    <div class="col text-right">
+                      <q-chip
+                        v-model:selected="montoChip.der"
+                        :class="{ 'paleta2-fondo2': montoChip.der, 'edits-fondo': !montoChip.der }"
+                        text-color="white"
+                        size="12px"
+                        icon="fa-solid fa-plus"
+                        @update:selected="afBuscarPorMonto()"
+                      >
+                        Máximo
+                      </q-chip>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <q-range
+                      label-always
+                      switch-label-side
+                      color="grey-6"
+                      v-model="monto"
+                      :min="1"
+                      :max="1000"
+                      label
+                      @change="(montoChip.izq = false), (montoChip.der = false)"
+                    />
+                  </div>
+                </div>
                 <q-input
                   v-if="editNotas"
                   outlined
@@ -164,58 +241,6 @@
                     />
                   </template>
                 </q-input>
-                <div class="column" v-if="editVencimiento">
-                  <div class="row justify-around">
-                      <q-input
-                        mask="##-##-####"
-                        style="width: 180px"
-                        v-model="vencimiento.from"
-                        outlined
-                        dense
-                        clearable
-                        label="Vencimiento inicio"
-                        hint="20-01-2020"
-                      >
-                        <template v-slot:before>
-                          <q-icon name="event" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                              <q-date v-model="vencimiento.from" mask="DD-MM-YYYY">
-                                <div class="row items-center justify-end">
-                                  <q-btn v-close-popup label="OK" color="primary" flat />
-                                </div>
-                              </q-date>
-                            </q-popup-proxy>
-                          </q-icon>
-                        </template>
-                      </q-input>
-                      <q-input
-                        class="q-ml-md"
-                        mask="##-##-####"
-                        style="width: 180px"
-                        v-model="vencimiento.to"
-                        outlined
-                        dense
-                        clearable
-                        label="Vencimiento fin"
-                        hint="30-01-2020"
-                      >
-                        <template v-slot:before>
-                          <q-icon name="event" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                              <q-date v-model="vencimiento.to" mask="DD-MM-YYYY">
-                                <div class="row items-center justify-end">
-                                  <q-btn v-close-popup label="OK" color="primary" flat />
-                                </div>
-                              </q-date>
-                            </q-popup-proxy>
-                          </q-icon>
-                        </template>
-                      </q-input>
-                    <div class="col">
-                      <q-icon name="fa-solid fa-magnifying-glass" size="24px" class="cursor-pointer q-pa-sm edits" v-on:click="afBuscarPorVencimiento()" />
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </template>
@@ -241,7 +266,7 @@
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
                   dense
-                  @click="fMostrarEditarSeguro(props)"
+                  @click="fMostrarEditarAdelanto(props)"
                 >
                   <q-icon size="2em" class="q-pa-xs" name="edit" />
                   <q-tooltip>
@@ -254,7 +279,7 @@
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
                   dense
-                  @click="fMostrarEliminarSeguro(props)"
+                  @click="fMostrarEliminarAdelanto(props)"
                 >
                   <q-icon size="2em" class="q-pa-xs" name="delete" />
                   <q-tooltip>
@@ -267,7 +292,7 @@
                   class="text-white paleta5-fondo2 q-mr-xs"
                   round
                   dense
-                  @click="fMostrarReciclarSeguro(props)"
+                  @click="fMostrarReciclarAdelanto(props)"
                 >
                   <q-icon size="2em" class="q-pa-xs" name="recycling" />
                   <q-tooltip>
@@ -275,17 +300,25 @@
                   </q-tooltip>
                 </q-btn>
               </q-td>
-              <q-td v-if="props.row.acoplado !== null">
-                Acoplado: {{ props.row.acoplado }}
-              </q-td>
-              <q-td v-if="props.row.camion !== null">
-                Camión: {{ props.row.camion }}
+              <q-td class="text-center">
+                {{ fFormatoFecha(props.row.fecha) }}
               </q-td>
               <q-td>
-                {{ props.row.aseguradora }}
+                {{ props.row.conductor }}
+              </q-td>
+              <q-td class="text-center">
+                {{ props.row.monto }}
               </q-td>
               <q-td>
-                {{ fFormatoFecha(props.row.vencimiento) }}
+                {{ props.row.caja }}
+              </q-td>
+              <q-td class="text-center">
+                <q-chip v-if="props.row.rendido === 'true'" color="teal" text-color="white" icon="done">
+                  Rendido
+                </q-chip>
+                <q-chip v-if="props.row.rendido === 'false'" color="red" text-color="white" icon="close">
+                  No rendido
+                </q-chip>
               </q-td>
             </q-tr>
             <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
@@ -295,21 +328,28 @@
                     <div class="row text-white">{{ props.row.id }}</div>
                     <div class="row paleta1-color2">Id</div>
                   </div>
-                  <div v-if="props.row.acoplado != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                    <div class="row text-white">{{ props.row.acoplado }}</div>
-                    <div class="row paleta1-color2">Acoplado</div>
+                  <div v-if="props.row.caja != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.caja }}</div>
+                    <div class="row paleta1-color2">Caja</div>
                   </div>
-                  <div v-if="props.row.aseguradora != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
-                    <div class="row text-white">{{ props.row.aseguradora }}</div>
-                    <div class="row paleta1-color2">Aseguradora</div>
+                  <div v-if="props.row.conductor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">{{ props.row.conductor }}</div>
+                    <div class="row paleta1-color2">Conductor</div>
                   </div>
-                  <div v-if="props.row.camion != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                    <div class="row text-white">{{ props.row.camion }}</div>
-                    <div class="row paleta1-color2">Camión</div>
+                  <div v-if="props.row.fecha != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ fFormatoFecha(props.row.fecha) }}</div>
+                    <div class="row paleta1-color2">Fecha</div>
                   </div>
-                  <div v-if="props.row.vencimiento != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
-                    <div class="row text-white">{{ fFormatoFecha(props.row.vencimiento) }}</div>
-                    <div class="row paleta1-color2">Vencimiento</div>
+                  <div v-if="props.row.monto != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ props.row.monto }}</div>
+                    <div class="row paleta1-color2">Precio por litro</div>
+                  </div>
+                  <div v-if="props.row.rendido != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
+                    <div class="row text-white">
+                      <span v-if="props.row.rendido === 'true'">Si</span>
+                      <span v-if="props.row.rendido === 'false'">No</span>
+                    </div>
+                    <div class="row paleta1-color2">Rendido</div>
                   </div>
                   <div v-if="props.row.creador != null && autoridad === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creador }}</div>
@@ -348,7 +388,7 @@
     </div>
   </q-card>
 
-  <q-dialog v-model="nuevoSeguroDialog" persistent transition-show="fade" transition-hide="fade">
+  <q-dialog v-model="nuevoAdelantoDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
         <div class="text-h6 text-grey-8">{{ titulo }}</div>
@@ -359,122 +399,25 @@
         <q-icon name="img:/icons/numeros/number1.svg" size="3em" class="svg-primary" :class="{ 'svg-accent': paso1 }" />
       </div>
       <q-card-section v-if="paso1">
-        <q-form v-on:submit.prevent="fGuardarSeguro">
+        <q-form v-on:submit.prevent="fGuardarAdelanto">
           <div class="row justify-around">
-            <div class="col-xs-6 q-pa-md">
-              <q-select
-                class="nuevo-input"
-                outlined
-                dense
-                clearable
-                v-model="tipoVehiculo"
-                :rules="[reglas.requerido]"
-                :options="vehiculos"
-                label="Tipo vehículo"
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-xs-6 q-pa-md">
-              <q-select
-                v-if="tipoVehiculo === 'Acoplado'"
-                class="nuevo-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="seguroCreation.acopladoId"
-                :options="acoplados"
-                option-value="id"
-                option-label="marcaModelo"
-                label="Acoplado"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarAcoplados"
-                hint="Ingresá 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            <div class="row justify-around">
-            </div>
-              <q-select
-                v-if="tipoVehiculo === 'Camión'"
-                class="nuevo-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="seguroCreation.camionId"
-                :options="camiones"
-                option-value="id"
-                option-label="marcaModelo"
-                label="Camión"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarCamiones"
-                hint="Ingresá 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-xs-6 q-pa-md">
-              <q-select
-                class="nuevo-input"
-                outlined
-                dense
-                emit-value
-                map-options
-                clearable
-                v-model="seguroCreation.aseguradoraId"
-                :options="aseguradoras"
-                option-value="id"
-                option-label="nombre"
-                label="Aseguradora"
-                use-input
-                input-debounce="0"
-                @filter="fFiltrarAseguradoras"
-                hint="Ingresá 3 caracteres para buscar."
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
-            <div class="row justify-around">
-            </div>
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
                 mask="##-##-####"
-                v-model="seguroCreation.vencimiento"
+                v-model="adelantoCreation.fecha"
                 :rules="[reglas.requerido]"
                 outlined
                 dense
                 readonly
                 clearable
-                label="Vencimiento póliza"
+                label="Fecha"
                 hint="Formato dd-mm-yyyy."
               >
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-date v-model="seguroCreation.vencimiento" mask="DD-MM-YYYY" :locale="myLocale">
+                      <q-date v-model="adelantoCreation.fecha" mask="DD-MM-YYYY" :locale="myLocale">
                         <div class="row items-center justify-end">
                           <q-btn v-close-popup label="OK" color="primary" flat />
                         </div>
@@ -487,18 +430,110 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
+                v-model="adelantoCreation.monto"
+                :rules="[reglas.requerido]"
+                mask="#.##"
+                fill-mask="0"
+                reverse-fill-mask
+                outlined
+                dense
+                clearable
+                label="Precio por litro"
+                hint="Ingresá un número."
+              >
+              </q-input>
+            </div>
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
+              <q-select
+                class="nuevo-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="adelantoCreation.cajaId"
+                :rules="[reglas.requerido]"
+                :options="cajas"
+                option-value="id"
+                option-label="caja"
+                label="Caja"
+                use-input
+                input-debounce="0"
+                @filter="fFiltrarCajas"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-xs-6 q-pa-md">
+              <q-select
+                class="nuevo-input"
+                outlined
+                dense
+                emit-value
+                map-options
+                clearable
+                v-model="adelantoCreation.conductorId"
+                :rules="[reglas.requerido]"
+                option-value="id"
+                option-label="nombre"
+                label="Conductor"
+                use-input
+                hide-selected
+                fill-input
+                :options="conductores"
+                @filter="fFiltrarConductores"
+                hint="Ingresá 3 caracteres para buscar."
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey"> Sin resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+          </div>
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md text-center">
+              <q-toggle
+                v-model="adelantoCreation.rendido"
+                icon="open"
+                label="Rendido"
+              />
+            </div>
+            <div class="col-xs-6 q-pa-md text-center">
+              <q-toggle
+                v-model="adelantoCreation.recibo"
+                icon="open"
+                label="¿Imprimir recibo?"
+              />
+            </div>
+          </div>
+          {{ HAY QUE TERMINAR ACA }}
+          <div class="row justify-around">
+            <div class="col-xs-6 q-pa-md">
+              <q-input
+                class="nuevo-input"
                 type="textarea"
-                v-model="seguroCreation.notas"
+                v-model="adelantoCreation.notas"
                 autogrow
                 outlined
                 dense
                 clearable
                 label="Notas"
-              >
-              </q-input>
+              />
             </div>
           </div>
-          <div class="row justify-end q-pa-md">
+          <div class="row justify-between q-pa-md">
+            <q-btn class="paleta2-color2 bg-white" v-close-popup icon="close" ripple>
+              Cerrar
+            </q-btn>
             <q-btn class="paleta2-fondo2 text-white" type="submit" icon-right="save" ripple >
               Finalizar
             </q-btn>
@@ -511,16 +546,15 @@
 
 <script>
 
-import { acopladoService } from 'src/services/acoplado_service'
+import { AdelantoCreation } from 'src/models/creation/adelanto_creation'
+import { adelantoService } from 'src/services/adelanto_service'
 import { ayuda } from 'app/src/helpers/ayuda'
-import { camionService } from 'src/services/camion_service'
+import { cajaService } from 'src/services/caja_service'
+import { conductorService } from 'src/services/conductor_service'
 import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
-import { proveedorService } from 'src/services/proveedor_service'
 import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
-import { SeguroCreation } from 'src/models/creation/seguro_creation'
-import { seguroService } from 'src/services/seguro_service'
 import { useQuasar } from 'quasar'
 
 const paginacion = {
@@ -535,24 +569,38 @@ const columnas = [
     align: 'center'
   },
   {
-    name: 'vehiculo',
-    label: 'Vehiculo',
-    align: 'left',
-    field: 'vehiculo',
+    name: 'fecha',
+    label: 'Fecha',
+    align: 'center',
+    field: 'fecha',
     sortable: true
   },
   {
-    name: 'aseguradora',
-    label: 'Aseguradora',
+    name: 'conductor',
+    label: 'Conductor',
     align: 'left',
-    field: 'aseguradora',
+    field: 'conductor',
     sortable: true
   },
   {
-    name: 'vencimiento',
-    label: 'Vencimiento',
+    name: 'monto',
+    label: 'Monto',
+    align: 'center',
+    field: 'monto',
+    sortable: true
+  },
+  {
+    name: 'caja',
+    label: 'Caja',
     align: 'left',
-    field: 'vencimiento',
+    field: 'caja',
+    sortable: true
+  },
+  {
+    name: 'rendido',
+    label: 'Rendido',
+    align: 'center',
+    field: 'rendido',
     sortable: true
   }
 ]
@@ -560,63 +608,59 @@ const columnas = [
 export default {
   setup () {
     const $q = useQuasar()
+
+    const adelantoCreation = reactive(new AdelantoCreation())
+    const adelantos = ref([])
+    const autoridad = ref(ayuda.getAutoridad())
+    const caja = ref(null)
+    const cajas = ref([])
+    const cajasList = ref([])
+    const conductor = ref(null)
+    const conductores = ref([])
+    const conductoresList = ref([])
+    const descripcion = ref(null)
+    const editCaja = ref(false)
+    const editConductor = ref(false)
+    const editDescripcion = ref(false)
+    const editFecha = ref(false)
+    const editMonto = ref(false)
+    const editNotas = ref(false)
+    const fecha = ref({ from: null, to: null })
+    const monto = ref({ min: 1, max: 1000 })
+    const montoChip = ref({ izq: false, der: false })
+    const notas = ref(null)
+    const nuevoAdelantoDialog = ref(false)
+    const paso1 = ref(true)
     const reglas = reactive(reglasValidacion.reglas)
     const sesion = ref(ayuda.getUid())
-    const autoridad = ref(ayuda.getAutoridad())
-
-    const acoplado = ref(null)
-    const acoplados = ref([])
-    const acopladosList = ref([])
-    const aseguradora = ref(null)
-    const aseguradoras = ref([])
-    const aseguradorasList = ref([])
-    const camion = ref(null)
-    const camiones = ref([])
-    const camionesList = ref([])
-    const notas = ref(null)
-    const tipoVehiculo = ref(null)
-    const vencimiento = ref({ from: null, to: null })
-    const vencimientos = ref([])
-
-    const editAseguradora = ref(false)
-    const editAcoplado = ref(false)
-    const editCamion = ref(false)
-    const editNotas = ref(false)
-    const editVencimiento = ref(false)
-
-    const nuevaBusqueda = ref(false)
-    const nuevoSeguroDialog = ref(false)
-    const paso1 = ref(true)
-    const seguroCreation = reactive(new SeguroCreation())
-    const seguros = ref([])
     const titulo = ref(null)
 
     afBuscarPaginadas()
 
-    async function afBuscarAcoplados () {
+    async function afBuscarCajas () {
       $q.loading.show()
       try {
         let resultado = null
         if (autoridad.value === 'admin') {
-          if (llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConEliminadasConSesion', sesion.value) !== null) {
-            acopladosList.value = llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConEliminadasConSesion', sesion.value).value
-            console.log('AcopladoService: Sesion recargada, con eliminadas.')
+          if (llaveroService.obtenerDeLocalConSesion('hhCajaTodasConEliminadasConSesion', sesion.value) !== null) {
+            cajasList.value = llaveroService.obtenerDeLocalConSesion('hhCajaTodasConEliminadasConSesion', sesion.value).value
+            console.log('CajaService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await acopladoService.spfBuscarTodasConEliminadasConSesion(sesion.value)
+            resultado = await cajaService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
-              acopladosList.value = resultado.data
-              console.log('AcopladoService: ' + resultado.headers.mensaje)
+              cajasList.value = resultado.data
+              console.log('CajaService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConSesion', sesion.value) !== null) {
-            acopladosList.value = llaveroService.obtenerDeLocalConSesion('hhAcopladoTodasConSesion', sesion.value).value
-            console.log('AcopladoService: Sesion recargada.')
+          if (llaveroService.obtenerDeLocalConSesion('hhCajaTodasConSesion', sesion.value) !== null) {
+            cajasList.value = llaveroService.obtenerDeLocalConSesion('hhCajaTodasConSesion', sesion.value).value
+            console.log('CajaService: Sesion recargada.')
           } else {
-            resultado = await acopladoService.spfBuscarTodasConSesion(sesion.value)
+            resultado = await cajaService.spfBuscarTodasConSesion(sesion.value)
             if (resultado.status === 200) {
-              acopladosList.value = resultado.data
-              console.log('AcopladoService: ' + resultado.headers.mensaje)
+              cajasList.value = resultado.data
+              console.log('CajaService: ' + resultado.headers.mensaje)
             }
           }
         }
@@ -635,72 +679,30 @@ export default {
       }
     }
 
-    async function afBuscarAseguradoras () {
+    async function afBuscarConductores () {
       $q.loading.show()
       try {
         let resultado = null
         if (autoridad.value === 'admin') {
-          if (llaveroService.obtenerDeLocalConSesion('hhProveedorTodasConEliminadasConSesion', sesion.value) !== null) {
-            aseguradorasList.value = llaveroService.obtenerDeLocalConSesion('hhProveedorTodasConEliminadasConSesion', sesion.value).value
-            console.log('ProveedorService: Sesion recargada, con eliminadas.')
+          if (llaveroService.obtenerDeLocalConSesion('hhConductorTodasConEliminadasConSesion', sesion.value) !== null) {
+            conductoresList.value = llaveroService.obtenerDeLocalConSesion('hhConductorTodasConEliminadasConSesion', sesion.value).value
+            console.log('ConductorService: Sesion recargada, con eliminadas.')
           } else {
-            resultado = await proveedorService.spfBuscarTodasConEliminadasConSesion(sesion.value)
+            resultado = await conductorService.spfBuscarTodasConEliminadasConSesion(sesion.value)
             if (resultado.status === 200) {
-              aseguradorasList.value = resultado.data
-              console.log('ProveedorService: ' + resultado.headers.mensaje)
+              conductoresList.value = resultado.data
+              console.log('ConductorService: ' + resultado.headers.mensaje)
             }
           }
         } else {
-          if (llaveroService.obtenerDeLocalConSesion('hhProveedorTodasConSesion', sesion.value) !== null) {
-            aseguradorasList.value = llaveroService.obtenerDeLocalConSesion('hhProveedorTodasConSesion', sesion.value).value
-            console.log('ProveedorService: Sesion recargada.')
+          if (llaveroService.obtenerDeLocalConSesion('hhConductorTodasConSesion', sesion.value) !== null) {
+            conductoresList.value = llaveroService.obtenerDeLocalConSesion('hhConductorTodasConSesion', sesion.value).value
+            console.log('ConductorService: Sesion recargada.')
           } else {
-            resultado = await proveedorService.spfBuscarTodasConSesion(sesion.value)
+            resultado = await conductorService.spfBuscarTodasConSesion(sesion.value)
             if (resultado.status === 200) {
-              aseguradorasList.value = resultado.data
-              console.log('ProveedorService: ' + resultado.headers.mensaje)
-            }
-          }
-        }
-        $q.loading.hide()
-      } catch (err) {
-        console.clear()
-        if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
-      }
-    }
-
-    async function afBuscarCamiones () {
-      $q.loading.show()
-      try {
-        let resultado = null
-        if (autoridad.value === 'admin') {
-          if (llaveroService.obtenerDeLocalConSesion('hhCamionTodasConEliminadasConSesion', sesion.value) !== null) {
-            camionesList.value = llaveroService.obtenerDeLocalConSesion('hhCamionTodasConEliminadasConSesion', sesion.value).value
-            console.log('CamionService: Sesion recargada, con eliminadas.')
-          } else {
-            resultado = await camionService.spfBuscarTodasConEliminadasConSesion(sesion.value)
-            if (resultado.status === 200) {
-              camionesList.value = resultado.data
-              console.log('CamionService: ' + resultado.headers.mensaje)
-            }
-          }
-        } else {
-          if (llaveroService.obtenerDeLocalConSesion('hhCamionTodasConSesion', sesion.value) !== null) {
-            camionesList.value = llaveroService.obtenerDeLocalConSesion('hhCamionTodasConSesion', sesion.value).value
-            console.log('CamionService: Sesion recargada.')
-          } else {
-            resultado = await camionService.spfBuscarTodasConSesion(sesion.value)
-            if (resultado.status === 200) {
-              camionesList.value = resultado.data
-              console.log('CamionService: ' + resultado.headers.mensaje)
+              conductoresList.value = resultado.data
+              console.log('ConductorService: ' + resultado.headers.mensaje)
             }
           }
         }
@@ -730,19 +732,19 @@ export default {
         }
         let resultado = null
         if (autoridad.value === 'admin') {
-          resultado = await seguroService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
+          resultado = await adelantoService.spfBuscarTodasConEliminadasPaginadas(paginadoDTO)
         } else {
-          resultado = await seguroService.spfBuscarTodasPaginadas(paginadoDTO)
+          resultado = await adelantoService.spfBuscarTodasPaginadas(paginadoDTO)
         }
         if (resultado.status === 200) {
-          seguros.value = resultado.data.content
+          adelantos.value = resultado.data.content
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
         }
       } catch (err) {
         console.clear()
         if (err.response.status === 404) {
-          seguros.value = []
+          adelantos.value = []
           console.info(err.response.headers.mensaje)
           notificarService.infoAlerta(err.response.headers.mensaje)
         } else if (err.response.headers.mensaje) {
@@ -757,25 +759,25 @@ export default {
       }
     }
 
-    async function afBuscarPorAcopladoId () {
-      if (acoplado.value != null) {
+    async function afBuscarPorCajaId () {
+      if (caja.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (autoridad.value === 'admin') {
-            resultado = await seguroService.spfBuscarTodasPorAcopladoIdConEliminadas(acoplado.value)
+            resultado = await adelantoService.spfBuscarTodasPorCajaIdConEliminadas(caja.value)
           } else {
-            resultado = await seguroService.spfBuscarTodasPorAcopladoId(acoplado.value)
+            resultado = await adelantoService.spfBuscarTodasPorCajaId(caja.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            seguros.value = resultado.data
+            adelantos.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            seguros.value = []
+            adelantos.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -791,25 +793,25 @@ export default {
       }
     }
 
-    async function afBuscarPorAseguradoraId () {
-      if (aseguradora.value != null) {
+    async function afBuscarPorConductorId () {
+      if (conductor.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (autoridad.value === 'admin') {
-            resultado = await seguroService.spfBuscarTodasPorAseguradoraIdConEliminadas(aseguradora.value)
+            resultado = await adelantoService.spfBuscarTodasPorConductorIdConEliminadas(conductor.value)
           } else {
-            resultado = await seguroService.spfBuscarTodasPorAseguradoraId(aseguradora.value)
+            resultado = await adelantoService.spfBuscarTodasPorConductorId(conductor.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            seguros.value = resultado.data
+            adelantos.value = resultado.data
             $q.loading.hide()
           }
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            seguros.value = []
+            adelantos.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -825,25 +827,25 @@ export default {
       }
     }
 
-    async function afBuscarPorCamionId () {
-      if (camion.value != null) {
+    async function afBuscarPorDescripcion () {
+      if (descripcion.value != null) {
         $q.loading.show()
         try {
           let resultado = null
           if (autoridad.value === 'admin') {
-            resultado = await seguroService.spfBuscarTodasPorCamionIdConEliminadas(camion.value)
+            resultado = await adelantoService.spfBuscarTodasPorDescripcionConEliminadas(descripcion.value)
           } else {
-            resultado = await seguroService.spfBuscarTodasPorCamionId(camion.value)
+            resultado = await adelantoService.spfBuscarTodasPorDescripcion(descripcion.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            seguros.value = resultado.data
+            adelantos.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            seguros.value = []
+            adelantos.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -856,6 +858,82 @@ export default {
           }
           $q.loading.hide()
         }
+      }
+    }
+
+    async function afBuscarPorFecha () {
+      if (fecha.value.from == null) {
+        notificarService.notificarAlerta('El campo fecha desde no puede estar vacio.')
+      } else if (fecha.value.to == null) {
+        notificarService.notificarAlerta('El campo fecha hasta no puede estar vacio.')
+      } else if (fecha.value.from > fecha.value.to) {
+        notificarService.notificarAlerta('El campo fecha desde no puede ser mayor que fecha hasta.')
+      } else {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value === 'admin') {
+            resultado = await adelantoService.spfBuscarTodasPorFechaEntreConEliminadas(ayuda.fFormatearDeDatePicker(fecha.value.from), ayuda.fFormatearDeDatePicker(fecha.value.to))
+          } else {
+            resultado = await adelantoService.spfBuscarTodasPorFechaEntre(ayuda.fFormatearDeDatePicker(fecha.value.from), ayuda.fFormatearDeDatePicker(fecha.value.to))
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            adelantos.value = resultado.data
+          }
+          $q.loading.hide()
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            adelantos.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+
+    async function afBuscarPorMonto () {
+      if (montoChip.value.izq === true && montoChip.value.der === true) {
+        $q.loading.show()
+        try {
+          let resultado = null
+          if (autoridad.value === 'admin') {
+            resultado = await adelantoService.spfBuscarTodasPorMontoEntreConEliminadas(monto.value.min, monto.value.max)
+          } else {
+            resultado = await adelantoService.spfBuscarTodasPorMontoEntre(monto.value.min, monto.value.max)
+          }
+          if (resultado.status === 200) {
+            console.log(resultado.headers.mensaje)
+            adelantos.value = resultado.data
+            $q.loading.hide()
+          }
+        } catch (err) {
+          console.clear()
+          if (err.response.status === 404) {
+            adelantos.value = []
+            console.info(err.response.headers.mensaje)
+            notificarService.infoAlerta(err.response.headers.mensaje)
+          } else if (err.response.headers.mensaje) {
+            console.warn('Advertencia: ' + err.response.headers.mensaje)
+            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+          } else {
+            const mensaje = 'Hubo un error al intentar obtener el listado.'
+            notificarService.notificarError(mensaje)
+            console.error(mensaje)
+          }
+          $q.loading.hide()
+        }
+        montoChip.value.izq = false
+        montoChip.value.der = false
       }
     }
 
@@ -865,19 +943,19 @@ export default {
         try {
           let resultado = null
           if (autoridad.value === 'admin') {
-            resultado = await seguroService.spfBuscarTodasPorNotasConEliminadas(notas.value)
+            resultado = await adelantoService.spfBuscarTodasPorNotasConEliminadas(notas.value)
           } else {
-            resultado = await seguroService.spfBuscarTodasPorNotas(notas.value)
+            resultado = await adelantoService.spfBuscarTodasPorNotas(notas.value)
           }
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
-            seguros.value = resultado.data
+            adelantos.value = resultado.data
           }
           $q.loading.hide()
         } catch (err) {
           console.clear()
           if (err.response.status === 404) {
-            seguros.value = []
+            adelantos.value = []
             console.info(err.response.headers.mensaje)
             notificarService.infoAlerta(err.response.headers.mensaje)
           } else if (err.response.headers.mensaje) {
@@ -893,61 +971,42 @@ export default {
       }
     }
 
-    async function afBuscarPorVencimiento () {
-      if (vencimiento.value.from == null) {
-        notificarService.notificarAlerta('El campo vencimiento desde no puede estar vacio.')
-      } else if (vencimiento.value.to == null) {
-        notificarService.notificarAlerta('El campo vencimiento hasta no puede estar vacio.')
-      } else if (vencimiento.value.from > vencimiento.value.to) {
-        notificarService.notificarAlerta('El campo vencimiento desde no puede ser mayor que vencimiento hasta.')
-      } else {
-        $q.loading.show()
-        try {
-          let resultado = null
-          if (autoridad.value === 'admin') {
-            resultado = await seguroService.spfBuscarTodasPorVencimientoEntreFechasConEliminadas(
-              ayuda.fFormatearDeDatePicker(vencimiento.value.from),
-              ayuda.fFormatearDeDatePicker(vencimiento.value.to)
-            )
-          } else {
-            resultado = await seguroService.spfBuscarTodasPorVencimientoEntreFechas(
-              ayuda.fFormatearDeDatePicker(vencimiento.value.from),
-              ayuda.fFormatearDeDatePicker(vencimiento.value.to)
-            )
-          }
-          if (resultado.status === 200) {
-            console.log(resultado.headers.mensaje)
-            seguros.value = resultado.data
-          }
-          $q.loading.hide()
-        } catch (err) {
-          console.clear()
-          if (err.response.status === 404) {
-            seguros.value = []
-            console.info(err.response.headers.mensaje)
-            notificarService.infoAlerta(err.response.headers.mensaje)
-          } else if (err.response.headers.mensaje) {
-            console.warn('Advertencia: ' + err.response.headers.mensaje)
-            notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-          } else {
-            const mensaje = 'Hubo un error al intentar obtener el listado.'
-            notificarService.notificarError(mensaje)
-            console.error(mensaje)
-          }
-          $q.loading.hide()
-        }
-      }
-    }
-
-    async function afGuardarSeguro () {
+    async function afEliminarAdelanto (id) {
       $q.loading.show()
       try {
         let resultado = null
-        resultado = await seguroService.spfGuardar(seguroCreation)
+        resultado = await adelantoService.spfBorrar(id)
+        if (resultado.status === 200) {
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+          notificarService.notificarExito('Se borró correctamente el adelanto.')
+        }
+      } catch (err) {
+        console.clear()
+        if (err.response.status === 404) {
+          console.info(err.response.headers.mensaje)
+          notificarService.infoAlerta(err.response.headers.mensaje)
+        } else if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afGuardarAdelanto () {
+      $q.loading.show()
+      try {
+        let resultado = null
+        resultado = await adelantoService.spfGuardar(adelantoCreation)
         if (resultado.status === 201) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
-          notificarService.notificarExito('Se creó correctamente el seguro.')
+          notificarService.notificarExito('Se creó correctamente el adelanto.')
         }
       } catch (err) {
         if (err.response.status === 404) {
@@ -969,24 +1028,24 @@ export default {
       return ayuda.getDateWithFormat(fecha)
     }
 
-    function fGuardarSeguro () {
-      afGuardarSeguro().then(() => {
+    function fGuardarAdelanto () {
+      afGuardarAdelanto().then(() => {
         afBuscarPaginadas().then(() => {
-          nuevoSeguroDialog.value = false
+          nuevoAdelantoDialog.value = false
           fIrPaso1()
         })
       })
     }
 
-    async function afEliminarSeguro (id) {
+    async function afReciclarAdelanto (id) {
       $q.loading.show()
       try {
         let resultado = null
-        resultado = await seguroService.spfBorrar(id)
+        resultado = await adelantoService.spfReciclar(id)
         if (resultado.status === 200) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
-          notificarService.notificarExito('Se borró correctamente el seguro.')
+          notificarService.notificarExito('Se recicló correctamente el adelanto.')
         }
       } catch (err) {
         console.clear()
@@ -1005,65 +1064,26 @@ export default {
       }
     }
 
-    async function afReciclarSeguro (id) {
-      $q.loading.show()
-      try {
-        let resultado = null
-        resultado = await seguroService.spfReciclar(id)
-        if (resultado.status === 200) {
-          console.log(resultado.headers.mensaje)
-          $q.loading.hide()
-          notificarService.notificarExito('Se recicló correctamente el seguro.')
-        }
-      } catch (err) {
-        console.clear()
-        if (err.response.status === 404) {
-          console.info(err.response.headers.mensaje)
-          notificarService.infoAlerta(err.response.headers.mensaje)
-        } else if (err.response.headers.mensaje) {
-          console.warn('Advertencia: ' + err.response.headers.mensaje)
-          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
-        } else {
-          const mensaje = 'Hubo un error al intentar obtener el listado.'
-          notificarService.notificarError(mensaje)
-          console.error(mensaje)
-        }
-        $q.loading.hide()
-      }
-    }
-
-    function fFiltrarAcoplados (val, update, abort) {
+    function fFiltrarCajas (val, update, abort) {
       if (val.length < 3) {
         abort()
         return
       }
       update(() => {
-        acoplados.value = acopladosList.value.filter(
-          (v) => v.marcaModelo.toLowerCase().indexOf(val.toLowerCase()) > -1
+        cajas.value = cajasList.value.filter(
+          (v) => v.caja.toLowerCase().indexOf(val.toLowerCase()) > -1
         )
       })
     }
 
-    function fFiltrarAseguradoras (val, update, abort) {
+    function fFiltrarConductores (val, update, abort) {
       if (val.length < 3) {
         abort()
         return
       }
       update(() => {
-        aseguradoras.value = aseguradorasList.value.filter(
+        conductores.value = conductoresList.value.filter(
           (v) => v.nombre.toLowerCase().indexOf(val.toLowerCase()) > -1
-        )
-      })
-    }
-
-    function fFiltrarCamiones (val, update, abort) {
-      if (val.length < 3) {
-        abort()
-        return
-      }
-      update(() => {
-        camiones.value = camionesList.value.filter(
-          (v) => v.marcaModelo.toLowerCase().indexOf(val.toLowerCase()) > -1
         )
       })
     }
@@ -1074,58 +1094,74 @@ export default {
     }
 
     function fLimpiarFormulario () {
-      seguroCreation.acopladoId = null
-      seguroCreation.aseguradoraId = null
-      seguroCreation.camionId = null
-      seguroCreation.vencimiento = null
-      seguroCreation.notas = null
+      adelantoCreation.descripcion = null
+      adelantoCreation.fecha = null
+      adelantoCreation.monto = null
+      adelantoCreation.notas = null
+      adelantoCreation.rendido = null
+      adelantoCreation.cajaId = null
+      adelantoCreation.conductorId = null
+      adelantoCreation.reciboId = null
 
-      seguroCreation.id = null
-      seguroCreation.creadorId = null
-      seguroCreation.creador = null
-      seguroCreation.creada = null
-      seguroCreation.modificadorId = null
-      seguroCreation.modificador = null
-      seguroCreation.modificada = null
-      seguroCreation.eliminadorId = null
-      seguroCreation.eliminador = null
-      seguroCreation.eliminada = null
+      adelantoCreation.id = null
+      adelantoCreation.creadorId = null
+      adelantoCreation.creador = null
+      adelantoCreation.creada = null
+      adelantoCreation.modificadorId = null
+      adelantoCreation.modificador = null
+      adelantoCreation.modificada = null
+      adelantoCreation.eliminadorId = null
+      adelantoCreation.eliminador = null
+      adelantoCreation.eliminada = null
     }
 
     function fLimpiarInputs (actual) {
-      editAseguradora.value = false
-      editAcoplado.value = false
-      editCamion.value = false
+      editCaja.value = false
+      editConductor.value = false
+      editDescripcion.value = false
+      editFecha.value = false
+      editMonto.value = false
       editNotas.value = false
-      editVencimiento.value = false
 
-      acoplado.value = null
-      aseguradora.value = null
-      camion.value = null
+      caja.value = null
+      conductor.value = null
+      descripcion.value = null
+      fecha.value.from = null
+      fecha.value.to = null
+      monto.value.min = 0
+      monto.value.max = 1000
+      montoChip.value.izq = false
+      montoChip.value.der = false
       notas.value = null
-      vencimiento.value.from = null
-      vencimiento.value.to = null
     }
 
-    function fMostrarAcoplado () {
-      afBuscarAcoplados().then(() => {
+    function fMostrarCaja () {
+      afBuscarCajas().then(() => {
         fLimpiarInputs()
-        editAcoplado.value = true
+        editCaja.value = true
       })
     }
 
-    function fMostrarAseguradora () {
-      afBuscarAseguradoras().then(() => {
+    function fMostrarConductor () {
+      afBuscarConductores().then(() => {
         fLimpiarInputs()
-        editAseguradora.value = true
+        editConductor.value = true
       })
     }
 
-    function fMostrarCamion () {
-      afBuscarCamiones().then(() => {
-        fLimpiarInputs()
-        editCamion.value = true
-      })
+    function fMostrarDescripcion () {
+      fLimpiarInputs()
+      editDescripcion.value = true
+    }
+
+    function fMostrarFecha () {
+      fLimpiarInputs()
+      editFecha.value = true
+    }
+
+    function fMostrarMonto () {
+      fLimpiarInputs()
+      editMonto.value = true
     }
 
     function fMostrarNotas () {
@@ -1133,122 +1169,104 @@ export default {
       editNotas.value = true
     }
 
-    function fMostrarNuevoSeguro () {
-      afBuscarAcoplados().then(() => {
-        afBuscarAseguradoras().then(() => {
-          afBuscarCamiones().then(() => {
-            titulo.value = 'Nuevo seguro'
-            fLimpiarFormulario()
-            tipoVehiculo.value =
-            fIrPaso1()
-            nuevoSeguroDialog.value = true
-          })
+    function fMostrarNuevoAdelanto () {
+      afBuscarCajas().then(() => {
+        afBuscarConductores().then(() => {
+          titulo.value = 'Nuevo adelanto'
+          fLimpiarFormulario()
+          fIrPaso1()
+          nuevoAdelantoDialog.value = true
         })
       })
     }
 
-    function fMostrarEditarSeguro (props) {
-      titulo.value = 'Modificar seguro'
-      if (props.row.acopladoId !== null) {
-        tipoVehiculo.value = 'Acoplado'
-      } else {
-        tipoVehiculo.value = 'Camión'
-      }
-      seguroCreation.id = props.row.id
-      seguroCreation.notas = props.row.notas
-      seguroCreation.acopladoId = props.row.acopladoId
-      seguroCreation.camionId = props.row.camionId
-      seguroCreation.aseguradoraId = props.row.aseguradoraId
-      seguroCreation.vencimientoId = props.row.vencimientoId
-      seguroCreation.vencimiento = ayuda.fFormatearADatePicker(props.row.vencimiento.slice(0, 10))
+    function fMostrarEditarAdelanto (props) {
+      titulo.value = 'Modificar adelanto'
+      adelantoCreation.descripcion = props.row.descripcion
+      adelantoCreation.fecha = ayuda.fFormatearADatePicker(props.row.fecha.slice(0, 10))
+      adelantoCreation.monto = props.row.monto
+      adelantoCreation.notas = props.row.notas
+      adelantoCreation.rendido = props.row.rendido
+      adelantoCreation.cajaId = props.row.cajaId
+      adelantoCreation.conductorId = props.row.conductorId
+      adelantoCreation.reciboId = props.row.reciboId
 
-      seguroCreation.creada = props.row.creada
-      seguroCreation.creadorId = props.row.creadorId
-      seguroCreation.eliminada = props.row.eliminada
-      seguroCreation.eliminadorId = props.row.eliminadorId
-      seguroCreation.modificada = props.row.modificada
-      seguroCreation.modificadorId = props.row.modificadorId
+      adelantoCreation.id = props.row.id
+      adelantoCreation.creada = props.row.creada
+      adelantoCreation.creadorId = props.row.creadorId
+      adelantoCreation.eliminada = props.row.eliminada
+      adelantoCreation.eliminadorId = props.row.eliminadorId
+      adelantoCreation.modificada = props.row.modificada
+      adelantoCreation.modificadorId = props.row.modificadorId
 
-      nuevoSeguroDialog.value = true
+      nuevoAdelantoDialog.value = true
     }
 
-    function fMostrarEliminarSeguro (props) {
+    function fMostrarEliminarAdelanto (props) {
       notificarService.infoAlerta('No se puede eliminar el recurso.')
-      // afEliminarSeguro(props.row.id).then(() => {
+      // afEliminarAdelanto(props.row.id).then(() => {
       //   afBuscarPaginadas().then(() => {
 
       //   })
       // })
     }
 
-    function fMostrarReciclarSeguro (props) {
-      afReciclarSeguro(props.row.id).then(() => {
+    function fMostrarReciclarAdelanto (props) {
+      afReciclarAdelanto(props.row.id).then(() => {
         afBuscarPaginadas().then(() => {
 
         })
       })
     }
 
-    function fMostrarVencimiento () {
-      fLimpiarInputs()
-      editVencimiento.value = true
-    }
-
     return {
+      adelantoCreation,
+      adelantos,
       autoridad,
-
-      aseguradora,
-      aseguradoras,
-      aseguradorasList,
-      acoplado,
-      acoplados,
-      acopladosList,
-      camion,
-      camiones,
-      camionesList,
-      notas,
-      vencimiento,
-      vencimientos,
-
+      caja,
+      cajas,
+      cajasList,
+      conductor,
+      conductores,
+      conductoresList,
       columnas,
-      nuevaBusqueda,
-      nuevoSeguroDialog,
+      editCaja,
+      editConductor,
+      editDescripcion,
+      editFecha,
+      editMonto,
+      editNotas,
+      fecha,
+      monto,
+      montoChip,
+      notas,
+      nuevoAdelantoDialog,
       paginacion,
       paso1,
       reglas,
-      tipoVehiculo,
       titulo,
-      seguroCreation,
-      seguros,
-      vehiculos: ['Acoplado', 'Camión'],
 
-      editAseguradora,
-      editAcoplado,
-      editCamion,
-      editNotas,
-      editVencimiento,
-
-      fGuardarSeguro,
-      fFiltrarAcoplados,
-      fFiltrarAseguradoras,
-      fFiltrarCamiones,
-      fFormatoFecha,
-      fMostrarAcoplado,
-      fMostrarAseguradora,
-      fMostrarCamion,
-      fMostrarNotas,
-      fMostrarVencimiento,
-
-      fMostrarNuevoSeguro,
-      fMostrarEditarSeguro,
-      fMostrarEliminarSeguro,
-      fMostrarReciclarSeguro,
-
-      afBuscarPorAcopladoId,
-      afBuscarPorAseguradoraId,
-      afBuscarPorCamionId,
-      afBuscarPorVencimiento,
+      afBuscarPorCajaId,
+      afBuscarPorConductorId,
+      afBuscarPorDescripcion,
+      afBuscarPorFecha,
+      afBuscarPorMonto,
       afBuscarPorNotas,
+      fGuardarAdelanto,
+      fFiltrarCajas,
+      fFiltrarConductores,
+      fFormatoFecha,
+      fMostrarCaja,
+      fMostrarConductor,
+      fMostrarDescripcion,
+      fMostrarEditarAdelanto,
+      fMostrarEliminarAdelanto,
+      fMostrarFecha,
+      fMostrarMonto,
+      fMostrarNotas,
+      fMostrarNuevoAdelanto,
+      fMostrarReciclarAdelanto,
+
       myLocale: {
         /* starting with Sunday */
         days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),

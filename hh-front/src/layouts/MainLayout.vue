@@ -32,7 +32,7 @@
           </q-item-section>
           <q-item-section class="white-text">Panel Principal</q-item-section>
         </q-item>
-        <q-expansion-item icon="calendar_month" label="Calendario" v-if="autoridad === 'admin' || autoridad === 'usuario'">
+        <!-- <q-expansion-item icon="calendar_month" label="Calendario" v-if="autoridad === 'admin' || autoridad === 'usuario'">
           <q-item
             clickable
             v-ripple
@@ -78,7 +78,7 @@
             </q-item-section>
             <q-item-section class="white-text">Vencimientos</q-item-section>
           </q-item>
-        </q-expansion-item>
+        </q-expansion-item> -->
         <q-expansion-item icon="airline_seat_recline_extra" label="Conductores">
           <q-item
             clickable

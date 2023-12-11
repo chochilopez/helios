@@ -4,7 +4,8 @@ export class EventoCreation {
     this.fecha = null
     this.descripcion = null
     this.habilitada = null
-    this.recordatorio = null
+    this.recordatorioDias = null
+    this.recordatorioFecha = null
     this.nombre = null
 
     this.creada = null
