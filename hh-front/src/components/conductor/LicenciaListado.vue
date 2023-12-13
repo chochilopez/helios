@@ -809,7 +809,7 @@ export default {
       licenciaCreation.eliminada = null
     }
 
-    function fLimpiarInputs (actual) {
+    function fLimpiarInputs () {
       editConductor.value = false
       editNotas.value = false
       editVencimiento.value = false

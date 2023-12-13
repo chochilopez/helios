@@ -3,8 +3,6 @@ package gloit.hiperionida.helios.controller;
 import gloit.hiperionida.helios.mapper.CombustibleMapper;
 import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
 import gloit.hiperionida.helios.mapper.dto.CombustibleDTO;
-import gloit.hiperionida.helios.mapper.dto.CombustibleDTO;
-import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.service.implementation.CombustibleServiceImpl;
 import gloit.hiperionida.helios.util.Helper;
@@ -40,6 +38,28 @@ public class CombustibleController extends AbsBaseController {
         String mensaje = "Ocurrio un error al guardar el combustible. " + e.getMessage();
 
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-caja-id/{id}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorCajaId(@PathVariable(name = "id") Long id) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorCajaId(id);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-caja-id-con-eliminadas/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorCajaIdConEliminadas(@PathVariable(name = "id") Long id) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorCajaIdConEliminadas(id);
+        ArrayList<CombustibleDTO> viajes = new ArrayList<>();
+        for (CombustibleModel viaje:listado) {
+            viajes.add(combustibleMapper.toDto(viaje));
+        }
+        return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-camion-id/{id}")
@@ -86,13 +106,13 @@ public class CombustibleController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, inlcuidas las eliminadas."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-fecha-entre-fechas/{inicio}/{fin}")
+    @GetMapping(value = "/buscar-todas-por-fecha-entre/{inicio}/{fin}")
     @PreAuthorize("hasAuthority('CARGA')")
     public ResponseEntity<List<CombustibleDTO>> buscarTodasPorFecha(
             @PathVariable(name = "inicio") String inicio,
             @PathVariable(name = "fin") String fin
     ) {
-        List<CombustibleModel> listado = combustibleService.buscarTodasPorFecha(inicio, fin);
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorFechaEntre(inicio, fin);
         ArrayList<CombustibleDTO> viajes = new ArrayList<>();
         for (CombustibleModel viaje:listado) {
             viajes.add(combustibleMapper.toDto(viaje));
@@ -100,13 +120,13 @@ public class CombustibleController extends AbsBaseController {
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscar-todas-por-fecha-entre-fechas-con-eliminadas/{inicio}/{fin}")
+    @GetMapping(value = "/buscar-todas-por-fecha-entre-con-eliminadas/{inicio}/{fin}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<CombustibleDTO>> buscarTodasPorFechaConEliminadas(
             @PathVariable(name = "inicio") String inicio,
             @PathVariable(name = "fin") String fin
     ) {
-        List<CombustibleModel> listado = combustibleService.buscarTodasPorFechaConEliminadas(inicio, fin);
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorFechaEntreConEliminadas(inicio, fin);
         ArrayList<CombustibleDTO> viajes = new ArrayList<>();
         for (CombustibleModel viaje:listado) {
             viajes.add(combustibleMapper.toDto(viaje));
@@ -134,6 +154,72 @@ public class CombustibleController extends AbsBaseController {
             viajes.add(combustibleMapper.toDto(viaje));
         }
         return new ResponseEntity<>(viajes, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-kilometros-entre/{min}/{max}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorKilometrosEntre(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorKilometrosEntre(min, max);
+        ArrayList<CombustibleDTO> adelantos = new ArrayList<>();
+        for (CombustibleModel adelanto:listado) {
+            adelantos.add(combustibleMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-kilometros-entre-con-eliminadas/{min}/{max}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorKilometrosEntreConEliminadas(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorKilometrosEntreConEliminadas(min, max);
+        ArrayList<CombustibleDTO> adelantos = new ArrayList<>();
+        for (CombustibleModel adelanto:listado) {
+            adelantos.add(combustibleMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-litros-entre/{min}/{max}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorLitrosEntre(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorLitrosEntre(min, max);
+        ArrayList<CombustibleDTO> adelantos = new ArrayList<>();
+        for (CombustibleModel adelanto:listado) {
+            adelantos.add(combustibleMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-litros-entre-con-eliminadas/{min}/{max}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorLitrosEntreConEliminadas(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorLitrosEntreConEliminadas(min, max);
+        ArrayList<CombustibleDTO> adelantos = new ArrayList<>();
+        for (CombustibleModel adelanto:listado) {
+            adelantos.add(combustibleMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-precio-entre/{min}/{max}")
+    @PreAuthorize("hasAuthority('CARGA')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorPrecioEntre(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorPrecioEntre(min, max);
+        ArrayList<CombustibleDTO> adelantos = new ArrayList<>();
+        for (CombustibleModel adelanto:listado) {
+            adelantos.add(combustibleMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-precio-entre-con-eliminadas/{min}/{max}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CombustibleDTO>> buscarTodasPorPrecioEntreConEliminadas(@PathVariable(name = "min") Double min, @PathVariable(name = "max") Double max) {
+        List<CombustibleModel> listado = combustibleService.buscarTodasPorPrecioEntreConEliminadas(min, max);
+        ArrayList<CombustibleDTO> adelantos = new ArrayList<>();
+        for (CombustibleModel adelanto:listado) {
+            adelantos.add(combustibleMapper.toDto(adelanto));
+        }
+        return new ResponseEntity<>(adelantos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar-todas-por-proveedor-id/{id}")

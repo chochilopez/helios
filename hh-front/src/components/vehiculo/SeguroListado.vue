@@ -1095,7 +1095,7 @@ export default {
       seguroCreation.eliminada = null
     }
 
-    function fLimpiarInputs (actual) {
+    function fLimpiarInputs () {
       editAseguradora.value = false
       editAcoplado.value = false
       editCamion.value = false

@@ -2817,7 +2817,7 @@ export default {
       viajeCreation.eliminada = null
     }
 
-    function fLimpiarInputs (actual) {
+    function fLimpiarInputs () {
       editAcoplado.value = false
       acoplado.value = null
       editCamion.value = false

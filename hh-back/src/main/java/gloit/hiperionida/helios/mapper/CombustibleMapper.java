@@ -1,17 +1,14 @@
 package gloit.hiperionida.helios.mapper;
 
 import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
-import gloit.hiperionida.helios.mapper.dto.CamionDTO;import gloit.hiperionida.helios.mapper.dto.CombustibleDTO;
-import gloit.hiperionida.helios.model.CamionModel;
-import gloit.hiperionida.helios.model.CombustibleModel;
-import gloit.hiperionida.helios.model.ConductorModel;
-import gloit.hiperionida.helios.model.ProveedorModel;
+import gloit.hiperionida.helios.mapper.dto.CombustibleDTO;
+import gloit.hiperionida.helios.model.*;
+import gloit.hiperionida.helios.repository.CajaDAO;
 import gloit.hiperionida.helios.repository.CamionDAO;
 import gloit.hiperionida.helios.repository.ConductorDAO;
 import gloit.hiperionida.helios.repository.ProveedorDAO;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
-import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
 import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.repository.UsuarioDAO;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class CombustibleMapper {
+    private final CajaDAO cajaDAO;
     private final CamionDAO camionDAO;
     private final ConductorDAO conductorDAO;
     private final ProveedorDAO proveedorDAO;
@@ -36,12 +33,14 @@ public class CombustibleMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
+            if (Helper.getLong(creation.getCajaId()) != null)
+                model.setCajaId(Helper.getLong(creation.getCajaId()));
             if (Helper.getLong(creation.getCamionId()) != null)
                 model.setCamionId(Helper.getLong(creation.getCamionId()));
             if (Helper.getLong(creation.getConductorId()) != null)
                 model.setConductorId(Helper.getLong(creation.getConductorId()));
-            if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
-                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
+            if (creation.getFecha() != null && Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), "") != null)
+                model.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
             if (Helper.getDecimal(creation.getKilometros()) != null)
                 model.setKilometros(Helper.getDecimal(creation.getKilometros()));
             if (Helper.getDecimal(creation.getLitros()) != null)
@@ -77,6 +76,11 @@ public class CombustibleMapper {
             CombustibleDTO dto = new CombustibleDTO();
 
             dto.setId(model.getId().toString());
+            if (model.getCajaId() != null) {
+                CajaModel cajaModel = cajaDAO.findByIdAndEliminadaIsNull(model.getCajaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el Caja con id: " + model.getCajaId() + "."));
+                dto.setCamion(cajaModel.getCaja());
+                dto.setCajaId(model.getCajaId().toString());
+            }
             if (model.getCamionId() != null) {
                 CamionModel camionModel = camionDAO.findByIdAndEliminadaIsNull(model.getCamionId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el camión con id: " + model.getCamionId() + "."));
                 dto.setCamion(camionModel.getMarcaModelo());
@@ -96,7 +100,6 @@ public class CombustibleMapper {
             if (model.getPrecio() != null)
                 dto.setPrecio(model.getPrecio().toString());
             dto.setNotas(model.getNotas());
-
             if (model.getProveedorId() != null) {
                 ProveedorModel proveedorModel = proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el proveedor con id: " + model.getProveedorId() + "."));
                 dto.setProveedor(proveedorModel.getNombre());

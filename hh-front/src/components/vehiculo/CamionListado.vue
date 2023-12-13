@@ -817,7 +817,7 @@ export default {
       camionCreation.eliminada = null
     }
 
-    function fLimpiarInputs (actual) {
+    function fLimpiarInputs () {
       anio.value = null
       editAnio.value = null
       editMarcaModelo.value = null

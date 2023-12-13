@@ -1663,7 +1663,7 @@ export default {
       presupuestoCreation.eliminada = null
     }
 
-    function fLimpiarInputs (actual) {
+    function fLimpiarInputs () {
       editCantidadTransportada.value = false
       cantidadTransportada.value.min = 0
       cantidadTransportada.value.max = 1000

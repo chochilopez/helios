@@ -509,13 +509,12 @@
             </div>
             <div class="col-xs-6 q-pa-md text-center">
               <q-toggle
-                v-model="adelantoCreation.recibo"
+                v-model="impRecibo"
                 icon="open"
                 label="¿Imprimir recibo?"
               />
             </div>
           </div>
-          {{ HAY QUE TERMINAR ACA }}
           <div class="row justify-around">
             <div class="col-xs-6 q-pa-md">
               <q-input
@@ -626,6 +625,7 @@ export default {
     const editMonto = ref(false)
     const editNotas = ref(false)
     const fecha = ref({ from: null, to: null })
+    const impRecibo = ref(null)
     const monto = ref({ min: 1, max: 1000 })
     const montoChip = ref({ izq: false, der: false })
     const notas = ref(null)
@@ -1098,10 +1098,12 @@ export default {
       adelantoCreation.fecha = null
       adelantoCreation.monto = null
       adelantoCreation.notas = null
-      adelantoCreation.rendido = null
+      adelantoCreation.rendido = false
       adelantoCreation.cajaId = null
       adelantoCreation.conductorId = null
       adelantoCreation.reciboId = null
+
+      impRecibo.value = false
 
       adelantoCreation.id = null
       adelantoCreation.creadorId = null
@@ -1115,7 +1117,7 @@ export default {
       adelantoCreation.eliminada = null
     }
 
-    function fLimpiarInputs (actual) {
+    function fLimpiarInputs () {
       editCaja.value = false
       editConductor.value = false
       editDescripcion.value = false
@@ -1186,10 +1188,12 @@ export default {
       adelantoCreation.fecha = ayuda.fFormatearADatePicker(props.row.fecha.slice(0, 10))
       adelantoCreation.monto = props.row.monto
       adelantoCreation.notas = props.row.notas
-      adelantoCreation.rendido = props.row.rendido
+      adelantoCreation.rendido = props.row.rendido === 'true'
       adelantoCreation.cajaId = props.row.cajaId
       adelantoCreation.conductorId = props.row.conductorId
       adelantoCreation.reciboId = props.row.reciboId
+
+      impRecibo.value = false
 
       adelantoCreation.id = props.row.id
       adelantoCreation.creada = props.row.creada
@@ -1237,6 +1241,7 @@ export default {
       editMonto,
       editNotas,
       fecha,
+      impRecibo,
       monto,
       montoChip,
       notas,

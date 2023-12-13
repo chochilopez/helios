@@ -5,13 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
 public class CombustibleCreation extends AbsAuditoriaCreation {
     private String id;
+    private String cajaId;
     private String camionId;
     private String conductorId;
     private String fecha;

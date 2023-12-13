@@ -911,7 +911,7 @@ export default {
       proveedorCreation.eliminada = null
     }
 
-    function fLimpiarInputs (actual) {
+    function fLimpiarInputs () {
       direccion.value = null
       editDireccion.value = null
       editEmail.value = null

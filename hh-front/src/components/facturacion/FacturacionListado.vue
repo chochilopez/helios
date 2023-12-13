@@ -1237,7 +1237,7 @@ export default {
       facturaCreation.viajeId = null
     }
 
-    function fLimpiarInputs (actual) {
+    function fLimpiarInputs () {
       editCliente.value = false
       editFechaFacturacion.value = false
       editFechaViaje.value = false

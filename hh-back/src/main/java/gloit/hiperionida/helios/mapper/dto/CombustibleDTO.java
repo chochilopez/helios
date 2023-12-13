@@ -1,16 +1,19 @@
 package gloit.hiperionida.helios.mapper.dto;
 
 import gloit.hiperionida.helios.util.mapper.dto.AbsAuditoriaDTO;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
 public class CombustibleDTO extends AbsAuditoriaDTO implements Serializable {
     private String id;
+    private String caja;
+    private String cajaId;
     private String camion;
     private String camionId;
     private String conductor;

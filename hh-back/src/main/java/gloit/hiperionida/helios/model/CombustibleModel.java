@@ -25,6 +25,7 @@ public class CombustibleModel extends AbsAuditoriaModel {
     @Column(columnDefinition = "TEXT")
     private String notas;
 
+    private Long cajaId;
     private Long camionId;
     private Long conductorId;
     private Long proveedorId;

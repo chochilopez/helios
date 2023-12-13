@@ -786,7 +786,7 @@ export default {
       direccionCreation.eliminada = null
     }
 
-    function fLimpiarInputs (actual) {
+    function fLimpiarInputs () {
       editCiudad.value = null
       ciudad.value = null
       ciudades.value = null

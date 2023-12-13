@@ -9,6 +9,7 @@ p -> promesa
 f -> funcion
 l -> local
 */
+
 function spfBuscarTodasPorCajaId (id) {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'adelanto/buscar-todas-por-caja-id/' + id, {

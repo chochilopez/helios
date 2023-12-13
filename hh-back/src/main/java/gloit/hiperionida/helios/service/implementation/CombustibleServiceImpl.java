@@ -2,9 +2,6 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.CombustibleMapper;
 import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
-import gloit.hiperionida.helios.mapper.creation.CombustibleCreation;
-import gloit.hiperionida.helios.model.CombustibleModel;
-import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.model.CombustibleModel;
 import gloit.hiperionida.helios.repository.CombustibleDAO;
 import gloit.hiperionida.helios.service.CombustibleService;
@@ -30,6 +27,24 @@ public class CombustibleServiceImpl implements CombustibleService {
     private final CombustibleDAO combustibleDAO;
     private final CombustibleMapper combustibleMapper;
     private final UsuarioServiceImpl usuarioService;
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorCajaId(Long id) {
+        log.info("Buscando todas las entidades Combustible con id de Caja: {}.", id);
+        List<CombustibleModel> listado = combustibleDAO.findAllByCajaIdAndEliminadaIsNull(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con id de Caja: " + id + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorCajaIdConEliminadas(Long id) {
+        log.info("Buscando todas las entidades Combustible con id de Caja: {}, con eliminadas.", id);
+        List<CombustibleModel> listado = combustibleDAO.findAllByCajaId(id);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con id de Caja: " + id + ", con eliminadas.");
+        return listado;
+    }
 
     @Override
     public List<CombustibleModel> buscarTodasPorCamionId(Long id) {
@@ -68,7 +83,7 @@ public class CombustibleServiceImpl implements CombustibleService {
     }
 
     @Override
-    public List<CombustibleModel> buscarTodasPorFecha(String inicio, String fin) {
+    public List<CombustibleModel> buscarTodasPorFechaEntre(String inicio, String fin) {
         log.info("Buscando todas las entidades Combustible entre las fechas: {} y {}.", inicio, fin);
         LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
         LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
@@ -81,7 +96,7 @@ public class CombustibleServiceImpl implements CombustibleService {
     }
 
     @Override
-    public List<CombustibleModel> buscarTodasPorFechaConEliminadas(String inicio, String fin) {
+    public List<CombustibleModel> buscarTodasPorFechaEntreConEliminadas(String inicio, String fin) {
         log.info("Buscando todas las entidades Combustible entre las fechas: {} y {}, con eliminadas.", inicio, fin);
         LocalDateTime fInicio = Helper.stringToLocalDateTime(inicio, "yyyy-MM-dd HH:mm:ss");
         LocalDateTime fFin = Helper.stringToLocalDateTime(fin, "yyyy-MM-dd HH:mm:ss");
@@ -108,6 +123,60 @@ public class CombustibleServiceImpl implements CombustibleService {
         List<CombustibleModel> listado = combustibleDAO.findAllByNotasContainingIgnoreCase(notas);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades Combustible con notas: " + notas + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorKilometrosEntre(Double min, Double max) {
+        log.info("Buscando todas las entidades Combustible con un rango de Kilometros entre: {} y {}.", min, max);
+        List<CombustibleModel> listado = combustibleDAO.findAllByKilometrosBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con un rango de Kilometros cargado entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorKilometrosEntreConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Combustible con un rango de Kilometros entre: {} y {}, con eliminadas.", min, max);
+        List<CombustibleModel> listado = combustibleDAO.findAllByKilometrosBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con un rango de Kilometros cargado entre: " + min + " y " + max + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorLitrosEntre(Double min, Double max) {
+        log.info("Buscando todas las entidades Combustible con un rango de Litros entre: {} y {}.", min, max);
+        List<CombustibleModel> listado = combustibleDAO.findAllByLitrosBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con un rango de Litros cargado entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorLitrosEntreConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Combustible con un rango de Litros entre: {} y {}, con eliminadas.", min, max);
+        List<CombustibleModel> listado = combustibleDAO.findAllByLitrosBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con un rango de Litros cargado entre: " + min + " y " + max + ", con eliminadas.");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorPrecioEntre(Double min, Double max) {
+        log.info("Buscando todas las entidades Combustible con un rango de Precio entre: {} y {}.", min, max);
+        List<CombustibleModel> listado = combustibleDAO.findAllByPrecioBetweenAndEliminadaIsNull(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con un rango de Precio cargado entre: " + min + " y " + max + ".");
+        return listado;
+    }
+
+    @Override
+    public List<CombustibleModel> buscarTodasPorPrecioEntreConEliminadas(Double min, Double max) {
+        log.info("Buscando todas las entidades Combustible con un rango de Precio entre: {} y {}, con eliminadas.", min, max);
+        List<CombustibleModel> listado = combustibleDAO.findAllByPrecioBetween(min, max);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Combustible con un rango de Precio cargado entre: " + min + " y " + max + ", con eliminadas.");
         return listado;
     }
 

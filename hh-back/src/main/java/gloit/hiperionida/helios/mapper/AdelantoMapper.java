@@ -33,8 +33,8 @@ public class AdelantoMapper {
 
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
-            if (creation.getFecha() != null && Helper.stringToLocalDateTime(creation.getFecha(), "") != null)
-                model.setFecha(Helper.stringToLocalDateTime(creation.getFecha(), ""));
+            if (creation.getFecha() != null && Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), "") != null)
+                model.setFecha(Helper.stringToLocalDateTime("00:00:00 " + creation.getFecha(), ""));
             if (Helper.getDecimal(creation.getMonto()) != null)
                 model.setMonto(Helper.getNDecimal(Helper.getDecimal(creation.getMonto()),2));
             model.setNotas(creation.getNotas());
@@ -81,10 +81,12 @@ public class AdelantoMapper {
             if (model.getCajaId() != null) {
                 CajaModel cajaModel = cajaDAO.findByIdAndEliminadaIsNull(model.getCajaId()).orElseThrow(() -> new DatosInexistentesException("No se encontró la caja con id: " + model.getCajaId() + "."));
                 dto.setCaja(cajaModel.getCaja());
+                dto.setCajaId(cajaModel.getId().toString());
             }
             if (model.getConductorId() != null) {
                 ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor con id: " + model.getConductorId() + "."));
                 dto.setConductor(conductorModel.getNombre());
+                dto.setConductorId(conductorModel.getId().toString());
             }
             if (model.getReciboId() != null)
                 dto.setRecibo(model.getReciboId().toString());
