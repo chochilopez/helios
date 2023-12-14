@@ -5,8 +5,7 @@ export class CamionModel {
     this.numeroMotor = null
     this.pesoArrastre = null
     this.cantidadNeumaticos = null
-    this.marca = null
-    this.modelo = null
+    this.marcaModelo = null
     this.anio = null
     this.patente = null
     this.peso = null

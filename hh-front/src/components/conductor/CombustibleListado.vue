@@ -234,12 +234,12 @@
                   <div class="row justify-between">
                     <div class="col">
                       <q-chip
-                        v-model:selected="kilometroChip.izq"
-                        :class="{ 'paleta2-fondo2': kilometroChip.izq, 'edits-fondo': !kilometroChip.izq }"
+                        v-model:selected="kilometrosChip.izq"
+                        :class="{ 'paleta2-fondo2': kilometrosChip.izq, 'edits-fondo': !kilometrosChip.izq }"
                         text-color="white"
                         size="12px"
                         icon="fa-solid fa-minus"
-                        @update:selected="afBuscarPorKilometro()"
+                        @update:selected="afBuscarPorKilometros()"
                       >
                         Mínimo
                       </q-chip>
@@ -250,12 +250,12 @@
                     </div>
                     <div class="col text-right">
                       <q-chip
-                        v-model:selected="kilometroChip.der"
-                        :class="{ 'paleta2-fondo2': kilometroChip.der, 'edits-fondo': !kilometroChip.der }"
+                        v-model:selected="kilometrosChip.der"
+                        :class="{ 'paleta2-fondo2': kilometrosChip.der, 'edits-fondo': !kilometrosChip.der }"
                         text-color="white"
                         size="12px"
                         icon="fa-solid fa-plus"
-                        @update:selected="afBuscarPorKilometro()"
+                        @update:selected="afBuscarPorKilometros()"
                       >
                         Máximo
                       </q-chip>
@@ -266,11 +266,11 @@
                       label-always
                       switch-label-side
                       color="grey-6"
-                      v-model="kilometro"
+                      v-model="kilometros"
                       :min="1"
                       :max="1000"
                       label
-                      @change="(kilometroChip.izq = false), (kilometroChip.der = false)"
+                      @change="(kilometrosChip.izq = false), (kilometrosChip.der = false)"
                     />
                   </div>
                 </div>
@@ -310,7 +310,7 @@
                       label-always
                       switch-label-side
                       color="grey-6"
-                      v-model="litro"
+                      v-model="litros"
                       :min="1"
                       :max="1000"
                       label
@@ -473,10 +473,13 @@
                 {{ fFormatoFecha(props.row.fecha) }}
               </q-td>
               <q-td>
-                {{ props.row.camion }}
+                {{ props.row.conductor }}
               </q-td>
               <q-td>
-                {{ props.row.conductor }}
+                {{ props.row.camion }}
+              </q-td>
+              <q-td class="text-center">
+                {{ props.row.kilometros }}
               </q-td>
               <q-td class="text-center">
                 {{ props.row.litros }}
@@ -485,10 +488,7 @@
                 {{ props.row.precio }}
               </q-td>
               <q-td class="text-center">
-                {{ props.row.kilometros }}
-              </q-td>
-              <q-td class="text-center">
-                {{ props.row.precio * props.row.kilometros }}
+                {{ props.row.total }}
               </q-td>
             </q-tr>
             <q-tr v-show="props.expand" :props="props" class="paleta5-fondo2">
@@ -529,6 +529,10 @@
                   <div v-if="props.row.proveedor != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
                     <div class="row text-white">{{ fFormatoFecha(props.row.proveedor) }}</div>
                     <div class="row paleta1-color2">Proveedor</div>
+                  </div>
+                  <div v-if="props.row.total != null" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista" >
+                    <div class="row text-white">{{ fFormatoFecha(props.row.total) }}</div>
+                    <div class="row paleta1-color2">Total</div>
                   </div>
                   <div v-if="props.row.creador != null && autoridad === 'admin'" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-lista">
                     <div class="row text-white">{{ props.row.creador }}</div>
@@ -646,7 +650,7 @@
                 :rules="[reglas.requerido]"
                 :options="camiones"
                 option-value="id"
-                option-label="camion"
+                option-label="marcaModelo"
                 label="Camion"
                 use-input
                 input-debounce="0"
@@ -672,7 +676,7 @@
                 :rules="[reglas.requerido]"
                 :options="conductores"
                 option-value="id"
-                option-label="conductor"
+                option-label="nombre"
                 label="Conductor"
                 use-input
                 input-debounce="0"
@@ -700,7 +704,7 @@
                 :rules="[reglas.requerido]"
                 :options="proveedores"
                 option-value="id"
-                option-label="proveedor"
+                option-label="nombre"
                 label="Proveedor"
                 use-input
                 input-debounce="0"
@@ -827,6 +831,13 @@ const columnas = [
     sortable: true
   },
   {
+    name: 'conductor',
+    label: 'Conductor',
+    align: 'left',
+    field: 'conductor',
+    sortable: true
+  },
+  {
     name: 'camion',
     label: 'Camión',
     align: 'left',
@@ -834,10 +845,10 @@ const columnas = [
     sortable: true
   },
   {
-    name: 'conductor',
-    label: 'Conductor',
-    align: 'left',
-    field: 'conductor',
+    name: 'kilometros',
+    label: 'Kilometros',
+    align: 'center',
+    field: 'kilometros',
     sortable: true
   },
   {
@@ -852,13 +863,6 @@ const columnas = [
     label: 'Precio',
     align: 'center',
     field: 'precio',
-    sortable: true
-  },
-  {
-    name: 'kilometros',
-    label: 'Kilometros',
-    align: 'center',
-    field: 'kilometros',
     sortable: true
   },
   {
@@ -886,7 +890,6 @@ export default {
     const conductor = ref(null)
     const conductores = ref([])
     const conductoresList = ref([])
-    const descripcion = ref(null)
     const editCaja = ref(false)
     const editCamion = ref(false)
     const editConductor = ref(false)
@@ -1753,6 +1756,7 @@ export default {
       caja,
       cajas,
       cajasList,
+      camiones,
       columnas,
       combustible,
       combustibleCreation,
@@ -1775,6 +1779,7 @@ export default {
       litrosChip,
       precio,
       precioChip,
+      proveedores,
       notas,
       nuevoCombustibleDialog,
       paginacion,

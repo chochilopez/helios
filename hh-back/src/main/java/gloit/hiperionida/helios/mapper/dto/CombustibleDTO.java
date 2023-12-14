@@ -25,4 +25,5 @@ public class CombustibleDTO extends AbsAuditoriaDTO implements Serializable {
     private String precio;
     private String proveedor;
     private String proveedorId;
+    private String total;
 }

@@ -89,7 +89,7 @@ public class CombustibleMapper {
             if (model.getConductorId() != null) {
                 ConductorModel conductorModel = conductorDAO.findByIdAndEliminadaIsNull(model.getConductorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el conductor con id: " + model.getConductorId() + "."));
                 dto.setConductor(conductorModel.getNombre());
-                dto.setConductor(model.getConductorId().toString());
+                dto.setConductorId(model.getConductorId().toString());
             }
             if (model.getFecha() != null)
                 dto.setFecha(model.getFecha().toString());
@@ -99,6 +99,8 @@ public class CombustibleMapper {
                 dto.setLitros(model.getLitros().toString());
             if (model.getPrecio() != null)
                 dto.setPrecio(model.getPrecio().toString());
+            if (model.getPrecio() != null && model.getLitros() != null)
+                dto.setTotal(Helper.getNDecimal(model.getPrecio() * model.getLitros(), 2).toString());
             dto.setNotas(model.getNotas());
             if (model.getProveedorId() != null) {
                 ProveedorModel proveedorModel = proveedorDAO.findByIdAndEliminadaIsNull(model.getProveedorId()).orElseThrow(() -> new DatosInexistentesException("No se encontró el proveedor con id: " + model.getProveedorId() + "."));

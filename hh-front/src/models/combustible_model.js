@@ -14,6 +14,7 @@ export class CombustibleModel {
     this.precio = null
     this.proveedor = null
     this.proveedorId = null
+    this.total = null
 
     this.creada = null
     this.creador = null
