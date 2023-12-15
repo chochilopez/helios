@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class RemitoCreation extends AbsAuditoriaCreation {
-    private String id;
     private String descripcion;
     private String fecha;
     private String numero;

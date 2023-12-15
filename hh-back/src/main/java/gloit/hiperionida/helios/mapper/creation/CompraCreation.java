@@ -12,7 +12,6 @@ import java.util.List;
 
 @Getter
 public class CompraCreation extends AbsAuditoriaCreation {
-    private String id;
     private String fecha;
     private String iva;
     private String numeroComprobante;

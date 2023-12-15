@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class ChequeCreation extends AbsAuditoriaCreation {
-    private String id;
     private String cuitEmisor;
     private String destinatario;
     private String emisor;

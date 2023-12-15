@@ -15,7 +15,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class FacturaCreation extends AbsAuditoriaCreation {
-    private String id;
     private String bonificacion;
     private String cantidad;
     private String clienteId;

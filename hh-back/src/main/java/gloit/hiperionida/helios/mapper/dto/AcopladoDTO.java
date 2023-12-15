@@ -9,5 +9,4 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class AcopladoDTO extends AbsVehiculoDTO implements Serializable {
-    private String id;
 }

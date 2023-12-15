@@ -1,6 +1,6 @@
 <template>
   <div class="q-ma-md">
-    <BancoListado />
+    <CuentaCorrienteProveedorListado />
   </div>
 </template>
 
@@ -8,10 +8,10 @@
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import BancoListado from 'src/components/flujo/BancoListado.vue'
+import CuentaCorrienteProveedorListado from 'src/components/proveedor/CuentaCorrienteProveedorListado.vue'
 
 export default {
-  components: { BancoListado },
+  components: { CuentaCorrienteProveedorListado },
   setup () {
     const $q = useQuasar()
 

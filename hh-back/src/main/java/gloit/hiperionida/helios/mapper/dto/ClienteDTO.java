@@ -8,5 +8,4 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class ClienteDTO extends AbsPersonaDTO implements Serializable {
-    private String id;
 }

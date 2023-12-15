@@ -1,15 +1,14 @@
 package gloit.hiperionida.helios.service.implementation;
 
-import gloit.hiperionida.helios.mapper.CuentaCorrienteMapper;
-import gloit.hiperionida.helios.mapper.creation.CuentaCorrienteCreation;
-import gloit.hiperionida.helios.mapper.creation.CuentaCorrienteCreation;
+import gloit.hiperionida.helios.mapper.CuentaCorrienteClienteMapper;
+import gloit.hiperionida.helios.mapper.creation.AbsCuentaCorrienteCreation;
 import gloit.hiperionida.helios.mapper.creation.ReciboCreation;
-import gloit.hiperionida.helios.mapper.dto.CuentaCorrienteDTO;
+import gloit.hiperionida.helios.mapper.dto.AbsCuentaCorrienteDTO;
 import gloit.hiperionida.helios.model.*;
 import gloit.hiperionida.helios.model.enums.MovimientoEnum;
 import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
-import gloit.hiperionida.helios.repository.CuentaCorrienteDAO;
-import gloit.hiperionida.helios.service.CuentaCorrienteService;
+import gloit.hiperionida.helios.repository.CuentaCorrienteClienteDAO;
+import gloit.hiperionida.helios.service.CuentaCorrienteClienteService;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
@@ -21,16 +20,15 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
-    private final CuentaCorrienteDAO cuentaCorrienteDAO;
-    private final CuentaCorrienteMapper cuentaCorrienteMapper;
+public class CuentaCorrienteClienteServiceImpl implements CuentaCorrienteClienteService {
+    private final CuentaCorrienteClienteDAO cuentaCorrienteClienteDAO;
+    private final CuentaCorrienteClienteMapper cuentaCorrienteClienteMapper;
     private final ReciboServiceImpl reciboService;
     private final UsuarioServiceImpl usuarioService;
 
@@ -49,7 +47,7 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
             Double iva = Helper.getNDecimal((facturaModel.getIva() * total) / 100, 2);
             total = Helper.getNDecimal(total + iva, 2);
         }
-        this.guardar(new CuentaCorrienteCreation(
+        this.guardar(new AbsCuentaCorrienteCreation(
                 null,
                 total.toString(),
                 "Comprobante " + facturaModel.getTipoComprobante().toString() + "-" + facturaModel.getNumeroComprobante(),
@@ -60,7 +58,7 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
                 facturaModel.getId().toString()
         ));
         if (facturaModel.getPagada()) {
-            CuentaCorrienteModel ctaCte = this.guardar(new CuentaCorrienteCreation(
+            CuentaCorrienteClienteModel ctaCte = this.guardar(new AbsCuentaCorrienteCreation(
                     null,
                     total.toString(),
                     "Comprobante " + facturaModel.getTipoComprobante().toString() + "-" + facturaModel.getNumeroComprobante(),
@@ -72,12 +70,12 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
             ));
             ReciboModel recibo = reciboService.guardar(new ReciboCreation(null, total.toString(), Helper.getNow("").toString()));
             ctaCte.setReciboId(recibo.getId());
-            cuentaCorrienteDAO.save(ctaCte);
+            cuentaCorrienteClienteDAO.save(ctaCte);
         }
     }
 
     @Override
-    public List<CuentaCorrienteDTO> calcularSaldo(List<CuentaCorrienteDTO> listado) {
+    public List<AbsCuentaCorrienteDTO> calcularSaldo(List<AbsCuentaCorrienteDTO> listado) {
         for (int a = 0; a < listado.size(); a++ ) {
             if (a == 0) {
                 if (Objects.equals(listado.get(a).getTipoMovimiento(), "DEBITO")) {
@@ -121,88 +119,88 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
     }
 
     @Override
-    public List<CuentaCorrienteModel> buscarTodasPorClienteId(Long id) {
+    public List<CuentaCorrienteClienteModel> buscarTodasPorClienteId(Long id) {
         log.info("Buscando todas las entidades CuentaCorriente con cliente id: {}.", id);
-        List<CuentaCorrienteModel> listado = cuentaCorrienteDAO.findAllByClienteIdAndEliminadaIsNull(id);
+        List<CuentaCorrienteClienteModel> listado = cuentaCorrienteClienteDAO.findAllByClienteIdAndEliminadaIsNull(id);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente con cliente id: " + id + ".");
         return listado;
     }
 
     @Override
-    public List<CuentaCorrienteModel> buscarTodasPorClienteIdConEliminadas(Long id) {
+    public List<CuentaCorrienteClienteModel> buscarTodasPorClienteIdConEliminadas(Long id) {
         log.info("Buscando todas las entidades CuentaCorriente con cliente id: {}, incluidas las eliminadas.", id);
-        List<CuentaCorrienteModel> listado = cuentaCorrienteDAO.findAllByClienteId(id);
+        List<CuentaCorrienteClienteModel> listado = cuentaCorrienteClienteDAO.findAllByClienteId(id);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente con cliente id: " + id + ", incluidas las eliminadas.");
         return listado;
     }
 
     @Override
-    public List<CuentaCorrienteModel> buscarTodasPorFacturaId(Long id) {
+    public List<CuentaCorrienteClienteModel> buscarTodasPorFacturaId(Long id) {
         log.info("Buscando todas las entidades CuentaCorriente con factura id: {}.", id);
-        List<CuentaCorrienteModel> listado = cuentaCorrienteDAO.findAllByFacturaIdAndEliminadaIsNull(id);
+        List<CuentaCorrienteClienteModel> listado = cuentaCorrienteClienteDAO.findAllByFacturaIdAndEliminadaIsNull(id);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente con factura id: " + id + ".");
         return listado;
     }
 
     @Override
-    public List<CuentaCorrienteModel> buscarTodasPorFacturaIdConEliminadas(Long id) {
+    public List<CuentaCorrienteClienteModel> buscarTodasPorFacturaIdConEliminadas(Long id) {
         log.info("Buscando todas las entidades CuentaCorriente con factura id: {}, incluidas las eliminadas.", id);
-        List<CuentaCorrienteModel> listado = cuentaCorrienteDAO.findAllByFacturaId(id);
+        List<CuentaCorrienteClienteModel> listado = cuentaCorrienteClienteDAO.findAllByFacturaId(id);
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente con factura id: " + id + ", incluidas las eliminadas.");
         return listado;
     }
 
     @Override
-    public CuentaCorrienteModel buscarPorId(Long id) {
+    public CuentaCorrienteClienteModel buscarPorId(Long id) {
         log.info("Buscando la entidad CuentaCorriente con id: {}.", id);
-        CuentaCorrienteModel cuentaCorrienteModel = cuentaCorrienteDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad CuentaCorriente con id: " + id + "."));
+        CuentaCorrienteClienteModel cuentaCorrienteClienteModel = cuentaCorrienteClienteDAO.findByIdAndEliminadaIsNull(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad CuentaCorriente con id: " + id + "."));
         log.info("Se encontró una entidad CuentaCorriente con id: " + id + ".");
-        return cuentaCorrienteModel;
+        return cuentaCorrienteClienteModel;
     }
 
     @Override
-    public CuentaCorrienteModel buscarPorIdConEliminadas(Long id) {
+    public CuentaCorrienteClienteModel buscarPorIdConEliminadas(Long id) {
         log.info("Buscando la entidad CuentaCorriente con id: {}, incluidas las eliminadas.", id);
-        CuentaCorrienteModel cuentaCorrienteModel = cuentaCorrienteDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad CuentaCorriente con id: " + id +", incluidas las eliminadas."));
+        CuentaCorrienteClienteModel cuentaCorrienteClienteModel = cuentaCorrienteClienteDAO.findById(id).orElseThrow(()-> new DatosInexistentesException("No se encontró la entidad CuentaCorriente con id: " + id +", incluidas las eliminadas."));
         log.info("Se encontró una entidad CuentaCorriente con id: " + id + ", incluidas las eliminadas.");
-        return cuentaCorrienteModel;
+        return cuentaCorrienteClienteModel;
     }
 
     @Override
-    public List<CuentaCorrienteModel> buscarTodas() {
+    public List<CuentaCorrienteClienteModel> buscarTodas() {
         log.info("Buscando todas las entidades CuentaCorriente.");
-        List<CuentaCorrienteModel> listado = cuentaCorrienteDAO.findAllByEliminadaIsNull();
+        List<CuentaCorrienteClienteModel> listado = cuentaCorrienteClienteDAO.findAllByEliminadaIsNull();
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente.");
         return listado;
     }
 
     @Override
-    public List<CuentaCorrienteModel> buscarTodasConEliminadas() {
+    public List<CuentaCorrienteClienteModel> buscarTodasConEliminadas() {
         log.info("Buscando todas las entidades CuentaCorriente, incluidas las eliminadas.");
-        List<CuentaCorrienteModel> listado = cuentaCorrienteDAO.findAll();
+        List<CuentaCorrienteClienteModel> listado = cuentaCorrienteClienteDAO.findAll();
         if (listado.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente, incluidas las eliminadas.");
         return listado;
     }
 
     @Override
-    public Slice<CuentaCorrienteModel> buscarTodasPorOrdenPorPagina(String direccion, String campo, int pagina, int elementos) {
+    public Slice<CuentaCorrienteClienteModel> buscarTodasPorOrdenPorPagina(String direccion, String campo, int pagina, int elementos) {
         log.info("Buscando todas las entidades CuentaCorriente, por la pagina {} con {} elementos, ordenadas por el campo {} {}.", pagina, elementos, campo, direccion);
-        Slice<CuentaCorrienteModel> slice = cuentaCorrienteDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        Slice<CuentaCorrienteClienteModel> slice = cuentaCorrienteClienteDAO.findAllByEliminadaIsNull(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente.");
         return slice;
     }
 
     @Override
-    public Slice<CuentaCorrienteModel> buscarTodasPorOrdenPorPaginaConEliminadas(String direccion, String campo, int pagina, int elementos) {
+    public Slice<CuentaCorrienteClienteModel> buscarTodasPorOrdenPorPaginaConEliminadas(String direccion, String campo, int pagina, int elementos) {
         log.info("Buscando todas las entidades CuentaCorriente, por la pagina {} con {} elementos, ordenadas por el campo {} {}, incluidas las eliminadas.", pagina, elementos, campo, direccion);
-        Slice<CuentaCorrienteModel> slice = cuentaCorrienteDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
+        Slice<CuentaCorrienteClienteModel> slice = cuentaCorrienteClienteDAO.findAll(PageRequest.of(pagina, elementos, Sort.by(direccion.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, campo)));
         if (slice.isEmpty())
             throw new DatosInexistentesException("No se encontraron entidades CuentaCorriente, incluidas las eliminadas.");
         return slice;
@@ -210,64 +208,64 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
 
     @Override
     public Long contarTodas() {
-        Long cantidad = cuentaCorrienteDAO.countAllByEliminadaIsNull();
+        Long cantidad = cuentaCorrienteClienteDAO.countAllByEliminadaIsNull();
         log.info("Existen {} entidades CuentaCorriente.", cantidad);
         return cantidad;
     }
 
     @Override
     public Long contarTodasConEliminadas() {
-        Long cantidad = cuentaCorrienteDAO.count();
+        Long cantidad = cuentaCorrienteClienteDAO.count();
         log.info("Existen {} entidades CuentaCorriente, incluidas las eliminadas.", cantidad);
         return cantidad;
     }
 
     @Override
-    public CuentaCorrienteModel crear(CuentaCorrienteModel model) {
+    public CuentaCorrienteClienteModel crear(CuentaCorrienteClienteModel model) {
         log.info("Insertando la entidad CuentaCorrienteModel: {}.",  model);
-        CuentaCorrienteModel cuentaCorrienteModel = cuentaCorrienteDAO.save(model);
+        CuentaCorrienteClienteModel cuentaCorrienteClienteModel = cuentaCorrienteClienteDAO.save(model);
         if (model.getId() == null) {
-            cuentaCorrienteModel.setCreada(Helper.getNow(""));
-            cuentaCorrienteModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            cuentaCorrienteClienteModel.setCreada(Helper.getNow(""));
+            cuentaCorrienteClienteModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persisitio correctamente la nueva entidad CuentaCorrienteModel.");
         } else {
-            cuentaCorrienteModel.setModificada(Helper.getNow(""));
-            cuentaCorrienteModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            cuentaCorrienteClienteModel.setModificada(Helper.getNow(""));
+            cuentaCorrienteClienteModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persisitio correctamente la entidad CuentaCorrienteModel.");
         }
-        return cuentaCorrienteDAO.save(cuentaCorrienteModel);
+        return cuentaCorrienteClienteDAO.save(cuentaCorrienteClienteModel);
     }
 
     @Override
-    public CuentaCorrienteModel guardar(CuentaCorrienteCreation creation) {
+    public CuentaCorrienteClienteModel guardar(AbsCuentaCorrienteCreation creation) {
         log.info("Insertando la entidad CuentaCorrienteCreation: {}.",  creation);
-        CuentaCorrienteModel cuentaCorrienteModel = cuentaCorrienteDAO.save(cuentaCorrienteMapper.toEntity(creation));
+        CuentaCorrienteClienteModel cuentaCorrienteClienteModel = cuentaCorrienteClienteDAO.save(cuentaCorrienteClienteMapper.toEntity(creation));
         if (creation.getId() == null) {
-            cuentaCorrienteModel.setCreada(Helper.getNow(""));
-            cuentaCorrienteModel.setCreadorId(usuarioService.obtenerUsuario().getId());
+            cuentaCorrienteClienteModel.setCreada(Helper.getNow(""));
+            cuentaCorrienteClienteModel.setCreadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persisitio correctamente la nueva entidad CuentaCorrienteCreation.");
         } else {
-            cuentaCorrienteModel.setModificada(Helper.getNow(""));
-            cuentaCorrienteModel.setModificadorId(usuarioService.obtenerUsuario().getId());
+            cuentaCorrienteClienteModel.setModificada(Helper.getNow(""));
+            cuentaCorrienteClienteModel.setModificadorId(usuarioService.obtenerUsuario().getId());
             log.info("Se persisitio correctamente la entidad CuentaCorrienteCreation.");
         }
-        return cuentaCorrienteDAO.save(cuentaCorrienteModel);
+        return cuentaCorrienteClienteDAO.save(cuentaCorrienteClienteModel);
     }
 
     @Override
-    public CuentaCorrienteModel eliminar(Long id) {
+    public CuentaCorrienteClienteModel eliminar(Long id) {
         log.info("Eliminando la entidad CuentaCorriente con id: {}.", id);
-        CuentaCorrienteModel objeto = this.buscarPorId(id);
+        CuentaCorrienteClienteModel objeto = this.buscarPorId(id);
         objeto.setEliminada(Helper.getNow(""));
         objeto.setEliminadorId(usuarioService.obtenerUsuario().getId());
         log.info("La entidad CuentaCorriente con id: " + id + ", fue eliminada correctamente.");
-        return cuentaCorrienteDAO.save(objeto);
+        return cuentaCorrienteClienteDAO.save(objeto);
     }
 
     @Override
-    public CuentaCorrienteModel reciclar(Long id) {
+    public CuentaCorrienteClienteModel reciclar(Long id) {
         log.info("Reciclando la entidad CuentaCorriente con id: {}.", id);
-        CuentaCorrienteModel objeto = this.buscarPorIdConEliminadas(id);
+        CuentaCorrienteClienteModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad CuentaCorriente con id: " + id + ", no se encuentra eliminada, por lo tanto no es necesario reciclarla.");
             throw new ObjectoNoEliminadoException("No se puede reciclar la entidad.");
@@ -275,18 +273,18 @@ public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
         objeto.setEliminada(null);
         objeto.setEliminadorId(null);
         log.info("La entidad CuentaCorriente con id: " + id + ", fue reciclada correctamente.");
-        return cuentaCorrienteDAO.save(objeto);
+        return cuentaCorrienteClienteDAO.save(objeto);
     }
 
     @Override
     public void destruir(Long id) {
         log.info("Destruyendo la entidad CuentaCorriente con id: {}.", id);
-        CuentaCorrienteModel objeto = this.buscarPorIdConEliminadas(id);
+        CuentaCorrienteClienteModel objeto = this.buscarPorIdConEliminadas(id);
         if (objeto.getEliminada() == null) {
             log.warn("La entidad CuentaCorriente con id: " + id + ", no se encuentra eliminada, por lo tanto no puede ser destruida.");
             throw new ObjectoNoEliminadoException("No se puede destruir la entidad.");
         }
-        cuentaCorrienteDAO.delete(objeto);
+        cuentaCorrienteClienteDAO.delete(objeto);
         log.info("La entidad fue destruida.");
     }
 }

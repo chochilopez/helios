@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class GastoCreation extends AbsAuditoriaCreation {
-    private String id;
     private String monto;
     private String notas;
 

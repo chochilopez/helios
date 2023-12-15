@@ -1,11 +1,9 @@
 package gloit.hiperionida.helios.mapper.dto;
 
-import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.util.mapper.dto.AbsAuditoriaDTO;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -13,7 +11,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class PagoDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String monto;
     private String notas;
     private String tipoPago;

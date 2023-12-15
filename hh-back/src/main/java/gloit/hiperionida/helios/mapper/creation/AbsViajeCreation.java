@@ -1,7 +1,6 @@
 package gloit.hiperionida.helios.mapper.creation;
 
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
-import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;

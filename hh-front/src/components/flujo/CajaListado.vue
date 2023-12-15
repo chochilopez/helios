@@ -160,7 +160,7 @@ const columnas = [
   },
   {
     name: 'caja',
-    label: 'Categoría del viaje',
+    label: 'Caja',
     align: 'left',
     field: 'caja',
     sortable: true
@@ -248,7 +248,7 @@ export default {
         if (resultado.status === 201) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
-          notificarService.notificarExito('Se creó correctamente la categoría viaje.')
+          notificarService.notificarExito('Se creó correctamente la caja.')
         }
       } catch (err) {
         console.clear()

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class DireccionCreation extends AbsAuditoriaCreation {
-    private String id;
     private String ciudad;
     private String direccion;
     private String nombre;

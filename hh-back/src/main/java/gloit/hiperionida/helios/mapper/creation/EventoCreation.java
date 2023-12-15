@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class EventoCreation extends AbsAuditoriaCreation {
-    private String id;
     private String descripcion;
     private String fecha;
     private String habilitada;

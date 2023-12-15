@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class DireccionDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String ciudad;
     private String completa;
     private String direccion;

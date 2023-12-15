@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class ConciliacionBancoCreation extends AbsAuditoriaCreation {
-    private String id;
     private String movimiento;
     private String fecha;
     private String concepto;

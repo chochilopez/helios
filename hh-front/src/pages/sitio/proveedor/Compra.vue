@@ -1,13 +1,17 @@
 <template>
-<div class="q-ma-md"></div>
+  <div class="q-ma-md">
+    <CompraListado />
+  </div>
 </template>
 
 <script>
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
+import CompraListado from 'src/components/proveedor/CompraListado.vue'
 
 export default {
+  components: { CompraListado },
   setup () {
     const $q = useQuasar()
 

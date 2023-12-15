@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class ReciboCreation extends AbsAuditoriaCreation {
-    private String id;
     private String monto;
     private String fecha;
 }

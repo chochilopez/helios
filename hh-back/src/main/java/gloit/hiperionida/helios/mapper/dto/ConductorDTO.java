@@ -9,5 +9,4 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class ConductorDTO extends AbsPersonaDTO implements Serializable {
-    private String id;
 }

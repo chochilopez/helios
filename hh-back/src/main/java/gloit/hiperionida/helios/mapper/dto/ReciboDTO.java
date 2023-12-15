@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class ReciboDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String monto;
     private String fecha;
 }

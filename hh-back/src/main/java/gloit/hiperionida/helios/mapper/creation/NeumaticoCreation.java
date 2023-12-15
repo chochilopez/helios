@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class NeumaticoCreation extends AbsAuditoriaCreation {
-    private String id;
     private String fechaCompra;
     private String kmVida;
     private String kmActuales;

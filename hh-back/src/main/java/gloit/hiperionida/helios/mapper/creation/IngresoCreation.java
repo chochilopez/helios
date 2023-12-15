@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class IngresoCreation extends AbsAuditoriaCreation {
-    private String id;
     private String ip;
     private String hostname;
     private String country_name;

@@ -79,6 +79,92 @@
             <q-item-section class="white-text">Vencimientos</q-item-section>
           </q-item>
         </q-expansion-item> -->
+        <q-expansion-item icon="groups" label="Clientes">
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'clientes'"
+            @click="link = 'clientes'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'Cliente' }"
+            class="q-ml-md paleta1-fondo5"
+          >
+            <q-item-section avatar>
+              <q-icon name="groups" />
+            </q-item-section>
+            <q-item-section class="white-text">Clientes</q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'saldos'"
+            @click="link = 'saldos'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'CuentaCorriente' }"
+            class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
+          >
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-money-bill-trend-up" />
+            </q-item-section>
+            <q-item-section class="white-text">Cuentas corrientes</q-item-section>
+          </q-item>
+          <!-- <q-item
+            clickable
+            v-ripple
+            :active="link === 'detallesCtaCte'"
+            @click="link = 'detallesCtaCte'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'DetalleCtaCte' }"
+            class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
+          >
+            <q-item-section avatar>
+              <q-icon name="folder_shared" />
+            </q-item-section>
+            <q-item-section class="white-text"
+              >Detalles cuentas corrientes</q-item-section
+            >
+          </q-item> -->
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'direccion'"
+            @click="link = 'direccion'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'Direccion' }"
+            class="q-ml-md paleta1-fondo5"
+          >
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-earth-americas" />
+            </q-item-section>
+            <q-item-section class="white-text"
+              >Direcciones</q-item-section
+            >
+          </q-item>
+          <!-- <q-item
+            clickable
+            v-ripple
+            :active="link === 'moviemientoCtaCte'"
+            @click="link = 'moviemientoCtaCte'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'MovimientoCtaCte' }"
+            class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
+          >
+            <q-item-section avatar>
+              <q-icon name="social_distance" />
+            </q-item-section>
+            <q-item-section class="white-text"
+              >Movimientos cuentas corrientes</q-item-section
+            >
+          </q-item> -->
+        </q-expansion-item>
         <q-expansion-item icon="airline_seat_recline_extra" label="Conductores">
           <q-item
             clickable
@@ -144,92 +230,6 @@
             <q-item-section class="white-text">Licencias</q-item-section>
           </q-item>
         </q-expansion-item>
-        <q-expansion-item icon="groups" label="Clientes">
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'clientes'"
-            @click="link = 'clientes'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'Cliente' }"
-            class="q-ml-md paleta1-fondo5"
-          >
-            <q-item-section avatar>
-              <q-icon name="groups" />
-            </q-item-section>
-            <q-item-section class="white-text">Clientes</q-item-section>
-          </q-item>
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'saldos'"
-            @click="link = 'saldos'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'CuentaCorriente' }"
-            class="q-ml-md paleta1-fondo5"
-            v-if="autoridad === 'admin' || autoridad === 'usuario'"
-          >
-            <q-item-section avatar>
-              <q-icon name="fa-solid fa-money-bill-trend-up" />
-            </q-item-section>
-            <q-item-section class="white-text">Cuentas corrientes</q-item-section>
-          </q-item>
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'detallesCtaCte'"
-            @click="link = 'detallesCtaCte'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'DetalleCtaCte' }"
-            class="q-ml-md paleta1-fondo5"
-            v-if="autoridad === 'admin' || autoridad === 'usuario'"
-          >
-            <q-item-section avatar>
-              <q-icon name="folder_shared" />
-            </q-item-section>
-            <q-item-section class="white-text"
-              >Detalles cuentas corrientes</q-item-section
-            >
-          </q-item>
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'direccion'"
-            @click="link = 'direccion'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'Direccion' }"
-            class="q-ml-md paleta1-fondo5"
-          >
-            <q-item-section avatar>
-              <q-icon name="fa-solid fa-earth-americas" />
-            </q-item-section>
-            <q-item-section class="white-text"
-              >Direcciones</q-item-section
-            >
-          </q-item>
-          <q-item
-            clickable
-            v-ripple
-            :active="link === 'moviemientoCtaCte'"
-            @click="link = 'moviemientoCtaCte'"
-            active-class="seleccion-activa"
-            exact
-            :to="{ name: 'MovimientoCtaCte' }"
-            class="q-ml-md paleta1-fondo5"
-            v-if="autoridad === 'admin' || autoridad === 'usuario'"
-          >
-            <q-item-section avatar>
-              <q-icon name="social_distance" />
-            </q-item-section>
-            <q-item-section class="white-text"
-              >Movimientos cuentas corrientes</q-item-section
-            >
-          </q-item>
-        </q-expansion-item>
         <q-expansion-item icon="receipt_long" label="Facturacion" v-if="autoridad === 'admin' || autoridad === 'usuario'">
           <q-item
             clickable
@@ -281,7 +281,7 @@
           </q-item>
         </q-expansion-item>
         <q-expansion-item icon="paid" label="Flujo" v-if="autoridad === 'admin' || autoridad === 'usuario'">
-          <q-item
+          <!-- <q-item
             clickable
             v-ripple
             :active="link === 'banco'"
@@ -295,7 +295,7 @@
               <q-icon name="fa-solid fa-building-columns" />
             </q-item-section>
             <q-item-section class="white-text">Banco</q-item-section>
-          </q-item>
+          </q-item> -->
           <q-item
             clickable
             v-ripple
@@ -328,7 +328,7 @@
             </q-item-section>
             <q-item-section class="white-text">Movimientos cajas</q-item-section>
           </q-item>
-          <q-item
+          <!-- <q-item
             clickable
             v-ripple
             :active="link === 'conciliacion'"
@@ -342,8 +342,8 @@
               <q-icon name="price_change" />
             </q-item-section>
             <q-item-section class="white-text">Movimientos conciliaciones</q-item-section>
-          </q-item>
-          <q-item
+          </q-item> -->
+          <!-- <q-item
             clickable
             v-ripple
             :active="link === 'planesCuenta'"
@@ -358,7 +358,7 @@
               <q-icon name="local_atm" />
             </q-item-section>
             <q-item-section class="white-text">Planes de cuenta</q-item-section>
-          </q-item>
+          </q-item> -->
         </q-expansion-item>
         <q-expansion-item icon="storefront" label="Proveedores" v-if="autoridad === 'admin' || autoridad === 'usuario'">
           <q-item
@@ -380,11 +380,27 @@
           <q-item
             clickable
             v-ripple
-            :active="link === 'movimientosCtaCtePro'"
-            @click="link = 'movimientosCtaCtePro'"
+            :active="link === 'conceptoCompra'"
+            @click="link = 'conceptoCompra'"
             active-class="seleccion-activa"
             exact
-            :to="{ name: 'MovCtaCteProveedor' }"
+            :to="{ name: 'ConceptoCompra' }"
+            class="q-ml-md paleta1-fondo5"
+            v-if="autoridad === 'admin' || autoridad === 'usuario'"
+          >
+            <q-item-section avatar>
+              <q-icon name="shopping_cart_checkout" />
+            </q-item-section>
+            <q-item-section class="white-text">Concepto compra</q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'cuentaCorrienteProveedor'"
+            @click="link = 'cuentaCorrienteProveedor'"
+            active-class="seleccion-activa"
+            exact
+            :to="{ name: 'CuentaCorrienteProveedor' }"
             class="q-ml-md paleta1-fondo5"
             v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
@@ -392,7 +408,7 @@
               <q-icon name="fa-solid fa-money-bill-transfer" />
             </q-item-section>
             <q-item-section class="white-text"
-              >Movimientos cuentas corrientes proveedores</q-item-section
+              >Cuentas corrientes proveedores</q-item-section
             >
           </q-item>
           <q-item

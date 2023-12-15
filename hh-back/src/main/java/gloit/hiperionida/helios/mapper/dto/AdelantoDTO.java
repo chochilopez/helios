@@ -11,7 +11,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class AdelantoDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String fecha;
     private String monto;
     private String notas;

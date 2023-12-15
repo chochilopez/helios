@@ -16,7 +16,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class CompraDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String fecha;
     private String iva;
     private String numeroComprobante;

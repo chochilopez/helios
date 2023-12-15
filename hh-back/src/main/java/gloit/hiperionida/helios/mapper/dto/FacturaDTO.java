@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class FacturaDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String bonificacionPercentil;
     private String bonificacionMonto;
     private String camion;

@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class NeumaticoDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String fechaCompra;
     private String kmVida;
     private String kmActuales;

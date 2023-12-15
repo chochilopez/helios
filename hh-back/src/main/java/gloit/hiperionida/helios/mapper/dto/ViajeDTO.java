@@ -9,7 +9,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class ViajeDTO extends AbsViajeDTO implements Serializable {
-    private String id;
     private String guia;
     private String kmVacio;
     private String neto;

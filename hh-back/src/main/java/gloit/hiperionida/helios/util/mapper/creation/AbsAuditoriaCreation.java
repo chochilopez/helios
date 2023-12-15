@@ -8,6 +8,7 @@ import lombok.Setter;
 @MappedSuperclass
 @Setter
 public abstract class AbsAuditoriaCreation {
+    private String id;
     private String creadorId;
     private String creada;
     private String eliminadorId;

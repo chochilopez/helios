@@ -11,7 +11,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class EventoDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String descripcion;
     private String fecha;
     private String habilitada;

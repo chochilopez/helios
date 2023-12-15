@@ -8,7 +8,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class PresupuestoDTO extends AbsViajeDTO implements Serializable {
-    private String id;
     private String validez;
     private String fechaEmision;
 }

@@ -4,24 +4,17 @@ import gloit.hiperionida.helios.mapper.creation.FacturaCreation;
 import gloit.hiperionida.helios.mapper.dto.*;
 import gloit.hiperionida.helios.model.*;
 import gloit.hiperionida.helios.model.enums.CondicionPagoEnum;
-import gloit.hiperionida.helios.model.enums.MovimientoEnum;
 import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
-import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.repository.*;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
-import gloit.hiperionida.helios.util.mapper.UsuarioMapper;
-import gloit.hiperionida.helios.util.model.UsuarioModel;
-import gloit.hiperionida.helios.util.repository.UsuarioDAO;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -31,7 +24,7 @@ public class FacturaMapper {
     private final CategoriaViajeDAO categoriaViajeDAO;
     private final ClienteDAO clienteDAO;
     private final ConductorDAO conductorDAO;
-    private final CuentaCorrienteDAO cuentaCorrienteDAO;
+    private final CuentaCorrienteClienteDAO cuentaCorrienteClienteDAO;
     private final DireccionDAO direccionDAO;
     private final EventoDAO eventoDAO;
     private final ReciboDAO reciboDAO;

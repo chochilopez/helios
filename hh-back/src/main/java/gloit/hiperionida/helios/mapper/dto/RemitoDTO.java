@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class RemitoDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String descripcion;
     private String fecha;
     private String numero;

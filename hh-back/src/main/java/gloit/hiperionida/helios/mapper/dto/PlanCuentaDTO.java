@@ -9,6 +9,5 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class PlanCuentaDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String nombre;
 }

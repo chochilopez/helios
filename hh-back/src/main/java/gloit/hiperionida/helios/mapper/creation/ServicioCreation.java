@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ServicioCreation extends AbsAuditoriaCreation {
-    private String id;
     private String kmServicio;
     private String kmActual;
     private String kmProximo;

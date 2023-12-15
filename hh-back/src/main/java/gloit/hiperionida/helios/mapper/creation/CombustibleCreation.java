@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CombustibleCreation extends AbsAuditoriaCreation {
-    private String id;
     private String cajaId;
     private String camionId;
     private String conductorId;

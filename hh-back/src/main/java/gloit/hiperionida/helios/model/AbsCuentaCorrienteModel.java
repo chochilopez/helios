@@ -8,17 +8,10 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-@Entity
 @Getter
-@NoArgsConstructor
+@MappedSuperclass
 @Setter
-@Table(name = "cuenta_corriente")
-public class CuentaCorrienteModel extends AbsAuditoriaModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public abstract class AbsCuentaCorrienteModel extends AbsAuditoriaModel {
     private Double monto;
     @Column(columnDefinition = "TEXT")
     private String notas;
@@ -27,8 +20,4 @@ public class CuentaCorrienteModel extends AbsAuditoriaModel {
     @Enumerated(EnumType.STRING)
     private MovimientoEnum tipoMovimiento;
     private LocalDateTime fecha;
-
-    private Long clienteId;
-    private Long reciboId;
-    private Long facturaId;
 }

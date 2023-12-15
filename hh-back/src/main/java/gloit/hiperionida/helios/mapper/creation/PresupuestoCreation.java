@@ -8,6 +8,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PresupuestoCreation extends AbsViajeCreation {
-    private String id;
     private String validez;
 }

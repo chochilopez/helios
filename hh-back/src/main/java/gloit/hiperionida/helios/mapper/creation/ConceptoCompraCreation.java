@@ -8,14 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class CuentaCorrienteCreation extends AbsAuditoriaCreation {
-    private String id;
-    private String monto;
+public class ConceptoCompraCreation extends AbsAuditoriaCreation {
+    private String concepto;
     private String notas;
-    private String tipoPago;
-    private String tipoMovimiento;
-
-    private String clienteId;
-    private String reciboId;
-    private String facturaId;
 }

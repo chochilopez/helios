@@ -1,6 +1,6 @@
 <template>
   <div class="q-ma-md">
-    <CalendarioCalendario />
+    <ConceptoCompraListado />
   </div>
 </template>
 
@@ -8,10 +8,10 @@
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import CalendarioCalendario from 'src/components/calendario/CalendarioCalendario.vue'
+import ConceptoCompraListado from 'src/components/proveedor/ConceptoCompraListado.vue'
 
 export default {
-  components: { CalendarioCalendario },
+  components: { ConceptoCompraListado },
   setup () {
     const $q = useQuasar()
 

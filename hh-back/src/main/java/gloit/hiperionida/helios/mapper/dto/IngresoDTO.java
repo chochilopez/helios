@@ -11,7 +11,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class IngresoDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String ip;
     private String hostname;
     private String country_name;

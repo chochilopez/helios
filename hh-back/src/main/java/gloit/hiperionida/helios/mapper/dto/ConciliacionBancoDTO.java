@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class ConciliacionBancoDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String movimiento;
     private String fecha;
     private String concepto;

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CategoriaViajeCreation extends AbsAuditoriaCreation {
-    private String id;
     private String categoria;
     private String notas;
 }

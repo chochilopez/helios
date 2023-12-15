@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PlanCuentaCreation extends AbsAuditoriaCreation {
-    private String id;
     private String nombre;
 }

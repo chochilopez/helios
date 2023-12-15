@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class LicenciaDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String categoria;
     private String conductor;
     private String conductorId;

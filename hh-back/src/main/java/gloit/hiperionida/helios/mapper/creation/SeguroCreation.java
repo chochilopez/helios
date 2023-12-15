@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SeguroCreation extends AbsAuditoriaCreation {
-    private String id;
     private String notas;
 
     private String acopladoId;

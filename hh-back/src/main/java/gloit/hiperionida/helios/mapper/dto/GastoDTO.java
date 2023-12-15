@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class GastoDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String monto;
     private String notas;
     private String categoriaGasto;

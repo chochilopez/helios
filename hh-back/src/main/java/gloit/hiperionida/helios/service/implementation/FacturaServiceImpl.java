@@ -2,11 +2,8 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.FacturaMapper;
 import gloit.hiperionida.helios.mapper.creation.FacturaCreation;
-import gloit.hiperionida.helios.mapper.creation.FacturaCreation;
 import gloit.hiperionida.helios.model.*;
-import gloit.hiperionida.helios.model.enums.MovimientoEnum;
 import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
-import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.repository.FacturaDAO;
 import gloit.hiperionida.helios.service.FacturaService;
 import gloit.hiperionida.helios.util.Helper;
@@ -30,7 +27,7 @@ import java.util.List;
 public class FacturaServiceImpl implements FacturaService {
     private final FacturaDAO facturaDAO;
     private final FacturaMapper facturaMapper;
-    private final CuentaCorrienteServiceImpl cuentaCorrienteService;
+    private final CuentaCorrienteClienteServiceImpl cuentaCorrienteService;
     private final UsuarioServiceImpl usuarioService;
 
     @Override

@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class ServicioDTO extends AbsAuditoriaDTO implements Serializable {
-    private String id;
     private String kmServicio;
     private String kmActual;
     private String kmProximo;

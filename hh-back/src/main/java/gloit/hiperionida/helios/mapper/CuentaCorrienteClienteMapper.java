@@ -1,8 +1,11 @@
 package gloit.hiperionida.helios.mapper;
 
-import gloit.hiperionida.helios.mapper.creation.CuentaCorrienteCreation;
-import gloit.hiperionida.helios.mapper.dto.CuentaCorrienteDTO;
-import gloit.hiperionida.helios.model.*;
+import gloit.hiperionida.helios.mapper.creation.CuentaCorrienteClienteCreation;
+import gloit.hiperionida.helios.mapper.dto.CuentaCorrienteClienteDTO;
+import gloit.hiperionida.helios.model.ClienteModel;
+import gloit.hiperionida.helios.model.CuentaCorrienteClienteModel;
+import gloit.hiperionida.helios.model.FacturaModel;
+import gloit.hiperionida.helios.model.ReciboModel;
 import gloit.hiperionida.helios.model.enums.MovimientoEnum;
 import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.repository.ClienteDAO;
@@ -21,15 +24,15 @@ import java.time.format.DateTimeFormatter;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CuentaCorrienteMapper {
+public class CuentaCorrienteClienteMapper {
     private final ClienteDAO clienteDAO;
     private final FacturaDAO facturaDAO;
     private final ReciboDAO reciboDAO;
     private final UsuarioDAO usuarioDAO;
 
-    public CuentaCorrienteModel toEntity(CuentaCorrienteCreation creation) {
+    public CuentaCorrienteClienteModel toEntity(CuentaCorrienteClienteCreation creation) {
         try {
-            CuentaCorrienteModel model = new CuentaCorrienteModel();
+            CuentaCorrienteClienteModel model = new CuentaCorrienteClienteModel();
             
             if (Helper.getLong(creation.getId()) != null)
                 model.setId(Helper.getLong(creation.getId()));
@@ -68,9 +71,9 @@ public class CuentaCorrienteMapper {
         }
     }
 
-    public CuentaCorrienteDTO toDto(CuentaCorrienteModel model) {
+    public CuentaCorrienteClienteDTO toDto(CuentaCorrienteClienteModel model) {
         try {
-            CuentaCorrienteDTO dto = new CuentaCorrienteDTO();
+            CuentaCorrienteClienteDTO dto = new CuentaCorrienteClienteDTO();
 
             dto.setId(model.getId().toString());
             if (model.getMonto() != null)

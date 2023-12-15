@@ -105,6 +105,14 @@ const routes = [
         }
       },
       {
+        path: '/concepto-compra',
+        name: 'ConceptoCompra',
+        component: () => import('pages/sitio/proveedor/ConceptoCompra.vue'),
+        meta: {
+          rol: rolEnum.USUARIO
+        }
+      },
+      {
         path: '/conciliacion',
         name: 'Conciliacion',
         component: () => import('pages/sitio/flujo/Conciliacion.vue'),
@@ -153,9 +161,9 @@ const routes = [
         }
       },
       {
-        path: '/movimiento-cuenta-corriente-proveedor',
-        name: 'MovCtaCteProveedor',
-        component: () => import('pages/sitio/proveedor/MovCtaCteProveedor.vue'),
+        path: '/cuenta-corriente-proveedor',
+        name: 'CuentaCorrienteProveedor',
+        component: () => import('pages/sitio/proveedor/CuentaCorrienteProveedor.vue'),
         meta: {
           rol: rolEnum.USUARIO
         }
