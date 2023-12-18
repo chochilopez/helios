@@ -33,27 +33,11 @@ const routes = [
         }
       },
       {
-        path: '/banco',
-        name: 'Banco',
-        component: () => import('pages/sitio/flujo/Banco.vue'),
-        meta: {
-          rol: rolEnum.ADMIN
-        }
-      },
-      {
         path: '/caja',
         name: 'Caja',
         component: () => import('pages/sitio/flujo/Caja.vue'),
         meta: {
           rol: rolEnum.USUARIO
-        }
-      },
-      {
-        path: '/calendario',
-        name: 'Calendario',
-        component: () => import('pages/sitio/calendario/Calendario.vue'),
-        meta: {
-          rol: rolEnum.CARGA
         }
       },
       {
@@ -113,25 +97,9 @@ const routes = [
         }
       },
       {
-        path: '/conciliacion',
-        name: 'Conciliacion',
-        component: () => import('pages/sitio/flujo/Conciliacion.vue'),
-        meta: {
-          rol: rolEnum.ADMIN
-        }
-      },
-      {
-        path: '/cuenta-corriente',
-        name: 'CuentaCorriente',
-        component: () => import('pages/sitio/cliente/CuentaCorriente.vue'),
-        meta: {
-          rol: rolEnum.USUARIO
-        }
-      },
-      {
-        path: '/detalle-cuenta-corriente',
-        name: 'DetalleCtaCte',
-        component: () => import('pages/sitio/cliente/DetalleCtaCte.vue'),
+        path: '/cuenta-corriente-cliente',
+        name: 'CuentaCorrienteCliente',
+        component: () => import('pages/sitio/cliente/CuentaCorrienteCliente.vue'),
         meta: {
           rol: rolEnum.USUARIO
         }
@@ -177,25 +145,9 @@ const routes = [
         }
       },
       {
-        path: '/movimiento-cuenta-corriente',
-        name: 'MovimientoCtaCte',
-        component: () => import('pages/sitio/cliente/MovimientoCtaCte.vue'),
-        meta: {
-          rol: rolEnum.USUARIO
-        }
-      },
-      {
         path: '/neumatico',
         name: 'Neumatico',
         component: () => import('pages/sitio/vehiculo/Neumatico.vue'),
-        meta: {
-          rol: rolEnum.USUARIO
-        }
-      },
-      {
-        path: '/plan-cuenta',
-        name: 'PlanCuenta',
-        component: () => import('pages/sitio/flujo/PlanCuenta.vue'),
         meta: {
           rol: rolEnum.USUARIO
         }
@@ -241,22 +193,6 @@ const routes = [
         }
       },
       {
-        path: '/tarea',
-        name: 'Tarea',
-        component: () => import('pages/sitio/calendario/Tarea.vue'),
-        meta: {
-          rol: rolEnum.CARGA
-        }
-      },
-      {
-        path: '/vencimiento',
-        name: 'Vencimiento',
-        component: () => import('pages/sitio/calendario/Vencimiento.vue'),
-        meta: {
-          rol: rolEnum.USUARIO
-        }
-      },
-      {
         path: '/viaje',
         name: 'Viaje',
         component: () => import('pages/sitio/viaje/Viaje.vue'),
@@ -268,8 +204,8 @@ const routes = [
   },
   {
     path: '/autenticacion/ingresar',
-    name: 'Ingreso',
-    component: () => import('pages/autenticacion/Ingreso.vue'),
+    name: 'Logueo',
+    component: () => import('pages/autenticacion/Logueo.vue'),
     meta: {
       rol: null
     }

@@ -4,19 +4,27 @@ import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@AllArgsConstructor
+import java.time.LocalDateTime;
+
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Getter
-@NoArgsConstructor
 @Setter
+@SuperBuilder
 @Table(name = "caja")
 public class CajaModel extends AbsAuditoriaModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String caja;
     @Column(columnDefinition = "TEXT")
     private String notas;
+
+    public CajaModel() {
+    }
+
+    public CajaModel(Long id, Long creadorId, LocalDateTime creada, Long modificadorId, LocalDateTime modificada, Long eliminadorId, LocalDateTime eliminada, String caja, String notas) {
+        super(id, creadorId, creada, modificadorId, modificada, eliminadorId, eliminada);
+        this.caja = caja;
+        this.notas = notas;
+    }
 }

@@ -6,6 +6,7 @@ export class PresupuestoCreation {
     this.clienteId = null
     this.destinoId = null
     this.fecha = null
+    this.fechaId = null
     this.kmCargado = null
     this.notas = null
     this.origenId = null
@@ -13,13 +14,10 @@ export class PresupuestoCreation {
     this.valorKm = null
 
     this.creada = null
-    this.creador = null
     this.creadorId = null
     this.modificada = null
-    this.modificador = null
     this.modificadorId = null
     this.eliminada = null
-    this.eliminador = null
     this.eliminadorId = null
   }
 }

@@ -2,24 +2,22 @@ package gloit.hiperionida.helios.model;
 
 import gloit.hiperionida.helios.model.enums.CondicionPagoEnum;
 import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
-import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Getter
-@NoArgsConstructor
 @Setter
+@SuperBuilder
 @Table(name = "factura")
 public class FacturaModel extends AbsAuditoriaModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private Double bonificacion;
     private Integer cantidad;
     private String codigo;
@@ -42,4 +40,30 @@ public class FacturaModel extends AbsAuditoriaModel {
     private TipoComprobanteEnum tipoComprobante;
     private Double subTotal;
     private Long viajeId;
+
+    public FacturaModel() {
+    }
+
+    public FacturaModel(Long id, Long creadorId, LocalDateTime creada, Long modificadorId, LocalDateTime modificada, Long eliminadorId, LocalDateTime eliminada, Double bonificacion, Integer cantidad, String codigo, String concepto, CondicionPagoEnum condicionPago, String domicilioComercial, LocalDateTime fechaEmision, Long fechaVencimientoId, Double iva, String notas, String numeroComprobante, Double otrosImpuestos, Boolean pagada, Double precioUnitario, String razonSocial, Long remitoId, TipoComprobanteEnum tipoComprobante, Double subTotal, Long viajeId) {
+        super(id, creadorId, creada, modificadorId, modificada, eliminadorId, eliminada);
+        this.bonificacion = bonificacion;
+        this.cantidad = cantidad;
+        this.codigo = codigo;
+        this.concepto = concepto;
+        this.condicionPago = condicionPago;
+        this.domicilioComercial = domicilioComercial;
+        this.fechaEmision = fechaEmision;
+        this.fechaVencimientoId = fechaVencimientoId;
+        this.iva = iva;
+        this.notas = notas;
+        this.numeroComprobante = numeroComprobante;
+        this.otrosImpuestos = otrosImpuestos;
+        this.pagada = pagada;
+        this.precioUnitario = precioUnitario;
+        this.razonSocial = razonSocial;
+        this.remitoId = remitoId;
+        this.tipoComprobante = tipoComprobante;
+        this.subTotal = subTotal;
+        this.viajeId = viajeId;
+    }
 }

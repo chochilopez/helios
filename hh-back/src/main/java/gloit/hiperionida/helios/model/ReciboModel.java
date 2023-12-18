@@ -4,21 +4,27 @@ import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Getter
-@NoArgsConstructor
 @Setter
+@SuperBuilder
 @Table(name = "recibo")
 public class ReciboModel extends AbsAuditoriaModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private Double monto;
     private LocalDateTime fecha;
+
+    public ReciboModel() {
+    }
+
+    public ReciboModel(Long id, Long creadorId, LocalDateTime creada, Long modificadorId, LocalDateTime modificada, Long eliminadorId, LocalDateTime eliminada, Double monto, LocalDateTime fecha) {
+        super(id, creadorId, creada, modificadorId, modificada, eliminadorId, eliminada);
+        this.monto = monto;
+        this.fecha = fecha;
+    }
 }
 

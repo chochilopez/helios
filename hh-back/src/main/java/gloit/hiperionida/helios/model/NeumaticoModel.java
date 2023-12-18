@@ -6,19 +6,17 @@ import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
 
 import lombok.*;
 import jakarta.persistence.*;
+import lombok.experimental.SuperBuilder;
+
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Getter
-@NoArgsConstructor
 @Setter
+@SuperBuilder
 @Table(name = "neumatico")
 public class NeumaticoModel extends AbsAuditoriaModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private LocalDateTime fechaCompra;
     private Double kmVida;
     private Double kmActuales;
@@ -37,5 +35,26 @@ public class NeumaticoModel extends AbsAuditoriaModel {
     private Long acopladoId;
     private Long camionId;
     private Long proveedorId;
+
+    public NeumaticoModel() {
+    }
+
+    public NeumaticoModel(Long id, Long creadorId, LocalDateTime creada, Long modificadorId, LocalDateTime modificada, Long eliminadorId, LocalDateTime eliminada, LocalDateTime fechaCompra, Double kmVida, Double kmActuales, Double kmRecapado, String marca, Double precioCompra, Integer recapadosMaximos, UbicacionNeumaticoEnum ubicacion, EstadoNeumaticoEnum estado, Boolean baja, String notas, Long acopladoId, Long camionId, Long proveedorId) {
+        super(id, creadorId, creada, modificadorId, modificada, eliminadorId, eliminada);
+        this.fechaCompra = fechaCompra;
+        this.kmVida = kmVida;
+        this.kmActuales = kmActuales;
+        this.kmRecapado = kmRecapado;
+        this.marca = marca;
+        this.precioCompra = precioCompra;
+        this.recapadosMaximos = recapadosMaximos;
+        this.ubicacion = ubicacion;
+        this.estado = estado;
+        this.baja = baja;
+        this.notas = notas;
+        this.acopladoId = acopladoId;
+        this.camionId = camionId;
+        this.proveedorId = proveedorId;
+    }
 }
 

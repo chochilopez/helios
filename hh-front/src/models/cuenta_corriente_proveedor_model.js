@@ -1,23 +1,23 @@
 export class CuentaCorrienteModel {
   constructor () {
     this.id = null
-    this.cliente = null
-    this.clienteId = null
-    this.factura = null
-    this.facturaId = null
-    this.fecha = null
     this.monto = null
     this.notas = null
-    this.recibo = null
-    this.reciboId = null
-    this.tipoMovimiento = null
     this.tipoPago = null
+    this.tipoMovimiento = null
+    this.fecha = null
+    this.saldo = null
+    this.proveedorId = null
+    this.proveedor = null
 
     this.creada = null
     this.creador = null
+    this.creadorId = null
     this.modificada = null
     this.modificador = null
+    this.modificadorId = null
     this.eliminada = null
     this.eliminador = null
+    this.eliminadorId = null
   }
 }

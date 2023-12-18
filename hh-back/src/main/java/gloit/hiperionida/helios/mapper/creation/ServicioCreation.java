@@ -1,13 +1,12 @@
 package gloit.hiperionida.helios.mapper.creation;
 
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@AllArgsConstructor
 @Data
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 public class ServicioCreation extends AbsAuditoriaCreation {
     private String kmServicio;
     private String kmActual;
@@ -15,4 +14,16 @@ public class ServicioCreation extends AbsAuditoriaCreation {
     private String tipo;
 
     private String camionId;
+
+    public ServicioCreation() {
+    }
+
+    public ServicioCreation(String id, String creadorId, String creada, String eliminadorId, String eliminada, String modificadorId, String modificada, String kmServicio, String kmActual, String kmProximo, String tipo, String camionId) {
+        super(id, creadorId, creada, eliminadorId, eliminada, modificadorId, modificada);
+        this.kmServicio = kmServicio;
+        this.kmActual = kmActual;
+        this.kmProximo = kmProximo;
+        this.tipo = tipo;
+        this.camionId = camionId;
+    }
 }

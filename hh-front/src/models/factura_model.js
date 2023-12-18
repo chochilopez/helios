@@ -1,32 +1,51 @@
 export class FacturaModel {
   constructor () {
     this.id = null
-    this.bonificacion = null
+    this.bonificacionPercentil = null
+    this.bonificacionMonto = null
+    this.camion = null
     this.cantidad = null
+    this.cantidadTransportada = null
+    this.categoriaViaje = null
     this.codigo = null
     this.comprobante = null
+    this.cliente = null
     this.concepto = null
-    this.condicionPagoEnum = null
+    this.condicionPago = null
+    this.conductor = null
+    this.destino = null
     this.domicilioComercial = null
     this.fechaEmision = null
+    this.fechaViaje = null
     this.fechaVencimiento = null
     this.fechaVencimientoId = null
-    this.iva = null
+    this.ivaPercentil = null
+    this.ivaMonto = null
+    this.kmCargado = null
     this.notas = null
     this.numeroComprobante = null
-    this.otrosImpuestos = null
+    this.numeroGuia = null
+    this.numeroRemito = null
+    this.origen = null
+    this.otrosImpuestosPercentil = null
+    this.otrosImpuestosMonto = null
     this.pagada = null
     this.precioUnitario = null
     this.razonSocial = null
-    this.remitoId = null
+    this.subTotal = null
     this.tipoComprobante = null
-    this.viajeId = null
+    this.total = null
+    this.valorKm = null
+    this.vencida = null
 
     this.creada = null
     this.creador = null
+    this.creadorId = null
     this.modificada = null
     this.modificador = null
+    this.modificadorId = null
     this.eliminada = null
     this.eliminador = null
+    this.eliminadorId = null
   }
 }

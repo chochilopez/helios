@@ -1,19 +1,13 @@
 package gloit.hiperionida.helios.mapper.creation;
 
-import gloit.hiperionida.helios.model.enums.MovimientoEnum;
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
-
-@AllArgsConstructor
 @Data
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 public class ConciliacionBancoCreation extends AbsAuditoriaCreation {
     private String movimiento;
     private String fecha;
@@ -21,4 +15,16 @@ public class ConciliacionBancoCreation extends AbsAuditoriaCreation {
     private String monto;
 
     private String bancoId;
+
+    public ConciliacionBancoCreation() {
+    }
+
+    public ConciliacionBancoCreation(String id, String creadorId, String creada, String eliminadorId, String eliminada, String modificadorId, String modificada, String movimiento, String fecha, String concepto, String monto, String bancoId) {
+        super(id, creadorId, creada, eliminadorId, eliminada, modificadorId, modificada);
+        this.movimiento = movimiento;
+        this.fecha = fecha;
+        this.concepto = concepto;
+        this.monto = monto;
+        this.bancoId = bancoId;
+    }
 }

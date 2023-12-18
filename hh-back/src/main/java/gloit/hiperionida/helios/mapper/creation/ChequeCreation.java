@@ -1,18 +1,13 @@
 package gloit.hiperionida.helios.mapper.creation;
 
-import gloit.hiperionida.helios.model.enums.EstadoChequeEnum;
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
-
-@AllArgsConstructor
 @Data
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 public class ChequeCreation extends AbsAuditoriaCreation {
     private String cuitEmisor;
     private String destinatario;
@@ -25,4 +20,22 @@ public class ChequeCreation extends AbsAuditoriaCreation {
     private String banco;
     private String entregadoA;
     private String recibidoDe;
+
+    public ChequeCreation() {
+    }
+
+    public ChequeCreation(String id, String creadorId, String creada, String eliminadorId, String eliminada, String modificadorId, String modificada, String cuitEmisor, String destinatario, String emisor, String estado, String fechaCobro, String fechaEmision, String monto, String numeroCheque, String banco, String entregadoA, String recibidoDe) {
+        super(id, creadorId, creada, eliminadorId, eliminada, modificadorId, modificada);
+        this.cuitEmisor = cuitEmisor;
+        this.destinatario = destinatario;
+        this.emisor = emisor;
+        this.estado = estado;
+        this.fechaCobro = fechaCobro;
+        this.fechaEmision = fechaEmision;
+        this.monto = monto;
+        this.numeroCheque = numeroCheque;
+        this.banco = banco;
+        this.entregadoA = entregadoA;
+        this.recibidoDe = recibidoDe;
+    }
 }

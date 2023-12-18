@@ -1,7 +1,7 @@
 <template>
   <div class="q-ma-md">
-    <CuentaCorrienteContador />
-    <CuentaCorrienteListado />
+    <CuentaCorrienteClienteContador />
+    <CuentaCorrienteClienteListado />
   </div>
 </template>
 
@@ -9,11 +9,11 @@
 import { onBeforeRouteLeave } from 'vue-router'
 import { useQuasar, QSpinnerCube } from 'quasar'
 import { onMounted } from 'vue'
-import CuentaCorrienteContador from 'src/components/cliente/CuentaCorrienteContador.vue'
-import CuentaCorrienteListado from 'src/components/cliente/CuentaCorrienteListado.vue'
+import CuentaCorrienteClienteContador from 'src/components/cliente/CuentaCorrienteClienteContador.vue'
+import CuentaCorrienteClienteListado from 'src/components/cliente/CuentaCorrienteClienteListado.vue'
 
 export default {
-  components: { CuentaCorrienteContador, CuentaCorrienteListado },
+  components: { CuentaCorrienteClienteContador, CuentaCorrienteClienteListado },
   setup () {
     const $q = useQuasar()
 

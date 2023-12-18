@@ -1,19 +1,13 @@
 package gloit.hiperionida.helios.mapper.creation;
 
-import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-@AllArgsConstructor
 @Data
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 public class FacturaCreation extends AbsAuditoriaCreation {
     private String bonificacion;
     private String cantidad;
@@ -36,4 +30,32 @@ public class FacturaCreation extends AbsAuditoriaCreation {
     private String subTotal;
     private String tipoComprobante;
     private String viajeId;
+
+    public FacturaCreation() {
+    }
+
+    public FacturaCreation(String id, String creadorId, String creada, String eliminadorId, String eliminada, String modificadorId, String modificada, String bonificacion, String cantidad, String clienteId, String codigo, String concepto, String condicionPago, String domicilioComercial, String fechaEmision, String fechaVencimiento, String fechaVencimientoId, String iva, String notas, String numeroComprobante, String otrosImpuestos, String pagada, String precioUnitario, String razonSocial, String remitoId, String subTotal, String tipoComprobante, String viajeId) {
+        super(id, creadorId, creada, eliminadorId, eliminada, modificadorId, modificada);
+        this.bonificacion = bonificacion;
+        this.cantidad = cantidad;
+        this.clienteId = clienteId;
+        this.codigo = codigo;
+        this.concepto = concepto;
+        this.condicionPago = condicionPago;
+        this.domicilioComercial = domicilioComercial;
+        this.fechaEmision = fechaEmision;
+        this.fechaVencimiento = fechaVencimiento;
+        this.fechaVencimientoId = fechaVencimientoId;
+        this.iva = iva;
+        this.notas = notas;
+        this.numeroComprobante = numeroComprobante;
+        this.otrosImpuestos = otrosImpuestos;
+        this.pagada = pagada;
+        this.precioUnitario = precioUnitario;
+        this.razonSocial = razonSocial;
+        this.remitoId = remitoId;
+        this.subTotal = subTotal;
+        this.tipoComprobante = tipoComprobante;
+        this.viajeId = viajeId;
+    }
 }

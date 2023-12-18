@@ -1,11 +1,13 @@
 package gloit.hiperionida.helios.util.controller;
 
 import gloit.hiperionida.helios.util.mapper.creation.RolCreation;
+import gloit.hiperionida.helios.util.model.UsuarioModel;
 import gloit.hiperionida.helios.util.model.enums.RolEnum;
 import gloit.hiperionida.helios.util.mapper.creation.UsuarioCreation;
 import gloit.hiperionida.helios.util.service.implementation.RolServiceImpl;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,71 +31,70 @@ public class HelperController {
         rolService.guardar(new RolCreation(RolEnum.USUARIO.name()));
         rolService.guardar(new RolCreation(RolEnum.ADMIN.name()));
 
-        usuarioServiceImpl.guardar(new UsuarioCreation(
-                null,
-                "Pablo Diaz",
-                "",
-                "",
-                "",
-                "true",
-                "pablo@helios.com",
-                "Pald4155",
-                null,
-                null,
-                List.of("1")
-        ));
-        usuarioServiceImpl.guardar(new UsuarioCreation(
-                null,
-                "Agustín Albano",
-                "",
-                "",
-                "",
-                "true",
-                "agustin@helios.com",
-                "Vadd4915",
-                null,
-                null,
-                List.of("1", "2")
-        ));
-        usuarioServiceImpl.guardar(new UsuarioCreation(
-                null,
-                "Juan Bauza",
-                "",
-                "",
-                "",
-                "true",
-                "juan@helios.com",
-                "Kdns1845",
-                null,
-                null,
-                List.of("1","2","3")
-        ));
-        usuarioServiceImpl.guardar(new UsuarioCreation(
-                null,
-                "postman",
-                "",
-                "",
-                "",
-                "true",
-                "postman@helios.com",
-                "Casa9852",
-                null,
-                null,
-                List.of("1","2","3")
-        ));
-        usuarioServiceImpl.guardar(new UsuarioCreation(
-                null,
-                "admin",
-                "",
-                "",
-                "",
-                "true",
-                "admin@helios.com",
-                "Casa9852",
-                null,
-                null,
-                List.of("1","2","3")
-        ));
+        usuarioServiceImpl.guardar(UsuarioCreation.builder()
+                .id(null)
+                .direccion("")
+                .dni("")
+                .habilitada("true")
+                .nombre("Pablo Diaz")
+                .password("Pals4155")
+                .roles_id(List.of("1"))
+                .telefono("")
+                .username("pablo@helios.com")
+                .build()
+        );
+
+        usuarioServiceImpl.guardar(UsuarioCreation.builder()
+                .id(null)
+                .direccion("")
+                .dni("")
+                .habilitada("true")
+                .nombre("Agustín Albano")
+                .password("Vadd4915")
+                .roles_id(List.of("1", "2"))
+                .telefono("")
+                .username("agustin@helios.com")
+                .build()
+        );
+
+        usuarioServiceImpl.guardar(UsuarioCreation.builder()
+                .id(null)
+                .direccion("")
+                .dni("")
+                .habilitada("true")
+                .nombre("Juan Bauza")
+                .password("Kdns1845")
+                .roles_id(List.of("1","2","3"))
+                .telefono("")
+                .username("juan@helios.com")
+                .build()
+        );
+
+        usuarioServiceImpl.guardar(UsuarioCreation.builder()
+                .id(null)
+                .direccion("")
+                .dni("")
+                .habilitada("true")
+                .nombre("postman")
+                .password("Casa9852")
+                .roles_id(List.of("1","2","3"))
+                .telefono("")
+                .username("postman@helios.com")
+                .build()
+        );
+
+        usuarioServiceImpl.guardar(UsuarioCreation.builder()
+                .id(null)
+                .direccion("")
+                .dni("")
+                .habilitada("true")
+                .nombre("admin")
+                .password("Casa9852")
+                .roles_id(List.of("1","2","3"))
+                .telefono("")
+                .username("admin@helios.com")
+                .build()
+        );
 
         return ResponseEntity.status(HttpStatus.OK).body("Autoridades y usuarios de testeo creados");
     }

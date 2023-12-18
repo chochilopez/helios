@@ -1,18 +1,25 @@
 package gloit.hiperionida.helios.mapper.creation;
 
 import gloit.hiperionida.helios.util.mapper.creation.AbsAuditoriaCreation;
-import jakarta.persistence.Column;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
-
-@AllArgsConstructor
 @Data
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 public class RemitoCreation extends AbsAuditoriaCreation {
     private String descripcion;
     private String fecha;
     private String numero;
+
+    public RemitoCreation() {
+    }
+
+    public RemitoCreation(String id, String creadorId, String creada, String eliminadorId, String eliminada, String modificadorId, String modificada, String descripcion, String fecha, String numero) {
+        super(id, creadorId, creada, eliminadorId, eliminada, modificadorId, modificada);
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.numero = numero;
+    }
 }

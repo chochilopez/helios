@@ -4,18 +4,17 @@ import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@AllArgsConstructor
+import java.time.LocalDateTime;
+
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Getter
-@NoArgsConstructor
 @Setter
+@SuperBuilder
 @Table(name = "pago")
 public class PagoModel extends AbsAuditoriaModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private Double monto;
     @Column(columnDefinition = "TEXT")
     private String notas;
@@ -24,5 +23,17 @@ public class PagoModel extends AbsAuditoriaModel {
 
     private Long clienteId;
     private Long reciboId;
+
+    public PagoModel() {
+    }
+
+    public PagoModel(Long id, Long creadorId, LocalDateTime creada, Long modificadorId, LocalDateTime modificada, Long eliminadorId, LocalDateTime eliminada, Double monto, String notas, TipoPagoEnum tipoPago, Long clienteId, Long reciboId) {
+        super(id, creadorId, creada, modificadorId, modificada, eliminadorId, eliminada);
+        this.monto = monto;
+        this.notas = notas;
+        this.tipoPago = tipoPago;
+        this.clienteId = clienteId;
+        this.reciboId = reciboId;
+    }
 }
 

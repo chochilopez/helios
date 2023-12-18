@@ -12,7 +12,7 @@ l -> local
 
 function spfBuscarTodasPorClienteId (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-todas-por-cliente-id/' + id, {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-todas-por-cliente-id/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -28,7 +28,7 @@ function spfBuscarTodasPorClienteId (id) {
 
 function spfBuscarTodasPorClienteIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-todas-por-cliente-id-con-eliminadas/' + id, {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-todas-por-cliente-id-con-eliminadas/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -44,7 +44,7 @@ function spfBuscarTodasPorClienteIdConEliminadas (id) {
 
 function spfBuscarTodasPorFacturaId (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-todas-por-factura-id/' + id, {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-todas-por-factura-id/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -60,7 +60,7 @@ function spfBuscarTodasPorFacturaId (id) {
 
 function spfBuscarTodasPorFacturaIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-todas-por-factura-id-con-eliminadas/' + id, {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-todas-por-factura-id-con-eliminadas/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -76,7 +76,7 @@ function spfBuscarTodasPorFacturaIdConEliminadas (id) {
 
 function spfBuscarTodasPorNotas (notas) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-todas-por-notas/' + notas, {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-todas-por-notas/' + notas, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -92,7 +92,7 @@ function spfBuscarTodasPorNotas (notas) {
 
 function spfBuscarTodasPorNotasConEliminadas (notas) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-todas-por-notas-con-eliminadas/' + notas, {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-todas-por-notas-con-eliminadas/' + notas, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -108,7 +108,7 @@ function spfBuscarTodasPorNotasConEliminadas (notas) {
 
 function spfBuscarPorId (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-por-id/' + id, {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-por-id/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -124,7 +124,7 @@ function spfBuscarPorId (id) {
 
 function spfBuscarPorIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-por-id-con-eliminadas/' + id, {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-por-id-con-eliminadas/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -140,7 +140,7 @@ function spfBuscarPorIdConEliminadas (id) {
 
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-todas', {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-todas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -156,7 +156,7 @@ function spfBuscarTodas () {
 
 function spfBuscarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-todas-con-eliminadas', {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-todas-con-eliminadas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -172,7 +172,7 @@ function spfBuscarTodasConEliminadas () {
 
 function spfBuscarTodasConSesion (sesion) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-todas', {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-todas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -191,7 +191,7 @@ function spfBuscarTodasConSesion (sesion) {
 
 function spfBuscarTodasConEliminadasConSesion (sesion) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/buscar-todas-con-eliminadas', {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/buscar-todas-con-eliminadas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -210,7 +210,7 @@ function spfBuscarTodasConEliminadasConSesion (sesion) {
 
 function spfBuscarTodasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
-    axios.post(API_URL + 'cuenta-corriente/buscar-todas-paginadas', paginadoDTO, {
+    axios.post(API_URL + 'cuenta-corriente-proveedor/buscar-todas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -226,7 +226,7 @@ function spfBuscarTodasPaginadas (paginadoDTO) {
 
 function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
   return new Promise((resolve, reject) => {
-    axios.post(API_URL + 'cuenta-corriente/buscar-todas-con-eliminadas-paginadas', paginadoDTO, {
+    axios.post(API_URL + 'cuenta-corriente-proveedor/buscar-todas-con-eliminadas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -242,7 +242,7 @@ function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
 
 function spfContarTodas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/contar-todas', {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/contar-todas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -258,7 +258,7 @@ function spfContarTodas () {
 
 function spfContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/contar-todas-con-eliminadas', {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/contar-todas-con-eliminadas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -274,7 +274,7 @@ function spfContarTodasConEliminadas () {
 
 function spfGuardar (anObj) {
   return new Promise((resolve, reject) => {
-    axios.put(API_URL + 'cuenta-corriente', anObj, {
+    axios.put(API_URL + 'cuenta-corriente-proveedor', anObj, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -290,7 +290,7 @@ function spfGuardar (anObj) {
 
 function spfBorrar (id) {
   return new Promise((resolve, reject) => {
-    axios.delete(API_URL + 'cuenta-corriente/' + id, {
+    axios.delete(API_URL + 'cuenta-corriente-proveedor/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -306,7 +306,7 @@ function spfBorrar (id) {
 
 function spfReciclar (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'cuenta-corriente/reciclar/' + id, {
+    axios.get(API_URL + 'cuenta-corriente-proveedor/reciclar/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -322,7 +322,7 @@ function spfReciclar (id) {
 
 function spfDestruir (id) {
   return new Promise((resolve, reject) => {
-    axios.delete(API_URL + 'cuenta-corriente/destruir/' + id, {
+    axios.delete(API_URL + 'cuenta-corriente-proveedor/destruir/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -336,7 +336,7 @@ function spfDestruir (id) {
   })
 }
 
-export const cuentaCorrienteService = {
+export const cuentaCorrienteProveedorService = {
   spfBuscarTodasPorClienteId,
   spfBuscarTodasPorClienteIdConEliminadas,
   spfBuscarTodasPorFacturaId,

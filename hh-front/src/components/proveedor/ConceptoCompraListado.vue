@@ -18,7 +18,7 @@
               <q-btn
                 class="paleta2-fondo2 paleta1-color1 q-mb-lg"
                 icon="add_circle"
-                label="Nueva ConceptoCompra"
+                label="Nuevo Concepto compra"
                 @click="fMostrarNuevaConceptoCompra"
               />
             </div>
@@ -67,7 +67,7 @@
                 </q-btn>
               </q-td>
               <q-td auto-width class="text-center">
-                {{ props.row.conceptoCompra }}
+                {{ props.row.concepto }}
               </q-td>
               <q-td>
                 {{ props.row.notas }}
@@ -88,7 +88,7 @@
   <q-dialog v-model="nuevoConceptoCompraDialog" persistent transition-show="fade" transition-hide="fade">
     <q-card style="max-width: 650px">
       <q-card-section class="row items-center">
-        <div class="text-h6 text-grey-8">Nueva ConceptoCompra</div>
+        <div class="text-h6 text-grey-8">Nuevo concepto compra</div>
         <q-space />
         <q-btn class="text-grey-8" icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -101,12 +101,12 @@
             <div class="col-xs-6 q-pa-md">
               <q-input
                 class="nuevo-input"
-                v-model="conceptoCompraCreation.conceptoCompra"
+                v-model="conceptoCompraCreation.concepto"
                 :rules="[reglas.requerido, reglas.min3, reglas.max50]"
                 outlined
                 dense
                 clearable
-                label="Nombre de la conceptoCompra"
+                label="Nombre del concepto"
               >
               </q-input>
             </div>
@@ -140,8 +140,8 @@
 
 <script>
 import { ayuda } from 'app/src/helpers/ayuda'
-import { ConceptoCompraCreation } from 'src/models/creation/conceptoCompra_creation'
-import { conceptoCompraService } from 'src/services/conceptoCompra_service'
+import { ConceptoCompraCreation } from 'src/models/creation/concepto_compra_creation'
+import { conceptoCompraService } from 'src/services/concepto_compra_service'
 import { notificarService } from 'src/helpers/notificar_service'
 import { reactive, ref } from 'vue'
 import { reglasValidacion } from 'src/helpers/reglas_validacion'
@@ -159,8 +159,8 @@ const columnas = [
     align: 'center'
   },
   {
-    name: 'conceptoCompra',
-    label: 'ConceptoCompra',
+    name: 'onceptoCompra',
+    label: 'Concepto compra',
     align: 'left',
     field: 'conceptoCompra',
     sortable: true
@@ -340,7 +340,7 @@ export default {
     }
 
     function fLimpiarFormulario () {
-      conceptoCompraCreation.conceptoCompra = null
+      conceptoCompraCreation.concepto = null
       conceptoCompraCreation.notas = null
 
       conceptoCompraCreation.id = null
@@ -362,7 +362,7 @@ export default {
     }
 
     function fMostrarEditarConceptoCompra (props) {
-      conceptoCompraCreation.conceptoCompra = props.row.conceptoCompra
+      conceptoCompraCreation.concepto = props.row.concepto
       conceptoCompraCreation.notas = props.row.notas
 
       conceptoCompraCreation.id = props.row.id

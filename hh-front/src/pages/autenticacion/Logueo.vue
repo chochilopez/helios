@@ -31,8 +31,8 @@
 
 <script>
 import { autenticacionService } from 'src/services/autenticacion_service'
-import { ingresoService } from 'src/services/ingreso_service'
-import { IngresoCreation } from 'src/models/creation/ingreso_creation'
+import { logueoService } from 'src/services/logueo_service'
+import { LogueoCreation } from 'src/models/creation/logueo_creation'
 import { QSpinnerCube, useQuasar } from 'quasar'
 import { notificarService } from 'src/helpers/notificar_service'
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
@@ -48,13 +48,13 @@ export default {
     const password = ref(PASSWORD)
     const username = ref(USERNAME)
     const cargando = ref(false)
-    const ingresoCreation = new IngresoCreation()
+    const logueoCreation = new LogueoCreation()
     const reglas = reactive(reglasValidacion.reglas)
     const router = useRouter()
 
     onMounted(() => {
       $q.loading.hide()
-      afDatosIngreso()
+      afDatosLogueo()
     })
 
     onBeforeRouteLeave((to, from, next) => {
@@ -74,19 +74,19 @@ export default {
           username: username.value,
           password: password.value
         }
-        ingresoCreation.username = username.value
+        logueoCreation.username = username.value
         const result = await autenticacionService.spfIngresar(user)
         console.log('Mensaje: ' + result.headers.mensaje)
         if (result.status === 200) {
           console.info(result.headers.mensaje)
-          ingresoCreation.logueado = true
-          ingresoService.spfGuardar(ingresoCreation)
+          logueoCreation.logueado = true
+          logueoService.spfGuardar(logueoCreation)
           router.push({ name: 'Tablero' })
         }
       } catch (err) {
         console.clear()
-        ingresoCreation.logueado = false
-        ingresoService.spfGuardar(ingresoCreation)
+        logueoCreation.logueado = false
+        logueoService.spfGuardar(logueoCreation)
         if (err.response.headers.mensaje) {
           console.error('Error: ' + err.response.headers.mensaje)
         } else {
@@ -97,27 +97,27 @@ export default {
       cargando.value = false
     }
 
-    async function afDatosIngreso () {
+    async function afDatosLogueo () {
       try {
-        const result = await ingresoService.spfObtenerDatosIngreso()
+        const result = await logueoService.spfObtenerDatosLogueo()
         if (result.status === 200) {
-          ingresoCreation.ip = result.data.ip
-          ingresoCreation.hostname = result.data.hostname
-          ingresoCreation.country_name = result.data.country_name
-          ingresoCreation.state_prov = result.data.state_prov
-          ingresoCreation.district = result.data.district
-          ingresoCreation.city = result.data.city
-          ingresoCreation.zipcode = result.data.zipcode
-          ingresoCreation.country_flag = result.data.country_flag
-          ingresoCreation.isp = result.data.isp
-          ingresoCreation.organization = result.data.organization
-          ingresoCreation.asn = result.data.asn
+          logueoCreation.ip = result.data.ip
+          logueoCreation.hostname = result.data.hostname
+          logueoCreation.country_name = result.data.country_name
+          logueoCreation.state_prov = result.data.state_prov
+          logueoCreation.district = result.data.district
+          logueoCreation.city = result.data.city
+          logueoCreation.zipcode = result.data.zipcode
+          logueoCreation.country_flag = result.data.country_flag
+          logueoCreation.isp = result.data.isp
+          logueoCreation.organization = result.data.organization
+          logueoCreation.asn = result.data.asn
         }
       } catch (err) {
         if (err.response.headers.mensaje) {
           console.error('Error: ' + err.response.headers.mensaje)
         } else {
-          console.error('Hubo un error al intentar obtener los datos de ingreso.')
+          console.error('Hubo un error al intentar obtener los datos de logueo.')
         }
       }
     }

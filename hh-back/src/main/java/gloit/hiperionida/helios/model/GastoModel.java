@@ -4,23 +4,33 @@ import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
 
 import lombok.*;
 import jakarta.persistence.*;
+import lombok.experimental.SuperBuilder;
 
-@AllArgsConstructor
+import java.time.LocalDateTime;
+
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Getter
-@NoArgsConstructor
 @Setter
+@SuperBuilder
 @Table(name = "gasto")
 public class GastoModel extends AbsAuditoriaModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private Double monto;
     @Column(columnDefinition = "TEXT")
     private String notas;
 
     private Long categoriaGastoId;
     private Long viajeId;
+
+    public GastoModel() {
+    }
+
+    public GastoModel(Long id, Long creadorId, LocalDateTime creada, Long modificadorId, LocalDateTime modificada, Long eliminadorId, LocalDateTime eliminada, Double monto, String notas, Long categoriaGastoId, Long viajeId) {
+        super(id, creadorId, creada, modificadorId, modificada, eliminadorId, eliminada);
+        this.monto = monto;
+        this.notas = notas;
+        this.categoriaGastoId = categoriaGastoId;
+        this.viajeId = viajeId;
+    }
 }
 

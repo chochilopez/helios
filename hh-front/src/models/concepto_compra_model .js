@@ -1,9 +1,8 @@
-export class RemitoCreation {
+export class ConceptoCompraModel {
   constructor () {
     this.id = null
-    this.descripcion = null
-    this.fecha = null
-    this.numero = null
+    this.concepto = null
+    this.notas = null
 
     this.creada = null
     this.creador = null

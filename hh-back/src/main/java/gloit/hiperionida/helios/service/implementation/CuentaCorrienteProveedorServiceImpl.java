@@ -1,6 +1,6 @@
 package gloit.hiperionida.helios.service.implementation;
 
-import gloit.hiperionida.helios.mapper.CuentaCorrienteClienteMapper;
+import gloit.hiperionida.helios.mapper.CuentaCorrienteProveedorMapper;
 import gloit.hiperionida.helios.mapper.creation.CuentaCorrienteProveedorCreation;
 import gloit.hiperionida.helios.mapper.dto.CuentaCorrienteProveedorDTO;
 import gloit.hiperionida.helios.model.CuentaCorrienteProveedorModel;
@@ -25,7 +25,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CuentaCorrienteProveedorServiceImpl implements CuentaCorrienteProveedorService {
     private final CuentaCorrienteProveedorDAO cuentaCorrienteProveedorDAO;
-    private final CuentaCorrienteClienteMapper cuentaCorrienteClienteMapper;
+    private final CuentaCorrienteProveedorMapper cuentaCorrienteProveedorMapper;
     private final ReciboServiceImpl reciboService;
     private final UsuarioServiceImpl usuarioService;
 
@@ -176,7 +176,7 @@ public class CuentaCorrienteProveedorServiceImpl implements CuentaCorrienteProve
     @Override
     public CuentaCorrienteProveedorModel guardar(CuentaCorrienteProveedorCreation creation) {
         log.info("Insertando la entidad CuentaCorrienteProveedorCreation: {}.",  creation);
-        CuentaCorrienteProveedorModel cuentaCorrienteProveedorModel = cuentaCorrienteProveedorDAO.save(cuentaCorrienteClienteMapper.toEntity(creation));
+        CuentaCorrienteProveedorModel cuentaCorrienteProveedorModel = cuentaCorrienteProveedorDAO.save(cuentaCorrienteProveedorMapper.toEntity(creation));
         if (creation.getId() == null) {
             cuentaCorrienteProveedorModel.setCreada(Helper.getNow(""));
             cuentaCorrienteProveedorModel.setCreadorId(usuarioService.obtenerUsuario().getId());

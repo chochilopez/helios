@@ -1,17 +1,25 @@
 package gloit.hiperionida.helios.util.mapper.creation;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@AllArgsConstructor
 @Data
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 public class EmailCreation extends AbsAuditoriaCreation {
-    private String id;
     private String subject;
     private String sender;
     private String reciever;
     private String body;
+
+    public EmailCreation() {
+    }
+
+    public EmailCreation(String id, String creadorId, String creada, String eliminadorId, String eliminada, String modificadorId, String modificada, String subject, String sender, String reciever, String body) {
+        super(id, creadorId, creada, eliminadorId, eliminada, modificadorId, modificada);
+        this.subject = subject;
+        this.sender = sender;
+        this.reciever = reciever;
+        this.body = body;
+    }
 }

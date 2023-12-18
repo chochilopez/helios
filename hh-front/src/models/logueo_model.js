@@ -1,4 +1,4 @@
-export class IngresoModel {
+export class LogueoModel {
   constructor () {
     this.id = null
     this.ip = null
@@ -17,9 +17,12 @@ export class IngresoModel {
 
     this.creada = null
     this.creador = null
+    this.creadorId = null
     this.modificada = null
     this.modificador = null
+    this.modificadorId = null
     this.eliminada = null
     this.eliminador = null
+    this.eliminadorId = null
   }
 }

@@ -23,8 +23,8 @@ export default route(function (/* { store, ssrContext } */) {
 
   Router.beforeEach(async (to, from, next) => {
     const autenticado = autenticacionService.fEstaLogueado()
-    if (!autenticado && to.name !== 'Ingreso') {
-      next({ name: 'Ingreso' })
+    if (!autenticado && to.name !== 'Logueo') {
+      next({ name: 'Logueo' })
     } else if (autenticado) {
       const rolNecesario = to.meta.rol
       const roles = autenticacionService.obtenerAutoridades()

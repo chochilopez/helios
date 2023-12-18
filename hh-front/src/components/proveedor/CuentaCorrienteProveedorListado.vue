@@ -194,8 +194,8 @@
 import { ayuda } from 'app/src/helpers/ayuda'
 import { ClienteModel } from 'src/models/cliente_model'
 import { clienteService } from 'src/services/cliente_service'
-import { cuentaCorrienteService } from 'src/services/cuenta_corriente_service'
-import { CuentaCorrienteCreation } from 'src/models/creation/cuenta_corriente_creation'
+import { cuentaCorrienteClienteService } from 'src/services/cuenta_corriente_cliente_service'
+import { CuentaCorrienteClienteCreation } from 'src/models/creation/cuenta_corriente_cliente_creation'
 import { facturaService } from 'src/services/factura_service'
 import { llaveroService } from 'src/helpers/llavero_service'
 import { notificarService } from 'src/helpers/notificar_service'
@@ -214,7 +214,7 @@ export default {
     const clienteSelect = ref(null)
     const clientesSelect = ref([])
     const clientesList = ref([])
-    const cuentaCorrienteCreation = reactive(new CuentaCorrienteCreation())
+    const cuentaCorrienteCreation = reactive(new CuentaCorrienteClienteCreation())
     const facturasList = ref([])
     const montoAdeudado = ref(null)
     const montoAdeudadoList = ref([])
@@ -334,7 +334,7 @@ export default {
         $q.loading.show()
         try {
           let resultado = null
-          resultado = await cuentaCorrienteService.spfBuscarTodasPorFacturaId(cuentaCorrienteCreation.facturaId)
+          resultado = await cuentaCorrienteClienteService.spfBuscarTodasPorFacturaId(cuentaCorrienteCreation.facturaId)
           if (resultado.status === 200) {
             console.log(resultado.headers.mensaje)
             montoAdeudadoList.value = resultado.data
@@ -429,7 +429,7 @@ export default {
       movimientos.value = []
       try {
         let resultado = null
-        resultado = await cuentaCorrienteService.spfBuscarTodasPorClienteId(id)
+        resultado = await cuentaCorrienteClienteService.spfBuscarTodasPorClienteId(id)
         if (resultado.status === 200) {
           console.log(resultado.headers.mensaje)
           movimientos.value = resultado.data
@@ -482,7 +482,7 @@ export default {
       $q.loading.show()
       try {
         let resultado = null
-        resultado = await cuentaCorrienteService.spfGuardar(cuentaCorrienteCreation)
+        resultado = await cuentaCorrienteClienteService.spfGuardar(cuentaCorrienteCreation)
         if (resultado.status === 201) {
           console.log(resultado.headers.mensaje)
           $q.loading.hide()

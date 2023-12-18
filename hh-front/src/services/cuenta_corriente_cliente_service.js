@@ -10,9 +10,9 @@ f -> funcion
 l -> local
 */
 
-function spfBuscarTodas () {
+function spfBuscarTodasPorClienteId (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'ingreso/buscar-todas', {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-todas-por-cliente-id/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -26,9 +26,9 @@ function spfBuscarTodas () {
   })
 }
 
-function spfBuscarTodasConEliminadas () {
+function spfBuscarTodasPorClienteIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'ingreso/buscar-todas-con-eliminadas', {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-todas-por-cliente-id-con-eliminadas/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -42,47 +42,9 @@ function spfBuscarTodasConEliminadas () {
   })
 }
 
-function spfBuscarTodasConSesion (sesion) {
+function spfBuscarTodasPorFacturaId (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'ingreso/buscar-todas', {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        if (result.status === 200) {
-          llaveroService.guardarEnLocalConSesion('hhIngresoTodasConSesion', result.data, sesion)
-        }
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasConEliminadasConSesion (sesion) {
-  return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'ingreso/buscar-todas-con-eliminadas', {
-      headers: {
-        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
-      }
-    })
-      .then((result) => {
-        if (result.status === 200) {
-          llaveroService.guardarEnLocalConSesion('hhIngresoTodasConEliminadasConSesion', result.data, sesion)
-        }
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
-function spfBuscarTodasPaginadas (paginadoDTO) {
-  return new Promise((resolve, reject) => {
-    axios.post(API_URL + 'ingreso/buscar-todas-paginadas', paginadoDTO, {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-todas-por-factura-id/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -96,9 +58,41 @@ function spfBuscarTodasPaginadas (paginadoDTO) {
   })
 }
 
-function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
+function spfBuscarTodasPorFacturaIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
-    axios.post(API_URL + 'ingreso/buscar-todas-con-eliminadas-paginadas', paginadoDTO, {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-todas-por-factura-id-con-eliminadas/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-todas-por-notas/' + notas, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorNotasConEliminadas (notas) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-todas-por-notas-con-eliminadas/' + notas, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -114,7 +108,7 @@ function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
 
 function spfBuscarPorId (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'ingreso/buscar-por-id/' + id, {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-por-id/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -130,7 +124,109 @@ function spfBuscarPorId (id) {
 
 function spfBuscarPorIdConEliminadas (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'ingreso/buscar-por-id-con-eliminadas/' + id, {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-por-id-con-eliminadas/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodas () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-todas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadas () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-todas-con-eliminadas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-todas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhCuentaCorrienteTodasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasConSesion (sesion) {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'cuenta-corriente-cliente/buscar-todas-con-eliminadas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          llaveroService.guardarEnLocalConSesion('hhCuentaCorrienteTodasConEliminadasConSesion', result.data, sesion)
+        }
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.post(API_URL + 'cuenta-corriente-cliente/buscar-todas-paginadas', paginadoDTO, {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasConEliminadasPaginadas (paginadoDTO) {
+  return new Promise((resolve, reject) => {
+    axios.post(API_URL + 'cuenta-corriente-cliente/buscar-todas-con-eliminadas-paginadas', paginadoDTO, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -146,7 +242,7 @@ function spfBuscarPorIdConEliminadas (id) {
 
 function spfContarTodas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'ingreso/contar-todas', {
+    axios.get(API_URL + 'cuenta-corriente-cliente/contar-todas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -162,7 +258,7 @@ function spfContarTodas () {
 
 function spfContarTodasConEliminadas () {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'ingreso/contar-todas-con-eliminadas', {
+    axios.get(API_URL + 'cuenta-corriente-cliente/contar-todas-con-eliminadas', {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -176,21 +272,9 @@ function spfContarTodasConEliminadas () {
   })
 }
 
-async function spfObtenerDatosIngreso () {
-  return new Promise((resolve, reject) => {
-    axios.get('https://api.ipgeolocation.io/ipgeo?apiKey=d66d5dac832c4f2f839fb72f7fc308db&lang=es')
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
-
 function spfGuardar (anObj) {
   return new Promise((resolve, reject) => {
-    axios.put(API_URL + 'ingreso', anObj, {
+    axios.put(API_URL + 'cuenta-corriente-cliente', anObj, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -206,7 +290,7 @@ function spfGuardar (anObj) {
 
 function spfBorrar (id) {
   return new Promise((resolve, reject) => {
-    axios.delete(API_URL + 'ingreso/' + id, {
+    axios.delete(API_URL + 'cuenta-corriente-cliente/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -222,7 +306,7 @@ function spfBorrar (id) {
 
 function spfReciclar (id) {
   return new Promise((resolve, reject) => {
-    axios.get(API_URL + 'ingreso/reciclar/' + id, {
+    axios.get(API_URL + 'cuenta-corriente-cliente/reciclar/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -238,7 +322,7 @@ function spfReciclar (id) {
 
 function spfDestruir (id) {
   return new Promise((resolve, reject) => {
-    axios.delete(API_URL + 'ingreso/destruir/' + id, {
+    axios.delete(API_URL + 'cuenta-corriente-cliente/destruir/' + id, {
       headers: {
         Authorization: 'Bearer ' + autenticacionService.obtenerToken()
       }
@@ -252,19 +336,24 @@ function spfDestruir (id) {
   })
 }
 
-export const ingresoService = {
+export const cuentaCorrienteClienteService = {
+  spfBuscarTodasPorClienteId,
+  spfBuscarTodasPorClienteIdConEliminadas,
+  spfBuscarTodasPorFacturaId,
+  spfBuscarTodasPorFacturaIdConEliminadas,
+  spfBuscarTodasPorNotas,
+  spfBuscarTodasPorNotasConEliminadas,
+
+  spfBuscarPorId,
+  spfBuscarPorIdConEliminadas,
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
   spfBuscarTodasConSesion,
   spfBuscarTodasConEliminadasConSesion,
   spfBuscarTodasPaginadas,
   spfBuscarTodasConEliminadasPaginadas,
-  spfBuscarPorId,
-  spfBuscarPorIdConEliminadas,
   spfContarTodas,
   spfContarTodasConEliminadas,
-
-  spfObtenerDatosIngreso,
 
   spfGuardar,
   spfBorrar,

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @AllArgsConstructor
+@Builder
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Getter

@@ -1,10 +1,12 @@
 package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.CuentaCorrienteClienteMapper;
-import gloit.hiperionida.helios.mapper.creation.AbsCuentaCorrienteCreation;
+import gloit.hiperionida.helios.mapper.creation.CuentaCorrienteClienteCreation;
 import gloit.hiperionida.helios.mapper.creation.ReciboCreation;
-import gloit.hiperionida.helios.mapper.dto.AbsCuentaCorrienteDTO;
-import gloit.hiperionida.helios.model.*;
+import gloit.hiperionida.helios.mapper.dto.CuentaCorrienteClienteDTO;
+import gloit.hiperionida.helios.model.CuentaCorrienteClienteModel;
+import gloit.hiperionida.helios.model.FacturaModel;
+import gloit.hiperionida.helios.model.ReciboModel;
 import gloit.hiperionida.helios.model.enums.MovimientoEnum;
 import gloit.hiperionida.helios.model.enums.TipoPagoEnum;
 import gloit.hiperionida.helios.repository.CuentaCorrienteClienteDAO;
@@ -47,35 +49,39 @@ public class CuentaCorrienteClienteServiceImpl implements CuentaCorrienteCliente
             Double iva = Helper.getNDecimal((facturaModel.getIva() * total) / 100, 2);
             total = Helper.getNDecimal(total + iva, 2);
         }
-        this.guardar(new AbsCuentaCorrienteCreation(
-                null,
-                total.toString(),
-                "Comprobante " + facturaModel.getTipoComprobante().toString() + "-" + facturaModel.getNumeroComprobante(),
-                null,
-                MovimientoEnum.DEBITO.toString(),
-                clienteId.toString(),
-                null,
-                facturaModel.getId().toString()
-        ));
+        this.guardar(CuentaCorrienteClienteCreation.builder()
+                .id(null)
+                .monto(total.toString())
+                .notas("Comprobante " + facturaModel.getTipoComprobante().toString() + "-" + facturaModel.getNumeroComprobante())
+                .tipoPago(null)
+                .tipoMovimiento(MovimientoEnum.DEBITO.toString())
+                .clienteId(clienteId.toString())
+                .reciboId(null)
+                .facturaId(facturaModel.getId().toString())
+                .build());
         if (facturaModel.getPagada()) {
-            CuentaCorrienteClienteModel ctaCte = this.guardar(new AbsCuentaCorrienteCreation(
-                    null,
-                    total.toString(),
-                    "Comprobante " + facturaModel.getTipoComprobante().toString() + "-" + facturaModel.getNumeroComprobante(),
-                    TipoPagoEnum.EFECTIVO.toString(),
-                    MovimientoEnum.CREDITO.toString(),
-                    clienteId.toString(),
-                    null,
-                    facturaModel.getId().toString()
-            ));
-            ReciboModel recibo = reciboService.guardar(new ReciboCreation(null, total.toString(), Helper.getNow("").toString()));
+            CuentaCorrienteClienteModel ctaCte = this.guardar(CuentaCorrienteClienteCreation.builder()
+                    .id(null)
+                    .monto(total.toString())
+                    .notas("Comprobante " + facturaModel.getTipoComprobante().toString() + "-" + facturaModel.getNumeroComprobante())
+                    .tipoPago(TipoPagoEnum.EFECTIVO.toString())
+                    .tipoMovimiento(MovimientoEnum.CREDITO.toString())
+                    .clienteId(clienteId.toString())
+                    .reciboId(null)
+                    .facturaId(facturaModel.getId().toString())
+                    .build());
+            ReciboModel recibo = reciboService.guardar(ReciboCreation.builder()
+                    .id(null)
+                    .monto(total.toString())
+                    .fecha(Helper.getNow("").toString())
+                    .build());
             ctaCte.setReciboId(recibo.getId());
             cuentaCorrienteClienteDAO.save(ctaCte);
         }
     }
 
     @Override
-    public List<AbsCuentaCorrienteDTO> calcularSaldo(List<AbsCuentaCorrienteDTO> listado) {
+    public List<CuentaCorrienteClienteDTO> calcularSaldo(List<CuentaCorrienteClienteDTO> listado) {
         for (int a = 0; a < listado.size(); a++ ) {
             if (a == 0) {
                 if (Objects.equals(listado.get(a).getTipoMovimiento(), "DEBITO")) {
@@ -237,7 +243,7 @@ public class CuentaCorrienteClienteServiceImpl implements CuentaCorrienteCliente
     }
 
     @Override
-    public CuentaCorrienteClienteModel guardar(AbsCuentaCorrienteCreation creation) {
+    public CuentaCorrienteClienteModel guardar(CuentaCorrienteClienteCreation creation) {
         log.info("Insertando la entidad CuentaCorrienteCreation: {}.",  creation);
         CuentaCorrienteClienteModel cuentaCorrienteClienteModel = cuentaCorrienteClienteDAO.save(cuentaCorrienteClienteMapper.toEntity(creation));
         if (creation.getId() == null) {

@@ -102,7 +102,7 @@
             @click="link = 'saldos'"
             active-class="seleccion-activa"
             exact
-            :to="{ name: 'CuentaCorriente' }"
+            :to="{ name: 'CuentaCorrienteCliente' }"
             class="q-ml-md paleta1-fondo5"
             v-if="autoridad === 'admin' || autoridad === 'usuario'"
           >
@@ -566,7 +566,7 @@ export default {
     const cerrarSesion = () => {
       autenticacionService.spfSalir()
       notificarService.infoExito('Has salido correctamente del sistema.')
-      router.push({ name: 'Ingreso' })
+      router.push({ name: 'Lo' })
     }
 
     return {

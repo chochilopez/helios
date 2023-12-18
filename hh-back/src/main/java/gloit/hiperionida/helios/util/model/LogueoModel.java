@@ -2,18 +2,17 @@ package gloit.hiperionida.helios.util.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@AllArgsConstructor
+import java.time.LocalDateTime;
+
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Getter
-@NoArgsConstructor
 @Setter
+@SuperBuilder
 @Table(name = "logueo")
 public class LogueoModel extends AbsAuditoriaModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String ip; // "190.183.122.8",
     private String hostname; // 190.183.122.8
     private String country_name; // "Argentina",
@@ -28,5 +27,25 @@ public class LogueoModel extends AbsAuditoriaModel {
 
     private String username;
     private Boolean logueado;
+
+    public LogueoModel() {
+    }
+
+    public LogueoModel(Long id, Long creadorId, LocalDateTime creada, Long modificadorId, LocalDateTime modificada, Long eliminadorId, LocalDateTime eliminada, String ip, String hostname, String country_name, String state_prov, String district, String city, String zipcode, String country_flag, String isp, String organization, String asn, String username, Boolean logueado) {
+        super(id, creadorId, creada, modificadorId, modificada, eliminadorId, eliminada);
+        this.ip = ip;
+        this.hostname = hostname;
+        this.country_name = country_name;
+        this.state_prov = state_prov;
+        this.district = district;
+        this.city = city;
+        this.zipcode = zipcode;
+        this.country_flag = country_flag;
+        this.isp = isp;
+        this.organization = organization;
+        this.asn = asn;
+        this.username = username;
+        this.logueado = logueado;
+    }
 }
 

@@ -1,7 +1,6 @@
 package gloit.hiperionida.helios.repository;
 
 import gloit.hiperionida.helios.model.CiudadModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

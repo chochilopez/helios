@@ -5,20 +5,17 @@ import gloit.hiperionida.helios.util.model.AbsAuditoriaModel;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Getter
-@NoArgsConstructor
 @Setter
+@SuperBuilder
 @Table(name = "conciliacion_banco")
 public class ConciliacionBancoModel extends AbsAuditoriaModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Enumerated(EnumType.STRING)
     private MovimientoEnum movimiento;
     private LocalDateTime fecha;
@@ -27,4 +24,16 @@ public class ConciliacionBancoModel extends AbsAuditoriaModel {
     private Double monto;
 
     private Long bancoId;
+
+    public ConciliacionBancoModel() {
+    }
+
+    public ConciliacionBancoModel(Long id, Long creadorId, LocalDateTime creada, Long modificadorId, LocalDateTime modificada, Long eliminadorId, LocalDateTime eliminada, MovimientoEnum movimiento, LocalDateTime fecha, String concepto, Double monto, Long bancoId) {
+        super(id, creadorId, creada, modificadorId, modificada, eliminadorId, eliminada);
+        this.movimiento = movimiento;
+        this.fecha = fecha;
+        this.concepto = concepto;
+        this.monto = monto;
+        this.bancoId = bancoId;
+    }
 }
