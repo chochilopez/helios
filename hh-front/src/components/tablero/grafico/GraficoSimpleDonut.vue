@@ -27,7 +27,7 @@ export default {
           }
         }],
         title: {
-          text: 'Gráfico 2'
+          text: 'Gráfico 3'
         }
       }
     }

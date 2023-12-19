@@ -38,7 +38,7 @@ export default {
           }
         },
         title: {
-          text: 'Gráfico 3'
+          text: 'Gráfico 1'
         }
       }
     }

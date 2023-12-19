@@ -18,7 +18,7 @@ export default {
           categories: [2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028]
         },
         title: {
-          text: 'Gráfico 3'
+          text: 'Gráfico 2'
         }
       },
       series: [

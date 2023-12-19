@@ -2,14 +2,14 @@ package gloit.hiperionida.helios.service.implementation;
 
 import gloit.hiperionida.helios.mapper.EventoMapper;
 import gloit.hiperionida.helios.mapper.creation.EventoCreation;
-import gloit.hiperionida.helios.mapper.creation.EventoCreation;
 import gloit.hiperionida.helios.model.EventoModel;
-import gloit.hiperionida.helios.model.EventoModel;
+import gloit.hiperionida.helios.model.FacturaModel;
 import gloit.hiperionida.helios.repository.EventoDAO;
 import gloit.hiperionida.helios.service.EventoService;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
+import gloit.hiperionida.helios.util.exception.ParametroInvalidoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,6 +28,23 @@ public class EventoServiceImpl implements EventoService {
     private final EventoDAO eventoDAO;
     private final EventoMapper eventoMapper;
     private final UsuarioServiceImpl usuarioService;
+
+    @Override
+    public List<EventoModel> buscarTodasPorRecordatorioActivo(String hoy) {
+        log.info("Buscando todas las entidades recordatorio activas");
+        LocalDateTime fHoy = Helper.stringToLocalDateTime(hoy, "yyyy-MM-dd HH:mm:ss");
+        if (fInicio == null || fFin == null)
+            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son válidas.");
+        List<FacturaModel> listado = facturaDAO.findAllByFechaEmisionBetweenAndEliminadaIsNull( fInicio, fFin);
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Factura entre las fechas de emisión: " + inicio + " y " + fin + ".");
+        return listado;
+    }
+
+    @Override
+    public List<EventoModel> buscarTodasPorRecordatorioActivoConEliminadas(String hoy) {
+        return null;
+    }
 
     @Override
     public EventoModel buscarPorId(Long id) {

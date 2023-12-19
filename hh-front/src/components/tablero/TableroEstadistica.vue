@@ -2,16 +2,16 @@
   <q-card class="bg-transparent no-shadow no-border" bordered>
     <q-card-section class="q-pa-none">
       <div class="row q-col-gutter-sm ">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12">
           <GraficoSplineArea />
         </div>
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12">
           <GraficoArea />
         </div>
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12">
           <GraficoSimpleDonut />
         </div>
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12">
           <GraficoTreeMap />
         </div>
       </div>
