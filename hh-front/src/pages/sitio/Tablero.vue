@@ -1,10 +1,6 @@
 <template>
   <div class="q-ma-md">
     <TableroCalendario v-if="autoridad === 'admin' || autoridad === 'usuario' " />
-    <div class="row justify-center">
-      <div class="col-md-6 tablero_estadistica"><TableroEstadistica /></div>
-      <div class="col-md-6 tablero_recordatorio"><TableroRecordatorio /></div>
-    </div>
   </div>
 </template>
 
@@ -14,8 +10,6 @@ import { useQuasar, QSpinnerCube } from 'quasar'
 import { ref, onMounted } from 'vue'
 import { ayuda } from 'src/helpers/ayuda'
 import TableroCalendario from 'src/components/tablero/TableroCalendario.vue'
-import TableroEstadistica from 'src/components/tablero/TableroEstadistica.vue'
-import TableroRecordatorio from 'src/components/tablero/TableroRecordatorio.vue'
 
 export default {
   setup () {
@@ -40,20 +34,7 @@ export default {
     }
   },
   components: {
-    TableroEstadistica,
-    TableroCalendario,
-    TableroRecordatorio
+    TableroCalendario
   }
 }
 </script>
-
-<style scoped>
-@media screen and (max-width: 1023.99px) {
-  .tablero_recordatorio {
-    order:1
-  }
-  .tablero_estadistica {
-    order:2
-  }
-}
-</style>

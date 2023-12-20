@@ -52,6 +52,23 @@
     </div>
   </q-card>
 
+  <div class="row justify-center">
+    <div class="col-md-6 tablero_estadistica">
+    </div>
+    <div class="col-md-6 tablero_recordatorio">
+      <div class="row q-mt-lg justify-end" v-for="(recordatorio, index) in recordatorios" :key="index">
+        <q-banner rounded class="text-white" :class="fObtenerFondo(recordatorio.nombre)">
+          <p>{{ recordatorio.nombre }}</p>
+          <p>{{ recordatorio.descripcion }}</p>
+          <template v-slot:action>
+            <q-btn flat color="white" label="Ver" @click="fVerEvento(recordatorio)" />
+            <q-btn flat color="white" label="Modificar" @click="fModificarEvento(recordatorio)" />
+          </template>
+        </q-banner>
+      </div>
+    </div>
+  </div>
+
   <q-dialog v-model="verEventoDialog">
     <q-card style="max-width: 650px; min-width: 400px;">
       <q-card-section class="row items-center" :class="eventoCreation.bgcolor">
@@ -212,7 +229,7 @@
                 clearable
                 v-model="eventoCreation.recordatorioDias"
                 :rules="[reglas.requerido]"
-                :options="recordatorios"
+                :options="recordatoriosCombo"
                 label="Recordar días antes"
               >
                 <template v-slot:no-option>
@@ -286,11 +303,13 @@ export default defineComponent({
     const fechaSeleccionada = ref(today())
     const mostrarRecordatorios = ref(false)
     const nuevoEventoDialog = ref(false)
+    const recordatorios = ref([])
     const verEventoDialog = ref(false)
     const reglas = reactive(reglasValidacion.reglas)
     const titulo = ref(null)
 
     afBuscarEventos()
+    afBuscarRecordatorios()
 
     async function afBuscarEventos () {
       $q.loading.show()
@@ -303,6 +322,35 @@ export default defineComponent({
         }
         if (resultado.status === 200) {
           events.value = resultado.data
+          console.log(resultado.headers.mensaje)
+          $q.loading.hide()
+        }
+        $q.loading.hide()
+      } catch (err) {
+        console.clear()
+        if (err.response.headers.mensaje) {
+          console.warn('Advertencia: ' + err.response.headers.mensaje)
+          notificarService.notificarAlerta('Advertencia: ' + err.response.headers.mensaje)
+        } else {
+          const mensaje = 'Hubo un error al intentar obtener el listado.'
+          notificarService.notificarError(mensaje)
+          console.error(mensaje)
+        }
+        $q.loading.hide()
+      }
+    }
+
+    async function afBuscarRecordatorios () {
+      $q.loading.show()
+      try {
+        let resultado = null
+        if (autoridad.value === 'admin') {
+          resultado = await eventoService.spfBuscarTodasPorRecordatorioActivoConEliminadas()
+        } else {
+          resultado = await eventoService.spfBuscarTodasPorRecordatorioActivo()
+        }
+        if (resultado.status === 200) {
+          recordatorios.value = resultado.data
           console.log(resultado.headers.mensaje)
           $q.loading.hide()
         }
@@ -498,6 +546,33 @@ export default defineComponent({
       return events
     }
 
+    function fObtenerFondo (fondo) {
+      switch (fondo) {
+        case 'Presupuesto':
+          fondo = 'presupuesto'
+          break
+        case 'Seguro':
+          fondo = 'seguro'
+          break
+        case 'Licencia':
+          fondo = 'licencia'
+          break
+        case 'Viaje':
+          fondo = 'viaje'
+          break
+        case 'Vencimiento':
+          fondo = 'vencimiento'
+          break
+        case 'Evento':
+          fondo = 'evento'
+          break
+        default:
+          fondo = 'default'
+          break
+      }
+      return fondo
+    }
+
     return {
       verEventoDialog,
       nuevoEventoDialog,
@@ -506,8 +581,9 @@ export default defineComponent({
       fechaSeleccionada,
       mostrarRecordatorios,
       titulo,
+      recordatorios,
       reglas,
-      recordatorios: ['1', '7', '15', '30', '60', '120'],
+      recordatoriosCombo: ['1', '7', '15', '30', '60', '120'],
 
       fClaseEvento,
       fFormatearFecha,
@@ -517,6 +593,7 @@ export default defineComponent({
       fMostrarNuevoEvento,
       fMostrarNuevoEventoFecha,
       fObtenerEventos,
+      fObtenerFondo,
 
       myLocale: {
         /* starting with Sunday */
@@ -638,6 +715,27 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+.q-banner {
+  width: 100%;
+}
+.q-banner p:nth-child(1) {
+  margin: 0 0 5px 0;
+  font-weight: 600;
+}
+.q-banner p:nth-child(2) {
+  margin: 0;
+}
+@media screen and (max-width: 1023.99px) {
+  .tablero_recordatorio {
+    order:1
+  }
+  .tablero_estadistica {
+    order:2
+  }
+}
+</style>
 
 <style lang="sass" scoped>
 .my-event
