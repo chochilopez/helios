@@ -7,8 +7,6 @@ import gloit.hiperionida.helios.util.service.GenericService;
 import java.util.List;
 
 public interface EventoService extends GenericService<EventoModel, EventoCreation> {
-    List<EventoModel> buscarTodasPorRecordatorioActivo(String hoy);
-    List<EventoModel> buscarTodasPorRecordatorioActivoConEliminadas(String hoy);
+    List<EventoModel> buscarTodasPorRecordatorioActivo();
+    List<EventoModel> buscarTodasPorRecordatorioActivoConEliminadas();
 }
-
-dfasdf{lksd{gj{PSDG}JPSDG}

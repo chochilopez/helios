@@ -10,6 +10,38 @@ f -> funcion
 l -> local
 */
 
+function spfBuscarTodasPorRecordatorioActivo () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'evento/buscar-todas-por-recordatorio-activo', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function spfBuscarTodasPorRecordatorioActivoConEliminadas () {
+  return new Promise((resolve, reject) => {
+    axios.get(API_URL + 'evento/buscar-todas-por-recordatorio-activo-con-eliminadas', {
+      headers: {
+        Authorization: 'Bearer ' + autenticacionService.obtenerToken()
+      }
+    })
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function spfBuscarTodas () {
   return new Promise((resolve, reject) => {
     axios.get(API_URL + 'evento/buscar-todas', {
@@ -241,6 +273,8 @@ function spfDestruir (id) {
 }
 
 export const eventoService = {
+  spfBuscarTodasPorRecordatorioActivo,
+  spfBuscarTodasPorRecordatorioActivoConEliminadas,
   spfBuscarTodas,
   spfBuscarTodasConEliminadas,
   spfBuscarTodasConSesion,

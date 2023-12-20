@@ -3,13 +3,11 @@ package gloit.hiperionida.helios.service.implementation;
 import gloit.hiperionida.helios.mapper.EventoMapper;
 import gloit.hiperionida.helios.mapper.creation.EventoCreation;
 import gloit.hiperionida.helios.model.EventoModel;
-import gloit.hiperionida.helios.model.FacturaModel;
 import gloit.hiperionida.helios.repository.EventoDAO;
 import gloit.hiperionida.helios.service.EventoService;
 import gloit.hiperionida.helios.util.Helper;
 import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
 import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
-import gloit.hiperionida.helios.util.exception.ParametroInvalidoException;
 import gloit.hiperionida.helios.util.service.implementation.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,20 +27,21 @@ public class EventoServiceImpl implements EventoService {
     private final UsuarioServiceImpl usuarioService;
 
     @Override
-    public List<EventoModel> buscarTodasPorRecordatorioActivo(String hoy) {
-        log.info("Buscando todas las entidades recordatorio activas");
-        LocalDateTime fHoy = Helper.stringToLocalDateTime(hoy, "yyyy-MM-dd HH:mm:ss");
-        if (fInicio == null || fFin == null)
-            throw new ParametroInvalidoException("Alguna de las fechas ingresadas no son válidas.");
-        List<FacturaModel> listado = facturaDAO.findAllByFechaEmisionBetweenAndEliminadaIsNull( fInicio, fFin);
+    public List<EventoModel> buscarTodasPorRecordatorioActivo() {
+        log.info("Buscando todas las entidades Evento con recordatorio activas.");
+        List<EventoModel> listado = eventoDAO.findRecordatoriosAndEliminadaIsNull(Helper.getNow(""));
         if (listado.isEmpty())
-            throw new DatosInexistentesException("No se encontraron entidades Factura entre las fechas de emisión: " + inicio + " y " + fin + ".");
+            throw new DatosInexistentesException("No se encontraron entidades Evento con recordatorio activas.");
         return listado;
     }
 
     @Override
-    public List<EventoModel> buscarTodasPorRecordatorioActivoConEliminadas(String hoy) {
-        return null;
+    public List<EventoModel> buscarTodasPorRecordatorioActivoConEliminadas() {
+        log.info("Buscando todas las entidades Evento con recordatorio activas, incluidas las eliminadas.");
+        List<EventoModel> listado = eventoDAO.findRecordatorios(Helper.getNow(""));
+        if (listado.isEmpty())
+            throw new DatosInexistentesException("No se encontraron entidades Evento con recordatorio activas, incluidas las eliminadas.");
+        return listado;
     }
 
     @Override

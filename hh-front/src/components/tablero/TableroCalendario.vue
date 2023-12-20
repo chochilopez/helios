@@ -401,14 +401,13 @@ export default defineComponent({
     function fModificarEvento () {
       titulo.value = 'Modificar Evento'
       eventoCreation.fecha = ayuda.fFormatearADatePicker(eventoCreation.fecha)
-      if (eventoCreation.recordatorioDias !== null) {
+      if (eventoCreation.recordatorioFecha !== null) {
         mostrarRecordatorios.value = true
       }
       nuevoEventoDialog.value = true
     }
 
     function fMostrarVerEvento (evento) {
-      console.table(evento)
       titulo.value = 'Ver evento ' + evento.nombre
       eventoCreation.bgcolor = evento.bgcolor
       eventoCreation.descripcion = evento.descripcion

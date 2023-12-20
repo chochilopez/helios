@@ -40,6 +40,28 @@ public class EventoController extends AbsBaseController {
         return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
     }
 
+    @GetMapping(value = "/buscar-todas-por-recordatorio-activo")
+    @PreAuthorize("hasAuthority('USUARIO')")
+    public ResponseEntity<List<EventoDTO>> buscarTodasPorRecordatorioActivo() {
+        List<EventoModel> listado = eventoService.buscarTodasPorRecordatorioActivo();
+        ArrayList<EventoDTO> eventos = new ArrayList<>();
+        for (EventoModel evento:listado) {
+            eventos.add(eventoMapper.toDto(evento));
+        }
+        return new ResponseEntity<>(eventos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades."), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buscar-todas-por-recordatorio-activo-con-eliminadas")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<EventoDTO>> buscarTodasPorRecordatorioActivoConEliminadas() {
+        List<EventoModel> listado = eventoService.buscarTodasPorRecordatorioActivoConEliminadas();
+        ArrayList<EventoDTO> eventos = new ArrayList<>();
+        for (EventoModel evento:listado) {
+            eventos.add(eventoMapper.toDto(evento));
+        }
+        return new ResponseEntity<>(eventos, Helper.httpHeaders("Se encontraron " + listado.size() + " entidades, incluidas las eliminadas."), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/buscar-por-id/{id}")
     @PreAuthorize("hasAuthority('USUARIO')")
     public ResponseEntity<EventoDTO> buscarPorId(@PathVariable(name = "id") Long id) {

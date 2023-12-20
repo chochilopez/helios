@@ -1,22 +1,18 @@
 <template>
-  <q-card class="bg-transparent no-shadow no-border" bordered>
-    <q-card-section class="q-pa-none">
-      <div class="row q-col-gutter-sm ">
-        <div class="col-12">
-          <GraficoSplineArea />
-        </div>
-        <div class="col-12">
-          <GraficoArea />
-        </div>
-        <div class="col-12">
-          <GraficoSimpleDonut />
-        </div>
-        <div class="col-12">
-          <GraficoTreeMap />
-        </div>
-      </div>
-    </q-card-section>
-  </q-card>
+  <div class="row q-col-gutter-sm ">
+    <div class="col-12">
+      <GraficoSplineArea />
+    </div>
+    <div class="col-12">
+      <GraficoArea />
+    </div>
+    <div class="col-12">
+      <GraficoSimpleDonut />
+    </div>
+    <div class="col-12">
+      <GraficoTreeMap />
+    </div>
+  </div>
 </template>
 
 <script>
