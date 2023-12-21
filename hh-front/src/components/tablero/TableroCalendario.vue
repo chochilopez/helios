@@ -61,8 +61,7 @@
           <p>{{ recordatorio.nombre }}</p>
           <p>{{ recordatorio.descripcion }}</p>
           <template v-slot:action>
-            <q-btn flat color="white" label="Ver" @click="fVerEvento(recordatorio)" />
-            <q-btn flat color="white" label="Modificar" @click="fModificarEvento(recordatorio)" />
+            <q-btn flat color="white" label="Ver" @click="fMostrarVerEvento(recordatorio)" />
           </template>
         </q-banner>
       </div>
@@ -71,7 +70,7 @@
 
   <q-dialog v-model="verEventoDialog">
     <q-card style="max-width: 650px; min-width: 400px;">
-      <q-card-section class="row items-center" :class="eventoCreation.bgcolor">
+      <q-card-section class="row items-center" :class="fObtenerFondo(eventoCreation.nombre)">
         <div class="text-h6 text-white">{{ titulo }}</div>
         <q-space />
         <q-btn class="text-white" icon="close" flat round dense v-close-popup />
@@ -417,9 +416,16 @@ export default defineComponent({
       if (date.getDateDiff(Date.parse(ayuda.fFormatearDeDatePicker(eventoCreation.fecha)), Date.now(), 'days') < 1) {
         notificarService.notificarAlerta('La fecha del evento no puede ser pasada.')
       } else {
+        if (!mostrarRecordatorios.value) {
+          console.log('Sin recordatorio')
+          eventoCreation.recordatorioFecha = null
+          eventoCreation.recordatorioDias = null
+        }
         afGuardarEvento().then(() => {
           nuevoEventoDialog.value = false
-          afBuscarEventos()
+          afBuscarEventos().then(() => {
+            afBuscarRecordatorios()
+          })
         })
       }
     }
@@ -486,6 +492,7 @@ export default defineComponent({
     }
 
     function fMostrarNuevoEventoFecha (unaFecha) {
+      fLimpiarFormulario()
       eventoCreation.fecha = ayuda.fFormatearADatePicker(unaFecha)
       titulo.value = 'Nuevo Evento'
       nuevoEventoDialog.value = true
