@@ -1,10 +1,7 @@
 package gloit.hiperionida.helios.util.controller;
 
 import gloit.hiperionida.helios.util.Helper;
-import gloit.hiperionida.helios.util.exception.DatosInexistentesException;
-import gloit.hiperionida.helios.util.exception.ErrorGenericoException;
-import gloit.hiperionida.helios.util.exception.ObjectoNoEliminadoException;
-import gloit.hiperionida.helios.util.exception.ParametroInvalidoException;
+import gloit.hiperionida.helios.util.exception.*;
 import gloit.hiperionida.helios.util.mapper.dto.ErrorDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +35,14 @@ public abstract class AbsBaseController {
 			else
 				mensaje = mensaje + " --- " + clave + ": " + valor;
 		}
+		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
+	}
+
+	@ExceptionHandler(ReporteMalFormadoException.class)
+	public ResponseEntity<ErrorDTO> handleReporteMalFormadoException(Exception e) {
+		HttpStatus status = HttpStatus.BAD_REQUEST; // 400
+		String mensaje = "El reporte esta mal formado. " + e.getMessage();
+
 		return new ResponseEntity<>(new ErrorDTO(status, mensaje), Helper.httpHeaders(mensaje), status);
 	}
 

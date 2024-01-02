@@ -1,10 +1,8 @@
 package gloit.hiperionida.helios.repository;
 
 import gloit.hiperionida.helios.model.FacturaModel;
-import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.model.enums.TipoComprobanteEnum;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
-import org.springframework.cglib.core.Local;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FacturaDAO extends GenericDTO<FacturaModel> {
+public interface FacturaDAO extends GenericoDAO<FacturaModel> {
     Optional<FacturaModel> findByViajeId(Long id);
     Optional<FacturaModel> findByViajeIdAndEliminadaIsNull(Long id);
     Optional<FacturaModel> findByRemitoId(Long id);

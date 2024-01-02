@@ -1,14 +1,13 @@
 package gloit.hiperionida.helios.repository;
 
 import gloit.hiperionida.helios.model.DireccionModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public interface DireccionDAO extends GenericDTO<DireccionModel> {
+public interface DireccionDAO extends GenericoDAO<DireccionModel> {
     List<DireccionModel> findAllByCiudadContainingIgnoreCase(String ciudad);
     List<DireccionModel> findAllByCiudadContainingIgnoreCaseAndEliminadaIsNull(String ciudad);
     List<DireccionModel> findAllByDireccionContainingIgnoreCase(String direccion);

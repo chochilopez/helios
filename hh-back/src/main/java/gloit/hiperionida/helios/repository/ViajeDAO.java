@@ -1,8 +1,7 @@
 package gloit.hiperionida.helios.repository;
 
-import gloit.hiperionida.helios.model.PresupuestoModel;
 import gloit.hiperionida.helios.model.ViajeModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ViajeDAO extends GenericDTO<ViajeModel> {
+public interface ViajeDAO extends GenericoDAO<ViajeModel> {
     List<ViajeModel> findAllByAcopladoId(Long id);
     List<ViajeModel> findAllByAcopladoIdAndEliminadaIsNull(Long id);
     List<ViajeModel> findAllByCamionId(Long id);

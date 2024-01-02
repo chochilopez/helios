@@ -15,8 +15,8 @@ public interface GenericService<M, C> {
     Slice<M> buscarTodasPorOrdenPorPaginaConEliminadas(String direccion, String campo, int pagina, int elementos);
     Long contarTodas();
     Long contarTodasConEliminadas();
-    M crear(M m);
-    M guardar(C c);
+    M crear(C c);
+    M guardar(M m);
     M reciclar(Long id);
     M eliminar(Long id);
     void destruir(Long id) throws IOException;

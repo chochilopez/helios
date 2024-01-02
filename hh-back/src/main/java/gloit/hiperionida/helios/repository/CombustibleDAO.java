@@ -1,14 +1,14 @@
 package gloit.hiperionida.helios.repository;
 
 import gloit.hiperionida.helios.model.CombustibleModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface CombustibleDAO extends GenericDTO<CombustibleModel> {
+public interface CombustibleDAO extends GenericoDAO<CombustibleModel> {
     List<CombustibleModel> findAllByCajaId(Long id);
     List<CombustibleModel> findAllByCajaIdAndEliminadaIsNull(Long id);
     List<CombustibleModel> findAllByCamionId(Long id);

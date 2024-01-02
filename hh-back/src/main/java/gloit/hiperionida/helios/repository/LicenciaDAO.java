@@ -1,8 +1,7 @@
 package gloit.hiperionida.helios.repository;
 
 import gloit.hiperionida.helios.model.LicenciaModel;
-import gloit.hiperionida.helios.model.SeguroModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface LicenciaDAO extends GenericDTO<LicenciaModel> {
+public interface LicenciaDAO extends GenericoDAO<LicenciaModel> {
     List<LicenciaModel> findAllByConductorId(Long id);
     List<LicenciaModel> findAllByConductorIdAndEliminadaIsNull(Long id);
     List<LicenciaModel> findAllByVencimientoId(Long id);

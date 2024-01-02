@@ -1,13 +1,13 @@
 package gloit.hiperionida.helios.repository;
 
 import gloit.hiperionida.helios.model.ClienteModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ClienteDAO extends GenericDTO<ClienteModel> {
+public interface ClienteDAO extends GenericoDAO<ClienteModel> {
     List<ClienteModel> findAllByDireccionContainingIgnoreCase(String direccion);
     List<ClienteModel> findAllByDireccionContainingIgnoreCaseAndEliminadaIsNull(String direccion);
     List<ClienteModel> findAllByEmailContainingIgnoreCase(String email);

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UsuarioDAO extends GenericDTO<UsuarioModel> {
+public interface UsuarioDAO extends GenericoDAO<UsuarioModel> {
   Optional<UsuarioModel> findByUsernameContainingIgnoreCase(String username);
   Optional<UsuarioModel> findByUsernameContainingIgnoreCaseAndEliminadaIsNull(String username);
   Optional<UsuarioModel> findByUsernameContainingIgnoreCaseAndHabilitadaIsTrueAndEliminadaIsNull(String username);

@@ -4,5 +4,5 @@ import gloit.hiperionida.helios.util.model.ArchivoModel;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ArchivoDAO extends GenericDTO<ArchivoModel> {
+public interface ArchivoDAO extends GenericoDAO<ArchivoModel> {
 }

@@ -1,9 +1,9 @@
 package gloit.hiperionida.helios.repository;
 
 import gloit.hiperionida.helios.model.CompraModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CompraDAO extends GenericDTO<CompraModel> {
+public interface CompraDAO extends GenericoDAO<CompraModel> {
 }

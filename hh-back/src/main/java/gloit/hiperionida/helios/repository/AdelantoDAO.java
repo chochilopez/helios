@@ -1,14 +1,14 @@
 package gloit.hiperionida.helios.repository;
 
 import gloit.hiperionida.helios.model.AdelantoModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface AdelantoDAO extends GenericDTO<AdelantoModel> {
+public interface AdelantoDAO extends GenericoDAO<AdelantoModel> {
     List<AdelantoModel> findAllByCajaId(Long id);
     List<AdelantoModel> findAllByCajaIdAndEliminadaIsNull(Long id);
     List<AdelantoModel> findAllByConductorId(Long id);

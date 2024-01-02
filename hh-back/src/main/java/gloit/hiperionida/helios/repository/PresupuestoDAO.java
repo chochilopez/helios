@@ -1,10 +1,8 @@
 package gloit.hiperionida.helios.repository;
 
 import gloit.hiperionida.helios.model.PresupuestoModel;
-import gloit.hiperionida.helios.model.ViajeModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -12,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PresupuestoDAO extends GenericDTO<PresupuestoModel> {
+public interface PresupuestoDAO extends GenericoDAO<PresupuestoModel> {
     List<PresupuestoModel> findAllByCantidadTransportadaBetween(Integer min, Integer max);
     List<PresupuestoModel> findAllByCantidadTransportadaBetweenAndEliminadaIsNull(Integer min, Integer max);
     List<PresupuestoModel> findAllByCategoriaViajeId(Long id);

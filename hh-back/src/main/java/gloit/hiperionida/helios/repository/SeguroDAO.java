@@ -1,18 +1,15 @@
 package gloit.hiperionida.helios.repository;
 
-import gloit.hiperionida.helios.model.CamionModel;
 import gloit.hiperionida.helios.model.SeguroModel;
-import gloit.hiperionida.helios.model.ViajeModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public interface SeguroDAO extends GenericDTO<SeguroModel> {
+public interface SeguroDAO extends GenericoDAO<SeguroModel> {
     List<SeguroModel> findAllByAcopladoId(Long id);
     List<SeguroModel> findAllByAcopladoIdAndEliminadaIsNull(Long id);
     List<SeguroModel> findAllByAseguradoraId(Long id);

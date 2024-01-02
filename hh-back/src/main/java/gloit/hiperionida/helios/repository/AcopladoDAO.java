@@ -1,14 +1,13 @@
 package gloit.hiperionida.helios.repository;
 
 import gloit.hiperionida.helios.model.AcopladoModel;
-import gloit.hiperionida.helios.util.repository.GenericDTO;
+import gloit.hiperionida.helios.util.repository.GenericoDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public interface AcopladoDAO extends GenericDTO<AcopladoModel> {
+public interface AcopladoDAO extends GenericoDAO<AcopladoModel> {
     List<AcopladoModel> findAllByAnio(Integer anio);
     List<AcopladoModel> findAllByAnioAndEliminadaIsNull(Integer anio);
     List<AcopladoModel> findAllByMarcaModeloContainingIgnoreCase(String marcaModelo);
